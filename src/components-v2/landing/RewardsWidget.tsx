@@ -46,8 +46,8 @@ export interface RewardsModalProps {
 export const RewardsWidget = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { vaults, onboard, user, router } = store;
-	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
+	const { vaults, onboard, user } = store;
+	const { badgerTree, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
 
 	const [open, setOpen] = useState(false);
@@ -65,7 +65,6 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 				.map((claim) => [claim.token.address, claim]),
 		);
 		setClaimableRewards(balances);
-		setClaims(balances);
 	}, [vaults, badgerTree.claims]);
 
 	if (!onboard.isActive()) {
@@ -82,7 +81,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 					<CurrencyDisplay
 						displayValue={inCurrency(new BigNumber(0), currency)}
 						variant="body2"
-						justify="center"
+						justifyContent="center"
 					/>
 				</Button>
 				<RewardsDialog open={open} onClose={() => setOpen(false)} claimableRewards={{}} />

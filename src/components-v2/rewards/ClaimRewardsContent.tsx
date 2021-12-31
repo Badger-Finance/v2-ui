@@ -203,7 +203,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 									<Typography variant="body2">Total Claimable Rewards</Typography>
 									<CurrencyDisplay
 										variant="h6"
-										justify="flex-end"
+										justifyContent="flex-end"
 										displayValue={inCurrency(totalClaimValue, uiState.currency)}
 										TypographyProps={{ className: classes.titleText }}
 									/>
@@ -230,7 +230,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 									/>
 									<CurrencyDisplay
 										variant="h6"
-										justify="flex-end"
+										justifyContent="flex-end"
 										displayValue={inCurrency(new BigNumber(0), uiState.currency, 2)}
 										TypographyProps={{ className: classes.titleText }}
 									/>

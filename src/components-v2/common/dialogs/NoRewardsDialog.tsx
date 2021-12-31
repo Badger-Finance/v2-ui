@@ -92,7 +92,7 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
 								/>
 								<CurrencyDisplay
 									variant="h6"
-									justify="flex-start"
+									justifyContent="flex-start"
 									displayValue={inCurrency(new BigNumber(0), uiState.currency)}
 									TypographyProps={{ className: classes.titleText }}
 								/>
