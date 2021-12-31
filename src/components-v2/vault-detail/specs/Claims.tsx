@@ -79,24 +79,24 @@ export const Claims = observer((): JSX.Element => {
 						{`~${ESTIMATED_REWARDS_FREQUENCY} Hours`}
 					</Typography>
 				</Grid>
-				<StyledDivider />
-				<Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
-					{isDelayed
-						? 'This Setts’s rewards are currently taking longer than usual.'
-						: 'This Setts’s rewards are currently being processed.'}
-				</Typography>
-				<Link
-					className={classes.infoLink}
-					href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"
-					target="_blank"
-					rel="noreferrer"
-				>
-					<div className={classes.linkContent}>
-						<span>See more</span>
-						<ChevronRightIcon className={classes.linkIcon} />
-					</div>
-				</Link>
 			</Grid>
+			<StyledDivider />
+			<Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
+				{isDelayed
+					? 'This Setts’s rewards are currently taking longer than usual.'
+					: 'This Setts’s rewards are currently being processed.'}
+			</Typography>
+			<Link
+				className={classes.infoLink}
+				href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"
+				target="_blank"
+				rel="noreferrer"
+			>
+				<div className={classes.linkContent}>
+					<span>See more</span>
+					<ChevronRightIcon className={classes.linkIcon} />
+				</div>
+			</Link>
 		</Grid>
 	);
 });

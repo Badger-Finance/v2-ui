@@ -233,50 +233,44 @@ export default class UserStore {
 				this.loadingBalances = false;
 				return;
 			}
+		}
 
-			try {
-				const multicallContractAddress = getChainMulticallContract(network.symbol);
-				const multicallRequests = network.getBalancesRequests(
-					vaults.settMap,
-					vaults.getTokenConfigs(),
-					queryAddress,
-				);
+		try {
+			const multicallContractAddress = getChainMulticallContract(network.symbol);
+			const multicallRequests = network.getBalancesRequests(
+				vaults.settMap,
+				vaults.getTokenConfigs(),
+				queryAddress,
+			);
 
-				const multicall = new Multicall({
-					web3Instance: new Web3(wallet.provider),
-					tryAggregate: true,
-					multicallCustomContractAddress: multicallContractAddress,
-				});
+			const multicall = new Multicall({
+				web3Instance: new Web3(wallet.provider),
+				tryAggregate: true,
+				multicallCustomContractAddress: multicallContractAddress,
+			});
 
-				const multicallResults = await multicall.call(multicallRequests);
-				const requestResults = extractBalanceRequestResults(multicallResults);
-				const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
-				const { guestLists, guestListLookup } = this.extractGuestListInformation(
-					requestResults.userGuardedVaults,
-				);
-				const guestListRequests = createMulticallRequest(
-					guestLists,
-					ContractNamespaces.GuestList,
-					queryAddress,
-				);
-				const guestListResults = await multicall.call(guestListRequests);
-				const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
+			const multicallResults = await multicall.call(multicallRequests);
+			const requestResults = extractBalanceRequestResults(multicallResults);
+			const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
+			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedVaults);
+			const guestListRequests = createMulticallRequest(guestLists, ContractNamespaces.GuestList, queryAddress);
+			const guestListResults = await multicall.call(guestListRequests);
+			const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
 
-				const result = {
-					key: cacheKey,
-					tokens: tokenBalances,
-					setts: settBalances,
-					vaultCaps,
-					expiry: Date.now() + 5 * ONE_MIN_MS,
-				};
+			const result = {
+				key: cacheKey,
+				tokens: tokenBalances,
+				setts: settBalances,
+				vaultCaps,
+				expiry: Date.now() + 5 * ONE_MIN_MS,
+			};
 
-				this.userBalanceCache[cacheKey] = result;
-				this.setBalances(result);
-				this.loadingBalances = false;
-			} catch (err) {
-				console.error(err);
-				this.loadingBalances = false;
-			}
+			this.userBalanceCache[cacheKey] = result;
+			this.setBalances(result);
+			this.loadingBalances = false;
+		} catch (err) {
+			console.error(err);
+			this.loadingBalances = false;
 		}
 	});
 

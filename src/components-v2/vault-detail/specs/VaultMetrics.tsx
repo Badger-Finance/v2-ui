@@ -94,12 +94,14 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 				</div>
 			</div>
 			<Collapse in={showMore}>
-				<Typography variant="body1" className={classes.submetricValue}>
-					{vault.pricePerFullShare.toFixed(4)}
-				</Typography>
-				<Typography variant="caption" className={classes.submetricType}>
-					tokens per share
-				</Typography>
+				<div className={classes.submetric}>
+					<Typography variant="body1" className={classes.submetricValue}>
+						{vault.pricePerFullShare.toFixed(4)}
+					</Typography>
+					<Typography variant="caption" className={classes.submetricType}>
+						tokens per share
+					</Typography>
+				</div>
 				{vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available && (
 					<div className={classes.submetric}>
 						<Typography variant="body1" className={classes.submetricValue}>
