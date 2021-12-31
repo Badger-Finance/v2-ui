@@ -36,41 +36,34 @@ interface Props {
 	badgerVault: BadgerVault;
 }
 
-export const MainContent = observer(
-	({ badgerVault, vault }: Props): JSX.Element => {
-		const { user, onboard } = React.useContext(StoreContext);
+export const MainContent = observer(({ badgerVault, vault }: Props): JSX.Element => {
+	const { user, onboard } = React.useContext(StoreContext);
 
-		const classes = useStyles();
-		const tokenBalance = user.getBalance(BalanceNamespace.Token, badgerVault);
-		const settBalance = user.getVaultBalance(vault);
+	const classes = useStyles();
+	const tokenBalance = user.getBalance(BalanceNamespace.Token, badgerVault);
+	const settBalance = user.getVaultBalance(vault);
 
-		return (
-			<Grid container className={classes.content}>
-				{onboard.isActive() && (
-					<Grid container className={classes.holdingsContainer}>
-						<Holdings
-							vault={vault}
-							badgerVault={badgerVault}
-							tokenBalance={tokenBalance}
-							userData={settBalance}
-						/>
-					</Grid>
-				)}
-				<Grid container spacing={1}>
-					<Grid item xs={12} md={4} lg={3}>
-						<SpecsCard vault={vault} badgerVault={badgerVault} />
-					</Grid>
-					<Grid item xs={12} md={8} lg={9} className={classes.chartsContainer}>
-						<ChartsCard vault={vault} />
-					</Grid>
+	return (
+		<Grid container className={classes.content}>
+			{onboard.isActive() && (
+				<Grid container className={classes.holdingsContainer}>
+					<Holdings
+						vault={vault}
+						badgerVault={badgerVault}
+						tokenBalance={tokenBalance}
+						userData={settBalance}
+					/>
 				</Grid>
-				{vault.state === VaultState.Guarded && (
-					<Grid container className={classes.guardedVault}>
-						<NewVaultWarning />
-					</Grid>
-				)}
+			)}
+			<Grid container spacing={1}>
+				<Grid item xs={12} md={4} lg={3}>
+					<SpecsCard vault={vault} badgerVault={badgerVault} />
+				</Grid>
+				<Grid item xs={12} md={8} lg={9} className={classes.chartsContainer}>
+					<ChartsCard vault={vault} />
+				</Grid>
 			</Grid>
-			{sett.state === VaultState.Guarded && (
+			{vault.state === VaultState.Guarded && (
 				<Grid container className={classes.guardedVault}>
 					<NewVaultWarning />
 				</Grid>

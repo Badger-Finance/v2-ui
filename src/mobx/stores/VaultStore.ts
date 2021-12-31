@@ -152,27 +152,25 @@ export default class VaultStore {
 		}
 	}
 
-	loadVaults = action(
-		async (chain = Network.Ethereum): Promise<void> => {
-			const settList = await this.store.api.loadVaults(Currency.ETH);
+	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
+		const settList = await this.store.api.loadVaults(Currency.ETH);
 
-			if (settList) {
-				this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
-				this.slugCache[chain] = {
-					...this.slugCache[chain],
-					...Object.fromEntries(settList.map(formatVaultListItem)),
-				};
-				this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
-				// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
-				const badgerToken = this.store.network.network.deploy.token;
-				if (badgerToken && !this.protocolTokens.has(badgerToken)) {
-					this.protocolTokens.add(badgerToken);
-				}
-			} else {
-				this.settCache[chain] = null;
+		if (settList) {
+			this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
+			this.slugCache[chain] = {
+				...this.slugCache[chain],
+				...Object.fromEntries(settList.map(formatVaultListItem)),
+			};
+			this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
+			// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
+			const badgerToken = this.store.network.network.deploy.token;
+			if (badgerToken && !this.protocolTokens.has(badgerToken)) {
+				this.protocolTokens.add(badgerToken);
 			}
-		},
-	);
+		} else {
+			this.settCache[chain] = null;
+		}
+	});
 
 	loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {
 		const tokenConfig = await this.store.api.loadTokens();

@@ -51,43 +51,42 @@ interface Props {
 	vault: Vault;
 }
 
-export const ChartsCard = observer(
-	({ vault }: Props): JSX.Element => {
-		const { vaultCharts } = useContext(StoreContext);
-		const { minApr, maxApr } = vault;
-		const isBoostable = minApr && maxApr;
+export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
+	const { vaultCharts } = useContext(StoreContext);
+	const { minApr, maxApr } = vault;
+	const isBoostable = minApr && maxApr;
 
-		const classes = useStyles();
-		const [settChartData, setVaultChartData] = useState<VaultChartData[] | null>(null);
-		const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
-		const [loading, setLoading] = useState(!isBoostable);
-		const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
+	const classes = useStyles();
+	const [settChartData, setVaultChartData] = useState<VaultChartData[] | null>(null);
+	const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
+	const [loading, setLoading] = useState(!isBoostable);
+	const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
 
 	const yAxisAccessor = getYAxisAccessor(mode);
 	const chartData = settChartData
 		? settChartData.map((d) => ({ x: d.timestamp.getTime(), y: yAxisAccessor(d) }))
 		: null;
 
-		const handleFetch = (fetchedData: VaultChartData[] | null) => {
-			setVaultChartData(fetchedData);
-			setLoading(false);
-		};
+	const handleFetch = (fetchedData: VaultChartData[] | null) => {
+		setVaultChartData(fetchedData);
+		setLoading(false);
+	};
 
 	const handleFetchError = (error: Error) => {
 		setLoading(false);
 		console.error(error);
 	};
 
-		useEffect(() => {
-			if (mode === ChartMode.Ratio && timeframe === VaultChartTimeframe.Day) {
-				setTimeframe(VaultChartTimeframe.Week);
-			}
-		}, [mode, timeframe]);
+	useEffect(() => {
+		if (mode === ChartMode.Ratio && timeframe === VaultChartTimeframe.Day) {
+			setTimeframe(VaultChartTimeframe.Week);
+		}
+	}, [mode, timeframe]);
 
-		useEffect(() => {
-			setLoading(true);
-			vaultCharts.search(vault, timeframe).then(handleFetch).catch(handleFetchError);
-		}, [vault, timeframe, vaultCharts]);
+	useEffect(() => {
+		setLoading(true);
+		vaultCharts.search(vault, timeframe).then(handleFetch).catch(handleFetchError);
+	}, [vault, timeframe, vaultCharts]);
 
 	return (
 		<CardContainer className={classes.root}>
@@ -111,28 +110,27 @@ export const ChartsCard = observer(
 					value={ChartMode.Value}
 					label={ChartModeTitles[ChartMode.Value]}
 				/>
-					<Tab
-						onClick={() => setMode(ChartMode.Ratio)}
-						value={ChartMode.Ratio}
-						label={ChartModeTitles[ChartMode.Ratio]}
-					/>
-				</Tabs>
-				<Grid container direction="column" className={classes.content}>
-					<Grid item container alignItems="center" justify="space-between" className={classes.header}>
-						<ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
-					</Grid>
-					<Grid item xs className={classes.chartContainer}>
-						<ChartContent data={chartData} loading={loading}>
-							<>
-								{mode === ChartMode.Value || mode === ChartMode.Ratio ? (
-									<VaultChart mode={mode} timeframe={timeframe} data={chartData} />
-								) : (
-									<BoostChart vault={vault} />
-								)}
-							</>
-						</ChartContent>
-					</Grid>
-
+				<Tab
+					onClick={() => setMode(ChartMode.Ratio)}
+					value={ChartMode.Ratio}
+					label={ChartModeTitles[ChartMode.Ratio]}
+				/>
+			</Tabs>
+			<Grid container direction="column" className={classes.content}>
+				<Grid item container alignItems="center" justify="space-between" className={classes.header}>
+					<ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
+				</Grid>
+				<Grid item xs className={classes.chartContainer}>
+					<ChartContent data={chartData} loading={loading}>
+						<>
+							{mode === ChartMode.Value || mode === ChartMode.Ratio ? (
+								<VaultChart mode={mode} timeframe={timeframe} data={chartData} />
+							) : (
+								<BoostChart vault={vault} />
+							)}
+						</>
+					</ChartContent>
+				</Grid>
 			</Grid>
 		</CardContainer>
 	);

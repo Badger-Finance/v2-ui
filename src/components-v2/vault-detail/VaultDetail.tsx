@@ -29,34 +29,33 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const VaultDetail = observer(
-	(): JSX.Element => {
-		const {
-			vaultDetail,
-			network: { network },
-			router,
-		} = useContext(StoreContext);
+export const VaultDetail = observer((): JSX.Element => {
+	const {
+		vaultDetail,
+		network: { network },
+		router,
+	} = useContext(StoreContext);
 
-		const initialNetwork = useRef(network);
-		const classes = useStyles();
-		const { vault, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = vaultDetail;
-		const badgerVault = network.vaults.find(({ vaultToken }) => vaultToken.address === vault?.vaultToken);
+	const initialNetwork = useRef(network);
+	const classes = useStyles();
+	const { vault, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = vaultDetail;
+	const badgerVault = network.vaults.find(({ vaultToken }) => vaultToken.address === vault?.vaultToken);
 
-		useEffect(() => {
-			if (network.symbol !== initialNetwork.current.symbol) {
-				router.goTo(routes.home);
-			}
-		}, [network, router]);
-
-		if (isLoading) {
-			return (
-				<Container className={classes.root}>
-					<div className={classes.notReadyContainer}>
-						<Loader message="Loading Vault Information" />
-					</div>
-				</Container>
-			);
+	useEffect(() => {
+		if (network.symbol !== initialNetwork.current.symbol) {
+			router.goTo(routes.home);
 		}
+	}, [network, router]);
+
+	if (isLoading) {
+		return (
+			<Container className={classes.root}>
+				<div className={classes.notReadyContainer}>
+					<Loader message="Loading Vault Information" />
+				</div>
+			</Container>
+		);
+	}
 
 	if (isNotFound) {
 		return <NotFound />;
@@ -65,35 +64,35 @@ export const VaultDetail = observer(
 	const isIbbtc = vault ? isVaultVaultIbbtc(vault) : false;
 	const DepositWidget = isIbbtc ? IbbtcVaultDepositDialog : VaultDeposit;
 
-		return (
-			<>
-				<Container className={classes.root}>
-					<Header />
-					{vault && badgerVault && (
-						<>
-							<TopContent vault={vault} />
-							<MainContent vault={vault} badgerVault={badgerVault} />
-						</>
-					)}
-					{badgerVault && <Footer badgerVault={badgerVault} />}
-				</Container>
-				<MobileStickyActionButtons />
+	return (
+		<>
+			<Container className={classes.root}>
+				<Header />
 				{vault && badgerVault && (
 					<>
-						<DepositWidget
-							open={isDepositDialogDisplayed}
-							vault={vault}
-							badgerVault={badgerVault}
-							onClose={() => vaultDetail.toggleDepositDialog()}
-						/>
-						<VaultWithdraw
-							open={isWithdrawDialogDisplayed}
-							vault={vault}
-							badgerVault={badgerVault}
-							onClose={() => vaultDetail.toggleWithdrawDialog()}
-						/>
+						<TopContent vault={vault} />
+						<MainContent vault={vault} badgerVault={badgerVault} />
 					</>
 				)}
+				{badgerVault && <Footer badgerVault={badgerVault} />}
+			</Container>
+			<MobileStickyActionButtons />
+			{vault && badgerVault && (
+				<>
+					<DepositWidget
+						open={isDepositDialogDisplayed}
+						vault={vault}
+						badgerVault={badgerVault}
+						onClose={() => vaultDetail.toggleDepositDialog()}
+					/>
+					<VaultWithdraw
+						open={isWithdrawDialogDisplayed}
+						vault={vault}
+						badgerVault={badgerVault}
+						onClose={() => vaultDetail.toggleWithdrawDialog()}
+					/>
+				</>
+			)}
 		</>
 	);
 });

@@ -126,39 +126,38 @@ class RewardsStore {
 			return;
 		}
 
-			this.loadingTreeData = true;
+		this.loadingTreeData = true;
 
-			const web3 = new Web3(wallet?.provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-			try {
-				const [timestamp, cycle]: [number, number] = await Promise.all([
-					rewardsTree.methods.lastPublishTimestamp().call(),
-					rewardsTree.methods.currentCycle().call(),
-				]);
-				this.badgerTree.lastCycle = new Date(timestamp * 1000);
-				this.badgerTree.cycle = cycle.toString();
-				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
+		const web3 = new Web3(wallet?.provider);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		try {
+			const [timestamp, cycle]: [number, number] = await Promise.all([
+				rewardsTree.methods.lastPublishTimestamp().call(),
+				rewardsTree.methods.currentCycle().call(),
+			]);
+			this.badgerTree.lastCycle = new Date(timestamp * 1000);
+			this.badgerTree.cycle = cycle.toString();
+			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
 
-				await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
-			} catch (error) {
-				console.error('There was an error fetching rewards information: ', error);
-				queueNotification(
-					`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
-					'error',
-				);
-			}
+			await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
+		} catch (error) {
+			console.error('There was an error fetching rewards information: ', error);
+			queueNotification(
+				`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
+				'error',
+			);
+		}
 
 		this.loadingTreeData = false;
 	});
 
-	fetchVaultRewards = action(
-		async (): Promise<void> => {
-			const {
-				network: { network },
-				prices: { arePricesAvailable },
-				user: { claimProof },
-				onboard: { wallet, address },
-			} = this.store;
+	fetchVaultRewards = action(async (): Promise<void> => {
+		const {
+			network: { network },
+			prices: { arePricesAvailable },
+			user: { claimProof },
+			onboard: { wallet, address },
+		} = this.store;
 
 		if (this.loadingRewards) {
 			return;

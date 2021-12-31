@@ -79,32 +79,32 @@ export const OptimizerHeader = observer(({ multiplier, onReset }: Props): JSX.El
 	const accountMultiplier = accountDetails ? accountDetails.boost : MIN_BOOST_LEVEL.multiplier;
 	const boostClasses = useMultiplierStyles(multiplier, accountMultiplier)();
 
-		return (
-			<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
-				<Grid item className={classes.boostSectionContainer}>
-					<Typography display="inline" className={classes.boostText}>
-						Boost:
-					</Typography>
-					<Typography display="inline" className={clsx(classes.boostValue, boostClasses.fontColor)}>
-						{`${multiplier}x`}
-					</Typography>
-					<Tooltip
-						enterTouchDelay={0}
-						title={
-							'This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns.'
-						}
-						arrow
-						placement="bottom"
-						color="primary"
-					>
-						<StyledInfoIcon />
-					</Tooltip>
-				</Grid>
-				<Grid item>
-					<Button color="primary" variant="outlined" size="small" onClick={onReset}>
-						Reset Calculations
-					</Button>
-				</Grid>
+	return (
+		<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
+			<Grid item className={classes.boostSectionContainer}>
+				<Typography display="inline" className={classes.boostText}>
+					Boost:
+				</Typography>
+				<Typography display="inline" className={clsx(classes.boostValue, boostClasses.fontColor)}>
+					{`${multiplier}x`}
+				</Typography>
+				<Tooltip
+					enterTouchDelay={0}
+					title={
+						'This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns.'
+					}
+					arrow
+					placement="bottom"
+					color="primary"
+				>
+					<StyledInfoIcon />
+				</Tooltip>
 			</Grid>
+			<Grid item>
+				<Button color="primary" variant="outlined" size="small" onClick={onReset}>
+					Reset Calculations
+				</Button>
+			</Grid>
+		</Grid>
 	);
 });

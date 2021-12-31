@@ -34,22 +34,21 @@ const formatAmount = (amount: BigNumber.Value, decimals: number) => {
 	return new BigNumber(amount).decimalPlaces(decimals, BigNumber.ROUND_HALF_FLOOR).toString();
 };
 
-export const VaultConversionAndFee = observer(
-	({ vault, amount }: Props): JSX.Element => {
-		const {
-			vaults,
-			network: { network },
-		} = React.useContext(StoreContext);
-		const classes = useStyles();
+export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.Element => {
+	const {
+		vaults,
+		network: { network },
+	} = React.useContext(StoreContext);
+	const classes = useStyles();
 
-		const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw, network.strategies[vault.vaultToken]);
-		const depositToken = vaults.getToken(vault.underlyingToken);
-		const depositTokenSymbol = depositToken?.symbol || '';
-		const depositTokenDecimals = depositToken?.decimals || 18;
+	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw, network.strategies[vault.vaultToken]);
+	const depositToken = vaults.getToken(vault.underlyingToken);
+	const depositTokenSymbol = depositToken?.symbol || '';
+	const depositTokenDecimals = depositToken?.decimals || 18;
 
-		const withdrawAmount = new BigNumber(amount).multipliedBy(vault.pricePerFullShare);
-		const withdrawalFee = withdrawAmount.multipliedBy(withdrawFee).dividedBy(MAX_FEE);
-		const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
+	const withdrawAmount = new BigNumber(amount).multipliedBy(vault.pricePerFullShare);
+	const withdrawalFee = withdrawAmount.multipliedBy(withdrawFee).dividedBy(MAX_FEE);
+	const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
 
 	return (
 		<Grid container>

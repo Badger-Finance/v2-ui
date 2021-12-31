@@ -207,21 +207,20 @@ export default class UserStore {
 		this.approvalVulnerabilities = stillAtRisk;
 	});
 
-	updateBalances = action(
-		async (addressOverride?: string, cached?: boolean): Promise<void> => {
-			const { address, wallet } = this.store.onboard;
-			const { network } = this.store.network;
-			const { vaults } = this.store;
+	updateBalances = action(async (addressOverride?: string, cached?: boolean): Promise<void> => {
+		const { address, wallet } = this.store.onboard;
+		const { network } = this.store.network;
+		const { vaults } = this.store;
 
-			/**
-			 * only allow one set of calls at a time, blocked by a loading guard
-			 * do not update balances without prices available or a provider, price updates
-			 * will trigger balance display updates
-			 */
-			const queryAddress = addressOverride ?? address;
-			if (!queryAddress || !vaults.initialized || this.loadingBalances || !wallet?.provider || !vaults.settMap) {
-				return;
-			}
+		/**
+		 * only allow one set of calls at a time, blocked by a loading guard
+		 * do not update balances without prices available or a provider, price updates
+		 * will trigger balance display updates
+		 */
+		const queryAddress = addressOverride ?? address;
+		if (!queryAddress || !vaults.initialized || this.loadingBalances || !wallet?.provider || !vaults.settMap) {
+			return;
+		}
 
 		this.loadingBalances = true;
 
@@ -230,7 +229,7 @@ export default class UserStore {
 		if (cached) {
 			const cachedBalances = this.userBalanceCache[cacheKey];
 			if (cachedBalances && Date.now() <= cachedBalances.expiry) {
-				this.setBalances(cachedBalances);				
+				this.setBalances(cachedBalances);
 				this.loadingBalances = false;
 				return;
 			}
@@ -277,8 +276,9 @@ export default class UserStore {
 			} catch (err) {
 				console.error(err);
 				this.loadingBalances = false;
+			}
 		}
-	}});
+	});
 
 	private getOrDefaultBalance(balances: TokenBalances, token: string): TokenBalance {
 		const balance = balances[token];

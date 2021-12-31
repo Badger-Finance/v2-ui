@@ -23,14 +23,13 @@ interface Props {
 	badgerVault: BadgerVault;
 }
 
-export const Footer = observer(
-	({ badgerVault }: Props): JSX.Element => {
-		const store = React.useContext(StoreContext);
-		const { network: networkStore } = store;
-		const { network } = networkStore;
-		const classes = useStyles();
+export const Footer = observer(({ badgerVault }: Props): JSX.Element => {
+	const store = React.useContext(StoreContext);
+	const { network: networkStore } = store;
+	const { network } = networkStore;
+	const classes = useStyles();
 
-		const strategy = network.strategies[badgerVault.vaultToken.address];
+	const strategy = network.strategies[badgerVault.vaultToken.address];
 
 	return (
 		<footer>
