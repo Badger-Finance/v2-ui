@@ -1,4 +1,4 @@
-import { createTheme } from "@material-ui/core";
+import { createTheme } from '@material-ui/core';
 
 const buttonPadding = '11px 13px';
 

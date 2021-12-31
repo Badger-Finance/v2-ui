@@ -25,7 +25,12 @@ export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Ele
 	const { claimBalance, onChange, checked } = props;
 
 	return (
-		<Grid key={`${claimBalance.token.address}-claim-amount`} container direction="row" justifyContent="space-between">
+		<Grid
+			key={`${claimBalance.token.address}-claim-amount`}
+			container
+			direction="row"
+			justifyContent="space-between"
+		>
 			<FormControlLabel
 				control={
 					<Checkbox checked={checked} onChange={(event) => onChange(event.target.checked)} color="primary" />
