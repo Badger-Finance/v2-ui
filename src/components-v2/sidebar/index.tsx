@@ -161,7 +161,7 @@ const Sidebar = observer(() => {
 					className={classes.badgerLogoContainer}
 					onClick={() => window.open('https://badger.com/', '_blank')}
 				>
-					<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger_head.svg'} />
+					<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger-santa.png'} />
 					<span className={classes.badgerTitle}>Badger</span>
 				</div>
 			)}
@@ -233,8 +233,8 @@ const Sidebar = observer(() => {
 				)}
 			</div>
 			<div className={classes.daoContainer}>
-				<div className={classes.daoItem} onClick={() => window.open('https://badger.wiki/')}>
-					Wiki
+				<div className={classes.daoItem} onClick={() => window.open('https://docs.badger.com/')}>
+					Documentation
 				</div>
 				<div className={classes.daoItem} onClick={() => window.open('https://forum.badger.finance')}>
 					Forum

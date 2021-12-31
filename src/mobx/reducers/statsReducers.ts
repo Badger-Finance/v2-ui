@@ -23,14 +23,14 @@ export const reduceClaims = (
 	if (!proof.cumulativeAmounts) {
 		return [];
 	}
-	const { rewards, setts } = store;
+	const { rewards, vaults } = store;
 	const claimableTokens = proof.cumulativeAmounts.length;
 	const tokenClaims = [];
 
 	const amounts = claimedRewards[1];
 	for (let i = 0; i < claimableTokens; i++) {
 		const token = proof.tokens[i];
-		const claimToken = setts.getToken(token);
+		const claimToken = vaults.getToken(token);
 		if (!claimToken) {
 			continue;
 		}

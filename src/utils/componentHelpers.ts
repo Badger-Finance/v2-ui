@@ -1,5 +1,5 @@
 import mainnetDeploy from '../config/deployments/mainnet.json';
-import { Sett, SettData } from '@badger-dao/sdk';
+import { Vault, VaultData } from '@badger-dao/sdk';
 import { Network } from '../mobx/model/network/network';
 
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
@@ -42,17 +42,17 @@ export const roundWithDecimals = (value: number, decimals: number): number => {
 
 export const formatStrategyFee = (fee: number): string => `${(fee / 100).toString()}%`;
 
-export const isSettVaultIbbtc = (sett: Sett): boolean => {
-	return sett.settToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
+export const isVaultVaultIbbtc = (vault: Vault): boolean => {
+	return vault.vaultToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
 };
 
-export function shouldDisplayEarnings(sett: Sett, data: SettData): boolean {
+export function shouldDisplayEarnings(vault: Vault, data: VaultData): boolean {
 	// possible to have negative earned value (digg) :sadge:
 	if (data.earnedValue <= 0) {
 		return false;
 	}
 	// search for the vault source, always "Vault Compounding"
-	const vaultSource = sett.sources.find((s) => s.name.includes('Compounding'));
+	const vaultSource = vault.sources.find((s) => s.name.includes('Compounding'));
 	if (!vaultSource) {
 		return false;
 	}

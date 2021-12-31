@@ -568,7 +568,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                   class="MuiGrid-root-172 makeStyles-claimRow-5 MuiGrid-item-174"
                 >
                   <div
-                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
+                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-content-xs-space-between-192"
                   >
                     <label
                       class="MuiFormControlLabel-root-326"
@@ -640,7 +640,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                   class="MuiGrid-root-172 makeStyles-claimRow-5 MuiGrid-item-174"
                 >
                   <div
-                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
+                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-content-xs-space-between-192"
                   >
                     <label
                       class="MuiFormControlLabel-root-326"
@@ -712,7 +712,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                   class="MuiGrid-root-172 makeStyles-claimRow-5 MuiGrid-item-174"
                 >
                   <div
-                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
+                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-content-xs-space-between-192"
                   >
                     <label
                       class="MuiFormControlLabel-root-326"
@@ -784,7 +784,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                   class="MuiDivider-root-354 makeStyles-divider-6"
                 />
                 <div
-                  class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-item-174 MuiGrid-align-items-xs-center-181 MuiGrid-justify-xs-space-between-192"
+                  class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-item-174 MuiGrid-align-items-xs-center-181 MuiGrid-justify-content-xs-space-between-192"
                 >
                   <p
                     class="MuiTypography-root-62 MuiTypography-body2-63"
@@ -999,7 +999,7 @@ exports[`Rewards Widget when there are rewards displays no rewards dialog 1`] = 
                   class="MuiGrid-root-172 makeStyles-claimRow-5 MuiGrid-item-174"
                 >
                   <div
-                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
+                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-content-xs-space-between-192"
                   >
                     <label
                       class="MuiFormControlLabel-root-276"
@@ -1071,7 +1071,7 @@ exports[`Rewards Widget when there are rewards displays no rewards dialog 1`] = 
                   class="MuiGrid-root-172 makeStyles-claimRow-5 MuiGrid-item-174"
                 >
                   <div
-                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
+                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-content-xs-space-between-192"
                   >
                     <label
                       class="MuiFormControlLabel-root-276"
@@ -1143,7 +1143,7 @@ exports[`Rewards Widget when there are rewards displays no rewards dialog 1`] = 
                   class="MuiGrid-root-172 makeStyles-claimRow-5 MuiGrid-item-174"
                 >
                   <div
-                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
+                    class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-content-xs-space-between-192"
                   >
                     <label
                       class="MuiFormControlLabel-root-276"
@@ -1215,7 +1215,7 @@ exports[`Rewards Widget when there are rewards displays no rewards dialog 1`] = 
                   class="MuiDivider-root-304 makeStyles-divider-6"
                 />
                 <div
-                  class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-item-174 MuiGrid-align-items-xs-center-181 MuiGrid-justify-xs-space-between-192"
+                  class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-item-174 MuiGrid-align-items-xs-center-181 MuiGrid-justify-content-xs-space-between-192"
                 >
                   <p
                     class="MuiTypography-root-62 MuiTypography-body2-63"

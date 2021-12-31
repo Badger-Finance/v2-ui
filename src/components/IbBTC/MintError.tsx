@@ -2,13 +2,12 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 import { Grid, makeStyles, Tooltip } from '@material-ui/core';
 
-import { toFixedDecimals } from 'mobx/utils/helpers';
 import { ErrorText } from './Common';
-import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 import { MintLimits } from '../../mobx/model/strategies/mint-limits';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 
 interface Props {
-	token: IbbtcOptionToken;
+	token: TokenBalance;
 	amount: BigNumber;
 	limits: MintLimits;
 	onUserLimitClick: (limit: BigNumber) => void;
@@ -36,14 +35,15 @@ export const MintError = ({ token, amount, limits, onUserLimitClick }: Props): J
 					placement="top"
 					onClick={() => onUserLimitClick(userLimit)}
 				>
-					<span>{`${toFixedDecimals(token.unscale(userLimit), 6)} `}</span>
+					<span>{`${token.balanceDisplay(6)} `}</span>
 				</Tooltip>
-				<span>{`${token.symbol}.`}</span>
+				<span>{`${token.token.symbol}.`}</span>
 			</ErrorText>
 			<ErrorText variant="subtitle1">
-				{`Individual total mint amount limit is currently ${token
-					.unscale(individualLimit)
-					.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${token.symbol}.`}
+				{`Individual total mint amount limit is currently ${TokenBalance.fromBigNumber(
+					token,
+					individualLimit,
+				).balanceDisplay(6)} ${token.token.symbol}.`}
 			</ErrorText>
 		</Grid>
 	);
@@ -60,14 +60,14 @@ export const MintError = ({ token, amount, limits, onUserLimitClick }: Props): J
 					placement="top"
 					onClick={() => onUserLimitClick(allUsersLimit)}
 				>
-					<span>{`${toFixedDecimals(token.unscale(allUsersLimit), 6)}`}</span>
+					<span>{`${TokenBalance.fromBigNumber(token, allUsersLimit).balanceDisplay(6)}`}</span>
 				</Tooltip>
-				<span> {token.symbol}.</span>
+				<span> {token.token.symbol}.</span>
 			</ErrorText>
 			<ErrorText variant="subtitle1">
-				{`Global total mint amount is currently ${token
-					.unscale(globalLimit)
-					.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${token.symbol}.`}
+				{`Global total mint amount is currently ${TokenBalance.fromBigNumber(token, globalLimit).balanceDisplay(
+					6,
+				)} ${token.token.symbol}.`}
 			</ErrorText>
 		</Grid>
 	);

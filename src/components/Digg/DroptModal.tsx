@@ -40,7 +40,7 @@ const DroptModal = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		user,
-		setts,
+		vaults,
 		rebase: { rebase },
 	} = store;
 
@@ -48,7 +48,7 @@ const DroptModal = observer(() => {
 
 	if (!rebase || rebase.validDropts.length === 0) {
 		return (
-			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
+			<Grid className={classes.droptModalButton} container direction="row" justifyContent="flex-end">
 				<Button aria-label="Redeem Dropt" variant="contained" size="small" color="primary" disabled={true}>
 					Redeem DROPT
 				</Button>
@@ -60,7 +60,7 @@ const DroptModal = observer(() => {
 		.map((dropt) => {
 			const redemptionAddress = Object.keys(dropt)[0];
 			const droptAddress = redemptionToLongToken(redemptionAddress);
-			const droptToken = setts.getToken(droptAddress);
+			const droptToken = vaults.getToken(droptAddress);
 			const droptBalance = user.getTokenBalance(droptAddress);
 			const expiryPrice = new BigNumber(dropt[redemptionAddress].expiryPrice);
 			if (!droptToken || droptBalance.balance.lte(0)) {
@@ -90,7 +90,7 @@ const DroptModal = observer(() => {
 
 	return (
 		<>
-			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
+			<Grid className={classes.droptModalButton} container direction="row" justifyContent="flex-end">
 				<Button
 					id="redeem-button"
 					aria-label="Redeem DROPT"

@@ -3,7 +3,7 @@ import { AbiItem } from 'web3-utils';
 import { ContractCallContext } from 'ethereum-multicall';
 import { BalanceNamespace, ContractNamespaces } from './namespaces';
 import Web3 from 'web3';
-import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
+import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { BalancesRequestAddresses } from '../../mobx/model/account/user-balances';
 
 export const createMulticallRequest = (
@@ -18,8 +18,8 @@ export const createMulticallRequest = (
 			abi = GUEST_LIST_ABI;
 			break;
 		case BalanceNamespace.Deprecated:
-		case BalanceNamespace.Sett:
-		case BalanceNamespace.GuardedSett:
+		case BalanceNamespace.Vault:
+		case BalanceNamespace.GuardedVault:
 			abi = SETT_ABI;
 			break;
 		default:
@@ -40,30 +40,30 @@ export const createMulticallRequest = (
 
 export const createBalancesRequest = ({
 	tokenAddresses,
-	generalSettAddresses,
-	guardedSettAddresses,
-	deprecatedSettAddresses,
+	generalVaultAddresses,
+	guardedVaultAddresses,
+	deprecatedVaultAddresses,
 	userAddress,
 }: BalancesRequestAddresses): ContractCallContext[] => {
 	return [
 		...createMulticallRequest(tokenAddresses, BalanceNamespace.Token, userAddress),
-		...createMulticallRequest(generalSettAddresses, BalanceNamespace.Sett, userAddress),
-		...createMulticallRequest(guardedSettAddresses, BalanceNamespace.GuardedSett, userAddress),
-		...createMulticallRequest(deprecatedSettAddresses, BalanceNamespace.Deprecated, userAddress),
+		...createMulticallRequest(generalVaultAddresses, BalanceNamespace.Vault, userAddress),
+		...createMulticallRequest(guardedVaultAddresses, BalanceNamespace.GuardedVault, userAddress),
+		...createMulticallRequest(deprecatedVaultAddresses, BalanceNamespace.Deprecated, userAddress),
 	];
 };
 
-export const toSettConfig = (definitions: BadgerSett[]): BadgerSett[] => {
-	return definitions.map((sett) => ({
+export const toVaultConfig = (definitions: BadgerVault[]): BadgerVault[] => {
+	return definitions.map((vault) => ({
 		depositToken: {
-			...sett.depositToken,
-			address: Web3.utils.toChecksumAddress(sett.depositToken.address),
+			...vault.depositToken,
+			address: Web3.utils.toChecksumAddress(vault.depositToken.address),
 		},
 		vaultToken: {
-			...sett.vaultToken,
-			address: Web3.utils.toChecksumAddress(sett.vaultToken.address),
+			...vault.vaultToken,
+			address: Web3.utils.toChecksumAddress(vault.vaultToken.address),
 		},
-		geyser: sett.geyser ? Web3.utils.toChecksumAddress(sett.geyser) : undefined,
+		geyser: vault.geyser ? Web3.utils.toChecksumAddress(vault.geyser) : undefined,
 	}));
 };
 
@@ -72,7 +72,7 @@ const getMulticallContractCalls = (
 	userAddress: string,
 ): ContractCallContext['calls'] => {
 	switch (namespace) {
-		case BalanceNamespace.GuardedSett:
+		case BalanceNamespace.GuardedVault:
 			return [
 				{ methodName: 'balanceOf', methodParameters: [userAddress], reference: namespace },
 				{ methodName: 'guestList', reference: namespace, methodParameters: [] },
@@ -85,7 +85,7 @@ const getMulticallContractCalls = (
 				{ methodName: 'totalDepositCap', reference: namespace, methodParameters: [] },
 				{ methodName: 'userDepositCap', reference: namespace, methodParameters: [] },
 			];
-		case BalanceNamespace.Sett:
+		case BalanceNamespace.Vault:
 		case BalanceNamespace.Deprecated:
 			return [
 				{ methodName: 'balanceOf', methodParameters: [userAddress], reference: namespace },

@@ -2,14 +2,14 @@ export interface Deploy {
 	token: string;
 	tokens: { [name: string]: string };
 	geysers: { [name: string]: string };
-	sett_system: SettSystem;
+	sett_system: VaultSystem;
 }
 
 export interface EthDeploy extends Deploy {
 	digg_system: DiggSystem;
 }
 
-export interface SettSystem {
+export interface VaultSystem {
 	vaults: { [name: string]: string };
 	strategies: { [name: string]: string };
 }

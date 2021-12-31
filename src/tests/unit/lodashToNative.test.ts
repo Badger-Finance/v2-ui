@@ -48,7 +48,7 @@ describe('keyBy', () => {
 		},
 	};
 
-	test('Test array is keyed correctly by string property', () => {
+	test('array is keyed correctly by string property', () => {
 		expect(keyBy(testArray, 'address')).toEqual(testStringKeyedArray);
 	});
 
@@ -67,7 +67,7 @@ describe('keyBy', () => {
 		},
 	};
 
-	test('Test array is keyed correctly by BigNumber property', () => {
+	test('array is keyed correctly by BigNumber property', () => {
 		expect(keyBy(testArray, 'balance')).toEqual(testBNKeyedArray);
 	});
 
@@ -98,7 +98,7 @@ describe('keyBy', () => {
 		},
 	};
 
-	test('Test array is keyed correctly with a repeated key value', () => {
+	test('array is keyed correctly with a repeated key value', () => {
 		expect(keyBy(testRepeatedArray, 'address')).toEqual(testRepeatedKeyedArray);
 	});
 });

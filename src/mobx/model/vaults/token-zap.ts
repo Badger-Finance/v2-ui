@@ -7,12 +7,12 @@ import addresses from 'config/ibBTC/addresses.json';
 import { IbBTCMintZap, IBBTC_METHOD_NOT_SUPPORTED } from './ibbtc-mint-zap';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
-import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
+import { Token } from '@badger-dao/sdk';
 
 export class TokenZap extends IbBTCMintZap {
 	private zap: any;
 
-	constructor(store: RootStore, token: IbbtcOptionToken) {
+	constructor(store: RootStore, token: Token) {
 		super(store, token, addresses.mainnet.contracts.TokenZap.address, zapConfig.abi as AbiItem[]);
 		const web3 = new Web3(this.store.onboard.wallet?.provider);
 		this.zap = new web3.eth.Contract(zapConfig.abi as AbiItem[], this.address);

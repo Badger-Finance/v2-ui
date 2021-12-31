@@ -22,9 +22,7 @@ describe('CurrencyPicker', () => {
 				<CurrencyPicker />
 			</StoreProvider>,
 		);
-		await act(async () => {
-			await fireEvent.mouseDown(screen.getByRole('button'));
-		});
+		await fireEvent.mouseDown(screen.getByRole('button'));
 		expect(await screen.findByRole('presentation')).toMatchSnapshot();
 	});
 });

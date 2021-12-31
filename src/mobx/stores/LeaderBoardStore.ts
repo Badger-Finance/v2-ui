@@ -14,13 +14,11 @@ export class LeaderBoardStore {
 		});
 	}
 
-	loadData = action(
-		async (): Promise<void> => {
-			const summary = await this.store.api.loadLeaderboardSummary();
+	loadData = action(async (): Promise<void> => {
+		const summary = await this.store.api.loadLeaderboardSummary();
 
-			if (summary) {
-				this.ranks = summary;
-			}
-		},
-	);
+		if (summary) {
+			this.ranks = summary;
+		}
+	});
 }

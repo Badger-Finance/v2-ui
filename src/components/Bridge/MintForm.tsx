@@ -3,12 +3,11 @@ import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
 import { toJS } from 'mobx';
-import { Token } from 'components/IbBTC/Tokens';
 import { StoreContext } from 'mobx/store-context';
 import { MIN_AMOUNT } from './constants';
 import { Slippage, ValuesProp } from './Common';
 import { sett_system } from 'config/deployments/mainnet.json';
-import { SettMap } from '../../mobx/model/setts/sett-map';
+import { VaultMap } from '../../mobx/model/vaults/vault-map';
 
 interface MintFormProps {
 	values: ValuesProp;
@@ -37,7 +36,7 @@ export const MintForm = ({
 
 	const {
 		onboard,
-		setts: { settMap },
+		vaults: { settMap },
 		bridge: { shortAddr },
 	} = store;
 
@@ -48,7 +47,7 @@ export const MintForm = ({
 
 	const isWBTC = values.token === 'WBTC' || values.token === 'byvWBTC';
 
-	const getAPY = (token: string, settMap: SettMap | null | undefined): number => {
+	const getAPY = (token: string, settMap: VaultMap | null | undefined): number => {
 		if (!settMap) {
 			return 0;
 		}
@@ -69,8 +68,8 @@ export const MintForm = ({
 		}
 		// No APY for non vault tokens.
 		if (!address) return 0;
-		const sett = settMap[address];
-		return sett ? sett.apr : 0;
+		const vault = settMap[address];
+		return vault ? vault.apr : 0;
 	};
 
 	return (
@@ -99,7 +98,14 @@ export const MintForm = ({
 							style: { fontSize: '3rem' },
 							endAdornment: [
 								<div key="btc">
-									<Token token={{ name: 'Bitcoin', symbol: 'BTC', icon: '/assets/icons/btc.svg' }} />
+									<img
+										className={classes.tokenIcon}
+										src={`/assets/icons/btc.svg`}
+										alt="bitcoin icon"
+									/>
+									<Typography variant="body1" component="div">
+										BTC
+									</Typography>
 								</div>,
 							],
 						}}
@@ -156,7 +162,7 @@ export const MintForm = ({
 			</Grid>
 
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
-				<Grid container justify={'center'}>
+				<Grid container justifyContent={'center'}>
 					{onboard.isActive() ? (
 						<Button
 							variant="contained"

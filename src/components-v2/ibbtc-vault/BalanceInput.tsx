@@ -80,7 +80,7 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 						onChange={onValidChange(handleInputChange)}
 					/>
 				</Box>
-				<Grid container alignItems="center" justify="space-between" className={classes.balances}>
+				<Grid container alignItems="center" justifyContent="space-between" className={classes.balances}>
 					<Box>
 						<Typography variant="caption">{`BALANCE: ${tokenBalance.balanceDisplay(6)}`}</Typography>
 					</Box>

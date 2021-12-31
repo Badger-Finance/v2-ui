@@ -2,7 +2,7 @@ import { NETWORK_IDS } from 'config/constants';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { BadgerSett } from '../vaults/badger-sett';
+import { BadgerVault } from '../vaults/badger-vault';
 import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/xdai.json';
 import { Currency } from 'config/enums/currency.enum';
@@ -18,14 +18,14 @@ export class xDai extends NetworkModel {
 			NETWORK_IDS.XDAI,
 			Currency.XDAI,
 			XDAI_DEPLOY,
-			xDaiSetts,
+			xDaiVaults,
 		);
 	}
 }
 
 export const XDAI_DEPLOY: Deploy = deploy;
 
-export const xDaiSetts: BadgerSett[] = [
+export const xDaiVaults: BadgerVault[] = [
 	{
 		depositToken: {
 			address: XDAI_DEPLOY.tokens['SLP-WBTC-WETH'],
@@ -38,6 +38,6 @@ export const xDaiSetts: BadgerSett[] = [
 	},
 ];
 
-const xDaiTokens = xDaiSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]);
+const xDaiTokens = xDaiVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]);
 
 export const xDaiProtocolTokens: ProtocolTokens = toRecord(xDaiTokens, 'address');

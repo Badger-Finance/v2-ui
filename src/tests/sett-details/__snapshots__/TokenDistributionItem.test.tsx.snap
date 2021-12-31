@@ -43,7 +43,7 @@ exports[`Token Distribution Icon displays sett token distribution information on
           class="MuiGrid-root-25 makeStyles-content-24 MuiGrid-container-26"
         >
           <div
-            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-xs-space-between-45"
+            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-content-xs-space-between-45"
           >
             <div
               class="makeStyles-tokenNameContainer-158"
@@ -70,7 +70,7 @@ exports[`Token Distribution Icon displays sett token distribution information on
             </p>
           </div>
           <div
-            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-xs-space-between-45"
+            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-content-xs-space-between-45"
           >
             <div
               class="makeStyles-tokenNameContainer-158"
@@ -97,7 +97,7 @@ exports[`Token Distribution Icon displays sett token distribution information on
             </p>
           </div>
           <div
-            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-xs-space-between-45"
+            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-content-xs-space-between-45"
           >
             <div
               class="makeStyles-tokenNameContainer-158"

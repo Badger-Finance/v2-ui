@@ -5,7 +5,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 import { getStrategyFee } from 'mobx/utils/fees';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
 	specName: {
@@ -15,18 +15,18 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	sett: Sett;
+	vault: Vault;
 	strategy: StrategyConfig;
 	showEmpty?: boolean;
 }
 
-export const StrategyFees = ({ sett, strategy, showEmpty = false }: Props): JSX.Element => {
+export const StrategyFees = ({ vault, strategy, showEmpty = false }: Props): JSX.Element => {
 	const classes = useStyles();
 	const fees = strategy.fees;
 	const feeKeys = Object.keys(fees) as StrategyFee[];
 
 	const feeItems = feeKeys.map((key) => {
-		const fee = getStrategyFee(sett, key, strategy);
+		const fee = getStrategyFee(vault, key, strategy);
 
 		if (!fee) {
 			return null;
@@ -37,7 +37,7 @@ export const StrategyFees = ({ sett, strategy, showEmpty = false }: Props): JSX.
 		}
 
 		return (
-			<Grid key={key} container justify="space-between">
+			<Grid key={key} container justifyContent="space-between">
 				<Typography className={classes.specName} color="textSecondary" display="inline">
 					{userReadableFeeNames[key]}
 				</Typography>

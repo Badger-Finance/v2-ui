@@ -57,68 +57,66 @@ interface Props {
 	onRankClick: (boost: number) => void;
 }
 
-export const StakeInformation = observer(
-	({ native, nonNative, onRankClick }: Props): JSX.Element => {
-		const {
-			router,
-			user: { accountDetails },
-			onboard,
-		} = React.useContext(StoreContext);
+export const StakeInformation = observer(({ native, nonNative, onRankClick }: Props): JSX.Element => {
+	const {
+		router,
+		user: { accountDetails },
+		onboard,
+	} = React.useContext(StoreContext);
 
-		const classes = useStyles();
+	const classes = useStyles();
 
-		const isLoading = onboard.isActive() && accountDetails === undefined;
-		const accountNative = accountDetails?.nativeBalance;
-		const accountNonNative = accountDetails?.nonNativeBalance;
+	const isLoading = onboard.isActive() && accountDetails === undefined;
+	const accountNative = accountDetails?.nativeBalance;
+	const accountNonNative = accountDetails?.nonNativeBalance;
 
-		// round both values to make sure there is no difference caused by decimals
-		const calculatedStakeRatio = (roundValue(native) / roundValue(nonNative)) * 100;
-		const calculatedAccountRatio = (roundValue(accountNative) / roundValue(accountNonNative)) * 100;
+	// round both values to make sure there is no difference caused by decimals
+	const calculatedStakeRatio = (roundValue(native) / roundValue(nonNative)) * 100;
+	const calculatedAccountRatio = (roundValue(accountNative) / roundValue(accountNonNative)) * 100;
 
-		const isValidStakeRatio = isValidCalculatedValue(calculatedStakeRatio);
-		const isValidAccountRatio = isValidCalculatedValue(calculatedAccountRatio);
+	const isValidStakeRatio = isValidCalculatedValue(calculatedStakeRatio);
+	const isValidAccountRatio = isValidCalculatedValue(calculatedAccountRatio);
 
-		const stakeRatio = isValidStakeRatio ? calculatedStakeRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
-		const accountStakeRatio = isValidAccountRatio ? calculatedAccountRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
+	const stakeRatio = isValidStakeRatio ? calculatedStakeRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
+	const accountStakeRatio = isValidAccountRatio ? calculatedAccountRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
 
-		const [currentRank, currentLevel] = rankAndLevelFromStakeRatio(stakeRatio);
-		const { 1: accountLevel } = rankAndLevelFromStakeRatio(accountStakeRatio);
+	const [currentRank, currentLevel] = rankAndLevelFromStakeRatio(stakeRatio);
+	const { 1: accountLevel } = rankAndLevelFromStakeRatio(accountStakeRatio);
 
-		return (
-			<Grid container component={Paper} className={classes.root}>
-				<StakeInformationHeader
-					isLoading={isLoading}
-					currentRank={currentRank}
-					stakeRatio={stakeRatio}
-					accountStakeRatio={accountStakeRatio}
-					multiplier={currentLevel.multiplier}
-					accountMultiplier={accountLevel.multiplier}
-				/>
-				<Divider className={classes.divider} />
-				<Grid container>
-					<Grid item xs>
-						<RankList
-							currentMultiplier={currentLevel.multiplier}
-							accountMultiplier={accountLevel.multiplier}
-							onRankClick={onRankClick}
-						/>
-					</Grid>
-				</Grid>
-
-				<Grid container className={classes.viewLeaderBoardContainer}>
-					<Button
-						fullWidth
-						color="primary"
-						variant="outlined"
-						size="small"
-						onClick={() => {
-							router.goTo(routes.boostLeaderBoard);
-						}}
-					>
-						View Leaderboard
-					</Button>
+	return (
+		<Grid container component={Paper} className={classes.root}>
+			<StakeInformationHeader
+				isLoading={isLoading}
+				currentRank={currentRank}
+				stakeRatio={stakeRatio}
+				accountStakeRatio={accountStakeRatio}
+				multiplier={currentLevel.multiplier}
+				accountMultiplier={accountLevel.multiplier}
+			/>
+			<Divider className={classes.divider} />
+			<Grid container>
+				<Grid item xs>
+					<RankList
+						currentMultiplier={currentLevel.multiplier}
+						accountMultiplier={accountLevel.multiplier}
+						onRankClick={onRankClick}
+					/>
 				</Grid>
 			</Grid>
-		);
-	},
-);
+
+			<Grid container className={classes.viewLeaderBoardContainer}>
+				<Button
+					fullWidth
+					color="primary"
+					variant="outlined"
+					size="small"
+					onClick={() => {
+						router.goTo(routes.boostLeaderBoard);
+					}}
+				>
+					View Leaderboard
+				</Button>
+			</Grid>
+		</Grid>
+	);
+});

@@ -9,6 +9,7 @@ import {
 	ListItem,
 	List,
 	Box,
+	Dialog,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { GasSpeed, Network, NetworkConfig } from '@badger-dao/sdk';
@@ -18,7 +19,6 @@ import { observer } from 'mobx-react-lite';
 import { defaultNetwork, supportedNetworks } from '../../config/networks.config';
 import { StoreContext } from '../../mobx/store-context';
 import { Loader } from '../../components/Loader';
-import Dialog from './dialogs/Dialog';
 
 const useStyles = makeStyles((theme) => ({
 	dialog: {

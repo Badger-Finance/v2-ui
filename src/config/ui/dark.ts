@@ -1,8 +1,8 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core';
 
 const buttonPadding = '11px 13px';
 
-const theme = createMuiTheme({
+const theme = createTheme({
 	palette: {
 		type: 'dark',
 		primary: { main: '#F2A52B' },
@@ -83,12 +83,18 @@ const theme = createMuiTheme({
 				fontWeight: 800,
 			},
 		},
+		MuiBackdrop: {
+			root: {
+				backgroundColor: 'rgba(18, 18, 18, 0.7)',
+			},
+		},
 	},
 });
 
-export const darkTheme = createMuiTheme({
+export const darkTheme = createTheme({
 	...theme,
 	overrides: {
+		...(theme.overrides ?? {}),
 		MuiButton: {
 			...(theme.overrides?.MuiButton ?? {}),
 			root: {

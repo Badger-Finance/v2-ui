@@ -1,10 +1,21 @@
-import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
+import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import { BouncerType, Protocol, Sett, SettData, SettState } from '@badger-dao/sdk';
+import { BouncerType, Protocol, Vault, VaultData, VaultState, VaultType } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
 
-export const SAMPLE_BADGER_SETT: BadgerSett = {
+export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
+	{
+		name: 'ibBTC',
+		symbol: 'ibBTC',
+		decimals: 18,
+		address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F',
+	},
+	new BigNumber('10000000000000000000'),
+	new BigNumber('12.012381'),
+);
+
+export const SAMPLE_BADGER_SETT: BadgerVault = {
 	depositToken: {
 		address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 		decimals: 18,
@@ -15,10 +26,11 @@ export const SAMPLE_BADGER_SETT: BadgerSett = {
 	},
 };
 
-export const SAMPLE_SETT: Sett = {
+export const SAMPLE_SETT: Vault = {
+	type: VaultType.Standard,
 	asset: 'sBTCCRV',
-	settAsset: 'bsBTCCRV',
-	state: SettState.Open,
+	vaultAsset: 'bsBTCCRV',
+	state: VaultState.Open,
 	apr: 0.123456789123454,
 	balance: 2580.4779797767615,
 	bouncer: BouncerType.None,
@@ -78,10 +90,10 @@ export const SAMPLE_SETT: Sett = {
 	],
 	underlyingToken: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 	value: 135697015.0445408,
-	settToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
+	vaultToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 };
 
-export const SAMPLE_SETT_BALANCE: SettData = {
+export const SAMPLE_SETT_BALANCE: VaultData = {
 	address: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 	name: 'Convex renBTC/wBTC/sBTC',
 	symbol: 'crvsBTC',

@@ -292,7 +292,7 @@ export const ConfirmForm = ({
 				</Grid>
 			) : null}
 			{values.spacer}
-			<Grid container justify={'center'}>
+			<Grid container justifyContent={'center'}>
 				<Button
 					variant="contained"
 					color="primary"

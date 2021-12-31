@@ -5,7 +5,7 @@ import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/RootStore';
 import { StoreContext } from '../../mobx/store-context';
 import { QueryParams } from '../../../node_modules/mobx-router/src/route';
-import { SettState } from '@badger-dao/sdk';
+import { VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -21,43 +21,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const linkObjects = (
-	state: SettState,
+	state: VaultState,
 	goTo: <
 		P extends QueryParams = Record<string, string | number | boolean | undefined>,
-		Q extends QueryParams = Record<string, string | number | boolean | undefined>
+		Q extends QueryParams = Record<string, string | number | boolean | undefined>,
 	>(
 		route: Route<RootStore, P, Q>,
 		paramsObj?: P | undefined,
 		queryParamsObj?: Q | undefined,
 	) => Promise<void>,
 ) => {
-	const linkStates = Object.values(SettState).filter((s) => s !== state);
+	const linkStates = Object.values(VaultState).filter((s) => s !== state);
 	const links: JSX.Element[] = [];
 	linkStates.forEach((linkState) => {
 		switch (linkState) {
-			case SettState.Experimental:
+			case VaultState.Experimental:
 				links.push(
-					<Grid item xs={2} key={`${SettState.Experimental}-link-button`}>
+					<Grid item xs={2} key={`${VaultState.Experimental}-link-button`}>
 						<Button variant="outlined" color="primary" onClick={() => goTo(views.experimental)}>
-							{SettState.Experimental}
+							{VaultState.Experimental}
 						</Button>
 					</Grid>,
 				);
 				break;
-			case SettState.Open:
+			case VaultState.Open:
 				links.push(
-					<Grid item xs={2} key={`${SettState.Open}-link-button`}>
+					<Grid item xs={2} key={`${VaultState.Open}-link-button`}>
 						<Button variant="outlined" color="primary" onClick={() => goTo(views.home)}>
-							{SettState.Open}
+							{VaultState.Open}
 						</Button>
 					</Grid>,
 				);
 				break;
-			case SettState.Guarded:
+			case VaultState.Guarded:
 				links.push(
-					<Grid item xs={2} key={`${SettState.Guarded}-link-button`}>
+					<Grid item xs={2} key={`${VaultState.Guarded}-link-button`}>
 						<Button variant="outlined" color="primary" onClick={() => goTo(views.guarded)}>
-							{SettState.Guarded}
+							{VaultState.Guarded}
 						</Button>
 					</Grid>,
 				);
@@ -67,7 +67,7 @@ const linkObjects = (
 	return links;
 };
 
-export default function NoVaults(props: { state: SettState; network: string }): JSX.Element {
+export default function NoVaults(props: { state: VaultState; network: string }): JSX.Element {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { state, network } = props;
@@ -82,7 +82,7 @@ export default function NoVaults(props: { state: SettState; network: string }): 
 				variant="h4"
 			>{`There are currently no ${state} vaults on ${network}.`}</Typography>
 			<Typography variant="h6">Check our other zones for more potential vaults</Typography>
-			<Grid className={classes.linkContainer} container justify="center">
+			<Grid className={classes.linkContainer} container justifyContent="center">
 				{linkObjects(state, goTo)}
 			</Grid>
 		</div>

@@ -51,7 +51,7 @@ export const Airdrops = observer(() => {
 		onboard,
 		router: { goTo },
 		airdrops: { claimAirdrops, airdrops },
-		setts: { settMap },
+		vaults: { settMap },
 	} = store;
 
 	let maxNativeApy: number | undefined = undefined;
@@ -175,7 +175,7 @@ export const Airdrops = observer(() => {
 
 	return (
 		<LayoutContainer>
-			<Grid container spacing={1} justify="flex-start">
+			<Grid container spacing={1} justifyContent="flex-start">
 				<PageHeaderContainer item xs={12}>
 					<PageHeader
 						title="Community Rules."

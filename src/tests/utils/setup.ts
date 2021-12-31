@@ -1,9 +1,10 @@
-import { BadgerAPI, BouncerType, Protocol, SettState } from '@badger-dao/sdk';
+import { BadgerAPI, BouncerType, Protocol, VaultState, VaultType } from '@badger-dao/sdk';
 
 export function setupMockAPI(): void {
 	jest.spyOn(BadgerAPI.prototype, 'loadPrices').mockImplementation();
-	jest.spyOn(BadgerAPI.prototype, 'loadSetts').mockImplementation(async () => [
+	jest.spyOn(BadgerAPI.prototype, 'loadVaults').mockImplementation(async () => [
 		{
+			type: VaultType.Standard,
 			apr: 1.28046491065017,
 			asset: 'crvrenWBTC',
 			balance: 473.60121685437,
@@ -16,8 +17,8 @@ export function setupMockAPI(): void {
 			protocol: Protocol.Curve,
 			newVault: false,
 			pricePerFullShare: 1.02100568616584,
-			settAsset: 'bcrvhrenBTC',
-			settToken: '0xAf5A1DECfa95BAF63E0084a35c62592B774A2A87',
+			vaultAsset: 'bcrvhrenBTC',
+			vaultToken: '0xAf5A1DECfa95BAF63E0084a35c62592B774A2A87',
 			sources: [
 				{
 					apr: 1.20104996179789,
@@ -34,7 +35,7 @@ export function setupMockAPI(): void {
 					},
 				},
 			],
-			state: SettState.Open,
+			state: VaultState.Open,
 			strategy: {
 				address: '0xaaE82E3c89e15E6F26F60724f115d5012363e030',
 				performanceFee: 0,
@@ -63,6 +64,7 @@ export function setupMockAPI(): void {
 			value: 29381061.6545186,
 		},
 		{
+			type: VaultType.Standard,
 			apr: 278.946597358605,
 			asset: 'BADGER-WBTC',
 			balance: 0.0378818139342264,
@@ -75,8 +77,8 @@ export function setupMockAPI(): void {
 			newVault: false,
 			protocol: Protocol.Badger,
 			pricePerFullShare: 1.78903561415214,
-			settAsset: 'bBADGER-WBTC',
-			settToken: '0x235c9e24D3FB2FAFd58a2E49D454Fdcd2DBf7FF1',
+			vaultAsset: 'bBADGER-WBTC',
+			vaultToken: '0x235c9e24D3FB2FAFd58a2E49D454Fdcd2DBf7FF1',
 			sources: [
 				{
 					apr: 251.828239904931,
@@ -93,7 +95,7 @@ export function setupMockAPI(): void {
 					},
 				},
 			],
-			state: SettState.Open,
+			state: VaultState.Open,
 			strategy: {
 				address: '0x95826C65EB1f2d2F0EDBb7EcB176563B61C60bBf',
 				performanceFee: 0,
@@ -122,6 +124,7 @@ export function setupMockAPI(): void {
 			value: 11336061.4901147,
 		},
 		{
+			type: VaultType.Standard,
 			apr: 8.02482905107376,
 			asset: 'SLP-WBTC-ETH',
 			balance: 0.000544739337494635,
@@ -136,8 +139,8 @@ export function setupMockAPI(): void {
 			protocol: Protocol.Sushiswap,
 			name: 'Sushiswap Wrapped BTC/Wrapped ETH',
 			pricePerFullShare: 1,
-			settAsset: 'bSLP-WBTC-ETH',
-			settToken: '0x758A43EE2BFf8230eeb784879CdcFF4828F2544D',
+			vaultAsset: 'bSLP-WBTC-ETH',
+			vaultToken: '0x758A43EE2BFf8230eeb784879CdcFF4828F2544D',
 			sources: [
 				{
 					apr: 2.91403809508507,
@@ -154,7 +157,7 @@ export function setupMockAPI(): void {
 					},
 				},
 			],
-			state: SettState.Open,
+			state: VaultState.Open,
 			strategy: {
 				address: '0x7A56d65254705B4Def63c68488C0182968C452ce',
 				performanceFee: 1000,
@@ -183,6 +186,7 @@ export function setupMockAPI(): void {
 			value: 41459399.2209495,
 		},
 		{
+			type: VaultType.Standard,
 			apr: 12.1488615485636,
 			asset: 'DIGG',
 			balance: 230.614422202,
@@ -195,8 +199,8 @@ export function setupMockAPI(): void {
 			name: 'Digg',
 			protocol: Protocol.Badger,
 			pricePerFullShare: 0.185509641256659,
-			settAsset: 'bDIGG',
-			settToken: '0x7e7E112A68d8D2E221E11047a72fFC1065c38e1a',
+			vaultAsset: 'bDIGG',
+			vaultToken: '0x7e7E112A68d8D2E221E11047a72fFC1065c38e1a',
 			sources: [
 				{
 					apr: 12.1488615485636,
@@ -213,7 +217,7 @@ export function setupMockAPI(): void {
 					},
 				},
 			],
-			state: SettState.Open,
+			state: VaultState.Open,
 			strategy: {
 				address: '0x4a8651F2edD68850B944AD93f2c67af817F39F62',
 				performanceFee: 0,
@@ -234,6 +238,7 @@ export function setupMockAPI(): void {
 			value: 14816575.9133979,
 		},
 		{
+			type: VaultType.Standard,
 			apr: 0,
 			asset: 'BADGER',
 			balance: 3207364.24255943,
@@ -246,10 +251,10 @@ export function setupMockAPI(): void {
 			name: 'Badger',
 			protocol: Protocol.Badger,
 			pricePerFullShare: 1.23488168867635,
-			settAsset: 'bBADGER',
-			settToken: '0x19D97D8fA813EE2f51aD4B4e04EA08bAf4DFfC28',
+			vaultAsset: 'bBADGER',
+			vaultToken: '0x19D97D8fA813EE2f51aD4B4e04EA08bAf4DFfC28',
 			sources: [],
-			state: SettState.Open,
+			state: VaultState.Open,
 			strategy: {
 				address: '0x75b8E21BD623012Efb3b69E1B562465A68944eE6',
 				performanceFee: 0,
@@ -270,6 +275,7 @@ export function setupMockAPI(): void {
 			value: 84514047.791441,
 		},
 		{
+			type: VaultType.Standard,
 			apr: 2.65777115288197,
 			asset: 'WBTC',
 			balance: 1914.31703991,
@@ -284,8 +290,8 @@ export function setupMockAPI(): void {
 			name: 'Yearn Wrapped BTC',
 			protocol: Protocol.Yearn,
 			pricePerFullShare: 1.01477693,
-			settAsset: 'bvyWBTC',
-			settToken: '0x4b92d19c11435614CD49Af1b589001b7c08cD4D5',
+			vaultAsset: 'bvyWBTC',
+			vaultToken: '0x4b92d19c11435614CD49Af1b589001b7c08cD4D5',
 			sources: [
 				{
 					apr: 0.0184506488584714,
@@ -302,7 +308,7 @@ export function setupMockAPI(): void {
 					},
 				},
 			],
-			state: SettState.Open,
+			state: VaultState.Open,
 			strategy: {
 				address: '0x0000000000000000000000000000000000000000',
 				performanceFee: 0,
@@ -323,6 +329,7 @@ export function setupMockAPI(): void {
 			value: 116901598.676184,
 		},
 		{
+			type: VaultType.Standard,
 			apr: 177.284923726919,
 			asset: 'imBTC',
 			balance: 362.480168846736,
@@ -337,8 +344,8 @@ export function setupMockAPI(): void {
 			name: 'mStable imBTC',
 			protocol: Protocol.mStable,
 			pricePerFullShare: 1.00092006793112,
-			settAsset: 'bimBTC',
-			settToken: '0x599D92B453C010b1050d31C364f6ee17E819f193',
+			vaultAsset: 'bimBTC',
+			vaultToken: '0x599D92B453C010b1050d31C364f6ee17E819f193',
 			sources: [
 				{
 					apr: 1.78333333333333,
@@ -355,7 +362,7 @@ export function setupMockAPI(): void {
 					},
 				},
 			],
-			state: SettState.Open,
+			state: VaultState.Open,
 			strategy: {
 				address: '0xd409C506742b7f76f164909025Ab29A47e06d30A',
 				performanceFee: 1000,
@@ -376,7 +383,7 @@ export function setupMockAPI(): void {
 			value: 2273681.99036851,
 		},
 	]);
-	jest.spyOn(BadgerAPI.prototype, 'loadSett').mockImplementation();
+	jest.spyOn(BadgerAPI.prototype, 'loadVault').mockImplementation();
 	jest.spyOn(BadgerAPI.prototype, 'loadAccount').mockImplementation();
 	jest.spyOn(BadgerAPI.prototype, 'loadTokens').mockImplementation();
 	jest.spyOn(BadgerAPI.prototype, 'loadProof').mockImplementation();

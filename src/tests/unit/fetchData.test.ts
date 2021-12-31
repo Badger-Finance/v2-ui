@@ -1,4 +1,3 @@
-import 'jest';
 import fetchMock from 'jest-fetch-mock';
 import { fetchData } from '../../utils/fetchData';
 

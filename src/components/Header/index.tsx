@@ -79,7 +79,7 @@ const Header = observer(() => {
 		onboard,
 		onboard: { notify },
 		network: { network },
-		setts: { protocolSummary },
+		vaults: { protocolSummary },
 	} = useContext(StoreContext);
 	const { enqueueSnackbar } = useSnackbar();
 	const classes = useStyles();
@@ -105,8 +105,6 @@ const Header = observer(() => {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}
 	};
-	// Disable reason: Hook used for execution of enq() on change of notification.
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(enq, [notification]);
 
 	return (
@@ -121,7 +119,7 @@ const Header = observer(() => {
 							md={7}
 							spacing={1}
 							alignItems="center"
-							justify="space-between"
+							justifyContent="space-between"
 							className={classes.amounts}
 						>
 							{isMobile ? (
@@ -141,7 +139,7 @@ const Header = observer(() => {
 										<CurrencyDisplay
 											displayValue={inCurrency(portfolioValue, currency)}
 											variant="subtitle2"
-											justify="flex-start"
+											justifyContent="flex-start"
 										/>
 									</Grid>
 									<Grid item>
@@ -152,7 +150,7 @@ const Header = observer(() => {
 											<CurrencyDisplay
 												displayValue={inCurrency(totalValueLocked, currency, 0)}
 												variant="subtitle2"
-												justify="flex-start"
+												justifyContent="flex-start"
 											/>
 										) : (
 											valuePlaceholder
@@ -166,7 +164,7 @@ const Header = observer(() => {
 											<CurrencyDisplay
 												displayValue={inCurrency(badgerPrice, currency)}
 												variant="subtitle2"
-												justify="flex-start"
+												justifyContent="flex-start"
 											/>
 										) : (
 											valuePlaceholder
@@ -181,7 +179,7 @@ const Header = observer(() => {
 							xs={11}
 							md={5}
 							alignItems="center"
-							justify="flex-end"
+							justifyContent="flex-end"
 							className={classes.headerRightSide}
 						>
 							{onboard.isActive() && (

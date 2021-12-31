@@ -1,6 +1,6 @@
 import React from 'react';
 import { SAMPLE_SETT_BALANCE } from '../utils/samples';
-import { TokenDistributionIcon } from '../../components-v2/sett-detail/holdings/TokenDistributionIcon';
+import { TokenDistributionIcon } from '../../components-v2/vault-detail/holdings/TokenDistributionIcon';
 import { customRender, screen } from '../Utils';
 import userEvent from '@testing-library/user-event';
 import { StoreProvider } from '../../mobx/store-context';

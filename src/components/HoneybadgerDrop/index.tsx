@@ -15,7 +15,7 @@ const HoneybadgerDrop: React.FC = observer(() => {
 
 	return (
 		<LayoutContainer>
-			<Grid container spacing={1} justify="center">
+			<Grid container spacing={1} justifyContent="center">
 				<PageHeaderContainer item xs={12}>
 					<PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
 				</PageHeaderContainer>

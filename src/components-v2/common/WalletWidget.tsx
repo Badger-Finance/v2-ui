@@ -42,9 +42,11 @@ const WalletWidget = observer(() => {
 		if (onboard.isActive()) {
 			onboard.disconnect();
 		} else {
-			const connected = await onboard.connect();
-			if (!connected) {
+			try {
+				await onboard.connect();
+			} catch (error) {
 				uiState.queueError('Issue connecting, please try again');
+				console.error(error);
 			}
 		}
 	}

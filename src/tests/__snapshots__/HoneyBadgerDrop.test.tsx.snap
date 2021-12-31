@@ -6,7 +6,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
     class="MuiContainer-root-2 WithStyles(ForwardRef(Container))-root-1 MuiContainer-maxWidthLg-8"
   >
     <div
-      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-1-33 MuiGrid-justify-xs-center-28"
+      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-1-33 MuiGrid-justify-content-xs-center-28"
     >
       <div
         class="MuiGrid-root-10 WithStyles(ForwardRef(Grid))-root-113 WithStyles(ForwardRef(Grid))-root-114 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
@@ -30,7 +30,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-5-37 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
       >
         <div
-          class="MuiGrid-root-10 makeStyles-centerText-147 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-xs-center-28 MuiGrid-grid-xs-12-56"
+          class="MuiGrid-root-10 makeStyles-centerText-147 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-content-xs-center-28 MuiGrid-grid-xs-12-56"
           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -102,7 +102,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
     class="MuiContainer-root-2 WithStyles(ForwardRef(Container))-root-1 MuiContainer-maxWidthLg-8"
   >
     <div
-      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-1-33 MuiGrid-justify-xs-center-28"
+      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-1-33 MuiGrid-justify-content-xs-center-28"
     >
       <div
         class="MuiGrid-root-10 WithStyles(ForwardRef(Grid))-root-113 WithStyles(ForwardRef(Grid))-root-114 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
@@ -126,7 +126,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-5-37 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
       >
         <div
-          class="MuiGrid-root-10 makeStyles-centerText-147 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-xs-center-28 MuiGrid-grid-xs-12-56"
+          class="MuiGrid-root-10 makeStyles-centerText-147 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-content-xs-center-28 MuiGrid-grid-xs-12-56"
           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -198,7 +198,7 @@ exports[`HoneybadgerDrop Page Renders correctly without connected address 1`] = 
     class="MuiContainer-root-2 WithStyles(ForwardRef(Container))-root-1 MuiContainer-maxWidthLg-8"
   >
     <div
-      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-1-33 MuiGrid-justify-xs-center-28"
+      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-1-33 MuiGrid-justify-content-xs-center-28"
     >
       <div
         class="MuiGrid-root-10 WithStyles(ForwardRef(Grid))-root-113 WithStyles(ForwardRef(Grid))-root-114 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
@@ -222,7 +222,7 @@ exports[`HoneybadgerDrop Page Renders correctly without connected address 1`] = 
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-5-37 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
       >
         <div
-          class="MuiGrid-root-10 makeStyles-centerText-147 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-xs-center-28 MuiGrid-grid-xs-12-56"
+          class="MuiGrid-root-10 makeStyles-centerText-147 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-content-xs-center-28 MuiGrid-grid-xs-12-56"
           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
