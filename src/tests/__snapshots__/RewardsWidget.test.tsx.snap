@@ -580,7 +580,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                     class="MuiGrid-root-175 makeStyles-claimRow-343 MuiGrid-item-177"
                   >
                     <div
-                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-xs-space-between-195"
+                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-content-xs-space-between-195"
                     >
                       <label
                         class="MuiFormControlLabel-root-359"
@@ -652,7 +652,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                     class="MuiGrid-root-175 makeStyles-claimRow-343 MuiGrid-item-177"
                   >
                     <div
-                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-xs-space-between-195"
+                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-content-xs-space-between-195"
                     >
                       <label
                         class="MuiFormControlLabel-root-359"
@@ -724,7 +724,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                     class="MuiGrid-root-175 makeStyles-claimRow-343 MuiGrid-item-177"
                   >
                     <div
-                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-xs-space-between-195"
+                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-content-xs-space-between-195"
                     >
                       <label
                         class="MuiFormControlLabel-root-359"
@@ -797,7 +797,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                   class="MuiDivider-root-387 makeStyles-divider-351"
                 />
                 <div
-                  class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-item-177 MuiGrid-align-items-xs-center-184 MuiGrid-justify-xs-space-between-195"
+                  class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-item-177 MuiGrid-align-items-xs-center-184 MuiGrid-justify-content-xs-space-between-195"
                 >
                   <p
                     class="MuiTypography-root-42 MuiTypography-body2-43"
@@ -1024,7 +1024,7 @@ exports[`Rewards Widget when there are rewards displays claim options 1`] = `
                     class="MuiGrid-root-175 makeStyles-claimRow-141 MuiGrid-item-177"
                   >
                     <div
-                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-xs-space-between-195"
+                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-content-xs-space-between-195"
                     >
                       <label
                         class="MuiFormControlLabel-root-281"
@@ -1096,7 +1096,7 @@ exports[`Rewards Widget when there are rewards displays claim options 1`] = `
                     class="MuiGrid-root-175 makeStyles-claimRow-141 MuiGrid-item-177"
                   >
                     <div
-                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-xs-space-between-195"
+                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-content-xs-space-between-195"
                     >
                       <label
                         class="MuiFormControlLabel-root-281"
@@ -1168,7 +1168,7 @@ exports[`Rewards Widget when there are rewards displays claim options 1`] = `
                     class="MuiGrid-root-175 makeStyles-claimRow-141 MuiGrid-item-177"
                   >
                     <div
-                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-xs-space-between-195"
+                      class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-justify-content-xs-space-between-195"
                     >
                       <label
                         class="MuiFormControlLabel-root-281"
@@ -1241,7 +1241,7 @@ exports[`Rewards Widget when there are rewards displays claim options 1`] = `
                   class="MuiDivider-root-309 makeStyles-divider-149"
                 />
                 <div
-                  class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-item-177 MuiGrid-align-items-xs-center-184 MuiGrid-justify-xs-space-between-195"
+                  class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-item-177 MuiGrid-align-items-xs-center-184 MuiGrid-justify-content-xs-space-between-195"
                 >
                   <p
                     class="MuiTypography-root-42 MuiTypography-body2-43"
