@@ -53,52 +53,50 @@ enum DelaySeverity {
 	high = 'high',
 }
 
-export const Claims = observer(
-	(): JSX.Element => {
-		const { rewards } = React.useContext(StoreContext);
-		const classes = useStyles();
+export const Claims = observer((): JSX.Element => {
+	const { rewards } = React.useContext(StoreContext);
+	const classes = useStyles();
 
-		const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(rewards.badgerTree.lastCycle);
-		const delaySeverity = calculateDelaySeverity(differenceInHoursFromCycle);
+	const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(rewards.badgerTree.lastCycle);
+	const delaySeverity = calculateDelaySeverity(differenceInHoursFromCycle);
 
-		const isDelayed = delaySeverity !== DelaySeverity.none;
+	const isDelayed = delaySeverity !== DelaySeverity.none;
 
-		const delayStyles = {
-			[DelaySeverity.high]: classes.highlyDelayedReward,
-			[DelaySeverity.medium]: classes.mediumDelayedReward,
-			[DelaySeverity.none]: classes.noneDelayedReward,
-		};
+	const delayStyles = {
+		[DelaySeverity.high]: classes.highlyDelayedReward,
+		[DelaySeverity.medium]: classes.mediumDelayedReward,
+		[DelaySeverity.none]: classes.noneDelayedReward,
+	};
 
-		return (
-			<Grid container>
-				<Grid container alignItems="center">
-					<Grid container item xs={7}>
-						<Typography>Reward Frequency</Typography>
-					</Grid>
-					<Grid className={classes.rewardContainer} item xs>
-						<Typography className={clsx(classes.reward, delayStyles[delaySeverity])} display="inline">
-							{`~${ESTIMATED_REWARDS_FREQUENCY} Hours`}
-						</Typography>
-					</Grid>
+	return (
+		<Grid container>
+			<Grid container alignItems="center">
+				<Grid container item xs={7}>
+					<Typography>Reward Frequency</Typography>
 				</Grid>
-				<StyledDivider />
-				<Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
-					{isDelayed
-						? 'This Sett’s rewards are currently taking longer than usual.'
-						: 'This Sett’s rewards are currently being processed.'}
-				</Typography>
-				<Link
-					className={classes.infoLink}
-					href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"
-					target="_blank"
-					rel="noreferrer"
-				>
-					<div className={classes.linkContent}>
-						<span>See more</span>
-						<ChevronRightIcon className={classes.linkIcon} />
-					</div>
-				</Link>
+				<Grid className={classes.rewardContainer} item xs>
+					<Typography className={clsx(classes.reward, delayStyles[delaySeverity])} display="inline">
+						{`~${ESTIMATED_REWARDS_FREQUENCY} Hours`}
+					</Typography>
+				</Grid>
 			</Grid>
-		);
-	},
-);
+			<StyledDivider />
+			<Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
+				{isDelayed
+					? 'This Sett’s rewards are currently taking longer than usual.'
+					: 'This Sett’s rewards are currently being processed.'}
+			</Typography>
+			<Link
+				className={classes.infoLink}
+				href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"
+				target="_blank"
+				rel="noreferrer"
+			>
+				<div className={classes.linkContent}>
+					<span>See more</span>
+					<ChevronRightIcon className={classes.linkIcon} />
+				</div>
+			</Link>
+		</Grid>
+	);
+});

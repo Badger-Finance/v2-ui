@@ -70,15 +70,8 @@ export const NonNativeBox = observer((props: Props) => {
 	const { user } = React.useContext(StoreContext);
 	const nonNativeHoldings = user.accountDetails?.nonNativeBalance;
 
-	const {
-		showMessageBounce,
-		nonNativeBalance,
-		isLoading,
-		onChange,
-		onIncrement,
-		onReduction,
-		onBounceAnimationEnd,
-	} = props;
+	const { showMessageBounce, nonNativeBalance, isLoading, onChange, onIncrement, onReduction, onBounceAnimationEnd } =
+		props;
 
 	const classes = useStyles();
 	const theme = useTheme();

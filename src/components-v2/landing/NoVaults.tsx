@@ -24,7 +24,7 @@ const linkObjects = (
 	state: VaultState,
 	goTo: <
 		P extends QueryParams = Record<string, string | number | boolean | undefined>,
-		Q extends QueryParams = Record<string, string | number | boolean | undefined>
+		Q extends QueryParams = Record<string, string | number | boolean | undefined>,
 	>(
 		route: Route<RootStore, P, Q>,
 		paramsObj?: P | undefined,

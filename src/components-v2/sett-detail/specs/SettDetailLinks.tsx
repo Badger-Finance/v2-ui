@@ -31,47 +31,45 @@ interface Props {
 	badgerSett: BadgerSett;
 }
 
-const SettDetailLinks = observer(
-	({ sett, badgerSett }: Props): JSX.Element => {
-		const classes = useStyles();
-		const { network: networkStore } = React.useContext(StoreContext);
-		const { network } = networkStore;
+const SettDetailLinks = observer(({ sett, badgerSett }: Props): JSX.Element => {
+	const classes = useStyles();
+	const { network: networkStore } = React.useContext(StoreContext);
+	const { network } = networkStore;
 
-		const vaultAddress = badgerSett.vaultToken.address;
-		const strategy = network.strategies[vaultAddress];
-		const underlyingToken = sett.underlyingToken;
-		const hasBaseLink = !!(strategy.userGuide || strategy.strategyLink || strategy.depositLink);
+	const vaultAddress = badgerSett.vaultToken.address;
+	const strategy = network.strategies[vaultAddress];
+	const underlyingToken = sett.underlyingToken;
+	const hasBaseLink = !!(strategy.userGuide || strategy.strategyLink || strategy.depositLink);
 
-		const [expanded, setExpanded] = useState(!hasBaseLink);
-		const expandText = expanded ? 'Hide' : 'Show More';
-		const strategyAddress =
-			sett.strategy?.address && sett.strategy.address !== ethers.constants.AddressZero
-				? sett.strategy.address
-				: network.strategies[sett.vaultToken].address;
+	const [expanded, setExpanded] = useState(!hasBaseLink);
+	const expandText = expanded ? 'Hide' : 'Show More';
+	const strategyAddress =
+		sett.strategy?.address && sett.strategy.address !== ethers.constants.AddressZero
+			? sett.strategy.address
+			: network.strategies[sett.vaultToken].address;
 
-		return (
-			<Grid container className={classes.linksContainer}>
-				<Typography>Links</Typography>
-				<StyledDivider />
-				{strategy.userGuide && <SettDetailLink title="User Guide" href={strategy.userGuide} />}
-				{strategy.strategyLink && <SettDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
-				{strategy.depositLink && <SettDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
-				<Collapse in={expanded}>
-					<SettDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultAddress}`} />
-					<SettDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
-					<SettDetailLink
-						title="Underlying Token Address"
-						href={`${network.explorer}/address/${underlyingToken}`}
-					/>
-				</Collapse>
-				<div className={classes.showMoreContainer}>
-					<div className={classes.showMore} onClick={() => setExpanded(!expanded)}>
-						{expandText}
-					</div>
+	return (
+		<Grid container className={classes.linksContainer}>
+			<Typography>Links</Typography>
+			<StyledDivider />
+			{strategy.userGuide && <SettDetailLink title="User Guide" href={strategy.userGuide} />}
+			{strategy.strategyLink && <SettDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
+			{strategy.depositLink && <SettDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
+			<Collapse in={expanded}>
+				<SettDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultAddress}`} />
+				<SettDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
+				<SettDetailLink
+					title="Underlying Token Address"
+					href={`${network.explorer}/address/${underlyingToken}`}
+				/>
+			</Collapse>
+			<div className={classes.showMoreContainer}>
+				<div className={classes.showMore} onClick={() => setExpanded(!expanded)}>
+					{expandText}
 				</div>
-			</Grid>
-		);
-	},
-);
+			</div>
+		</Grid>
+	);
+});
 
 export default SettDetailLinks;

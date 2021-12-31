@@ -58,67 +58,63 @@ interface Props {
 	sett: Vault;
 }
 
-const SettMetrics = observer(
-	({ sett }: Props): JSX.Element => {
-		const { uiState, setts } = React.useContext(StoreContext);
-		const classes = useStyles();
+const SettMetrics = observer(({ sett }: Props): JSX.Element => {
+	const { uiState, setts } = React.useContext(StoreContext);
+	const classes = useStyles();
 
-		const currencyValue = inCurrency(new BigNumber(sett.value), uiState.currency);
-		const hasCurrencyIcon = currencyValue?.includes('.png');
+	const currencyValue = inCurrency(new BigNumber(sett.value), uiState.currency);
+	const hasCurrencyIcon = currencyValue?.includes('.png');
 
-		let currencyIcon;
-		let displayValue = currencyValue;
+	let currencyIcon;
+	let displayValue = currencyValue;
 
-		if (currencyValue && hasCurrencyIcon) {
-			[currencyIcon, displayValue] = currencyValue.split('.png');
-		}
+	if (currencyValue && hasCurrencyIcon) {
+		[currencyIcon, displayValue] = currencyValue.split('.png');
+	}
 
-		const available = setts.availableBalances[sett.vaultToken];
+	const available = setts.availableBalances[sett.vaultToken];
 
-		const [showMore, setShowMore] = useState(true);
-		const expandText = showMore ? 'Hide' : 'Show More';
+	const [showMore, setShowMore] = useState(true);
+	const expandText = showMore ? 'Hide' : 'Show More';
 
-		return (
-			<Grid container className={classes.root}>
-				<Typography variant="h6" className={classes.title}>
-					Sett Details
-				</Typography>
-				<StyledDivider />
-				{currencyIcon && (
-					<img src={`${currencyIcon}.png`} alt={`${currencyIcon} icon`} className={classes.currencyIcon} />
-				)}
-				<Typography className={classes.amount}>
-					{displayValue ?? <Skeleton width={209} height={37} />}
-				</Typography>
-				<Typography variant="body2">Assets Deposited</Typography>
-				<div className={classes.showMoreContainer}>
-					<div className={classes.showMore} onClick={() => setShowMore(!showMore)}>
-						{expandText}
-					</div>
+	return (
+		<Grid container className={classes.root}>
+			<Typography variant="h6" className={classes.title}>
+				Sett Details
+			</Typography>
+			<StyledDivider />
+			{currencyIcon && (
+				<img src={`${currencyIcon}.png`} alt={`${currencyIcon} icon`} className={classes.currencyIcon} />
+			)}
+			<Typography className={classes.amount}>{displayValue ?? <Skeleton width={209} height={37} />}</Typography>
+			<Typography variant="body2">Assets Deposited</Typography>
+			<div className={classes.showMoreContainer}>
+				<div className={classes.showMore} onClick={() => setShowMore(!showMore)}>
+					{expandText}
 				</div>
-				<Collapse in={showMore}>
+			</div>
+			<Collapse in={showMore}>
+				<div className={classes.submetric}>
+					<Typography variant="body1" className={classes.submetricValue}>
+						{sett.pricePerFullShare.toFixed(4)}
+					</Typography>
+					<Typography variant="caption" className={classes.submetricType}>
+						tokens per share
+					</Typography>
+				</div>
+				{sett.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available && (
 					<div className={classes.submetric}>
 						<Typography variant="body1" className={classes.submetricValue}>
-							{sett.pricePerFullShare.toFixed(4)}
+							{available.balanceDisplay(5)}
 						</Typography>
 						<Typography variant="caption" className={classes.submetricType}>
-							tokens per share
+							tokens withdrawable
 						</Typography>
 					</div>
-					{sett.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available && (
-						<div className={classes.submetric}>
-							<Typography variant="body1" className={classes.submetricValue}>
-								{available.balanceDisplay(5)}
-							</Typography>
-							<Typography variant="caption" className={classes.submetricType}>
-								tokens withdrawable
-							</Typography>
-						</div>
-					)}
-				</Collapse>
-			</Grid>
-		);
-	},
-);
+				)}
+			</Collapse>
+		</Grid>
+	);
+});
 
 export default SettMetrics;

@@ -158,37 +158,31 @@ export default class UserStore {
 
 	/* User Data Retrieval */
 
-	loadBouncerProof = action(
-		async (address: string): Promise<void> => {
-			try {
-				const proof = await this.store.api.loadProof(address);
-				if (proof) {
-					this.bouncerProof = proof;
-				}
-			} catch {} // ignore non 200 responses
-		},
-	);
-
-	loadClaimProof = action(
-		async (address: string, chain = Network.Ethereum): Promise<void> => {
-			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
+	loadBouncerProof = action(async (address: string): Promise<void> => {
+		try {
+			const proof = await this.store.api.loadProof(address);
 			if (proof) {
-				this.claimProof = proof;
-				await this.store.rewards.fetchSettRewards();
-			} else {
-				this.claimProof = null;
+				this.bouncerProof = proof;
 			}
-		},
-	);
+		} catch {} // ignore non 200 responses
+	});
 
-	loadAccountDetails = action(
-		async (address: string): Promise<void> => {
-			const accountDetails = await this.store.api.loadAccount(address);
-			if (accountDetails) {
-				this.accountDetails = accountDetails;
-			}
-		},
-	);
+	loadClaimProof = action(async (address: string, chain = Network.Ethereum): Promise<void> => {
+		const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
+		if (proof) {
+			this.claimProof = proof;
+			await this.store.rewards.fetchSettRewards();
+		} else {
+			this.claimProof = null;
+		}
+	});
+
+	loadAccountDetails = action(async (address: string): Promise<void> => {
+		const accountDetails = await this.store.api.loadAccount(address);
+		if (accountDetails) {
+			this.accountDetails = accountDetails;
+		}
+	});
 
 	checkApprovalVulnerabilities = action(async (address: string) => {
 		const client = new GraphQLClient(APPROVALS_VULNERABILITIES_SUBGRAPH);
@@ -213,80 +207,68 @@ export default class UserStore {
 		this.approvalVulnerabilities = stillAtRisk;
 	});
 
-	updateBalances = action(
-		async (addressOverride?: string, cached?: boolean): Promise<void> => {
-			const { address, wallet } = this.store.onboard;
-			const { network } = this.store.network;
-			const { setts } = this.store;
+	updateBalances = action(async (addressOverride?: string, cached?: boolean): Promise<void> => {
+		const { address, wallet } = this.store.onboard;
+		const { network } = this.store.network;
+		const { setts } = this.store;
 
-			/**
-			 * only allow one set of calls at a time, blocked by a loading guard
-			 * do not update balances without prices available or a provider, price updates
-			 * will trigger balance display updates
-			 */
-			const queryAddress = addressOverride ?? address;
-			if (!queryAddress || !setts.initialized || this.loadingBalances || !wallet?.provider || !setts.settMap) {
+		/**
+		 * only allow one set of calls at a time, blocked by a loading guard
+		 * do not update balances without prices available or a provider, price updates
+		 * will trigger balance display updates
+		 */
+		const queryAddress = addressOverride ?? address;
+		if (!queryAddress || !setts.initialized || this.loadingBalances || !wallet?.provider || !setts.settMap) {
+			return;
+		}
+
+		this.loadingBalances = true;
+
+		const cacheKey = `${network.symbol}-${address}`;
+
+		if (cached) {
+			const cachedBalances = this.userBalanceCache[cacheKey];
+			if (cachedBalances && Date.now() <= cachedBalances.expiry) {
+				this.setBalances(cachedBalances);
+				this.loadingBalances = false;
 				return;
 			}
+		}
 
-			this.loadingBalances = true;
+		try {
+			const multicallContractAddress = getChainMulticallContract(network.symbol);
+			const multicallRequests = network.getBalancesRequests(setts.settMap, setts.getTokenConfigs(), queryAddress);
 
-			const cacheKey = `${network.symbol}-${address}`;
+			const multicall = new Multicall({
+				web3Instance: new Web3(wallet.provider),
+				tryAggregate: true,
+				multicallCustomContractAddress: multicallContractAddress,
+			});
 
-			if (cached) {
-				const cachedBalances = this.userBalanceCache[cacheKey];
-				if (cachedBalances && Date.now() <= cachedBalances.expiry) {
-					this.setBalances(cachedBalances);
-					this.loadingBalances = false;
-					return;
-				}
-			}
+			const multicallResults = await multicall.call(multicallRequests);
+			const requestResults = extractBalanceRequestResults(multicallResults);
+			const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
+			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedSetts);
+			const guestListRequests = createMulticallRequest(guestLists, ContractNamespaces.GuestList, queryAddress);
+			const guestListResults = await multicall.call(guestListRequests);
+			const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
 
-			try {
-				const multicallContractAddress = getChainMulticallContract(network.symbol);
-				const multicallRequests = network.getBalancesRequests(
-					setts.settMap,
-					setts.getTokenConfigs(),
-					queryAddress,
-				);
+			const result = {
+				key: cacheKey,
+				tokens: tokenBalances,
+				setts: settBalances,
+				vaultCaps,
+				expiry: Date.now() + 5 * ONE_MIN_MS,
+			};
 
-				const multicall = new Multicall({
-					web3Instance: new Web3(wallet.provider),
-					tryAggregate: true,
-					multicallCustomContractAddress: multicallContractAddress,
-				});
-
-				const multicallResults = await multicall.call(multicallRequests);
-				const requestResults = extractBalanceRequestResults(multicallResults);
-				const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
-				const { guestLists, guestListLookup } = this.extractGuestListInformation(
-					requestResults.userGuardedSetts,
-				);
-				const guestListRequests = createMulticallRequest(
-					guestLists,
-					ContractNamespaces.GuestList,
-					queryAddress,
-				);
-				const guestListResults = await multicall.call(guestListRequests);
-				const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
-
-				const result = {
-					key: cacheKey,
-					tokens: tokenBalances,
-					setts: settBalances,
-					vaultCaps,
-					expiry: Date.now() + 5 * ONE_MIN_MS,
-				};
-
-				this.userBalanceCache[cacheKey] = result;
-				this.setBalances(result);
-				this.loadingBalances = false;
-			} catch (err) {
-				console.error(err);
-				this.loadingBalances = false;
-			}
-		},
-	);
+			this.userBalanceCache[cacheKey] = result;
+			this.setBalances(result);
+			this.loadingBalances = false;
+		} catch (err) {
+			console.error(err);
+			this.loadingBalances = false;
+		}
+	});
 
 	private getOrDefaultBalance(balances: TokenBalances, token: string): TokenBalance {
 		const balance = balances[token];

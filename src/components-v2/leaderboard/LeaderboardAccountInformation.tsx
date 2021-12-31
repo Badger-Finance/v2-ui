@@ -30,50 +30,43 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const LeaderboardAccountInformation = observer(
-	(): JSX.Element => {
-		const { user, onboard } = useContext(StoreContext);
-		const classes = useStyles();
+const LeaderboardAccountInformation = observer((): JSX.Element => {
+	const { user, onboard } = useContext(StoreContext);
+	const classes = useStyles();
 
-		const boost = user.accountDetails?.boost;
-		const rank = user.accountDetails?.boostRank;
+	const boost = user.accountDetails?.boost;
+	const rank = user.accountDetails?.boostRank;
 
-		// Show N/A when wallet is not connected otherwise show loading skeleton
-		const infoPlaceholder = !onboard.isActive() ? 'N/A' : <Skeleton width={30} />;
+	// Show N/A when wallet is not connected otherwise show loading skeleton
+	const infoPlaceholder = !onboard.isActive() ? 'N/A' : <Skeleton width={30} />;
 
-		return (
-			<Grid container>
-				<Grid item container alignItems="center" xs={12} sm className={classes.boostContainer}>
-					<Grid container item xs={12} alignItems="center" className={classes.justifyCenterOnMobile}>
-						<Typography variant="h2" display="inline">
-							Boost:
-						</Typography>
-						<Typography variant="h2" display="inline" className={classes.headerValueText}>
-							{boost !== undefined ? `${boost}x` : infoPlaceholder}
-						</Typography>
-					</Grid>
-					<Grid container item xs={12} alignItems="center" className={classes.justifyCenterOnMobile}>
-						<Typography variant="h6" color="textSecondary" display="inline">
-							Rank:
-						</Typography>
-						<Typography
-							variant="h6"
-							color="textSecondary"
-							display="inline"
-							className={classes.headerValueText}
-						>
-							{rank !== undefined ? rank : infoPlaceholder}
-						</Typography>
-					</Grid>
+	return (
+		<Grid container>
+			<Grid item container alignItems="center" xs={12} sm className={classes.boostContainer}>
+				<Grid container item xs={12} alignItems="center" className={classes.justifyCenterOnMobile}>
+					<Typography variant="h2" display="inline">
+						Boost:
+					</Typography>
+					<Typography variant="h2" display="inline" className={classes.headerValueText}>
+						{boost !== undefined ? `${boost}x` : infoPlaceholder}
+					</Typography>
 				</Grid>
-				<div className={classes.infoContainer}>
-					<ViewBoostButton />
-					<BoostSuggestion />
-					<NativeRankSuggestion />
-				</div>
+				<Grid container item xs={12} alignItems="center" className={classes.justifyCenterOnMobile}>
+					<Typography variant="h6" color="textSecondary" display="inline">
+						Rank:
+					</Typography>
+					<Typography variant="h6" color="textSecondary" display="inline" className={classes.headerValueText}>
+						{rank !== undefined ? rank : infoPlaceholder}
+					</Typography>
+				</Grid>
 			</Grid>
-		);
-	},
-);
+			<div className={classes.infoContainer}>
+				<ViewBoostButton />
+				<BoostSuggestion />
+				<NativeRankSuggestion />
+			</div>
+		</Grid>
+	);
+});
 
 export default LeaderboardAccountInformation;

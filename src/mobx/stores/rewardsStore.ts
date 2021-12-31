@@ -110,169 +110,161 @@ class RewardsStore {
 		this.store.user.claimProof = undefined;
 	});
 
-	loadTreeData = action(
-		async (): Promise<void> => {
-			const {
-				network: { network },
-				uiState: { queueNotification },
-				onboard: { wallet },
-			} = this.store;
+	loadTreeData = action(async (): Promise<void> => {
+		const {
+			network: { network },
+			uiState: { queueNotification },
+			onboard: { wallet },
+		} = this.store;
 
-			if (this.loadingTreeData) {
-				return;
-			}
+		if (this.loadingTreeData) {
+			return;
+		}
 
-			if (!network.badgerTree) {
-				console.error('Error: No badger tree address was found in current network deploy config');
-				return;
-			}
+		if (!network.badgerTree) {
+			console.error('Error: No badger tree address was found in current network deploy config');
+			return;
+		}
 
-			this.loadingTreeData = true;
+		this.loadingTreeData = true;
 
-			const web3 = new Web3(wallet?.provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-			try {
-				const [timestamp, cycle]: [number, number] = await Promise.all([
-					rewardsTree.methods.lastPublishTimestamp().call(),
-					rewardsTree.methods.currentCycle().call(),
-				]);
-				this.badgerTree.lastCycle = new Date(timestamp * 1000);
-				this.badgerTree.cycle = cycle.toString();
-				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
+		const web3 = new Web3(wallet?.provider);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		try {
+			const [timestamp, cycle]: [number, number] = await Promise.all([
+				rewardsTree.methods.lastPublishTimestamp().call(),
+				rewardsTree.methods.currentCycle().call(),
+			]);
+			this.badgerTree.lastCycle = new Date(timestamp * 1000);
+			this.badgerTree.cycle = cycle.toString();
+			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
 
-				await retry(() => this.fetchSettRewards(), defaultRetryOptions);
-			} catch (error) {
-				console.error('There was an error fetching rewards information: ', error);
-				queueNotification(
-					`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
-					'error',
-				);
-			}
-
-			this.loadingTreeData = false;
-		},
-	);
-
-	fetchSettRewards = action(
-		async (): Promise<void> => {
-			const {
-				network: { network },
-				prices: { arePricesAvailable },
-				user: { claimProof },
-				onboard: { wallet, address },
-			} = this.store;
-
-			if (this.loadingRewards) {
-				return;
-			}
-
-			if (!network.badgerTree) {
-				console.error('Error: No badger tree address was found in current network deploy config');
-				return;
-			}
-
-			if (!address || !claimProof) {
-				this.resetRewards();
-				return;
-			}
-
-			// when prices aren't available the claim balances will be zero even if the account has unclaimed rewards
-			if (!arePricesAvailable) {
-				throw new Error('Error: Prices are not available for current network');
-			}
-
-			this.loadingRewards = true;
-
-			const web3 = new Web3(wallet?.provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-			const claimed: TreeClaimData = await rewardsTree.methods.getClaimedFor(address, claimProof.tokens).call();
-
-			this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
-			this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
-			this.badgerTree.amounts = reduceClaims(claimProof, claimed);
-			this.badgerTree.proof = claimProof;
-
-			this.loadingRewards = false;
-		},
-	);
-
-	claimGeysers = action(
-		async (claimMap: ClaimMap): Promise<void> => {
-			const { proof, amounts } = this.badgerTree;
-			const { wallet, address } = this.store.onboard;
-			const { queueNotification } = this.store.uiState;
-			const { gasPrices, network } = this.store.network;
-			const { rebase } = this.store.rebase;
-
-			if (!address) {
-				return;
-			}
-
-			let sharesPerFragment = new BigNumber(1);
-			if (network.symbol === Network.Ethereum && !rebase) {
-				return;
-			} else if (rebase) {
-				sharesPerFragment = rebase.sharesPerFragment;
-			}
-
-			if (!proof || !claimMap) {
-				queueNotification(`Error retrieving reward data.`, 'error');
-				return;
-			}
-
-			const amountsToClaim: string[] = [];
-			proof.tokens.forEach((address: string, index: number): void => {
-				const token = getToken(address);
-				if (!token) {
-					return;
-				}
-
-				const claimEntry = claimMap[token.address];
-				const claimableAmount = amounts[index].tokenBalance;
-				let claimBalance;
-
-				if (claimEntry) {
-					claimBalance = claimEntry.tokenBalance;
-				} else {
-					claimBalance = this.mockBalance(token.address).tokenBalance;
-				}
-
-				let claimAmount = claimBalance.toFixed(0);
-				if (token.address === ETH_DEPLOY.tokens.digg) {
-					claimBalance = claimBalance
-						.multipliedBy(Math.pow(10, token.decimals))
-						.multipliedBy(sharesPerFragment);
-				}
-
-				if (claimBalance.gt(claimableAmount)) {
-					claimAmount = claimableAmount.toFixed();
-				}
-				amountsToClaim.push(claimAmount);
-			});
-
-			if (amountsToClaim.length < proof.tokens.length) {
-				queueNotification(`Error retrieving tokens for claiming.`, 'error');
-				return;
-			}
-
-			const web3 = new Web3(wallet?.provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-			const method = rewardsTree.methods.claim(
-				proof.tokens,
-				proof.cumulativeAmounts,
-				proof.index,
-				proof.cycle,
-				proof.proof,
-				amountsToClaim,
+			await retry(() => this.fetchSettRewards(), defaultRetryOptions);
+		} catch (error) {
+			console.error('There was an error fetching rewards information: ', error);
+			queueNotification(
+				`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
+				'error',
 			);
+		}
 
-			const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
-			const options = await getSendOptions(method, address, price);
+		this.loadingTreeData = false;
+	});
 
-			queueNotification(`Sign the transaction to claim your earnings`, 'info');
-			await sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
-		},
-	);
+	fetchSettRewards = action(async (): Promise<void> => {
+		const {
+			network: { network },
+			prices: { arePricesAvailable },
+			user: { claimProof },
+			onboard: { wallet, address },
+		} = this.store;
+
+		if (this.loadingRewards) {
+			return;
+		}
+
+		if (!network.badgerTree) {
+			console.error('Error: No badger tree address was found in current network deploy config');
+			return;
+		}
+
+		if (!address || !claimProof) {
+			this.resetRewards();
+			return;
+		}
+
+		// when prices aren't available the claim balances will be zero even if the account has unclaimed rewards
+		if (!arePricesAvailable) {
+			throw new Error('Error: Prices are not available for current network');
+		}
+
+		this.loadingRewards = true;
+
+		const web3 = new Web3(wallet?.provider);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		const claimed: TreeClaimData = await rewardsTree.methods.getClaimedFor(address, claimProof.tokens).call();
+
+		this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
+		this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
+		this.badgerTree.amounts = reduceClaims(claimProof, claimed);
+		this.badgerTree.proof = claimProof;
+
+		this.loadingRewards = false;
+	});
+
+	claimGeysers = action(async (claimMap: ClaimMap): Promise<void> => {
+		const { proof, amounts } = this.badgerTree;
+		const { wallet, address } = this.store.onboard;
+		const { queueNotification } = this.store.uiState;
+		const { gasPrices, network } = this.store.network;
+		const { rebase } = this.store.rebase;
+
+		if (!address) {
+			return;
+		}
+
+		let sharesPerFragment = new BigNumber(1);
+		if (network.symbol === Network.Ethereum && !rebase) {
+			return;
+		} else if (rebase) {
+			sharesPerFragment = rebase.sharesPerFragment;
+		}
+
+		if (!proof || !claimMap) {
+			queueNotification(`Error retrieving reward data.`, 'error');
+			return;
+		}
+
+		const amountsToClaim: string[] = [];
+		proof.tokens.forEach((address: string, index: number): void => {
+			const token = getToken(address);
+			if (!token) {
+				return;
+			}
+
+			const claimEntry = claimMap[token.address];
+			const claimableAmount = amounts[index].tokenBalance;
+			let claimBalance;
+
+			if (claimEntry) {
+				claimBalance = claimEntry.tokenBalance;
+			} else {
+				claimBalance = this.mockBalance(token.address).tokenBalance;
+			}
+
+			let claimAmount = claimBalance.toFixed(0);
+			if (token.address === ETH_DEPLOY.tokens.digg) {
+				claimBalance = claimBalance.multipliedBy(Math.pow(10, token.decimals)).multipliedBy(sharesPerFragment);
+			}
+
+			if (claimBalance.gt(claimableAmount)) {
+				claimAmount = claimableAmount.toFixed();
+			}
+			amountsToClaim.push(claimAmount);
+		});
+
+		if (amountsToClaim.length < proof.tokens.length) {
+			queueNotification(`Error retrieving tokens for claiming.`, 'error');
+			return;
+		}
+
+		const web3 = new Web3(wallet?.provider);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		const method = rewardsTree.methods.claim(
+			proof.tokens,
+			proof.cumulativeAmounts,
+			proof.index,
+			proof.cycle,
+			proof.proof,
+			amountsToClaim,
+		);
+
+		const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
+		const options = await getSendOptions(method, address, price);
+
+		queueNotification(`Sign the transaction to claim your earnings`, 'info');
+		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
+	});
 }
 
 export default RewardsStore;
