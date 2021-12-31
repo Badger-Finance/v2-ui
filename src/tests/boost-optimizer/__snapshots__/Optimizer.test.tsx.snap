@@ -66,7 +66,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
           class="MuiDivider-root-227 makeStyles-divider-2"
         />
         <div
-          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
+          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-content-xs-center-24 MuiGrid-grid-xs-true-40"
         >
           <div
             class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"
@@ -995,7 +995,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
           class="MuiDivider-root-227 makeStyles-divider-2"
         />
         <div
-          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
+          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-content-xs-center-24 MuiGrid-grid-xs-true-40"
         >
           <div
             class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"
@@ -1941,7 +1941,7 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
           class="MuiDivider-root-227 makeStyles-divider-2"
         />
         <div
-          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
+          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-content-xs-center-24 MuiGrid-grid-xs-true-40"
         >
           <div
             class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"
@@ -2888,7 +2888,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
           class="MuiDivider-root-227 makeStyles-divider-2"
         />
         <div
-          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
+          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-content-xs-center-24 MuiGrid-grid-xs-true-40"
         >
           <div
             class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"
@@ -3824,7 +3824,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
           class="MuiDivider-root-227 makeStyles-divider-2"
         />
         <div
-          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
+          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-content-xs-center-24 MuiGrid-grid-xs-true-40"
         >
           <div
             class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"
@@ -4752,7 +4752,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
           class="MuiDivider-root-227 makeStyles-divider-2"
         />
         <div
-          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
+          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-content-xs-center-24 MuiGrid-grid-xs-true-40"
         >
           <div
             class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"
@@ -5680,7 +5680,7 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
           class="MuiDivider-root-227 makeStyles-divider-2"
         />
         <div
-          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
+          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-content-xs-center-24 MuiGrid-grid-xs-true-40"
         >
           <div
             class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"

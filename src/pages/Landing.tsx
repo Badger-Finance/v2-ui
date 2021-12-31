@@ -151,7 +151,7 @@ const Landing = observer((props: LandingProps) => {
 									<CurrencyDisplay
 										displayValue={inCurrency(totalValueLocked, currency, 0)}
 										variant="subtitle2"
-										justify="flex-start"
+										justifyContent="flex-start"
 										TypographyProps={{ className: classes.badgerOverviewValueText }}
 									/>
 								) : (
@@ -166,7 +166,7 @@ const Landing = observer((props: LandingProps) => {
 									<CurrencyDisplay
 										displayValue={inCurrency(badgerPrice, currency)}
 										variant="body2"
-										justify="flex-start"
+										justifyContent="flex-start"
 										TypographyProps={{ className: classes.badgerOverviewValueText }}
 									/>
 								) : (
@@ -179,12 +179,12 @@ const Landing = observer((props: LandingProps) => {
 			)}
 			<LayoutContainer>
 				{/* Landing Metrics Cards */}
-				<Grid container justify="center">
+				<Grid container justifyContent="center">
 					<PageHeaderContainer item container xs={12}>
 						<Grid item xs={10} md={6}>
 							<PageHeader title={title} subtitle={subtitle} />
 						</Grid>
-						<Grid item container xs={2} md={6} alignItems="center" justify="flex-end" spacing={2}>
+						<Grid item container xs={2} md={6} alignItems="center" justifyContent="flex-end" spacing={2}>
 							{!isMobile && (
 								<>
 									<Grid item>
@@ -210,11 +210,11 @@ const Landing = observer((props: LandingProps) => {
 							<CurrencyDisplay
 								displayValue={inCurrency(portfolioValue, currency)}
 								variant="body2"
-								justify="flex-start"
+								justifyContent="flex-start"
 								TypographyProps={{ className: classes.badgerOverviewValueText }}
 							/>
 						</Grid>
-						<Grid item container xs={2} justify="flex-end" className={classes.filterWidgetContainer}>
+						<Grid item container xs={2} justifyContent="flex-end" className={classes.filterWidgetContainer}>
 							<SettListFiltersWidget />
 						</Grid>
 					</Grid>

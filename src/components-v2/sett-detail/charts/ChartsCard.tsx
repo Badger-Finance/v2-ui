@@ -117,7 +117,7 @@ export const ChartsCard = observer(({ sett }: Props): JSX.Element => {
 				/>
 			</Tabs>
 			<Grid container direction="column" className={classes.content}>
-				<Grid item container alignItems="center" justify="space-between" className={classes.header}>
+				<Grid item container alignItems="center" justifyContent="space-between" className={classes.header}>
 					<ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
 				</Grid>
 				<Grid item xs className={classes.chartContainer}>

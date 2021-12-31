@@ -226,7 +226,7 @@ exports[`Sett Deposit can go back from full fees descriptions 1`] = `
               class="MuiGrid-root-86 MuiGrid-container-87"
             >
               <div
-                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
                   class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
@@ -240,7 +240,7 @@ exports[`Sett Deposit can go back from full fees descriptions 1`] = `
                 </h6>
               </div>
               <div
-                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
                   class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
@@ -254,7 +254,7 @@ exports[`Sett Deposit can go back from full fees descriptions 1`] = `
                 </h6>
               </div>
               <div
-                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
                   class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
@@ -332,7 +332,7 @@ exports[`Sett Deposit can see full fees descriptions 1`] = `
           class="MuiGrid-root-86 makeStyles-root-338 MuiGrid-container-87"
         >
           <div
-            class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95 MuiGrid-justify-xs-space-between-106"
+            class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95 MuiGrid-justify-content-xs-space-between-106"
           >
             <p
               class="MuiTypography-root-56 makeStyles-title-339 MuiTypography-body1-58 MuiTypography-displayInline-84"
@@ -630,7 +630,7 @@ exports[`Sett Deposit displays sett information 1`] = `
               class="MuiGrid-root-86 MuiGrid-container-87"
             >
               <div
-                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
                   class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
@@ -644,7 +644,7 @@ exports[`Sett Deposit displays sett information 1`] = `
                 </h6>
               </div>
               <div
-                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
                   class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
@@ -658,7 +658,7 @@ exports[`Sett Deposit displays sett information 1`] = `
                 </h6>
               </div>
               <div
-                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
                   class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"

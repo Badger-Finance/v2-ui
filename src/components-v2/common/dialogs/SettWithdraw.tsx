@@ -91,7 +91,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 				value={amount || ''}
 				onChange={onValidChange(setAmount)}
 			/>
-			<Grid container justify="space-between" className={classes.rate}>
+			<Grid container justifyContent="space-between" className={classes.rate}>
 				<Typography className={classes.rateLabel} color="textSecondary" display="inline">
 					Withdraw Rate
 				</Typography>

@@ -97,7 +97,7 @@ export const Description = ({ sett }: Props): JSX.Element => {
 					alt={`Badger ${sett.name} Vault Symbol`}
 				/>
 			</Grid>
-			<Grid item container direction="column" justify="center" className={classes.namesContainer}>
+			<Grid item container direction="column" justifyContent="center" className={classes.namesContainer}>
 				<Grid item container alignItems="center">
 					<Grid item>
 						<Typography className={classes.settName}>{sett.name}</Typography>

@@ -178,7 +178,7 @@ exports[`ibBTC Redeem Input Change displays output balance when redeem amount is
       class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-228"
     >
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -205,7 +205,7 @@ exports[`ibBTC Redeem Input Change displays output balance when redeem amount is
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -234,7 +234,7 @@ exports[`ibBTC Redeem Input Change displays output balance when redeem amount is
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -457,7 +457,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
       class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-228"
     >
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -484,7 +484,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -513,7 +513,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"

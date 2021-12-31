@@ -40,7 +40,7 @@ export const TokenDistributionItem = ({ tokenBalance }: Props): JSX.Element => {
 	const displayAmount = numberWithCommas(formatWithoutExtraZeros(tokenBalance.balance, 2));
 
 	return (
-		<Grid container alignItems="center" justify="space-between">
+		<Grid container alignItems="center" justifyContent="space-between">
 			<div className={classes.tokenNameContainer}>
 				<div className={classes.tokenIconContainer}>
 					<img src={icon} className={classes.icon} alt="token distribution item" />

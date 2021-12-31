@@ -29,7 +29,7 @@ const ChartContent = ({ data, loading = true, children }: Props): JSX.Element =>
 
 	if (!data) {
 		return (
-			<Grid container direction="column" justify="center" alignItems="center">
+			<Grid container direction="column" justifyContent="center" alignItems="center">
 				<ErrorIcon className={classes.errorIcon} />
 				<Typography variant="body1" className={classes.errorMessage}>
 					Something went wrong, please refresh the page.
@@ -40,7 +40,7 @@ const ChartContent = ({ data, loading = true, children }: Props): JSX.Element =>
 
 	if (data.length <= 1) {
 		return (
-			<Grid container direction="column" justify="center" alignItems="center">
+			<Grid container direction="column" justifyContent="center" alignItems="center">
 				<ErrorIcon className={classes.errorIcon} />
 				<Typography variant="body1" className={classes.errorMessage}>
 					Chart data not available. Try again shortly.

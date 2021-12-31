@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"@babel/runtime": "^7.16.7",
 		"@badger-dao/sdk": "^1.0.52",
 		"@lifeomic/attempt": "^3.0.0",
 		"@material-ui/core": "^4.11.2",
@@ -48,7 +49,25 @@
 		"web3": "1.5.2",
 		"web3-core": "^1.3.5",
 		"web3-eth-contract": "^1.3.5",
-		"web3-utils": "^1.3.5"
+		"web3-utils": "^1.3.5",
+		"@graphql-codegen/cli": "1.21.4",
+		"@graphql-codegen/typescript": "1.22.0",
+		"@graphql-codegen/typescript-graphql-request": "3.2.0",
+		"@graphql-codegen/typescript-operations": "1.17.16",
+		"@testing-library/jest-dom": "^5.11.9",
+		"@testing-library/react": "^11.2.5",
+		"@testing-library/user-event": "^12.1.10",
+		"@types/jest": "^26.0.19",
+		"@types/react": "^16.9.34",
+		"@types/react-dom": "^16.9.6",
+		"@types/react-test-renderer": "^17.0.1",
+		"ethers": "^5.4.7",
+		"husky": "^5.1.3",
+		"jest-fetch-mock": "^3.0.3",
+		"mockdate": "^3.0.2",
+		"pretty-quick": "^3.1.3",
+		"react-test-renderer": "^17.0.1",
+		"typescript": "^3.8.3"
 	},
 	"scripts": {
 		"prepare": "husky install",
@@ -72,25 +91,5 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	},
-	"devDependencies": {
-		"@graphql-codegen/cli": "1.21.4",
-		"@graphql-codegen/typescript": "1.22.0",
-		"@graphql-codegen/typescript-graphql-request": "3.2.0",
-		"@graphql-codegen/typescript-operations": "1.17.16",
-		"@testing-library/jest-dom": "^5.11.9",
-		"@testing-library/react": "^11.2.5",
-		"@testing-library/user-event": "^12.1.10",
-		"@types/jest": "^26.0.19",
-		"@types/react": "^16.9.34",
-		"@types/react-dom": "^16.9.6",
-		"@types/react-test-renderer": "^17.0.1",
-		"ethers": "^5.4.7",
-		"husky": "^5.1.3",
-		"jest-fetch-mock": "^3.0.3",
-		"mockdate": "^3.0.2",
-		"pretty-quick": "^3.1.3",
-		"react-test-renderer": "^17.0.1",
-		"typescript": "^3.8.3"
 	}
 }

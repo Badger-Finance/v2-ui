@@ -92,12 +92,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         842
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1400x - 2000x
       </div>
@@ -149,12 +149,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         231
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         600x - 1200x
       </div>
@@ -206,12 +206,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         167
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         200x - 500x
       </div>
@@ -263,12 +263,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         124
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         20x - 150x
       </div>
@@ -320,12 +320,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         29503
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1x - 10x
       </div>
@@ -382,12 +382,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         842
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1400x - 2000x
       </div>
@@ -439,12 +439,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         231
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         600x - 1200x
       </div>
@@ -496,12 +496,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         167
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         200x - 500x
       </div>
@@ -553,12 +553,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         124
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         20x - 150x
       </div>
@@ -615,12 +615,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         29503
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1x - 10x
       </div>
@@ -677,12 +677,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         842
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1400x - 2000x
       </div>
@@ -734,12 +734,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         231
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         600x - 1200x
       </div>
@@ -791,12 +791,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         167
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         200x - 500x
       </div>
@@ -848,12 +848,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         124
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         20x - 150x
       </div>
@@ -910,12 +910,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         29503
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1x - 10x
       </div>
@@ -972,12 +972,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         842
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1400x - 2000x
       </div>
@@ -1029,12 +1029,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         231
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         600x - 1200x
       </div>
@@ -1086,12 +1086,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         167
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         200x - 500x
       </div>
@@ -1143,12 +1143,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         124
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         20x - 150x
       </div>
@@ -1205,12 +1205,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         29503
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1x - 10x
       </div>
@@ -1267,12 +1267,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         842
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1400x - 2000x
       </div>
@@ -1324,12 +1324,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         231
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         600x - 1200x
       </div>
@@ -1381,12 +1381,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         167
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         200x - 500x
       </div>
@@ -1438,12 +1438,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         124
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         20x - 150x
       </div>
@@ -1500,12 +1500,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         29503
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1x - 10x
       </div>
@@ -1562,12 +1562,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         842
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1400x - 2000x
       </div>
@@ -1619,12 +1619,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         231
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         600x - 1200x
       </div>
@@ -1676,12 +1676,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         167
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         200x - 500x
       </div>
@@ -1733,12 +1733,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         124
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         20x - 150x
       </div>
@@ -1795,12 +1795,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
         </div>
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         29503
       </div>
       <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-content-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
         1x - 10x
       </div>

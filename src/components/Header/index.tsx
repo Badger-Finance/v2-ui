@@ -119,7 +119,7 @@ const Header = observer(() => {
 							md={7}
 							spacing={1}
 							alignItems="center"
-							justify="space-between"
+							justifyContent="space-between"
 							className={classes.amounts}
 						>
 							{isMobile ? (
@@ -139,7 +139,7 @@ const Header = observer(() => {
 										<CurrencyDisplay
 											displayValue={inCurrency(portfolioValue, currency)}
 											variant="subtitle2"
-											justify="flex-start"
+											justifyContent="flex-start"
 										/>
 									</Grid>
 									<Grid item>
@@ -150,7 +150,7 @@ const Header = observer(() => {
 											<CurrencyDisplay
 												displayValue={inCurrency(totalValueLocked, currency, 0)}
 												variant="subtitle2"
-												justify="flex-start"
+												justifyContent="flex-start"
 											/>
 										) : (
 											valuePlaceholder
@@ -164,7 +164,7 @@ const Header = observer(() => {
 											<CurrencyDisplay
 												displayValue={inCurrency(badgerPrice, currency)}
 												variant="subtitle2"
-												justify="flex-start"
+												justifyContent="flex-start"
 											/>
 										) : (
 											valuePlaceholder
@@ -179,7 +179,7 @@ const Header = observer(() => {
 							xs={11}
 							md={5}
 							alignItems="center"
-							justify="flex-end"
+							justifyContent="flex-end"
 							className={classes.headerRightSide}
 						>
 							{onboard.isActive() && (

@@ -162,7 +162,7 @@ export const Optimizer = observer((): JSX.Element => {
 						<OptimizerHeader multiplier={multiplier} onReset={handleReset} />
 					</Grid>
 					<Divider className={classes.divider} />
-					<Grid item container xs direction="column" justify="center">
+					<Grid item container xs direction="column" justifyContent="center">
 						<OptimizerBody
 							multiplier={multiplier}
 							native={native || ''}

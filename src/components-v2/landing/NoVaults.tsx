@@ -82,7 +82,7 @@ export default function NoVaults(props: { state: VaultState; network: string }):
 				variant="h4"
 			>{`There are currently no ${state} vaults on ${network}.`}</Typography>
 			<Typography variant="h6">Check our other zones for more potential vaults</Typography>
-			<Grid className={classes.linkContainer} container justify="center">
+			<Grid className={classes.linkContainer} container justifyContent="center">
 				{linkObjects(state, goTo)}
 			</Grid>
 		</div>

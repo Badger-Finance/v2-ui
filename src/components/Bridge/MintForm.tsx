@@ -162,7 +162,7 @@ export const MintForm = ({
 			</Grid>
 
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
-				<Grid container justify={'center'}>
+				<Grid container justifyContent={'center'}>
 					{onboard.isActive() ? (
 						<Button
 							variant="contained"

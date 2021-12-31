@@ -272,7 +272,7 @@ export const Redeem = observer((): any => {
 								</ErrorText>
 							</Grid>
 						)}
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 							</Grid>
@@ -283,7 +283,7 @@ export const Redeem = observer((): any => {
 								</EndAlignText>
 							</Grid>
 						</Grid>
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Fees: </Typography>
 							</Grid>
@@ -304,7 +304,7 @@ export const Redeem = observer((): any => {
 								</EndAlignText>
 							</Grid>
 						</Grid>
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Total Redeem Amount: </Typography>
 							</Grid>

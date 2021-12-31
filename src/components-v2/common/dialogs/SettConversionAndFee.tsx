@@ -54,7 +54,7 @@ export const SettConversionAndFee = observer(({ sett, amount }: Props): JSX.Elem
 		<Grid container>
 			<Typography>Fees</Typography>
 			<Divider className={classes.divider} />
-			<Grid container justify="space-between">
+			<Grid container justifyContent="space-between">
 				<Typography className={classes.specName} color="textSecondary" display="inline">
 					Converted Amount
 				</Typography>
@@ -62,7 +62,7 @@ export const SettConversionAndFee = observer(({ sett, amount }: Props): JSX.Elem
 					{`${formatAmount(withdrawAmount, depositTokenDecimals)} ${depositTokenSymbol}`}
 				</Typography>
 			</Grid>
-			<Grid container justify="space-between">
+			<Grid container justifyContent="space-between">
 				<Typography className={classes.specName} color="textSecondary" display="inline">
 					{`Estimated Fee (${formatStrategyFee(withdrawFee)})`}
 				</Typography>
@@ -70,7 +70,7 @@ export const SettConversionAndFee = observer(({ sett, amount }: Props): JSX.Elem
 					{`${formatAmount(withdrawalFee, depositTokenDecimals)} ${depositTokenSymbol}`}
 				</Typography>
 			</Grid>
-			<Grid container justify="space-between">
+			<Grid container justifyContent="space-between">
 				<Typography className={classes.specName} color="textSecondary" display="inline">
 					You will receive
 				</Typography>

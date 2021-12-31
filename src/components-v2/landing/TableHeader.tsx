@@ -40,7 +40,7 @@ const TableHeader = observer((props: TableHeaderProps): JSX.Element => {
 					</Typography>
 				</Grid>
 				<Grid item className={classes.amount}>
-					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+					<CurrencyDisplay displayValue={displayValue} variant="body1" justifyContent="flex-start" />
 				</Grid>
 			</Grid>
 			<Grid

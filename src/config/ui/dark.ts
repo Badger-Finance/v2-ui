@@ -1,8 +1,8 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from "@material-ui/core";
 
 const buttonPadding = '11px 13px';
 
-const theme = createMuiTheme({
+const theme = createTheme({
 	palette: {
 		type: 'dark',
 		primary: { main: '#F2A52B' },
@@ -91,7 +91,7 @@ const theme = createMuiTheme({
 	},
 });
 
-export const darkTheme = createMuiTheme({
+export const darkTheme = createTheme({
 	...theme,
 	overrides: {
 		...(theme.overrides ?? {}),

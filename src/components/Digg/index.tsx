@@ -14,7 +14,7 @@ export const Digg = observer(() => {
 
 	return (
 		<LayoutContainer>
-			<Grid container spacing={1} justify="center">
+			<Grid container spacing={1} justifyContent="center">
 				<PageHeaderContainer item xs={12}>
 					<PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
 				</PageHeaderContainer>

@@ -35,7 +35,7 @@ const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = observer((props: Curre
 				{title}
 			</Typography>
 			{displayValue ? (
-				<CurrencyDisplay displayValue={displayValue} variant="h5" justify="center" />
+				<CurrencyDisplay displayValue={displayValue} variant="h5" justifyContent="center" />
 			) : (
 				<Skeleton animation="wave">
 					<Typography variant="h5">Placeholder</Typography>

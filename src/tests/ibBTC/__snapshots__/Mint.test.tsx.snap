@@ -188,7 +188,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
       class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-230"
     >
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -216,7 +216,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -245,7 +245,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -634,7 +634,7 @@ exports[`ibBTC Mint can change token 1`] = `
       class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-230"
     >
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -662,7 +662,7 @@ exports[`ibBTC Mint can change token 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -691,7 +691,7 @@ exports[`ibBTC Mint can change token 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -923,7 +923,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
       class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-230"
     >
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -951,7 +951,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
@@ -980,7 +980,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-content-xs-space-between-23 MuiGrid-grid-xs-12-49"
       >
         <div
           class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"

@@ -25,7 +25,7 @@ export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Ele
 	const { claimBalance, onChange, checked } = props;
 
 	return (
-		<Grid key={`${claimBalance.token.address}-claim-amount`} container direction="row" justify="space-between">
+		<Grid key={`${claimBalance.token.address}-claim-amount`} container direction="row" justifyContent="space-between">
 			<FormControlLabel
 				control={
 					<Checkbox checked={checked} onChange={(event) => onChange(event.target.checked)} color="primary" />
@@ -37,7 +37,7 @@ export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Ele
 				<div className={classes.currencyContainer}>
 					<CurrencyDisplay
 						variant="body2"
-						justify="flex-end"
+						justifyContent="flex-end"
 						displayValue={claimBalance.balanceValueDisplay(uiState.currency, 5)}
 						TypographyProps={{ color: 'textSecondary' }}
 					/>

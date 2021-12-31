@@ -25,7 +25,7 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
 
 	if (calculatedSlippage.isNegative()) {
 		return (
-			<Grid container alignItems="center" justify="space-between">
+			<Grid container alignItems="center" justifyContent="space-between">
 				<Box display="flex" alignItems="center">
 					<img
 						className={classes.positiveSlippageIcon}
@@ -45,7 +45,7 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
 
 	if (calculatedSlippage.isGreaterThan(limitSlippage)) {
 		return (
-			<Grid container alignItems="center" justify="space-between">
+			<Grid container alignItems="center" justifyContent="space-between">
 				<Typography variant="body2" className={classes.negativeSlippage}>
 					Slippage higher than expected (incl. pricing):
 				</Typography>
@@ -57,7 +57,7 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
 	}
 
 	return (
-		<Grid container alignItems="center" justify="space-between">
+		<Grid container alignItems="center" justifyContent="space-between">
 			<Typography variant="body2">Estimated slippage (incl. pricing):</Typography>
 			<Typography variant="body2">{`${calculatedSlippage.decimalPlaces(4)}%`}</Typography>
 		</Grid>

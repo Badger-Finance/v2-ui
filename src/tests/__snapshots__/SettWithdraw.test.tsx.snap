@@ -196,7 +196,7 @@ exports[`Sett Withdraw displays sett information 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root-88 makeStyles-rate-3 MuiGrid-container-89 MuiGrid-justify-xs-space-between-108"
+            class="MuiGrid-root-88 makeStyles-rate-3 MuiGrid-container-89 MuiGrid-justify-content-xs-space-between-108"
           >
             <p
               class="MuiTypography-root-58 makeStyles-rateLabel-4 MuiTypography-body1-60 MuiTypography-colorTextSecondary-84 MuiTypography-displayInline-86"
@@ -224,7 +224,7 @@ exports[`Sett Withdraw displays sett information 1`] = `
                 class="MuiDivider-root-299 makeStyles-divider-297"
               />
               <div
-                class="MuiGrid-root-88 MuiGrid-container-89 MuiGrid-justify-xs-space-between-108"
+                class="MuiGrid-root-88 MuiGrid-container-89 MuiGrid-justify-content-xs-space-between-108"
               >
                 <p
                   class="MuiTypography-root-58 makeStyles-specName-296 MuiTypography-body1-60 MuiTypography-colorTextSecondary-84 MuiTypography-displayInline-86"
@@ -238,7 +238,7 @@ exports[`Sett Withdraw displays sett information 1`] = `
                 </h6>
               </div>
               <div
-                class="MuiGrid-root-88 MuiGrid-container-89 MuiGrid-justify-xs-space-between-108"
+                class="MuiGrid-root-88 MuiGrid-container-89 MuiGrid-justify-content-xs-space-between-108"
               >
                 <p
                   class="MuiTypography-root-58 makeStyles-specName-296 MuiTypography-body1-60 MuiTypography-colorTextSecondary-84 MuiTypography-displayInline-86"
@@ -252,7 +252,7 @@ exports[`Sett Withdraw displays sett information 1`] = `
                 </h6>
               </div>
               <div
-                class="MuiGrid-root-88 MuiGrid-container-89 MuiGrid-justify-xs-space-between-108"
+                class="MuiGrid-root-88 MuiGrid-container-89 MuiGrid-justify-content-xs-space-between-108"
               >
                 <p
                   class="MuiTypography-root-58 makeStyles-specName-296 MuiTypography-body1-60 MuiTypography-colorTextSecondary-84 MuiTypography-displayInline-86"

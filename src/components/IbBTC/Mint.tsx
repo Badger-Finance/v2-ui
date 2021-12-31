@@ -292,7 +292,7 @@ export const Mint = observer((): JSX.Element => {
 			{selectedToken && (
 				<Grid item xs={12}>
 					<SummaryGrid>
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 							</Grid>
@@ -303,7 +303,7 @@ export const Mint = observer((): JSX.Element => {
 								</EndAlignText>
 							</Grid>
 						</Grid>
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Fees: </Typography>
 							</Grid>
@@ -324,7 +324,7 @@ export const Mint = observer((): JSX.Element => {
 								</EndAlignText>
 							</Grid>
 						</Grid>
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Total Mint Amount: </Typography>
 							</Grid>

@@ -48,7 +48,7 @@ const DroptModal = observer(() => {
 
 	if (!rebase || rebase.validDropts.length === 0) {
 		return (
-			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
+			<Grid className={classes.droptModalButton} container direction="row" justifyContent="flex-end">
 				<Button aria-label="Redeem Dropt" variant="contained" size="small" color="primary" disabled={true}>
 					Redeem DROPT
 				</Button>
@@ -90,7 +90,7 @@ const DroptModal = observer(() => {
 
 	return (
 		<>
-			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
+			<Grid className={classes.droptModalButton} container direction="row" justifyContent="flex-end">
 				<Button
 					id="redeem-button"
 					aria-label="Redeem DROPT"
