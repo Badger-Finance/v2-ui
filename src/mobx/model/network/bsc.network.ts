@@ -4,7 +4,7 @@ import deploy from '../../../config/deployments/bsc.json';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
-import { BadgerSett } from '../vaults/badger-sett';
+import { BadgerVault } from '../vaults/badger-vault';
 import { Currency } from 'config/enums/currency.enum';
 import { Network } from '@badger-dao/sdk';
 
@@ -18,14 +18,14 @@ export class BinanceSmartChain extends NetworkModel {
 			NETWORK_IDS.BSC,
 			Currency.BNB,
 			BSC_DEPLOY,
-			bscSetts,
+			bscVaults,
 		);
 	}
 }
 
 export const BSC_DEPLOY: Deploy = deploy;
 
-export const bscSetts: BadgerSett[] = [
+export const bscVaults: BadgerVault[] = [
 	{
 		depositToken: {
 			address: BSC_DEPLOY.tokens['pancake.BTCB-BNB'],
@@ -58,6 +58,6 @@ export const bscSetts: BadgerSett[] = [
 	},
 ];
 
-const bscTokens = bscSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]);
+const bscTokens = bscVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]);
 
 export const bscProtocolTokens: ProtocolTokens = toRecord(bscTokens, 'address');

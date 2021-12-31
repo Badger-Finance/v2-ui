@@ -7,8 +7,8 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { VaultState } from '@badger-dao/sdk';
-import SettListView from '../components-v2/landing/SettListView';
-import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget';
+import VaultListView from '../components-v2/landing/VaultListView';
+import VaultListFiltersWidget from '../components-v2/common/VaultListFiltersWidget';
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
@@ -122,7 +122,7 @@ const Landing = observer((props: LandingProps) => {
 		prices,
 		uiState: { currency },
 		network: { network },
-		setts: { protocolSummary },
+		vaults: { protocolSummary },
 	} = useContext(StoreContext);
 
 	const { title, subtitle, state } = props;
@@ -214,8 +214,8 @@ const Landing = observer((props: LandingProps) => {
 								TypographyProps={{ className: classes.badgerOverviewValueText }}
 							/>
 						</Grid>
-						<Grid item container xs={2} justifyContent="flex-end" className={classes.filterWidgetContainer}>
-							<SettListFiltersWidget />
+						<Grid item container xs={2} justify="flex-end" className={classes.filterWidgetContainer}>
+							<VaultListFiltersWidget />
 						</Grid>
 					</Grid>
 				)}
@@ -228,7 +228,7 @@ const Landing = observer((props: LandingProps) => {
 					</div>
 				)}
 
-				<SettListView state={state} />
+				<VaultListView state={state} />
 			</LayoutContainer>
 		</>
 	);

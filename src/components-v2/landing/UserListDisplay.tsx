@@ -3,8 +3,8 @@ import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
-import SettListItem from './SettListItem';
-import SettTable from './SettTable';
+import VaultListItem from './VaultListItem';
+import VaultTable from './VaultTable';
 import { inCurrency } from 'mobx/utils/helpers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
@@ -13,7 +13,7 @@ import { BalanceNamespace } from 'web3/config/namespaces';
 import { Currency } from 'config/enums/currency.enum';
 import { BouncerType, Vault, VaultState, ValueSource } from '@badger-dao/sdk';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
-import { isSettVaultIbbtc } from '../../utils/componentHelpers';
+import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -28,17 +28,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const createSettListItem = (sett: Vault, itemBalance: TokenBalance, currency: Currency): JSX.Element | null => {
-	const isIbbtc = isSettVaultIbbtc(sett);
+const createVaultListItem = (vault: Vault, itemBalance: TokenBalance, currency: Currency): JSX.Element | null => {
+	const isIbbtc = isVaultVaultIbbtc(vault);
 
 	if (!itemBalance || itemBalance.tokenBalance.eq(0)) {
 		return null;
 	}
 	return (
-		<SettListItem
+		<VaultListItem
 			accountView
 			key={itemBalance.token.address}
-			sett={sett}
+			vault={vault}
 			balance={itemBalance.balance}
 			balanceValue={itemBalance.balanceValueDisplay(currency)}
 			currency={currency}
@@ -51,19 +51,19 @@ const UserListDisplay = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const {
-		setts,
+		vaults,
 		user,
 		uiState: { currency },
 		network: { network },
 	} = store;
 
-	const currentSettMap = setts.getSettMap();
+	const currentVaultMap = vaults.getVaultMap();
 
-	if (currentSettMap === undefined || user.loadingBalances) {
+	if (currentVaultMap === undefined || user.loadingBalances) {
 		return <Loader message={`Loading My ${network.name} Setts...`} />;
 	}
 
-	if (currentSettMap === null) {
+	if (currentVaultMap === null) {
 		return (
 			<div className={classes.messageContainer}>
 				<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>
@@ -77,27 +77,27 @@ const UserListDisplay = observer(() => {
 	const accountedTokens = new Set<string>();
 	network.settOrder.forEach((contract) => {
 		const contractAddress = Web3.utils.toChecksumAddress(contract);
-		const sett = currentSettMap[contractAddress];
-		const badgerSett = network.setts.find((sett) => sett.vaultToken.address === contractAddress);
+		const vault = currentVaultMap[contractAddress];
+		const badgerVault = network.vaults.find((vault) => vault.vaultToken.address === contractAddress);
 
-		if (!sett || !badgerSett) {
+		if (!vault || !badgerVault) {
 			return null;
 		}
 
-		const walletBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
-		const walletItem = createSettListItem(sett, walletBalance, currency);
+		const walletBalance = user.getBalance(BalanceNamespace.Token, badgerVault);
+		const walletItem = createVaultListItem(vault, walletBalance, currency);
 
 		if (walletItem) {
 			walletList.push(walletItem);
 			accountedTokens.add(walletBalance.token.address);
 		}
 
-		const scalar = new BigNumber(sett.pricePerFullShare);
-		const generalBalance = user.getBalance(BalanceNamespace.Sett, badgerSett).scale(scalar, true);
-		const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
-		const deprecatedBalance = user.getBalance(BalanceNamespace.Deprecated, badgerSett).scale(scalar, true);
+		const scalar = new BigNumber(vault.pricePerFullShare);
+		const generalBalance = user.getBalance(BalanceNamespace.Vault, badgerVault).scale(scalar, true);
+		const guardedBalance = user.getBalance(BalanceNamespace.GuardedVault, badgerVault).scale(scalar, true);
+		const deprecatedBalance = user.getBalance(BalanceNamespace.Deprecated, badgerVault).scale(scalar, true);
 		const settBalance = generalBalance ?? guardedBalance ?? deprecatedBalance;
-		const settItem = createSettListItem(sett, settBalance, currency);
+		const settItem = createVaultListItem(vault, settBalance, currency);
 
 		if (settItem) {
 			settList.push(settItem);
@@ -105,13 +105,13 @@ const UserListDisplay = observer(() => {
 		}
 	});
 
-	setts.protocolTokens.forEach((token) => {
+	vaults.protocolTokens.forEach((token) => {
 		if (accountedTokens.has(token)) {
 			return;
 		}
 		const walletBalance = user.getTokenBalance(token);
-		const tokenInfo = setts.getToken(token);
-		const mockSett = {
+		const tokenInfo = vaults.getToken(token);
+		const mockVault = {
 			name: tokenInfo.name,
 			state: VaultState.Open,
 			vaultToken: tokenInfo.address,
@@ -119,7 +119,7 @@ const UserListDisplay = observer(() => {
 			sources: [] as ValueSource[],
 			bouncer: BouncerType.None,
 		};
-		const walletItem = createSettListItem(mockSett as Vault, walletBalance, currency);
+		const walletItem = createVaultListItem(mockVault as Vault, walletBalance, currency);
 		if (walletItem) {
 			walletList.push(walletItem);
 		}
@@ -132,7 +132,7 @@ const UserListDisplay = observer(() => {
 		<>
 			{displayWallet && (
 				<div className={classes.tableContainer}>
-					<SettTable
+					<VaultTable
 						title={'Your Wallet:'}
 						displayValue={inCurrency(user.walletValue, currency)}
 						settList={walletList}
@@ -141,9 +141,9 @@ const UserListDisplay = observer(() => {
 			)}
 			{displayDeposit && (
 				<div className={classes.tableContainer}>
-					<SettTable
+					<VaultTable
 						title={'Your Vault Deposits:'}
-						displayValue={inCurrency(user.settValue, currency)}
+						displayValue={inCurrency(user.vaultValue, currency)}
 						settList={settList}
 					/>
 				</div>

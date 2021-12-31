@@ -4,9 +4,9 @@ import { BalanceNamespace } from '../../web3/config/namespaces';
 
 export interface RequestExtractedResults {
 	userTokens: ContractCallReturnContext[];
-	userGeneralSetts: ContractCallReturnContext[];
-	userGuardedSetts: ContractCallReturnContext[];
-	userDeprecatedSetts: ContractCallReturnContext[];
+	userGeneralVaults: ContractCallReturnContext[];
+	userGuardedVaults: ContractCallReturnContext[];
+	userDeprecatedVaults: ContractCallReturnContext[];
 }
 
 /**
@@ -15,9 +15,9 @@ export interface RequestExtractedResults {
  */
 export function extractBalanceRequestResults(contractCallResults: ContractCallResults): RequestExtractedResults {
 	const userTokens: ContractCallReturnContext[] = [];
-	const userGeneralSetts: ContractCallReturnContext[] = [];
-	const userGuardedSetts: ContractCallReturnContext[] = [];
-	const userDeprecatedSetts: ContractCallReturnContext[] = [];
+	const userGeneralVaults: ContractCallReturnContext[] = [];
+	const userGuardedVaults: ContractCallReturnContext[] = [];
+	const userDeprecatedVaults: ContractCallReturnContext[] = [];
 
 	for (const results of Object.values(contractCallResults.results)) {
 		const namespace = results.originalContractCallContext.context.namespace as BalanceNamespace;
@@ -29,14 +29,14 @@ export function extractBalanceRequestResults(contractCallResults: ContractCallRe
 		}
 
 		switch (namespace) {
-			case BalanceNamespace.Sett:
-				userGeneralSetts.push(results);
+			case BalanceNamespace.Vault:
+				userGeneralVaults.push(results);
 				break;
-			case BalanceNamespace.GuardedSett:
-				userGuardedSetts.push(results);
+			case BalanceNamespace.GuardedVault:
+				userGuardedVaults.push(results);
 				break;
 			case BalanceNamespace.Deprecated:
-				userDeprecatedSetts.push(results);
+				userDeprecatedVaults.push(results);
 				break;
 			case BalanceNamespace.Token:
 			default:
@@ -46,8 +46,8 @@ export function extractBalanceRequestResults(contractCallResults: ContractCallRe
 
 	return {
 		userTokens,
-		userGeneralSetts,
-		userGuardedSetts,
-		userDeprecatedSetts,
+		userGeneralVaults,
+		userGuardedVaults,
+		userDeprecatedVaults,
 	};
 }

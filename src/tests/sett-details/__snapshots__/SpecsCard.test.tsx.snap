@@ -14,7 +14,7 @@ exports[`Specs Section displays sett information 1`] = `
         <h6
           class="MuiTypography-root-145 makeStyles-title-142 MuiTypography-h6-155"
         >
-          Sett Details
+          Vault Details
         </h6>
         <hr
           class="MuiDivider-root-177 WithStyles(ForwardRef(Divider))-root-175 WithStyles(ForwardRef(Divider))-root-176"

@@ -5,13 +5,13 @@ import { ExtractedBalances, GuestListInformation, TokenBalances } from 'mobx/mod
 import BigNumber from 'bignumber.js';
 import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { BadgerSett } from 'mobx/model/vaults/badger-sett';
+import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { APPROVALS_VULNERABILITIES_SUBGRAPH, EXPLOIT_HACKER_ADDRESS, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
-import { defaultSettBalance } from 'components-v2/sett-detail/utils';
+import { defaultVaultBalance } from 'components-v2/vault-detail/utils';
 import { Account, BouncerType, MerkleProof, Network, Vault, VaultData } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
 import { Multicall } from 'ethereum-multicall';
@@ -56,36 +56,36 @@ export default class UserStore {
 
 	/* Read Variables */
 
-	onGuestList(sett: Vault): boolean {
+	onGuestList(vault: Vault): boolean {
 		// allow users who are not connected to nicely view setts
 		if (!this.store.onboard.isActive()) {
 			return true;
 		}
-		if (sett.bouncer === BouncerType.Internal) {
+		if (vault.bouncer === BouncerType.Internal) {
 			return false;
 		}
-		if (sett.bouncer === BouncerType.None) {
+		if (vault.bouncer === BouncerType.None) {
 			return true;
 		}
 		return !!this.bouncerProof && this.bouncerProof.length > 0;
 	}
 
 	get portfolioValue(): BigNumber {
-		return this.walletValue.plus(this.settValue);
+		return this.walletValue.plus(this.vaultValue);
 	}
 
 	get walletValue(): BigNumber {
 		return Object.values(this.tokenBalances)
-			.filter((t) => this.store.setts.protocolTokens.has(t.token.address))
+			.filter((t) => this.store.vaults.protocolTokens.has(t.token.address))
 			.reduce((total, token) => total.plus(token.value), new BigNumber(0));
 	}
 
-	get settValue(): BigNumber {
-		return Object.values(this.settBalances).reduce((total, sett) => total.plus(sett.value), new BigNumber(0));
+	get vaultValue(): BigNumber {
+		return Object.values(this.settBalances).reduce((total, vault) => total.plus(vault.value), new BigNumber(0));
 	}
 
 	get initialized(): boolean {
-		const { settMap } = this.store.setts;
+		const { settMap } = this.store.vaults;
 
 		// no data available
 		if (!settMap) {
@@ -101,20 +101,20 @@ export default class UserStore {
 	}
 
 	async reloadBalances(address?: string): Promise<void> {
-		const { setts, user, onboard } = this.store;
+		const { vaults, user, onboard } = this.store;
 		const actions = [];
 		const queryAddress = address ?? onboard.address;
 
-		if (setts.initialized && queryAddress) {
+		if (vaults.initialized && queryAddress) {
 			actions.push(user.updateBalances());
 			actions.push(user.loadAccountDetails(queryAddress));
 			await Promise.all(actions);
 		}
 	}
 
-	getSettBalance(sett: Vault): VaultData {
-		const currentSettBalance = this.getTokenBalance(sett.vaultToken);
-		let settBalance = this.accountDetails?.data[sett.vaultToken];
+	getVaultBalance(vault: Vault): VaultData {
+		const currentVaultBalance = this.getTokenBalance(vault.vaultToken);
+		let settBalance = this.accountDetails?.data[vault.vaultToken];
 
 		/**
 		 * settBalance data is populated via events from TheGraph and it is possible for it to be behind / fail.
@@ -126,23 +126,23 @@ export default class UserStore {
 		 * underlying token amount in the expected downstream object.
 		 */
 		if (!settBalance) {
-			settBalance = defaultSettBalance(sett);
-			settBalance.balance = currentSettBalance.balance.toNumber() * sett.pricePerFullShare;
+			settBalance = defaultVaultBalance(vault);
+			settBalance.balance = currentVaultBalance.balance.toNumber() * vault.pricePerFullShare;
 		}
 
 		return settBalance;
 	}
 
-	getBalance(namespace: BalanceNamespace, sett: BadgerSett): TokenBalance {
+	getBalance(namespace: BalanceNamespace, vault: BadgerVault): TokenBalance {
 		switch (namespace) {
-			case BalanceNamespace.Sett:
-			case BalanceNamespace.GuardedSett:
+			case BalanceNamespace.Vault:
+			case BalanceNamespace.GuardedVault:
 			case BalanceNamespace.Deprecated:
-				const settAddress = Web3.utils.toChecksumAddress(sett.vaultToken.address);
+				const settAddress = Web3.utils.toChecksumAddress(vault.vaultToken.address);
 				return this.getOrDefaultBalance(this.settBalances, settAddress);
 			case BalanceNamespace.Token:
 			default:
-				const tokenAddress = Web3.utils.toChecksumAddress(sett.depositToken.address);
+				const tokenAddress = Web3.utils.toChecksumAddress(vault.depositToken.address);
 				return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
 		}
 	}
@@ -171,7 +171,7 @@ export default class UserStore {
 		const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
 		if (proof) {
 			this.claimProof = proof;
-			await this.store.rewards.fetchSettRewards();
+			await this.store.rewards.fetchVaultRewards();
 		} else {
 			this.claimProof = null;
 		}
@@ -210,7 +210,7 @@ export default class UserStore {
 	updateBalances = action(async (addressOverride?: string, cached?: boolean): Promise<void> => {
 		const { address, wallet } = this.store.onboard;
 		const { network } = this.store.network;
-		const { setts } = this.store;
+		const { vaults } = this.store;
 
 		/**
 		 * only allow one set of calls at a time, blocked by a loading guard
@@ -218,7 +218,7 @@ export default class UserStore {
 		 * will trigger balance display updates
 		 */
 		const queryAddress = addressOverride ?? address;
-		if (!queryAddress || !setts.initialized || this.loadingBalances || !wallet?.provider || !setts.settMap) {
+		if (!queryAddress || !vaults.initialized || this.loadingBalances || !wallet?.provider || !vaults.settMap) {
 			return;
 		}
 
@@ -237,7 +237,11 @@ export default class UserStore {
 
 		try {
 			const multicallContractAddress = getChainMulticallContract(network.symbol);
-			const multicallRequests = network.getBalancesRequests(setts.settMap, setts.getTokenConfigs(), queryAddress);
+			const multicallRequests = network.getBalancesRequests(
+				vaults.settMap,
+				vaults.getTokenConfigs(),
+				queryAddress,
+			);
 
 			const multicall = new Multicall({
 				web3Instance: new Web3(wallet.provider),
@@ -248,7 +252,7 @@ export default class UserStore {
 			const multicallResults = await multicall.call(multicallRequests);
 			const requestResults = extractBalanceRequestResults(multicallResults);
 			const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
-			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedSetts);
+			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedVaults);
 			const guestListRequests = createMulticallRequest(guestLists, ContractNamespaces.GuestList, queryAddress);
 			const guestListResults = await multicall.call(guestListRequests);
 			const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
@@ -280,9 +284,9 @@ export default class UserStore {
 
 	private extractBalancesFromResults({
 		userTokens,
-		userGeneralSetts,
-		userGuardedSetts,
-		userDeprecatedSetts,
+		userGeneralVaults,
+		userGuardedVaults,
+		userDeprecatedVaults,
 	}: RequestExtractedResults): ExtractedBalances {
 		const tokenBalances: TokenBalances = {};
 		const settBalances: TokenBalances = {};
@@ -291,16 +295,16 @@ export default class UserStore {
 		userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token));
 
 		// add underlying tokens, and sett tokens to user balances
-		userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett));
-		userGeneralSetts.forEach((sett) => this.store.setts.updateAvailableBalance(sett));
+		userGeneralVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
+		userGeneralVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
 
 		// add guarded underlying tokens, and sett tokens to user balances
-		userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett));
-		userGuardedSetts.forEach((sett) => this.store.setts.updateAvailableBalance(sett));
+		userGuardedVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
+		userGuardedVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
 
 		// add deprecated underlying tokens, and sett tokens to user balances
-		userDeprecatedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett));
-		userDeprecatedSetts.forEach((sett) => this.store.setts.updateAvailableBalance(sett));
+		userDeprecatedVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
+		userDeprecatedVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
 
 		return {
 			tokenBalances,
@@ -339,13 +343,13 @@ export default class UserStore {
 			}
 
 			const vaultAddress = guestListLookup[contractAddress];
-			const vault = this.store.setts.getSett(vaultAddress);
+			const vault = this.store.vaults.getVault(vaultAddress);
 
 			if (!vault) {
 				continue;
 			}
 
-			const depositToken = this.store.setts.getToken(vault.underlyingToken);
+			const depositToken = this.store.vaults.getToken(vault.underlyingToken);
 
 			if (!depositToken) {
 				continue;
@@ -368,17 +372,17 @@ export default class UserStore {
 		return vaultCaps;
 	}
 
-	private extractGuestListInformation(guardedSettsResult: ContractCallReturnContext[]): GuestListInformation {
+	private extractGuestListInformation(guardedVaultsResult: ContractCallReturnContext[]): GuestListInformation {
 		const guestListLookup: Record<string, string> = {};
-		const guestLists = guardedSettsResult
+		const guestLists = guardedVaultsResult
 			.map((returnContext) => {
 				const settAddress = returnContext.originalContractCallContext.contractAddress;
-				const sett = parseCallReturnContext(returnContext.callsReturnContext);
-				if (!sett.guestList || sett.guestList.length === 0) {
+				const vault = parseCallReturnContext(returnContext.callsReturnContext);
+				if (!vault.guestList || vault.guestList.length === 0) {
 					return;
 				}
 
-				const guestList = sett.guestList[0][0];
+				const guestList = vault.guestList[0][0];
 				if (guestList === ZERO_ADDR) {
 					return;
 				}
@@ -394,14 +398,14 @@ export default class UserStore {
 	/* Update Balance Helpers */
 
 	private updateUserBalance = (tokenBalances: TokenBalances, returnContext: ContractCallReturnContext): void => {
-		const { prices, setts } = this.store;
+		const { prices, vaults } = this.store;
 		const tokenAddress = returnContext.originalContractCallContext.contractAddress;
 		const token = parseCallReturnContext(returnContext.callsReturnContext);
 		const balanceResults = token.balanceOf || token.totalStakedFor;
 		if (!balanceResults || balanceResults.length === 0) {
 			return;
 		}
-		const balanceTokenInfo = setts.getToken(tokenAddress);
+		const balanceTokenInfo = vaults.getToken(tokenAddress);
 		const balance = new BigNumber(balanceResults[0][0].hex);
 		const tokenPrice = prices.getPrice(tokenAddress);
 		const key = Web3.utils.toChecksumAddress(tokenAddress);

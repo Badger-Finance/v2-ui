@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SettAvailableDeposit displays deposit limits 1`] = `
+exports[`VaultAvailableDeposit displays deposit limits 1`] = `
 <div>
   <div
     class="makeStyles-limitsContainer-1"
@@ -39,9 +39,9 @@ exports[`SettAvailableDeposit displays deposit limits 1`] = `
 </div>
 `;
 
-exports[`SettAvailableDeposit does not show any limits if both user and vault limits are max cap 1`] = `<div />`;
+exports[`VaultAvailableDeposit does not show any limits if both user and vault limits are max cap 1`] = `<div />`;
 
-exports[`SettAvailableDeposit does not show user limits if limit is max cap 1`] = `
+exports[`VaultAvailableDeposit does not show user limits if limit is max cap 1`] = `
 <div>
   <div
     class="makeStyles-limitsContainer-1"
@@ -65,7 +65,7 @@ exports[`SettAvailableDeposit does not show user limits if limit is max cap 1`] 
 </div>
 `;
 
-exports[`SettAvailableDeposit does not show vault limits if limit is max cap 1`] = `
+exports[`VaultAvailableDeposit does not show vault limits if limit is max cap 1`] = `
 <div>
   <div
     class="makeStyles-limitsContainer-1"

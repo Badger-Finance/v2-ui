@@ -30,7 +30,7 @@ export const BalanceInformation = styled(Typography)(({ theme }) => ({
 	marginBottom: theme.spacing(1),
 }));
 
-export const SettDialogContent = withStyles({
+export const VaultDialogContent = withStyles({
 	dividers: {
 		borderTop: '1px solid rgba(255, 255, 255, 0.3)',
 		borderBottom: 0,

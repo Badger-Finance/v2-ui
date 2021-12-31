@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { DelegationState } from '../../mobx/model/setts/locked-cvx-delegation';
+import { DelegationState } from '../../mobx/model/vaults/locked-cvx-delegation';
 import { Button, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({

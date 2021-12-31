@@ -32,7 +32,7 @@ const mockedCorrectResults: ContractCallResults = {
 				abi: [], //empty on purpose, we're not using the abi and they take lots of space
 				calls: [{ reference: 'balanceOf', methodName: 'balanceOf', methodParameters: ['0x00'] }],
 				context: {
-					namespace: BalanceNamespace.Sett,
+					namespace: BalanceNamespace.Vault,
 				},
 			},
 			callsReturnContext: [
@@ -53,7 +53,7 @@ const mockedCorrectResults: ContractCallResults = {
 				abi: [], //empty on purpose, we're not using the abi and they take lots of space
 				calls: [{ reference: 'balanceOf', methodName: 'balanceOf', methodParameters: ['0x00'] }],
 				context: {
-					namespace: BalanceNamespace.GuardedSett,
+					namespace: BalanceNamespace.GuardedVault,
 				},
 			},
 			callsReturnContext: [

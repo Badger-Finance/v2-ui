@@ -37,7 +37,7 @@ export enum Status {
 
 // BTC variants is 8 decimals.
 const DECIMALS = 10 ** 8;
-// Sett tokens are (mostly) 18 decimals.
+// Vault tokens are (mostly) 18 decimals.
 const SETT_DECIMALS = 10 ** 18;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds

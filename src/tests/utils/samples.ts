@@ -1,4 +1,4 @@
-import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
+import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { BouncerType, Protocol, Vault, VaultData, VaultState, VaultType } from '@badger-dao/sdk';
@@ -15,7 +15,7 @@ export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
 	new BigNumber('12.012381'),
 );
 
-export const SAMPLE_BADGER_SETT: BadgerSett = {
+export const SAMPLE_BADGER_SETT: BadgerVault = {
 	depositToken: {
 		address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 		decimals: 18,

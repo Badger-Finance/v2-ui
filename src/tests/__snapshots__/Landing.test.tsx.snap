@@ -138,7 +138,7 @@ exports[`Landing Renders correctly 1`] = `
         class="MuiListItem-root-254 makeStyles-listItem-251 MuiListItem-gutters-261"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledSett-248 MuiGrid-container-30"
+          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledVault-248 MuiGrid-container-30"
         >
           <div
             class="MuiGrid-root-29 makeStyles-clickableSection-252 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-9-100"
@@ -259,7 +259,7 @@ exports[`Landing Renders correctly 1`] = `
         class="MuiListItem-root-254 makeStyles-listItem-251 MuiListItem-gutters-261"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledSett-248 MuiGrid-container-30"
+          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledVault-248 MuiGrid-container-30"
         >
           <div
             class="MuiGrid-root-29 makeStyles-clickableSection-252 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-9-100"
@@ -380,7 +380,7 @@ exports[`Landing Renders correctly 1`] = `
         class="MuiListItem-root-254 makeStyles-listItem-251 MuiListItem-gutters-261"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledSett-248 MuiGrid-container-30"
+          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledVault-248 MuiGrid-container-30"
         >
           <div
             class="MuiGrid-root-29 makeStyles-clickableSection-252 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-9-100"
@@ -501,7 +501,7 @@ exports[`Landing Renders correctly 1`] = `
         class="MuiListItem-root-254 makeStyles-listItem-251 MuiListItem-gutters-261"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledSett-248 MuiGrid-container-30"
+          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledVault-248 MuiGrid-container-30"
         >
           <div
             class="MuiGrid-root-29 makeStyles-clickableSection-252 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-9-100"
@@ -622,7 +622,7 @@ exports[`Landing Renders correctly 1`] = `
         class="MuiListItem-root-254 makeStyles-listItem-251 MuiListItem-gutters-261"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledSett-248 MuiGrid-container-30"
+          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledVault-248 MuiGrid-container-30"
         >
           <div
             class="MuiGrid-root-29 makeStyles-clickableSection-252 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-9-100"
@@ -743,7 +743,7 @@ exports[`Landing Renders correctly 1`] = `
         class="MuiListItem-root-254 makeStyles-listItem-251 MuiListItem-gutters-261"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledSett-248 MuiGrid-container-30"
+          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledVault-248 MuiGrid-container-30"
         >
           <div
             class="MuiGrid-root-29 makeStyles-clickableSection-252 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-9-100"
@@ -864,7 +864,7 @@ exports[`Landing Renders correctly 1`] = `
         class="MuiListItem-root-254 makeStyles-listItem-251 MuiListItem-gutters-261"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledSett-248 MuiGrid-container-30"
+          class="MuiGrid-root-29 makeStyles-root-247 makeStyles-enabledVault-248 MuiGrid-container-30"
         >
           <div
             class="MuiGrid-root-29 makeStyles-clickableSection-252 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-9-100"

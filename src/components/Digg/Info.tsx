@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
 const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
-		setts: { settMap },
+		vaults: { settMap },
 		uiState: { currency },
 		rebase: { rebase },
 		onboard,

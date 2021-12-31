@@ -15,18 +15,18 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	sett: Vault;
+	vault: Vault;
 	strategy: StrategyConfig;
 	showEmpty?: boolean;
 }
 
-export const StrategyFees = ({ sett, strategy, showEmpty = false }: Props): JSX.Element => {
+export const StrategyFees = ({ vault, strategy, showEmpty = false }: Props): JSX.Element => {
 	const classes = useStyles();
 	const fees = strategy.fees;
 	const feeKeys = Object.keys(fees) as StrategyFee[];
 
 	const feeItems = feeKeys.map((key) => {
-		const fee = getStrategyFee(sett, key, strategy);
+		const fee = getStrategyFee(vault, key, strategy);
 
 		if (!fee) {
 			return null;

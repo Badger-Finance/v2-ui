@@ -40,7 +40,7 @@ const DroptModal = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		user,
-		setts,
+		vaults,
 		rebase: { rebase },
 	} = store;
 
@@ -60,7 +60,7 @@ const DroptModal = observer(() => {
 		.map((dropt) => {
 			const redemptionAddress = Object.keys(dropt)[0];
 			const droptAddress = redemptionToLongToken(redemptionAddress);
-			const droptToken = setts.getToken(droptAddress);
+			const droptToken = vaults.getToken(droptAddress);
 			const droptBalance = user.getTokenBalance(droptAddress);
 			const expiryPrice = new BigNumber(dropt[redemptionAddress].expiryPrice);
 			if (!droptToken || droptBalance.balance.lte(0)) {

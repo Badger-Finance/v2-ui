@@ -1,5 +1,5 @@
 import React from 'react';
-import { DelegationState } from '../mobx/model/setts/locked-cvx-delegation';
+import { DelegationState } from '../mobx/model/vaults/locked-cvx-delegation';
 import { customRender } from './Utils';
 import store from '../mobx/RootStore';
 import { StoreProvider } from '../mobx/store-context';
