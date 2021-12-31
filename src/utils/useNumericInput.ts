@@ -12,25 +12,25 @@ type ChangeHandler = (change: string) => void | SetStateAction<string>;
  * @property onValidChange - a function to register a handler function to execute upon successful validation
  */
 interface NumericInputProps {
-	inputProps: {
-		autoComplete: InputProps['autoComplete'];
-		inputMode: InputProps['inputMode'];
-		maxLength: HTMLInputElement['maxLength'];
-		minLength: HTMLInputElement['minLength'];
-		pattern: HTMLInputElement['pattern'];
-		spellCheck: HTMLInputElement['spellcheck'];
-		type: HTMLInputElement['type'];
-		style: CSSProperties;
-	};
-	onValidChange: (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => void;
+  inputProps: {
+    autoComplete: InputProps['autoComplete'];
+    inputMode: InputProps['inputMode'];
+    maxLength: HTMLInputElement['maxLength'];
+    minLength: HTMLInputElement['minLength'];
+    pattern: HTMLInputElement['pattern'];
+    spellCheck: HTMLInputElement['spellcheck'];
+    type: HTMLInputElement['type'];
+    style: CSSProperties;
+  };
+  onValidChange: (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => void;
 }
 
 function isValidChange(input: string): boolean {
-	// matches one or many digits followed by an optional single "." appearance that's followed by one or more digits
-	const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
-	// remove any non-numeric invalid characters
-	const cleanInput = input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-	return inputRegex.test(cleanInput);
+  // matches one or many digits followed by an optional single "." appearance that's followed by one or more digits
+  const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
+  // remove any non-numeric invalid characters
+  const cleanInput = input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return inputRegex.test(cleanInput);
 }
 
 /**
@@ -38,32 +38,32 @@ function isValidChange(input: string): boolean {
  * @return {NumericInputProps} input props
  */
 export const useNumericInput = (fontSize?: number): NumericInputProps => {
-	const onValidChange = (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => {
-		// replace commas with periods
-		const input = (event.target.value as string).replace(/,/g, '.');
+  const onValidChange = (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => {
+    // replace commas with periods
+    const input = (event.target.value as string).replace(/,/g, '.');
 
-		if (input === '' || isValidChange(input)) {
-			onChange(input);
-		}
-	};
+    if (input === '' || isValidChange(input)) {
+      onChange(input);
+    }
+  };
 
-	return {
-		inputProps: {
-			autoComplete: 'off',
-			inputMode: 'decimal',
-			type: 'text',
-			pattern: '^[0-9]*[.,]?[0-9]*$',
-			minLength: 1,
-			maxLength: 79,
-			spellCheck: false,
-			style: {
-				textAlign: 'right',
-				...(fontSize && {
-					fontSize: fontSize,
-					padding: `${fontSize + 2}px`,
-				}),
-			},
-		},
-		onValidChange,
-	};
+  return {
+    inputProps: {
+      autoComplete: 'off',
+      inputMode: 'decimal',
+      type: 'text',
+      pattern: '^[0-9]*[.,]?[0-9]*$',
+      minLength: 1,
+      maxLength: 79,
+      spellCheck: false,
+      style: {
+        textAlign: 'right',
+        ...(fontSize && {
+          fontSize: fontSize,
+          padding: `${fontSize + 2}px`,
+        }),
+      },
+    },
+    onValidChange,
+  };
 };

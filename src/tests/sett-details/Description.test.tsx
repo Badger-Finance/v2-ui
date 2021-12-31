@@ -4,7 +4,7 @@ import { Description } from '../../components-v2/sett-detail/description/Descrip
 import { SAMPLE_SETT } from '../utils/samples';
 
 describe('Description', () => {
-	it('displays sett description', () => {
-		checkSnapshot(<Description sett={SAMPLE_SETT} />);
-	});
+  it('displays sett description', () => {
+    checkSnapshot(<Description sett={SAMPLE_SETT} />);
+  });
 });

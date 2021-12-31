@@ -9,15 +9,15 @@ import { createGenerateClassName, StylesProvider } from '@material-ui/core/style
 import { render as tlRender } from '@testing-library/react';
 
 function MyStyles({ children }: any) {
-	// make a copy of the data because the state is mutated below in one of the tests for clicks
-	// then the state is used again for comparison later, which causes tests to be dependent on execution
-	// order and fail.
-	const generateClassName = createGenerateClassName({
-		disableGlobal: true,
-		productionPrefix: 'test',
-	});
+  // make a copy of the data because the state is mutated below in one of the tests for clicks
+  // then the state is used again for comparison later, which causes tests to be dependent on execution
+  // order and fail.
+  const generateClassName = createGenerateClassName({
+    disableGlobal: true,
+    productionPrefix: 'test',
+  });
 
-	return <StylesProvider generateClassName={generateClassName}>{children}</StylesProvider>;
+  return <StylesProvider generateClassName={generateClassName}>{children}</StylesProvider>;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

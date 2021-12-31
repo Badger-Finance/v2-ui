@@ -1,3 +1,3 @@
 export interface BoostMultipliers {
-	[contract: string]: number;
+  [contract: string]: number;
 }

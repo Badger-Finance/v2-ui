@@ -1,3 +1,3 @@
 export type Eligibility = {
-	isEligible: boolean;
+  isEligible: boolean;
 };

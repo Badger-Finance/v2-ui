@@ -6,7 +6,7 @@ import LockedCvxDelegationStore from './mobx/stores/lockedCvxDelegationStore';
 import { setupMockAPI } from './tests/utils/setup';
 
 Object.defineProperty(global, 'crypto', {
-	value: { getRandomValues: (arr) => crypto.randomBytes(arr.length) },
+  value: { getRandomValues: (arr) => crypto.randomBytes(arr.length) },
 });
 
 // the @computed annotation from mobx causes troubles with jest, it makes getters always return their initial value even if they are
@@ -24,5 +24,5 @@ fetchMock.enableMocks();
 setupMockAPI();
 
 export default function () {
-	return null;
+  return null;
 }

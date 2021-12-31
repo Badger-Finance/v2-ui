@@ -16,147 +16,147 @@ import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/co
 import { GasSpeed } from '@badger-dao/sdk';
 
 class RebaseStore {
-	private store: RootStore;
-	public rebase?: RebaseInfo;
+  private store: RootStore;
+  public rebase?: RebaseInfo;
 
-	constructor(store: RootStore) {
-		this.store = store;
+  constructor(store: RootStore) {
+    this.store = store;
 
-		extendObservable(this, {
-			rebase: this.rebase,
-		});
-	}
+    extendObservable(this, {
+      rebase: this.rebase,
+    });
+  }
 
-	fetchRebaseStats = action(async () => {
-		let rebaseLog: any = null;
-		const { wallet } = this.store.onboard;
-		const { network } = this.store.network;
+  fetchRebaseStats = action(async () => {
+    let rebaseLog: any = null;
+    const { wallet } = this.store.onboard;
+    const { network } = this.store.network;
 
-		if (!wallet?.provider) {
-			return;
-		}
+    if (!wallet?.provider) {
+      return;
+    }
 
-		rebaseLog = await getRebaseLogs(wallet.provider, network);
+    rebaseLog = await getRebaseLogs(wallet.provider, network);
 
-		const rebaseConfig = getRebase(network.symbol);
+    const rebaseConfig = getRebase(network.symbol);
 
-		if (!rebaseConfig) {
-			return;
-		}
+    if (!rebaseConfig) {
+      return;
+    }
 
-		const multicallContractAddress = getChainMulticallContract(network.symbol);
+    const multicallContractAddress = getChainMulticallContract(network.symbol);
 
-		const multicall = new Multicall({
-			web3Instance: new Web3(wallet.provider),
-			tryAggregate: true,
-			multicallCustomContractAddress: multicallContractAddress,
-		});
+    const multicall = new Multicall({
+      web3Instance: new Web3(wallet.provider),
+      tryAggregate: true,
+      multicallCustomContractAddress: multicallContractAddress,
+    });
 
-		const diggData = await multicall.call(rebaseConfig.digg);
+    const diggData = await multicall.call(rebaseConfig.digg);
 
-		const keyedResult = groupBy(diggData.results, (v) => v.originalContractCallContext.context.namespace);
+    const keyedResult = groupBy(diggData.results, (v) => v.originalContractCallContext.context.namespace);
 
-		const { policy, token, oracle, dropt } = keyedResult;
+    const { policy, token, oracle, dropt } = keyedResult;
 
-		if (!this.hasCallResults(token) || !this.hasCallResults(policy) || !this.hasCallResults(oracle)) {
-			return;
-		}
+    if (!this.hasCallResults(token) || !this.hasCallResults(policy) || !this.hasCallResults(oracle)) {
+      return;
+    }
 
-		// dropt data
-		const validDropts = dropt
-			.filter((context: ContractCallReturnContext) => {
-				const _dropt = parseCallReturnContext(context.callsReturnContext);
+    // dropt data
+    const validDropts = dropt
+      .filter((context: ContractCallReturnContext) => {
+        const _dropt = parseCallReturnContext(context.callsReturnContext);
 
-				return (
-					Number(_dropt.expirationTimestamp[0][0].hex) < Number(_dropt.getCurrentTime[0][0].hex) &&
-					Number(_dropt.expiryPrice[0][0].hex) > 0
-				);
-			})
-			.map((context: ContractCallReturnContext) => {
-				const {
-					callsReturnContext,
-					originalContractCallContext: { contractAddress },
-				} = context;
+        return (
+          Number(_dropt.expirationTimestamp[0][0].hex) < Number(_dropt.getCurrentTime[0][0].hex) &&
+          Number(_dropt.expiryPrice[0][0].hex) > 0
+        );
+      })
+      .map((context: ContractCallReturnContext) => {
+        const {
+          callsReturnContext,
+          originalContractCallContext: { contractAddress },
+        } = context;
 
-				const validDropt = parseCallReturnContext(callsReturnContext);
+        const validDropt = parseCallReturnContext(callsReturnContext);
 
-				return {
-					[contractAddress]: {
-						expiryPrice: validDropt.expiryPrice[0][0].hex,
-						expirationTimestamp: Number(validDropt.expirationTimestamp[0][0].hex).toString(),
-						currentTimestamp: Number(validDropt.getCurrentTime[0][0].hex).toString(),
-					},
-				};
-			});
+        return {
+          [contractAddress]: {
+            expiryPrice: validDropt.expiryPrice[0][0].hex,
+            expirationTimestamp: Number(validDropt.expirationTimestamp[0][0].hex).toString(),
+            currentTimestamp: Number(validDropt.getCurrentTime[0][0].hex).toString(),
+          },
+        };
+      });
 
-		// policy data
+    // policy data
 
-		const policyData = parseCallReturnContext(policy[0].callsReturnContext);
-		const latestRebase = Number(policyData.lastRebaseTimestampSec[0][0].hex);
-		const minRebaseInterval = Number(policyData.minRebaseTimeIntervalSec[0][0].hex);
+    const policyData = parseCallReturnContext(policy[0].callsReturnContext);
+    const latestRebase = Number(policyData.lastRebaseTimestampSec[0][0].hex);
+    const minRebaseInterval = Number(policyData.minRebaseTimeIntervalSec[0][0].hex);
 
-		// token data
-		const tokenData = parseCallReturnContext(token[0].callsReturnContext);
+    // token data
+    const tokenData = parseCallReturnContext(token[0].callsReturnContext);
 
-		const decimals = parseInt(tokenData.decimals[0][0]);
-		const totalSupply = new BigNumber(tokenData.totalSupply[0][0].hex).dividedBy(Math.pow(10, decimals));
-		const sharesPerFragment = new BigNumber(tokenData._sharesPerFragment[0][0].hex);
+    const decimals = parseInt(tokenData.decimals[0][0]);
+    const totalSupply = new BigNumber(tokenData.totalSupply[0][0].hex).dividedBy(Math.pow(10, decimals));
+    const sharesPerFragment = new BigNumber(tokenData._sharesPerFragment[0][0].hex);
 
-		// pull latest provider report
-		const oracleReport = parseCallReturnContext(oracle[0].callsReturnContext);
+    // pull latest provider report
+    const oracleReport = parseCallReturnContext(oracle[0].callsReturnContext);
 
-		let activeReport = oracleReport.providerReports[0];
+    let activeReport = oracleReport.providerReports[0];
 
-		oracleReport.providerReports.forEach((report: ProviderReport) => {
-			const moreRecentReport = Number(report[0].hex) > Number(activeReport[0].hex);
-			if (moreRecentReport) {
-				activeReport = report;
-			}
-		});
+    oracleReport.providerReports.forEach((report: ProviderReport) => {
+      const moreRecentReport = Number(report[0].hex) > Number(activeReport[0].hex);
+      if (moreRecentReport) {
+        activeReport = report;
+      }
+    });
 
-		this.rebase = {
-			totalSupply,
-			latestRebase,
-			minRebaseInterval,
-			sharesPerFragment,
-			latestAnswer: Number(activeReport[0].hex),
-			inRebaseWindow: policyData.inRebaseWindow[0][0],
-			rebaseLag: Number(policyData.rebaseLag[0][0].hex),
-			epoch: Number(policyData.epoch[0][0].hex),
-			rebaseWindowLengthSec: parseInt(policyData.rebaseWindowLengthSec[0][0].hex),
-			oracleRate: new BigNumber(activeReport[1].hex).dividedBy(1e18),
-			nextRebase: getNextRebase(minRebaseInterval, latestRebase),
-			pastRebase: rebaseLog,
-			validDropts: validDropts,
-		};
-	});
+    this.rebase = {
+      totalSupply,
+      latestRebase,
+      minRebaseInterval,
+      sharesPerFragment,
+      latestAnswer: Number(activeReport[0].hex),
+      inRebaseWindow: policyData.inRebaseWindow[0][0],
+      rebaseLag: Number(policyData.rebaseLag[0][0].hex),
+      epoch: Number(policyData.epoch[0][0].hex),
+      rebaseWindowLengthSec: parseInt(policyData.rebaseWindowLengthSec[0][0].hex),
+      oracleRate: new BigNumber(activeReport[1].hex).dividedBy(1e18),
+      nextRebase: getNextRebase(minRebaseInterval, latestRebase),
+      pastRebase: rebaseLog,
+      validDropts: validDropts,
+    };
+  });
 
-	private hasCallResults(results: any[]): boolean {
-		return !!results && results.length > 0;
-	}
+  private hasCallResults(results: any[]): boolean {
+    return !!results && results.length > 0;
+  }
 
-	public async redeemDropt(redemptionContract: string, redeemAmount: BigNumber): Promise<void> {
-		if (redeemAmount.lte(0)) {
-			return;
-		}
-		const { queueNotification } = this.store.uiState;
-		const { wallet, address } = this.store.onboard;
-		const { gasPrices } = this.store.network;
+  public async redeemDropt(redemptionContract: string, redeemAmount: BigNumber): Promise<void> {
+    if (redeemAmount.lte(0)) {
+      return;
+    }
+    const { queueNotification } = this.store.uiState;
+    const { wallet, address } = this.store.onboard;
+    const { gasPrices } = this.store.network;
 
-		if (!address || !wallet?.provider) {
-			return;
-		}
+    if (!address || !wallet?.provider) {
+      return;
+    }
 
-		const web3 = new Web3(wallet.provider);
-		const redemption = new web3.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
-		const method = redemption.methods.settle(redeemAmount.toString(10), '0');
+    const web3 = new Web3(wallet.provider);
+    const redemption = new web3.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
+    const method = redemption.methods.settle(redeemAmount.toString(10), '0');
 
-		queueNotification(`Sign the transaction to claim your options`, 'info');
+    queueNotification(`Sign the transaction to claim your options`, 'info');
 
-		const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
-		const options = await getSendOptions(method, address, price);
-		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Options claimed.`);
-	}
+    const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
+    const options = await getSendOptions(method, address, price);
+    await sendContractMethod(this.store, method, options, `Claim submitted.`, `Options claimed.`);
+  }
 }
 
 export default RebaseStore;

@@ -1,3 +1,3 @@
 export enum AdvisoryType {
-	ConvexLock = 'ConvexLock',
+  ConvexLock = 'ConvexLock',
 }

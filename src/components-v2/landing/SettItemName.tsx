@@ -5,70 +5,70 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Vault, VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
-	symbol: {
-		marginTop: 'auto',
-		marginBottom: 'auto',
-		padding: theme.spacing(0, 0, 0, 0),
-		marginRight: theme.spacing(2),
-		display: 'inline-block',
-		float: 'left',
-		width: '2.4rem',
-	},
-	vaultIcon: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	tagContainer: {
-		display: 'flex',
-		alignItems: 'center',
-		marginLeft: theme.spacing(2),
-	},
-	newTag: {
-		background: 'white',
-		textTransform: 'uppercase',
-		fontSize: '12px',
-		fontWeight: 700,
-		color: theme.palette.background.paper,
-		padding: theme.spacing(0.5),
-		paddingLeft: theme.spacing(2),
-		paddingRight: theme.spacing(2),
-		borderRadius: '25px',
-	},
+  symbol: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    padding: theme.spacing(0, 0, 0, 0),
+    marginRight: theme.spacing(2),
+    display: 'inline-block',
+    float: 'left',
+    width: '2.4rem',
+  },
+  vaultIcon: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: theme.spacing(2),
+  },
+  newTag: {
+    background: 'white',
+    textTransform: 'uppercase',
+    fontSize: '12px',
+    fontWeight: 700,
+    color: theme.palette.background.paper,
+    padding: theme.spacing(0.5),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    borderRadius: '25px',
+  },
 }));
 
 interface Props {
-	sett: Vault;
+  sett: Vault;
 }
 
 export const SettItemName = ({ sett }: Props): JSX.Element => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	return (
-		<Grid container>
-			<Grid item className={classes.vaultIcon}>
-				<img
-					alt={`Badger ${sett.name} Vault Symbol`}
-					className={classes.symbol}
-					src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
-				/>
-			</Grid>
-			<Grid item>
-				<Grid container direction={'column'}>
-					<Typography variant="body1">{sett.name}</Typography>
-					<Grid container direction={'row'}>
-						<Typography variant="caption" color="textSecondary">
-							{sett.protocol}
-						</Typography>
-						{sett.state === VaultState.Deprecated && <SettBadge protocol={'No Emissions'} />}
-					</Grid>
-				</Grid>
-			</Grid>
-			{sett.newVault && (
-				<Grid item className={classes.tagContainer}>
-					<div className={classes.newTag}>New</div>
-				</Grid>
-			)}
-		</Grid>
-	);
+  return (
+    <Grid container>
+      <Grid item className={classes.vaultIcon}>
+        <img
+          alt={`Badger ${sett.name} Vault Symbol`}
+          className={classes.symbol}
+          src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
+        />
+      </Grid>
+      <Grid item>
+        <Grid container direction={'column'}>
+          <Typography variant="body1">{sett.name}</Typography>
+          <Grid container direction={'row'}>
+            <Typography variant="caption" color="textSecondary">
+              {sett.protocol}
+            </Typography>
+            {sett.state === VaultState.Deprecated && <SettBadge protocol={'No Emissions'} />}
+          </Grid>
+        </Grid>
+      </Grid>
+      {sett.newVault && (
+        <Grid item className={classes.tagContainer}>
+          <div className={classes.newTag}>New</div>
+        </Grid>
+      )}
+    </Grid>
+  );
 };

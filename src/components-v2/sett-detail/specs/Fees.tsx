@@ -6,25 +6,25 @@ import { SettFees } from '../../common/SettFees';
 import { Vault } from '@badger-dao/sdk';
 
 interface Props {
-	sett: Vault;
+  sett: Vault;
 }
 
 export const Fees = ({ sett }: Props): JSX.Element => {
-	const [openFeesDialog, setOpenFeesDialog] = useState(false);
-	const toggleDialog = () => setOpenFeesDialog(!openFeesDialog);
+  const [openFeesDialog, setOpenFeesDialog] = useState(false);
+  const toggleDialog = () => setOpenFeesDialog(!openFeesDialog);
 
-	return (
-		<>
-			<Dialog open={openFeesDialog} onClose={toggleDialog} fullWidth maxWidth="sm">
-				<DepositFeesInformation
-					closeIcon={
-						<IconButton onClick={toggleDialog}>
-							<CloseIcon />
-						</IconButton>
-					}
-				/>
-			</Dialog>
-			<SettFees sett={sett} showNoFees onHelpClick={toggleDialog} />
-		</>
-	);
+  return (
+    <>
+      <Dialog open={openFeesDialog} onClose={toggleDialog} fullWidth maxWidth="sm">
+        <DepositFeesInformation
+          closeIcon={
+            <IconButton onClick={toggleDialog}>
+              <CloseIcon />
+            </IconButton>
+          }
+        />
+      </Dialog>
+      <SettFees sett={sett} showNoFees onHelpClick={toggleDialog} />
+    </>
+  );
 };

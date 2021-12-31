@@ -1,4 +1,4 @@
 export type BouncerProof = {
-	address: string;
-	proof: string[];
+  address: string;
+  proof: string[];
 };

@@ -1,4 +1,4 @@
 export interface EtherscanConfig {
-	apiKey: string;
-	delayTime: number;
+  apiKey: string;
+  delayTime: number;
 }

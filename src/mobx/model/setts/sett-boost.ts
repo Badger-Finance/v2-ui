@@ -1,4 +1,4 @@
 export interface SettBoost {
-	boost: number;
-	multiplier: number;
+  boost: number;
+  multiplier: number;
 }

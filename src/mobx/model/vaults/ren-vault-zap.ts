@@ -19,45 +19,45 @@ import { Token } from '@badger-dao/sdk';
 // },
 
 export class RenVaultZap extends IbBTCMintZap {
-	private zap: any;
+  private zap: any;
 
-	constructor(store: RootStore, token: Token) {
-		super(store, token, addresses.mainnet.contracts.RenVaultZap.address, RenVaultZapABI.abi as AbiItem[]);
-		const web3 = new Web3(this.store.onboard.wallet?.provider);
-		this.zap = new web3.eth.Contract(RenVaultZapABI.abi as AbiItem[], this.address);
-	}
+  constructor(store: RootStore, token: Token) {
+    super(store, token, addresses.mainnet.contracts.RenVaultZap.address, RenVaultZapABI.abi as AbiItem[]);
+    const web3 = new Web3(this.store.onboard.wallet?.provider);
+    this.zap = new web3.eth.Contract(RenVaultZapABI.abi as AbiItem[], this.address);
+  }
 
-	getCalcMintMethod(amount: BigNumber): ContractSendMethod {
-		return this.zap.methods.calcMint(IbbtcDepositTokenPoolIds[this.token.address], toHex(amount));
-	}
+  getCalcMintMethod(amount: BigNumber): ContractSendMethod {
+    return this.zap.methods.calcMint(IbbtcDepositTokenPoolIds[this.token.address], toHex(amount));
+  }
 
-	getCalcRedeemMethod(amount: BigNumber): ContractSendMethod {
-		return this.zap.methods.calcRedeem(IbbtcDepositTokenPoolIds[this.token.address], toHex(amount));
-	}
+  getCalcRedeemMethod(amount: BigNumber): ContractSendMethod {
+    return this.zap.methods.calcRedeem(IbbtcDepositTokenPoolIds[this.token.address], toHex(amount));
+  }
 
-	async getMintMethod(amount: BigNumber): Promise<ContractSendMethod> {
-		const merkleProof = this.store.user.bouncerProof || [];
-		return this.zap.methods.mint(IbbtcDepositTokenPoolIds[this.token.address], toHex(amount), merkleProof);
-	}
+  async getMintMethod(amount: BigNumber): Promise<ContractSendMethod> {
+    const merkleProof = this.store.user.bouncerProof || [];
+    return this.zap.methods.mint(IbbtcDepositTokenPoolIds[this.token.address], toHex(amount), merkleProof);
+  }
 
-	getRedeemMethod(amount: BigNumber): ContractSendMethod {
-		return this.zap.methods.redeem(IbbtcDepositTokenPoolIds[this.token.address], toHex(amount));
-	}
+  getRedeemMethod(amount: BigNumber): ContractSendMethod {
+    return this.zap.methods.redeem(IbbtcDepositTokenPoolIds[this.token.address], toHex(amount));
+  }
 
-	async bBTCToSett(amount: BigNumber): Promise<BigNumber> {
-		const web3 = new Web3(this.store.onboard.wallet?.provider);
-		const settToken = new web3.eth.Contract(settConfig.abi as AbiItem[], this.token.address);
-		const { swap: swapAddress } = await this.zap.methods.pools(IbbtcDepositTokenPoolIds[this.token.address]).call();
-		const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
+  async bBTCToSett(amount: BigNumber): Promise<BigNumber> {
+    const web3 = new Web3(this.store.onboard.wallet?.provider);
+    const settToken = new web3.eth.Contract(settConfig.abi as AbiItem[], this.token.address);
+    const { swap: swapAddress } = await this.zap.methods.pools(IbbtcDepositTokenPoolIds[this.token.address]).call();
+    const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
 
-		const [settTokenPricePerFullShare, swapVirtualPrice] = await Promise.all([
-			settToken.methods.getPricePerFullShare().call(),
-			swapContract.methods.get_virtual_price().call(),
-		]);
+    const [settTokenPricePerFullShare, swapVirtualPrice] = await Promise.all([
+      settToken.methods.getPricePerFullShare().call(),
+      swapContract.methods.get_virtual_price().call(),
+    ]);
 
-		return amount
-			.multipliedBy(1e36)
-			.dividedToIntegerBy(settTokenPricePerFullShare)
-			.dividedToIntegerBy(swapVirtualPrice);
-	}
+    return amount
+      .multipliedBy(1e36)
+      .dividedToIntegerBy(settTokenPricePerFullShare)
+      .dividedToIntegerBy(swapVirtualPrice);
+  }
 }

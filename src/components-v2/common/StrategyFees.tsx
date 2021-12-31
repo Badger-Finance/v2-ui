@@ -8,45 +8,45 @@ import { getStrategyFee } from 'mobx/utils/fees';
 import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
-	specName: {
-		fontSize: 12,
-		lineHeight: '1.66',
-	},
+  specName: {
+    fontSize: 12,
+    lineHeight: '1.66',
+  },
 });
 
 interface Props {
-	sett: Vault;
-	strategy: StrategyConfig;
-	showEmpty?: boolean;
+  sett: Vault;
+  strategy: StrategyConfig;
+  showEmpty?: boolean;
 }
 
 export const StrategyFees = ({ sett, strategy, showEmpty = false }: Props): JSX.Element => {
-	const classes = useStyles();
-	const fees = strategy.fees;
-	const feeKeys = Object.keys(fees) as StrategyFee[];
+  const classes = useStyles();
+  const fees = strategy.fees;
+  const feeKeys = Object.keys(fees) as StrategyFee[];
 
-	const feeItems = feeKeys.map((key) => {
-		const fee = getStrategyFee(sett, key, strategy);
+  const feeItems = feeKeys.map((key) => {
+    const fee = getStrategyFee(sett, key, strategy);
 
-		if (!fee) {
-			return null;
-		}
+    if (!fee) {
+      return null;
+    }
 
-		if (fee === 0 && !showEmpty) {
-			return null;
-		}
+    if (fee === 0 && !showEmpty) {
+      return null;
+    }
 
-		return (
-			<Grid key={key} container justifyContent="space-between">
-				<Typography className={classes.specName} color="textSecondary" display="inline">
-					{userReadableFeeNames[key]}
-				</Typography>
-				<Typography display="inline" variant="subtitle2">
-					{formatStrategyFee(fee)}
-				</Typography>
-			</Grid>
-		);
-	});
+    return (
+      <Grid key={key} container justifyContent="space-between">
+        <Typography className={classes.specName} color="textSecondary" display="inline">
+          {userReadableFeeNames[key]}
+        </Typography>
+        <Typography display="inline" variant="subtitle2">
+          {formatStrategyFee(fee)}
+        </Typography>
+      </Grid>
+    );
+  });
 
-	return <Grid container>{feeItems}</Grid>;
+  return <Grid container>{feeItems}</Grid>;
 };

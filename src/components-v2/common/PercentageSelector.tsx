@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, ButtonGroup, ButtonGroupProps, ButtonProps } from '@material-ui/core';
 
 interface Props extends Omit<ButtonGroupProps, 'onChange'> {
-	selectedOption?: number;
-	options?: number[];
-	buttonProps?: ButtonProps;
-	onChange: (percentage: number) => void;
+  selectedOption?: number;
+  options?: number[];
+  buttonProps?: ButtonProps;
+  onChange: (percentage: number) => void;
 }
 
 /**
@@ -18,23 +18,23 @@ interface Props extends Omit<ButtonGroupProps, 'onChange'> {
  * @constructor
  */
 export const PercentageSelector = ({
-	selectedOption,
-	options = [],
-	buttonProps = {},
-	onChange,
-	...groupProps
+  selectedOption,
+  options = [],
+  buttonProps = {},
+  onChange,
+  ...groupProps
 }: Props): JSX.Element => (
-	<ButtonGroup {...groupProps}>
-		{options.map((amount: number, index: number) => (
-			<Button
-				{...buttonProps}
-				aria-label={`${amount}%`}
-				key={`button_${amount}_${index}`}
-				variant={selectedOption === amount ? 'contained' : 'outlined'}
-				onClick={() => onChange(amount)}
-			>
-				{amount}%
-			</Button>
-		))}
-	</ButtonGroup>
+  <ButtonGroup {...groupProps}>
+    {options.map((amount: number, index: number) => (
+      <Button
+        {...buttonProps}
+        aria-label={`${amount}%`}
+        key={`button_${amount}_${index}`}
+        variant={selectedOption === amount ? 'contained' : 'outlined'}
+        onClick={() => onChange(amount)}
+      >
+        {amount}%
+      </Button>
+    ))}
+  </ButtonGroup>
 );

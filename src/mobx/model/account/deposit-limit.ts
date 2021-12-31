@@ -1,4 +1,4 @@
 export interface DepositLimit {
-	available: number;
-	limit: number;
+  available: number;
+  limit: number;
 }

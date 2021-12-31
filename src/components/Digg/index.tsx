@@ -9,30 +9,30 @@ import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common
 import { Network } from '@badger-dao/sdk';
 
 export const Digg = observer(() => {
-	const store = useContext(StoreContext);
-	const { network } = store.network;
+  const store = useContext(StoreContext);
+  const { network } = store.network;
 
-	return (
-		<LayoutContainer>
-			<Grid container spacing={1} justifyContent="center">
-				<PageHeaderContainer item xs={12}>
-					<PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
-				</PageHeaderContainer>
-				{network.symbol === Network.Ethereum ? (
-					<>
-						<Info />
-						<Grid item xs={12}>
-							<DashboardCard />
-						</Grid>
-					</>
-				) : (
-					<>
-						<Grid item xs={12}>
-							Digg stats are available on ETH Mainnet only.
-						</Grid>
-					</>
-				)}
-			</Grid>
-		</LayoutContainer>
-	);
+  return (
+    <LayoutContainer>
+      <Grid container spacing={1} justifyContent="center">
+        <PageHeaderContainer item xs={12}>
+          <PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
+        </PageHeaderContainer>
+        {network.symbol === Network.Ethereum ? (
+          <>
+            <Info />
+            <Grid item xs={12}>
+              <DashboardCard />
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid item xs={12}>
+              Digg stats are available on ETH Mainnet only.
+            </Grid>
+          </>
+        )}
+      </Grid>
+    </LayoutContainer>
+  );
 });

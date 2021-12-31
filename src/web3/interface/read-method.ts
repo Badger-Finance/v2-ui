@@ -1,5 +1,5 @@
 export interface ReadMethod {
-	name: string;
-	args?: string[];
-	constant?: boolean;
+  name: string;
+  args?: string[];
+  constant?: boolean;
 }

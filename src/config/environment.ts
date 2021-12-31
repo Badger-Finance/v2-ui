@@ -2,24 +2,24 @@
 
 // deployment stage definitions
 enum Stage {
-	Experimental = 'experimental',
-	Development = 'development',
-	Staging = 'staging',
-	Production = 'production',
+  Experimental = 'experimental',
+  Development = 'development',
+  Staging = 'staging',
+  Production = 'production',
 }
 
 // resolve deployment stage from env variable, default to development
 function getStage(stage?: string) {
-	switch (stage) {
-		case Stage.Experimental:
-			return Stage.Experimental;
-		case Stage.Staging:
-			return Stage.Staging;
-		case Stage.Production:
-			return Stage.Production;
-		default:
-			return Stage.Development;
-	}
+  switch (stage) {
+    case Stage.Experimental:
+      return Stage.Experimental;
+    case Stage.Staging:
+      return Stage.Staging;
+    case Stage.Production:
+      return Stage.Production;
+    default:
+      return Stage.Development;
+  }
 }
 
 /**
@@ -29,10 +29,10 @@ function getStage(stage?: string) {
  * staging and production apps utilize the production api integration.
  */
 function getIntegrationStage(stage: Stage) {
-	if (stage === Stage.Experimental || stage === Stage.Development) {
-		return Stage.Staging;
-	}
-	return Stage.Production;
+  if (stage === Stage.Experimental || stage === Stage.Development) {
+    return Stage.Staging;
+  }
+  return Stage.Production;
 }
 
 // expose the build env as a global constant
@@ -45,7 +45,7 @@ export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
-	XDAI: toBool(process.env.REACT_APP_XDAI),
-	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
+  STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
+  XDAI: toBool(process.env.REACT_APP_XDAI),
+  RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
 };

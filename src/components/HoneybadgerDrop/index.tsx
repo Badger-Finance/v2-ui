@@ -9,33 +9,33 @@ import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common
 import { Network } from '@badger-dao/sdk';
 
 const HoneybadgerDrop: React.FC = observer(() => {
-	const store = React.useContext(StoreContext);
-	const { network } = store.network;
-	const { onboard } = store;
+  const store = React.useContext(StoreContext);
+  const { network } = store.network;
+  const { onboard } = store;
 
-	return (
-		<LayoutContainer>
-			<Grid container spacing={1} justifyContent="center">
-				<PageHeaderContainer item xs={12}>
-					<PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
-				</PageHeaderContainer>
-				{network.symbol === Network.Ethereum ? (
-					<>
-						<Grid item xs={12} container spacing={5}>
-							<PoolBalance />
-							{onboard.isActive() && <NftList />}
-						</Grid>
-					</>
-				) : (
-					<>
-						<Grid item xs={12}>
-							The Honey Badger Drop - Diamond Hands - is available on ETH Mainnet only.
-						</Grid>
-					</>
-				)}
-			</Grid>
-		</LayoutContainer>
-	);
+  return (
+    <LayoutContainer>
+      <Grid container spacing={1} justifyContent="center">
+        <PageHeaderContainer item xs={12}>
+          <PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
+        </PageHeaderContainer>
+        {network.symbol === Network.Ethereum ? (
+          <>
+            <Grid item xs={12} container spacing={5}>
+              <PoolBalance />
+              {onboard.isActive() && <NftList />}
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid item xs={12}>
+              The Honey Badger Drop - Diamond Hands - is available on ETH Mainnet only.
+            </Grid>
+          </>
+        )}
+      </Grid>
+    </LayoutContainer>
+  );
 });
 
 export default HoneybadgerDrop;

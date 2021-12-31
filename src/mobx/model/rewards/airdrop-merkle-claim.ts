@@ -1,5 +1,5 @@
 export interface AirdropMerkleClaim {
-	index: number;
-	amount: string;
-	proof: string[];
+  index: number;
+  amount: string;
+  proof: string[];
 }

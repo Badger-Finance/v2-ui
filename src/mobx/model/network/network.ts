@@ -16,113 +16,113 @@ import { Network as ChainNetwork, VaultState, TokenConfiguration } from '@badger
 import { ContractCallContext } from 'ethereum-multicall';
 
 export abstract class Network {
-	private static idToNetwork: Record<number, Network> = {};
-	private static symbolToNetwork: Record<string, Network> = {};
-	readonly rpc: string;
-	readonly gasProviderUrl: string;
-	readonly explorer: string;
-	readonly name: string;
-	readonly symbol: ChainNetwork;
-	readonly id: number;
-	readonly currency: Currency;
-	readonly deploy: DeployConfig;
-	readonly setts: BadgerSett[];
-	readonly strategies: StrategyNetworkConfig;
-	readonly airdrops: AirdropNetworkConfig[];
-	// TODO: stop gap implementation for API messaging system - remove once available
-	readonly notification?: string;
-	readonly notificationLink?: string;
+  private static idToNetwork: Record<number, Network> = {};
+  private static symbolToNetwork: Record<string, Network> = {};
+  readonly rpc: string;
+  readonly gasProviderUrl: string;
+  readonly explorer: string;
+  readonly name: string;
+  readonly symbol: ChainNetwork;
+  readonly id: number;
+  readonly currency: Currency;
+  readonly deploy: DeployConfig;
+  readonly setts: BadgerSett[];
+  readonly strategies: StrategyNetworkConfig;
+  readonly airdrops: AirdropNetworkConfig[];
+  // TODO: stop gap implementation for API messaging system - remove once available
+  readonly notification?: string;
+  readonly notificationLink?: string;
 
-	constructor(
-		explorer: string,
-		gasProviderUrl: string,
-		name: string,
-		symbol: ChainNetwork,
-		id: number,
-		currency: Currency,
-		deploy: DeployConfig,
-		setts: BadgerSett[],
-		notification?: string,
-		notificationLink?: string,
-	) {
-		this.rpc = rpc[symbol];
-		this.gasProviderUrl = gasProviderUrl;
-		this.explorer = explorer;
-		this.name = name;
-		this.symbol = symbol;
-		this.id = id;
-		this.currency = currency;
-		this.deploy = deploy;
-		this.setts = this.checksumSetts(setts);
-		this.strategies = getStrategies(symbol);
-		this.airdrops = getAirdrops(symbol);
-		this.notification = notification;
-		this.notificationLink = notificationLink;
-		Network.register(this);
-	}
+  constructor(
+    explorer: string,
+    gasProviderUrl: string,
+    name: string,
+    symbol: ChainNetwork,
+    id: number,
+    currency: Currency,
+    deploy: DeployConfig,
+    setts: BadgerSett[],
+    notification?: string,
+    notificationLink?: string,
+  ) {
+    this.rpc = rpc[symbol];
+    this.gasProviderUrl = gasProviderUrl;
+    this.explorer = explorer;
+    this.name = name;
+    this.symbol = symbol;
+    this.id = id;
+    this.currency = currency;
+    this.deploy = deploy;
+    this.setts = this.checksumSetts(setts);
+    this.strategies = getStrategies(symbol);
+    this.airdrops = getAirdrops(symbol);
+    this.notification = notification;
+    this.notificationLink = notificationLink;
+    Network.register(this);
+  }
 
-	static register(network: Network): void {
-		Network.idToNetwork[network.id] = network;
-		Network.symbolToNetwork[network.symbol] = network;
-	}
+  static register(network: Network): void {
+    Network.idToNetwork[network.id] = network;
+    Network.symbolToNetwork[network.symbol] = network;
+  }
 
-	static networkFromId(id: number): Network {
-		return Network.idToNetwork[id];
-	}
+  static networkFromId(id: number): Network {
+    return Network.idToNetwork[id];
+  }
 
-	static networkFromSymbol(symbol: string): Network {
-		return Network.symbolToNetwork[symbol];
-	}
+  static networkFromSymbol(symbol: string): Network {
+    return Network.symbolToNetwork[symbol];
+  }
 
-	get hasBadgerTree(): boolean {
-		return !!this.deploy.badgerTree;
-	}
+  get hasBadgerTree(): boolean {
+    return !!this.deploy.badgerTree;
+  }
 
-	get badgerTree(): string {
-		return this.deploy.badgerTree;
-	}
+  get badgerTree(): string {
+    return this.deploy.badgerTree;
+  }
 
-	get settOrder(): string[] {
-		return this.setts.map((s) => s.vaultToken.address);
-	}
+  get settOrder(): string[] {
+    return this.setts.map((s) => s.vaultToken.address);
+  }
 
-	notifyLink(transaction: TransactionData): NotifyLink {
-		return { link: `${this.explorer}/tx/${transaction.hash}` };
-	}
+  notifyLink(transaction: TransactionData): NotifyLink {
+    return { link: `${this.explorer}/tx/${transaction.hash}` };
+  }
 
-	getBalancesRequests(setts: SettMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
-		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
-		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === VaultState.Open);
-		const guardedSettAddresses = settAddresses.filter(
-			(sett) => setts[sett].state === VaultState.Guarded || setts[sett].state === VaultState.Experimental,
-		);
-		const deprecatedSettAddresses = settAddresses.filter((sett) => setts[sett].state === VaultState.Deprecated);
-		const allContracts = new Set(
-			...[...tokenAddresses, ...settAddresses, ...generalSettAddresses, ...guardedSettAddresses],
-		);
-		for (const token of Object.keys(tokens)) {
-			if (!allContracts.has(token)) {
-				tokenAddresses.push(token);
-			}
-		}
-		return createBalancesRequest({
-			tokenAddresses,
-			generalSettAddresses,
-			guardedSettAddresses,
-			deprecatedSettAddresses,
-			userAddress,
-		});
-	}
+  getBalancesRequests(setts: SettMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
+    const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
+    const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
+    const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === VaultState.Open);
+    const guardedSettAddresses = settAddresses.filter(
+      (sett) => setts[sett].state === VaultState.Guarded || setts[sett].state === VaultState.Experimental,
+    );
+    const deprecatedSettAddresses = settAddresses.filter((sett) => setts[sett].state === VaultState.Deprecated);
+    const allContracts = new Set(
+      ...[...tokenAddresses, ...settAddresses, ...generalSettAddresses, ...guardedSettAddresses],
+    );
+    for (const token of Object.keys(tokens)) {
+      if (!allContracts.has(token)) {
+        tokenAddresses.push(token);
+      }
+    }
+    return createBalancesRequest({
+      tokenAddresses,
+      generalSettAddresses,
+      guardedSettAddresses,
+      deprecatedSettAddresses,
+      userAddress,
+    });
+  }
 
-	private checksumSetts(setts: BadgerSett[]): BadgerSett[] {
-		return setts.map((sett) => {
-			sett.depositToken.address = Web3.utils.toChecksumAddress(sett.depositToken.address);
-			sett.vaultToken.address = Web3.utils.toChecksumAddress(sett.vaultToken.address);
-			if (sett.geyser) {
-				sett.geyser = Web3.utils.toChecksumAddress(sett.geyser);
-			}
-			return sett;
-		});
-	}
+  private checksumSetts(setts: BadgerSett[]): BadgerSett[] {
+    return setts.map((sett) => {
+      sett.depositToken.address = Web3.utils.toChecksumAddress(sett.depositToken.address);
+      sett.vaultToken.address = Web3.utils.toChecksumAddress(sett.vaultToken.address);
+      if (sett.geyser) {
+        sett.geyser = Web3.utils.toChecksumAddress(sett.geyser);
+      }
+      return sett;
+    });
+  }
 }

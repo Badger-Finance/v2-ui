@@ -5,50 +5,50 @@ import { SettActionButton } from '../../common/SettActionButtons';
 import { StoreContext } from '../../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		position: 'absolute',
-		bottom: 0,
-		backgroundColor: '#181818',
-		padding: theme.spacing(2),
-		width: '100%',
-		zIndex: 999,
-		[theme.breakpoints.up('sm')]: {
-			display: 'none',
-		},
-	},
+  root: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: '#181818',
+    padding: theme.spacing(2),
+    width: '100%',
+    zIndex: 999,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
 }));
 
 export const MobileStickyActionButtons = (): JSX.Element => {
-	const classes = useStyles();
-	const { settDetail } = React.useContext(StoreContext);
-	const { canUserDeposit, canUserWithdraw } = settDetail;
+  const classes = useStyles();
+  const { settDetail } = React.useContext(StoreContext);
+  const { canUserDeposit, canUserWithdraw } = settDetail;
 
-	return (
-		<div className={classes.root}>
-			<Grid container spacing={1}>
-				<Grid item xs>
-					<SettActionButton
-						fullWidth
-						color="primary"
-						variant={canUserDeposit ? 'contained' : 'outlined'}
-						disabled={!canUserDeposit}
-						onClick={() => settDetail.toggleDepositDialog()}
-					>
-						Deposit
-					</SettActionButton>
-				</Grid>
-				<Grid item xs>
-					<SettActionButton
-						color="primary"
-						variant="outlined"
-						fullWidth
-						disabled={!canUserWithdraw}
-						onClick={() => settDetail.toggleWithdrawDialog()}
-					>
-						Withdraw
-					</SettActionButton>
-				</Grid>
-			</Grid>
-		</div>
-	);
+  return (
+    <div className={classes.root}>
+      <Grid container spacing={1}>
+        <Grid item xs>
+          <SettActionButton
+            fullWidth
+            color="primary"
+            variant={canUserDeposit ? 'contained' : 'outlined'}
+            disabled={!canUserDeposit}
+            onClick={() => settDetail.toggleDepositDialog()}
+          >
+            Deposit
+          </SettActionButton>
+        </Grid>
+        <Grid item xs>
+          <SettActionButton
+            color="primary"
+            variant="outlined"
+            fullWidth
+            disabled={!canUserWithdraw}
+            onClick={() => settDetail.toggleWithdrawDialog()}
+          >
+            Withdraw
+          </SettActionButton>
+        </Grid>
+      </Grid>
+    </div>
+  );
 };

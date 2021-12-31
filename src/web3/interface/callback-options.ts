@@ -1,4 +1,4 @@
 export interface CallbackOptions {
-	blockHeight: number;
-	blockResolution: number;
+  blockHeight: number;
+  blockResolution: number;
 }

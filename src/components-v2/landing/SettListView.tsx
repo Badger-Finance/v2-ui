@@ -6,21 +6,21 @@ import UserListDisplay from './UserListDisplay';
 import { VaultState } from '@badger-dao/sdk';
 
 export interface SettListViewProps {
-	state: VaultState;
+  state: VaultState;
 }
 
 const SettListView = observer(({ state }: SettListViewProps) => {
-	const store = useContext(StoreContext);
-	const {
-		onboard,
-		uiState: { showUserBalances },
-	} = store;
-	const showUserDisplay = showUserBalances && onboard.isActive();
-	if (showUserDisplay) {
-		return <UserListDisplay />;
-	}
+  const store = useContext(StoreContext);
+  const {
+    onboard,
+    uiState: { showUserBalances },
+  } = store;
+  const showUserDisplay = showUserBalances && onboard.isActive();
+  if (showUserDisplay) {
+    return <UserListDisplay />;
+  }
 
-	return <SettListDisplay state={state} />;
+  return <SettListDisplay state={state} />;
 });
 
 export default SettListView;

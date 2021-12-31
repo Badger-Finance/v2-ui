@@ -14,70 +14,70 @@ import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { isSettVaultIbbtc } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
-	messageContainer: {
-		paddingTop: theme.spacing(4),
-		textAlign: 'center',
-	},
+  messageContainer: {
+    paddingTop: theme.spacing(4),
+    textAlign: 'center',
+  },
 }));
 
 const SettListDisplay = observer((props: SettListViewProps) => {
-	const classes = useStyles();
-	const { state } = props;
-	const store = useContext(StoreContext);
-	const {
-		setts,
-		uiState: { currency },
-		network: { network },
-		user,
-	} = store;
+  const classes = useStyles();
+  const { state } = props;
+  const store = useContext(StoreContext);
+  const {
+    setts,
+    uiState: { currency },
+    network: { network },
+    user,
+  } = store;
 
-	const currentSettMap = setts.getSettMapByState(state);
+  const currentSettMap = setts.getSettMapByState(state);
 
-	if (currentSettMap === undefined) {
-		return <Loader message={`Loading ${network.name} Setts...`} />;
-	}
+  if (currentSettMap === undefined) {
+    return <Loader message={`Loading ${network.name} Setts...`} />;
+  }
 
-	if (currentSettMap === null) {
-		return (
-			<div className={classes.messageContainer}>
-				<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>
-			</div>
-		);
-	}
+  if (currentSettMap === null) {
+    return (
+      <div className={classes.messageContainer}>
+        <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>
+      </div>
+    );
+  }
 
-	const settListItems = network.settOrder
-		.map((contract) => {
-			const sett = currentSettMap[Web3.utils.toChecksumAddress(contract)];
-			const badgerSett = network.setts.find((sett) => sett.vaultToken.address === contract);
+  const settListItems = network.settOrder
+    .map((contract) => {
+      const sett = currentSettMap[Web3.utils.toChecksumAddress(contract)];
+      const badgerSett = network.setts.find((sett) => sett.vaultToken.address === contract);
 
-			if (!sett || !badgerSett) {
-				return;
-			}
+      if (!sett || !badgerSett) {
+        return;
+      }
 
-			// inject user balance information to enable withdraw buttun functionality
-			const scalar = new BigNumber(sett.pricePerFullShare);
-			const generalBalance = user.getBalance(BalanceNamespace.Sett, badgerSett).scale(scalar, true);
-			const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
-			const settBalance = generalBalance ?? guardedBalance;
-			const isIbbtc = isSettVaultIbbtc(sett);
+      // inject user balance information to enable withdraw buttun functionality
+      const scalar = new BigNumber(sett.pricePerFullShare);
+      const generalBalance = user.getBalance(BalanceNamespace.Sett, badgerSett).scale(scalar, true);
+      const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
+      const settBalance = generalBalance ?? guardedBalance;
+      const isIbbtc = isSettVaultIbbtc(sett);
 
-			return (
-				<SettListItem
-					sett={sett}
-					key={sett.vaultToken}
-					currency={currency}
-					balance={settBalance.balance}
-					CustomDepositModal={isIbbtc ? IbbtcVaultDepositDialog : undefined}
-				/>
-			);
-		})
-		.filter(Boolean);
+      return (
+        <SettListItem
+          sett={sett}
+          key={sett.vaultToken}
+          currency={currency}
+          balance={settBalance.balance}
+          CustomDepositModal={isIbbtc ? IbbtcVaultDepositDialog : undefined}
+        />
+      );
+    })
+    .filter(Boolean);
 
-	if (settListItems.length === 0) {
-		return <NoVaults state={state} network={network.name} />;
-	}
+  if (settListItems.length === 0) {
+    return <NoVaults state={state} network={network.name} />;
+  }
 
-	return <SettTable title={'All Setts'} displayValue={''} settList={settListItems} />;
+  return <SettTable title={'All Setts'} displayValue={''} settList={settListItems} />;
 });
 
 export default SettListDisplay;

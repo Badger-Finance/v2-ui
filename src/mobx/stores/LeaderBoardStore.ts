@@ -3,22 +3,22 @@ import { action, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
 
 export class LeaderBoardStore {
-	private store: RootStore;
-	public ranks?: LeaderboardSummary;
+  private store: RootStore;
+  public ranks?: LeaderboardSummary;
 
-	constructor(store: RootStore) {
-		this.store = store;
+  constructor(store: RootStore) {
+    this.store = store;
 
-		extendObservable(this, {
-			ranks: this.ranks,
-		});
-	}
+    extendObservable(this, {
+      ranks: this.ranks,
+    });
+  }
 
-	loadData = action(async (): Promise<void> => {
-		const summary = await this.store.api.loadLeaderboardSummary();
+  loadData = action(async (): Promise<void> => {
+    const summary = await this.store.api.loadLeaderboardSummary();
 
-		if (summary) {
-			this.ranks = summary;
-		}
-	});
+    if (summary) {
+      this.ranks = summary;
+    }
+  });
 }

@@ -10,35 +10,35 @@ import { AirdropNetworkConfig } from '../../mobx/model/network/airdrop-network-c
 import { Network } from '@badger-dao/sdk';
 
 export const getAirdrops = (network: Network): AirdropNetworkConfig[] => {
-	switch (network) {
-		case Network.Ethereum:
-			return [
-				{
-					active: false,
-					endpoint: ``,
-					token: token,
-					tokenAbi: erc20Abi as AbiItem[],
-					airdropContract: badgerHunt,
-					airdropAbi: badgerHuntAbi as AbiItem[],
-				},
-				{
-					active: false,
-					endpoint: ``,
-					tokenAbi: diggAbi as AbiItem[],
-					token: digg_system.uFragments,
-					airdropContract: digg_system.diggDistributor,
-					airdropAbi: diggDistributorAbi as AbiItem[],
-				},
-				{
-					active: true,
-					endpoint: `${getApi()}/reward/gitcoin`,
-					tokenAbi: erc20Abi as AbiItem[],
-					token: sett_system.vaults['native.badger'],
-					airdropContract: airdrops.gitcoinRound8,
-					airdropAbi: bBadgerAirdropAbi as AbiItem[],
-				},
-			];
-		default:
-			return [];
-	}
+  switch (network) {
+    case Network.Ethereum:
+      return [
+        {
+          active: false,
+          endpoint: ``,
+          token: token,
+          tokenAbi: erc20Abi as AbiItem[],
+          airdropContract: badgerHunt,
+          airdropAbi: badgerHuntAbi as AbiItem[],
+        },
+        {
+          active: false,
+          endpoint: ``,
+          tokenAbi: diggAbi as AbiItem[],
+          token: digg_system.uFragments,
+          airdropContract: digg_system.diggDistributor,
+          airdropAbi: diggDistributorAbi as AbiItem[],
+        },
+        {
+          active: true,
+          endpoint: `${getApi()}/reward/gitcoin`,
+          tokenAbi: erc20Abi as AbiItem[],
+          token: sett_system.vaults['native.badger'],
+          airdropContract: airdrops.gitcoinRound8,
+          airdropAbi: bBadgerAirdropAbi as AbiItem[],
+        },
+      ];
+    default:
+      return [];
+  }
 };

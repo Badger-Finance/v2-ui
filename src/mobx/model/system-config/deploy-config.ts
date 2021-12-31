@@ -1,3 +1,3 @@
 export type DeployConfig = {
-	[index: string]: any;
+  [index: string]: any;
 };

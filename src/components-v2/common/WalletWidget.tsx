@@ -4,65 +4,65 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
-	walletDot: {
-		display: 'block',
-		width: theme.spacing(0.9),
-		height: theme.spacing(0.8),
-		marginLeft: theme.spacing(0.4),
-		borderRadius: theme.spacing(0.4),
-	},
-	redDot: {
-		background: theme.palette.error.main,
-	},
-	greenDot: {
-		background: theme.palette.success.main,
-	},
-	walletButton: {
-		textTransform: 'none',
-	},
-	walletButtonLabel: {
-		fontWeight: 500,
-	},
+  walletDot: {
+    display: 'block',
+    width: theme.spacing(0.9),
+    height: theme.spacing(0.8),
+    marginLeft: theme.spacing(0.4),
+    borderRadius: theme.spacing(0.4),
+  },
+  redDot: {
+    background: theme.palette.error.main,
+  },
+  greenDot: {
+    background: theme.palette.success.main,
+  },
+  walletButton: {
+    textTransform: 'none',
+  },
+  walletButtonLabel: {
+    fontWeight: 500,
+  },
 }));
 
 const shortenAddress = (address?: string) => {
-	if (!address) {
-		return 'Connect';
-	}
-	return address.slice(0, 4) + '..' + address.slice(address.length - 4, address.length);
+  if (!address) {
+    return 'Connect';
+  }
+  return address.slice(0, 4) + '..' + address.slice(address.length - 4, address.length);
 };
 
 const WalletWidget = observer(() => {
-	const classes = useStyles();
-	const store = useContext(StoreContext);
-	const { onboard, uiState } = store;
-	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+  const classes = useStyles();
+  const store = useContext(StoreContext);
+  const { onboard, uiState } = store;
+  const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
-	async function connect(): Promise<void> {
-		if (onboard.isActive()) {
-			onboard.disconnect();
-		} else {
-			try {
-				await onboard.connect();
-			} catch (error) {
-				uiState.queueError('Issue connecting, please try again');
-				console.error(error);
-			}
-		}
-	}
+  async function connect(): Promise<void> {
+    if (onboard.isActive()) {
+      onboard.disconnect();
+    } else {
+      try {
+        await onboard.connect();
+      } catch (error) {
+        uiState.queueError('Issue connecting, please try again');
+        console.error(error);
+      }
+    }
+  }
 
-	return (
-		<Button
-			disableElevation
-			color={isMobile ? 'primary' : 'default'}
-			variant={isMobile ? 'text' : 'outlined'}
-			onClick={connect}
-			className={classes.walletButton}
-			classes={{ label: classes.walletButtonLabel }}
-		>
-			{shortenAddress(onboard.address)}
-		</Button>
-	);
+  return (
+    <Button
+      disableElevation
+      color={isMobile ? 'primary' : 'default'}
+      variant={isMobile ? 'text' : 'outlined'}
+      onClick={connect}
+      className={classes.walletButton}
+      classes={{ label: classes.walletButtonLabel }}
+    >
+      {shortenAddress(onboard.address)}
+    </Button>
+  );
 });
 
 export default WalletWidget;

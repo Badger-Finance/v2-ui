@@ -1,5 +1,5 @@
 export type ClaimsSymbols = {
-	[index: string]: {
-		[index: string]: string;
-	};
+  [index: string]: {
+    [index: string]: string;
+  };
 };

@@ -1,19 +1,19 @@
 export interface VotiumMerkleTree {
-	merkleRoot: string;
-	tokenTotal: string;
-	claims: Record<string, VotiumMerkleTreeClaim>;
+  merkleRoot: string;
+  tokenTotal: string;
+  claims: Record<string, VotiumMerkleTreeClaim>;
 }
 
 export interface VotiumMerkleTreeClaim {
-	index: number;
-	amount: string;
-	proof: string[];
+  index: number;
+  amount: string;
+  proof: string[];
 }
 
 export interface VotiumTreeEntry {
-	path: string;
+  path: string;
 }
 
 export interface VotiumGithubTreeInformation {
-	tree: VotiumTreeEntry[];
+  tree: VotiumTreeEntry[];
 }

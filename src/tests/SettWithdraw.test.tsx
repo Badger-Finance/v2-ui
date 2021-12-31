@@ -7,12 +7,12 @@ import store from '../mobx/RootStore';
 import { SettWithdraw } from '../components-v2/common/dialogs/SettWithdraw';
 
 describe('Sett Withdraw', () => {
-	test('displays sett information', () => {
-		const { baseElement } = customRender(
-			<StoreProvider value={store}>
-				<SettWithdraw open={true} sett={SAMPLE_SETT} badgerSett={SAMPLE_BADGER_SETT} onClose={jest.fn()} />
-			</StoreProvider>,
-		);
-		expect(baseElement).toMatchSnapshot();
-	});
+  test('displays sett information', () => {
+    const { baseElement } = customRender(
+      <StoreProvider value={store}>
+        <SettWithdraw open={true} sett={SAMPLE_SETT} badgerSett={SAMPLE_BADGER_SETT} onClose={jest.fn()} />
+      </StoreProvider>,
+    );
+    expect(baseElement).toMatchSnapshot();
+  });
 });

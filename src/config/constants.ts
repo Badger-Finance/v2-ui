@@ -20,42 +20,42 @@ export const MAX_LAYOUT_WIDTH = 1083;
 export const DEFAULT_NETWORK = Network.Ethereum;
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
-	pending: 'Transaction Pending.',
-	burned: 'Tokens Burned.',
-	released: 'Tokens Released.',
-	reverted: 'Transaction Reverted.',
+  pending: 'Transaction Pending.',
+  burned: 'Tokens Burned.',
+  released: 'Tokens Released.',
+  reverted: 'Transaction Reverted.',
 };
 
 export const burnStatusIndex: Record<BurnAndReleaseStatus, number> = {
-	pending: 0,
-	burned: 1,
-	released: 2,
-	reverted: 3,
+  pending: 0,
+  burned: 1,
+  released: 2,
+  reverted: 3,
 };
 
 export const depositStatusDict: Record<DepositStatus, string> = {
-	detected: 'Transaction Detected.',
-	confirmed: 'Transaction Confirmed.',
-	signed: 'Transaction Signed.',
-	reverted: 'Transaction Reverted.',
-	submitted: 'Transaction Submitted.',
+  detected: 'Transaction Detected.',
+  confirmed: 'Transaction Confirmed.',
+  signed: 'Transaction Signed.',
+  reverted: 'Transaction Reverted.',
+  submitted: 'Transaction Submitted.',
 };
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
-	[Wallets.Ledger]: true,
-	[Wallets.WalletConnect]: true,
-	[Wallets.WalletLink]: true,
-	[Wallets.Trezor]: true,
-	[Wallets.Portis]: true,
-	[Wallets.CoinbaseWallet]: true,
+  [Wallets.Ledger]: true,
+  [Wallets.WalletConnect]: true,
+  [Wallets.WalletLink]: true,
+  [Wallets.Trezor]: true,
+  [Wallets.Portis]: true,
+  [Wallets.CoinbaseWallet]: true,
 };
 
 export enum NETWORK_IDS {
-	ETH = 1,
-	BSC = 56,
-	MATIC = 137,
-	XDAI = 100,
-	ARB = 42161,
+  ETH = 1,
+  BSC = 56,
+  MATIC = 137,
+  XDAI = 100,
+  ARB = 42161,
 }
 
 export const EXPLOIT_HACKER_ADDRESS = '0x1fcdb04d0c5364fbd92c73ca8af9baa72c269107';
@@ -91,13 +91,13 @@ export const APPROVALS_VULNERABILITIES_SUBGRAPH = 'https://api.thegraph.com/subg
 // time constants
 export const ONE_MIN_MS = 60 * 1000;
 export const baseRetryOptions = {
-	// delay defaults to 200 ms.
-	// delay grows exponentially by factor each attempt.
-	factor: 1.5,
-	// delay grows up until max delay.
-	maxDelay: 1000,
-	// maxAttempts to make before giving up.
-	maxAttempts: 3,
+  // delay defaults to 200 ms.
+  // delay grows exponentially by factor each attempt.
+  factor: 1.5,
+  // delay grows up until max delay.
+  maxDelay: 1000,
+  // maxAttempts to make before giving up.
+  maxAttempts: 3,
 };
 export const defaultRetryOptions: PartialAttemptOptions<void> = baseRetryOptions;
 export const getDefaultRetryOptions = <T>(): PartialAttemptOptions<T> => baseRetryOptions;
@@ -107,19 +107,19 @@ export const ESTIMATED_REWARDS_FREQUENCY = process.env.REACT_APP_REWARDS_FREQUEN
 
 // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
 function stringHash(input?: string): string | undefined {
-	if (!input) {
-		return;
-	}
-	let hash = 0,
-		i,
-		chr;
-	if (input.length === 0) return hash.toString();
-	for (i = 0; i < input.length; i++) {
-		chr = input.charCodeAt(i);
-		hash = (hash << 5) - hash + chr;
-		hash |= 0; // Convert to 32bit integer
-	}
-	return hash.toString();
+  if (!input) {
+    return;
+  }
+  let hash = 0,
+    i,
+    chr;
+  if (input.length === 0) return hash.toString();
+  for (i = 0; i < input.length; i++) {
+    chr = input.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash.toString();
 }
 
 // Message should be defined or explicitly undefined.

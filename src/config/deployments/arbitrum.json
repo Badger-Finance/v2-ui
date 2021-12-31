@@ -1,43 +1,43 @@
 {
-	"token": "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
-	"tokens": {
-		"badger": "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
-		"sushi": "0xd4d42F0b6DEF4CE0383636770eF773390d85c61A",
-		"sushi.WETH-SUSHI": "0x3221022e37029923aCe4235D812273C5A42C322d",
-		"sushi.WETH-WBTC": "0x515e252b2b5c22b4b2b6Df66c2eBeeA871AA4d69",
-		"crv.wbtcRen": "0x3e01dd8a5e1fb3481f0f589056b428fc308af0fb",
-		"crv.tricrypto": "0x8e0b8c8bb9db49a46697f3a5bb8a308e744821d2",
-		"crv": "0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978",
-		"swapr": "0xdE903E2712288A1dA82942DDdF2c20529565aC30",
-		"swapr.WETH-SWAPR": "0xA66b20912cBEa522278f3056B4aE60D0d3EE271b",
-		"swapr.WETH-WBTC": "0x9a17d97fb5f76f44604270448ac77d55ac40c15c",
-		"swapr.WETH-BADGER": "0x3C6bd88cdD2AECf466E22d4ED86dB6B8953FDb72",
-		"swapr.WETH-IBBTC": "0x6a060a569e04a41794d6b1308865a13F27D27E53"
-	},
-	"geysers": {},
-	"sett_system": {
-		"vaults": {
-			"native.sushiWethSushi": "0xe774D1FB3133b037AA17D39165b8F45f444f632d",
-			"native.sushiWethWbtc": "0xFc13209cAfE8fb3bb5fbD929eC9F11a39e8Ac041",
-			"native.crvWbtcRen": "0xBA418CDdd91111F5c1D1Ac2777Fa8CEa28D71843",
-			"native.tricrypto": "0x4591890225394BF66044347653e112621AF7DDeb",
-			"native.swaprWethSwapr": "0x0c2153e8aE4DB8233c61717cDC4c75630E952561",
-			"native.tricryptoLight": "0xfdb9e5a186FB7655aC9cD7CAFF3d6D4c6064cc50",
-			"native.swaprWethWbtc": "0xaf9aB64F568149361ab670372b16661f4380e80B",
-			"native.swaprWethBadger": "0xE9C12F06F8AFFD8719263FE4a81671453220389c",
-			"native.swaprWethIbbtc": "0x60129B2b762952Dfe8b21f40ee8aa3B2A4623546"
-		},
-		"strategies": {
-			"native.sushiWethSushi": "0x86f772C82914f5bFD168f99e208d0FC2C371e9C2",
-			"native.sushiWethWbtc": "0xA6827f0f14D0B83dB925B616d820434697328c22",
-			"native.crvWbtcRen": "0x4C5d19Da5EaeC298B79879a5f7481bEDE055F4F8",
-			"native.tricrypto": "0xE83A790fC3B7132fb8d7f8d438Bc5139995BF5f4",
-			"native.swaprWethSwapr": "0x85386C3cE0679b035a9F8F17f531C076d0b35954",
-			"native.tricryptoLight": "0x9a28eeFB2c5F8311f37c39314D78Be85C54B5da6",
-			"native.swaprWethWbtc": "0x0c2153e8aE4DB8233c61717cDC4c75630E952561",
-			"native.swaprWethBadger": "0x1DF4272628bFFB7dC82b5974878E4e058b477179",
-			"native.swaprWethIbbtc": "0x4AeC063BB5322c9d4c1f46572f432aaE3b78b87c"
-		}
-	},
-	"badgerTree": "0x635EB2C39C75954bb53Ebc011BDC6AfAAcE115A6"
+  "token": "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
+  "tokens": {
+    "badger": "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
+    "sushi": "0xd4d42F0b6DEF4CE0383636770eF773390d85c61A",
+    "sushi.WETH-SUSHI": "0x3221022e37029923aCe4235D812273C5A42C322d",
+    "sushi.WETH-WBTC": "0x515e252b2b5c22b4b2b6Df66c2eBeeA871AA4d69",
+    "crv.wbtcRen": "0x3e01dd8a5e1fb3481f0f589056b428fc308af0fb",
+    "crv.tricrypto": "0x8e0b8c8bb9db49a46697f3a5bb8a308e744821d2",
+    "crv": "0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978",
+    "swapr": "0xdE903E2712288A1dA82942DDdF2c20529565aC30",
+    "swapr.WETH-SWAPR": "0xA66b20912cBEa522278f3056B4aE60D0d3EE271b",
+    "swapr.WETH-WBTC": "0x9a17d97fb5f76f44604270448ac77d55ac40c15c",
+    "swapr.WETH-BADGER": "0x3C6bd88cdD2AECf466E22d4ED86dB6B8953FDb72",
+    "swapr.WETH-IBBTC": "0x6a060a569e04a41794d6b1308865a13F27D27E53"
+  },
+  "geysers": {},
+  "sett_system": {
+    "vaults": {
+      "native.sushiWethSushi": "0xe774D1FB3133b037AA17D39165b8F45f444f632d",
+      "native.sushiWethWbtc": "0xFc13209cAfE8fb3bb5fbD929eC9F11a39e8Ac041",
+      "native.crvWbtcRen": "0xBA418CDdd91111F5c1D1Ac2777Fa8CEa28D71843",
+      "native.tricrypto": "0x4591890225394BF66044347653e112621AF7DDeb",
+      "native.swaprWethSwapr": "0x0c2153e8aE4DB8233c61717cDC4c75630E952561",
+      "native.tricryptoLight": "0xfdb9e5a186FB7655aC9cD7CAFF3d6D4c6064cc50",
+      "native.swaprWethWbtc": "0xaf9aB64F568149361ab670372b16661f4380e80B",
+      "native.swaprWethBadger": "0xE9C12F06F8AFFD8719263FE4a81671453220389c",
+      "native.swaprWethIbbtc": "0x60129B2b762952Dfe8b21f40ee8aa3B2A4623546"
+    },
+    "strategies": {
+      "native.sushiWethSushi": "0x86f772C82914f5bFD168f99e208d0FC2C371e9C2",
+      "native.sushiWethWbtc": "0xA6827f0f14D0B83dB925B616d820434697328c22",
+      "native.crvWbtcRen": "0x4C5d19Da5EaeC298B79879a5f7481bEDE055F4F8",
+      "native.tricrypto": "0xE83A790fC3B7132fb8d7f8d438Bc5139995BF5f4",
+      "native.swaprWethSwapr": "0x85386C3cE0679b035a9F8F17f531C076d0b35954",
+      "native.tricryptoLight": "0x9a28eeFB2c5F8311f37c39314D78Be85C54B5da6",
+      "native.swaprWethWbtc": "0x0c2153e8aE4DB8233c61717cDC4c75630E952561",
+      "native.swaprWethBadger": "0x1DF4272628bFFB7dC82b5974878E4e058b477179",
+      "native.swaprWethIbbtc": "0x4AeC063BB5322c9d4c1f46572f432aaE3b78b87c"
+    }
+  },
+  "badgerTree": "0x635EB2C39C75954bb53Ebc011BDC6AfAAcE115A6"
 }

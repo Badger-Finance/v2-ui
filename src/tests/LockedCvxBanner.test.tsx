@@ -9,32 +9,32 @@ import BigNumber from 'bignumber.js';
 import LockedCvxDelegationStore from '../mobx/stores/lockedCvxDelegationStore';
 
 describe('Locked CVX Delegation Banner', () => {
-	beforeEach(() => {
-		store.lockedCvxDelegation.delegationState = DelegationState.Eligible;
-		store.lockedCvxDelegation.totalEarned = new BigNumber(100 * 1e18);
-		store.lockedCvxDelegation.lockedCVXBalance = new BigNumber(100 * 1e18);
-		store.lockedCvxDelegation.unclaimedBalance = new BigNumber(100 * 1e18);
+  beforeEach(() => {
+    store.lockedCvxDelegation.delegationState = DelegationState.Eligible;
+    store.lockedCvxDelegation.totalEarned = new BigNumber(100 * 1e18);
+    store.lockedCvxDelegation.lockedCVXBalance = new BigNumber(100 * 1e18);
+    store.lockedCvxDelegation.unclaimedBalance = new BigNumber(100 * 1e18);
 
-		jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegate', 'get').mockReturnValue(true);
-		jest.spyOn(LockedCvxDelegationStore.prototype, 'shouldBannerBeDisplayed', 'get').mockReturnValue(true);
-	});
+    jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegate', 'get').mockReturnValue(true);
+    jest.spyOn(LockedCvxDelegationStore.prototype, 'shouldBannerBeDisplayed', 'get').mockReturnValue(true);
+  });
 
-	it('renders correctly', () => {
-		checkSnapshot(<LockeDelegationBanner />);
-	});
+  it('renders correctly', () => {
+    checkSnapshot(<LockeDelegationBanner />);
+  });
 
-	it('can click delegate locked cvx', async () => {
-		const mockDelegateLocked = jest.fn();
-		store.lockedCvxDelegation.delegateLockedCVX = mockDelegateLocked;
+  it('can click delegate locked cvx', async () => {
+    const mockDelegateLocked = jest.fn();
+    store.lockedCvxDelegation.delegateLockedCVX = mockDelegateLocked;
 
-		customRender(
-			<StoreProvider value={store}>
-				<LockeDelegationBanner />
-			</StoreProvider>,
-		);
+    customRender(
+      <StoreProvider value={store}>
+        <LockeDelegationBanner />
+      </StoreProvider>,
+    );
 
-		fireEvent.click(screen.getByRole('button', { name: 'Delegate to Badger' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Delegate to Badger' }));
 
-		expect(mockDelegateLocked).toHaveBeenCalled();
-	});
+    expect(mockDelegateLocked).toHaveBeenCalled();
+  });
 });
