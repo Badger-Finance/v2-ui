@@ -1120,10 +1120,10 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
-"@badger-dao/sdk@^1.0.52":
-  version "1.0.52"
-  resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.0.52.tgz#35456b0496c32a2b94d3c27dffe34a7d68dad161"
-  integrity sha512-ACyFsuFS/jCZpF3u8c9IRNLbno6rH8tTea5FzmrOvx3P9iWHxfsvb0NObgdZ7FftDJVsbFGmg3ACg7U72c2Raw==
+"@badger-dao/sdk@^1.0.53":
+  version "1.0.53"
+  resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.0.53.tgz#1d391c6c15e8cb44a7d9b517950234eb764ab286"
+  integrity sha512-vQCS2rKku6SHMYLrdwHpmbdkIBnHNusJ0L6fRRsUsqyH95ui6fii//NwVrl8aw0i5jjhOYgCUwAiOyQwxGO0aw==
 
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
