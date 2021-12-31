@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		padding: '15px 0',
 		whiteSpace: 'pre-wrap',
+		position: 'relative',
 	},
 	link: {
 		color: theme.palette.primary.main,
