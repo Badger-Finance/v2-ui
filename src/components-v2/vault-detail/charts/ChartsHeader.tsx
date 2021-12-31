@@ -41,7 +41,7 @@ export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX
 			description = 'Total assets under management';
 			break;
 		default:
-			description = 'Vault Boost APR breakdown';
+			description = 'Sett Boost APR breakdown';
 	}
 
 	return (

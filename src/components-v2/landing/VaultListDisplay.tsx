@@ -77,7 +77,7 @@ const VaultListDisplay = observer((props: VaultListViewProps) => {
 		return <NoVaults state={state} network={network.name} />;
 	}
 
-	return <VaultTable title={'All Vaults'} displayValue={''} settList={settListItems} />;
+	return <VaultTable title={'All Setts'} displayValue={''} settList={settListItems} />;
 });
 
 export default VaultListDisplay;

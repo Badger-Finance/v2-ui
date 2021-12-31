@@ -7,7 +7,7 @@ import { DelaySeverity } from '../../mobx/model/vaults/vault-rewards';
 dayjs.extend(utc);
 
 export const ChartModeTitles: Record<string, string> = {
-	[ChartMode.Value]: 'Vault Value',
+	[ChartMode.Value]: 'Sett Value',
 	[ChartMode.Ratio]: 'Token Ratio',
 	[ChartMode.AccountBalance]: 'My Holdings',
 	[ChartMode.BoostMultiplier]: 'Badger Boost',

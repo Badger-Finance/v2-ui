@@ -29,7 +29,7 @@ export const Breadcrumb = ({ vault }: Props): JSX.Element => {
 				className={classes.breadcrumbsItem}
 				onClick={() => router.goTo(getRouteBySlug(settSlug, vaults))}
 			>
-				Vaults
+				Setts
 			</Link>
 			<Typography className={classes.breadcrumbsItem} color="textSecondary">
 				{vault.name}

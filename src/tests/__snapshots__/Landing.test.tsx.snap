@@ -96,7 +96,7 @@ exports[`Landing Renders correctly 1`] = `
             <p
               class="MuiTypography-root-135 makeStyles-title-238 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
             >
-              All Vaults
+              All Setts
             </p>
           </div>
           <div
