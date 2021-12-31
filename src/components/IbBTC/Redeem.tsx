@@ -1,10 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
 import { OptionToken, OptionTokens } from './OptionTokens';
@@ -45,22 +43,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ActionButton = observer(
-	({ children }): JSX.Element => {
-		const { onboard } = useContext(StoreContext);
-		const connectWallet = useConnectWallet();
+const ActionButton = observer(({ children }): JSX.Element => {
+	const { onboard } = useContext(StoreContext);
+	const connectWallet = useConnectWallet();
 
-		if (!onboard.address) {
-			return (
-				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
-					Connect Wallet
-				</Button>
-			);
-		}
+	if (!onboard.address) {
+		return (
+			<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
+				Connect Wallet
+			</Button>
+		);
+	}
 
-		return <>{children}</>;
-	},
-);
+	return <>{children}</>;
+});
 
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
@@ -123,30 +119,25 @@ export const Redeem = observer((): any => {
 		debounceInputAmountChange(change);
 	};
 
-	// reason: the plugin does not recognize the dependency inside the debounce function
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debounceInputAmountChange = useCallback(
-		debounce(
-			200,
-			async (change): Promise<void> => {
-				const input = new BigNumber(change);
+		debounce(200, async (change): Promise<void> => {
+			const input = new BigNumber(change);
 
-				if (!selectedToken) {
-					return;
-				}
+			if (!selectedToken) {
+				return;
+			}
 
-				if (!input.gt(ZERO)) {
-					setOutputAmount(undefined);
-					setMaxRedeem(undefined);
-					setIsEnoughToRedeem(true);
-					setFee('0.000');
-					setTotalRedeem('0.000');
-					return;
-				}
+			if (!input.gt(ZERO)) {
+				setOutputAmount(undefined);
+				setMaxRedeem(undefined);
+				setIsEnoughToRedeem(true);
+				setFee('0.000');
+				setTotalRedeem('0.000');
+				return;
+			}
 
-				await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
-			},
-		),
+			await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
+		}),
 		[selectedToken],
 	);
 
@@ -281,7 +272,7 @@ export const Redeem = observer((): any => {
 								</ErrorText>
 							</Grid>
 						)}
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 							</Grid>
@@ -292,7 +283,7 @@ export const Redeem = observer((): any => {
 								</EndAlignText>
 							</Grid>
 						</Grid>
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Fees: </Typography>
 							</Grid>
@@ -313,7 +304,7 @@ export const Redeem = observer((): any => {
 								</EndAlignText>
 							</Grid>
 						</Grid>
-						<Grid item xs={12} container justify="space-between">
+						<Grid item xs={12} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Total Redeem Amount: </Typography>
 							</Grid>

@@ -1,4 +1,3 @@
-import 'jest';
 import { TokenZap } from '../../mobx/model/vaults/token-zap';
 import { RenVaultZap } from '../../mobx/model/vaults/ren-vault-zap';
 import { GeneralVaultZap } from 'mobx/model/vaults/general-vault-zap';

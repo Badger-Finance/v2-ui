@@ -37,7 +37,7 @@ export const StrategyFees = ({ sett, strategy, showEmpty = false }: Props): JSX.
 		}
 
 		return (
-			<Grid key={key} container justify="space-between">
+			<Grid key={key} container justifyContent="space-between">
 				<Typography className={classes.specName} color="textSecondary" display="inline">
 					{userReadableFeeNames[key]}
 				</Typography>

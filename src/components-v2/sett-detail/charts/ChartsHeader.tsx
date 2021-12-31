@@ -45,7 +45,7 @@ export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX
 	}
 
 	return (
-		<Grid container alignItems="center" justify="space-between">
+		<Grid container alignItems="center" justifyContent="space-between">
 			<Grid container item xs={12} sm={6} direction="column" className={classes.titleText}>
 				<Typography variant="h6">{ChartModeTitles[mode]}</Typography>
 				<Typography variant="body2" color="textSecondary">

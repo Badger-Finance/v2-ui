@@ -198,8 +198,6 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		setExpectedSlippage(calculatedSlippage);
 	};
 
-	// reason: the plugin does not recognize the dependency inside the debounce function
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const handleDepositBalanceChange = useCallback(
 		debounce(200, async (tokenBalance: TokenBalance, index: number) => {
 			const balances = [...multiTokenDepositBalances];
@@ -323,7 +321,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 						<Grid item className={classes.loader}>
 							<Loader size={48} />
 						</Grid>
-						<Grid item container justify="center">
+						<Grid item container justifyContent="center">
 							<Typography variant="h6" display="inline">
 								Loading
 							</Typography>
@@ -375,7 +373,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 										<Grid
 											item
 											container
-											justify="space-between"
+											justifyContent="space-between"
 											alignItems="center"
 											className={classes.inputRow}
 										>
@@ -410,13 +408,13 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 						</Grid>
 						<Grid item container direction="column" className={clsx(classes.inputRow, classes.estimations)}>
 							{expectedPoolTokens && (
-								<Grid item container justify="space-between">
+								<Grid item container justifyContent="space-between">
 									<Typography variant="body2">Expected Pool Tokens Received:</Typography>
 									<Typography variant="body2">{expectedPoolTokens.balanceDisplay(4)}</Typography>
 								</Grid>
 							)}
 							{minPoolTokens && (
-								<Grid item container justify="space-between">
+								<Grid item container justifyContent="space-between">
 									<Typography variant="body2">Min Pool tokens Received:</Typography>
 									<Typography variant="body2">{minPoolTokens.balanceDisplay(4)}</Typography>
 								</Grid>

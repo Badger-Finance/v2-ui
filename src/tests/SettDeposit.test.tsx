@@ -17,7 +17,7 @@ describe('Sett Deposit', () => {
 		expect(baseElement).toMatchSnapshot();
 	});
 
-	test('can see full fees descriptions ', () => {
+	test('can see full fees descriptions', () => {
 		const { baseElement } = customRender(
 			<StoreProvider value={store}>
 				<SettDeposit open={true} sett={SAMPLE_SETT} badgerSett={SAMPLE_BADGER_SETT} onClose={jest.fn()} />
@@ -27,7 +27,7 @@ describe('Sett Deposit', () => {
 		expect(baseElement).toMatchSnapshot();
 	});
 
-	test('can go back from full fees descriptions ', () => {
+	test('can go back from full fees descriptions', () => {
 		const { baseElement } = customRender(
 			<StoreProvider value={store}>
 				<SettDeposit open={true} sett={SAMPLE_SETT} badgerSett={SAMPLE_BADGER_SETT} onClose={jest.fn()} />

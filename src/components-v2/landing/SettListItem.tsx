@@ -137,7 +137,7 @@ const SettListItem = observer(
 							</Typography>
 						</Grid>
 						<Grid item xs={6} md>
-							<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+							<CurrencyDisplay displayValue={displayValue} variant="body1" justifyContent="flex-start" />
 						</Grid>
 					</Grid>
 					<Grid item xs={12} md={3} className={classes.nonClickableSection}>

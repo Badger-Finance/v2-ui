@@ -44,7 +44,7 @@ export const SettToken = ({ token }: Props): JSX.Element => {
 	const balanceDisplay = token.balance.toFixed(decimalsAmount);
 
 	return (
-		<Grid className={classes.tokenSpec} container justify="space-between">
+		<Grid className={classes.tokenSpec} container justifyContent="space-between">
 			<Box display="flex" alignItems="center">
 				<div className={classes.tokenImageContainer}>
 					<img className={classes.tokenImage} src={icon} alt={`${token.name} icon`} />

@@ -51,89 +51,87 @@ interface Props {
 	sett: Vault;
 }
 
-export const ChartsCard = observer(
-	({ sett }: Props): JSX.Element => {
-		const { settCharts } = useContext(StoreContext);
-		const { minApr, maxApr } = sett;
-		const isBoostable = minApr && maxApr;
+export const ChartsCard = observer(({ sett }: Props): JSX.Element => {
+	const { settCharts } = useContext(StoreContext);
+	const { minApr, maxApr } = sett;
+	const isBoostable = minApr && maxApr;
 
-		const classes = useStyles();
-		const [settChartData, setSettChartData] = useState<SettChartData[] | null>(null);
-		const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
-		const [loading, setLoading] = useState(!isBoostable);
-		const [timeframe, setTimeframe] = useState(SettChartTimeframe.Week);
+	const classes = useStyles();
+	const [settChartData, setSettChartData] = useState<SettChartData[] | null>(null);
+	const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
+	const [loading, setLoading] = useState(!isBoostable);
+	const [timeframe, setTimeframe] = useState(SettChartTimeframe.Week);
 
-		const yAxisAccessor = getYAxisAccessor(mode);
-		const chartData = settChartData
-			? settChartData.map((d) => ({ x: d.timestamp.getTime(), y: yAxisAccessor(d) }))
-			: null;
+	const yAxisAccessor = getYAxisAccessor(mode);
+	const chartData = settChartData
+		? settChartData.map((d) => ({ x: d.timestamp.getTime(), y: yAxisAccessor(d) }))
+		: null;
 
-		const handleFetch = (fetchedData: SettChartData[] | null) => {
-			setSettChartData(fetchedData);
-			setLoading(false);
-		};
+	const handleFetch = (fetchedData: SettChartData[] | null) => {
+		setSettChartData(fetchedData);
+		setLoading(false);
+	};
 
-		const handleFetchError = (error: Error) => {
-			setLoading(false);
-			console.error(error);
-		};
+	const handleFetchError = (error: Error) => {
+		setLoading(false);
+		console.error(error);
+	};
 
-		useEffect(() => {
-			if (mode === ChartMode.Ratio && timeframe === SettChartTimeframe.Day) {
-				setTimeframe(SettChartTimeframe.Week);
-			}
-		}, [mode, timeframe]);
+	useEffect(() => {
+		if (mode === ChartMode.Ratio && timeframe === SettChartTimeframe.Day) {
+			setTimeframe(SettChartTimeframe.Week);
+		}
+	}, [mode, timeframe]);
 
-		useEffect(() => {
-			setLoading(true);
-			settCharts.search(sett, timeframe).then(handleFetch).catch(handleFetchError);
-		}, [sett, timeframe, settCharts]);
+	useEffect(() => {
+		setLoading(true);
+		settCharts.search(sett, timeframe).then(handleFetch).catch(handleFetchError);
+	}, [sett, timeframe, settCharts]);
 
-		return (
-			<CardContainer className={classes.root}>
-				<Tabs
-					variant="fullWidth"
-					className={classes.tabHeader}
-					textColor="primary"
-					aria-label="chart view options"
-					indicatorColor="primary"
-					value={mode}
-				>
-					{isBoostable && (
-						<Tab
-							onClick={() => setMode(ChartMode.BoostMultiplier)}
-							value={ChartMode.BoostMultiplier}
-							label={ChartModeTitles[ChartMode.BoostMultiplier]}
-						/>
-					)}
+	return (
+		<CardContainer className={classes.root}>
+			<Tabs
+				variant="fullWidth"
+				className={classes.tabHeader}
+				textColor="primary"
+				aria-label="chart view options"
+				indicatorColor="primary"
+				value={mode}
+			>
+				{isBoostable && (
 					<Tab
-						onClick={() => setMode(ChartMode.Value)}
-						value={ChartMode.Value}
-						label={ChartModeTitles[ChartMode.Value]}
+						onClick={() => setMode(ChartMode.BoostMultiplier)}
+						value={ChartMode.BoostMultiplier}
+						label={ChartModeTitles[ChartMode.BoostMultiplier]}
 					/>
-					<Tab
-						onClick={() => setMode(ChartMode.Ratio)}
-						value={ChartMode.Ratio}
-						label={ChartModeTitles[ChartMode.Ratio]}
-					/>
-				</Tabs>
-				<Grid container direction="column" className={classes.content}>
-					<Grid item container alignItems="center" justify="space-between" className={classes.header}>
-						<ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
-					</Grid>
-					<Grid item xs className={classes.chartContainer}>
-						<ChartContent data={chartData} loading={loading}>
-							<>
-								{mode === ChartMode.Value || mode === ChartMode.Ratio ? (
-									<SettChart mode={mode} timeframe={timeframe} data={chartData} />
-								) : (
-									<BoostChart sett={sett} />
-								)}
-							</>
-						</ChartContent>
-					</Grid>
+				)}
+				<Tab
+					onClick={() => setMode(ChartMode.Value)}
+					value={ChartMode.Value}
+					label={ChartModeTitles[ChartMode.Value]}
+				/>
+				<Tab
+					onClick={() => setMode(ChartMode.Ratio)}
+					value={ChartMode.Ratio}
+					label={ChartModeTitles[ChartMode.Ratio]}
+				/>
+			</Tabs>
+			<Grid container direction="column" className={classes.content}>
+				<Grid item container alignItems="center" justifyContent="space-between" className={classes.header}>
+					<ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
 				</Grid>
-			</CardContainer>
-		);
-	},
-);
+				<Grid item xs className={classes.chartContainer}>
+					<ChartContent data={chartData} loading={loading}>
+						<>
+							{mode === ChartMode.Value || mode === ChartMode.Ratio ? (
+								<SettChart mode={mode} timeframe={timeframe} data={chartData} />
+							) : (
+								<BoostChart sett={sett} />
+							)}
+						</>
+					</ChartContent>
+				</Grid>
+			</Grid>
+		</CardContainer>
+	);
+});

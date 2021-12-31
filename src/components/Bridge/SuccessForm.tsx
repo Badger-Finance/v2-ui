@@ -26,7 +26,7 @@ export const SuccessForm = (props: SuccessFormProps): JSX.Element => {
 			</Grid>
 			{values.spacer}
 			{values.spacer}
-			<Grid container justify={'center'}>
+			<Grid container justifyContent={'center'}>
 				<Button variant="contained" color="primary" className={classes.button} onClick={gotoStart}>
 					Back to start
 				</Button>

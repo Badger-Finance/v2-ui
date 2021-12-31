@@ -1,4 +1,3 @@
-import 'jest';
 import dayjs from 'dayjs';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../../components-v2/sett-detail/utils';
 import { DelaySeverity } from '../../mobx/model/setts/sett-rewards';

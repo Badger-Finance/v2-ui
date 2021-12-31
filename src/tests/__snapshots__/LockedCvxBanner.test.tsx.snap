@@ -56,7 +56,7 @@ exports[`Locked CVX Delegation Banner renders correctly 1`] = `
                 Vote Locked Convex
               </p>
               <div
-                class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-align-items-xs-center-79 MuiGrid-justify-xs-center-88"
+                class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-align-items-xs-center-79 MuiGrid-justify-content-xs-center-88"
               >
                 <img
                   alt="locked cvx balance"

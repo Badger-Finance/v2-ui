@@ -70,7 +70,7 @@ export const IbBTC = observer(() => {
 
 	return (
 		<LayoutContainer>
-			<Grid container spacing={1} justify="center">
+			<Grid container spacing={1} justifyContent="center">
 				<PageHeaderContainer item sm={12} xs={12}>
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
 				</PageHeaderContainer>

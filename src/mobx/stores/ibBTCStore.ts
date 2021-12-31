@@ -114,13 +114,11 @@ class IbBTCStore {
 		});
 	}
 
-	fetchFees = action(
-		async (): Promise<void> => {
-			const fees = await this.getFees();
-			this.mintFeePercent = fees.mintFeePercent;
-			this.redeemFeePercent = fees.redeemFeePercent;
-		},
-	);
+	fetchFees = action(async (): Promise<void> => {
+		const fees = await this.getFees();
+		this.mintFeePercent = fees.mintFeePercent;
+		this.redeemFeePercent = fees.redeemFeePercent;
+	});
 
 	fetchIbbtcApy = action(async () => {
 		const dayOldBlock = 86400; // [Seconds in a day]
@@ -132,49 +130,43 @@ class IbBTCStore {
 		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek}%` : null;
 	});
 
-	fetchConversionRates = action(
-		async (): Promise<void> => {
-			const { wallet } = this.store.onboard;
-			if (!wallet?.provider) return;
+	fetchConversionRates = action(async (): Promise<void> => {
+		const { wallet } = this.store.onboard;
+		if (!wallet?.provider) return;
 
-			const [fetchMintRates, fetchRedeemRates] = await Promise.all([
-				Promise.all(this.mintOptions.map(({ token }) => this.fetchMintRate(token))),
-				Promise.all(this.redeemOptions.map(({ token }) => this.fetchRedeemRate(token))),
-			]);
+		const [fetchMintRates, fetchRedeemRates] = await Promise.all([
+			Promise.all(this.mintOptions.map(({ token }) => this.fetchMintRate(token))),
+			Promise.all(this.redeemOptions.map(({ token }) => this.fetchRedeemRate(token))),
+		]);
 
-			for (let i = 0; i < fetchMintRates.length; i++) {
-				this.mintRates[this.mintOptions[i].token.address] = fetchMintRates[i];
-			}
+		for (let i = 0; i < fetchMintRates.length; i++) {
+			this.mintRates[this.mintOptions[i].token.address] = fetchMintRates[i];
+		}
 
-			for (let i = 0; i < fetchRedeemRates.length; i++) {
-				this.redeemRates[this.mintOptions[i].token.address] = fetchRedeemRates[i];
-			}
-		},
-	);
+		for (let i = 0; i < fetchRedeemRates.length; i++) {
+			this.redeemRates[this.mintOptions[i].token.address] = fetchRedeemRates[i];
+		}
+	});
 
-	fetchMintRate = action(
-		async (token: Token): Promise<string> => {
-			try {
-				const { bBTC, fee } = await this.calcMintAmount(
-					TokenBalance.fromBalance(this.store.user.getTokenBalance(token.address), '1'),
-				);
-				return TokenBalance.fromBigNumber(this.ibBTC, bBTC.plus(fee)).balanceDisplay(6);
-			} catch (error) {
-				return '0.000';
-			}
-		},
-	);
+	fetchMintRate = action(async (token: Token): Promise<string> => {
+		try {
+			const { bBTC, fee } = await this.calcMintAmount(
+				TokenBalance.fromBalance(this.store.user.getTokenBalance(token.address), '1'),
+			);
+			return TokenBalance.fromBigNumber(this.ibBTC, bBTC.plus(fee)).balanceDisplay(6);
+		} catch (error) {
+			return '0.000';
+		}
+	});
 
-	fetchRedeemRate = action(
-		async (token: Token): Promise<string> => {
-			try {
-				const redeemRate = await this.getRedeemConversionRate(token);
-				return TokenBalance.fromBigNumber(this.ibBTC, redeemRate).balanceDisplay(6);
-			} catch (error) {
-				return '0.000';
-			}
-		},
-	);
+	fetchRedeemRate = action(async (token: Token): Promise<string> => {
+		try {
+			const redeemRate = await this.getRedeemConversionRate(token);
+			return TokenBalance.fromBigNumber(this.ibBTC, redeemRate).balanceDisplay(6);
+		} catch (error) {
+			return '0.000';
+		}
+	});
 
 	isZapToken(token: Token): boolean {
 		return !addresses.mainnet.contracts.RenVaultZap.supportedTokens.includes(token.address);

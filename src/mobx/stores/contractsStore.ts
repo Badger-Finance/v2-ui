@@ -110,84 +110,80 @@ class ContractsStore {
 		return new TokenBalance(token, new BigNumber(allowance), new BigNumber(0));
 	};
 
-	depositVault = action(
-		async (sett: Vault, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
-			const { queueNotification } = this.store.uiState;
-			const { bouncerProof } = this.store.user;
-			const { onboard } = this.store;
+	depositVault = action(async (sett: Vault, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
+		const { queueNotification } = this.store.uiState;
+		const { bouncerProof } = this.store.user;
+		const { onboard } = this.store;
 
-			const web3 = new Web3(onboard.wallet?.provider);
-			const settContract = new web3.eth.Contract(SETT_ABI, sett.vaultToken);
-			const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.vaultToken);
-			const depositBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-			let method: ContractSendMethod = settContract.methods.deposit(depositBalance);
+		const web3 = new Web3(onboard.wallet?.provider);
+		const settContract = new web3.eth.Contract(SETT_ABI, sett.vaultToken);
+		const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.vaultToken);
+		const depositBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
+		let method: ContractSendMethod = settContract.methods.deposit(depositBalance);
 
-			// TODO: Clean this up, too many branches
-			// Uncapped deposits on a wrapper still require an empty proof
-			// TODO: better designate abi <> sett pairing, single yearn vault uses yearn ABI.
-			if (sett.vaultToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
-				if (depositAll) {
-					method = yearnContract.methods.deposit([]);
-				} else {
-					method = yearnContract.methods.deposit(depositBalance, []);
-				}
+		// TODO: Clean this up, too many branches
+		// Uncapped deposits on a wrapper still require an empty proof
+		// TODO: better designate abi <> sett pairing, single yearn vault uses yearn ABI.
+		if (sett.vaultToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
+			if (depositAll) {
+				method = yearnContract.methods.deposit([]);
+			} else {
+				method = yearnContract.methods.deposit(depositBalance, []);
 			}
+		}
 
-			if (sett.bouncer === BouncerType.Badger) {
-				if (!bouncerProof) {
-					queueNotification(`Error loading Badger Bouncer Proof`, 'error');
-					return;
-				}
-				if (depositAll) {
-					method = settContract.methods.deposit(bouncerProof);
-				} else {
-					method = settContract.methods.deposit(depositBalance, bouncerProof);
-				}
-			} else if (depositAll) {
-				method = settContract.methods.depositAll();
+		if (sett.bouncer === BouncerType.Badger) {
+			if (!bouncerProof) {
+				queueNotification(`Error loading Badger Bouncer Proof`, 'error');
+				return;
 			}
+			if (depositAll) {
+				method = settContract.methods.deposit(bouncerProof);
+			} else {
+				method = settContract.methods.deposit(depositBalance, bouncerProof);
+			}
+		} else if (depositAll) {
+			method = settContract.methods.depositAll();
+		}
 
-			const options = await this.getMethodSendOptions(method);
-			const { tokenBalance, token } = amount;
-			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
-			const depositAmount = `${displayAmount} ${sett.asset}`;
+		const options = await this.getMethodSendOptions(method);
+		const { tokenBalance, token } = amount;
+		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+		const depositAmount = `${displayAmount} ${sett.asset}`;
 
-			queueNotification(`Sign the transaction to deposit ${depositAmount}`, 'info');
-			await sendContractMethod(
-				this.store,
-				method,
-				options,
-				'Deposing transaction submitted',
-				`Successfully deposited ${depositAmount}`,
-			);
-		},
-	);
+		queueNotification(`Sign the transaction to deposit ${depositAmount}`, 'info');
+		await sendContractMethod(
+			this.store,
+			method,
+			options,
+			'Deposing transaction submitted',
+			`Successfully deposited ${depositAmount}`,
+		);
+	});
 
-	withdrawVault = action(
-		async (sett: Vault, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
-			const { onboard } = this.store;
-			const { queueNotification } = this.store.uiState;
+	withdrawVault = action(async (sett: Vault, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
+		const { onboard } = this.store;
+		const { queueNotification } = this.store.uiState;
 
-			const web3 = new Web3(onboard.wallet?.provider);
-			const underlyingContract = new web3.eth.Contract(SETT_ABI, badgerSett.vaultToken.address);
-			const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-			const method = underlyingContract.methods.withdraw(withdrawBalance);
-			const options = await this.getMethodSendOptions(method);
+		const web3 = new Web3(onboard.wallet?.provider);
+		const underlyingContract = new web3.eth.Contract(SETT_ABI, badgerSett.vaultToken.address);
+		const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
+		const method = underlyingContract.methods.withdraw(withdrawBalance);
+		const options = await this.getMethodSendOptions(method);
 
-			const { tokenBalance, token } = amount;
-			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
-			const withdrawAmount = `${displayAmount} b${sett.asset}`;
+		const { tokenBalance, token } = amount;
+		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+		const withdrawAmount = `${displayAmount} b${sett.asset}`;
 
-			queueNotification(`Sign the transaction to withdraw ${withdrawAmount}`, 'info');
-			await sendContractMethod(
-				this.store,
-				method,
-				options,
-				'Withdraw transaction submitted',
-				`Successfully withdrew ${withdrawAmount}`,
-			);
-		},
-	);
+		queueNotification(`Sign the transaction to withdraw ${withdrawAmount}`, 'info');
+		await sendContractMethod(
+			this.store,
+			method,
+			options,
+			'Withdraw transaction submitted',
+			`Successfully withdrew ${withdrawAmount}`,
+		);
+	});
 
 	getMethodSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
 		const {

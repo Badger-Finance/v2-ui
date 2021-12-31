@@ -36,40 +36,33 @@ interface Props {
 	badgerSett: BadgerSett;
 }
 
-export const MainContent = observer(
-	({ badgerSett, sett }: Props): JSX.Element => {
-		const { user, onboard } = React.useContext(StoreContext);
+export const MainContent = observer(({ badgerSett, sett }: Props): JSX.Element => {
+	const { user, onboard } = React.useContext(StoreContext);
 
-		const classes = useStyles();
-		const tokenBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
-		const settBalance = user.getSettBalance(sett);
+	const classes = useStyles();
+	const tokenBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
+	const settBalance = user.getSettBalance(sett);
 
-		return (
-			<Grid container className={classes.content}>
-				{onboard.isActive() && (
-					<Grid container className={classes.holdingsContainer}>
-						<Holdings
-							sett={sett}
-							badgerSett={badgerSett}
-							tokenBalance={tokenBalance}
-							userData={settBalance}
-						/>
-					</Grid>
-				)}
-				<Grid container spacing={1}>
-					<Grid item xs={12} md={4} lg={3}>
-						<SpecsCard sett={sett} badgerSett={badgerSett} />
-					</Grid>
-					<Grid item xs={12} md={8} lg={9} className={classes.chartsContainer}>
-						<ChartsCard sett={sett} />
-					</Grid>
+	return (
+		<Grid container className={classes.content}>
+			{onboard.isActive() && (
+				<Grid container className={classes.holdingsContainer}>
+					<Holdings sett={sett} badgerSett={badgerSett} tokenBalance={tokenBalance} userData={settBalance} />
 				</Grid>
-				{sett.state === VaultState.Guarded && (
-					<Grid container className={classes.guardedVault}>
-						<NewVaultWarning />
-					</Grid>
-				)}
+			)}
+			<Grid container spacing={1}>
+				<Grid item xs={12} md={4} lg={3}>
+					<SpecsCard sett={sett} badgerSett={badgerSett} />
+				</Grid>
+				<Grid item xs={12} md={8} lg={9} className={classes.chartsContainer}>
+					<ChartsCard sett={sett} />
+				</Grid>
 			</Grid>
-		);
-	},
-);
+			{sett.state === VaultState.Guarded && (
+				<Grid container className={classes.guardedVault}>
+					<NewVaultWarning />
+				</Grid>
+			)}
+		</Grid>
+	);
+});

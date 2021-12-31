@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Button, Grid, makeStyles, Paper, Typography, Fade } from '@material-ui/core';
 import { bDiggToCurrency } from 'mobx/utils/helpers';
@@ -32,7 +31,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
 	const classes = useStyles();
 	return (
 		<Fade in>
-			<Grid item container justify="center" xs={12} className={classes.centerText}>
+			<Grid item container justifyContent="center" xs={12} className={classes.centerText}>
 				<Grid item xs={12} sm={8} md={7}>
 					<Paper elevation={0} className={classes.mainPapers}>
 						<Grid container spacing={1}>

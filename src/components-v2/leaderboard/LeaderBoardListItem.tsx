@@ -110,7 +110,7 @@ export default function LeaderBoardListItem(props: LeaderBoardListItemProps): JS
 					item
 					container
 					alignItems="center"
-					justify="space-between"
+					justifyContent="space-between"
 					xs={12}
 					md
 				>
@@ -124,7 +124,7 @@ export default function LeaderBoardListItem(props: LeaderBoardListItemProps): JS
 					item
 					container
 					alignItems="center"
-					justify="space-between"
+					justifyContent="space-between"
 					xs={12}
 					md
 				>

@@ -29,72 +29,70 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const SettDetail = observer(
-	(): JSX.Element => {
-		const {
-			settDetail,
-			network: { network },
-			router,
-		} = useContext(StoreContext);
+export const SettDetail = observer((): JSX.Element => {
+	const {
+		settDetail,
+		network: { network },
+		router,
+	} = useContext(StoreContext);
 
-		const initialNetwork = useRef(network);
-		const classes = useStyles();
-		const { sett, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = settDetail;
-		const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
+	const initialNetwork = useRef(network);
+	const classes = useStyles();
+	const { sett, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = settDetail;
+	const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
 
-		useEffect(() => {
-			if (network.symbol !== initialNetwork.current.symbol) {
-				router.goTo(routes.home);
-			}
-		}, [network, router]);
-
-		if (isLoading) {
-			return (
-				<Container className={classes.root}>
-					<div className={classes.notReadyContainer}>
-						<Loader message="Loading Sett Information" />
-					</div>
-				</Container>
-			);
+	useEffect(() => {
+		if (network.symbol !== initialNetwork.current.symbol) {
+			router.goTo(routes.home);
 		}
+	}, [network, router]);
 
-		if (isNotFound) {
-			return <NotFound />;
-		}
-
-		const isIbbtc = sett ? isSettVaultIbbtc(sett) : false;
-		const DepositWidget = isIbbtc ? IbbtcVaultDepositDialog : SettDeposit;
-
+	if (isLoading) {
 		return (
-			<>
-				<Container className={classes.root}>
-					<Header />
-					{sett && badgerSett && (
-						<>
-							<TopContent sett={sett} />
-							<MainContent sett={sett} badgerSett={badgerSett} />
-						</>
-					)}
-					{badgerSett && <Footer badgerSett={badgerSett} />}
-				</Container>
-				<MobileStickyActionButtons />
+			<Container className={classes.root}>
+				<div className={classes.notReadyContainer}>
+					<Loader message="Loading Sett Information" />
+				</div>
+			</Container>
+		);
+	}
+
+	if (isNotFound) {
+		return <NotFound />;
+	}
+
+	const isIbbtc = sett ? isSettVaultIbbtc(sett) : false;
+	const DepositWidget = isIbbtc ? IbbtcVaultDepositDialog : SettDeposit;
+
+	return (
+		<>
+			<Container className={classes.root}>
+				<Header />
 				{sett && badgerSett && (
 					<>
-						<DepositWidget
-							open={isDepositDialogDisplayed}
-							sett={sett}
-							badgerSett={badgerSett}
-							onClose={() => settDetail.toggleDepositDialog()}
-						/>
-						<SettWithdraw
-							open={isWithdrawDialogDisplayed}
-							sett={sett}
-							badgerSett={badgerSett}
-							onClose={() => settDetail.toggleWithdrawDialog()}
-						/>
+						<TopContent sett={sett} />
+						<MainContent sett={sett} badgerSett={badgerSett} />
 					</>
 				)}
-			</>
-		);
-	},
-);
+				{badgerSett && <Footer badgerSett={badgerSett} />}
+			</Container>
+			<MobileStickyActionButtons />
+			{sett && badgerSett && (
+				<>
+					<DepositWidget
+						open={isDepositDialogDisplayed}
+						sett={sett}
+						badgerSett={badgerSett}
+						onClose={() => settDetail.toggleDepositDialog()}
+					/>
+					<SettWithdraw
+						open={isWithdrawDialogDisplayed}
+						sett={sett}
+						badgerSett={badgerSett}
+						onClose={() => settDetail.toggleWithdrawDialog()}
+					/>
+				</>
+			)}
+		</>
+	);
+});

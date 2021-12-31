@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Button, TextField, TextFieldProps } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 import { makeStyles } from '@material-ui/core/styles';
@@ -55,12 +55,12 @@ const CurrencyInput = (props: CurrencyInputProps): JSX.Element => {
 			{...other}
 			getInputRef={inputRef}
 			// gets executed before the onChange event
-			onValueChange={(values) => {
+			onValueChange={(values, _) => {
 				nonFormattedValue = values.value;
 			}}
 			// we use this handler instead of the onValueChange to make sure the onChange in props gets executed
 			// only on manual input changes
-			onChange={(event) => {
+			onChange={(event: ChangeEvent<HTMLInputElement>) => {
 				onChange({
 					target: {
 						name: event.target.name,

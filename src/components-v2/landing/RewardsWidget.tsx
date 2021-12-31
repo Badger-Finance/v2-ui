@@ -269,7 +269,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 				<CurrencyDisplay
 					displayValue={inCurrency(totalRewardsValue, currency, widgetButtonDecimals)}
 					variant="body2"
-					justify="center"
+					justifyContent="center"
 				/>
 			</Button>
 			<Dialog
@@ -299,7 +299,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 									<img className={classes.noRewardsIcon} src="/assets/icons/no-rewards-icon.svg" />
 									<CurrencyDisplay
 										variant="body1"
-										justify="flex-start"
+										justifyContent="flex-start"
 										displayValue={inCurrency(new BigNumber(0), currency)}
 									/>
 								</Box>
@@ -371,11 +371,11 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 											</Grid>
 										))}
 										<Divider className={classes.divider} />
-										<Grid item container alignItems="center" justify="space-between">
+										<Grid item container alignItems="center" justifyContent="space-between">
 											<Typography variant="body2">Total Claimable Rewards</Typography>
 											<CurrencyDisplay
 												variant="h6"
-												justify="flex-end"
+												justifyContent="flex-end"
 												displayValue={inCurrency(totalClaimValue, currency)}
 											/>
 										</Grid>
