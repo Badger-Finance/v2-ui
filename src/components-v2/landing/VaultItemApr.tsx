@@ -32,7 +32,7 @@ export const VaultItemApr = ({ vault, multiplier }: Props): JSX.Element => {
 	const classes = useStyles();
 	const apr = getAprMessage(vault);
 
-	if (vault.state === VaultState.Deprecated) {
+	if (vault.state === VaultState.Deprecated || vault.sources.length === 0) {
 		return (
 			<Typography className={classes.normalCursor} variant="body1" color={'textPrimary'}>
 				{apr}
