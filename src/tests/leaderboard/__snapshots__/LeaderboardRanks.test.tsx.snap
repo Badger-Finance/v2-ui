@@ -806,7 +806,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -838,6 +838,11 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               >
                 Neo Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
@@ -863,7 +868,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -895,11 +900,6 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               >
                 Basic Badger
               </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
@@ -1044,7 +1044,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1076,6 +1076,11 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               >
                 Hero Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
@@ -1158,7 +1163,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1190,11 +1195,6 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               >
                 Basic Badger
               </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
@@ -1282,7 +1282,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1314,6 +1314,11 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               >
                 Hyper Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
@@ -1453,7 +1458,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1485,11 +1490,6 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               >
                 Basic Badger
               </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
@@ -1520,7 +1520,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1552,6 +1552,11 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               >
                 Frenzy Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
@@ -1748,7 +1753,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1780,11 +1785,6 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               >
                 Basic Badger
               </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
