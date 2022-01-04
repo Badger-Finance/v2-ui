@@ -1,76 +1,81 @@
 # v2 UI Changelog
 
+### 2.11.3 - 01/04/2022
+
+-   fix incorrect leaderboard rank placement
+
 ### 2.11.2 - 12/21/2021
-- style backdrop
-- refactor ibbtc store to use app balance system
+
+-   style backdrop
+-   refactor ibbtc store to use app balance system
 
 ### 2.11.1 - 11/20/2021
 
-- introduce ibbtc deposit modal
-- fix rpc based wallet connections
-- fix ibbtc mint eip-1559 compatibility
+-   introduce ibbtc deposit modal
+-   fix rpc based wallet connections
+-   fix ibbtc mint eip-1559 compatibility
 
 ### 2.11.0 - 11/16/2021
 
-- start app ux overhaul
-- introduce new ibbtc mint options
-- optimize + fix app data flow
+-   start app ux overhaul
+-   introduce new ibbtc mint options
+-   optimize + fix app data flow
 
 ### 2.10.0 - 11/06/2021
 
-- replaced at issue library causing slow app loading speeds
-- minor vaults ux tweaks
+-   replaced at issue library causing slow app loading speeds
+-   minor vaults ux tweaks
 
 ### Hotfix - 11/03/2021
 
-- fixed an issue causing no badger withdraw estimates
-- update all user guide links to new badger docs
-- enabled leaderboard updates per chain
+-   fixed an issue causing no badger withdraw estimates
+-   update all user guide links to new badger docs
+-   enabled leaderboard updates per chain
 
 ### 2.9.9 - 10/29/2021
 
-- cvx/bvecvx release
-- fix incorrect byvWBTC symbol name in ibBTC module
-- fix conflicting repeated sett slugs 
-- fix vault detail charts not being display in mobile viewport
+-   cvx/bvecvx release
+-   fix incorrect byvWBTC symbol name in ibBTC module
+-   fix conflicting repeated sett slugs
+-   fix vault detail charts not being display in mobile viewport
 
 ### 2.9.8 - 10/28/2021
 
-- sdk integration
-- cvx / bvecvx vault release
-- swapr badger / eth + ibbtc / eth release
+-   sdk integration
+-   cvx / bvecvx vault release
+-   swapr badger / eth + ibbtc / eth release
 
 ### Hotfix - 10/26/2021
 
-- change verbiage in locked cvx banner from 'Total' to 'Total Claimed'
+-   change verbiage in locked cvx banner from 'Total' to 'Total Claimed'
 
 ### 2.9.7 - 10/26/2021
 
-- release convex locking banner
+-   release convex locking banner
 
 ### Hotfix - 10/25/2021
 
-- update digg oracle to chainlink forwarder
+-   update digg oracle to chainlink forwarder
 
 ### Hotfix - 10/21/2021
 
-- fixed an issue disallowing withdraw from detail page on some setts
-- fixed a page chart styling issue
+-   fixed an issue disallowing withdraw from detail page on some setts
+-   fixed a page chart styling issue
 
 ### 2.9.6 - 10/14/2021
 
-- release mstable vaults
-- minor ux tweaks for mobile
-- fix guarded vault max cap ux
+-   release mstable vaults
+-   minor ux tweaks for mobile
+-   fix guarded vault max cap ux
 
 ### Hotfix - 10/11/2021
 
-- fix missing fee look ups
+-   fix missing fee look ups
 
 ### Hotfix - 10/07/2021
 
-- add convex delegation prompt
-- add swapr vaults + user links
+-   add convex delegation prompt
+-   add swapr vaults + user links
 
 ### 2.9.5 - 10/05/2021
 
