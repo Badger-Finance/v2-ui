@@ -21,6 +21,9 @@ import { ClaimMap } from '../landing/RewardsWidget';
 import BigNumber from 'bignumber.js';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
+import clsx from 'clsx';
+
+const checkboxComplementarySpace = 1.5;
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -109,7 +112,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			},
 		},
 		divider: {
-			marginBottom: theme.spacing(2),
+			margin: theme.spacing(0, checkboxComplementarySpace, 2),
 		},
 		rewardsIcon: {
 			marginRight: theme.spacing(1),
@@ -126,6 +129,22 @@ const useStyles = makeStyles((theme: Theme) =>
 		contentGrid: {
 			[theme.breakpoints.down('xs')]: {
 				paddingBottom: 0,
+			},
+		},
+		// we do this because we need extra space for the checkboxes hover animation. we remove the space from
+		// the container's spacing but complement it with padding in the children
+		checkboxesSpacing: {
+			paddingRight: `${theme.spacing(8) / 2 - theme.spacing(checkboxComplementarySpace)}px !important`,
+			paddingLeft: `${theme.spacing(8) / 2 - theme.spacing(checkboxComplementarySpace)}px !important`,
+			[theme.breakpoints.down('xs')]: {
+				paddingRight: `${theme.spacing(6) / 2 - theme.spacing(checkboxComplementarySpace)}px !important`,
+				paddingLeft: `${theme.spacing(6) / 2 - theme.spacing(checkboxComplementarySpace)}px !important`,
+			},
+		},
+		contentPadding: {
+			'& > *': {
+				// here is the complementary space
+				padding: theme.spacing(0, checkboxComplementarySpace),
 			},
 		},
 		optionsContainer: {
@@ -184,9 +203,14 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 			</DialogTitle>
 			<DialogContent className={classes.content}>
 				<Grid container spacing={isMobile ? 6 : 8} className={classes.contentGrid}>
-					<Grid item xs={12} sm={hasRewards ? 6 : 4}>
+					<Grid
+						item
+						xs={12}
+						sm={hasRewards ? 6 : 4}
+						className={clsx(hasRewards && classes.checkboxesSpacing)}
+					>
 						{hasRewards ? (
-							<Grid container direction="column">
+							<Grid container direction="column" className={classes.contentPadding}>
 								<Grid item container className={classes.optionsContainer}>
 									{Object.keys(claimableRewards).map((rewardsKey, index) => (
 										<Grid key={`${rewardsKey}_${index}`} item className={classes.claimRow}>
