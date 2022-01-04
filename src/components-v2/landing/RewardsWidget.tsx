@@ -61,7 +61,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 	useEffect(() => {
 		const balances = Object.fromEntries(
 			badgerTree.claims
-				.filter((claim) => !!vaults.getToken(claim.token.address))
+				.filter((claim) => !!vaults.getToken(claim.token.address) && claim.tokenBalance.gt(0))
 				.map((claim) => [claim.token.address, claim]),
 		);
 		setClaimableRewards(balances);
