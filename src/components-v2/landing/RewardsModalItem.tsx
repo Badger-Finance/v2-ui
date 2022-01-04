@@ -17,12 +17,6 @@ const useStyles = makeStyles(() => ({
 		width: '100%',
 		textAlign: 'end',
 	},
-	checkBox: {
-		position: 'absolute',
-		'& + .MuiTypography-root': {
-			marginLeft: 50,
-		},
-	},
 	boldWeight: {
 		fontWeight: 700,
 	},
@@ -42,12 +36,7 @@ export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Ele
 		>
 			<FormControlLabel
 				control={
-					<Checkbox
-						classes={{ root: classes.checkBox }}
-						checked={checked}
-						onChange={(event) => onChange(event.target.checked)}
-						color="primary"
-					/>
+					<Checkbox checked={checked} onChange={(event) => onChange(event.target.checked)} color="primary" />
 				}
 				label={<Typography variant="body2">{claimBalance.token.symbol}</Typography>}
 			/>
