@@ -24,7 +24,7 @@ describe('GasWidget', () => {
 		);
 		// Opens menu correctly
 		await fireEvent.mouseDown(screen.getByRole('button', { name: '75' }));
-		expect(await screen.getByRole('presentation')).toMatchSnapshot();
+		expect(screen.getByRole('presentation')).toMatchSnapshot();
 
 		// Selects 'rapid'
 		await fireEvent.click(screen.getByRole('option', { name: '122' }));

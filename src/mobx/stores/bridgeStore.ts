@@ -37,7 +37,7 @@ export enum Status {
 
 // BTC variants is 8 decimals.
 const DECIMALS = 10 ** 8;
-// Sett tokens are (mostly) 18 decimals.
+// Vault tokens are (mostly) 18 decimals.
 const SETT_DECIMALS = 10 ** 18;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
@@ -167,20 +167,20 @@ class BridgeStore {
 
 				if (this.status == Status.PROCESSING) {
 					// No-op if tx processing not complete.
-					if (!_isTxComplete(newValue)) return;
+					if (!_isTxComplete(newValue as RenVMTransaction)) return;
 					this.complete();
 					return;
 				}
 
 				this.status = Status.INITIALIZING;
 				// Check if needs init (new tx).
-				if (newValue.created === undefined) {
-					this.initTx(newValue);
+				if ((newValue as RenVMTransaction).created === undefined) {
+					this.initTx(newValue as RenVMTransaction);
 					return;
 				}
 
 				this.status = Status.PROCESSING;
-				this.openTx(newValue);
+				this.openTx(newValue as RenVMTransaction);
 			},
 		);
 

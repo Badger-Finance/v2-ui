@@ -1,4 +1,3 @@
-import 'jest';
 import { getFormattedNetworkName, restrictToRange, roundWithDecimals } from '../../utils/componentHelpers';
 import { Ethereum } from '../../mobx/model/network/eth.network';
 import { BinanceSmartChain } from '../../mobx/model/network/bsc.network';

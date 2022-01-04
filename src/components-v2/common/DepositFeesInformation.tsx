@@ -27,7 +27,7 @@ export const DepositFeesInformation = ({ closeIcon }: Props): JSX.Element => {
 
 	return (
 		<Grid container className={classes.root}>
-			<Grid container justify="space-between" alignItems="center">
+			<Grid container justifyContent="space-between" alignItems="center">
 				<Typography variant="body1" display="inline" className={classes.title}>
 					Fee Information
 				</Typography>

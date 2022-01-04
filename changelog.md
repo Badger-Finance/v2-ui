@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### 2.11.2 - 12/21/2021
+- style backdrop
+- refactor ibbtc store to use app balance system
+
 ### 2.11.1 - 11/20/2021
 
 - introduce ibbtc deposit modal

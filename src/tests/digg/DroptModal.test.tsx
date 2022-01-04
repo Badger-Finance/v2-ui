@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import DroptModal from 'components/Digg/DroptModal';
 import store from 'mobx/RootStore';
-import SettStore from 'mobx/stores/SettStore';
+import VaultStore from 'mobx/stores/VaultStore';
 import UserStore from 'mobx/stores/UserStore';
 import { digg_system } from 'config/deployments/mainnet.json';
 import { checkSnapshot } from 'tests/utils/snapshots';
@@ -11,7 +11,7 @@ import { customRender, fireEvent } from 'tests/Utils';
 import { StoreProvider } from 'mobx/store-context';
 import { mockToken } from 'mobx/model/tokens/badger-token';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { act } from 'react-dom/test-utils';
+import { screen } from '../Utils';
 
 const validStore = (store.rebase.rebase = {
 	totalSupply: new BigNumber(1),
@@ -25,6 +25,7 @@ const validStore = (store.rebase.rebase = {
 	oracleRate: new BigNumber(1),
 	nextRebase: new Date(),
 	pastRebase: 1,
+	sharesPerFragment: new BigNumber(1),
 	validDropts: [
 		{
 			[digg_system.DROPT['DROPT-2'].redemption]: {
@@ -49,6 +50,7 @@ const invalidStore = (store.rebase.rebase = {
 	nextRebase: new Date(),
 	pastRebase: 1,
 	validDropts: [],
+	sharesPerFragment: new BigNumber(1),
 });
 
 describe('Invalid Dropt Modal', () => {
@@ -66,7 +68,7 @@ describe('Dropt Modal', () => {
 	beforeEach(() => {
 		store.rebase.rebase = validStore;
 
-		jest.spyOn(SettStore.prototype, 'getToken').mockReturnValue({
+		jest.spyOn(VaultStore.prototype, 'getToken').mockReturnValue({
 			address: '0x952F4Ac36EF204a28800AA1c1586C5261B600894',
 			decimals: 18,
 			name: 'DIGG Rebase Option 2',
@@ -74,7 +76,12 @@ describe('Dropt Modal', () => {
 		});
 		jest.spyOn(UserStore.prototype, 'getTokenBalance').mockReturnValue(
 			new TokenBalance(
-				mockToken('0x952F4Ac36EF204a28800AA1c1586C5261B600894'),
+				{
+					name: 'Test Token',
+					address: '0x952F4Ac36EF204a28800AA1c1586C5261B600894',
+					decimals: 18,
+					symbol: 'TT',
+				},
 				new BigNumber(1),
 				new BigNumber(1),
 			),
@@ -90,15 +97,12 @@ describe('Dropt Modal', () => {
 	});
 
 	test('Opens dropt modal upon click', async () => {
-		const modal = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<DroptModal />
 			</StoreProvider>,
 		);
-		act(() => {
-			fireEvent.click(modal.getByRole('button'));
-		});
-
-		expect(modal.getByRole('presentation')).toBeTruthy();
+		fireEvent.click(screen.getByRole('button'));
+		expect(screen.getByRole('presentation')).toBeTruthy();
 	});
 });

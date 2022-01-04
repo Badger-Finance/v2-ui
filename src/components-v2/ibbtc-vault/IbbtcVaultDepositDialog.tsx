@@ -29,7 +29,7 @@ import IbbtcVaultZapAbi from '../../config/system/abis/IbbtcVaultZap.json';
 import { AbiItem } from 'web3-utils';
 import { toHex } from '../../mobx/utils/helpers';
 import { sendContractMethod } from '../../mobx/utils/web3';
-import { SettModalProps } from '../common/dialogs/SettDeposit';
+import { VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { Loader } from '../../components/Loader';
 import SlippageMessage from './SlippageMessage';
 import { debounce } from '../../utils/componentHelpers';
@@ -108,17 +108,17 @@ enum DepositMode {
 const ibbtcVaultPeakAddressWrite = '0x87C3Ef099c6143e4687b060285bad201b9efa493'; // this is the proxy
 const ibbtcVaultPeakAddressRead = mainnetDeploy.ibbtcVaultZap;
 
-const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX.Element => {
+const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JSX.Element => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { contracts, network, onboard, setts, uiState, user } = store;
+	const { contracts, network, onboard, vaults, uiState, user } = store;
 
 	// lp token getters
-	const lpSett = setts.getSett(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
-	const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.settToken);
-	const userLpTokenBalance = lpBadgerSett ? user.getBalance(BalanceNamespace.Token, lpBadgerSett) : undefined;
+	const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
+	const lpBadgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === lpVault?.vaultToken);
+	const userLpTokenBalance = lpBadgerVault ? user.getBalance(BalanceNamespace.Token, lpBadgerVault) : undefined;
 	const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
-	const settStrategy = lpBadgerSett ? network.network.strategies[lpBadgerSett.vaultToken.address] : undefined;
+	const settStrategy = lpBadgerVault ? network.network.strategies[lpBadgerVault.vaultToken.address] : undefined;
 
 	// options
 	const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
@@ -136,7 +136,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 	const [minPoolTokens, setMinPoolTokens] = useState<TokenBalance>();
 
 	const areUserTokenBalancesAvailable = Object.keys(user.tokenBalances).length > 0;
-	const isLoading = !areUserTokenBalancesAvailable || !lpBadgerSett;
+	const isLoading = !areUserTokenBalancesAvailable || !lpBadgerVault;
 
 	const totalDeposit = multiTokenDepositBalances.reduce(
 		(total, balance) => total.plus(balance.tokenBalance),
@@ -198,8 +198,6 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		setExpectedSlippage(calculatedSlippage);
 	};
 
-	// reason: the plugin does not recognize the dependency inside the debounce function
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const handleDepositBalanceChange = useCallback(
 		debounce(200, async (tokenBalance: TokenBalance, index: number) => {
 			const balances = [...multiTokenDepositBalances];
@@ -234,11 +232,11 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 	);
 
 	const handleLpTokenDeposit = async () => {
-		if (!lpTokenDepositBalance || !userLpTokenBalance || !lpSett || !lpBadgerSett) {
+		if (!lpTokenDepositBalance || !userLpTokenBalance || !lpVault || !lpBadgerVault) {
 			return;
 		}
 
-		await contracts.deposit(lpSett, lpBadgerSett, userLpTokenBalance, lpTokenDepositBalance);
+		await contracts.deposit(lpVault, lpBadgerVault, userLpTokenBalance, lpTokenDepositBalance);
 	};
 
 	const handleMultiTokenDeposit = async () => {
@@ -295,9 +293,11 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 	}, [user, user.initialized]);
 
 	useEffect(() => {
-		const lpSett = setts.getSett(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
-		const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.settToken);
-		const userLpTokenBalance = lpBadgerSett ? user.getBalance(BalanceNamespace.Token, lpBadgerSett) : undefined;
+		const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
+		const lpBadgerVault = network.network.vaults.find(
+			({ vaultToken }) => vaultToken.address === lpVault?.vaultToken,
+		);
+		const userLpTokenBalance = lpBadgerVault ? user.getBalance(BalanceNamespace.Token, lpBadgerVault) : undefined;
 
 		if (!userLpTokenBalance) {
 			return;
@@ -307,7 +307,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 
 		setLpTokenDepositBalance(userLpTokenBalance);
 		setMode(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
-	}, [user, setts, network.network.setts]);
+	}, [user, vaults, network.network.vaults]);
 
 	return (
 		<Dialog open={open} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
@@ -323,7 +323,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 						<Grid item className={classes.loader}>
 							<Loader size={48} />
 						</Grid>
-						<Grid item container justify="center">
+						<Grid item container justifyContent="center">
 							<Typography variant="h6" display="inline">
 								Loading
 							</Typography>
@@ -375,7 +375,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 										<Grid
 											item
 											container
-											justify="space-between"
+											justifyContent="space-between"
 											alignItems="center"
 											className={classes.inputRow}
 										>
@@ -410,13 +410,13 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 						</Grid>
 						<Grid item container direction="column" className={clsx(classes.inputRow, classes.estimations)}>
 							{expectedPoolTokens && (
-								<Grid item container justify="space-between">
+								<Grid item container justifyContent="space-between">
 									<Typography variant="body2">Expected Pool Tokens Received:</Typography>
 									<Typography variant="body2">{expectedPoolTokens.balanceDisplay(4)}</Typography>
 								</Grid>
 							)}
 							{minPoolTokens && (
-								<Grid item container justify="space-between">
+								<Grid item container justifyContent="space-between">
 									<Typography variant="body2">Min Pool tokens Received:</Typography>
 									<Typography variant="body2">{minPoolTokens.balanceDisplay(4)}</Typography>
 								</Grid>
@@ -445,7 +445,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 					</Grid>
 				)}
 				<Divider className={classes.divider} variant="fullWidth" />
-				{lpSett && settStrategy && <StrategyFees sett={lpSett} strategy={settStrategy} />}
+				{lpVault && settStrategy && <StrategyFees vault={lpVault} strategy={settStrategy} />}
 				<Button
 					fullWidth
 					variant="contained"

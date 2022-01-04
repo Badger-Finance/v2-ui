@@ -35,7 +35,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
 	const classes = useStyles();
 	return (
 		<Fade in>
-			<Grid item container justify="center" xs={12}>
+			<Grid item container justifyContent="center" xs={12}>
 				<Grid item container xs={12} className={classes.holdingsTitle}>
 					<Typography style={{ width: '100%' }}>Your Holdings</Typography>
 				</Grid>
@@ -56,7 +56,7 @@ export const NftList = observer(() => {
 	if (loadingNfts || !nfts) {
 		return (
 			<Container>
-				<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
+				<Grid item container xs={12} justifyContent="space-between" spacing={isMobile ? 0 : 8}>
 					{Array(3)
 						.fill(null)
 						.map((_, index: number) => (
@@ -72,7 +72,7 @@ export const NftList = observer(() => {
 	if (nfts.length === 0) {
 		return (
 			<Container>
-				<Grid item container xs={12} justify="space-between">
+				<Grid item container xs={12} justifyContent="space-between">
 					<Typography variant="h5" className={classes.center} color="textSecondary">
 						No Holdings
 					</Typography>
@@ -83,7 +83,7 @@ export const NftList = observer(() => {
 
 	return (
 		<Container>
-			<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
+			<Grid item container xs={12} justifyContent="space-between" spacing={isMobile ? 0 : 8}>
 				{nfts.map(({ balance, tokenId, name, image, totalSupply, poolBalance, root, redirectUrl }: NFT) => {
 					const redemptionRate = store.honeyPot.calculateRedemptionRate(root);
 

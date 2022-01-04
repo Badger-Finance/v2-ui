@@ -1,7 +1,7 @@
 import { NETWORK_IDS } from 'config/constants';
-import { toSettConfig } from 'web3/config/config-utils';
+import { toVaultConfig } from 'web3/config/config-utils';
 import { Deploy } from 'web3/interface/deploy';
-import { BadgerSett } from '../vaults/badger-sett';
+import { BadgerVault } from '../vaults/badger-vault';
 import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/mainnet.json';
 import { toRecord } from 'web3/config/token-config';
@@ -21,7 +21,7 @@ export class Ethereum extends NetworkModel {
 			NETWORK_IDS.ETH,
 			Currency.ETH,
 			ETH_DEPLOY,
-			ethSettDefinitions,
+			ethVaultDefinitions,
 		);
 	}
 	get settOrder(): string[] {
@@ -60,7 +60,7 @@ export class Ethereum extends NetworkModel {
 
 export const ETH_DEPLOY = deploy as Deploy;
 
-const ethSettDefinitions: BadgerSett[] = [
+const ethVaultDefinitions: BadgerVault[] = [
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['sushi.wBTC-DIGG'],
@@ -166,6 +166,7 @@ const ethSettDefinitions: BadgerSett[] = [
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.renCrv'],
 			decimals: 18,
+			name: 'bcrvrenBTC',
 		},
 		geyser: ETH_DEPLOY.geysers['native.renCrv'],
 	},
@@ -356,7 +357,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	},
 ];
 
-export const ethSetts = toSettConfig(ethSettDefinitions);
+export const ethVaults = toVaultConfig(ethVaultDefinitions);
 
 export const ethRewards = [
 	{
@@ -388,6 +389,6 @@ export const ethRewards = [
 	},
 ];
 
-const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
+const ethTokens = ethVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]).concat(ethRewards);
 
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');

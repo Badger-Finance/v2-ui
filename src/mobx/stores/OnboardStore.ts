@@ -71,18 +71,16 @@ export class OnboardStore {
 		} catch {} // ignore disconnect failures from provider
 	}
 
-	addressListener = action(
-		async (address: string): Promise<void> => {
-			const shouldUpdate = this.address !== undefined && this.address !== address;
-			this.address = address;
-			if (shouldUpdate && this.wallet) {
-				await this.walletListener(this.wallet);
-				if (this.provider) {
-					await this.store.updateProvider(this.provider);
-				}
+	addressListener = action(async (address: string): Promise<void> => {
+		const shouldUpdate = this.address !== undefined && this.address !== address;
+		this.address = address;
+		if (shouldUpdate && this.wallet) {
+			await this.walletListener(this.wallet);
+			if (this.provider) {
+				await this.store.updateProvider(this.provider);
 			}
-		},
-	);
+		}
+	});
 
 	networkListener = action(async (network: number) => {
 		try {
@@ -95,17 +93,15 @@ export class OnboardStore {
 		} catch {} // do nothing on bad network change
 	});
 
-	walletListener = action(
-		async (wallet: Wallet): Promise<void> => {
-			this.wallet = wallet;
-			if (wallet.provider) {
-				this.provider = this.getProvider(this.config, wallet.provider, wallet.name);
-			}
-			if (wallet.name) {
-				window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
-			}
-		},
-	);
+	walletListener = action(async (wallet: Wallet): Promise<void> => {
+		this.wallet = wallet;
+		if (wallet.provider) {
+			this.provider = this.getProvider(this.config, wallet.provider, wallet.name);
+		}
+		if (wallet.name) {
+			window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
+		}
+	});
 
 	private getProvider(config: NetworkConfig, provider: any, wallet: string | null): SDKProvider {
 		let library;

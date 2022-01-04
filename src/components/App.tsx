@@ -60,13 +60,13 @@ export const App = (): JSX.Element => {
 	return (
 		<div className={clsx(classes.rootContainer, classes.flexContainer, classes.columnContainer)}>
 			<NetworkNotification />
-			{!isMobile && <Announcements />}
 			<div className={clsx(classes.appContainer, classes.flexContainer)}>
 				<Sidebar />
 				<main className={clsx(classes.contentContainer, classes.columnContainer)}>
-					<Header />
-					{isMobile && <Announcements />}
 					<main className={classes.content}>
+						{!isMobile && <Announcements />}
+						<Header />
+						{isMobile && <Announcements />}
 						<ApprovalVulnerabilitiesWarning />
 						<MobxRouter store={store} />
 					</main>

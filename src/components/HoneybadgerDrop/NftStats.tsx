@@ -116,7 +116,7 @@ const NftStats: React.FC<NftStatsProps> = (props: NftStatsProps) => {
 						<Typography className={classes.textCenter}>{name}</Typography>
 					</Grid>
 					<Grid item container xs={12}>
-						<Grid item container justify="space-between" xs={12}>
+						<Grid item container justifyContent="space-between" xs={12}>
 							<Grid item xs={6} className={classes.textStart}>
 								<Typography variant="caption" color="textSecondary">
 									Your Balance
@@ -126,7 +126,7 @@ const NftStats: React.FC<NftStatsProps> = (props: NftStatsProps) => {
 								<Typography variant="caption">{balance}</Typography>
 							</Grid>
 						</Grid>
-						<Grid item container justify="space-between" xs={12}>
+						<Grid item container justifyContent="space-between" xs={12}>
 							<Grid item xs={6} className={classes.textStart}>
 								<Typography variant="caption" color="textSecondary">
 									Remaining
@@ -136,7 +136,7 @@ const NftStats: React.FC<NftStatsProps> = (props: NftStatsProps) => {
 								<Typography variant="caption">{remaining}</Typography>
 							</Grid>
 						</Grid>
-						<Grid item container justify="space-between" xs={12}>
+						<Grid item container justifyContent="space-between" xs={12}>
 							<Grid item xs={6} className={classes.textStart}>
 								<Typography variant="caption" color="textSecondary">
 									Redemption Value (bDIGG)
@@ -146,7 +146,7 @@ const NftStats: React.FC<NftStatsProps> = (props: NftStatsProps) => {
 								<Typography variant="caption">{redemptionRateBdigg}</Typography>
 							</Grid>
 						</Grid>
-						<Grid item container justify="space-between" xs={12}>
+						<Grid item container justifyContent="space-between" xs={12}>
 							<Grid item xs={6} className={classes.textStart}>
 								<Typography variant="caption" color="textSecondary">
 									Redemption Value ($)
@@ -156,7 +156,7 @@ const NftStats: React.FC<NftStatsProps> = (props: NftStatsProps) => {
 								<Typography variant="caption">{redemptionRateUsd}</Typography>
 							</Grid>
 						</Grid>
-						<Grid item container justify="center" xs={12}>
+						<Grid item container justifyContent="center" xs={12}>
 							<Box clone mt={2}>
 								<Button
 									disabled={disabled || loading}

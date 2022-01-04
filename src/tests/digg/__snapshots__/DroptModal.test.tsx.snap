@@ -3,7 +3,7 @@
 exports[`Dropt Modal is enabled when there is 1 valid dropt redemption 1`] = `
 <div>
   <div
-    class="MuiGrid-root-7 makeStyles-droptModalButton-5 MuiGrid-container-8 MuiGrid-justify-xs-flex-end-26"
+    class="MuiGrid-root-7 makeStyles-droptModalButton-5 MuiGrid-container-8 MuiGrid-justify-content-xs-flex-end-26"
   >
     <button
       aria-label="Redeem DROPT"
@@ -28,7 +28,7 @@ exports[`Dropt Modal is enabled when there is 1 valid dropt redemption 1`] = `
 exports[`Invalid Dropt Modal is disabled when no valid dropt redemption 1`] = `
 <div>
   <div
-    class="MuiGrid-root-7 makeStyles-droptModalButton-5 MuiGrid-container-8 MuiGrid-justify-xs-flex-end-26"
+    class="MuiGrid-root-7 makeStyles-droptModalButton-5 MuiGrid-container-8 MuiGrid-justify-content-xs-flex-end-26"
   >
     <button
       aria-label="Redeem Dropt"

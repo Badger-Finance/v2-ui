@@ -9,9 +9,9 @@ import { Network } from 'mobx/model/network/network';
 import { Currency } from 'config/enums/currency.enum';
 import { currencyConfiguration } from 'config/currency.config';
 import routes from 'config/routes';
-import SettStore from 'mobx/stores/SettStore';
+import VaultStore from 'mobx/stores/VaultStore';
 import { QueryParams, Route } from 'mobx-router';
-import { SettState } from '@badger-dao/sdk';
+import { VaultState } from '@badger-dao/sdk';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -305,15 +305,15 @@ export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => v
  * @param amount amount to be converted
  * @param decimals decimals the the converted amount will have
  */
-export const getRouteBySlug = (slug: string | undefined, setts: SettStore): Route<RootStore, QueryParams> => {
-	const sett = slug ? setts.getSettBySlug(slug) : null;
-	if (!slug || !sett) {
+export const getRouteBySlug = (slug: string | undefined, setts: VaultStore): Route<RootStore, QueryParams> => {
+	const vault = slug ? setts.getVaultBySlug(slug) : null;
+	if (!slug || !vault) {
 		return routes.home;
 	}
-	switch (sett.state) {
-		case SettState.Guarded:
+	switch (vault.state) {
+		case VaultState.Guarded:
 			return routes.guarded;
-		case SettState.Experimental:
+		case VaultState.Experimental:
 			return routes.experimental;
 		default:
 			return routes.home;

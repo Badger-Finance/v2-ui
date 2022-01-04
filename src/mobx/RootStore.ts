@@ -6,7 +6,7 @@ import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
 import BridgeStore from './stores/bridgeStore';
-import SettStore from './stores/SettStore';
+import VaultStore from './stores/VaultStore';
 import GasPricesStore from './stores/GasPricesStore';
 import { NETWORK_IDS } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
@@ -14,8 +14,8 @@ import UserStore from './stores/UserStore';
 import { LeaderBoardStore } from './stores/LeaderBoardStore';
 import PricesStore from './stores/PricesStore';
 import { NetworkStore } from './stores/NetworkStore';
-import { SettDetailStore } from './stores/SettDetail.store';
-import { SettChartsStore } from './stores/SettChartsStore';
+import { VaultDetailStore } from './stores/VaultDetail.store';
+import { VaultChartsStore } from './stores/VaultChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
 import { BadgerAPI, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
@@ -37,14 +37,14 @@ export class RootStore {
 	public onboard: OnboardStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
-	public setts: SettStore;
+	public vaults: VaultStore;
 	public bridge: BridgeStore;
 	public honeyPot: HoneyPotStore;
 	public user: UserStore;
 	public leaderBoard: LeaderBoardStore;
 	public prices: PricesStore;
-	public settDetail: SettDetailStore;
-	public settCharts: SettChartsStore;
+	public vaultDetail: VaultDetailStore;
+	public vaultCharts: VaultChartsStore;
 	public lockedCvxDelegation: LockedCvxDelegationStore;
 	public gasPrices: GasPricesStore;
 
@@ -60,17 +60,17 @@ export class RootStore {
 		this.rebase = new RebaseStore(this);
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiState(this);
-		this.ibBTCStore = new IbBTCStore(this);
+		this.vaults = new VaultStore(this);
+		this.user = new UserStore(this);
 		// RenVM bridge store.
 		this.bridge = new BridgeStore(this);
 		this.honeyPot = new HoneyPotStore(this);
-		this.setts = new SettStore(this);
-		this.user = new UserStore(this);
 		this.leaderBoard = new LeaderBoardStore(this);
-		this.settDetail = new SettDetailStore(this);
-		this.settCharts = new SettChartsStore(this);
+		this.vaultDetail = new VaultDetailStore(this);
+		this.vaultCharts = new VaultChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
 		this.gasPrices = new GasPricesStore(this);
+		this.ibBTCStore = new IbBTCStore(this);
 	}
 
 	async updateNetwork(network: number): Promise<void> {
@@ -85,7 +85,7 @@ export class RootStore {
 
 		let refreshData = [
 			this.network.updateGasPrices(),
-			this.setts.refresh(),
+			this.vaults.refresh(),
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
 		];

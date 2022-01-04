@@ -54,37 +54,35 @@ interface SidebarSectionProps {
 	items: SidebarItemProps[];
 }
 
-const SidebarSection = observer(
-	({ title, items }: SidebarSectionProps): JSX.Element => {
-		const classes = useStyles();
-		const store = useContext(StoreContext);
-		const { router } = store;
-		const [open, setOpen] = useState(false);
-		const isActive = items.map((item) => item.route).find((route) => route === router.currentPath) !== undefined;
+const SidebarSection = observer(({ title, items }: SidebarSectionProps): JSX.Element => {
+	const classes = useStyles();
+	const store = useContext(StoreContext);
+	const { router } = store;
+	const [open, setOpen] = useState(false);
+	const isActive = items.map((item) => item.route).find((route) => route === router.currentPath) !== undefined;
 
-		function toggleSection() {
-			if (!isActive) {
-				setOpen(!open);
-			}
+	function toggleSection() {
+		if (!isActive) {
+			setOpen(!open);
 		}
+	}
 
-		return (
-			<div className={classes.sidebarSection} onClick={toggleSection}>
-				<div className={classes.titleSection}>
-					<span className={classes.title}>{title}</span>
-					<div className={clsx(classes.expand, (open || isActive) && classes.expandOpen)}>
-						<ExpandMore />
-					</div>
+	return (
+		<div className={classes.sidebarSection} onClick={toggleSection}>
+			<div className={classes.titleSection}>
+				<span className={classes.title}>{title}</span>
+				<div className={clsx(classes.expand, (open || isActive) && classes.expandOpen)}>
+					<ExpandMore />
 				</div>
-				<Collapse className={classes.collapse} in={open || isActive} unmountOnExit>
-					{items.map((props) => {
-						const { title, view, route } = props;
-						return <SidebarItem key={title} title={title} view={view} route={route} />;
-					})}
-				</Collapse>
 			</div>
-		);
-	},
-);
+			<Collapse className={classes.collapse} in={open || isActive} unmountOnExit>
+				{items.map((props) => {
+					const { title, view, route } = props;
+					return <SidebarItem key={title} title={title} view={view} route={route} />;
+				})}
+			</Collapse>
+		</div>
+	);
+});
 
 export default SidebarSection;

@@ -14,7 +14,7 @@ exports[`Specs Section displays sett information 1`] = `
         <h6
           class="MuiTypography-root-145 makeStyles-title-142 MuiTypography-h6-155"
         >
-          Sett Details
+          Vault Details
         </h6>
         <hr
           class="MuiDivider-root-177 WithStyles(ForwardRef(Divider))-root-175 WithStyles(ForwardRef(Divider))-root-176"
@@ -42,7 +42,7 @@ exports[`Specs Section displays sett information 1`] = `
           </div>
         </div>
         <div
-          class="MuiCollapse-container-195 MuiCollapse-entered-196"
+          class="MuiCollapse-root-195 MuiCollapse-entered-196"
           style="min-height: 0px;"
         >
           <div
@@ -88,7 +88,7 @@ exports[`Specs Section displays sett information 1`] = `
           class="MuiGrid-root-33 MuiGrid-container-34"
         >
           <div
-            class="MuiGrid-root-33 makeStyles-tokenSpec-204 MuiGrid-container-34 MuiGrid-justify-xs-space-between-53"
+            class="MuiGrid-root-33 makeStyles-tokenSpec-204 MuiGrid-container-34 MuiGrid-justify-content-xs-space-between-53"
           >
             <div
               class="MuiBox-root-208 MuiBox-root-209"
@@ -211,7 +211,7 @@ exports[`Specs Section displays sett information 1`] = `
           class="MuiGrid-root-33 MuiGrid-container-34"
         >
           <div
-            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-xs-space-between-53"
+            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-content-xs-space-between-53"
           >
             <p
               class="MuiTypography-root-145 makeStyles-specName-267 MuiTypography-body1-147 MuiTypography-colorTextSecondary-171 MuiTypography-displayInline-173"
@@ -225,7 +225,7 @@ exports[`Specs Section displays sett information 1`] = `
             </h6>
           </div>
           <div
-            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-xs-space-between-53"
+            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-content-xs-space-between-53"
           >
             <p
               class="MuiTypography-root-145 makeStyles-specName-267 MuiTypography-body1-147 MuiTypography-colorTextSecondary-171 MuiTypography-displayInline-173"
@@ -239,7 +239,7 @@ exports[`Specs Section displays sett information 1`] = `
             </h6>
           </div>
           <div
-            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-xs-space-between-53"
+            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-content-xs-space-between-53"
           >
             <p
               class="MuiTypography-root-145 makeStyles-specName-267 MuiTypography-body1-147 MuiTypography-colorTextSecondary-171 MuiTypography-displayInline-173"
@@ -336,7 +336,7 @@ exports[`Specs Section displays sett information 1`] = `
           </a>
         </div>
         <div
-          class="MuiCollapse-container-195 MuiCollapse-hidden-197"
+          class="MuiCollapse-root-195 MuiCollapse-hidden-197"
           style="min-height: 0px;"
         >
           <div

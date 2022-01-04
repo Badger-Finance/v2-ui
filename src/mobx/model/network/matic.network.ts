@@ -2,7 +2,7 @@ import { NETWORK_IDS } from 'config/constants';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { BadgerSett } from '../vaults/badger-sett';
+import { BadgerVault } from '../vaults/badger-vault';
 import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/matic.json';
 import { Currency } from 'config/enums/currency.enum';
@@ -18,7 +18,7 @@ export class Polygon extends NetworkModel {
 			NETWORK_IDS.MATIC,
 			Currency.MATIC,
 			MATIC_DEPLOY,
-			maticSetts,
+			maticVaults,
 		);
 	}
 
@@ -34,7 +34,7 @@ export class Polygon extends NetworkModel {
 
 export const MATIC_DEPLOY: Deploy = deploy;
 
-export const maticSetts: BadgerSett[] = [
+export const maticVaults: BadgerVault[] = [
 	{
 		depositToken: {
 			address: MATIC_DEPLOY.tokens['SLP-IBBTC-WBTC'],
@@ -92,6 +92,6 @@ export const maticRewards = [
 	},
 ];
 
-const maticTokens = maticSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(maticRewards);
+const maticTokens = maticVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]).concat(maticRewards);
 
 export const maticProtocolTokens: ProtocolTokens = toRecord(maticTokens, 'address');

@@ -24,21 +24,22 @@ const useCurrencyIconStyles = (typographyVariant: Variant) => {
 export interface CurrencyDisplayProps {
 	displayValue?: string;
 	variant: Variant;
-	justify: GridJustification;
+	justifyContent: GridJustification;
 	TypographyProps?: TypographyProps;
 	disabled?: boolean;
 }
 
 const CurrencyDisplay = (props: CurrencyDisplayProps): JSX.Element => {
-	const { displayValue, variant, justify, disabled = false, TypographyProps = {} } = props;
+	const { displayValue, variant, justifyContent, disabled = false, TypographyProps = {} } = props;
 	const [icon, displayAmount] = displayValue ? displayValue.split('.png') : [undefined, undefined];
 	const hasCurrencyIcon = displayAmount !== undefined;
 	const iconClasses = useCurrencyIconStyles(variant)();
 
 	return (
-		<Box display="inline-flex" justifyContent={justify} alignItems="center">
+		<Box display="inline-flex" justifyContent={justifyContent} alignItems="center">
 			{hasCurrencyIcon && (
 				<img
+					alt={`${displayAmount}`}
 					src={`${icon}.png`}
 					className={clsx(iconClasses.currencyIcon, disabled && iconClasses.disabledIcon)}
 				/>

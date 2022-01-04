@@ -6,9 +6,9 @@ import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
-import { SettState } from '@badger-dao/sdk';
-import SettListView from '../components-v2/landing/SettListView';
-import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget';
+import { VaultState } from '@badger-dao/sdk';
+import VaultListView from '../components-v2/landing/VaultListView';
+import VaultListFiltersWidget from '../components-v2/common/VaultListFiltersWidget';
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
 interface LandingProps {
 	title: string;
 	subtitle?: string | React.ReactNode;
-	state: SettState;
+	state: VaultState;
 }
 
 const Landing = observer((props: LandingProps) => {
@@ -122,7 +122,7 @@ const Landing = observer((props: LandingProps) => {
 		prices,
 		uiState: { currency },
 		network: { network },
-		setts: { protocolSummary },
+		vaults: { protocolSummary },
 	} = useContext(StoreContext);
 
 	const { title, subtitle, state } = props;
@@ -151,7 +151,7 @@ const Landing = observer((props: LandingProps) => {
 									<CurrencyDisplay
 										displayValue={inCurrency(totalValueLocked, currency, 0)}
 										variant="subtitle2"
-										justify="flex-start"
+										justifyContent="flex-start"
 										TypographyProps={{ className: classes.badgerOverviewValueText }}
 									/>
 								) : (
@@ -166,7 +166,7 @@ const Landing = observer((props: LandingProps) => {
 									<CurrencyDisplay
 										displayValue={inCurrency(badgerPrice, currency)}
 										variant="body2"
-										justify="flex-start"
+										justifyContent="flex-start"
 										TypographyProps={{ className: classes.badgerOverviewValueText }}
 									/>
 								) : (
@@ -179,12 +179,12 @@ const Landing = observer((props: LandingProps) => {
 			)}
 			<LayoutContainer>
 				{/* Landing Metrics Cards */}
-				<Grid container justify="center">
+				<Grid container justifyContent="center">
 					<PageHeaderContainer item container xs={12}>
 						<Grid item xs={10} md={6}>
 							<PageHeader title={title} subtitle={subtitle} />
 						</Grid>
-						<Grid item container xs={2} md={6} alignItems="center" justify="flex-end" spacing={2}>
+						<Grid item container xs={2} md={6} alignItems="center" justifyContent="flex-end" spacing={2}>
 							{!isMobile && (
 								<>
 									<Grid item>
@@ -210,17 +210,17 @@ const Landing = observer((props: LandingProps) => {
 							<CurrencyDisplay
 								displayValue={inCurrency(portfolioValue, currency)}
 								variant="body2"
-								justify="flex-start"
+								justifyContent="flex-start"
 								TypographyProps={{ className: classes.badgerOverviewValueText }}
 							/>
 						</Grid>
 						<Grid item container xs={2} justify="flex-end" className={classes.filterWidgetContainer}>
-							<SettListFiltersWidget />
+							<VaultListFiltersWidget />
 						</Grid>
 					</Grid>
 				)}
 
-				{state === SettState.Guarded && (
+				{state === VaultState.Guarded && (
 					<div className={classes.announcementContainer}>
 						<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
 							Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
@@ -228,7 +228,7 @@ const Landing = observer((props: LandingProps) => {
 					</div>
 				)}
 
-				<SettListView state={state} />
+				<VaultListView state={state} />
 			</LayoutContainer>
 		</>
 	);

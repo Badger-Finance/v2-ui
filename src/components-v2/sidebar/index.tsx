@@ -233,8 +233,8 @@ const Sidebar = observer(() => {
 				)}
 			</div>
 			<div className={classes.daoContainer}>
-				<div className={classes.daoItem} onClick={() => window.open('https://badger.wiki/')}>
-					Wiki
+				<div className={classes.daoItem} onClick={() => window.open('https://docs.badger.com/')}>
+					Documentation
 				</div>
 				<div className={classes.daoItem} onClick={() => window.open('https://forum.badger.finance')}>
 					Forum
