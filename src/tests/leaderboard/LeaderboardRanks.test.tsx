@@ -49,6 +49,7 @@ describe('LeaderboardRanks', () => {
 				stakeRatio: 0,
 				data: {},
 				claimableBalances: {},
+				nftBalance: 0,
 			};
 			const { leaderBoard } = store;
 			leaderBoard.ranks = testRanks;
