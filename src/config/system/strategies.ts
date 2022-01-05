@@ -5,11 +5,26 @@ import arbitrumDeploy from '../../config/deployments/arbitrum.json';
 import maticDeploy from '../../config/deployments/matic.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 import ethDeploy from '../../config/deployments/mainnet.json';
+import avaxDeploy from '../../config/deployments/avalanche.json';
 import { Network } from '@badger-dao/sdk';
 
 // TODO: add descriptions and deposit instructions after marketing team provides them
 export const getStrategies = (network: Network): StrategyNetworkConfig => {
 	switch (network) {
+		case Network.Avalanche:
+			return {
+				[avaxDeploy.sett_system.vaults['BWBTC']]: {
+					address: avaxDeploy.sett_system.strategies['BWBTC'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.strategistPerformance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					// TODO: Update user guide
+					userGuide:
+						'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-sushi-weth-helper-vault',
+				},
+			};
 		case Network.Arbitrum:
 			return {
 				[arbitrumDeploy.sett_system.vaults['native.sushiWethSushi']]: {

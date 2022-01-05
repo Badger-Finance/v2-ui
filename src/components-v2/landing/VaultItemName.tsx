@@ -44,6 +44,7 @@ interface Props {
 export const VaultItemName = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
 
+	console.log(`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`);
 	return (
 		<Grid container>
 			<Grid item className={classes.vaultIcon}>
