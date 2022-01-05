@@ -165,7 +165,7 @@ class BridgeStore {
 				// Each lifecycle method updates the current tx after it finishes.
 				// We handle all updates async here.
 
-				if (this.status == Status.PROCESSING) {
+				if (this.status === Status.PROCESSING) {
 					// No-op if tx processing not complete.
 					if (!_isTxComplete(newValue as RenVMTransaction)) return;
 					this.complete();
@@ -408,7 +408,7 @@ class BridgeStore {
 				// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
 				// We avoid setting current tx if we're already in IDLE state since completion/update can
 				// be racy, esp if we have duplicate listeners.
-				if (this.status == Status.IDLE) return;
+				if (this.status === Status.IDLE) return;
 				this.current = {
 					...this.current,
 					...txData,
