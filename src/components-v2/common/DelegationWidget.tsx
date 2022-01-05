@@ -7,9 +7,6 @@ import { StoreContext } from '../../mobx/store-context';
 import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(() => ({
-	button: {
-		height: 36,
-	},
 	delegateButton: {
 		minWidth: 37,
 		width: 37,
@@ -43,7 +40,7 @@ const DelegationWidget = (): JSX.Element | null => {
 		<>
 			<Button
 				onClick={toggleModal}
-				className={clsx(classes.button, classes.delegateButton, shouldInteract && classes.active)}
+				className={clsx(classes.delegateButton, shouldInteract && classes.active)}
 				variant="outlined"
 			>
 				<img src="/assets/icons/delegation.svg" alt="rewards icon" />

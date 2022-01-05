@@ -17,6 +17,9 @@ const useStyles = makeStyles(() => ({
 		width: '100%',
 		textAlign: 'end',
 	},
+	boldWeight: {
+		fontWeight: 700,
+	},
 }));
 
 export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Element => {
@@ -38,7 +41,9 @@ export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Ele
 				label={<Typography variant="body2">{claimBalance.token.symbol}</Typography>}
 			/>
 			<Box display="flex" flexDirection="column" alignItems="center">
-				<Typography variant="h6">{claimBalance.balanceDisplay(5)}</Typography>
+				<Typography variant="h6" className={classes.boldWeight}>
+					{claimBalance.balanceDisplay(5)}
+				</Typography>
 				<div className={classes.currencyContainer}>
 					<CurrencyDisplay
 						variant="body2"
