@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### 2.12.0 - 01/05/2022
+
+-   resolve hot reload failures
+-   enable avalanche support
+
 ### 2.11.3 - 01/04/2022
 
 -   fix incorrect leaderboard rank placement
