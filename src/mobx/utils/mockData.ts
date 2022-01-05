@@ -5,7 +5,7 @@ import { BouncerType } from 'mobx/model/setts/bouncer-type';
 export const testYearnVaultApiResponse: Sett = {
 	name: 'Test Yearn Vault',
 	asset: 'TEST',
-	settAsset: 'bTEST',
+	vaultAsset: 'bTEST',
 	deprecated: false,
 	strategy: {
 		strategistFee: 0,
@@ -13,7 +13,7 @@ export const testYearnVaultApiResponse: Sett = {
 		performanceFee: 0,
 		address: '0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69',
 	},
-	settToken: '0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69',
+	vaultToken: '0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69',
 	underlyingToken: '0xEd2a8Ab49DcbCb8C27650cC8D5229Cefcad52e2a',
 	pricePerFullShare: 1,
 	experimental: true,

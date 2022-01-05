@@ -10,7 +10,7 @@ export interface Sett extends SettSummary {
 	value: number;
 	balance: number;
 	asset: string;
-	settAsset: string;
+	vaultAsset: string;
 	boostable: boolean;
 	deprecated: boolean;
 	experimental: boolean;
@@ -23,6 +23,6 @@ export interface Sett extends SettSummary {
 	state: SettState;
 	tokens: SettTokenBalance[];
 	underlyingToken: string;
-	settToken: string;
+	vaultToken: string;
 	strategy: SettStrategy;
 }

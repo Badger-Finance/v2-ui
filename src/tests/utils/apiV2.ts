@@ -9,7 +9,7 @@ export function mockApi(): void {
 		Promise.resolve([
 			{
 				asset: 'sBTCCRV',
-				settAsset: 'bsBTCCRV',
+				vaultAsset: 'bsBTCCRV',
 				state: SettState.Open,
 				apr: 0.123456789123454,
 				deprecated: false,
@@ -67,7 +67,7 @@ export function mockApi(): void {
 				],
 				underlyingToken: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 				value: 135697015.0445408,
-				settToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
+				vaultToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 			},
 		]),
 	);

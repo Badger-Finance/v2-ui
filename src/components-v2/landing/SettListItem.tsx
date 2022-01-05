@@ -149,7 +149,7 @@ const SettListItem = observer(
 
 		let userApr: number | undefined = undefined;
 
-		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.settToken] : undefined;
+		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 		if (multiplier) {
 			userApr =
 				sett.sources
