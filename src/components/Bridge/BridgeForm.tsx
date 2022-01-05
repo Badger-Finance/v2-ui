@@ -133,7 +133,7 @@ function MintStatusDisplay({
 		return (
 			<React.Fragment>
 				<UserCancelTx />
-				<img src={btcLogo} className={classes.logo} />
+				<img src={btcLogo} className={classes.logo} alt="BTC Logo" />
 				<h1>Send {amount} BTC to</h1>
 				{bitcoinAddress ? (
 					<TextField fullWidth={true} value={bitcoinAddress} disabled={true} />
@@ -661,14 +661,14 @@ export const BridgeForm = observer(({ classes }: any) => {
 					>
 						<MenuItem value={'renBTC'}>
 							<span className={classes.menuItem}>
-								<img src={renBTCLogo} className={classes.logo} />
+								<img src={renBTCLogo} className={classes.logo} alt="RenBTC Logo" />
 								<span>renBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'WBTC'}>
 							<span className={classes.menuItem}>
-								<img src={WBTCLogo} className={classes.logo} />
+								<img src={WBTCLogo} className={classes.logo} alt="WBTC Logo" />
 								<span>WBTC</span>
 							</span>
 						</MenuItem>
@@ -688,28 +688,28 @@ export const BridgeForm = observer(({ classes }: any) => {
 					>
 						<MenuItem value={'byvWBTC'}>
 							<span className={classes.menuItem}>
-								<img src={byvWBTCLogo} className={classes.logo} />
+								<img src={byvWBTCLogo} className={classes.logo} alt="Yearn WBTC Logo" />
 								<span>byvWBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvrenBTCLogo} className={classes.logo} />
+								<img src={crvrenBTCLogo} className={classes.logo} alt="RenBTC Vault Logo" />
 								<span>bCRVrenBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVsBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvsBTCLogo} className={classes.logo} />
+								<img src={crvsBTCLogo} className={classes.logo} alt="sBTC Vault Logo" />
 								<span>bCRVsBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVtBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvtBTCLogo} className={classes.logo} />
+								<img src={crvtBTCLogo} className={classes.logo} alt="tBTC Vault Logo" />
 								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>
@@ -729,42 +729,42 @@ export const BridgeForm = observer(({ classes }: any) => {
 					>
 						<MenuItem value={'renBTC'}>
 							<span className={classes.menuItem}>
-								<img src={renBTCLogo} className={classes.logo} />
+								<img src={renBTCLogo} className={classes.logo} alt="RenBTC Logo" />
 								<span>renBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'WBTC'}>
 							<span className={classes.menuItem}>
-								<img src={WBTCLogo} className={classes.logo} />
+								<img src={WBTCLogo} className={classes.logo} alt="WBTC Logo" />
 								<span>WBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'byvWBTC'}>
 							<span className={classes.menuItem}>
-								<img src={byvWBTCLogo} className={classes.logo} />
+								<img src={byvWBTCLogo} className={classes.logo} alt="Yearn WBTC Logo" />
 								<span>byvWBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvrenBTCLogo} className={classes.logo} />
+								<img src={crvrenBTCLogo} className={classes.logo} alt="RenBTC Vault Logo" />
 								<span>bCRVrenBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVsBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvsBTCLogo} className={classes.logo} />
+								<img src={crvsBTCLogo} className={classes.logo} alt="sBTC Vault Logo" />
 								<span>bCRVsBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVtBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvtBTCLogo} className={classes.logo} />
+								<img src={crvtBTCLogo} className={classes.logo} alt="tBTC Vault Logo" />
 								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>

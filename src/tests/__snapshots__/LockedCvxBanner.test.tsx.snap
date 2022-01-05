@@ -117,7 +117,7 @@ exports[`Locked CVX Delegation Banner renders correctly 1`] = `
                 class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-align-items-xs-center-79"
               >
                 <img
-                  alt="badger coin image"
+                  alt="Badger Coin"
                   class="makeStyles-badgerImage-218"
                   src="assets/icons/badger.png"
                 />
@@ -140,7 +140,7 @@ exports[`Locked CVX Delegation Banner renders correctly 1`] = `
                 class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-align-items-xs-center-79"
               >
                 <img
-                  alt="badger coin image"
+                  alt="Badger Coin"
                   class="makeStyles-badgerImage-218"
                   src="assets/icons/badger.png"
                 />
@@ -170,7 +170,7 @@ exports[`Locked CVX Delegation Banner renders correctly 1`] = `
       </div>
     </div>
     <img
-      alt="safe-lock-image"
+      alt="Safe Lock"
       class="makeStyles-safeLockImageLg-5"
       src="assets/locked-cvx-safebox-lg.png"
     />

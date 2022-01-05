@@ -69,38 +69,34 @@ exports[`Rewards Widget when there are no rewards displays no rewards dialog 1`]
         <div
           class="MuiDialogTitle-root-156 makeStyles-title-133"
         >
-          <h2
-            class="MuiTypography-root-42 MuiTypography-h6-52"
+          <h6
+            class="MuiTypography-root-42 makeStyles-titleText-134 MuiTypography-h6-52"
           >
-            <h6
-              class="MuiTypography-root-42 makeStyles-titleText-134 MuiTypography-h6-52"
+            My Rewards
+          </h6>
+          <button
+            class="MuiButtonBase-root-35 MuiIconButton-root-157 makeStyles-closeButton-140"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label-165"
             >
-              My Rewards
-            </h6>
-            <button
-              class="MuiButtonBase-root-35 MuiIconButton-root-157 makeStyles-closeButton-140"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiIconButton-label-165"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-166"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root-166"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                  />
-                </svg>
-              </span>
-              <span
-                class="MuiTouchRipple-root-91"
-              />
-            </button>
-          </h2>
+                <path
+                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-91"
+            />
+          </button>
         </div>
         <div
           class="MuiDialogContent-root-175 makeStyles-content-135"
@@ -310,43 +306,39 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
         <div
           class="MuiDialogTitle-root-156 makeStyles-title-326"
         >
-          <h2
-            class="MuiTypography-root-42 MuiTypography-h6-52"
+          <div
+            class="MuiBox-root-40 MuiBox-root-335"
           >
-            <div
-              class="MuiBox-root-40 MuiBox-root-335"
+            <button
+              aria-label="exit guide mode"
+              class="MuiButtonBase-root-35 MuiIconButton-root-157 makeStyles-arrowBack-328"
+              tabindex="0"
+              type="button"
             >
-              <button
-                aria-label="exit guide mode"
-                class="MuiButtonBase-root-35 MuiIconButton-root-157 makeStyles-arrowBack-328"
-                tabindex="0"
-                type="button"
+              <span
+                class="MuiIconButton-label-165"
               >
-                <span
-                  class="MuiIconButton-label-165"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-166 MuiSvgIcon-fontSizeInherit-172"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-166 MuiSvgIcon-fontSizeInherit-172"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z"
-                    />
-                  </svg>
-                </span>
-                <span
-                  class="MuiTouchRipple-root-91"
-                />
-              </button>
-              <h6
-                class="MuiTypography-root-42 makeStyles-boldWeight-332 MuiTypography-h6-52"
-              >
-                Rewards User Guide
-              </h6>
-            </div>
-          </h2>
+                  <path
+                    d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-91"
+              />
+            </button>
+            <h6
+              class="MuiTypography-root-42 makeStyles-boldWeight-332 MuiTypography-h6-52"
+            >
+              Rewards User Guide
+            </h6>
+          </div>
         </div>
         <div
           class="MuiDialogContent-root-175 makeStyles-content-327"
@@ -528,38 +520,34 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
         <div
           class="MuiDialogTitle-root-156 makeStyles-title-336"
         >
-          <h2
-            class="MuiTypography-root-42 MuiTypography-h6-52"
+          <h6
+            class="MuiTypography-root-42 makeStyles-titleText-337 MuiTypography-h6-52"
           >
-            <h6
-              class="MuiTypography-root-42 makeStyles-titleText-337 MuiTypography-h6-52"
+            My Rewards
+          </h6>
+          <button
+            class="MuiButtonBase-root-35 MuiIconButton-root-157 makeStyles-closeButton-343"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label-165"
             >
-              My Rewards
-            </h6>
-            <button
-              class="MuiButtonBase-root-35 MuiIconButton-root-157 makeStyles-closeButton-343"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiIconButton-label-165"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-166"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root-166"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                  />
-                </svg>
-              </span>
-              <span
-                class="MuiTouchRipple-root-91"
-              />
-            </button>
-          </h2>
+                <path
+                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-91"
+            />
+          </button>
         </div>
         <div
           class="MuiDialogContent-root-175 makeStyles-content-338"
@@ -972,38 +960,34 @@ exports[`Rewards Widget when there are rewards displays claim options 1`] = `
         <div
           class="MuiDialogTitle-root-156 makeStyles-title-133"
         >
-          <h2
-            class="MuiTypography-root-42 MuiTypography-h6-52"
+          <h6
+            class="MuiTypography-root-42 makeStyles-titleText-134 MuiTypography-h6-52"
           >
-            <h6
-              class="MuiTypography-root-42 makeStyles-titleText-134 MuiTypography-h6-52"
+            My Rewards
+          </h6>
+          <button
+            class="MuiButtonBase-root-35 MuiIconButton-root-157 makeStyles-closeButton-140"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label-165"
             >
-              My Rewards
-            </h6>
-            <button
-              class="MuiButtonBase-root-35 MuiIconButton-root-157 makeStyles-closeButton-140"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiIconButton-label-165"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-166"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root-166"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                  />
-                </svg>
-              </span>
-              <span
-                class="MuiTouchRipple-root-91"
-              />
-            </button>
-          </h2>
+                <path
+                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-91"
+            />
+          </button>
         </div>
         <div
           class="MuiDialogContent-root-175 makeStyles-content-135"

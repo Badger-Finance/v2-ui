@@ -379,12 +379,12 @@ export default class UserStore {
 				const settAddress = returnContext.originalContractCallContext.contractAddress;
 				const vault = parseCallReturnContext(returnContext.callsReturnContext);
 				if (!vault.guestList || vault.guestList.length === 0) {
-					return;
+					return null;
 				}
 
 				const guestList = vault.guestList[0][0];
 				if (guestList === ZERO_ADDR) {
-					return;
+					return null;
 				}
 
 				guestListLookup[guestList] = settAddress;
