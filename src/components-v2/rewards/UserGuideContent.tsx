@@ -73,7 +73,7 @@ const UserGuideContent = ({ onGoBack }: Props): JSX.Element => {
 
 	return (
 		<>
-			<DialogTitle className={classes.title}>
+			<DialogTitle className={classes.title} disableTypography>
 				<Box display="flex" alignItems="center">
 					<IconButton aria-label="exit guide mode" className={classes.arrowBack} onClick={onGoBack}>
 						<ArrowBackIosOutlined fontSize="inherit" />

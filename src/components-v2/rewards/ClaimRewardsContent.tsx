@@ -193,7 +193,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 
 	return (
 		<>
-			<DialogTitle className={classes.title}>
+			<DialogTitle className={classes.title} disableTypography>
 				<Typography variant="h6" className={classes.titleText}>
 					My Rewards
 				</Typography>
