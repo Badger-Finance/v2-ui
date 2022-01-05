@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		borderBottom: '1px solid #2B2B2B',
 		background: '#181818',
+		'& button': {
+			height: 36,
+		},
 	},
 	container: {
 		padding: '20px 0',
@@ -182,11 +185,9 @@ const Header = observer(() => {
 							justifyContent="flex-end"
 							className={classes.headerRightSide}
 						>
-							{onboard.isActive() && (
-								<Grid item>
-									<RewardsWidget />
-								</Grid>
-							)}
+							<Grid item>
+								<RewardsWidget />
+							</Grid>
 							{shouldBannerBeDisplayed && (
 								<Grid item>
 									<DelegationWidget />
