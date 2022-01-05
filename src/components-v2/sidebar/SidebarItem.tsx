@@ -51,7 +51,7 @@ const SidebarItem = observer(({ title, route, view, icon, alt }: SidebarItemProp
 		await router.goTo(view);
 	}
 
-	const isActive = router.currentPath == route;
+	const isActive = router.currentPath === route;
 	return (
 		<div onClick={visit} className={clsx(classes.sidebarItem, isActive && classes.active)}>
 			{icon && <img className={classes.icon} alt={alt} src={icon} />}

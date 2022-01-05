@@ -156,7 +156,7 @@ export const ReleaseForm = ({
 						<Typography variant="subtitle1">You will receive: </Typography>
 						<Typography variant="body1">
 							<div style={{ display: 'flex', alignItems: 'center' }}>
-								<img src={BTCLogo} className={classes.logo2} />
+								<img src={BTCLogo} className={classes.logo2} alt="BTC Logo" />
 								{values.receiveAmount.toFixed(8)} BTC
 							</div>
 						</Typography>

@@ -9,7 +9,6 @@ import { checkSnapshot } from 'tests/utils/snapshots';
 import BigNumber from 'bignumber.js';
 import { customRender, fireEvent } from 'tests/Utils';
 import { StoreProvider } from 'mobx/store-context';
-import { mockToken } from 'mobx/model/tokens/badger-token';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { screen } from '../Utils';
 

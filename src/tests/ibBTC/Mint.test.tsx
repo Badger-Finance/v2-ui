@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-import { customRender, screen, fireEvent, cleanup, act } from '../Utils';
+import { customRender, screen, fireEvent, cleanup } from '../Utils';
 import { Mint } from '../../components/IbBTC/Mint';
 import { Snackbar } from '../../components/Snackbar';
 import Header from '../../components/Header';

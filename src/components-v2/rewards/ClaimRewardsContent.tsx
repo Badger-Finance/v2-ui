@@ -193,7 +193,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 
 	return (
 		<>
-			<DialogTitle className={classes.title}>
+			<DialogTitle className={classes.title} disableTypography>
 				<Typography variant="h6" className={classes.titleText}>
 					My Rewards
 				</Typography>
@@ -223,7 +223,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 									))}
 								</Grid>
 								<Divider className={classes.divider} />
-								<Grid item container alignItems="center" justify="space-between">
+								<Grid item container alignItems="center" justifyContent="space-between">
 									<Typography variant="body2">Total Claimable Rewards</Typography>
 									<CurrencyDisplay
 										variant="h6"

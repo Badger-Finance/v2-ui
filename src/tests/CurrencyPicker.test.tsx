@@ -1,5 +1,5 @@
 import React from 'react';
-import { customRender, screen, fireEvent, act } from './Utils';
+import { customRender, screen, fireEvent } from './Utils';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
