@@ -119,7 +119,7 @@ export class HoneyPotStore {
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
 			this.store.uiState.queueNotification(message, 'error');
-			process.env.REACT_APP_BUILD_ENV != 'production' && console.error(error);
+			process.env.REACT_APP_BUILD_ENV !== 'production' && console.error(error);
 		} finally {
 			this.loadingNfts = false;
 		}
@@ -151,7 +151,7 @@ export class HoneyPotStore {
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
 			this.store.uiState.queueNotification(message, 'error');
-			process.env.REACT_APP_BUILD_ENV != 'production' && console.error(error);
+			process.env.REACT_APP_BUILD_ENV !== 'production' && console.error(error);
 			this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id === tokenId);
 		}
 	});

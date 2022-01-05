@@ -97,7 +97,7 @@ const Header = observer(() => {
 		if (!notification || !notification.message) return;
 
 		// Notify doesn't support BSC currently so it is temporarily disabled for it
-		if (notification.hash && network.id == 1) {
+		if (notification.hash && network.id === 1) {
 			// then on each transaction...
 			const { emitter } = notify.hash(notification.hash);
 			emitter.on('all', (tx) => network.notifyLink(tx));
