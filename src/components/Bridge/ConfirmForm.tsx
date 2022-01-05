@@ -167,7 +167,7 @@ export const ConfirmForm = ({
 							'Minting',
 							`By minting byvWBTC, this transaction directly deposits your newly minted wBTC into the Badger wBTC vault. byvWBTC represents your position in the vault.`,
 							<div className={classes.receiveAmount}>
-								<img src={selectedTokenImage()} className={classes.logo2} />
+								<img alt={`${values.token}`} src={selectedTokenImage()} className={classes.logo2} />
 								<div>
 									<div>{values.token}</div>
 								</div>
@@ -181,7 +181,7 @@ export const ConfirmForm = ({
 						<div>{values.tabValue <= 1 ? 'Minting' : 'Releasing'}</div>
 
 						<div className={classes.receiveAmount}>
-							<img src={selectedTokenImage()} className={classes.logo2} />
+							<img alt={`${values.token}`} src={selectedTokenImage()} className={classes.logo2} />
 							<div>
 								<div>{values.token}</div>
 							</div>

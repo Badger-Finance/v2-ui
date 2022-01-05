@@ -74,9 +74,7 @@ const LeaderboardRanks = observer((): JSX.Element => {
 				lastEntryPosition={users + amount}
 				signatureColor={rankData.signatureColor}
 				isUserInRank={
-					accountDetails
-						? accountDetails.boostRank >= rankStart && accountDetails.boostRank <= rankEnd
-						: false
+					accountDetails ? accountDetails.boost >= rankStart && accountDetails.boost <= rankEnd : false
 				}
 			/>
 		);

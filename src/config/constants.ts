@@ -56,6 +56,7 @@ export enum NETWORK_IDS {
 	MATIC = 137,
 	XDAI = 100,
 	ARB = 42161,
+	AVAX = 43114,
 }
 
 export const EXPLOIT_HACKER_ADDRESS = '0x1fcdb04d0c5364fbd92c73ca8af9baa72c269107';
@@ -71,7 +72,7 @@ export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
 // https://semver.org/#is-v123-a-semantic-version
-export const SITE_VERSION = '2.11.1';
+export const SITE_VERSION = '2.12.0';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
 export const BLOCKNATIVE_API_KEY = process.env.REACT_APP_BLOCKNATIVE_API_KEY;
@@ -123,8 +124,9 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE = undefined;
+export const APP_NEWS_MESSAGE =
+	"NFT Boost has now been implemented. For a full breakdown on how Badger NFT's contribute to your boost multiplier,";
 // Text & URL should be defined or explicitly undefined.
-export const APP_NEWS_URL_TEXT = undefined;
-export const APP_NEWS_URL = undefined;
+export const APP_NEWS_URL_TEXT = 'click here.';
+export const APP_NEWS_URL = 'https://docs.badger.com/badger-finance/badger-boost/nft-boost-value-breakdown';
 export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);

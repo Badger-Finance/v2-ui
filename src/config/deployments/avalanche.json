@@ -1,0 +1,16 @@
+{
+	"token": "0x1FcbE5937B0cc2adf69772D228fA4205aCF4D9b2",
+	"tokens": {
+		"WBTC": "0x50b7545627a5162F82A992c33b87aDc75187B218",
+		"BADGER": "0x1FcbE5937B0cc2adf69772D228fA4205aCF4D9b2"
+	},
+	"geysers": {},
+	"sett_system": {
+		"vaults": {
+			"BWBTC": "0x711555f2B421DA9A86a18Dc163d04699310fE297"
+		},
+		"strategies": {
+			"BWBTC": "0x0000000000000000000000000000000000000000"
+		}
+	}
+}

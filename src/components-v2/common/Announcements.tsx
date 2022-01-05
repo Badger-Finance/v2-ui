@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.primary.main,
 		textDecoration: 'none',
 		fontWeight: 'bold',
-		marginLeft: theme.spacing(0.25),
 	},
 	closeButton: {
 		padding: 0,

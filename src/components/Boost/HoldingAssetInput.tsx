@@ -39,7 +39,7 @@ const useButtonStyles = makeStyles((theme) => ({
 }));
 
 interface CurrencyInputProps {
-	inputRef: (instance: NumberFormat | null) => void;
+	inputRef: (instance: NumberFormat<any> | null) => void;
 	onChange: (event: { target: { name: string; value: string } }) => void;
 	name: string;
 }

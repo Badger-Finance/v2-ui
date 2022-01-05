@@ -59,7 +59,9 @@ export const BoostOptimizer = observer(() => {
 				>
 					Not sure where to start? Check out the
 					<Link
-						href="https://badgerdao.medium.com/badger-boost-optimizer-user-guide-8574b4cac3e1"
+						href="https://docs.badger.com/badger-finance/badger-boost/boost-optimizer-user-guide"
+						rel="noreferrer"
+						target="_blank"
 						className={classes.userGuideLink}
 					>
 						Boost Optimizer User Guide

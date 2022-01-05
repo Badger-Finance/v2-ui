@@ -8,7 +8,9 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: true,
 		bridge: true,
 		boost: true,
-		arcade: true,
+		experimental: true,
+		airdrops: true,
+		honey: true,
 	},
 	[Network.Arbitrum]: {
 		cycle: true,
@@ -16,7 +18,9 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: true,
-		arcade: false,
+		experimental: true,
+		airdrops: false,
+		honey: false,
 	},
 	[Network.Avalanche]: {
 		cycle: false,
@@ -24,7 +28,9 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		arcade: false,
+		experimental: true,
+		airdrops: false,
+		honey: false,
 	},
 	[Network.BinanceSmartChain]: {
 		cycle: false,
@@ -32,7 +38,9 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		arcade: false,
+		experimental: true,
+		airdrops: false,
+		honey: false,
 	},
 	[Network.Polygon]: {
 		cycle: true,
@@ -40,7 +48,9 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		arcade: false,
+		experimental: true,
+		airdrops: false,
+		honey: false,
 	},
 	[Network.Fantom]: {
 		cycle: false,
@@ -48,7 +58,9 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		arcade: false,
+		experimental: true,
+		airdrops: false,
+		honey: false,
 	},
 	[Network.xDai]: {
 		cycle: false,
@@ -56,7 +68,9 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		arcade: false,
+		experimental: true,
+		airdrops: false,
+		honey: false,
 	},
 };
 
