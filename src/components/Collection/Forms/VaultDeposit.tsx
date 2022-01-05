@@ -47,7 +47,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 
 	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
-	const vaultCaps = user.vaultCaps[sett.settToken];
+	const vaultCaps = user.vaultCaps[sett.vaultToken];
 
 	const isLoading = contracts.settsBeingDeposited.findIndex((_sett) => _sett.name === sett.name) >= 0;
 	let canDeposit = !!amount && depositBalance.tokenBalance.gt(0);
@@ -125,7 +125,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					)}
 				</ActionButton>
 			</DialogActions>
-			{user.vaultCaps[sett.settToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.settToken]} />}
+			{user.vaultCaps[sett.vaultToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.vaultToken]} />}
 		</>
 	);
 });
