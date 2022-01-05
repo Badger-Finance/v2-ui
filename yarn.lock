@@ -1114,7 +1114,7 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@badger-dao/sdk@^1.0.53":
+"@badger-dao/sdk@^1.0.55":
   version "1.0.55"
   resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.0.55.tgz#ac12be339ff514b4e1fe0d67f552e8183625b251"
   integrity sha512-qm8alqwt0LiFgOXN8q0JV4TUXgMfiICi2NHuSH2mNIt4mKfNe6w12v10hAbX/Wa9VV+X7+53JqWNwokso8g/xQ==
@@ -5872,7 +5872,7 @@ bitcore-lib-cash@^8.20.3:
     inherits "=2.0.1"
     lodash "^4.17.20"
 
-"bitcore-lib-zcash@github:zcash-hackworks/bitcore-lib-zcash":
+bitcore-lib-zcash@zcash-hackworks/bitcore-lib-zcash:
   version "0.13.19"
   resolved "https://codeload.github.com/zcash-hackworks/bitcore-lib-zcash/tar.gz/e97ae1dd2e9f14d6076d5e5429c75d8965afa4ab"
   dependencies:
