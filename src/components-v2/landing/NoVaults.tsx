@@ -76,7 +76,7 @@ export default function NoVaults(props: { state: VaultState; network: string }):
 	} = store;
 	return (
 		<div className={classes.messageContainer}>
-			<img src={'/assets/icons/builder.png'} />
+			<img src={'/assets/icons/builder.png'} alt="Badger Builder" />
 			<Typography
 				className={classes.titleText}
 				variant="h4"

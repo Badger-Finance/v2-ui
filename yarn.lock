@@ -5872,7 +5872,7 @@ bitcore-lib-cash@^8.20.3:
     inherits "=2.0.1"
     lodash "^4.17.20"
 
-bitcore-lib-zcash@zcash-hackworks/bitcore-lib-zcash:
+"bitcore-lib-zcash@github:zcash-hackworks/bitcore-lib-zcash":
   version "0.13.19"
   resolved "https://codeload.github.com/zcash-hackworks/bitcore-lib-zcash/tar.gz/e97ae1dd2e9f14d6076d5e5429c75d8965afa4ab"
   dependencies:
@@ -9471,7 +9471,15 @@ ethereum-public-key-to-address@0.0.1:
     meow "^5.0.0"
     secp256k1 "^3.7.1"
 
-ethereumjs-abi@^0.6.8, "ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
+ethereumjs-abi@^0.6.8:
+  version "0.6.8"
+  resolved "https://registry.yarnpkg.com/ethereumjs-abi/-/ethereumjs-abi-0.6.8.tgz#71bc152db099f70e62f108b7cdfca1b362c6fcae"
+  integrity sha512-Tx0r/iXI6r+lRsdvkFDlut0N08jWMnKRZ6Gkq+Nmw75lZe4e6o3EkSnkaBP5NF6+m5PTGAr9JP43N3LyeoglsA==
+  dependencies:
+    bn.js "^4.11.8"
+    ethereumjs-util "^6.0.0"
+
+"ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
   version "0.6.8"
   resolved "git+https://github.com/ethereumjs/ethereumjs-abi.git#ee3994657fa7a427238e6ba92a84d0b529bbcde0"
   dependencies:
@@ -13433,11 +13441,6 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "^3.0.0"
 
-lodash.throttle@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
-  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
-
 lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
@@ -16464,13 +16467,12 @@ react-refresh@^0.8.3:
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
 
 react-resize-detector@^6.6.3:
-  version "6.7.7"
-  resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-6.7.7.tgz#f0a58948169840b7a3cac3cb34ef824d2bf92a24"
-  integrity sha512-91QlSn3IpeLWX6aP7GDIH2IFGNR9hs8oD5xvjZdDFW9Zr27dFiTpzhIoC96T4ahHd/3Au64JUNiynpkf4Z0Zkg==
+  version "6.7.8"
+  resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-6.7.8.tgz#318c85d1335e50f99d4fb8eb9ec34e066db597d0"
+  integrity sha512-0FaEcUBAbn+pq3PT5a9hHRebUfuS1SRLGLpIw8LydU7zX429I6XJgKerKAMPsJH0qWAl6o5bVKNqFJqr6tGPYw==
   dependencies:
     "@types/resize-observer-browser" "^0.1.6"
-    lodash.debounce "^4.0.8"
-    lodash.throttle "^4.1.1"
+    lodash "^4.17.21"
     resize-observer-polyfill "^1.5.1"
 
 react-scripts@^4.0.3:
