@@ -5,6 +5,10 @@ on:
         branches:
             - development
 
+permissions:
+    id-token: write
+    contents: read
+
 env:
     AWS_REGION: 'us-east-1'
     BUCKET_NAME: 'badger-com-ui'
