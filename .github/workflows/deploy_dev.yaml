@@ -13,7 +13,7 @@ env:
     AWS_REGION: 'us-east-1'
     BUCKET_NAME: 'badger-com-ui-dev'
     GENERATE_SOURCEMAP: false
-    ASSUME_ROLE: 'arn:aws:iam::571629509943:role/UI-Deployer'
+    ASSUME_ROLE: 'arn:aws:iam::571629509943:role/UI-Deployer-Dev'
     SESSION_NAME: 'ui-deploy-dev'
 
 jobs:
