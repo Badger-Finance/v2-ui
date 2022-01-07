@@ -5,9 +5,9 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { VaultSortOrder } from '../../mobx/model/ui/vaults-filters';
 
-export const nameColumnMaxWidth = '45%';
-export const aprColumnMaxWidth = '19%';
-export const informationSectionMaxWidth = '75%';
+export const NAME_COLUMN_MAX_WIDTH = '45%';
+export const APR_COLUMN_MAX_WIDTH = '19%';
+export const INFORMATION_SECTION_MAX_WIDTH = '72.5%';
 
 const useStyles = makeStyles((theme) => ({
 	hiddenMobile: {
@@ -37,15 +37,15 @@ const useStyles = makeStyles((theme) => ({
 	nameColumn: {
 		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
-			maxWidth: nameColumnMaxWidth,
-			flexBasis: nameColumnMaxWidth,
+			maxWidth: NAME_COLUMN_MAX_WIDTH,
+			flexBasis: NAME_COLUMN_MAX_WIDTH,
 		},
 	},
 	aprColumn: {
 		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
-			maxWidth: aprColumnMaxWidth,
-			flexBasis: aprColumnMaxWidth,
+			maxWidth: APR_COLUMN_MAX_WIDTH,
+			flexBasis: APR_COLUMN_MAX_WIDTH,
 		},
 	},
 	root: {
@@ -55,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: theme.spacing(2),
 		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
-			maxWidth: informationSectionMaxWidth,
-			flexBasis: informationSectionMaxWidth,
+			maxWidth: INFORMATION_SECTION_MAX_WIDTH,
+			flexBasis: INFORMATION_SECTION_MAX_WIDTH,
 		},
 	},
 }));

@@ -15,7 +15,7 @@ import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
 import { Vault, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
-import { nameColumnMaxWidth, informationSectionMaxWidth, aprColumnMaxWidth } from './TableHeader';
+import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH, APR_COLUMN_MAX_WIDTH } from './TableHeader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
 	name: {
 		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
-			maxWidth: nameColumnMaxWidth,
-			flexBasis: nameColumnMaxWidth,
+			maxWidth: NAME_COLUMN_MAX_WIDTH,
+			flexBasis: NAME_COLUMN_MAX_WIDTH,
 		},
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(2),
@@ -63,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(2, 0, 2, 2),
 		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
-			maxWidth: informationSectionMaxWidth,
-			flexBasis: informationSectionMaxWidth,
+			maxWidth: INFORMATION_SECTION_MAX_WIDTH,
+			flexBasis: INFORMATION_SECTION_MAX_WIDTH,
 		},
 		[theme.breakpoints.down('sm')]: {
 			padding: theme.spacing(2, 2, 1.5, 2),
@@ -83,8 +83,8 @@ const useStyles = makeStyles((theme) => ({
 	apr: {
 		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
-			maxWidth: aprColumnMaxWidth,
-			flexBasis: aprColumnMaxWidth,
+			maxWidth: APR_COLUMN_MAX_WIDTH,
+			flexBasis: APR_COLUMN_MAX_WIDTH,
 		},
 	},
 }));
