@@ -108,12 +108,9 @@ const routes = {
 		path: '/setts/:settName',
 		component: <VaultDetail />,
 		onEnter: (_route, params, store) => {
-			if (!params || !params.settName) return;
-
-			if (params.accountView) {
-				store.vaultDetail.setAccountViewMode();
+			if (!params || !params.settName) {
+				return;
 			}
-
 			store.vaultDetail.setSearchSlug(params.settName as string);
 		},
 		onExit: (_route, _params, store) => {

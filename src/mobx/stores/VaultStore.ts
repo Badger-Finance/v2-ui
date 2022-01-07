@@ -1,4 +1,4 @@
-import { extendObservable, action } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import Web3 from 'web3';
@@ -11,10 +11,11 @@ import { VaultMap } from '../model/vaults/vault-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { Currency, Network, ProtocolSummary, Vault, VaultState, TokenConfiguration } from '@badger-dao/sdk';
+import { Currency, Network, ProtocolSummary, TokenConfiguration, Vault, VaultState } from '@badger-dao/sdk';
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
 import { parseCallReturnContext } from '../utils/multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
+import { VaultSortOrder } from '../model/ui/vaults-filters';
 
 const formatVaultListItem = (vault: Vault): [string, string] => {
 	const sanitizedVaultName = vault.name.replace(/\/+/g, '-'); // replace "/" with "-"
@@ -104,6 +105,55 @@ export default class VaultStore {
 			return setts;
 		}
 		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
+	}
+
+	getVaultOrderByState(state: VaultState, sortOrder?: VaultSortOrder): Vault[] | undefined | null {
+		const {
+			user,
+			network: { network },
+		} = this.store;
+
+		const vaultMap = this.getVaultMap();
+
+		if (!vaultMap) {
+			return vaultMap;
+		}
+
+		const networkVaultOrder = network.settOrder;
+		const stateFilteredVaultMap = Object.fromEntries(
+			Object.entries(vaultMap).filter((entry) => entry[1].state === state),
+		);
+
+		const vaults = networkVaultOrder.flatMap((vaultAddress) => {
+			const vault = stateFilteredVaultMap[Web3.utils.toChecksumAddress(vaultAddress)];
+			return vault ? [vault] : [];
+		});
+
+		let sortedVaults: Vault[];
+
+		switch (sortOrder) {
+			case VaultSortOrder.APR_ASC:
+				sortedVaults = vaults.sort((a, b) => a.apr - b.apr);
+				break;
+			case VaultSortOrder.APR_DESC:
+				sortedVaults = vaults.sort((a, b) => b.apr - a.apr);
+				break;
+			case VaultSortOrder.TVL_ASC:
+				sortedVaults = vaults.sort((a, b) => a.value - b.value);
+				break;
+			case VaultSortOrder.TVL_DESC:
+				sortedVaults = vaults.sort((a, b) => b.value - a.value);
+				break;
+			default:
+				// sort by balance by default
+				sortedVaults = vaults.sort((a, b) => {
+					const balanceB = user.getTokenBalance(b.vaultToken).tokenBalance;
+					const balanceA = user.getTokenBalance(a.vaultToken).tokenBalance;
+					return balanceB.minus(balanceA).toNumber();
+				});
+		}
+
+		return sortedVaults;
 	}
 
 	getVaultMap(): VaultMap | undefined | null {

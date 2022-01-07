@@ -1,8 +1,9 @@
-import { extendObservable, action } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import { RootStore } from '../RootStore';
 import { Currency } from 'config/enums/currency.enum';
 import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH, DEFAULT_CURRENCY } from 'config/constants';
 import { GasSpeed } from '@badger-dao/sdk';
+import { VaultsFilters } from '../model/ui/vaults-filters';
 
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
 
@@ -14,6 +15,7 @@ class UiState {
 	public showUserBalances: boolean;
 	public notification: any = {};
 	public gasPrice: GasSpeed;
+	public vaultsFilters: VaultsFilters;
 	public txStatus?: string;
 	private showNotification: boolean;
 
@@ -24,6 +26,13 @@ class UiState {
 		this.gasPrice = GasSpeed.Rapid;
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		this.showNotification = this.notificationClosingThreshold < 3;
+		this.vaultsFilters = {
+			hidePortfolioDust: false,
+			currency: Currency.USD,
+			protocols: [],
+			types: [],
+		};
+
 		const { network } = store.network;
 
 		extendObservable(this, {
@@ -34,6 +43,7 @@ class UiState {
 			notification: {},
 			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
+			vaultsFilters: this.vaultsFilters,
 		});
 
 		// hide the sidebar
@@ -44,6 +54,28 @@ class UiState {
 		if (APP_NEWS_STORAGE_HASH) {
 			window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
 		}
+	}
+
+	get vaultsFiltersCount(): number {
+		let count = 0;
+
+		if (this.vaultsFilters.hidePortfolioDust) {
+			count++;
+		}
+
+		if (this.vaultsFilters.currency !== Currency.USD) {
+			count++;
+		}
+
+		if (this.vaultsFilters.protocols.length > 0) {
+			count++;
+		}
+
+		if (this.vaultsFilters.types.length > 0) {
+			count++;
+		}
+
+		return count;
 	}
 
 	get notificationClosingThreshold(): number {

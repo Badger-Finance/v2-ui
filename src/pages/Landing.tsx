@@ -1,5 +1,4 @@
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
-import WalletSlider from '../components-v2/landing/WalletSlider';
 import { Grid, makeStyles, Button, useMediaQuery, useTheme, Typography } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
@@ -7,13 +6,13 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { VaultState } from '@badger-dao/sdk';
-import VaultListView from '../components-v2/landing/VaultListView';
 import VaultListFiltersWidget from '../components-v2/common/VaultListFiltersWidget';
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
 import { getFormattedNetworkName } from '../utils/componentHelpers';
 import BigNumber from 'bignumber.js';
+import VaultListDisplay from '../components-v2/landing/VaultListDisplay';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -190,11 +189,6 @@ const Landing = observer((props: LandingProps) => {
 									<Grid item>
 										<CurrencyPicker />
 									</Grid>
-									{onboard.isActive() && (
-										<Grid item>
-											<WalletSlider />
-										</Grid>
-									)}
 								</>
 							)}
 						</Grid>
@@ -228,7 +222,7 @@ const Landing = observer((props: LandingProps) => {
 					</div>
 				)}
 
-				<VaultListView state={state} />
+				<VaultListDisplay state={state} />
 			</LayoutContainer>
 		</>
 	);
