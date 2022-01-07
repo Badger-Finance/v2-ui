@@ -115,6 +115,7 @@ export const darkTheme = createTheme({
 		MuiButton: {
 			...(theme.overrides?.MuiButton ?? {}),
 			root: {
+				fontSize: 14,
 				textTransform: 'capitalize',
 				borderRadius: 10,
 				height: 50,
