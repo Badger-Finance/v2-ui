@@ -126,17 +126,17 @@ const TableHeader = observer(({ title }: TableHeaderProps): JSX.Element => {
 					</Typography>
 					{sortOrder !== VaultSortOrder.APR_ASC && sortOrder !== VaultSortOrder.APR_DESC && (
 						<IconButton className={clsx(classes.sortIcon, classes.nonSetSort)} onClick={handleSortByApr}>
-							<img src="/assets/icons/sort-down.svg" alt="sort desc by apr" />
+							<img src="/assets/icons/sort-down.svg" alt="sort descending by APR" />
 						</IconButton>
 					)}
 					{sortOrder === VaultSortOrder.APR_DESC && (
 						<IconButton className={classes.sortIcon} onClick={handleSortByApr}>
-							<img src="/assets/icons/sort-down.svg" alt="sort asc by apr" />
+							<img src="/assets/icons/sort-down.svg" alt="sort ascending by APR" />
 						</IconButton>
 					)}
 					{sortOrder === VaultSortOrder.APR_ASC && (
 						<IconButton className={classes.sortIcon} onClick={handleSortByApr}>
-							<img src="/assets/icons/sort-up.svg" alt="reset sort by apr" />
+							<img src="/assets/icons/sort-up.svg" alt="reset sort by APR" />
 						</IconButton>
 					)}
 				</Grid>
@@ -153,17 +153,17 @@ const TableHeader = observer(({ title }: TableHeaderProps): JSX.Element => {
 					</Typography>
 					{sortOrder !== VaultSortOrder.TVL_ASC && sortOrder !== VaultSortOrder.TVL_DESC && (
 						<IconButton className={clsx(classes.sortIcon, classes.nonSetSort)} onClick={handleSortByTvl}>
-							<img src="/assets/icons/sort-down.svg" alt="sort desc by tvl" />
+							<img src="/assets/icons/sort-down.svg" alt="sort descending by TVL" />
 						</IconButton>
 					)}
 					{sortOrder === VaultSortOrder.TVL_DESC && (
 						<IconButton className={classes.sortIcon} onClick={handleSortByTvl}>
-							<img src="/assets/icons/sort-down.svg" alt="sort asc by tvl" />
+							<img src="/assets/icons/sort-down.svg" alt="sort ascending by TVL" />
 						</IconButton>
 					)}
 					{sortOrder === VaultSortOrder.TVL_ASC && (
 						<IconButton className={classes.sortIcon} onClick={handleSortByTvl}>
-							<img src="/assets/icons/sort-up.svg" alt="reset sort de by tvl" />
+							<img src="/assets/icons/sort-up.svg" alt="reset sort by TVL" />
 						</IconButton>
 					)}
 				</Grid>
