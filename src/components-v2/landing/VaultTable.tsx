@@ -21,13 +21,13 @@ export interface VaultTableProps {
 	displayValue?: string;
 }
 
-const VaultTable = ({ title, settList, displayValue }: VaultTableProps): JSX.Element => {
+const VaultTable = ({ title, settList }: VaultTableProps): JSX.Element => {
 	const classes = useStyles();
 
 	return (
 		<>
-			<ListSubheader className={classes.subHeader}>
-				<TableHeader title={title} displayValue={displayValue} />
+			<ListSubheader className={classes.subHeader} disableGutters>
+				<TableHeader title={title} />
 			</ListSubheader>
 			<List className={classes.list}>{settList}</List>
 		</>

@@ -4,14 +4,13 @@ import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
-import Web3 from 'web3';
 import { BalanceNamespace } from 'web3/config/namespaces';
 import NoVaults from './NoVaults';
 import VaultListItem from './VaultListItem';
-import { VaultListViewProps } from './VaultListView';
 import VaultTable from './VaultTable';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
+import { VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -20,24 +19,28 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const VaultListDisplay = observer((props: VaultListViewProps) => {
+interface Props {
+	state: VaultState;
+}
+
+const VaultListDisplay = observer((props: Props) => {
 	const classes = useStyles();
 	const { state } = props;
 	const store = useContext(StoreContext);
 	const {
 		vaults,
-		uiState: { currency },
+		uiState: { vaultsFilters },
 		network: { network },
 		user,
 	} = store;
 
-	const currentVaultMap = vaults.getVaultMapByState(state);
+	const vaultOrder = vaults.getVaultOrderByState(state, vaultsFilters.sortOrder);
 
-	if (currentVaultMap === undefined) {
+	if (vaultOrder === undefined) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;
 	}
 
-	if (currentVaultMap === null) {
+	if (vaultOrder === null) {
 		return (
 			<div className={classes.messageContainer}>
 				<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>
@@ -45,33 +48,25 @@ const VaultListDisplay = observer((props: VaultListViewProps) => {
 		);
 	}
 
-	const settListItems = network.settOrder
-		.map((contract) => {
-			const vault = currentVaultMap[Web3.utils.toChecksumAddress(contract)];
-			const badgerVault = network.vaults.find((vault) => vault.vaultToken.address === contract);
+	const settListItems = vaultOrder.flatMap((vault) => {
+		const badgerVault = network.vaults.find((badgerVault) => badgerVault.vaultToken.address === vault.vaultToken);
 
-			if (!vault || !badgerVault) {
-				return null;
-			}
+		if (!badgerVault) {
+			return [];
+		}
 
-			// inject user balance information to enable withdraw buttun functionality
-			const scalar = new BigNumber(vault.pricePerFullShare);
-			const generalBalance = user.getBalance(BalanceNamespace.Vault, badgerVault).scale(scalar, true);
-			const guardedBalance = user.getBalance(BalanceNamespace.GuardedVault, badgerVault).scale(scalar, true);
-			const settBalance = generalBalance ?? guardedBalance;
-			const isIbbtc = isVaultVaultIbbtc(vault);
+		const scalar = new BigNumber(vault.pricePerFullShare);
+		const depositBalance = user.getBalance(BalanceNamespace.Vault, badgerVault).scale(scalar, true);
 
-			return (
-				<VaultListItem
-					vault={vault}
-					key={vault.vaultToken}
-					currency={currency}
-					balance={settBalance.balance}
-					CustomDepositModal={isIbbtc ? IbbtcVaultDepositDialog : undefined}
-				/>
-			);
-		})
-		.filter(Boolean);
+		return (
+			<VaultListItem
+				vault={vault}
+				key={vault.vaultToken}
+				depositBalance={depositBalance}
+				CustomDepositModal={isVaultVaultIbbtc(vault) ? IbbtcVaultDepositDialog : undefined}
+			/>
+		);
+	});
 
 	if (settListItems.length === 0) {
 		return <NoVaults state={state} network={network.name} />;

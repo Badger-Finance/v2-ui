@@ -5,6 +5,8 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
+		display: 'flex',
+		justifyContent: 'flex-end',
 		marginTop: theme.spacing(-1),
 	},
 	button: {
@@ -12,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		width: 121,
 	},
 	withdraw: {
-		marginRight: theme.spacing(1),
+		marginRight: theme.spacing(2),
 	},
 	withdrawActive: {
 		backgroundColor: '#181818',

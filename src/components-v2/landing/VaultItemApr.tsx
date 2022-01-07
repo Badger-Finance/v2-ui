@@ -5,22 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Vault, VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
-	normalCursor: {
+	apr: {
+		cursor: 'default',
+		fontSize: 16,
+	},
+	boost: {
+		fontWeight: 400,
 		cursor: 'default',
 	},
 });
-
-const getAprMessage = (vault: Vault) => {
-	if (!vault.apr) {
-		return '0%';
-	}
-
-	if (!vault.boost.enabled || !vault.minApr || !vault.maxApr) {
-		return `${vault.apr.toFixed(2)}%`;
-	}
-
-	return `${vault.minApr.toFixed(2)}% - ${vault.maxApr.toFixed(2)}%`;
-};
 
 interface Props {
 	vault: Vault;
@@ -28,17 +21,31 @@ interface Props {
 	multiplier?: number;
 }
 
-export const VaultItemApr = ({ vault, multiplier }: Props): JSX.Element => {
+export const VaultItemApr = ({ vault, multiplier = 0 }: Props): JSX.Element => {
 	const classes = useStyles();
-	const apr = getAprMessage(vault);
 
-	if (vault.state === VaultState.Deprecated || vault.sources.length === 0) {
+	if (!vault.apr) {
 		return (
-			<Typography className={classes.normalCursor} variant="body1" color={'textPrimary'}>
-				{apr}
+			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
+				0%
 			</Typography>
 		);
 	}
+
+	if (!vault.boost.enabled || !vault.minApr || vault.state === VaultState.Deprecated || vault.sources.length === 0) {
+		return (
+			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
+				{`${vault.apr.toFixed(2)}%`}
+			</Typography>
+		);
+	}
+
+	const totalBoost = vault.sources
+		.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
+		.reduce((total, apr) => total + apr, 0);
+
+	const boostedApr = Math.max(totalBoost - vault.minApr, 0);
+	const currentApr = vault.minApr + boostedApr;
 
 	return (
 		<Tooltip
@@ -53,9 +60,14 @@ export const VaultItemApr = ({ vault, multiplier }: Props): JSX.Element => {
 				disablePortal: true,
 			}}
 		>
-			<Typography className={classes.normalCursor} variant="body1" color={'textPrimary'}>
-				{apr}
-			</Typography>
+			<>
+				<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
+					{`${currentApr.toFixed(2)}%`}
+				</Typography>
+				<Typography variant="body1" color="textSecondary" className={classes.boost}>
+					My Boost: {boostedApr.toFixed(2)}%
+				</Typography>
+			</>
 		</Tooltip>
 	);
 };
