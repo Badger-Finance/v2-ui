@@ -102,7 +102,8 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 	},
 	divider: {
-		width: '100%',
+		width: 'calc(100% + 32px)',
+		marginLeft: theme.spacing(-2),
 	},
 	amountsSection: {
 		margin: theme.spacing(2, 0),
