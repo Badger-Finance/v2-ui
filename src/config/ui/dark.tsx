@@ -10,6 +10,15 @@ const theme = createTheme({
 			icon: <img src="/assets/icons/non-checked-checkbox.svg" alt="checkbox" />,
 		},
 	},
+	breakpoints: {
+		values: {
+			xs: 0,
+			sm: 600,
+			md: 900,
+			lg: 1200,
+			xl: 1700,
+		},
+	},
 	palette: {
 		type: 'dark',
 		primary: { main: '#F2BC1B' },

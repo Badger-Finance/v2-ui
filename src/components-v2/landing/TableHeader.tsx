@@ -1,4 +1,4 @@
-import { Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, IconButton, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
@@ -6,19 +6,10 @@ import { StoreContext } from 'mobx/store-context';
 import { VaultSortOrder } from '../../mobx/model/ui/vaults-filters';
 
 export const NAME_COLUMN_MAX_WIDTH = '45%';
-export const APR_COLUMN_MAX_WIDTH = '19%';
-export const INFORMATION_SECTION_MAX_WIDTH = '72.5%';
+export const APR_COLUMN_MAX_WIDTH = '16%';
+export const INFORMATION_SECTION_MAX_WIDTH = '75%';
 
 const useStyles = makeStyles((theme) => ({
-	hiddenMobile: {
-		display: 'flex',
-		[theme.breakpoints.down('sm')]: {
-			display: 'none',
-		},
-	},
-	amount: {
-		marginLeft: 5,
-	},
 	title: {
 		textTransform: 'uppercase',
 	},
@@ -35,17 +26,22 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	nameColumn: {
-		[theme.breakpoints.up('md')]: {
+		[theme.breakpoints.up('lg')]: {
 			flexGrow: 0,
 			maxWidth: NAME_COLUMN_MAX_WIDTH,
 			flexBasis: NAME_COLUMN_MAX_WIDTH,
 		},
 	},
 	aprColumn: {
-		[theme.breakpoints.up('md')]: {
+		[theme.breakpoints.up('lg')]: {
 			flexGrow: 0,
 			maxWidth: APR_COLUMN_MAX_WIDTH,
 			flexBasis: APR_COLUMN_MAX_WIDTH,
+		},
+	},
+	tvlColumn: {
+		[theme.breakpoints.down('md')]: {
+			display: 'none',
 		},
 	},
 	root: {
@@ -53,11 +49,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	titlesContainer: {
 		paddingLeft: theme.spacing(2),
-		[theme.breakpoints.up('md')]: {
+		[theme.breakpoints.up('lg')]: {
 			flexGrow: 0,
 			maxWidth: INFORMATION_SECTION_MAX_WIDTH,
 			flexBasis: INFORMATION_SECTION_MAX_WIDTH,
 		},
+	},
+	mobileContainer: {
+		paddingTop: theme.spacing(3),
+		paddingBottom: theme.spacing(2),
 	},
 }));
 
@@ -69,6 +69,7 @@ const TableHeader = observer(({ title }: TableHeaderProps): JSX.Element => {
 	const classes = useStyles();
 	const { uiState } = useContext(StoreContext);
 	const { sortOrder } = uiState.vaultsFilters;
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
 	const handleSortByApr = (): void => {
 		let toggledOrder: VaultSortOrder | undefined;
@@ -104,11 +105,41 @@ const TableHeader = observer(({ title }: TableHeaderProps): JSX.Element => {
 		uiState.vaultsFilters = { ...uiState.vaultsFilters, sortOrder: toggledOrder };
 	};
 
+	if (isMobile) {
+		return (
+			<Grid container justifyContent="space-between" className={classes.mobileContainer}>
+				<Typography className={classes.title} variant="body2" color="textSecondary" display="inline">
+					{title}
+				</Typography>
+				<Box display="inline-block">
+					<Typography className={classes.title} variant="body2" color="textSecondary">
+						APR
+						{sortOrder !== VaultSortOrder.APR_ASC && sortOrder !== VaultSortOrder.APR_DESC && (
+							<IconButton className={classes.sortIcon} onClick={handleSortByApr}>
+								<img src="/assets/icons/sort-down.svg" alt="sort descending by APR" />
+							</IconButton>
+						)}
+						{sortOrder === VaultSortOrder.APR_DESC && (
+							<IconButton className={classes.sortIcon} onClick={handleSortByApr}>
+								<img src="/assets/icons/sort-down.svg" alt="sort ascending by APR" />
+							</IconButton>
+						)}
+						{sortOrder === VaultSortOrder.APR_ASC && (
+							<IconButton className={classes.sortIcon} onClick={handleSortByApr}>
+								<img src="/assets/icons/sort-up.svg" alt="reset sort by APR" />
+							</IconButton>
+						)}
+					</Typography>
+				</Box>
+			</Grid>
+		);
+	}
+
 	// leave 3 grid spaces for the action buttons section which has no column name
 	return (
 		<Grid item container className={classes.root}>
-			<Grid item container xs={12} md alignItems="center" className={classes.titlesContainer}>
-				<Grid item xs={12} md className={clsx(classes.title, classes.nameColumn, classes.hiddenMobile)}>
+			<Grid item container xs={12} md={9} lg alignItems="center" className={classes.titlesContainer}>
+				<Grid item xs={12} md={7} lg className={clsx(classes.title, classes.nameColumn)}>
 					<Typography className={classes.title} variant="body2" color="textSecondary">
 						{title}
 					</Typography>
@@ -119,7 +150,7 @@ const TableHeader = observer(({ title }: TableHeaderProps): JSX.Element => {
 					xs={12}
 					md
 					alignItems="center"
-					className={clsx(classes.hiddenMobile, classes.title, classes.columnTitle, classes.aprColumn)}
+					className={clsx(classes.title, classes.columnTitle, classes.aprColumn)}
 				>
 					<Typography variant="body2" color="textSecondary">
 						APR
@@ -146,7 +177,7 @@ const TableHeader = observer(({ title }: TableHeaderProps): JSX.Element => {
 					xs={12}
 					md
 					alignItems="center"
-					className={clsx(classes.hiddenMobile, classes.title, classes.columnTitle)}
+					className={clsx(classes.title, classes.columnTitle, classes.tvlColumn)}
 				>
 					<Typography variant="body2" color="textSecondary">
 						TVL
@@ -167,14 +198,7 @@ const TableHeader = observer(({ title }: TableHeaderProps): JSX.Element => {
 						</IconButton>
 					)}
 				</Grid>
-				<Grid
-					item
-					container
-					xs={12}
-					md
-					alignItems="center"
-					className={clsx(classes.hiddenMobile, classes.title)}
-				>
+				<Grid item container xs={12} md alignItems="center" className={classes.title}>
 					<Typography variant="body2" color="textSecondary">
 						MY DEPOSITS
 					</Typography>

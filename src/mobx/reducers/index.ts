@@ -38,18 +38,13 @@ class UiState {
 		extendObservable(this, {
 			showNotification: this.showNotification,
 			currency: this.currency,
-			sidebarOpen: !!window && window.innerWidth > 960,
+			sidebarOpen: false,
 			showUserBalances: this.showUserBalances,
 			notification: {},
 			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
 			vaultsFilters: this.vaultsFilters,
 		});
-
-		// hide the sidebar
-		window.onresize = () => {
-			this.sidebarOpen = window.innerWidth >= 960;
-		};
 
 		if (APP_NEWS_STORAGE_HASH) {
 			window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
@@ -101,6 +96,7 @@ class UiState {
 
 	closeNotification = action(() => {
 		if (APP_NEWS_STORAGE_HASH) {
+			window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
 			this.showNotification = false;
 		}
 	});
@@ -140,7 +136,7 @@ class UiState {
 	});
 
 	closeSidebar = action(() => {
-		this.sidebarOpen = window.innerWidth >= 960;
+		this.sidebarOpen = false;
 	});
 }
 

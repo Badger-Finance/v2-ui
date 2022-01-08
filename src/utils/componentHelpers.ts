@@ -1,5 +1,5 @@
 import mainnetDeploy from '../config/deployments/mainnet.json';
-import { Vault, VaultData } from '@badger-dao/sdk';
+import { Vault, VaultData, VaultState } from '@badger-dao/sdk';
 import { Network } from '../mobx/model/network/network';
 
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
@@ -66,3 +66,15 @@ export const getFormattedNetworkName = (network: Network): string => {
 		.map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
 		.join(' ');
 };
+
+export function getUserVaultBoost(vault: Vault, multiplier: number): number | null {
+	if (!vault.boost.enabled || !vault.minApr || vault.state === VaultState.Deprecated || vault.sources.length === 0) {
+		return null;
+	}
+
+	const totalBoost = vault.sources
+		.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
+		.reduce((total, apr) => total + apr, 0);
+
+	return Math.max(totalBoost - vault.minApr, 0);
+}

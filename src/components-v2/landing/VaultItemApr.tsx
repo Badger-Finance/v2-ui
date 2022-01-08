@@ -1,8 +1,10 @@
 import React from 'react';
-import { Tooltip, Typography } from '@material-ui/core';
+import { Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import VaultItemRoiTooltip from './VaultItemRoiTooltip';
 import { makeStyles } from '@material-ui/core/styles';
-import { Vault, VaultState } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
+import { getUserVaultBoost } from '../../utils/componentHelpers';
+import clsx from 'clsx';
 
 const useStyles = makeStyles({
 	apr: {
@@ -12,6 +14,9 @@ const useStyles = makeStyles({
 	boost: {
 		fontWeight: 400,
 		cursor: 'default',
+	},
+	nonBoostedMobileApr: {
+		marginBottom: 21,
 	},
 });
 
@@ -23,29 +28,34 @@ interface Props {
 
 export const VaultItemApr = ({ vault, multiplier = 0 }: Props): JSX.Element => {
 	const classes = useStyles();
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const vaultBoost = getUserVaultBoost(vault, multiplier);
 
 	if (!vault.apr) {
 		return (
-			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
+			<Typography
+				className={clsx(classes.apr, isMobile && classes.nonBoostedMobileApr)}
+				variant="body1"
+				color={'textPrimary'}
+			>
 				0%
 			</Typography>
 		);
 	}
 
-	if (!vault.boost.enabled || !vault.minApr || vault.state === VaultState.Deprecated || vault.sources.length === 0) {
+	if (!vaultBoost || !vault.minApr) {
 		return (
-			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
+			<Typography
+				className={clsx(classes.apr, isMobile && classes.nonBoostedMobileApr)}
+				variant="body1"
+				color={'textPrimary'}
+			>
 				{`${vault.apr.toFixed(2)}%`}
 			</Typography>
 		);
 	}
 
-	const totalBoost = vault.sources
-		.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
-		.reduce((total, apr) => total + apr, 0);
-
-	const boostedApr = Math.max(totalBoost - vault.minApr, 0);
-	const currentApr = vault.minApr + boostedApr;
+	const currentApr = vault.minApr + vaultBoost;
 
 	return (
 		<Tooltip
@@ -65,7 +75,7 @@ export const VaultItemApr = ({ vault, multiplier = 0 }: Props): JSX.Element => {
 					{`${currentApr.toFixed(2)}%`}
 				</Typography>
 				<Typography variant="body1" color="textSecondary" className={classes.boost}>
-					My Boost: {boostedApr.toFixed(2)}%
+					My Boost: {vaultBoost.toFixed(2)}%
 				</Typography>
 			</>
 		</Tooltip>
