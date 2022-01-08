@@ -120,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(3),
 		padding: theme.spacing(2),
 		backgroundColor: 'rgba(58, 58, 58, 1)',
+		cursor: 'pointer',
 	},
 }));
 
@@ -156,16 +157,33 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 
 	const DepositModal = CustomDepositModal || VaultDeposit;
 
+	const vaultModals = badgerVault ? (
+		<>
+			<DepositModal
+				open={openDepositDialog}
+				vault={vault}
+				badgerVault={badgerVault}
+				onClose={() => setOpenDepositDialog(false)}
+			/>
+			<VaultWithdraw
+				open={openWithdrawDialog}
+				vault={vault}
+				badgerVault={badgerVault}
+				onClose={() => setOpenWithdrawDialog(false)}
+			/>
+		</>
+	) : null;
+
 	if (isMobile) {
 		return (
 			<Grid container component={Card} className={classes.mobileContainer}>
-				<Grid container spacing={2} className={classes.nameAndAprMobile}>
+				<Grid container spacing={2} className={classes.nameAndAprMobile} onClick={goToVaultDetail}>
 					<Grid item xs={12}>
 						<VaultItemName vault={vault} multiplier={multiplier} />
 					</Grid>
 				</Grid>
 				<Divider className={classes.divider} />
-				<Grid container className={classes.amountsSection}>
+				<Grid container className={classes.amountsSection} onClick={goToVaultDetail}>
 					<Grid item xs={6}>
 						<Typography
 							display="inline"
@@ -198,10 +216,14 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 					<VaultActionButtons
 						isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
 						isDepositDisabled={!onboard.isActive() || isDisabled}
-						onWithdrawClick={() => setOpenWithdrawDialog(true)}
+						onWithdrawClick={() => {
+							console.log('clikc');
+							setOpenWithdrawDialog(true);
+						}}
 						onDepositClick={() => setOpenDepositDialog(true)}
 					/>
 				</Grid>
+				{vaultModals}
 			</Grid>
 		);
 	}
@@ -251,22 +273,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 					/>
 				</Grid>
 			</Grid>
-			{badgerVault && (
-				<>
-					<DepositModal
-						open={openDepositDialog}
-						vault={vault}
-						badgerVault={badgerVault}
-						onClose={() => setOpenDepositDialog(false)}
-					/>
-					<VaultWithdraw
-						open={openWithdrawDialog}
-						vault={vault}
-						badgerVault={badgerVault}
-						onClose={() => setOpenWithdrawDialog(false)}
-					/>
-				</>
-			)}
+			{vaultModals}
 		</ListItem>
 	);
 
@@ -287,5 +294,4 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 
 	return listItem;
 });
-
 export default VaultListItem;
