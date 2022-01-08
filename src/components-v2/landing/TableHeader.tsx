@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
 		display: 'none',
 		opacity: 0.5,
 	},
+	nonSetSortMobile: {
+		opacity: 0.5,
+	},
 	columnTitle: {
 		'&:hover button:first-of-type': {
 			display: 'block',
@@ -115,7 +118,10 @@ const TableHeader = observer(({ title }: TableHeaderProps): JSX.Element => {
 					<Typography className={classes.title} variant="body2" color="textSecondary">
 						APR
 						{sortOrder !== VaultSortOrder.APR_ASC && sortOrder !== VaultSortOrder.APR_DESC && (
-							<IconButton className={classes.sortIcon} onClick={handleSortByApr}>
+							<IconButton
+								className={clsx(classes.sortIcon, classes.nonSetSortMobile)}
+								onClick={handleSortByApr}
+							>
 								<img src="/assets/icons/sort-down.svg" alt="sort descending by APR" />
 							</IconButton>
 						)}
