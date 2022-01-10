@@ -3,7 +3,6 @@ import { Grid, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Vault } from '@badger-dao/sdk';
 import VaultBadge from './VaultBadge';
-import clsx from 'clsx';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	symbol: {
-		width: 34,
-		height: 34,
+		width: 24,
+		height: 24,
 		[theme.breakpoints.down('sm')]: {
 			marginRight: theme.spacing(2),
 		},
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 	vaultIcon: {
 		display: 'flex',
 		justifyContent: 'center',
-		alignItems: 'center',
+		alignItems: 'flex-end',
 		flexDirection: 'column',
 		[theme.breakpoints.up('md')]: {
 			maxWidth: '20%',
@@ -52,9 +51,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	boost: {
 		fontWeight: 400,
-	},
-	badgeTopAligner: {
-		marginTop: theme.spacing(1),
 	},
 	vaultNameMobile: {
 		marginTop: theme.spacing(1),
@@ -73,8 +69,7 @@ export const VaultItemName = ({ vault, multiplier = 0 }: Props): JSX.Element => 
 	const vaultBoost = getUserVaultBoost(vault, multiplier);
 	const currentApr = vault.minApr && vaultBoost ? vault.minApr + vaultBoost : vault.apr;
 
-	// we invoke this as a normal function instead of JSX to check if the component returned null
-	const Badge = VaultBadge({ vault });
+	const Badge = <VaultBadge vault={vault} />;
 
 	const vaultIcon = (
 		<img
@@ -96,7 +91,7 @@ export const VaultItemName = ({ vault, multiplier = 0 }: Props): JSX.Element => 
 	if (isMobile) {
 		return (
 			<Grid container>
-				<Grid container>
+				<Grid container alignItems="center">
 					{vaultIcon}
 					{Badge}
 				</Grid>
@@ -136,11 +131,7 @@ export const VaultItemName = ({ vault, multiplier = 0 }: Props): JSX.Element => 
 			</Grid>
 			<Grid item xs className={classes.nameAndBoostContainer}>
 				<div className={classes.nameContainer}>{vaultName}</div>
-				<Typography
-					variant="body1"
-					className={clsx(classes.boost, Badge && classes.badgeTopAligner)}
-					color="textSecondary"
-				>
+				<Typography variant="body1" className={classes.boost} color="textSecondary">
 					{boostText}
 				</Typography>
 			</Grid>
