@@ -7,6 +7,13 @@ import clsx from 'clsx';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
+	rootContainerLarge: {
+		width: 'calc(100% + 21px)',
+		margin: '-10.5px',
+	},
+	nameAndBoostContainer: {
+		padding: '10.5px',
+	},
 	nameContainer: {
 		height: 34,
 		display: 'flex',
@@ -29,9 +36,12 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginRight: 21,
-		width: 61,
 		flexDirection: 'column',
+		[theme.breakpoints.up('md')]: {
+			maxWidth: '20%',
+			flexBasis: '20%',
+			padding: '10.5px',
+		},
 	},
 	tagContainer: {
 		display: 'flex',
@@ -119,12 +129,12 @@ export const VaultItemName = ({ vault, multiplier = 0 }: Props): JSX.Element => 
 	}
 
 	return (
-		<Grid container alignItems="center">
-			<Grid item className={classes.vaultIcon}>
+		<Grid container alignItems="center" className={classes.rootContainerLarge}>
+			<Grid item xs={2} className={classes.vaultIcon}>
 				{vaultIcon}
 				{Badge}
 			</Grid>
-			<Grid item>
+			<Grid item xs className={classes.nameAndBoostContainer}>
 				<div className={classes.nameContainer}>{vaultName}</div>
 				<Typography
 					variant="body1"
