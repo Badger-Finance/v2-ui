@@ -25,7 +25,7 @@ import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
 import { Vault, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
-import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH, APR_COLUMN_MAX_WIDTH } from './TableHeader';
+import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH, APR_COLUMN_MAX_WIDTH } from './VaultListHeader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -212,7 +212,6 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
 						isDepositDisabled={!onboard.isActive() || isDisabled}
 						onWithdrawClick={() => {
-							console.log('clikc');
 							setOpenWithdrawDialog(true);
 						}}
 						onDepositClick={() => setOpenDepositDialog(true)}

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ListSubheader, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
-import TableHeader from 'components-v2/landing/TableHeader';
+import { ListSubheader, makeStyles } from '@material-ui/core';
+import VaultListHeader from 'components-v2/landing/VaultListHeader';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -22,24 +22,15 @@ export interface VaultTableProps {
 }
 
 const VaultList = ({ title, settList }: VaultTableProps): JSX.Element => {
-	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const classes = useStyles();
-
-	if (isMobile) {
-		return (
-			<>
-				<ListSubheader className={classes.subHeader} disableGutters>
-					<TableHeader title={title} />
-				</ListSubheader>
-				{settList}
-			</>
-		);
-	}
 
 	return (
 		<>
 			<ListSubheader className={classes.subHeader} disableGutters>
-				<TableHeader title={title} />
+				<VaultListHeader
+					title={title}
+					helperText="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
+				/>
 			</ListSubheader>
 			{settList}
 		</>

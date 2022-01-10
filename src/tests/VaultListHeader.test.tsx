@@ -1,13 +1,23 @@
 import React from 'react';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
 import { customRender, screen, fireEvent } from './Utils';
-import TableHeader from '../components-v2/landing/TableHeader';
+import VaultListHeader from '../components-v2/landing/VaultListHeader';
 import store from '../mobx/RootStore';
 import { StoreProvider } from '../mobx/store-context';
+import { checkSnapshot } from './utils/snapshots';
 
 type SortTestingOptions = undefined | VaultSortOrder;
 
-describe('Table Header', () => {
+describe('Vault List Header', () => {
+	it('renders correctly', () => {
+		checkSnapshot(
+			<VaultListHeader
+				title="All Setts"
+				helperText="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
+			/>,
+		);
+	});
+
 	describe('content sorting', () => {
 		describe('by APR', () => {
 			test.each([
@@ -33,11 +43,11 @@ describe('Table Header', () => {
 
 				customRender(
 					<StoreProvider value={store}>
-						<TableHeader title="All Setts" />
+						<VaultListHeader title="All Setts" />
 					</StoreProvider>,
 				);
 
-				fireEvent.click(screen.getByAltText(altText));
+				fireEvent.click(screen.getByLabelText(altText));
 
 				expect(store.uiState.vaultsFilters.sortOrder).toBe(endSortOrder);
 			});
@@ -67,11 +77,11 @@ describe('Table Header', () => {
 
 				customRender(
 					<StoreProvider value={store}>
-						<TableHeader title="All Setts" />
+						<VaultListHeader title="All Setts" />
 					</StoreProvider>,
 				);
 
-				fireEvent.click(screen.getByAltText(altText));
+				fireEvent.click(screen.getByLabelText(altText));
 
 				expect(store.uiState.vaultsFilters.sortOrder).toBe(endSortOrder);
 			});
