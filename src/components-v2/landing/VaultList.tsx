@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListSubheader, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import { ListSubheader, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import TableHeader from 'components-v2/landing/TableHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,7 @@ export interface VaultTableProps {
 	displayValue?: string;
 }
 
-const VaultTable = ({ title, settList }: VaultTableProps): JSX.Element => {
+const VaultList = ({ title, settList }: VaultTableProps): JSX.Element => {
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const classes = useStyles();
 
@@ -41,9 +41,9 @@ const VaultTable = ({ title, settList }: VaultTableProps): JSX.Element => {
 			<ListSubheader className={classes.subHeader} disableGutters>
 				<TableHeader title={title} />
 			</ListSubheader>
-			<List className={classes.list}>{settList}</List>
+			{settList}
 		</>
 	);
 };
 
-export default VaultTable;
+export default VaultList;

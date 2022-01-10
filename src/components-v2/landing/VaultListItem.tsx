@@ -30,9 +30,10 @@ import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH, APR_COLUMN_MAX_WI
 const useStyles = makeStyles((theme) => ({
 	root: {
 		borderBottom: `1px solid ${theme.palette.background.default}`,
-		minHeight: 90,
+		minHeight: 108,
 		display: 'flex',
 		alignItems: 'center',
+		marginBottom: theme.spacing(2),
 	},
 	enabledVault: {
 		transition: '.2s background ease-out',
@@ -56,13 +57,6 @@ const useStyles = makeStyles((theme) => ({
 			flexGrow: 0,
 			maxWidth: NAME_COLUMN_MAX_WIDTH,
 			flexBasis: NAME_COLUMN_MAX_WIDTH,
-		},
-	},
-	listItem: {
-		padding: 0,
-		minHeight: 90,
-		'&:last-child div': {
-			borderBottom: 0,
 		},
 	},
 	clickableSection: {
@@ -230,8 +224,8 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	}
 
 	const listItem = (
-		<ListItem className={classes.listItem} disabled={isDisabled}>
-			<Grid container className={clsx(classes.root, !isDisabled && classes.enabledVault)}>
+		<>
+			<Grid container component={Card} className={clsx(classes.root, !isDisabled && classes.enabledVault)}>
 				<Grid
 					container
 					item
@@ -275,7 +269,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 				</Grid>
 			</Grid>
 			{vaultModals}
-		</ListItem>
+		</>
 	);
 
 	if (isDisabled) {

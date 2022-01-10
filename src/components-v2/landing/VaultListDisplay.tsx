@@ -7,7 +7,7 @@ import React, { useContext } from 'react';
 import { BalanceNamespace } from 'web3/config/namespaces';
 import NoVaults from './NoVaults';
 import VaultListItem from './VaultListItem';
-import VaultTable from './VaultTable';
+import VaultList from './VaultList';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
 import { VaultState } from '@badger-dao/sdk';
@@ -72,7 +72,7 @@ const VaultListDisplay = observer((props: Props) => {
 		return <NoVaults state={state} network={network.name} />;
 	}
 
-	return <VaultTable title={'All Setts'} displayValue={''} settList={settListItems} />;
+	return <VaultList title={'All Setts'} displayValue={''} settList={settListItems} />;
 });
 
 export default VaultListDisplay;
