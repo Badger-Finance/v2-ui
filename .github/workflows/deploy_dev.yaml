@@ -16,7 +16,8 @@ env:
     SESSION_NAME: 'ui-deploy-dev'
     DISTRIBUTION_ID: 'E2MXRIWON94FAH'
     GENERATE_SOURCEMAP: false
-    NODE_ENV: development
+    NODE_ENV: production
+    REACT_APP_BUILD_ENV: development
     REACT_APP_ARBITRUM_RPC: ${{ secrets.ARBITRUM_RPC }}
     REACT_APP_BSC_RPC: ${{ secrets.BSC_RPC }}
     REACT_APP_ETH_RPC: ${{ secrets.ETH_RPC }}

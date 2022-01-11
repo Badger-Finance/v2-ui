@@ -16,7 +16,8 @@ env:
     SESSION_NAME: 'ui-deploy-staging'
     DISTRIBUTION_ID: 'E27ERWUA6DE32S'
     GENERATE_SOURCEMAP: false
-    NODE_ENV: staging
+    NODE_ENV: production
+    REACT_APP_BUILD_ENV: staging
     REACT_APP_ARBITRUM_RPC: ${{ secrets.ARBITRUM_RPC }}
     REACT_APP_BSC_RPC: ${{ secrets.BSC_RPC }}
     REACT_APP_ETH_RPC: ${{ secrets.ETH_RPC }}
