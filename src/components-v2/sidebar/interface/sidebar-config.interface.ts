@@ -7,4 +7,5 @@ export interface SidebarConfig {
 	experimental: boolean;
 	airdrops: boolean;
 	honey: boolean;
+	auction: boolean;
 }

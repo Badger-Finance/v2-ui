@@ -11,6 +11,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: true,
 		honey: true,
+		auction: true,
 	},
 	[Network.Arbitrum]: {
 		cycle: true,
@@ -21,6 +22,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.Avalanche]: {
 		cycle: false,
@@ -31,6 +33,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.BinanceSmartChain]: {
 		cycle: false,
@@ -41,6 +44,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.Polygon]: {
 		cycle: true,
@@ -51,6 +55,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.Fantom]: {
 		cycle: false,
@@ -61,6 +66,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.xDai]: {
 		cycle: false,
@@ -71,6 +77,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 };
 
