@@ -113,6 +113,50 @@ const UserCancelTx = () => {
 	);
 };
 
+const ResumeTxDialog = (props: { open: boolean; onClose: () => void }) => {
+	const { open, onClose } = props;
+	const store = useContext(StoreContext);
+	const {
+		bridge: { resumeTx, getPersistedTxn },
+	} = store;
+	const classes = useStyles();
+
+	const handleConfirm = () => {
+		const persistedTxn = getPersistedTxn();
+		if (persistedTxn) {
+			resumeTx(persistedTxn);
+		}
+		onClose();
+	};
+
+	return (
+		<div className={classes.formContainer}>
+			<Dialog
+				disableBackdropClick
+				open={open}
+				onClose={onClose}
+				aria-labelledby="resume-tx-dialog-title"
+				aria-describedby="resume-tx-dialog-description"
+			>
+				<DialogTitle id="resume-tx-dialog-title">{'Resume transaction?'}</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="resume-tx-dialog-description">
+						You have a pending transaction, do you want to resume the transaction?
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={onClose} color="primary">
+						Cancel
+					</Button>
+					<Button variant="contained" onClick={handleConfirm} color="primary">
+						Resume
+					</Button>
+				</DialogActions>
+			</Dialog>
+		</div>
+	);
+};
+
 function MintStatusDisplay({
 	status,
 	message,
@@ -226,6 +270,7 @@ const initialStateResettable = {
 	renFee: 0,
 	badgerFee: 0,
 	step: 1,
+	showResumeTxDialog: false,
 };
 
 export const BridgeForm = observer(({ classes }: any) => {
@@ -251,6 +296,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			releaseNetworkFee,
 
 			current,
+			getPersistedTxn,
 		},
 		vaults,
 	} = store;
@@ -281,6 +327,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		maxSlippage,
 		renFee,
 		badgerFee,
+		showResumeTxDialog,
 	} = states;
 
 	// TODO: Refactor values to pull directly from mobx store for values in store.
@@ -405,6 +452,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}
 	};
 
+	const toggleResumeTxDialog = (show: boolean): void => {
+		setStates((prevState) => ({
+			...prevState,
+			showResumeTxDialog: show,
+		}));
+	};
+
 	useEffect(() => {
 		// Reset to original state if we're disconnected in middle
 		// of transaction.
@@ -413,6 +467,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 			return;
 		}
 	}, [onboard, onboard.address, step, resetState]);
+
+	useEffect(() => {
+		const persistedTxn = getPersistedTxn();
+		if (current?.id !== persistedTxn?.id) {
+			toggleResumeTxDialog(!!persistedTxn);
+		}
+	}, [current, getPersistedTxn]);
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
@@ -907,5 +968,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 		);
 	}
 
-	return <Grid container>{pageSwitcher()}</Grid>;
+	return (
+		<Grid container>
+			{pageSwitcher()}
+			<ResumeTxDialog open={showResumeTxDialog} onClose={() => toggleResumeTxDialog(false)} />
+		</Grid>
+	);
 });

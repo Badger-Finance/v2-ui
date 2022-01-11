@@ -14,6 +14,7 @@ import {
 	defaultRetryOptions,
 	// abis
 	ERC20,
+	PERSISTED_TXN,
 	RENVM_GATEWAY_ADDRESS,
 } from 'config/constants';
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
@@ -24,6 +25,7 @@ import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
+import storage from '../../utils/storage';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -283,8 +285,25 @@ class BridgeStore {
 		this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
 	});
 
+	getPersistedTxn = action((): RenVMTransaction | null => {
+		const txnString: string = storage.getItem(PERSISTED_TXN);
+		if (!txnString) return null;
+		return JSON.parse(txnString);
+	});
+
+	_updatePersistedTxn = action((txn: RenVMTransaction): void => {
+		if (!txn?.renVMStatus) return;
+		const txnString: string = txn.encodedTx ?? JSON.stringify(txn);
+		storage.setItem(PERSISTED_TXN, txnString);
+	});
+
+	_clearPersistedTxn = (): void => {
+		storage.removeItem(PERSISTED_TXN);
+	};
+
 	// Complete tx processing.
 	_complete = (): void => {
+		this._clearPersistedTxn();
 		const { address } = this.store.onboard;
 		if (!address) return;
 		// Execute any done cb if set.
@@ -415,6 +434,7 @@ class BridgeStore {
 			if (deleted) {
 				txData.deleted = true;
 			}
+			this._updatePersistedTxn(txData);
 			await retry(async () => {
 				await ref.update(txData);
 				// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
@@ -535,10 +555,17 @@ class BridgeStore {
 			}
 		} catch (err) {
 			console.error(err);
+			this._clearPersistedTxn();
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
 			// Blocking error if err on open/recover.
 			this.error = err;
 		}
+	});
+
+	resumeTx = action(async (tx: RenVMTransaction) => {
+		this.current = tx;
+		this.status = Status.INITIALIZING;
+		await this.openTx(tx);
 	});
 
 	_getFees = async (): Promise<void> => {
