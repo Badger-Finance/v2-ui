@@ -1,4 +1,4 @@
-import { action, extendObservable } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import { RootStore } from '../RootStore';
 import { Currency } from 'config/enums/currency.enum';
 import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH, DEFAULT_CURRENCY } from 'config/constants';
@@ -24,7 +24,6 @@ class UiState {
 		this.gasPrice = GasSpeed.Rapid;
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		this.showNotification = this.notificationClosingThreshold < 3;
-
 		const { network } = store.network;
 
 		extendObservable(this, {
