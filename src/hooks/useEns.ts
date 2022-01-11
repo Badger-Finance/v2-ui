@@ -18,9 +18,9 @@ const useENS = (address?: string) => {
 					setENSName(ensName);
 					setENSAvatar(avatar);
 				} catch (e) {
-          if (DEBUG) {
-					  console.warn('ENS lookup encountered an error', e);
-          }
+					if (DEBUG) {
+						console.warn('ENS lookup encountered an error', e);
+					}
 				}
 			}
 		};
