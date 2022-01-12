@@ -57,7 +57,7 @@ const EmptyVaultSearch = (): JSX.Element => {
 					</Grid>
 					<Grid item xs={12}>
 						<Button variant="text" color="primary" onClick={() => vaults.clearFilters()}>
-							Go Back To All Setts
+							Go Back To All Vaults
 						</Button>
 					</Grid>
 				</Grid>
