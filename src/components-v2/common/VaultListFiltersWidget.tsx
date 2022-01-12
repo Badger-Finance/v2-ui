@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 	closeButton: {
 		position: 'absolute',
 		right: 8,
-		top: 16,
+		top: 18,
 	},
 	selectedOption: {
 		border: `2px solid ${theme.palette.primary.main}`,
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 	filtersCount: {
 		fontWeight: 700,
 		color: theme.palette.primary.main,
+		cursor: 'pointer',
 	},
 }));
 
@@ -55,8 +56,8 @@ const VaultListFiltersWidget = (): JSX.Element => {
 
 	return (
 		<>
-			<Grid container justifyContent="flex-end" alignItems="center">
-				<IconButton className={classes.filterButton} onClick={toggleShowDialog}>
+			<Grid container justifyContent="flex-end" alignItems="center" onClick={toggleShowDialog}>
+				<IconButton className={classes.filterButton}>
 					<img src="/assets/icons/vault-filters.svg" alt="vault filters" />
 				</IconButton>
 				{!!vaults.vaultsFiltersCount && (
