@@ -14,6 +14,7 @@ import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
 import { VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
+import { FLAGS } from './environment';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -87,9 +88,11 @@ const routes = {
 		component: <IbBTC />,
 		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
 	}),
-	citadel: new Route<RootStore, QueryParams>({
-		path: '/citadel',
-		component: <CitadelEarlyBonding />,
+	...(FLAGS.CITADEL_SALE && {
+		citadel: new Route<RootStore, QueryParams>({
+			path: '/citadel',
+			component: <CitadelEarlyBonding />,
+		}),
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
