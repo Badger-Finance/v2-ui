@@ -9,8 +9,6 @@ import clsx from 'clsx';
 const useStyles = makeStyles((theme) => ({
 	cardSplash: {
 		width: '100%',
-		height: '200px',
-		background: 'red',
 	},
 	bondContent: {
 		padding: '21px',
@@ -108,13 +106,15 @@ const BondOffering = observer(({ bond }: BondOfferingProps): JSX.Element => {
 			: status === SaleStatus.Active
 			? classes.active
 			: classes.complete;
+	const tokenName = token.toLowerCase();
+	console.log(`/assets/img/bond-${tokenName}.png`);
 	return (
 		<Card component={Paper}>
-			<div className={classes.cardSplash} />
+			<img className={classes.cardSplash} src={`/assets/img/bond-${tokenName}.png`} />
 			<div className={classes.bondContent}>
 				<div className={classes.bondTitle}>
 					<img
-						src={`/assets/icons/${token.toLowerCase()}.png`}
+						src={`/assets/icons/${tokenName}.png`}
 						className={classes.bondIcon}
 						alt=""
 						width={23}
@@ -128,10 +128,10 @@ const BondOffering = observer(({ bond }: BondOfferingProps): JSX.Element => {
 					</div>
 				</div>
 				<Grid container spacing={2} className={classes.bondInfo}>
-					<Grid item xs={12} sm={6}>
+					<Grid item xs={6}>
 						<EarlyBondMetric metric="Price" value={'10'} />
 					</Grid>
-					<Grid item xs={12} sm={6}>
+					<Grid item xs={6}>
 						<EarlyBondMetric metric="Bond Rate" value={`${exchangeRate} CTDL / ${token}`} />
 					</Grid>
 				</Grid>
