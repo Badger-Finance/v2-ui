@@ -74,8 +74,9 @@ const useStyles = makeStyles((theme) => ({
 			marginTop: 37,
 		},
 	},
-	boldWeight: {
+	titleText: {
 		fontWeight: 700,
+		fontSize: 20,
 	},
 	closeButton: {
 		position: 'absolute',
@@ -101,6 +102,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	clearButton: {
 		padding: 0,
+	},
+	switchContainer: {
+		[theme.breakpoints.down('xs')]: {
+			justifyContent: 'flex-end',
+		},
 	},
 }));
 
@@ -173,10 +179,10 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 	return (
 		<Dialog open={open}>
 			<DialogTitle disableTypography className={classes.title}>
-				<Typography variant="h6" className={classes.boldWeight}>
+				<Typography variant="h6" className={classes.titleText}>
 					Filters
 				</Typography>
-				<IconButton aria-label="go back to rewards" className={classes.closeButton} onClick={handleClose}>
+				<IconButton aria-label="close vault filters" className={classes.closeButton} onClick={handleClose}>
 					<CloseIcon />
 				</IconButton>
 			</DialogTitle>
@@ -189,7 +195,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 								Hide vaults valued under $1
 							</Typography>
 						</Grid>
-						<Grid item xs>
+						<Grid item xs={4} container className={classes.switchContainer}>
 							<StyledSwitch
 								checked={hidePortfolioDust}
 								onClick={() => setHidePortfolioDust(!hidePortfolioDust)}
