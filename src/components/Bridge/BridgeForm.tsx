@@ -470,7 +470,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	useEffect(() => {
 		const persistedTxn = getPersistedTxn();
-		if (current?.id !== persistedTxn?.id) {
+		if ((!current && persistedTxn) || current?.id !== persistedTxn?.id) {
 			toggleResumeTxDialog(!!persistedTxn);
 		}
 	}, [current, getPersistedTxn]);

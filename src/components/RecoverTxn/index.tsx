@@ -1,4 +1,4 @@
-import React, { FormEvent, useContext, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,15 +7,78 @@ import PageHeader from '../../components-v2/common/PageHeader';
 import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 import { AmountTextField } from '../../components-v2/common/dialogs/styled';
 import Button from '@material-ui/core/Button';
+import useSearchTxnById from './hooks/search';
+import { bridge_system, tokens } from 'config/deployments/mainnet.json';
+import { RenVMParams, RenVMTransaction } from '../../mobx/model/bridge/renVMTransaction';
+import { EthArgs } from '@renproject/interfaces';
+import routes from '../../config/routes';
 
 export const RecoverTxn = observer(() => {
-	const { onboard } = useContext(StoreContext);
+	const {
+		onboard,
+		bridge: { resumeTx },
+		router,
+	} = useContext(StoreContext);
 	const [txnId, setTxnId] = useState<string>('');
+	const { searchTxn, searchTxnLoading, handleSearchByTxnId }: any = useSearchTxnById();
 	const classes = useStyles();
 
 	const handleTransactionFormSubmit = (event: FormEvent) => {
 		event.preventDefault();
+		handleSearchByTxnId(txnId);
 	};
+
+	const createTxnParams = (searchTxn: any): RenVMTransaction => {
+		const contractParams: EthArgs = [
+			{
+				name: '_token',
+				type: 'address',
+				value: tokens.renBTC,
+			},
+			{
+				name: '_slippage',
+				type: 'uint256',
+				// for renBTC
+				value: 0,
+			},
+			{
+				name: '_user',
+				type: 'address',
+				value: onboard.address,
+			},
+			{
+				name: '_vault',
+				type: 'address',
+				// for renBTC
+				value: '0x0000000000000000000000000000000000000000',
+			},
+		];
+
+		const params: RenVMParams = {
+			asset: 'BTC',
+			sendTo: bridge_system['adapter'],
+			contractFn: 'mint',
+			contractParams,
+		};
+
+		const txnParams: RenVMTransaction = {
+			params,
+			user: onboard.address,
+			renVMMessage: 'Waiting for 6 confirmations.',
+			renVMStatus: 'detected',
+			nonce: JSON.stringify(searchTxn?.queryTx?.result?.in?.nonce),
+		} as any;
+
+		return txnParams;
+	};
+
+	useEffect(() => {
+		if (!searchTxnLoading && searchTxn) {
+			const txn: RenVMTransaction = createTxnParams(searchTxn);
+			router.goTo(routes.bridge);
+			resumeTx(txn);
+		}
+	}, [searchTxn, searchTxnLoading, onboard, router, resumeTx, createTxnParams]);
 
 	return (
 		<LayoutContainer>
@@ -27,6 +90,7 @@ export const RecoverTxn = observer(() => {
 					<form className={classes.txnForm} onSubmit={handleTransactionFormSubmit}>
 						<AmountTextField
 							className={classes.txnIdInput}
+							type="text"
 							variant="outlined"
 							fullWidth
 							placeholder="Enter Transaction ID"
@@ -35,7 +99,7 @@ export const RecoverTxn = observer(() => {
 						/>
 						<Button
 							className={classes.txnSubmitBtn}
-							disabled={!txnId}
+							disabled={!txnId || searchTxnLoading}
 							variant="contained"
 							type="submit"
 							color="primary"

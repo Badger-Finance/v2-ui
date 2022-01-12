@@ -1,0 +1,42 @@
+[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_gasFee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_serviceFeeRate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_nHash",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_sig",
+				"type": "bytes"
+			}
+		],
+		"name": "mintRenBTC",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
