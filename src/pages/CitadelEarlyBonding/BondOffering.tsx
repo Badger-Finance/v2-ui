@@ -1,7 +1,6 @@
-import { Typography, Grid, makeStyles, Card, Paper, Button } from '@material-ui/core';
+import { Typography, makeStyles, Card, Paper, Button } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
-import { StoreContext } from '../../mobx/store-context';
+import React from 'react';
 import { IBond } from './bonds.config';
 import clsx from 'clsx';
 import BondPricing from './BondPricing';
@@ -85,11 +84,7 @@ enum SaleStatus {
 const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element => {
 	const { token, address } = bond;
 	const classes = useStyles();
-	const store = useContext(StoreContext);
-	const { prices } = store;
 
-	// TODO: Calcualte or read exchange rate from bond
-	const exchangeRate = 10;
 	const status = Date.now() % 3 ? SaleStatus.Opened : SaleStatus.Pending;
 	const bondStatusIconClass =
 		status === SaleStatus.Pending
@@ -100,13 +95,13 @@ const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element
 	const tokenName = token.toLowerCase();
 	return (
 		<Card component={Paper}>
-			<img className={classes.cardSplash} src={`/assets/img/bond-${tokenName}.png`} />
+			<img className={classes.cardSplash} src={`/assets/img/bond-${tokenName}.png`} alt={`${token}`} />
 			<div className={classes.bondContent}>
 				<div className={classes.bondTitle}>
 					<img
 						src={`/assets/icons/${tokenName}.png`}
 						className={classes.bondIcon}
-						alt=""
+						alt={`${token}`}
 						width={23}
 						height={23}
 					/>
@@ -118,7 +113,15 @@ const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element
 					</div>
 				</div>
 				<BondPricing token={token} tokenAddress={address} />
-				<Button onClick={() => select(bond)} variant="contained" color="primary" className={classes.bondButton} disabled={status !== SaleStatus.Opened}>Bond</Button>
+				<Button
+					onClick={() => select(bond)}
+					variant="contained"
+					color="primary"
+					className={classes.bondButton}
+					disabled={status !== SaleStatus.Opened}
+				>
+					Bond
+				</Button>
 			</div>
 		</Card>
 	);

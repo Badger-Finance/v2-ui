@@ -1,9 +1,7 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Box, ButtonBase, Divider, Grid, TextField, Typography } from '@material-ui/core';
-import { inCurrency } from '../../mobx/utils/helpers';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { Currency } from '../../config/enums/currency.enum';
 import { makeStyles } from '@material-ui/core/styles';
 
 interface Props {
@@ -56,27 +54,27 @@ const BondInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 
 	return (
 		<div className={classes.inputContainer}>
-				<TextField
-					fullWidth
-					inputProps={inputProps}
-					className={classes.input}
-					variant="outlined"
-					value={inputValue}
-					onChange={onValidChange(handleInputChange)}
-				/>
-				<Grid container alignItems="center" justifyContent="space-between" className={classes.balances}>
-					<Typography variant="caption">{`BALANCE: ${tokenBalance.balanceDisplay(6)}`}</Typography>
-					<Box className={classes.percentagesContainer}>
-						{[25, 50, 75, 100].map((percentage, index, total) => (
-							<Fragment key={`${percentage}%_${index}`}>
-								<ButtonBase onClick={() => handleApplyPercentage(percentage)}>
-									<Typography variant="caption">{`${percentage}%`}</Typography>
-								</ButtonBase>
-								{index !== total.length - 1 && <Divider orientation="vertical" variant="middle" flexItem />}
-							</Fragment>
-						))}
-					</Box>
-				</Grid>
+			<TextField
+				fullWidth
+				inputProps={inputProps}
+				className={classes.input}
+				variant="outlined"
+				value={inputValue}
+				onChange={onValidChange(handleInputChange)}
+			/>
+			<Grid container alignItems="center" justifyContent="space-between" className={classes.balances}>
+				<Typography variant="caption">{`BALANCE: ${tokenBalance.balanceDisplay(6)}`}</Typography>
+				<Box className={classes.percentagesContainer}>
+					{[25, 50, 75, 100].map((percentage, index, total) => (
+						<Fragment key={`${percentage}%_${index}`}>
+							<ButtonBase onClick={() => handleApplyPercentage(percentage)}>
+								<Typography variant="caption">{`${percentage}%`}</Typography>
+							</ButtonBase>
+							{index !== total.length - 1 && <Divider orientation="vertical" variant="middle" flexItem />}
+						</Fragment>
+					))}
+				</Box>
+			</Grid>
 		</div>
 	);
 };

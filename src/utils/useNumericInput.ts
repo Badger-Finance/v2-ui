@@ -64,7 +64,7 @@ export const useNumericInput = (fontSize?: number, color?: string, alignRight = 
 				}),
 				...(color && {
 					color: color,
-				})
+				}),
 			},
 		},
 		onValidChange,
