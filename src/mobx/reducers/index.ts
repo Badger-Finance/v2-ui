@@ -40,6 +40,10 @@ class UiState {
 		window.onresize = () => {
 			this.sidebarOpen = window.innerWidth >= 960;
 		};
+
+		if (APP_NEWS_STORAGE_HASH) {
+			window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
+		}
 	}
 
 	get notificationClosingThreshold(): number {
@@ -65,7 +69,6 @@ class UiState {
 
 	closeNotification = action(() => {
 		if (APP_NEWS_STORAGE_HASH) {
-			window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
 			this.showNotification = false;
 		}
 	});
