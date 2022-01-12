@@ -22,6 +22,7 @@ import {
 import { StoreContext } from '../../mobx/store-context';
 import CloseIcon from '@material-ui/icons/Close';
 import { Currency } from '../../config/enums/currency.enum';
+import clsx from 'clsx';
 
 const StyledSwitch = withStyles((theme) => ({
 	root: {
@@ -43,7 +44,7 @@ const StyledSwitch = withStyles((theme) => ({
 			},
 		},
 		'& + $track': {
-			backgroundColor: 'rgba(120, 120, 128, 0.16)',
+			backgroundColor: '#787880',
 		},
 	},
 	checked: {}, // this is empty on purpose to override checked styles
@@ -69,9 +70,11 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(3, 0),
 	},
 	actionButtons: {
-		marginTop: theme.spacing(5),
+		justifyContent: 'flex-end',
+		marginTop: theme.spacing(3),
 		[theme.breakpoints.down('xs')]: {
-			marginTop: 37,
+			marginTop: theme.spacing(4),
+			justifyContent: 'space-between',
 		},
 	},
 	titleText: {
@@ -107,6 +110,19 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('xs')]: {
 			justifyContent: 'flex-end',
 		},
+	},
+	formControlLabelText: {
+		fontWeight: 400,
+	},
+	checkboxLabel: {
+		marginLeft: theme.spacing(1),
+	},
+	checkboxLabelRoot: {
+		display: 'flex',
+		alignItems: 'flex-start',
+	},
+	checkboxRoot: {
+		paddingTop: 6,
 	},
 }));
 
@@ -189,13 +205,15 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 			<DialogContent className={classes.content}>
 				<Grid container>
 					<Grid item container>
-						<Grid item xs={8}>
-							<Typography variant="body1">PORTFOLIO DUST</Typography>
+						<Grid item xs={9}>
+							<Typography variant="h6" className={classes.titleText}>
+								Portfolio Dust
+							</Typography>
 							<Typography variant="body1" className={classes.caption}>
 								Hide vaults valued under $1
 							</Typography>
 						</Grid>
-						<Grid item xs={4} container className={classes.switchContainer}>
+						<Grid item xs={3} container className={classes.switchContainer}>
 							<StyledSwitch
 								checked={hidePortfolioDust}
 								onClick={() => setHidePortfolioDust(!hidePortfolioDust)}
@@ -204,15 +222,21 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 					</Grid>
 					<Divider className={classes.divider} />
 					<Grid item container alignItems="center" spacing={1}>
-						<Grid item xs={12} sm={5}>
-							<Typography variant="body1">VAULTS CURRENCIES</Typography>
+						<Grid item xs={12} sm={7}>
+							<Typography variant="h6" className={classes.titleText}>
+								Vaults Currencies
+							</Typography>
 						</Grid>
-						<Grid item xs={12} sm={7} container justifyContent="space-between">
+						<Grid item xs={12} sm={5} container justifyContent="space-between">
 							<Grid item xs={6}>
 								<FormControlLabel
 									value={Currency.BTC}
 									control={<Radio color="primary" />}
-									label="BTC"
+									label={
+										<Typography variant="body1" className={classes.formControlLabelText}>
+											BTC
+										</Typography>
+									}
 									checked={currency === Currency.BTC}
 									onClick={() => setCurrency(Currency.BTC)}
 								/>
@@ -221,7 +245,11 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 								<FormControlLabel
 									value={Currency.USD}
 									control={<Radio color="primary" />}
-									label="USD"
+									label={
+										<Typography variant="body1" className={classes.formControlLabelText}>
+											USD
+										</Typography>
+									}
 									checked={currency === Currency.USD}
 									onClick={() => setCurrency(Currency.USD)}
 								/>
@@ -230,7 +258,9 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 					</Grid>
 					<Divider className={classes.divider} />
 					<Grid item container>
-						<Typography variant="body1">PROTOCOLS</Typography>
+						<Typography variant="h6" className={classes.titleText}>
+							Protocols
+						</Typography>
 						{vaultMap && (
 							<FormGroup className={classes.protocolSelection}>
 								<Grid container spacing={2}>
@@ -245,7 +275,17 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 															name={protocol}
 														/>
 													}
-													label={protocol}
+													label={
+														<Typography
+															variant="body1"
+															className={clsx(
+																classes.formControlLabelText,
+																classes.checkboxLabel,
+															)}
+														>
+															{protocol}
+														</Typography>
+													}
 												/>
 											</Grid>
 										),
@@ -256,75 +296,89 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 					</Grid>
 					<Divider className={classes.divider} />
 					<Grid container>
-						<Typography variant="body1">TOKENS</Typography>
+						<Typography variant="h6" className={classes.titleText}>
+							Token
+						</Typography>
 						<Grid container className={classes.tokenSelection} spacing={2}>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Native)}
 											onChange={() => handleTypeChange(VaultType.Native)}
 											name={VaultType.Native}
 										/>
 									}
 									label={
-										<>
-											<Typography variant="body1">BadgerDAO tokens</Typography>
+										<div className={classes.checkboxLabel}>
+											<Typography variant="body1" className={classes.formControlLabelText}>
+												BadgerDAO tokens
+											</Typography>
 											<Typography variant="body1" className={classes.tokenCaption}>
 												Badger, Digg
 											</Typography>
-										</>
+										</div>
 									}
 								/>
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Boosted)}
 											onChange={() => handleTypeChange(VaultType.Boosted)}
 											name={VaultType.Boosted}
 										/>
 									}
 									label={
-										<>
-											<Typography variant="body1">Boosted Tokens</Typography>
+										<div className={classes.checkboxLabel}>
+											<Typography variant="body1" className={classes.formControlLabelText}>
+												Boosted Tokens
+											</Typography>
 											<Typography variant="body1" className={classes.tokenCaption}>
 												ibBTC, crvsBTC LP, imBTC, Mhbtc, Cvxcrv, Tricrypto
 											</Typography>
-										</>
+										</div>
 									}
 								/>
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Standard)}
 											onChange={() => handleTypeChange(VaultType.Standard)}
 											name={VaultType.Standard}
 										/>
 									}
 									label={
-										<>
-											<Typography variant="body1">Non-Boosted Tokens</Typography>
+										<div className={classes.checkboxLabel}>
+											<Typography variant="body1" className={classes.formControlLabelText}>
+												Non-Boosted Tokens
+											</Typography>
 											<Typography variant="body1" className={classes.tokenCaption}>
 												All other tokens (e.g. wBTC, renBTC...)
 											</Typography>
-										</>
+										</div>
 									}
 								/>
 							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>
-				<Grid container className={classes.actionButtons} justifyContent="space-between">
-					<Grid item xs={4}>
+				<Grid container className={classes.actionButtons} spacing={4}>
+					<Grid item>
 						<Button variant="text" onClick={handleClearAll} color="primary" className={classes.clearButton}>
 							Clear All
 						</Button>
 					</Grid>
-					<Grid item xs={8} container justifyContent="flex-end">
+					<Grid item>
 						<Button
 							variant="contained"
 							onClick={handleSave}

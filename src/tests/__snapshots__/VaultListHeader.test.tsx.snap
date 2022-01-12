@@ -60,7 +60,7 @@ exports[`Vault List Header renders correctly 1`] = `
             </svg>
           </span>
           <span
-            class="MuiTouchRipple-root-219"
+            class="MuiTouchRipple-root-223"
           />
         </button>
       </div>
@@ -100,7 +100,7 @@ exports[`Vault List Header renders correctly 1`] = `
             </svg>
           </span>
           <span
-            class="MuiTouchRipple-root-219"
+            class="MuiTouchRipple-root-223"
           />
         </button>
       </div>
@@ -140,7 +140,7 @@ exports[`Vault List Header renders correctly 1`] = `
             </svg>
           </span>
           <span
-            class="MuiTouchRipple-root-219"
+            class="MuiTouchRipple-root-223"
           />
         </button>
       </div>
@@ -165,7 +165,7 @@ exports[`Vault List Header renders correctly 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-219"
+            class="MuiTouchRipple-root-223"
           />
         </button>
       </div>
