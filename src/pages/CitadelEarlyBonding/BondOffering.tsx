@@ -1,10 +1,10 @@
-import { Typography, Grid, makeStyles, Card, Paper, Link } from '@material-ui/core';
+import { Typography, Grid, makeStyles, Card, Paper, Button } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-import { Skeleton } from '@material-ui/lab';
 import { StoreContext } from '../../mobx/store-context';
 import { IBond } from './bonds.config';
 import clsx from 'clsx';
+import BondPricing from './BondPricing';
 
 const useStyles = makeStyles((theme) => ({
 	cardSplash: {
@@ -52,46 +52,37 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: '65px',
 		display: 'flex',
 		justifyContent: 'center',
+		lineHeight: '25px',
+		fontSize: '12px',
+		letterSpacing: '0.25px',
+		fontWeight: 'bold',
 	},
 	pending: {
-		backgroundColor: '#F2BC1B',
+		backgroundColor: '#FF7C33',
 	},
-	active: {
+	opened: {
 		backgroundColor: '#66BB6A',
 	},
-	complete: {
+	closed: {
 		backgroundColor: '#F44336',
+	},
+	bondButton: {
+		width: '100%',
 	},
 }));
 
-interface EarlyBondMetricProps {
-	metric: string;
-	value?: string;
-}
-
-const EarlyBondMetric = ({ metric, value }: EarlyBondMetricProps): JSX.Element => {
-	const classes = useStyles();
-	return (
-		<>
-			<Typography variant="body2" className={classes.metricName}>
-				{metric}
-			</Typography>
-			{value ? <Typography variant="caption">{value}</Typography> : <Skeleton width={35} />}
-		</>
-	);
-};
-
 interface BondOfferingProps {
 	bond: IBond;
+	select: (bond: IBond) => void;
 }
 
 enum SaleStatus {
 	Pending = 'Pending',
-	Active = 'Ative',
-	Complete = 'Complete',
+	Opened = 'Opened',
+	Closed = 'Closed',
 }
 
-const BondOffering = observer(({ bond }: BondOfferingProps): JSX.Element => {
+const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element => {
 	const { token, address } = bond;
 	const classes = useStyles();
 	const store = useContext(StoreContext);
@@ -99,15 +90,14 @@ const BondOffering = observer(({ bond }: BondOfferingProps): JSX.Element => {
 
 	// TODO: Calcualte or read exchange rate from bond
 	const exchangeRate = 10;
-	const status = SaleStatus.Pending;
+	const status = Date.now() % 3 ? SaleStatus.Opened : SaleStatus.Pending;
 	const bondStatusIconClass =
 		status === SaleStatus.Pending
 			? classes.pending
-			: status === SaleStatus.Active
-			? classes.active
-			: classes.complete;
+			: status === SaleStatus.Opened
+			? classes.opened
+			: classes.closed;
 	const tokenName = token.toLowerCase();
-	console.log(`/assets/img/bond-${tokenName}.png`);
 	return (
 		<Card component={Paper}>
 			<img className={classes.cardSplash} src={`/assets/img/bond-${tokenName}.png`} />
@@ -127,17 +117,8 @@ const BondOffering = observer(({ bond }: BondOfferingProps): JSX.Element => {
 						</Typography>
 					</div>
 				</div>
-				<Grid container spacing={2} className={classes.bondInfo}>
-					<Grid item xs={6}>
-						<EarlyBondMetric metric="Price" value={'10'} />
-					</Grid>
-					<Grid item xs={6}>
-						<EarlyBondMetric metric="Bond Rate" value={`${exchangeRate} CTDL / ${token}`} />
-					</Grid>
-				</Grid>
-				<Link className={classes.bondLink} href="/">
-					View Details
-				</Link>
+				<BondPricing token={token} tokenAddress={address} />
+				<Button onClick={() => select(bond)} variant="contained" color="primary" className={classes.bondButton} disabled={status !== SaleStatus.Opened}>Bond</Button>
 			</div>
 		</Card>
 	);
