@@ -29,12 +29,11 @@ const VaultListDisplay = observer((props: Props) => {
 	const store = useContext(StoreContext);
 	const {
 		vaults,
-		uiState: { vaultsFilters },
 		network: { network },
 		user,
 	} = store;
 
-	const vaultOrder = vaults.getVaultOrderByState(state, vaultsFilters.sortOrder);
+	const vaultOrder = vaults.getVaultOrderByState(state, vaults.vaultsFilters.sortOrder);
 
 	if (vaultOrder === undefined) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;
@@ -68,7 +67,7 @@ const VaultListDisplay = observer((props: Props) => {
 		);
 	});
 
-	if (settListItems.length === 0) {
+	if (settListItems.length === 0 && vaults.vaultsFiltersCount === 0) {
 		return <NoVaults state={state} network={network.name} />;
 	}
 

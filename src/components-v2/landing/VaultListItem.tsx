@@ -1,16 +1,6 @@
 import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
-import {
-	ListItem,
-	makeStyles,
-	Grid,
-	Tooltip,
-	useMediaQuery,
-	useTheme,
-	Card,
-	Divider,
-	Typography,
-} from '@material-ui/core';
+import { makeStyles, Grid, Tooltip, useMediaQuery, useTheme, Card, Divider, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 import { inCurrency } from 'mobx/utils/helpers';
@@ -128,7 +118,7 @@ export interface VaultListItemProps {
 
 const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: VaultListItemProps): JSX.Element => {
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-	const { user, network, router, onboard, vaults, uiState } = useContext(StoreContext);
+	const { user, network, router, onboard, vaults } = useContext(StoreContext);
 	const [openDepositDialog, setOpenDepositDialog] = useState(false);
 	const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
 
@@ -136,8 +126,8 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	const badgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === vault?.vaultToken);
 
 	const depositBalanceDisplay = depositBalance.tokenBalance.gt(0)
-		? depositBalance.balanceValueDisplay(uiState.currency)
-		: `${currencyConfiguration[uiState.currency].prefix}-`;
+		? depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency)
+		: `${currencyConfiguration[vaults.vaultsFilters.currency].prefix}-`;
 
 	const multiplier =
 		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
@@ -186,7 +176,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							className={classes.amountsMobile}
 						>{`TVL: `}</Typography>
 						<CurrencyDisplay
-							displayValue={inCurrency(new BigNumber(vault.value), uiState.currency, 0)}
+							displayValue={inCurrency(new BigNumber(vault.value), vaults.vaultsFilters.currency, 0)}
 							variant="body1"
 							justifyContent="flex-start"
 							TypographyProps={{ className: classes.amountsMobile }}
@@ -243,7 +233,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 					</Grid>
 					<Grid item xs={12} md className={classes.tvl}>
 						<CurrencyDisplay
-							displayValue={inCurrency(new BigNumber(vault.value), uiState.currency, 0)}
+							displayValue={inCurrency(new BigNumber(vault.value), vaults.vaultsFilters.currency, 0)}
 							variant="body1"
 							justifyContent="flex-start"
 							TypographyProps={{ className: classes.itemText }}

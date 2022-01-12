@@ -9,6 +9,10 @@ const theme = createTheme({
 			checkedIcon: <img src="/assets/icons/checked-checkbox.svg" alt="checked checkbox" />,
 			icon: <img src="/assets/icons/non-checked-checkbox.svg" alt="checkbox" />,
 		},
+		MuiRadio: {
+			checkedIcon: <img src="/assets/icons/checked-radio-control.svg" alt="option" />,
+			icon: <img src="/assets/icons/non-checked-radio-control.svg" alt="option" />,
+		},
 	},
 	breakpoints: {
 		values: {
@@ -105,6 +109,17 @@ const theme = createTheme({
 			},
 		},
 		MuiCheckbox: {
+			root: { marginLeft: 2 },
+			colorPrimary: {
+				'&$checked': {
+					color: '#04BF00',
+					'&:hover': {
+						backgroundColor: 'rgba(4, 191, 0, 0.08)',
+					},
+				},
+			},
+		},
+		MuiRadio: {
 			colorPrimary: {
 				'&$checked': {
 					color: '#04BF00',

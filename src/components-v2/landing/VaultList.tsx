@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListSubheader, makeStyles } from '@material-ui/core';
 import VaultListHeader from 'components-v2/landing/VaultListHeader';
+import EmptyVaultSearch from './EmptyVaultSearch';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -32,7 +33,7 @@ const VaultList = ({ title, settList }: VaultTableProps): JSX.Element => {
 					helperText="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
 				/>
 			</ListSubheader>
-			{settList}
+			{settList.length > 0 ? settList : <EmptyVaultSearch />}
 		</>
 	);
 };
