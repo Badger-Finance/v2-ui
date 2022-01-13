@@ -23,10 +23,11 @@ const useStyles = makeStyles({
 interface Props {
 	vault: Vault;
 	isDisabled?: boolean;
+	multiplier?: number;
 	boost?: number;
 }
 
-export const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
+export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element => {
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const vaultBoost = boost ? getUserVaultBoost(vault, boost) : undefined;
@@ -64,7 +65,7 @@ export const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
 			leaveDelay={300}
 			arrow
 			placement="left"
-			title={<VaultItemRoiTooltip vault={vault} multiplier={boost} />}
+			title={<VaultItemRoiTooltip vault={vault} multiplier={multiplier} />}
 			// prevents scrolling overflow off the sett list
 			PopperProps={{
 				disablePortal: true,

@@ -12,7 +12,7 @@ import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
 import { VaultDeposit, VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
-import { Vault } from '@badger-dao/sdk';
+import { Vault, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH, APR_COLUMN_MAX_WIDTH } from './VaultListHeader';
@@ -128,6 +128,9 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 
 	const canWithdraw = depositBalance.tokenBalance.gt(0);
 
+	const multiplier =
+		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
+
 	// sett is disabled if they are internal setts, or have a bouncer and use has no access
 	const isDisabled = !user.onGuestList(vault);
 
@@ -224,7 +227,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						<VaultItemName vault={vault} />
 					</Grid>
 					<Grid item xs={12} md className={classes.apr}>
-						<VaultItemApr vault={vault} boost={user.accountDetails?.boost} />
+						<VaultItemApr vault={vault} multiplier={multiplier} boost={user.accountDetails?.boost} />
 					</Grid>
 					<Grid item xs={12} md className={classes.tvl}>
 						<CurrencyDisplay
