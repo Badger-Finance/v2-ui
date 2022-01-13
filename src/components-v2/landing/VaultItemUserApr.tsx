@@ -1,15 +1,25 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import { Vault } from '@badger-dao/sdk';
+import { MAX_BOOST_LEVEL } from 'config/system/boost-ranks';
 
 interface Props {
 	vault: Vault;
-	multiplier: number;
+	boost?: number;
 }
 
-export const VaultItemUserApr = ({ vault, multiplier }: Props): JSX.Element => {
+export const VaultItemUserApr = ({ vault, boost }: Props): JSX.Element | null => {
+	if (!boost) {
+		return null;
+	}
+
 	const totalBoost = vault.sources
-		.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
+		.map((source) => {
+			if (!source.boostable) {
+				return source.apr;
+			}
+			return source.minApr + ((boost / MAX_BOOST_LEVEL.multiplier) * (source.maxApr - source.minApr));
+		})
 		.reduce((total, apr) => total + apr, 0);
 
 	return (
