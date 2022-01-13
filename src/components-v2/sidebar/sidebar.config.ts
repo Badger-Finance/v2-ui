@@ -1,4 +1,5 @@
 import { Network } from '@badger-dao/sdk';
+import { FLAGS } from 'config/environment';
 import { SidebarConfig } from './interface/sidebar-config.interface';
 
 const sidebarConfig: Record<Network, SidebarConfig> = {
@@ -11,6 +12,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: true,
 		honey: true,
+		auction: FLAGS.CITADEL_SALE,
 	},
 	[Network.Arbitrum]: {
 		cycle: true,
@@ -21,6 +23,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.Avalanche]: {
 		cycle: false,
@@ -31,6 +34,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.BinanceSmartChain]: {
 		cycle: false,
@@ -41,6 +45,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.Polygon]: {
 		cycle: true,
@@ -51,6 +56,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.Fantom]: {
 		cycle: false,
@@ -61,6 +67,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 	[Network.xDai]: {
 		cycle: false,
@@ -71,6 +78,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		experimental: true,
 		airdrops: false,
 		honey: false,
+		auction: false,
 	},
 };
 

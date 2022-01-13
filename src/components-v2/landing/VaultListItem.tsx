@@ -139,7 +139,7 @@ const VaultListItem = observer(
 						</Grid>
 						<Grid item xs={6} md>
 							<VaultItemApr vault={vault} multiplier={multiplier} />
-							{multiplier && <VaultItemUserApr vault={vault} multiplier={multiplier} />}
+							{multiplier && <VaultItemUserApr vault={vault} boost={user.accountDetails?.boost} />}
 						</Grid>
 						<Grid item className={classes.mobileLabel} xs={6} md>
 							<Typography variant="body2" color={'textSecondary'}>
