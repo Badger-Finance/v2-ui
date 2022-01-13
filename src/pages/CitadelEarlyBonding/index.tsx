@@ -20,50 +20,41 @@ const useStyles = makeStyles((theme) => ({
 			marginTop: theme.spacing(3),
 		},
 	},
+	countdownText: {
+		fontWeight: 'bold',
+		fontSize: '20px',
+		lineHeight: '150%',
+		letterSpacing: '0.25px',
+	},
 }));
 
-export const toCountDown = (time: number): string => {
-	const timestamp = time * 1000;
-	const difference = Math.abs(Date.now() - timestamp);
-	let timeString = '';
-	const oneMonthMs = ONE_DAY_MS * 30;
-	const months = Math.floor(difference / oneMonthMs);
-	if (months > 0) {
-		timeString += `${months}mo`;
-	}
-	const differenceDays = difference - months * oneMonthMs;
-	const days = Math.floor(differenceDays / ONE_DAY_MS);
-	if (timeString.length > 0) {
-		timeString += ' ';
-	}
-	timeString += `${days}d`;
-	const differenceHours = differenceDays - days * ONE_DAY_MS;
-	const hours = Math.floor(differenceHours / ONE_HOUR_MS);
-	if (timeString.length > 0) {
-		timeString += ' ';
-	}
-	timeString += `${hours}h`;
-	const differenceMinutes = differenceHours - hours * ONE_HOUR_MS;
-	const minutes = Math.floor(differenceMinutes / ONE_MIN_MS);
-	if (timeString.length > 0) {
-		timeString += ' ';
-	}
-	timeString += `${minutes}m`;
-	return timeString;
-};
+const SALE_OPEN_EPOCH = 1644519600;
+const SALE_OPPEN_MS = SALE_OPEN_EPOCH * 1000;
+
+// Adapted from
+// https://stackoverflow.com/questions/36098913/convert-seconds-to-days-hours-minutes-and-seconds
+function toCountDown(seconds: number): string {
+	var d = Math.floor(seconds / (3600 * 24));
+	var h = Math.floor((seconds % (3600 * 24)) / 3600);
+	var m = Math.floor((seconds % 3600) / 60);
+	var dDisplay = d + (d === 1 ? 'Day ' : 'Days ');
+	var mDisplay = m > 0 ? m + (m === 1 ? 'Minute, ' : 'Minutes ') : '';
+	var hDisplay = h > 0 ? h + (h === 1 ? 'Hour, ' : 'Hours ') : '';
+	return dDisplay + hDisplay + mDisplay;
+}
 
 const CitadelEarlyBonding = observer((): JSX.Element => {
 	const classes = useStyles();
 
 	const [selectedBond, setSelectedBond] = useState<IBond | null>(null);
-	const launchTimeDisplay = toCountDown(1644500000);
+	const launchTimeDisplay = toCountDown((SALE_OPPEN_MS - Date.now()) / 1000);
 
 	return (
 		<LayoutContainer>
 			<Grid container justifyContent="center">
 				<PageHeaderContainer item container xs={12}>
 					<Grid item container>
-						<Grid item xs={12} sm={10}>
+						<Grid item xs={12} sm={10} md={8}>
 							<PageHeader
 								title="Citadel Early Bonding"
 								subtitle={
@@ -84,12 +75,12 @@ const CitadelEarlyBonding = observer((): JSX.Element => {
 								}
 							/>
 						</Grid>
-						<Grid item xs={12} sm={2} className={classes.countdown}>
-							<Box display="flex" flexDirection="column" alignItems="flex-start">
+						<Grid item xs={12} sm={2} md={4} className={classes.countdown}>
+							<Box display="flex" flexDirection="column" alignItems="flex-end">
 								<Typography variant="body2" color="textSecondary">
 									STARTS IN
 								</Typography>
-								<Typography variant="h6" color="textPrimary">
+								<Typography variant="h6" color="textPrimary" className={classes.countdownText}>
 									{launchTimeDisplay}
 								</Typography>
 							</Box>

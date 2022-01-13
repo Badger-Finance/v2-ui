@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	input: {
 		textAlign: 'end',
-		background: 'white',
 		borderRadius: '10px',
 	},
 	balances: {
@@ -33,7 +32,10 @@ const useStyles = makeStyles((theme) => ({
 const BondInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 	const { balance, price, token } = tokenBalance;
 	const [inputValue, setInputValue] = useState(balance.toString());
-	const { inputProps, onValidChange } = useNumericInput(12, 'black', false);
+	const { inputProps, onValidChange } = useNumericInput({
+		fontSize: '12px',
+		padding: '14px',
+	});
 	const classes = useStyles();
 
 	const handleInputChange = (amount: string) => {

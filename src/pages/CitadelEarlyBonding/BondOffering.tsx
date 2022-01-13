@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 	pending: {
 		backgroundColor: '#FF7C33',
 	},
-	opened: {
+	open: {
 		backgroundColor: '#66BB6A',
 	},
 	closed: {
@@ -77,7 +77,7 @@ interface BondOfferingProps {
 
 enum SaleStatus {
 	Pending = 'Pending',
-	Opened = 'Opened',
+	Open = 'Open',
 	Closed = 'Closed',
 }
 
@@ -85,13 +85,9 @@ const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element
 	const { token, address } = bond;
 	const classes = useStyles();
 
-	const status = Date.now() % 3 ? SaleStatus.Opened : SaleStatus.Pending;
+	const status = Date.now() % 3 ? SaleStatus.Open : SaleStatus.Pending;
 	const bondStatusIconClass =
-		status === SaleStatus.Pending
-			? classes.pending
-			: status === SaleStatus.Opened
-			? classes.opened
-			: classes.closed;
+		status === SaleStatus.Pending ? classes.pending : status === SaleStatus.Open ? classes.open : classes.closed;
 	const tokenName = token.toLowerCase();
 	return (
 		<Card component={Paper}>
@@ -118,7 +114,7 @@ const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element
 					variant="contained"
 					color="primary"
 					className={classes.bondButton}
-					disabled={status !== SaleStatus.Opened}
+					disabled={status !== SaleStatus.Open}
 				>
 					Bond
 				</Button>
