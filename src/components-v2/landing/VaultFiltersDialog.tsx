@@ -215,9 +215,13 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 						</Grid>
 						<Grid item xs={3} container className={classes.switchContainer}>
 							<StyledSwitch
+								name="hide portfolio dust"
+								aria-label="hide portfolio dust"
 								checked={hidePortfolioDust}
 								onClick={() => setHidePortfolioDust(!hidePortfolioDust)}
-							/>
+							>
+								<Typography variant="srOnly">hide portfolio dust</Typography>
+							</StyledSwitch>
 						</Grid>
 					</Grid>
 					<Divider className={classes.divider} />
