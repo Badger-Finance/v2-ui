@@ -77,7 +77,7 @@ describe('Component Helpers', () => {
 			[
 				'with boosted vault',
 				0.029492343980964595,
-				0.2588700736565066,
+				0.000763468525864397,
 				{
 					...mockVault,
 					minApr: 9.989946327010259,
@@ -142,8 +142,8 @@ describe('Component Helpers', () => {
 					],
 				},
 			],
-		])('getUserVaultBoost(%s, %d) returns %p', (_testCaseName, multiplier, boost, vault) => {
-			expect(getUserVaultBoost(vault, multiplier)).toEqual(boost);
+		])('getUserVaultBoost(%s, %d) returns %p', (_testCaseName, boost, calculatedBoost, vault) => {
+			expect(getUserVaultBoost(vault, boost)).toEqual(calculatedBoost);
 		});
 	});
 });

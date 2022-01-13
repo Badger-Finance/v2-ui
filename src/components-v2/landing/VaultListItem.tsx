@@ -12,7 +12,7 @@ import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
 import { VaultDeposit, VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
-import { Vault, VaultState } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH, APR_COLUMN_MAX_WIDTH } from './VaultListHeader';
@@ -126,10 +126,8 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		? depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency)
 		: `${currencyConfiguration[vaults.vaultsFilters.currency].prefix}-`;
 
-	const multiplier =
-		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
-
 	const canWithdraw = depositBalance.tokenBalance.gt(0);
+
 	// sett is disabled if they are internal setts, or have a bouncer and use has no access
 	const isDisabled = !user.onGuestList(vault);
 
@@ -161,7 +159,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 			<Grid container component={Card} className={classes.mobileContainer}>
 				<Grid container spacing={2} className={classes.nameAndAprMobile} onClick={goToVaultDetail}>
 					<Grid item xs={12}>
-						<VaultItemName vault={vault} multiplier={multiplier} />
+						<VaultItemName vault={vault} boost={user.accountDetails?.boost} />
 					</Grid>
 				</Grid>
 				<Divider className={classes.divider} />
@@ -226,7 +224,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						<VaultItemName vault={vault} />
 					</Grid>
 					<Grid item xs={12} md className={classes.apr}>
-						<VaultItemApr vault={vault} multiplier={multiplier} />
+						<VaultItemApr vault={vault} boost={user.accountDetails?.boost} />
 					</Grid>
 					<Grid item xs={12} md className={classes.tvl}>
 						<CurrencyDisplay
@@ -245,7 +243,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						/>
 					</Grid>
 				</Grid>
-				<Grid item xs={12} md lg className={classes.nonClickableSection}>
+				<Grid item xs={12} md className={classes.nonClickableSection}>
 					<VaultActionButtons
 						isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
 						isDepositDisabled={!onboard.isActive() || isDisabled}

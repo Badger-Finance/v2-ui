@@ -59,14 +59,14 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: Vault;
-	multiplier?: number;
+	boost?: number;
 }
 
-export const VaultItemName = ({ vault, multiplier = 0 }: Props): JSX.Element => {
+export const VaultItemName = ({ vault, boost }: Props): JSX.Element => {
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const classes = useStyles();
 
-	const vaultBoost = getUserVaultBoost(vault, multiplier);
+	const vaultBoost = boost ? getUserVaultBoost(vault, boost) : null;
 	const currentApr = vault.minApr && vaultBoost ? vault.minApr + vaultBoost : vault.apr;
 
 	const Badge = <VaultBadge vault={vault} />;
