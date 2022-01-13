@@ -64,7 +64,6 @@ class UiState {
 
 	closeNotification = action(() => {
 		if (APP_NEWS_STORAGE_HASH) {
-			window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
 			this.showNotification = false;
 		}
 	});
