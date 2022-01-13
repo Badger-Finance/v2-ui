@@ -302,6 +302,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 						<Grid container className={classes.tokenSelection} spacing={2}>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									aria-label="BadgerDAO Tokens"
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
@@ -325,6 +326,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									aria-label="Boosted Tokens"
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
@@ -348,6 +350,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									aria-label="Non-Boosted Tokens"
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox

@@ -184,6 +184,7 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38 MuiGrid-justify-content-xs-flex-end-48"
           >
             <button
+              aria-label="Open Vaults Filters"
               class="MuiButtonBase-root-208 MuiIconButton-root-199 makeStyles-filterButton-229"
               tabindex="0"
               type="button"
@@ -1135,6 +1136,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38 MuiGrid-justify-content-xs-flex-end-48"
         >
           <button
+            aria-label="Open Vaults Filters"
             class="MuiButtonBase-root-208 MuiIconButton-root-199 makeStyles-filterButton-229"
             tabindex="0"
             type="button"
@@ -2349,6 +2351,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38 MuiGrid-justify-content-xs-flex-end-48"
         >
           <button
+            aria-label="Open Vaults Filters"
             class="MuiButtonBase-root-208 MuiIconButton-root-199 makeStyles-filterButton-229"
             tabindex="0"
             type="button"

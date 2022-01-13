@@ -152,6 +152,7 @@ exports[`Vault List Header renders correctly 1`] = `
         class="MuiGrid-root-15 MuiGrid-container-16 MuiGrid-align-items-xs-center-24 MuiGrid-justify-content-xs-flex-end-34"
       >
         <button
+          aria-label="Open Vaults Filters"
           class="MuiButtonBase-root-168 MuiIconButton-root-159 makeStyles-filterButton-189"
           tabindex="0"
           type="button"
