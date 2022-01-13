@@ -12,6 +12,8 @@ import { StoreProvider } from '../mobx/store-context';
 import { action } from 'mobx';
 import { TransactionRequestResult } from '../mobx/utils/web3';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
+import { SAMPLE_VAULTS } from './utils/samples';
+import UserStore from '../mobx/stores/UserStore';
 
 const mockExchangesRates = {
 	usd: 4337.2,
@@ -133,6 +135,23 @@ describe('Rewards Widget', () => {
 		});
 
 		it('can display user guide', () => {
+			store.vaults.getVaultMap = jest
+				.fn()
+				.mockReturnValue(Object.fromEntries(SAMPLE_VAULTS.map((vault) => [vault.vaultToken, vault])));
+
+			jest.spyOn(UserStore.prototype, 'getTokenBalance').mockReturnValue(
+				new TokenBalance(
+					{
+						address: '0x0',
+						decimals: 18,
+						name: 'test',
+						symbol: 'Test Token',
+					},
+					new BigNumber(0),
+					new BigNumber(1),
+				),
+			);
+
 			const { baseElement } = customRender(
 				<StoreProvider value={store}>
 					<RewardsWidget />

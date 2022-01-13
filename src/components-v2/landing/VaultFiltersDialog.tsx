@@ -23,6 +23,7 @@ import { StoreContext } from '../../mobx/store-context';
 import CloseIcon from '@material-ui/icons/Close';
 import { Currency } from '../../config/enums/currency.enum';
 import clsx from 'clsx';
+import { limitVaultType, useFormatExampleList } from '../../utils/componentHelpers';
 
 const StyledSwitch = withStyles((theme) => ({
 	root: {
@@ -132,15 +133,25 @@ interface Props {
 }
 
 const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
-	const { uiState, vaults } = useContext(StoreContext);
+	const { uiState, vaults, user } = useContext(StoreContext);
 	const classes = useStyles();
 	const [hidePortfolioDust, setHidePortfolioDust] = useState(vaults.vaultsFilters.hidePortfolioDust);
 	const [currency, setCurrency] = useState(vaults.vaultsFilters.currency || uiState.currency);
 	const [protocols, setProtocols] = useState(vaults.vaultsFilters.protocols);
 	const [types, setTypes] = useState(vaults.vaultsFilters.types);
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
+	const formatExampleList = useFormatExampleList(user);
 
 	const vaultMap = vaults.getVaultMap();
+	const allVaults = vaultMap ? Object.values(vaultMap) : undefined;
+
+	const boostedTokensExamples = allVaults
+		? formatExampleList(limitVaultType(allVaults, VaultType.Boosted))
+		: undefined;
+
+	const nonBoostedTokenExamples = allVaults
+		? formatExampleList(limitVaultType(allVaults, VaultType.Standard, 2))
+		: undefined;
 
 	const handleProtocolChange = (protocol: Protocol) => {
 		if (protocols.includes(protocol)) {
@@ -265,35 +276,33 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 						<Typography variant="h6" className={classes.titleText}>
 							Protocols
 						</Typography>
-						{vaultMap && (
+						{allVaults && (
 							<FormGroup className={classes.protocolSelection}>
 								<Grid container spacing={2}>
-									{[...new Set(Object.values(vaultMap).map((vault) => vault.protocol))].map(
-										(protocol, index) => (
-											<Grid item xs={6} sm={4} key={`${protocol}_${index}`}>
-												<FormControlLabel
-													control={
-														<Checkbox
-															checked={protocols.includes(protocol)}
-															onChange={() => handleProtocolChange(protocol)}
-															name={protocol}
-														/>
-													}
-													label={
-														<Typography
-															variant="body1"
-															className={clsx(
-																classes.formControlLabelText,
-																classes.checkboxLabel,
-															)}
-														>
-															{protocol}
-														</Typography>
-													}
-												/>
-											</Grid>
-										),
-									)}
+									{[...new Set(allVaults.map((vault) => vault.protocol))].map((protocol, index) => (
+										<Grid item xs={6} sm={4} key={`${protocol}_${index}`}>
+											<FormControlLabel
+												control={
+													<Checkbox
+														checked={protocols.includes(protocol)}
+														onChange={() => handleProtocolChange(protocol)}
+														name={protocol}
+													/>
+												}
+												label={
+													<Typography
+														variant="body1"
+														className={clsx(
+															classes.formControlLabelText,
+															classes.checkboxLabel,
+														)}
+													>
+														{protocol}
+													</Typography>
+												}
+											/>
+										</Grid>
+									))}
 								</Grid>
 							</FormGroup>
 						)}
@@ -319,7 +328,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 									label={
 										<div className={classes.checkboxLabel}>
 											<Typography variant="body1" className={classes.formControlLabelText}>
-												BadgerDAO tokens
+												BadgerDAO Tokens
 											</Typography>
 											<Typography variant="body1" className={classes.tokenCaption}>
 												Badger, Digg
@@ -345,9 +354,11 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 											<Typography variant="body1" className={classes.formControlLabelText}>
 												Boosted Tokens
 											</Typography>
-											<Typography variant="body1" className={classes.tokenCaption}>
-												ibBTC, crvsBTC LP, imBTC, Mhbtc, Cvxcrv, Tricrypto
-											</Typography>
+											{boostedTokensExamples && (
+												<Typography variant="body1" className={classes.tokenCaption}>
+													{boostedTokensExamples}
+												</Typography>
+											)}
 										</div>
 									}
 								/>
@@ -369,9 +380,11 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 											<Typography variant="body1" className={classes.formControlLabelText}>
 												Non-Boosted Tokens
 											</Typography>
-											<Typography variant="body1" className={classes.tokenCaption}>
-												All other tokens (e.g. wBTC, renBTC...)
-											</Typography>
+											{nonBoostedTokenExamples && (
+												<Typography variant="body1" className={classes.tokenCaption}>
+													All other tokens (e.g. {nonBoostedTokenExamples} ...)
+												</Typography>
+											)}
 										</div>
 									}
 								/>

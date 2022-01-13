@@ -463,7 +463,7 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
                       <h6
                         class="MuiTypography-root-42 MuiTypography-subtitle2-54"
                       >
-                        ibBTC, crvsBTC LP, imBTC, Mhbtc, Cvxcrv, Tricrypto
+                        Test Token
                       </h6>
                     </div>
                     <div
@@ -522,7 +522,9 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
                       <h6
                         class="MuiTypography-root-42 MuiTypography-subtitle2-54"
                       >
-                        All other tokens (e.g. wBTC, renBTC...)
+                        All other tokens (e.g. 
+                        Test Token
+                        ...)
                       </h6>
                     </div>
                     <div

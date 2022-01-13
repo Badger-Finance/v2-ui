@@ -16,6 +16,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { VaultType } from '@badger-dao/sdk';
+import { limitVaultType, useFormatExampleList } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -82,9 +83,22 @@ interface Props {
 }
 
 const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
-	const { vaults } = useContext(StoreContext);
+	const { vaults, user } = useContext(StoreContext);
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
+
+	const formatExampleList = useFormatExampleList(user);
+
+	const vaultMap = vaults.getVaultMap();
+	const allVaults = vaultMap ? Object.values(vaultMap) : undefined;
+
+	const boostedTokensExamples = allVaults
+		? formatExampleList(limitVaultType(allVaults, VaultType.Boosted, 4))
+		: undefined;
+
+	const nonBoostedTokenExamples = allVaults
+		? formatExampleList(limitVaultType(allVaults, VaultType.Standard, 2))
+		: undefined;
 
 	const goToBadgerTokens = () => {
 		vaults.vaultsFilters.types = [VaultType.Native];
@@ -163,9 +177,7 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
 										</Typography>
 									</Grid>
 									<Grid item>
-										<Typography variant="subtitle2">
-											ibBTC, crvsBTC LP, imBTC, Mhbtc, Cvxcrv, Tricrypto
-										</Typography>
+										<Typography variant="subtitle2">{boostedTokensExamples}</Typography>
 									</Grid>
 									<Grid item xs container direction="column-reverse">
 										<Button
@@ -191,7 +203,7 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
 									</Grid>
 									<Grid item>
 										<Typography variant="subtitle2">
-											All other tokens (e.g. wBTC, renBTC...)
+											All other tokens (e.g. {nonBoostedTokenExamples}...)
 										</Typography>
 									</Grid>
 									<Grid item xs container direction="column-reverse">

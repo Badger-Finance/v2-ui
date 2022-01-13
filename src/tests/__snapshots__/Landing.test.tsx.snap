@@ -283,7 +283,7 @@ exports[`Landing Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
       >
         <div
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
@@ -401,7 +401,7 @@ exports[`Landing Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
       >
         <div
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
@@ -519,7 +519,7 @@ exports[`Landing Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
       >
         <div
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
@@ -637,7 +637,7 @@ exports[`Landing Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
       >
         <div
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
@@ -755,7 +755,7 @@ exports[`Landing Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
       >
         <div
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
@@ -873,7 +873,7 @@ exports[`Landing Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
       >
         <div
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
@@ -991,7 +991,7 @@ exports[`Landing Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-29 makeStyles-nonClickableSection-268 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
       >
         <div
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
