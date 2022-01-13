@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			background: '#3a3a3a',
 		},
-		'&:active': {
-			background: theme.palette.background.default,
-		},
 	},
 	mobileLabel: {
 		textAlign: 'right',

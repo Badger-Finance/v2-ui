@@ -64,7 +64,7 @@ const theme = createTheme({
 		MuiTooltip: {
 			tooltip: {
 				fontSize: '.95rem',
-				backgroundColor: '#F2A52B',
+				backgroundColor: '#F2BC1B',
 				color: '#181818',
 				fontWeight: 600,
 				padding: '.5rem .8rem',

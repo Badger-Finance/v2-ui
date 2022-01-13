@@ -70,14 +70,14 @@ export const VaultItemApr = ({ vault, multiplier = 0 }: Props): JSX.Element => {
 				disablePortal: true,
 			}}
 		>
-			<>
+			<div>
 				<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
 					{`${currentApr.toFixed(2)}%`}
 				</Typography>
 				<Typography variant="body1" color="textSecondary" className={classes.boost}>
 					My Boost: {vaultBoost.toFixed(2)}%
 				</Typography>
-			</>
+			</div>
 		</Tooltip>
 	);
 };
