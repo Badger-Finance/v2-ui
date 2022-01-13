@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import {
 	Box,
+	Button,
 	DialogContent,
 	DialogTitle,
 	Grid,
 	IconButton,
-	Link,
 	Typography,
 	useMediaQuery,
 	useTheme,
@@ -65,8 +65,13 @@ const useStyles = makeStyles((theme: Theme) =>
 		tokensSection: {
 			marginTop: theme.spacing(2),
 		},
-		cursorPointer: {
-			cursor: 'pointer',
+		viewVaultsButton: {
+			height: 'auto',
+			display: 'flex',
+			justifyContent: 'flex-start',
+			fontSize: 14,
+			paddingBottom: 0,
+			width: 'fit-content',
 		},
 	}),
 );
@@ -136,12 +141,17 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
 										<Typography variant="subtitle2">Badger, Digg</Typography>
 									</Grid>
 									<Grid item xs container direction="column-reverse">
-										<Box display="flex" alignItems="center">
+										<Button
+											aria-label="view badger dao tokens"
+											variant="text"
+											color="primary"
+											size="small"
+											onClick={goToBadgerTokens}
+											className={classes.viewVaultsButton}
+										>
 											<ArrowRightAltIcon color="primary" />
-											<Link className={classes.cursorPointer} onClick={goToBadgerTokens}>
-												View Vaults
-											</Link>
-										</Box>
+											<Typography variant="subtitle2">View Vaults</Typography>
+										</Button>
 									</Grid>
 								</Grid>
 							</Grid>
@@ -158,12 +168,17 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
 										</Typography>
 									</Grid>
 									<Grid item xs container direction="column-reverse">
-										<Box display="flex" alignItems="center">
+										<Button
+											aria-label="view boosted tokens"
+											variant="text"
+											color="primary"
+											size="small"
+											onClick={goToBoostedTokens}
+											className={classes.viewVaultsButton}
+										>
 											<ArrowRightAltIcon color="primary" />
-											<Link className={classes.cursorPointer} onClick={goToBoostedTokens}>
-												View Vaults
-											</Link>
-										</Box>
+											<Typography variant="subtitle2">View Vaults</Typography>
+										</Button>
 									</Grid>
 								</Grid>
 							</Grid>
@@ -180,12 +195,17 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
 										</Typography>
 									</Grid>
 									<Grid item xs container direction="column-reverse">
-										<Box display="flex" alignItems="center">
+										<Button
+											aria-label="view non-boosted tokens"
+											variant="text"
+											color="primary"
+											size="small"
+											onClick={goToNonBoostedTokens}
+											className={classes.viewVaultsButton}
+										>
 											<ArrowRightAltIcon color="primary" />
-											<Link className={classes.cursorPointer} onClick={goToNonBoostedTokens}>
-												View Vaults
-											</Link>
-										</Box>
+											<Typography variant="subtitle2">View Vaults</Typography>
+										</Button>
 									</Grid>
 								</Grid>
 							</Grid>

@@ -11,6 +11,7 @@ import { customRender, fireEvent, screen } from './Utils';
 import { StoreProvider } from '../mobx/store-context';
 import { action } from 'mobx';
 import { TransactionRequestResult } from '../mobx/utils/web3';
+import { VaultType } from '@badger-dao/sdk/lib/api/enums';
 
 const mockExchangesRates = {
 	usd: 4337.2,
@@ -154,6 +155,34 @@ describe('Rewards Widget', () => {
 			fireEvent.click(screen.getByText('Rewards User Guide'));
 			fireEvent.click(screen.getByRole('button', { name: 'exit guide mode' }));
 			expect(baseElement).toMatchSnapshot();
+		});
+
+		describe('going to vaults from user guide', () => {
+			beforeEach(() => {
+				customRender(
+					<StoreProvider value={store}>
+						<RewardsWidget />
+					</StoreProvider>,
+				);
+
+				fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
+				fireEvent.click(screen.getByText('Rewards User Guide'));
+			});
+
+			it('can go to native vaults', () => {
+				fireEvent.click(screen.getByRole('button', { name: 'view badger dao tokens' }));
+				expect(store.vaults.vaultsFilters.types).toEqual([VaultType.Native]);
+			});
+
+			it('can go to non-boosted vaults', () => {
+				fireEvent.click(screen.getByRole('button', { name: 'view non-boosted tokens' }));
+				expect(store.vaults.vaultsFilters.types).toEqual([VaultType.Standard]);
+			});
+
+			it('can go to boosted vaults', () => {
+				fireEvent.click(screen.getByRole('button', { name: 'view boosted tokens' }));
+				expect(store.vaults.vaultsFilters.types).toEqual([VaultType.Boosted]);
+			});
 		});
 
 		it('executes claim geysers with correct parameters', async () => {
