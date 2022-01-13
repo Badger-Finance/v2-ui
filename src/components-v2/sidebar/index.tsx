@@ -209,25 +209,37 @@ const Sidebar = observer(() => {
 						]}
 					/>
 				)}
-				{config.arcade && (
+				{(config.experimental || config.honey || config.airdrops) && (
 					<SidebarSection
 						title="Arcade"
 						items={[
-							{
-								title: 'Experimental Vaults',
-								route: '/experimental',
-								view: views.experimental,
-							},
-							{
-								title: 'Airdrops',
-								route: '/airdrops',
-								view: views.airdrops,
-							},
-							{
-								title: 'Honey Badger Drop',
-								route: '/honey-badger-drop',
-								view: views.honeybadgerDrop,
-							},
+							...(config.experimental
+								? [
+										{
+											title: 'Experimental Vaults',
+											route: '/experimental',
+											view: views.experimental,
+										},
+								  ]
+								: []),
+							...(config.airdrops
+								? [
+										{
+											title: 'Airdrops',
+											route: '/airdrops',
+											view: views.airdrops,
+										},
+								  ]
+								: []),
+							...(config.honey
+								? [
+										{
+											title: 'Honey Badger Drop',
+											route: '/honey-badger-drop',
+											view: views.honeybadgerDrop,
+										},
+								  ]
+								: []),
 						]}
 					/>
 				)}

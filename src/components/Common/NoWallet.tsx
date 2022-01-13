@@ -38,7 +38,7 @@ export default function NoWallet(props: NoWalletProps): JSX.Element {
 	const { message } = props;
 	return (
 		<div className={classes.messageContainer}>
-			<img src={'/assets/connect_badger.png'} className={classes.connectImage} />
+			<img src={'/assets/connect_badger.png'} className={classes.connectImage} alt="Connect Badger" />
 			<Typography variant="h6" align="center" className={classes.noWalletMessage}>
 				{message}
 			</Typography>

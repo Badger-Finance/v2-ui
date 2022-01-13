@@ -167,7 +167,7 @@ export const ConfirmForm = ({
 							'Minting',
 							`By minting byvWBTC, this transaction directly deposits your newly minted wBTC into the Badger wBTC vault. byvWBTC represents your position in the vault.`,
 							<div className={classes.receiveAmount}>
-								<img src={selectedTokenImage()} className={classes.logo2} />
+								<img alt={`${values.token}`} src={selectedTokenImage()} className={classes.logo2} />
 								<div>
 									<div>{values.token}</div>
 								</div>
@@ -181,7 +181,7 @@ export const ConfirmForm = ({
 						<div>{values.tabValue <= 1 ? 'Minting' : 'Releasing'}</div>
 
 						<div className={classes.receiveAmount}>
-							<img src={selectedTokenImage()} className={classes.logo2} />
+							<img alt={`${values.token}`} src={selectedTokenImage()} className={classes.logo2} />
 							<div>
 								<div>{values.token}</div>
 							</div>
@@ -192,7 +192,7 @@ export const ConfirmForm = ({
 
 			{values.spacer}
 
-			{itemContainer('Destination', values.tabValue == 0 ? shortAddr : shortenAddress(values.btcAddr))}
+			{itemContainer('Destination', values.tabValue === 0 ? shortAddr : shortenAddress(values.btcAddr))}
 
 			{values.spacer}
 
@@ -246,11 +246,15 @@ export const ConfirmForm = ({
 				<div className={classes.itemContainer}>
 					<div>You will receive {isVault ? '(approximately)' : ''}</div>
 					<div className={classes.receiveAmount}>
-						<img src={values.tabValue == 2 ? btcLogo : selectedTokenImage()} className={classes.logo2} />
+						<img
+							src={values.tabValue === 2 ? btcLogo : selectedTokenImage()}
+							className={classes.logo2}
+							alt="Token Logo"
+						/>
 
 						<div>
 							<div>{values.receiveAmount.toFixed(8)}</div>
-							<div>{values.tabValue == 2 ? 'BTC' : values.token}</div>
+							<div>{values.tabValue === 2 ? 'BTC' : values.token}</div>
 						</div>
 					</div>
 				</div>

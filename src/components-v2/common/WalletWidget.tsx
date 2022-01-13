@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Button, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
+import useENS from 'hooks/useEns';
 
 const useStyles = makeStyles((theme) => ({
 	walletDot: {
@@ -51,6 +52,8 @@ const WalletWidget = observer(() => {
 		}
 	}
 
+	const { ensName } = useENS(onboard.address);
+
 	return (
 		<Button
 			disableElevation
@@ -60,7 +63,7 @@ const WalletWidget = observer(() => {
 			className={classes.walletButton}
 			classes={{ label: classes.walletButtonLabel }}
 		>
-			{shortenAddress(onboard.address)}
+			{ensName ? ensName : shortenAddress(onboard.address)}
 		</Button>
 	);
 });

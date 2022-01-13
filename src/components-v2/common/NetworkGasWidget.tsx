@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	networkButton: {
 		minWidth: 37,
-		height: 36,
 		textAlign: 'center',
 	},
 	loadingGas: {

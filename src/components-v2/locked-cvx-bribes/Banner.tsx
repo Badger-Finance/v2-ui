@@ -104,7 +104,7 @@ const Banner = (): JSX.Element | null => {
 					<Earnings />
 				</Grid>
 			</Grid>
-			<img src="assets/locked-cvx-safebox-lg.png" className={classes.safeLockImageLg} alt="safe-lock-image" />
+			<img src="assets/locked-cvx-safebox-lg.png" className={classes.safeLockImageLg} alt="Safe Lock" />
 		</Card>
 	);
 };

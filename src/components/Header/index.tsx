@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		borderBottom: '1px solid #2B2B2B',
 		background: '#181818',
+		'& button': {
+			height: 36,
+		},
 	},
 	container: {
 		padding: '20px 0',
@@ -97,7 +100,7 @@ const Header = observer(() => {
 		if (!notification || !notification.message) return;
 
 		// Notify doesn't support BSC currently so it is temporarily disabled for it
-		if (notification.hash && network.id == 1) {
+		if (notification.hash && network.id === 1) {
 			// then on each transaction...
 			const { emitter } = notify.hash(notification.hash);
 			emitter.on('all', (tx) => network.notifyLink(tx));
@@ -182,11 +185,9 @@ const Header = observer(() => {
 							justifyContent="flex-end"
 							className={classes.headerRightSide}
 						>
-							{onboard.isActive() && (
-								<Grid item>
-									<RewardsWidget />
-								</Grid>
-							)}
+							<Grid item>
+								<RewardsWidget />
+							</Grid>
 							{shouldBannerBeDisplayed && (
 								<Grid item>
 									<DelegationWidget />

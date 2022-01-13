@@ -9,9 +9,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 	button: {
 		marginTop: theme.spacing(1),
+		width: 121,
 	},
-	deposit: {
+	withdraw: {
 		marginRight: theme.spacing(1),
+	},
+	withdrawActive: {
+		backgroundColor: '#181818',
+		color: theme.palette.primary.main,
+		'&:hover': {
+			backgroundColor: 'rgba(242, 188, 27, 0.08)',
+		},
 	},
 }));
 
@@ -38,22 +46,22 @@ export const VaultActionButtons = ({
 	return (
 		<Box {...materialProps} className={clsx(classes.container, materialProps.className)}>
 			<VaultActionButton
-				className={clsx(classes.button, classes.deposit)}
+				className={clsx(classes.button, classes.withdraw, !isWithdrawDisabled && classes.withdrawActive)}
+				color="primary"
+				variant="contained"
+				disabled={isWithdrawDisabled}
+				onClick={onWithdrawClick}
+			>
+				Withdraw
+			</VaultActionButton>
+			<VaultActionButton
+				className={classes.button}
 				color="primary"
 				variant={isDepositDisabled ? 'outlined' : 'contained'}
 				disabled={isDepositDisabled}
 				onClick={onDepositClick}
 			>
 				Deposit
-			</VaultActionButton>
-			<VaultActionButton
-				className={classes.button}
-				color="primary"
-				variant="outlined"
-				disabled={isWithdrawDisabled}
-				onClick={onWithdrawClick}
-			>
-				Withdraw
 			</VaultActionButton>
 		</Box>
 	);

@@ -65,7 +65,7 @@ const DroptModal = observer(() => {
 			const expiryPrice = new BigNumber(dropt[redemptionAddress].expiryPrice);
 			if (!droptToken || droptBalance.balance.lte(0)) {
 				if (DEBUG && !droptToken) console.log('error retrieving', redemptionAddress, 'token');
-				return;
+				return null;
 			}
 			const redemptionAmount = formatTokens(
 				expiryPrice.multipliedBy(droptBalance.balance).dividedBy(10 ** droptToken.decimals),

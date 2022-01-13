@@ -51,7 +51,7 @@ const VaultListDisplay = observer((props: VaultListViewProps) => {
 			const badgerVault = network.vaults.find((vault) => vault.vaultToken.address === contract);
 
 			if (!vault || !badgerVault) {
-				return;
+				return null;
 			}
 
 			// inject user balance information to enable withdraw buttun functionality

@@ -9,6 +9,8 @@ import { OnboardStore } from '../mobx/stores/OnboardStore';
 import RewardsStore from '../mobx/stores/rewardsStore';
 import { customRender, fireEvent, screen } from './Utils';
 import { StoreProvider } from '../mobx/store-context';
+import { action } from 'mobx';
+import { TransactionRequestResult } from '../mobx/utils/web3';
 
 const mockExchangesRates = {
 	usd: 4337.2,
@@ -73,6 +75,7 @@ describe('Rewards Widget', () => {
 		jest.spyOn(RewardsStore.prototype, 'isLoading', 'get').mockReturnValue(false);
 		store.user.claimProof = mockClaimProof;
 		store.prices.exchangeRates = mockExchangesRates;
+		store.rewards.loadTreeData = action(jest.fn());
 	});
 
 	describe('when there are no rewards', () => {
@@ -92,7 +95,7 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $0' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			expect(baseElement).toMatchSnapshot();
 		});
 	});
@@ -117,14 +120,14 @@ describe('Rewards Widget', () => {
 			expect(container).toMatchSnapshot();
 		});
 
-		it('displays no rewards dialog', () => {
+		it('displays claim options', async () => {
 			const { baseElement } = customRender(
 				<StoreProvider value={store}>
 					<RewardsWidget />
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $12.92' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			expect(baseElement).toMatchSnapshot();
 		});
 
@@ -135,7 +138,7 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $12.92' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByText('Rewards User Guide'));
 			expect(baseElement).toMatchSnapshot();
 		});
@@ -147,9 +150,47 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $12.92' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByText('Rewards User Guide'));
 			fireEvent.click(screen.getByRole('button', { name: 'exit guide mode' }));
+			expect(baseElement).toMatchSnapshot();
+		});
+
+		it('executes claim geysers with correct parameters', async () => {
+			const claimSpy = jest.fn().mockReturnValue(TransactionRequestResult.Success);
+
+			const expectedParameters = Object.fromEntries(
+				mockBadgerTreeClaims.map((claim) => [claim.token.address, claim]),
+			);
+
+			store.rewards.claimGeysers = action(claimSpy);
+
+			customRender(
+				<StoreProvider value={store}>
+					<RewardsWidget />
+				</StoreProvider>,
+			);
+
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
+			fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
+			await screen.findByText('Rewards Claimed');
+
+			expect(claimSpy).toHaveBeenNthCalledWith(1, expectedParameters);
+		});
+
+		it('displays success dialog', async () => {
+			store.rewards.claimGeysers = action(jest.fn().mockReturnValue(TransactionRequestResult.Success));
+
+			const { baseElement } = customRender(
+				<StoreProvider value={store}>
+					<RewardsWidget />
+				</StoreProvider>,
+			);
+
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
+			fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
+			await screen.findByText('Rewards Claimed');
+
 			expect(baseElement).toMatchSnapshot();
 		});
 	});

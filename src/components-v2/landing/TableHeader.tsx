@@ -18,6 +18,20 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		textTransform: 'uppercase',
 	},
+	container: {
+		[theme.breakpoints.up('md')]: {
+			flexGrow: 0,
+			maxWidth: '70%',
+			flexBasis: '70%',
+		},
+	},
+	tokensSection: {
+		[theme.breakpoints.up('md')]: {
+			flexGrow: 0,
+			maxWidth: '45%',
+			flexBasis: '45%',
+		},
+	},
 }));
 
 interface TableHeaderProps {
@@ -33,39 +47,41 @@ const TableHeader = observer((props: TableHeaderProps): JSX.Element => {
 	// leave 3 grid spaces for the action buttons section which has no column name
 	return (
 		<Grid item container>
-			<Grid item container xs={12} md={5} alignItems="center">
-				<Grid item>
-					<Typography className={classes.title} variant="body2" color="textSecondary">
-						{title}
+			<Grid item container className={classes.container}>
+				<Grid item container xs={12} md alignItems="center" className={classes.tokensSection}>
+					<Grid item>
+						<Typography className={classes.title} variant="body2" color="textSecondary">
+							{title}
+						</Typography>
+					</Grid>
+					<Grid item className={classes.amount}>
+						<CurrencyDisplay displayValue={displayValue} variant="body1" justifyContent="flex-start" />
+					</Grid>
+				</Grid>
+				<Grid
+					item
+					container
+					xs={12}
+					md
+					alignItems="center"
+					className={clsx(classes.hiddenMobile, classes.title)}
+				>
+					<Typography variant="body2" color="textSecondary">
+						APR
 					</Typography>
 				</Grid>
-				<Grid item className={classes.amount}>
-					<CurrencyDisplay displayValue={displayValue} variant="body1" justifyContent="flex-start" />
+				<Grid
+					item
+					container
+					xs={12}
+					md
+					alignItems="center"
+					className={clsx(classes.hiddenMobile, classes.title)}
+				>
+					<Typography variant="body2" color="textSecondary">
+						{uiState.showUserBalances ? 'Assets' : 'TVL'}
+					</Typography>
 				</Grid>
-			</Grid>
-			<Grid
-				item
-				container
-				xs={12}
-				md={2}
-				alignItems="center"
-				className={clsx(classes.hiddenMobile, classes.title)}
-			>
-				<Typography variant="body2" color="textSecondary">
-					APR
-				</Typography>
-			</Grid>
-			<Grid
-				item
-				container
-				xs={12}
-				md={2}
-				alignItems="center"
-				className={clsx(classes.hiddenMobile, classes.title)}
-			>
-				<Typography variant="body2" color="textSecondary">
-					{uiState.showUserBalances ? 'Assets' : 'TVL'}
-				</Typography>
 			</Grid>
 		</Grid>
 	);

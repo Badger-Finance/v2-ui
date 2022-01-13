@@ -60,7 +60,7 @@ const Earnings = (): JSX.Element => {
 						Total Claimed
 					</Typography>
 					<Grid container alignItems="center">
-						<img src="assets/icons/badger.png" className={classes.badgerImage} alt="badger coin image" />
+						<img src="assets/icons/badger.png" className={classes.badgerImage} alt="Badger Coin" />
 						<Typography variant="h5" display="inline" className={classes.stat}>
 							{totalEarned ? formatBalance(totalEarned) : totalEarningsFallback}
 						</Typography>
@@ -71,7 +71,7 @@ const Earnings = (): JSX.Element => {
 						Unclaimed
 					</Typography>
 					<Grid container alignItems="center">
-						<img src="assets/icons/badger.png" className={classes.badgerImage} alt="badger coin image" />
+						<img src="assets/icons/badger.png" className={classes.badgerImage} alt="Badger Coin" />
 						<Typography
 							variant="h5"
 							color="primary"

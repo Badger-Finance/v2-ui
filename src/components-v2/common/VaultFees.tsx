@@ -66,7 +66,7 @@ export const VaultFees = observer(
 		const settStrategy = network.strategies[networkVault.vaultToken.address];
 		const nonEmptyFees = getNonEmptyStrategyFees(settStrategy);
 
-		if (nonEmptyFees.length == 0) {
+		if (nonEmptyFees.length === 0) {
 			return showNoFees ? noFees : null;
 		}
 
