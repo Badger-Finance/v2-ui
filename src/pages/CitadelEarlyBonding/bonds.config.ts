@@ -13,8 +13,8 @@ export interface IBond {
 
 export const allBonds: IBond[] = [
 	{ token: 'WBTC', address: ETH_DEPLOY.tokens.wBTC, bondType: BondType.Reserve },
-	{ token: 'CVX', address: ETH_DEPLOY.tokens.cvx, bondType: BondType.Liquidity },
-	{ token: 'bcrvibBTC', address: ETH_DEPLOY.sett_system.vaults['native.ibbtcCrv'], bondType: BondType.Reserve },
+	{ token: 'CVX', address: ETH_DEPLOY.tokens.cvx, bondType: BondType.Reserve },
+	{ token: 'bcrvibBTC', address: ETH_DEPLOY.sett_system.vaults['native.ibbtcCrv'], bondType: BondType.Liquidity },
 	{ token: 'bveCVX', address: ETH_DEPLOY.sett_system.vaults['native.icvx'], bondType: BondType.Reserve },
 ];
 
