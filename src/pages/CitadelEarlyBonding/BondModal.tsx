@@ -113,7 +113,10 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 	return (
 		<Modal
 			open={bond !== null}
-			onClose={() => clear()}
+			onClose={() => {
+				setBeneficiary(null);
+				clear();
+			}}
 			className={classes.modalContainer}
 			BackdropComponent={Backdrop}
 			BackdropProps={{
