@@ -56,7 +56,7 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 		);
 	}
 
-	const currentApr = vault.minApr + vaultBoost;
+	const boostContribution = Math.max(0, vaultBoost - vault.minApr);
 
 	return (
 		<Tooltip
@@ -73,10 +73,10 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 		>
 			<div>
 				<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
-					{`${currentApr.toFixed(2)}%`}
+					{`${vaultBoost.toFixed(2)}%`}
 				</Typography>
 				<Typography variant="body1" color="textSecondary" className={classes.boost}>
-					My Boost: {vaultBoost.toFixed(2)}%
+					My Boost: {boostContribution.toFixed(2)}%
 				</Typography>
 			</div>
 		</Tooltip>

@@ -77,7 +77,7 @@ describe('Component Helpers', () => {
 			[
 				'with boosted vault',
 				0.029492343980964595,
-				0.000763468525864397,
+				9.990709795536123,
 				{
 					...mockVault,
 					minApr: 9.989946327010259,

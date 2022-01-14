@@ -207,15 +207,15 @@ export default class VaultStore {
 				break;
 			case VaultSortOrder.BALANCE_ASC:
 				vaults = vaults = vaults.sort((a, b) => {
-					const balanceB = user.getTokenBalance(b.vaultToken).tokenBalance;
-					const balanceA = user.getTokenBalance(a.vaultToken).tokenBalance;
+					const balanceB = user.getTokenBalance(b.vaultToken).value;
+					const balanceA = user.getTokenBalance(a.vaultToken).value;
 					return balanceA.minus(balanceB).toNumber();
 				});
 				break;
 			case VaultSortOrder.BALANCE_DESC:
 				vaults = vaults = vaults.sort((a, b) => {
-					const balanceB = user.getTokenBalance(b.vaultToken).tokenBalance;
-					const balanceA = user.getTokenBalance(a.vaultToken).tokenBalance;
+					const balanceB = user.getTokenBalance(b.vaultToken).value;
+					const balanceA = user.getTokenBalance(a.vaultToken).value;
 					return balanceB.minus(balanceA).toNumber();
 				});
 				break;

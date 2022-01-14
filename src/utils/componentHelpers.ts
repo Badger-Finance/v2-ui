@@ -75,7 +75,7 @@ export function getUserVaultBoost(vault: Vault, boost: number): number | null {
 		return null;
 	}
 
-	const totalBoost = vault.sources
+	return vault.sources
 		.map((source) => {
 			if (!source.boostable) {
 				return source.apr;
@@ -83,8 +83,6 @@ export function getUserVaultBoost(vault: Vault, boost: number): number | null {
 			return source.minApr + (boost / MAX_BOOST_LEVEL.multiplier) * (source.maxApr - source.minApr);
 		})
 		.reduce((total, apr) => total + apr, 0);
-
-	return Math.max(totalBoost - vault.minApr, 0);
 }
 
 export const limitVaultType = (vaults: Vault[], type: VaultType, max = 3): Vault[] => {
