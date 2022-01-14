@@ -188,7 +188,6 @@ const Sidebar = observer(() => {
 					</div>
 				</Collapse>
 				<SidebarItem route="/" view={views.home} title="Vaults" />
-				<SidebarItem route="/guarded" view={views.guarded} title="Guarded Vaults" />
 				{config.digg && <SidebarItem route="/digg" view={views.digg} title="Digg" />}
 				{config.ibBTC && <SidebarItem route="/ibBTC" view={views.IbBTC} title="ibBTC" />}
 				{config.bridge && <SidebarItem route="/bridge" view={views.bridge} title="Bridge" />}
@@ -209,19 +208,10 @@ const Sidebar = observer(() => {
 						]}
 					/>
 				)}
-				{(config.experimental || config.honey || config.airdrops) && (
+				{(config.honey || config.airdrops) && (
 					<SidebarSection
 						title="Arcade"
 						items={[
-							...(config.experimental
-								? [
-										{
-											title: 'Experimental Vaults',
-											route: '/experimental',
-											view: views.experimental,
-										},
-								  ]
-								: []),
 							...(config.airdrops
 								? [
 										{

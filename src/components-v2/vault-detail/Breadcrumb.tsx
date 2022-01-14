@@ -2,9 +2,9 @@ import React from 'react';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { Breadcrumbs, Link, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from '../../mobx/store-context';
-import { getRouteBySlug } from 'mobx/utils/helpers';
 import { Vault } from '@badger-dao/sdk';
 import clsx from 'clsx';
+import routes from '../../config/routes';
 
 const useStyles = makeStyles({
 	breadcrumbsItem: {
@@ -24,16 +24,15 @@ interface Props {
 }
 
 export const Breadcrumb = ({ vault }: Props): JSX.Element => {
-	const { router, vaults } = React.useContext(StoreContext);
+	const { router } = React.useContext(StoreContext);
 	const classes = useStyles();
-	const settSlug = router.params?.settName?.toString();
 
 	return (
 		<Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
 			<Link
 				color="inherit"
 				className={clsx(classes.link, classes.breadcrumbsItem)}
-				onClick={() => router.goTo(getRouteBySlug(settSlug, vaults))}
+				onClick={() => router.goTo(routes.home)}
 			>
 				Vaults
 			</Link>

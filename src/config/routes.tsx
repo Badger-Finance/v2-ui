@@ -12,7 +12,6 @@ import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
-import { VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
 import { FLAGS } from './environment';
 
@@ -37,33 +36,12 @@ const routes = {
 						</Typography>
 					</Box>
 				}
-				state={VaultState.Open}
 			/>
 		),
 	}),
 	notFound: new Route<RootStore, QueryParams>({
 		path: '/not-found',
 		component: <NotFound />,
-	}),
-	guarded: new Route<RootStore, QueryParams>({
-		path: '/guarded',
-		component: (
-			<Landing
-				title="Guarded Vaults"
-				subtitle="New vaults to dip your toes in. Ape safe."
-				state={VaultState.Guarded}
-			/>
-		),
-	}),
-	experimental: new Route<RootStore, QueryParams>({
-		path: '/experimental',
-		component: (
-			<Landing
-				title="Experimental Vaults"
-				subtitle="Novel Bitcoin strategies. Bleeding edge innovation."
-				state={VaultState.Experimental}
-			/>
-		),
 	}),
 	airdrops: new Route<RootStore, QueryParams>({
 		path: '/airdrops',

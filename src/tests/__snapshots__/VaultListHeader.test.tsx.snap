@@ -3,16 +3,16 @@
 exports[`Vault List Header renders correctly 1`] = `
 <div>
   <div
-    class="MuiGrid-root-15 makeStyles-root-10 MuiGrid-container-16 MuiGrid-item-17"
+    class="MuiGrid-root-14 makeStyles-root-9 MuiGrid-container-15 MuiGrid-item-16"
   >
     <div
-      class="MuiGrid-root-15 makeStyles-titlesContainer-11 MuiGrid-container-16 MuiGrid-item-17 MuiGrid-align-items-xs-center-24 MuiGrid-grid-xs-12-61 MuiGrid-grid-md-9-86 MuiGrid-grid-lg-true-91"
+      class="MuiGrid-root-14 makeStyles-titlesContainer-10 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-9-85 MuiGrid-grid-lg-true-90"
     >
       <div
-        class="MuiGrid-root-15 makeStyles-title-1 makeStyles-nameColumn-7 MuiGrid-item-17 MuiGrid-grid-xs-12-61 MuiGrid-grid-md-7-84 MuiGrid-grid-lg-true-91"
+        class="MuiGrid-root-14 makeStyles-title-1 makeStyles-nameColumn-7 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-6-82 MuiGrid-grid-lg-true-90"
       >
         <p
-          class="MuiTypography-root-118 makeStyles-title-1 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+          class="MuiTypography-root-117 makeStyles-title-1 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
         >
           All Setts
         </p>
@@ -25,10 +25,10 @@ exports[`Vault List Header renders correctly 1`] = `
         />
       </div>
       <div
-        class="MuiGrid-root-15 makeStyles-title-1 makeStyles-columnTitle-6 makeStyles-aprColumn-8 MuiGrid-container-16 MuiGrid-item-17 MuiGrid-align-items-xs-center-24 MuiGrid-grid-xs-12-61 MuiGrid-grid-md-true-77"
+        class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
       >
         <p
-          class="MuiTypography-root-118 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+          class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
         >
           APR
         </p>
@@ -41,16 +41,16 @@ exports[`Vault List Header renders correctly 1`] = `
         />
         <button
           aria-label="sort descending by APR"
-          class="MuiButtonBase-root-168 MuiIconButton-root-159 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
+          class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiIconButton-label-167"
+            class="MuiIconButton-label-166"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-171 MuiSvgIcon-colorPrimary-172"
+              class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -60,15 +60,15 @@ exports[`Vault List Header renders correctly 1`] = `
             </svg>
           </span>
           <span
-            class="MuiTouchRipple-root-223"
+            class="MuiTouchRipple-root-222"
           />
         </button>
       </div>
       <div
-        class="MuiGrid-root-15 makeStyles-title-1 makeStyles-columnTitle-6 makeStyles-tvlColumn-9 MuiGrid-container-16 MuiGrid-item-17 MuiGrid-align-items-xs-center-24 MuiGrid-grid-xs-12-61 MuiGrid-grid-md-true-77"
+        class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 makeStyles-tvlColumn-8 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
       >
         <p
-          class="MuiTypography-root-118 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+          class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
         >
           TVL
         </p>
@@ -81,16 +81,16 @@ exports[`Vault List Header renders correctly 1`] = `
         />
         <button
           aria-label="sort descending by TVL"
-          class="MuiButtonBase-root-168 MuiIconButton-root-159 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
+          class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiIconButton-label-167"
+            class="MuiIconButton-label-166"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-171 MuiSvgIcon-colorPrimary-172"
+              class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -100,15 +100,15 @@ exports[`Vault List Header renders correctly 1`] = `
             </svg>
           </span>
           <span
-            class="MuiTouchRipple-root-223"
+            class="MuiTouchRipple-root-222"
           />
         </button>
       </div>
       <div
-        class="MuiGrid-root-15 makeStyles-title-1 makeStyles-columnTitle-6 MuiGrid-container-16 MuiGrid-item-17 MuiGrid-align-items-xs-center-24 MuiGrid-grid-xs-12-61 MuiGrid-grid-md-true-77"
+        class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
       >
         <p
-          class="MuiTypography-root-118 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+          class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
         >
           MY DEPOSITS
         </p>
@@ -121,16 +121,16 @@ exports[`Vault List Header renders correctly 1`] = `
         />
         <button
           aria-label="sort ascending by balance"
-          class="MuiButtonBase-root-168 MuiIconButton-root-159 makeStyles-sortIcon-2"
+          class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiIconButton-label-167"
+            class="MuiIconButton-label-166"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-171 MuiSvgIcon-colorPrimary-172"
+              class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -140,25 +140,25 @@ exports[`Vault List Header renders correctly 1`] = `
             </svg>
           </span>
           <span
-            class="MuiTouchRipple-root-223"
+            class="MuiTouchRipple-root-222"
           />
         </button>
       </div>
     </div>
     <div
-      class="MuiGrid-root-15 MuiGrid-container-16 MuiGrid-item-17 MuiGrid-justify-content-xs-flex-end-34 MuiGrid-grid-md-true-77"
+      class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-justify-content-xs-flex-end-33 MuiGrid-grid-md-true-76"
     >
       <div
-        class="MuiGrid-root-15 MuiGrid-container-16 MuiGrid-align-items-xs-center-24 MuiGrid-justify-content-xs-flex-end-34"
+        class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-align-items-xs-center-23 MuiGrid-justify-content-xs-flex-end-33"
       >
         <button
           aria-label="Open Vaults Filters"
-          class="MuiButtonBase-root-168 MuiIconButton-root-159 makeStyles-filterButton-189"
+          class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-filterButton-188"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiIconButton-label-167"
+            class="MuiIconButton-label-166"
           >
             <img
               alt="vault filters"
@@ -166,7 +166,7 @@ exports[`Vault List Header renders correctly 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-223"
+            class="MuiTouchRipple-root-222"
           />
         </button>
       </div>
