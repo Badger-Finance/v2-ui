@@ -41,7 +41,6 @@ interface BondPricingProps {
 }
 
 const BondPricing = observer(({ token, tokenAddress }: BondPricingProps): JSX.Element => {
-	const classes = useStyles();
 	const store = useContext(StoreContext);
 
 	const tokenPrice = store.prices.getPrice(tokenAddress);

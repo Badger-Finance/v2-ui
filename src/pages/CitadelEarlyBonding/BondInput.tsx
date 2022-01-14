@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Box, ButtonBase, Divider, Grid, Typography } from '@material-ui/core';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
