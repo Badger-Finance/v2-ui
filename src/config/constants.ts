@@ -91,6 +91,8 @@ export const APPROVALS_VULNERABILITIES_SUBGRAPH = 'https://api.thegraph.com/subg
 
 // time constants
 export const ONE_MIN_MS = 60 * 1000;
+export const ONE_HOUR_MS = ONE_MIN_MS * 60;
+export const ONE_DAY_MS = ONE_HOUR_MS * 24;
 export const baseRetryOptions = {
 	// delay defaults to 200 ms.
 	// delay grows exponentially by factor each attempt.

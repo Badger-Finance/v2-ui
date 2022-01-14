@@ -9,10 +9,12 @@ import { IbBTC } from 'components/IbBTC';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
+import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
 import { VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
+import { FLAGS } from './environment';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -85,6 +87,12 @@ const routes = {
 		path: '/ibBTC',
 		component: <IbBTC />,
 		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
+	}),
+	...(FLAGS.CITADEL_SALE && {
+		citadel: new Route<RootStore, QueryParams>({
+			path: '/citadel',
+			component: <CitadelEarlyBonding />,
+		}),
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',

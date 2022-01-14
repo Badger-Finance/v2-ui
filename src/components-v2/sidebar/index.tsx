@@ -243,6 +243,7 @@ const Sidebar = observer(() => {
 						]}
 					/>
 				)}
+				{config.auction && <SidebarItem route="/citadel" view={views.citadel} title="Citadel" />}
 			</div>
 			<div className={classes.daoContainer}>
 				<div className={classes.daoItem} onClick={() => window.open('https://docs.badger.com/')}>
