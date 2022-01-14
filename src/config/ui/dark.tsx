@@ -9,6 +9,19 @@ const theme = createTheme({
 			checkedIcon: <img src="/assets/icons/checked-checkbox.svg" alt="checked checkbox" />,
 			icon: <img src="/assets/icons/non-checked-checkbox.svg" alt="checkbox" />,
 		},
+		MuiRadio: {
+			checkedIcon: <img src="/assets/icons/checked-radio-control.svg" alt="option" />,
+			icon: <img src="/assets/icons/non-checked-radio-control.svg" alt="option" />,
+		},
+	},
+	breakpoints: {
+		values: {
+			xs: 0,
+			sm: 600,
+			md: 900,
+			lg: 1200,
+			xl: 1700,
+		},
 	},
 	palette: {
 		type: 'dark',
@@ -51,7 +64,7 @@ const theme = createTheme({
 		MuiTooltip: {
 			tooltip: {
 				fontSize: '.95rem',
-				backgroundColor: '#F2A52B',
+				backgroundColor: '#F2BC1B',
 				color: '#181818',
 				fontWeight: 600,
 				padding: '.5rem .8rem',
@@ -96,6 +109,17 @@ const theme = createTheme({
 			},
 		},
 		MuiCheckbox: {
+			root: { marginLeft: 2 },
+			colorPrimary: {
+				'&$checked': {
+					color: '#04BF00',
+					'&:hover': {
+						backgroundColor: 'rgba(4, 191, 0, 0.08)',
+					},
+				},
+			},
+		},
+		MuiRadio: {
 			colorPrimary: {
 				'&$checked': {
 					color: '#04BF00',
@@ -115,6 +139,7 @@ export const darkTheme = createTheme({
 		MuiButton: {
 			...(theme.overrides?.MuiButton ?? {}),
 			root: {
+				fontSize: 14,
 				textTransform: 'capitalize',
 				borderRadius: 10,
 				height: 50,

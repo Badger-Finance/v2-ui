@@ -1,4 +1,4 @@
-import { extendObservable, action } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import Web3 from 'web3';
@@ -11,14 +11,16 @@ import { VaultMap } from '../model/vaults/vault-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { Currency, Network, ProtocolSummary, Vault, VaultState, TokenConfiguration } from '@badger-dao/sdk';
+import { Currency, Network, ProtocolSummary, TokenConfiguration, Vault, VaultState } from '@badger-dao/sdk';
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
 import { parseCallReturnContext } from '../utils/multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
+import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
+import { Currency as UiCurrency } from '../../config/enums/currency.enum';
 
 const formatVaultListItem = (vault: Vault): [string, string] => {
 	const sanitizedVaultName = vault.name.replace(/\/+/g, '-'); // replace "/" with "-"
-	return [vault.vaultToken, slugify(sanitizedVaultName, { lower: true })];
+	return [vault.vaultToken, slugify(`${vault.protocol}-${sanitizedVaultName}`, { lower: true })];
 };
 
 export default class VaultStore {
@@ -32,6 +34,8 @@ export default class VaultStore {
 	public protocolTokens: Set<string>;
 	public initialized: boolean;
 	public availableBalances: TokenBalances = {};
+	public showVaultFilters: boolean;
+	public vaultsFilters: VaultsFilters;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -43,6 +47,8 @@ export default class VaultStore {
 			priceCache: undefined,
 			initialized: false,
 			availableBalances: this.availableBalances,
+			vaultsFilters: {},
+			showVaultFilters: false,
 		});
 
 		this.tokenCache = {};
@@ -51,7 +57,38 @@ export default class VaultStore {
 		this.protocolSummaryCache = {};
 		this.protocolTokens = new Set();
 		this.initialized = false;
+		this.showVaultFilters = false;
+		this.vaultsFilters = {
+			hidePortfolioDust: false,
+			currency: store.uiState.currency,
+			protocols: [],
+			types: [],
+			sortOrder: VaultSortOrder.BALANCE_DESC,
+		};
+
 		this.refresh();
+	}
+
+	get vaultsFiltersCount(): number {
+		let count = 0;
+
+		if (this.vaultsFilters.hidePortfolioDust) {
+			count++;
+		}
+
+		if (this.vaultsFilters.currency !== UiCurrency.USD) {
+			count++;
+		}
+
+		if (this.vaultsFilters.protocols.length > 0) {
+			count++;
+		}
+
+		if (this.vaultsFilters.types.length > 0) {
+			count++;
+		}
+
+		return count;
 	}
 
 	get settMap(): VaultMap | undefined | null {
@@ -104,6 +141,89 @@ export default class VaultStore {
 			return setts;
 		}
 		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
+	}
+
+	getVaultOrderByState(state: VaultState, sortOrder?: VaultSortOrder): Vault[] | undefined | null {
+		const {
+			user,
+			network: { network },
+			prices: { exchangeRates },
+		} = this.store;
+
+		const vaultMap = this.getVaultMap();
+
+		if (!vaultMap) {
+			return vaultMap;
+		}
+
+		const networkVaultOrder = network.settOrder;
+		const stateFilteredVaultMap = Object.fromEntries(
+			Object.entries(vaultMap).filter((entry) => entry[1].state === state),
+		);
+
+		let vaults = networkVaultOrder.flatMap((vaultAddress) => {
+			const vault = stateFilteredVaultMap[Web3.utils.toChecksumAddress(vaultAddress)];
+			return vault ? [vault] : [];
+		});
+
+		if (this.vaultsFilters.hidePortfolioDust) {
+			if (exchangeRates) {
+				vaults = vaults.filter((vault) => {
+					const userBalance = user.getTokenBalance(vault.vaultToken).value;
+
+					// only evaluate vaults with deposited balance
+					if (userBalance.isZero()) {
+						return true;
+					}
+
+					// balance bigger than $1
+					return userBalance.multipliedBy(exchangeRates.usd).gt(1);
+				});
+			} else {
+				console.error('Portfolio dust filtering was skipped because the exchanges rates are not available');
+			}
+		}
+
+		if (this.vaultsFilters.protocols.length > 0) {
+			vaults = vaults.filter((vault) => this.vaultsFilters.protocols.includes(vault.protocol));
+		}
+
+		if (this.vaultsFilters.types.length > 0) {
+			vaults = vaults.filter((vault) => this.vaultsFilters.types.includes(vault.type));
+		}
+
+		switch (sortOrder) {
+			case VaultSortOrder.APR_ASC:
+				vaults = vaults.sort((a, b) => a.apr - b.apr);
+				break;
+			case VaultSortOrder.APR_DESC:
+				vaults = vaults.sort((a, b) => b.apr - a.apr);
+				break;
+			case VaultSortOrder.TVL_ASC:
+				vaults = vaults.sort((a, b) => a.value - b.value);
+				break;
+			case VaultSortOrder.TVL_DESC:
+				vaults = vaults.sort((a, b) => b.value - a.value);
+				break;
+			case VaultSortOrder.BALANCE_ASC:
+				vaults = vaults = vaults.sort((a, b) => {
+					const balanceB = user.getTokenBalance(b.vaultToken).value;
+					const balanceA = user.getTokenBalance(a.vaultToken).value;
+					return balanceA.minus(balanceB).toNumber();
+				});
+				break;
+			case VaultSortOrder.BALANCE_DESC:
+				vaults = vaults = vaults.sort((a, b) => {
+					const balanceB = user.getTokenBalance(b.vaultToken).value;
+					const balanceA = user.getTokenBalance(a.vaultToken).value;
+					return balanceB.minus(balanceA).toNumber();
+				});
+				break;
+			default:
+				break;
+		}
+
+		return vaults;
 	}
 
 	getVaultMap(): VaultMap | undefined | null {
@@ -213,4 +333,14 @@ export default class VaultStore {
 		const key = Web3.utils.toChecksumAddress(settAddress);
 		this.availableBalances[key] = new TokenBalance(settToken, balance, tokenPrice);
 	};
+
+	clearFilters = action(() => {
+		this.vaultsFilters = {
+			hidePortfolioDust: false,
+			currency: this.store.uiState.currency,
+			protocols: [],
+			types: [],
+			sortOrder: VaultSortOrder.BALANCE_DESC,
+		};
+	});
 }

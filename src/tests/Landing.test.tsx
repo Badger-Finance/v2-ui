@@ -6,6 +6,7 @@ import { checkSnapshot } from './utils/snapshots';
 import BigNumber from 'bignumber.js';
 import UserStore from 'mobx/stores/UserStore';
 import { VaultState } from '@badger-dao/sdk';
+import { createMatchMedia } from './Utils';
 
 describe('Landing', () => {
 	beforeEach(() => {
@@ -26,12 +27,35 @@ describe('Landing', () => {
 			nonNativeBalance: 10,
 			stakeRatio: 100,
 			claimableBalances: {},
+			nftBalance: 0,
 		};
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
 		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(1000));
 	});
 
 	test('Renders correctly', async () => {
+		checkSnapshot(
+			<Landing
+				title="Test Bitcoin Strategies"
+				subtitle="Snapshots are great. Landing looks good."
+				state={VaultState.Open}
+			/>,
+		);
+	});
+
+	test('Renders tablet version correctly', () => {
+		window.matchMedia = createMatchMedia(900);
+		checkSnapshot(
+			<Landing
+				title="Test Bitcoin Strategies"
+				subtitle="Snapshots are great. Landing looks good."
+				state={VaultState.Open}
+			/>,
+		);
+	});
+
+	test('Renders mobile version correctly', () => {
+		window.matchMedia = createMatchMedia(480);
 		checkSnapshot(
 			<Landing
 				title="Test Bitcoin Strategies"

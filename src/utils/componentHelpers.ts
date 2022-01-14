@@ -1,6 +1,9 @@
 import mainnetDeploy from '../config/deployments/mainnet.json';
-import { Vault, VaultData } from '@badger-dao/sdk';
+import { Vault, VaultData, VaultState } from '@badger-dao/sdk';
 import { Network } from '../mobx/model/network/network';
+import { MAX_BOOST_LEVEL } from '../config/system/boost-ranks';
+import { VaultType } from '@badger-dao/sdk/lib/api/enums';
+import UserStore from '../mobx/stores/UserStore';
 
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
@@ -66,3 +69,33 @@ export const getFormattedNetworkName = (network: Network): string => {
 		.map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
 		.join(' ');
 };
+
+export function getUserVaultBoost(vault: Vault, boost: number): number | null {
+	if (!vault.boost.enabled || !vault.minApr || vault.state === VaultState.Deprecated || vault.sources.length === 0) {
+		return null;
+	}
+
+	return vault.sources
+		.map((source) => {
+			if (!source.boostable) {
+				return source.apr;
+			}
+			return source.minApr + (boost / MAX_BOOST_LEVEL.multiplier) * (source.maxApr - source.minApr);
+		})
+		.reduce((total, apr) => total + apr, 0);
+}
+
+export const limitVaultType = (vaults: Vault[], type: VaultType, max = 3): Vault[] => {
+	return vaults
+		.sort((a, b) => b.value - a.value) // sort by TVL
+		.filter((vault) => vault.type === type)
+		.slice(0, max);
+};
+
+export function useFormatExampleList(userStore: UserStore): (vaults: Vault[]) => string {
+	return (vaults: Vault[]) =>
+		vaults
+			.map((vault) => userStore.getTokenBalance(vault.underlyingToken).token.symbol)
+			.sort((a, b) => a.length - b.length) // sort with the shortest name
+			.join(', ');
+}

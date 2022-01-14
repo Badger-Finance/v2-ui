@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-between',
 	},
 	drawer: {
-		[theme.breakpoints.up('md')]: {
+		[theme.breakpoints.up('lg')]: {
 			width: DRAWER_WIDTH,
 			flexShrink: 0,
 		},
@@ -144,13 +144,13 @@ const Sidebar = observer(() => {
 		user: { accountDetails },
 	} = store;
 
-	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const isMobileOrTablet = useMediaQuery(useTheme().breakpoints.down('md'));
 	const [expanded, setExpanded] = useState(false);
 
 	const config = getSidebarConfig(network.symbol);
 	const drawerContent = (
 		<div className={classes.sidebarContainer}>
-			{isMobile ? (
+			{isMobileOrTablet ? (
 				<Box display="flex" justifyContent="flex-end">
 					<IconButton onClick={() => closeSidebar()}>
 						<CloseIcon />
@@ -282,7 +282,7 @@ const Sidebar = observer(() => {
 
 	return (
 		<div className={classes.drawer}>
-			<Hidden mdUp>
+			<Hidden lgUp>
 				<Drawer
 					variant="temporary"
 					anchor="right"
@@ -298,7 +298,7 @@ const Sidebar = observer(() => {
 					{drawerContent}
 				</Drawer>
 			</Hidden>
-			<Hidden smDown>{drawerContent}</Hidden>
+			<Hidden mdDown>{drawerContent}</Hidden>
 		</div>
 	);
 });

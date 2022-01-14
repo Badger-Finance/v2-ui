@@ -1,57 +1,46 @@
 import React from 'react';
-import { Chip, makeStyles } from '@material-ui/core';
-import { CSSProperties } from '@material-ui/styles';
-import { Protocol } from 'mobx/model/system-config/protocol';
+import { Box, Chip, makeStyles } from '@material-ui/core';
+import { Vault } from '@badger-dao/sdk';
+import { Star } from '@material-ui/icons';
 
 interface VaultBadgeProps {
-	protocol: string;
+	vault: Vault;
 }
 
 const useStyles = makeStyles((theme) => ({
-	chip: {
-		marginLeft: theme.spacing(1),
-		padding: 0,
+	newTag: {
+		background: 'white',
+		fontSize: '12px',
+		fontWeight: 700,
+		alignItems: 'center',
+		color: 'black',
+		marginTop: theme.spacing(1),
+		height: 19,
+	},
+	starIcon: {
+		marginRight: 2,
 	},
 }));
 
-const VaultBadge = (props: VaultBadgeProps): JSX.Element | null => {
-	const { protocol } = props;
+const VaultBadge = ({ vault }: VaultBadgeProps): JSX.Element | null => {
 	const classes = useStyles();
-	const evaluatedProtocol = Protocol[protocol as keyof typeof Protocol];
 
-	let style: CSSProperties | undefined;
-	switch (evaluatedProtocol) {
-		case Protocol.Harvest:
-			style = { backgroundColor: '#eebf65' };
-			break;
-		case Protocol.Yearn:
-			style = { backgroundColor: '#0657f9', color: 'white' };
-			break;
-		case Protocol.Convex:
-			style = { backgroundColor: '#459c77', color: 'white' };
-			break;
-		case Protocol.Curve:
-			style = { backgroundColor: '#ece210' };
-			break;
-		case Protocol.Sushiswap:
-			style = { backgroundColor: '#d268af', color: 'white' };
-			break;
-		case Protocol.Uniswap:
-			style = { backgroundColor: '#fc077d', color: 'white' };
-			break;
-		case Protocol.Quickswap:
-			style = { backgroundColor: '#478bca', color: 'white' };
-			break;
-		case Protocol.Mstable:
-			style = { backgroundColor: 'rgb(37,39,45)', color: 'white' };
-			break;
-		case Protocol.Obsolete:
-			style = { backgroundColor: 'rgb(183, 63, 63)', color: 'white' };
-			break;
-		default:
-			return null;
+	if (vault.newVault) {
+		return (
+			<Chip
+				label={
+					<Box display="flex" alignItems="center">
+						<Star className={classes.starIcon} fontSize="inherit" /> New
+					</Box>
+				}
+				className={classes.newTag}
+				size="small"
+			/>
+		);
 	}
-	return <Chip className={classes.chip} label={protocol} size="small" color="primary" style={style} />;
+
+	//TODO: figure out new badges states
+	return null;
 };
 
 export default VaultBadge;

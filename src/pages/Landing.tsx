@@ -1,5 +1,3 @@
-import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
-import WalletSlider from '../components-v2/landing/WalletSlider';
 import { Grid, makeStyles, Button, useMediaQuery, useTheme, Typography } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
@@ -7,13 +5,14 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { VaultState } from '@badger-dao/sdk';
-import VaultListView from '../components-v2/landing/VaultListView';
 import VaultListFiltersWidget from '../components-v2/common/VaultListFiltersWidget';
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
 import { getFormattedNetworkName } from '../utils/componentHelpers';
 import BigNumber from 'bignumber.js';
+import VaultListDisplay from '../components-v2/landing/VaultListDisplay';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -98,11 +97,12 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		whiteSpace: 'pre-wrap',
 	},
-	badgerOverviewValue: {
+	badgerOverviewValueTitle: {
 		marginRight: theme.spacing(1),
 	},
 	badgerOverviewValueText: {
 		fontWeight: 700,
+		fontSize: 14,
 	},
 	filterWidgetContainer: {
 		textAlign: 'end',
@@ -128,6 +128,7 @@ const Landing = observer((props: LandingProps) => {
 	const { title, subtitle, state } = props;
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 
 	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
@@ -145,7 +146,7 @@ const Landing = observer((props: LandingProps) => {
 							<Grid item container xs={6} alignItems="center">
 								<Typography
 									variant="body2"
-									className={classes.badgerOverviewValue}
+									className={classes.badgerOverviewValueTitle}
 								>{`${chainName} TVL:`}</Typography>
 								{totalValueLocked ? (
 									<CurrencyDisplay
@@ -159,7 +160,7 @@ const Landing = observer((props: LandingProps) => {
 								)}
 							</Grid>
 							<Grid item container xs={6} alignItems="center">
-								<Typography variant="body2" className={classes.badgerOverviewValue}>
+								<Typography variant="body2" className={classes.badgerOverviewValueText}>
 									Badger Price:
 								</Typography>
 								{badgerPrice ? (
@@ -180,31 +181,36 @@ const Landing = observer((props: LandingProps) => {
 			<LayoutContainer>
 				{/* Landing Metrics Cards */}
 				<Grid container justifyContent="center">
-					<PageHeaderContainer item container xs={12}>
+					<PageHeaderContainer item container xs={12} alignItems="center">
 						<Grid item xs={10} md={6}>
 							<PageHeader title={title} subtitle={subtitle} />
 						</Grid>
-						<Grid item container xs={2} md={6} alignItems="center" justifyContent="flex-end" spacing={2}>
-							{!isMobile && (
-								<>
-									<Grid item>
-										<CurrencyPicker />
-									</Grid>
-									{onboard.isActive() && (
-										<Grid item>
-											<WalletSlider />
-										</Grid>
-									)}
-								</>
-							)}
-						</Grid>
+						{isTablet && (
+							<Grid item container xs={2} md={6} alignItems="center" justifyContent="flex-end">
+								<Typography
+									variant="body2"
+									className={clsx(classes.badgerOverviewValueText, classes.badgerOverviewValueTitle)}
+								>
+									My Assets:
+								</Typography>
+								<CurrencyDisplay
+									displayValue={inCurrency(portfolioValue, currency)}
+									variant="body2"
+									justifyContent="flex-start"
+									TypographyProps={{ className: classes.badgerOverviewValueText }}
+								/>
+							</Grid>
+						)}
 					</PageHeaderContainer>
 				</Grid>
 
 				{isMobile && (
 					<Grid container>
 						<Grid item container xs={10} alignItems="center">
-							<Typography variant="body2" className={classes.badgerOverviewValue}>
+							<Typography
+								variant="body2"
+								className={clsx(classes.badgerOverviewValueText, classes.badgerOverviewValueTitle)}
+							>
 								My Assets:
 							</Typography>
 							<CurrencyDisplay
@@ -214,7 +220,7 @@ const Landing = observer((props: LandingProps) => {
 								TypographyProps={{ className: classes.badgerOverviewValueText }}
 							/>
 						</Grid>
-						<Grid item container xs={2} justify="flex-end" className={classes.filterWidgetContainer}>
+						<Grid item container xs={2} className={classes.filterWidgetContainer}>
 							<VaultListFiltersWidget />
 						</Grid>
 					</Grid>
@@ -228,7 +234,7 @@ const Landing = observer((props: LandingProps) => {
 					</div>
 				)}
 
-				<VaultListView state={state} />
+				<VaultListDisplay state={state} />
 			</LayoutContainer>
 		</>
 	);

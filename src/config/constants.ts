@@ -16,7 +16,7 @@ import { Currency } from './enums/currency.enum';
 /* App Configurations */
 
 export const DEFAULT_CURRENCY = Currency.USD;
-export const MAX_LAYOUT_WIDTH = 1083;
+export const MAX_LAYOUT_WIDTH = 1178; // 1130px (width on mocks) + 24px of padding on each side
 export const DEFAULT_NETWORK = Network.Ethereum;
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
