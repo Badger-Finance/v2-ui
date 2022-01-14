@@ -15,9 +15,6 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: '20px',
 		color: '#C3C3C3',
 	},
-	bondInfo: {
-		marginBottom: theme.spacing(3),
-	},
 }));
 
 interface EarlyBondMetricProps {
@@ -25,7 +22,7 @@ interface EarlyBondMetricProps {
 	value?: string;
 }
 
-const EarlyBondMetric = ({ metric, value }: EarlyBondMetricProps): JSX.Element => {
+export const EarlyBondMetric = ({ metric, value }: EarlyBondMetricProps): JSX.Element => {
 	const classes = useStyles();
 	return (
 		<>
@@ -50,7 +47,7 @@ const BondPricing = observer(({ token, tokenAddress }: BondPricingProps): JSX.El
 	const tokenPrice = store.prices.getPrice(tokenAddress);
 
 	return (
-		<Grid container spacing={2} className={classes.bondInfo}>
+		<Grid container spacing={2}>
 			<Grid item xs={6}>
 				<EarlyBondMetric metric="Price" value={tokenPrice ? inCurrency(tokenPrice, Currency.USD) : undefined} />
 			</Grid>

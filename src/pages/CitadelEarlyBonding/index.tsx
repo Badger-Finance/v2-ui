@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { Typography, Grid, Box, Link } from '@material-ui/core';
 import { LayoutContainer, PageHeaderContainer } from 'components-v2/common/Containers';
 import PageHeader from 'components-v2/common/PageHeader';
-import { allBonds, IBond } from './bonds.config';
+import { allBonds, IBond, Beneficiary, SaleStatus } from './bonds.config';
 import BondOffering from './BondOffering';
 import BondModal from './BondModal';
-import { ONE_DAY_MS, ONE_HOUR_MS, ONE_MIN_MS } from 'config/constants';
+import { ONE_DAY_MS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	bondContainer: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SALE_OPEN_EPOCH = 1644519600;
-const SALE_OPPEN_MS = SALE_OPEN_EPOCH * 1000;
+const SALE_OPEN_MS = SALE_OPEN_EPOCH * 1000;
 
 // Adapted from
 // https://stackoverflow.com/questions/36098913/convert-seconds-to-days-hours-minutes-and-seconds
@@ -43,11 +43,17 @@ function toCountDown(seconds: number): string {
 	return dDisplay + hDisplay + mDisplay;
 }
 
+const SALE_DURATION = ONE_DAY_MS / 1000;
+
 const CitadelEarlyBonding = observer((): JSX.Element => {
 	const classes = useStyles();
 
 	const [selectedBond, setSelectedBond] = useState<IBond | null>(null);
-	const launchTimeDisplay = toCountDown((SALE_OPPEN_MS - Date.now()) / 1000);
+
+	const launchTime = (SALE_OPEN_MS - Date.now()) / 1000;
+	const launchTimeDisplay = toCountDown(launchTime);
+	const saleStatus =
+		launchTime > 0 ? SaleStatus.Open : launchTime + SALE_DURATION > 0 ? SaleStatus.Open : SaleStatus.Closed;
 
 	return (
 		<LayoutContainer>
@@ -88,12 +94,24 @@ const CitadelEarlyBonding = observer((): JSX.Element => {
 					</Grid>
 				</PageHeaderContainer>
 			</Grid>
-			<BondModal bond={selectedBond} clear={() => setSelectedBond(null)} />
+			{/* TODO: Load user information, pass relevant qualifications */}
+			<BondModal
+				bond={selectedBond}
+				clear={() => setSelectedBond(null)}
+				qualifications={[
+					Beneficiary.Convex,
+					Beneficiary.Redacted,
+					Beneficiary.Olympus,
+					Beneficiary.Tokemak,
+					Beneficiary.Frax,
+					Beneficiary.Abracadabra,
+				]}
+			/>
 			<Grid container spacing={4}>
 				{allBonds.map((bond) => {
 					return (
 						<Grid item key={bond.address} xs={12} sm={6} md={4}>
-							<BondOffering bond={bond} select={setSelectedBond} />
+							<BondOffering bond={bond} select={setSelectedBond} status={saleStatus} />
 						</Grid>
 					);
 				})}
