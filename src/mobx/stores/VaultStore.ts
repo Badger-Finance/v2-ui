@@ -143,7 +143,7 @@ export default class VaultStore {
 		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
 	}
 
-	getVaultOrderByState(state: VaultState, sortOrder?: VaultSortOrder): Vault[] | undefined | null {
+	getVaultOrder(): Vault[] | undefined | null {
 		const {
 			user,
 			network: { network },
@@ -157,9 +157,7 @@ export default class VaultStore {
 		}
 
 		const networkVaultOrder = network.settOrder;
-		const stateFilteredVaultMap = Object.fromEntries(
-			Object.entries(vaultMap).filter((entry) => entry[1].state === state),
-		);
+		const stateFilteredVaultMap = Object.fromEntries(Object.entries(vaultMap));
 
 		let vaults = networkVaultOrder.flatMap((vaultAddress) => {
 			const vault = stateFilteredVaultMap[Web3.utils.toChecksumAddress(vaultAddress)];
@@ -192,7 +190,7 @@ export default class VaultStore {
 			vaults = vaults.filter((vault) => this.vaultsFilters.types.includes(vault.type));
 		}
 
-		switch (sortOrder) {
+		switch (this.vaultsFilters.sortOrder) {
 			case VaultSortOrder.APR_ASC:
 				vaults = vaults.sort((a, b) => a.apr - b.apr);
 				break;

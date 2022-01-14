@@ -1,17 +1,13 @@
 import BigNumber from 'bignumber.js';
 import { TEN, ZERO } from '../../config/constants';
 import { API } from 'bnc-onboard/dist/src/interfaces';
-import store, { RootStore } from 'mobx/RootStore';
+import store from 'mobx/RootStore';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
 import { ChartData } from 'mobx/model/charts/chart-data';
 import { Network } from 'mobx/model/network/network';
 import { Currency } from 'config/enums/currency.enum';
 import { currencyConfiguration } from 'config/currency.config';
-import routes from 'config/routes';
-import VaultStore from 'mobx/stores/VaultStore';
-import { QueryParams, Route } from 'mobx-router';
-import { VaultState } from '@badger-dao/sdk';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -296,26 +292,5 @@ export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => v
 		if (readyToTransact) {
 			connect(onboard);
 		}
-	}
-};
-
-/**
- * Retrieves the route based on the slug of the current window
- * If undefined, returns home
- * @param amount amount to be converted
- * @param decimals decimals the the converted amount will have
- */
-export const getRouteBySlug = (slug: string | undefined, setts: VaultStore): Route<RootStore, QueryParams> => {
-	const vault = slug ? setts.getVaultBySlug(slug) : null;
-	if (!slug || !vault) {
-		return routes.home;
-	}
-	switch (vault.state) {
-		case VaultState.Guarded:
-			return routes.guarded;
-		case VaultState.Experimental:
-			return routes.experimental;
-		default:
-			return routes.home;
 	}
 };
