@@ -82,6 +82,8 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 			PopperProps={{
 				disablePortal: true,
 			}}
+			// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
+			id={`${vault.name} apr breakdown`}
 		>
 			{vaultApr}
 		</Tooltip>

@@ -3,7 +3,7 @@
 exports[`VaultItemApr Boosted Vaults displays APR breakdown on hover 1`] = `
 <div>
   <div
-    aria-describedby="mui-69491"
+    aria-describedby="ibBTC / crvsBTC LP apr breakdown"
     class=""
   >
     <p
@@ -21,7 +21,7 @@ exports[`VaultItemApr Boosted Vaults displays APR breakdown on hover 1`] = `
   </div>
   <div
     class="MuiTooltip-popper-4 MuiTooltip-popperArrow-6"
-    id="mui-69491"
+    id="ibBTC / crvsBTC LP apr breakdown"
     role="tooltip"
     style="position: absolute; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
     x-placement="left"
@@ -84,14 +84,14 @@ exports[`VaultItemApr No APR Vaults renders zero APR 1`] = `
 exports[`VaultItemApr Non-Boosted Vaults displays APR breakdown on hover 1`] = `
 <div>
   <p
-    aria-describedby="mui-99222"
+    aria-describedby="Badger apr breakdown"
     class="MuiTypography-root-15 makeStyles-apr-1 MuiTypography-body1-17 MuiTypography-colorTextPrimary-40"
   >
     8.17%
   </p>
   <div
     class="MuiTooltip-popper-4 MuiTooltip-popperArrow-6"
-    id="mui-99222"
+    id="Badger apr breakdown"
     role="tooltip"
     style="position: absolute; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
     x-placement="left"
