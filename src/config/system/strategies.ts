@@ -369,8 +369,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.mim-3crv']]: {
 					address: ethDeploy.sett_system.strategies['native.mim-3crv'],
 					fees: {
-						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					// TODO: UPDATE LINKS
 					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-mim-3crv',
@@ -379,8 +379,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.frax-3crv']]: {
 					address: ethDeploy.sett_system.strategies['native.frax-3crv'],
 					fees: {
-						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					// TODO: UPDATE LINKS
 					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-frax-3crv',
