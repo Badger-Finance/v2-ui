@@ -1,11 +1,5 @@
-import { makeStyles, Typography, Button, Grid } from '@material-ui/core';
-import React, { useContext } from 'react';
-import views from '../../config/routes';
-import { Route } from 'mobx-router';
-import { RootStore } from 'mobx/RootStore';
-import { StoreContext } from '../../mobx/store-context';
-import { QueryParams } from '../../../node_modules/mobx-router/src/route';
-import { VaultState } from '@badger-dao/sdk';
+import React from 'react';
+import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -20,71 +14,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const linkObjects = (
-	state: VaultState,
-	goTo: <
-		P extends QueryParams = Record<string, string | number | boolean | undefined>,
-		Q extends QueryParams = Record<string, string | number | boolean | undefined>,
-	>(
-		route: Route<RootStore, P, Q>,
-		paramsObj?: P | undefined,
-		queryParamsObj?: Q | undefined,
-	) => Promise<void>,
-) => {
-	const linkStates = Object.values(VaultState).filter((s) => s !== state);
-	const links: JSX.Element[] = [];
-	linkStates.forEach((linkState) => {
-		switch (linkState) {
-			case VaultState.Experimental:
-				links.push(
-					<Grid item xs={2} key={`${VaultState.Experimental}-link-button`}>
-						<Button variant="outlined" color="primary" onClick={() => goTo(views.experimental)}>
-							{VaultState.Experimental}
-						</Button>
-					</Grid>,
-				);
-				break;
-			case VaultState.Open:
-				links.push(
-					<Grid item xs={2} key={`${VaultState.Open}-link-button`}>
-						<Button variant="outlined" color="primary" onClick={() => goTo(views.home)}>
-							{VaultState.Open}
-						</Button>
-					</Grid>,
-				);
-				break;
-			case VaultState.Guarded:
-				links.push(
-					<Grid item xs={2} key={`${VaultState.Guarded}-link-button`}>
-						<Button variant="outlined" color="primary" onClick={() => goTo(views.guarded)}>
-							{VaultState.Guarded}
-						</Button>
-					</Grid>,
-				);
-				break;
-		}
-	});
-	return links;
-};
+interface Props {
+	network: string;
+}
 
-export default function NoVaults(props: { state: VaultState; network: string }): JSX.Element {
+export default function NoVaults({ network }: Props): JSX.Element {
 	const classes = useStyles();
-	const store = useContext(StoreContext);
-	const { state, network } = props;
-	const {
-		router: { goTo },
-	} = store;
+
 	return (
 		<div className={classes.messageContainer}>
 			<img src={'/assets/icons/builder.png'} alt="Badger Builder" />
 			<Typography
 				className={classes.titleText}
 				variant="h4"
-			>{`There are currently no ${state} vaults on ${network}.`}</Typography>
+			>{`There are currently no vaults on ${network}.`}</Typography>
 			<Typography variant="h6">Check our other zones for more potential vaults</Typography>
-			<Grid className={classes.linkContainer} container justifyContent="center">
-				{linkObjects(state, goTo)}
-			</Grid>
 		</div>
 	);
 }

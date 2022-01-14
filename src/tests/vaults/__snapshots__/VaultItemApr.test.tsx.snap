@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VaultItemApr Boosted Vaults displays APR breakdown on hover 1`] = `
+<div>
+  <div
+    aria-describedby="ibBTC / crvsBTC LP apr breakdown"
+    class=""
+  >
+    <p
+      class="MuiTypography-root-15 makeStyles-apr-1 MuiTypography-body1-17 MuiTypography-colorTextPrimary-40"
+    >
+      10.00%
+    </p>
+    <p
+      class="MuiTypography-root-15 makeStyles-boost-2 MuiTypography-body1-17 MuiTypography-colorTextSecondary-41"
+    >
+      My Boost: 
+      0.54
+      %
+    </p>
+  </div>
+  <div
+    class="MuiTooltip-popper-4 MuiTooltip-popperArrow-6"
+    id="ibBTC / crvsBTC LP apr breakdown"
+    role="tooltip"
+    style="position: absolute; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
+    x-placement="left"
+  >
+    <div
+      class="MuiTooltip-tooltip-7 MuiTooltip-tooltipPlacementLeft-11 MuiTooltip-tooltipArrow-8"
+      style="opacity: 1; transform: scale(1, 1); transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div>
+        0.06% Curve LP Fees
+      </div>
+      <div>
+        3.66% bCVXCRV Rewards
+      </div>
+      <div>
+        0.20% Boosted Badger Rewards
+      </div>
+      <div>
+        5.71% bveCVX Rewards
+      </div>
+      <span
+        class="MuiTooltip-arrow-9"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`VaultItemApr Boosted Vaults displays correct APR and boost information 1`] = `
+<div>
+  <div
+    class=""
+  >
+    <p
+      class="MuiTypography-root-15 makeStyles-apr-1 MuiTypography-body1-17 MuiTypography-colorTextPrimary-40"
+    >
+      10.00%
+    </p>
+    <p
+      class="MuiTypography-root-15 makeStyles-boost-2 MuiTypography-body1-17 MuiTypography-colorTextSecondary-41"
+    >
+      My Boost: 
+      0.54
+      %
+    </p>
+  </div>
+</div>
+`;
+
+exports[`VaultItemApr No APR Vaults renders zero APR 1`] = `
+<div>
+  <p
+    class="MuiTypography-root-4 makeStyles-apr-1 MuiTypography-body1-6 MuiTypography-colorTextPrimary-29"
+  >
+    0%
+  </p>
+</div>
+`;
+
+exports[`VaultItemApr Non-Boosted Vaults displays APR breakdown on hover 1`] = `
+<div>
+  <p
+    aria-describedby="Badger apr breakdown"
+    class="MuiTypography-root-15 makeStyles-apr-1 MuiTypography-body1-17 MuiTypography-colorTextPrimary-40"
+  >
+    8.17%
+  </p>
+  <div
+    class="MuiTooltip-popper-4 MuiTooltip-popperArrow-6"
+    id="Badger apr breakdown"
+    role="tooltip"
+    style="position: absolute; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
+    x-placement="left"
+  >
+    <div
+      class="MuiTooltip-tooltip-7 MuiTooltip-tooltipPlacementLeft-11 MuiTooltip-tooltipArrow-8"
+      style="opacity: 1; transform: scale(1, 1); transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div>
+        8.17% Vault Compounding
+      </div>
+      <span
+        class="MuiTooltip-arrow-9"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`VaultItemApr Non-Boosted Vaults displays correct APR and boost information 1`] = `
+<div>
+  <p
+    class="MuiTypography-root-15 makeStyles-apr-1 MuiTypography-body1-17 MuiTypography-colorTextPrimary-40"
+  >
+    8.17%
+  </p>
+</div>
+`;

@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 export interface VaultTableProps {
 	title: string;
 	settList: JSX.Element[];
-	displayValue?: string;
 }
 
 const VaultList = ({ title, settList }: VaultTableProps): JSX.Element => {

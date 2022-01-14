@@ -43,7 +43,9 @@
 		"fPmBtcHBtc": "0x48c59199Da51B7E30Ea200a74Ea07974e62C4bA7",
 		"DROPT-3": "0x68c269B60c58c4ed50c63B217BA0EC7f8a371920",
 		"bveCVXCVX": "0x04c90C198b2eFF55716079bc06d7CCc4aa4d7512",
-		"curve.ibBTC": "0xFbdCA68601f835b27790D98bbb8eC7f05FDEaA9B"
+		"curve.ibBTC": "0xFbdCA68601f835b27790D98bbb8eC7f05FDEaA9B",
+		"curve.mim-3crv": "0x5a6A4D54456819380173272A5E8E9B9904BdF41B",
+		"curve.frax-3crv": "0xd632f22692FaC7611d2AA1C0D552930D43CAEd3B"
 	},
 	"logic": {
 		"SmartVesting": "0x07c0E4f4C977a29c46Fb26597ea8C9105ca50b42",
@@ -117,7 +119,9 @@
 			"native.fPmBtcHBtc": "0x26B8efa69603537AC8ab55768b6740b67664D518",
 			"native.icvx": "0xfd05D3C7fe2924020620A8bE4961bBaA747e6305",
 			"native.bveCVXCVX": "0x937B8E917d0F36eDEBBA8E459C5FB16F3b315551",
-			"native.ibbtcCrv": "0xaE96fF08771a109dc6650a1BdCa62F2d558E40af"
+			"native.ibbtcCrv": "0xaE96fF08771a109dc6650a1BdCa62F2d558E40af",
+			"native.mim-3crv": "0x19E4d89e0cB807ea21B8CEF02df5eAA99A110dA5",
+			"native.frax-3crv": "0x15cBC4ac1e81c97667780fE6DAdeDd04a6EEB47B"
 		},
 		"strategies": {
 			"native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",
@@ -146,7 +150,9 @@
 			"native.icvx": "0x87fB47c2B9EB41d362BAb44F5Ec81514b6b1de13",
 			"native.bveCVXCVX": "0x98Ca7AFa876f0e15494E76E92C5b3658cdE1Ffe1",
 			"native.ibbtcCrv": "0x0EA6a3595b291C3eF0881C5C32C232d571eFcbAf",
-			"yearn.wBtc": "0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E"
+			"yearn.wBtc": "0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E",
+			"native.mim-3crv": "0x8DE00c817C595BD5D8caD37c4bE65ed1bB11502F",
+			"native.frax-3crv": "0xA4772a2504aCCBEd8Db04F393A21BfA621AC621D"
 		},
 		"strategy_artifacts": {
 			"native.badger": "StrategyBadgerRewards",

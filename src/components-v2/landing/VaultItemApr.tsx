@@ -44,8 +44,22 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 		);
 	}
 
-	if (!vaultBoost || !vault.minApr) {
-		return (
+	let vaultApr: JSX.Element;
+
+	if (vaultBoost && vault.minApr) {
+		const boostContribution = Math.max(0, vaultBoost - vault.minApr);
+		vaultApr = (
+			<div>
+				<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
+					{`${vaultBoost.toFixed(2)}%`}
+				</Typography>
+				<Typography variant="body1" color="textSecondary" className={classes.boost}>
+					My Boost: {boostContribution.toFixed(2)}%
+				</Typography>
+			</div>
+		);
+	} else {
+		vaultApr = (
 			<Typography
 				className={clsx(classes.apr, isMobile && classes.nonBoostedMobileApr)}
 				variant="body1"
@@ -55,8 +69,6 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 			</Typography>
 		);
 	}
-
-	const boostContribution = Math.max(0, vaultBoost - vault.minApr);
 
 	return (
 		<Tooltip
@@ -70,15 +82,10 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 			PopperProps={{
 				disablePortal: true,
 			}}
+			// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
+			id={`${vault.name} apr breakdown`}
 		>
-			<div>
-				<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
-					{`${vaultBoost.toFixed(2)}%`}
-				</Typography>
-				<Typography variant="body1" color="textSecondary" className={classes.boost}>
-					My Boost: {boostContribution.toFixed(2)}%
-				</Typography>
-			</div>
+			{vaultApr}
 		</Tooltip>
 	);
 };

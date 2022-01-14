@@ -15,7 +15,7 @@ import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
 import { Vault, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
-import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH, APR_COLUMN_MAX_WIDTH } from './VaultListHeader';
+import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -60,13 +60,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	itemText: {
 		fontSize: 16,
-	},
-	apr: {
-		[theme.breakpoints.up('lg')]: {
-			flexGrow: 0,
-			maxWidth: APR_COLUMN_MAX_WIDTH,
-			flexBasis: APR_COLUMN_MAX_WIDTH,
-		},
 	},
 	tvl: {
 		[theme.breakpoints.down('md')]: {
@@ -216,17 +209,17 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 				<Grid
 					container
 					item
-					spacing={2}
+					spacing={4}
 					xs={12}
 					md={9}
 					lg
 					className={classes.clickableSection}
 					onClick={goToVaultDetail}
 				>
-					<Grid item xs={12} md={7} lg className={classes.name} container>
+					<Grid item xs={12} md={6} lg className={classes.name} container>
 						<VaultItemName vault={vault} />
 					</Grid>
-					<Grid item xs={12} md className={classes.apr}>
+					<Grid item xs={12} md>
 						<VaultItemApr vault={vault} multiplier={multiplier} boost={user.accountDetails?.boost} />
 					</Grid>
 					<Grid item xs={12} md className={classes.tvl}>

@@ -10,7 +10,6 @@ import VaultListItem from './VaultListItem';
 import VaultList from './VaultList';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
-import { VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -19,13 +18,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-interface Props {
-	state: VaultState;
-}
-
-const VaultListDisplay = observer((props: Props) => {
+const VaultListDisplay = observer(() => {
 	const classes = useStyles();
-	const { state } = props;
 	const store = useContext(StoreContext);
 	const {
 		vaults,
@@ -33,7 +27,7 @@ const VaultListDisplay = observer((props: Props) => {
 		user,
 	} = store;
 
-	const vaultOrder = vaults.getVaultOrderByState(state, vaults.vaultsFilters.sortOrder);
+	const vaultOrder = vaults.getVaultOrder();
 
 	if (vaultOrder === undefined) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;
@@ -68,10 +62,10 @@ const VaultListDisplay = observer((props: Props) => {
 	});
 
 	if (settListItems.length === 0 && vaults.vaultsFiltersCount === 0) {
-		return <NoVaults state={state} network={network.name} />;
+		return <NoVaults network={network.name} />;
 	}
 
-	return <VaultList title={'All Vaults'} displayValue={''} settList={settListItems} />;
+	return <VaultList title="All Vaults" settList={settListItems} />;
 });
 
 export default VaultListDisplay;
