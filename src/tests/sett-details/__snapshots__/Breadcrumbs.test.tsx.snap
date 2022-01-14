@@ -4,27 +4,27 @@ exports[`Breadcrumb displays sett breadcrumb 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
-    class="MuiTypography-root-6 MuiBreadcrumbs-root-2 MuiTypography-body1-8 MuiTypography-colorTextSecondary-32"
+    class="MuiTypography-root-7 MuiBreadcrumbs-root-3 MuiTypography-body1-9 MuiTypography-colorTextSecondary-33"
   >
     <ol
-      class="MuiBreadcrumbs-ol-3"
+      class="MuiBreadcrumbs-ol-4"
     >
       <li
-        class="MuiBreadcrumbs-li-4"
+        class="MuiBreadcrumbs-li-5"
       >
-        <button
-          class="MuiTypography-root-6 MuiLink-root-36 MuiLink-underlineHover-38 makeStyles-breadcrumbsItem-1 MuiLink-button-40 MuiTypography-colorInherit-28"
+        <a
+          class="MuiTypography-root-7 MuiLink-root-37 MuiLink-underlineHover-39 makeStyles-link-2 makeStyles-breadcrumbsItem-1 MuiTypography-colorInherit-29"
         >
-          Setts
-        </button>
+          Vaults
+        </a>
       </li>
       <li
         aria-hidden="true"
-        class="MuiBreadcrumbs-separator-5"
+        class="MuiBreadcrumbs-separator-6"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root-42 MuiSvgIcon-fontSizeSmall-49"
+          class="MuiSvgIcon-root-43 MuiSvgIcon-fontSizeSmall-50"
           focusable="false"
           viewBox="0 0 24 24"
         >
@@ -34,10 +34,10 @@ exports[`Breadcrumb displays sett breadcrumb 1`] = `
         </svg>
       </li>
       <li
-        class="MuiBreadcrumbs-li-4"
+        class="MuiBreadcrumbs-li-5"
       >
         <p
-          class="MuiTypography-root-6 makeStyles-breadcrumbsItem-1 MuiTypography-body1-8 MuiTypography-colorTextSecondary-32"
+          class="MuiTypography-root-7 makeStyles-breadcrumbsItem-1 MuiTypography-body1-9 MuiTypography-colorTextSecondary-33"
         >
           Curve.fi renBTC/wBTC/sBTC
         </p>

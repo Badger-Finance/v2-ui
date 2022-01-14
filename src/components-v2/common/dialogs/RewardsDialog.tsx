@@ -64,7 +64,7 @@ const RewardsDialog = ({ open, onClose, claimableRewards }: Props): JSX.Element 
 				open={open}
 				onClose={onClose}
 			>
-				<UserGuideContent onGoBack={() => setGuideMode(false)} />
+				<UserGuideContent onGoBack={() => setGuideMode(false)} onClose={onClose} />
 			</Dialog>
 		);
 	}

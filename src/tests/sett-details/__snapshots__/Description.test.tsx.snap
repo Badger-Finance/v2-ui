@@ -26,6 +26,8 @@ exports[`Description displays sett description 1`] = `
           <p
             class="MuiTypography-root-110 makeStyles-settName-3 MuiTypography-body1-112"
           >
+            Curve
+             - 
             Curve.fi renBTC/wBTC/sBTC
           </p>
         </div>

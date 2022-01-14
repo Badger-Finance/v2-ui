@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 50,
 	},
 	sideButtonContainer: {
-		[theme.breakpoints.up('md')]: {
+		[theme.breakpoints.up('lg')]: {
 			display: 'none',
 		},
 	},
@@ -87,6 +87,7 @@ const Header = observer(() => {
 	const { enqueueSnackbar } = useSnackbar();
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 
@@ -120,7 +121,7 @@ const Header = observer(() => {
 							container
 							xs={1}
 							md={7}
-							spacing={1}
+							spacing={2}
 							alignItems="center"
 							justifyContent="space-between"
 							className={classes.amounts}
@@ -135,6 +136,17 @@ const Header = observer(() => {
 								</div>
 							) : (
 								<>
+									{isTablet && (
+										<Grid item>
+											<div onClick={() => window.open('https://badger.com/', '_blank')}>
+												<img
+													className={classes.badgerLogo}
+													alt="Badger Logo"
+													src={'/assets/icons/badger_head.svg'}
+												/>
+											</div>
+										</Grid>
+									)}
 									<Grid item>
 										<Typography variant="body2" display="inline">
 											My Assets:{' '}
