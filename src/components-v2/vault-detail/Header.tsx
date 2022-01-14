@@ -3,7 +3,7 @@ import { Link, makeStyles } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { PageHeaderContainer } from '../common/Containers';
 import { StoreContext } from '../../mobx/store-context';
-import { getRouteBySlug } from 'mobx/utils/helpers';
+import routes from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,17 +29,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Header = (): JSX.Element => {
-	const { router, vaults } = React.useContext(StoreContext);
+	const { router } = React.useContext(StoreContext);
 	const classes = useStyles();
-	const settSlug = router.params?.settName?.toString();
 
 	return (
 		<PageHeaderContainer container className={classes.root}>
-			<Link
-				component="button"
-				className={classes.links}
-				onClick={() => router.goTo(getRouteBySlug(settSlug, vaults))}
-			>
+			<Link component="button" className={classes.links} onClick={() => router.goTo(routes.home)}>
 				<ArrowBackIcon className={classes.backArrow} />
 				Back to All Vaults
 			</Link>

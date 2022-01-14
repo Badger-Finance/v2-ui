@@ -1,10 +1,9 @@
-import { Grid, makeStyles, Button, useMediaQuery, useTheme, Typography } from '@material-ui/core';
+import { Grid, makeStyles, useMediaQuery, useTheme, Typography } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
-import { VaultState } from '@badger-dao/sdk';
 import VaultListFiltersWidget from '../components-v2/common/VaultListFiltersWidget';
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
@@ -112,7 +111,6 @@ const useStyles = makeStyles((theme) => ({
 interface LandingProps {
 	title: string;
 	subtitle?: string | React.ReactNode;
-	state: VaultState;
 }
 
 const Landing = observer((props: LandingProps) => {
@@ -125,7 +123,7 @@ const Landing = observer((props: LandingProps) => {
 		vaults: { protocolSummary },
 	} = useContext(StoreContext);
 
-	const { title, subtitle, state } = props;
+	const { title, subtitle } = props;
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
@@ -226,15 +224,7 @@ const Landing = observer((props: LandingProps) => {
 					</Grid>
 				)}
 
-				{state === VaultState.Guarded && (
-					<div className={classes.announcementContainer}>
-						<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
-							Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
-						</Button>
-					</div>
-				)}
-
-				<VaultListDisplay state={state} />
+				<VaultListDisplay />
 			</LayoutContainer>
 		</>
 	);
