@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	Box,
+	Button,
 	DialogContent,
 	DialogTitle,
 	Grid,
@@ -11,6 +12,11 @@ import {
 } from '@material-ui/core';
 import { ArrowBackIosOutlined } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../mobx/store-context';
+import { VaultType } from '@badger-dao/sdk';
+import { limitVaultType, useFormatExampleList } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -60,16 +66,54 @@ const useStyles = makeStyles((theme: Theme) =>
 		tokensSection: {
 			marginTop: theme.spacing(2),
 		},
+		viewVaultsButton: {
+			height: 'auto',
+			display: 'flex',
+			justifyContent: 'flex-start',
+			fontSize: 14,
+			paddingBottom: 0,
+			width: 'fit-content',
+		},
 	}),
 );
 
 interface Props {
 	onGoBack: () => void;
+	onClose: () => void;
 }
 
-const UserGuideContent = ({ onGoBack }: Props): JSX.Element => {
+const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
+	const { vaults, user } = useContext(StoreContext);
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
+
+	const formatExampleList = useFormatExampleList(user);
+
+	const vaultMap = vaults.getVaultMap();
+	const allVaults = vaultMap ? Object.values(vaultMap) : undefined;
+
+	const boostedTokensExamples = allVaults
+		? formatExampleList(limitVaultType(allVaults, VaultType.Boosted, 4))
+		: undefined;
+
+	const nonBoostedTokenExamples = allVaults
+		? formatExampleList(limitVaultType(allVaults, VaultType.Standard, 2))
+		: undefined;
+
+	const goToBadgerTokens = () => {
+		vaults.vaultsFilters.types = [VaultType.Native];
+		onClose();
+	};
+
+	const goToBoostedTokens = () => {
+		vaults.vaultsFilters.types = [VaultType.Boosted];
+		onClose();
+	};
+
+	const goToNonBoostedTokens = () => {
+		vaults.vaultsFilters.types = [VaultType.Standard];
+		onClose();
+	};
 
 	return (
 		<>
@@ -99,45 +143,83 @@ const UserGuideContent = ({ onGoBack }: Props): JSX.Element => {
 						<Grid item>
 							<Typography variant="subtitle2">Badger has 3 types of tokens:</Typography>
 						</Grid>
-						{/*TODO: add link to view vaults when they're available*/}
 						<Grid container spacing={isMobile ? 2 : 4} className={classes.userGuideTokens}>
 							<Grid item>
-								<div className={classes.userGuideToken}>
-									<Typography className={classes.tokenName} variant="body2" color="textSecondary">
-										BADGERDAO TOKENS:
-									</Typography>
-									<Typography variant="subtitle2">Badger, Digg</Typography>
-									{/*<Box display="flex" alignItems="center">*/}
-									{/*	<ArrowRightAltIcon color="primary" />*/}
-									{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-									{/*</Box>*/}
-								</div>
+								<Grid container direction="column" className={classes.userGuideToken}>
+									<Grid item>
+										<Typography className={classes.tokenName} variant="body2" color="textSecondary">
+											BADGERDAO TOKENS:
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Typography variant="subtitle2">Badger, Digg</Typography>
+									</Grid>
+									<Grid item xs container direction="column-reverse">
+										<Button
+											aria-label="view badger dao tokens"
+											variant="text"
+											color="primary"
+											size="small"
+											onClick={goToBadgerTokens}
+											className={classes.viewVaultsButton}
+										>
+											<ArrowRightAltIcon color="primary" />
+											<Typography variant="subtitle2">View Vaults</Typography>
+										</Button>
+									</Grid>
+								</Grid>
 							</Grid>
 							<Grid item>
-								<div className={classes.userGuideToken}>
-									<Typography className={classes.tokenName} variant="body2" color="textSecondary">
-										BOOSTED TOKENS:
-									</Typography>
-									<Typography variant="subtitle2">
-										ibBTC, crvsBTC LP, imBTC, Mhbtc, Cvxcrv, Tricrypto
-									</Typography>
-									{/*<Box display="flex" alignItems="center">*/}
-									{/*	<ArrowRightAltIcon color="primary" />*/}
-									{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-									{/*</Box>*/}
-								</div>
+								<Grid item container direction="column" className={classes.userGuideToken}>
+									<Grid item>
+										<Typography className={classes.tokenName} variant="body2" color="textSecondary">
+											BOOSTED TOKENS:
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Typography variant="subtitle2">{boostedTokensExamples}</Typography>
+									</Grid>
+									<Grid item xs container direction="column-reverse">
+										<Button
+											aria-label="view boosted tokens"
+											variant="text"
+											color="primary"
+											size="small"
+											onClick={goToBoostedTokens}
+											className={classes.viewVaultsButton}
+										>
+											<ArrowRightAltIcon color="primary" />
+											<Typography variant="subtitle2">View Vaults</Typography>
+										</Button>
+									</Grid>
+								</Grid>
 							</Grid>
 							<Grid item>
-								<div className={classes.userGuideToken}>
-									<Typography className={classes.tokenName} variant="body2" color="textSecondary">
-										NON-BOOSTED TOKENS:
-									</Typography>
-									<Typography variant="subtitle2">All other tokens (e.g. wBTC, renBTC...)</Typography>
-									{/*<Box display="flex" alignItems="center">*/}
-									{/*	<ArrowRightAltIcon color="primary" />*/}
-									{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-									{/*</Box>*/}
-								</div>
+								<Grid item container direction="column" className={classes.userGuideToken}>
+									<Grid item>
+										<Typography className={classes.tokenName} variant="body2" color="textSecondary">
+											NON-BOOSTED TOKENS:
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Typography variant="subtitle2">
+											All other tokens (e.g. {nonBoostedTokenExamples}...)
+										</Typography>
+									</Grid>
+									<Grid item xs container direction="column-reverse">
+										<Button
+											aria-label="view non-boosted tokens"
+											variant="text"
+											color="primary"
+											size="small"
+											onClick={goToNonBoostedTokens}
+											className={classes.viewVaultsButton}
+										>
+											<ArrowRightAltIcon color="primary" />
+											<Typography variant="subtitle2">View Vaults</Typography>
+										</Button>
+									</Grid>
+								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -147,4 +229,4 @@ const UserGuideContent = ({ onGoBack }: Props): JSX.Element => {
 	);
 };
 
-export default UserGuideContent;
+export default observer(UserGuideContent);

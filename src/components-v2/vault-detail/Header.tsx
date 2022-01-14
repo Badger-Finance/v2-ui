@@ -41,7 +41,7 @@ export const Header = (): JSX.Element => {
 				onClick={() => router.goTo(getRouteBySlug(settSlug, vaults))}
 			>
 				<ArrowBackIcon className={classes.backArrow} />
-				Back to All Setts
+				Back to All Vaults
 			</Link>
 		</PageHeaderContainer>
 	);

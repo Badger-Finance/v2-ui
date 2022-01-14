@@ -100,7 +100,9 @@ export const Description = ({ vault }: Props): JSX.Element => {
 			<Grid item container direction="column" justifyContent="center" className={classes.namesContainer}>
 				<Grid item container alignItems="center">
 					<Grid item>
-						<Typography className={classes.settName}>{vault.name}</Typography>
+						<Typography className={classes.settName}>
+							{vault.protocol} - {vault.name}
+						</Typography>
 					</Grid>
 					<Grid item>
 						<Box display="flex" alignItems="center">
