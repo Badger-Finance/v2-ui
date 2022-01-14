@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### 2.13.0 - 01/14/2022
+
+-   add new vault list styles
+-   combine vault pages
+-   resolve issue showing no apr for non boosted vaults
+
 ### 2.12.0 - 01/05/2022
 
 -   resolve hot reload failures
