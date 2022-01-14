@@ -18,7 +18,7 @@ export const VaultItemUserApr = ({ vault, boost }: Props): JSX.Element | null =>
 			if (!source.boostable) {
 				return source.apr;
 			}
-			return source.minApr + ((boost / MAX_BOOST_LEVEL.multiplier) * (source.maxApr - source.minApr));
+			return source.minApr + (boost / MAX_BOOST_LEVEL.multiplier) * (source.maxApr - source.minApr);
 		})
 		.reduce((total, apr) => total + apr, 0);
 
