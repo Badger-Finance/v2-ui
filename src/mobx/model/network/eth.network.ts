@@ -29,6 +29,8 @@ export class Ethereum extends NetworkModel {
 			this.deploy.sett_system.vaults['native.ibbtcCrv'],
 			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.icvx'],
+			this.deploy.sett_system.vaults['native.mim-3crv'],
+			this.deploy.sett_system.vaults['native.frax-3crv'],
 			this.deploy.sett_system.vaults['native.digg'],
 			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
@@ -61,6 +63,26 @@ export class Ethereum extends NetworkModel {
 export const ETH_DEPLOY = deploy as Deploy;
 
 const ethVaultDefinitions: BadgerVault[] = [
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.mim-3crv'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.mim-3crv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.frax-3crv'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.frax-3crv'],
+			decimals: 18,
+		},
+	},
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['sushi.wBTC-DIGG'],
