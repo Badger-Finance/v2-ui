@@ -366,6 +366,26 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					depositLink:
 						'https://app.sushi.com/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x798D1bE841a82a273720CE31c822C61a67a601C3',
 				},
+				[ethDeploy.sett_system.vaults['native.mim-3crv']]: {
+					address: ethDeploy.sett_system.strategies['native.mim-3crv'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					// TODO: UPDATE LINKS
+					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-mim-3crv',
+					depositLink: 'https://curve.fi/mim/deposit',
+				},
+				[ethDeploy.sett_system.vaults['native.frax-3crv']]: {
+					address: ethDeploy.sett_system.strategies['native.frax-3crv'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					// TODO: UPDATE LINKS
+					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-frax-3crv',
+					depositLink: 'https://curve.fi/frax/deposit',
+				},
 				[ethDeploy.sett_system.vaults['native.hbtcCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.hbtcCrv'],
 					fees: {
