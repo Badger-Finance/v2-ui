@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'flex-end',
 		flexDirection: 'column',
 		[theme.breakpoints.up('md')]: {
-			maxWidth: '20%',
-			flexBasis: '20%',
+			maxWidth: '26%',
+			flexBasis: '26%',
 			padding: '10.5px',
 		},
 	},
@@ -125,7 +125,7 @@ export const VaultItemName = ({ vault, boost }: Props): JSX.Element => {
 
 	return (
 		<Grid container alignItems="center" className={classes.rootContainerLarge}>
-			<Grid item xs={2} className={classes.vaultIcon}>
+			<Grid item xs="auto" className={classes.vaultIcon}>
 				{vaultIcon}
 				{Badge}
 			</Grid>
