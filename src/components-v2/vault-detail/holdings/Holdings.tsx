@@ -56,7 +56,7 @@ export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }
 			<Grid container>
 				<Typography className={classes.settInfoTitle}>Your Vault Info</Typography>
 			</Grid>
-			<Grid container spacing={1}>
+			<Grid container spacing={1} alignItems="center">
 				<Grid item xs={12} sm>
 					<HoldingItem
 						name="Total Deposited"
