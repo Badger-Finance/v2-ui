@@ -369,7 +369,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.mim-3crv']]: {
 					address: ethDeploy.sett_system.strategies['native.mim-3crv'],
 					fees: {
-						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.strategistPerformance]: new BigNumber(2000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					// TODO: UPDATE LINKS
@@ -379,7 +379,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.frax-3crv']]: {
 					address: ethDeploy.sett_system.strategies['native.frax-3crv'],
 					fees: {
-						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.strategistPerformance]: new BigNumber(2000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					// TODO: UPDATE LINKS

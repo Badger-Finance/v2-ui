@@ -332,7 +332,6 @@ export default class UserStore {
 			} = guestListResults.results[guestListResultsKey];
 
 			const result = parseCallReturnContext(callsReturnContext);
-
 			if (
 				!result.remainingTotalDepositAllowed ||
 				!result.remainingUserDepositAllowed ||
@@ -355,10 +354,10 @@ export default class UserStore {
 				continue;
 			}
 
-			const remainingTotalDepositAllowed = result.remainingTotalDepositAllowed[0][0].value;
-			const totalDepositCap = result.totalDepositCap[0][0].value;
-			const remainingUserDepositAllowed = result.remainingUserDepositAllowed[0][0].value;
-			const userDepositCap = result.userDepositCap[0][0].value;
+			const remainingTotalDepositAllowed = result.remainingTotalDepositAllowed[0][0].hex;
+			const totalDepositCap = result.totalDepositCap[0][0].hex;
+			const remainingUserDepositAllowed = result.remainingUserDepositAllowed[0][0].hex;
+			const userDepositCap = result.userDepositCap[0][0].hex;
 
 			vaultCaps[vault.vaultToken] = {
 				vaultCap: this.store.rewards.balanceFromProof(depositToken.address, remainingTotalDepositAllowed),
