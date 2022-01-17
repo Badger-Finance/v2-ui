@@ -15,7 +15,7 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
       </p>
     </div>
     <div
-      class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-spacing-xs-1-26"
+      class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-spacing-xs-1-26 MuiGrid-align-items-xs-center-12"
     >
       <div
         class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-true-51"
@@ -146,7 +146,7 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
       </p>
     </div>
     <div
-      class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-spacing-xs-1-26"
+      class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-spacing-xs-1-26 MuiGrid-align-items-xs-center-12"
     >
       <div
         class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-true-51"

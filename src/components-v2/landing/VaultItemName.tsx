@@ -49,10 +49,13 @@ const useStyles = makeStyles((theme) => ({
 	protocolName: {
 		fontSize: 14,
 	},
-	boost: {
+	thinFont: {
 		fontWeight: 400,
 	},
 	vaultNameMobile: {
+		marginTop: theme.spacing(1),
+	},
+	tagDesktop: {
 		marginTop: theme.spacing(1),
 	},
 }));
@@ -69,7 +72,7 @@ export const VaultItemName = ({ vault, boost }: Props): JSX.Element => {
 	const vaultBoost = boost ? getUserVaultBoost(vault, boost) : null;
 	const currentApr = vault.minApr && vaultBoost ? vault.minApr + vaultBoost : vault.apr;
 
-	const Badge = <VaultBadge vault={vault} />;
+	const Badge = <VaultBadge state={vault.state} />;
 
 	const vaultIcon = (
 		<img
@@ -106,13 +109,13 @@ export const VaultItemName = ({ vault, boost }: Props): JSX.Element => {
 					</Grid>
 					<Grid item container spacing={2}>
 						<Grid item xs={7}>
-							<Typography variant="body1" className={classes.boost} color="textSecondary">
+							<Typography variant="body1" className={classes.thinFont} color="textSecondary">
 								{boostText}
 							</Typography>
 						</Grid>
 						{!!vaultBoost && (
 							<Grid item xs>
-								<Typography variant="body1" color="textSecondary" className={classes.boost}>
+								<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
 									My Boost: {vaultBoost.toFixed(2)}%
 								</Typography>
 							</Grid>
@@ -127,11 +130,11 @@ export const VaultItemName = ({ vault, boost }: Props): JSX.Element => {
 		<Grid container alignItems="center" className={classes.rootContainerLarge}>
 			<Grid item xs="auto" className={classes.vaultIcon}>
 				{vaultIcon}
-				{Badge}
+				<span className={classes.tagDesktop}>{Badge}</span>
 			</Grid>
 			<Grid item xs className={classes.nameAndBoostContainer}>
 				<div className={classes.nameContainer}>{vaultName}</div>
-				<Typography variant="body1" className={classes.boost} color="textSecondary">
+				<Typography variant="body1" className={classes.thinFont} color="textSecondary">
 					{boostText}
 				</Typography>
 			</Grid>

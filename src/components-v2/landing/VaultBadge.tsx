@@ -1,20 +1,20 @@
 import React from 'react';
 import { Box, Chip, makeStyles } from '@material-ui/core';
-import { Vault, VaultState } from '@badger-dao/sdk';
+import { VaultState } from '@badger-dao/sdk';
 import { Star } from '@material-ui/icons';
 import clsx from 'clsx';
 
 interface VaultBadgeProps {
-	vault: Vault;
+	state: VaultState;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
 	tag: {
 		fontSize: '12px',
 		alignItems: 'center',
 		height: 19,
 		fontWeight: 700,
-		marginTop: theme.spacing(1),
+		paddingBottom: 2,
 	},
 	newTag: {
 		background: 'white',
@@ -31,27 +31,26 @@ const useStyles = makeStyles((theme) => ({
 	starIcon: {
 		marginRight: 2,
 	},
-}));
+});
 
-const VaultBadge = ({ vault }: VaultBadgeProps): JSX.Element | null => {
+const VaultBadge = ({ state }: VaultBadgeProps): JSX.Element | null => {
 	const classes = useStyles();
 
-	if (vault.newVault) {
-		return (
-			<Chip
-				label={
-					<Box display="flex" alignItems="center">
-						<Star className={classes.starIcon} fontSize="inherit" /> New
-					</Box>
-				}
-				className={clsx(classes.tag, classes.newTag)}
-				size="small"
-			/>
-		);
-	}
-
-	switch (vault.state) {
+	switch (state) {
+		case VaultState.New:
+			return (
+				<Chip
+					label={
+						<Box display="flex" alignItems="center">
+							<Star className={classes.starIcon} fontSize="inherit" /> New
+						</Box>
+					}
+					className={clsx(classes.tag, classes.newTag)}
+					size="small"
+				/>
+			);
 		case VaultState.Experimental:
+		case VaultState.Guarded:
 			return <Chip className={clsx(classes.tag, classes.experimentalTag)} size="small" label="Trial Run" />;
 		case VaultState.Deprecated:
 			return <Chip className={clsx(classes.tag, classes.deprecatedTag)} size="small" label="Expiring" />;

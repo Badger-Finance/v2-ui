@@ -20,7 +20,6 @@ const mockVault: Vault = {
 	boost: { enabled: false, weight: 0 },
 	bouncer: BouncerType.None,
 	apr: 10,
-	newVault: false,
 	pricePerFullShare: 1,
 	protocol: Protocol.Badger,
 	sources: [],
