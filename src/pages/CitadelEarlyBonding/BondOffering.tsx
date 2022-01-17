@@ -1,7 +1,7 @@
 import { Typography, makeStyles, Card, Paper, Button } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { IBond, SaleStatus } from './bonds.config';
+import { CitadelBond, IBond, SaleStatus } from './bonds.config';
 import clsx from 'clsx';
 import BondPricing from './BondPricing';
 
@@ -74,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface BondOfferingProps {
-	bond: IBond;
-	select: (bond: IBond) => void;
+	bond: CitadelBond;
+	select: (bond: CitadelBond) => void;
 	status: SaleStatus;
 }
 

@@ -18,7 +18,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import React, { useContext, useState } from 'react';
 import BondInput from './BondInput';
 import BondPricing, { EarlyBondMetric } from './BondPricing';
-import { Beneficiary, IBond } from './bonds.config';
+import { Beneficiary, CitadelBond } from './bonds.config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { bondToCitadel } from './bonds.utils';
 
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface BondModalProps {
-	bond: IBond | null;
+	bond: CitadelBond | null;
 	qualifications: Beneficiary[];
 	clear: () => void;
 }

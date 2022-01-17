@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 import { Typography, Grid, Box, Link } from '@material-ui/core';
 import { LayoutContainer, PageHeaderContainer } from 'components-v2/common/Containers';
 import PageHeader from 'components-v2/common/PageHeader';
-import { allBonds, IBond, Beneficiary, SaleStatus } from './bonds.config';
+import { Beneficiary, SaleStatus, CitadelBond } from './bonds.config';
 import BondOffering from './BondOffering';
 import BondModal from './BondModal';
 import { ONE_DAY_MS } from 'config/constants';
+import useCitadelBonds from 'hooks/useCitadelBonds';
 
 const useStyles = makeStyles((theme) => ({
 	bondContainer: {
@@ -48,7 +49,8 @@ const SALE_DURATION = ONE_DAY_MS / 1000;
 const CitadelEarlyBonding = observer((): JSX.Element => {
 	const classes = useStyles();
 
-	const [selectedBond, setSelectedBond] = useState<IBond | null>(null);
+	const { presaleBonds } = useCitadelBonds();
+	const [selectedBond, setSelectedBond] = useState<CitadelBond | null>(null);
 
 	const launchTime = (SALE_OPEN_MS - Date.now()) / 1000;
 	const launchTimeDisplay = toCountDown(launchTime);
@@ -108,7 +110,7 @@ const CitadelEarlyBonding = observer((): JSX.Element => {
 				]}
 			/>
 			<Grid container spacing={4}>
-				{allBonds.map((bond) => {
+				{presaleBonds.map((bond) => {
 					return (
 						<Grid item key={bond.address} xs={12} sm={6} md={4}>
 							<BondOffering bond={bond} select={setSelectedBond} status={saleStatus} />
