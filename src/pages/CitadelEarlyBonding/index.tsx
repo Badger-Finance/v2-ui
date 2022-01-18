@@ -9,6 +9,7 @@ import BondOffering from './BondOffering';
 import BondModal from './BondModal';
 import { ONE_DAY_MS } from 'config/constants';
 import useCitadelBonds from 'hooks/useCitadelBonds';
+import { FLAGS } from 'config/environment';
 
 const useStyles = makeStyles((theme) => ({
 	bondContainer: {
@@ -46,7 +47,7 @@ function toCountDown(seconds: number): string {
 
 const SALE_DURATION = ONE_DAY_MS / 1000;
 
-const CitadelEarlyBonding = observer((): JSX.Element => {
+const CitadelEarlyBonding = observer((): JSX.Element | null => {
 	const classes = useStyles();
 
 	const { presaleBonds } = useCitadelBonds();
@@ -56,6 +57,10 @@ const CitadelEarlyBonding = observer((): JSX.Element => {
 	const launchTimeDisplay = toCountDown(launchTime);
 	const saleStatus =
 		launchTime > 0 ? SaleStatus.Open : launchTime + SALE_DURATION > 0 ? SaleStatus.Open : SaleStatus.Closed;
+
+	if (!FLAGS.CITADEL_SALE) {
+		return null;
+	}
 
 	return (
 		<LayoutContainer>
