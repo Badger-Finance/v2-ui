@@ -79,6 +79,25 @@ const _abi = [
 	{
 		inputs: [
 			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
+		name: 'boughtAmounts',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
 				internalType: 'uint256',
 				name: '_tokenInAmount',
 				type: 'uint256',
@@ -197,6 +216,25 @@ const _abi = [
 				internalType: 'contract BadgerGuestListAPI',
 				name: '',
 				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
+		name: 'hasClaimed',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
 			},
 		],
 		stateMutability: 'view',
@@ -338,8 +376,47 @@ const _abi = [
 	{
 		inputs: [
 			{
+				internalType: 'uint64',
+				name: '_saleDuration',
+				type: 'uint64',
+			},
+		],
+		name: 'setSaleDuration',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: '_saleRecipient',
+				type: 'address',
+			},
+		],
+		name: 'setSaleRecipient',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint64',
+				name: '_saleStart',
+				type: 'uint64',
+			},
+		],
+		name: 'setSaleStart',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
 				internalType: 'uint256',
-				name: '_limitAmount',
+				name: '_tokenInLimit',
 				type: 'uint256',
 			},
 		],
@@ -352,7 +429,7 @@ const _abi = [
 		inputs: [
 			{
 				internalType: 'uint256',
-				name: '_price',
+				name: '_tokenOutPrice',
 				type: 'uint256',
 			},
 		],
@@ -441,7 +518,20 @@ const _abi = [
 	},
 	{
 		inputs: [],
-		name: 'totalTokenOut',
+		name: 'totalTokenOutBought',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'totalTokenOutClaimed',
 		outputs: [
 			{
 				internalType: 'uint256',

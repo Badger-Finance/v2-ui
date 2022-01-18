@@ -4,6 +4,7 @@ import React from 'react';
 import { CitadelBond, IBond, SaleStatus } from './bonds.config';
 import clsx from 'clsx';
 import BondPricing from './BondPricing';
+import { useEffect, useState } from 'react-transition-group/node_modules/@types/react';
 
 const useStyles = makeStyles((theme) => ({
 	cardSplash: {
@@ -80,7 +81,7 @@ interface BondOfferingProps {
 }
 
 const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX.Element => {
-	const { token, address } = bond;
+	const { token } = bond;
 	const classes = useStyles();
 
 	const bondStatusIconClass =
@@ -108,7 +109,7 @@ const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX
 					</div>
 				</div>
 				<div className={classes.bondPricing}>
-					<BondPricing token={token} tokenAddress={address} />
+					<BondPricing bond={bond} />
 				</div>
 				<Button
 					onClick={() => select(bond)}

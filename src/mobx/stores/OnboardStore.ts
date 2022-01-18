@@ -3,7 +3,7 @@ import { Initialization, API, Wallet } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import Onboard from 'bnc-onboard';
 import Notify, { InitOptions } from 'bnc-notify';
-import { BLOCKNATIVE_API_KEY } from 'config/constants';
+import { BLOCKNATIVE_API_KEY, NETWORK_IDS } from 'config/constants';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { action, extendObservable } from 'mobx';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
@@ -14,7 +14,7 @@ import rpc from 'config/rpc.config';
 const WALLET_STORAGE_KEY = 'selectedWallet';
 
 export class OnboardStore {
-	private config: NetworkConfig;
+	public config: NetworkConfig;
 	public wallet?: Wallet;
 	public onboard: API;
 	public notify: NotifyAPI;
@@ -73,7 +73,7 @@ export class OnboardStore {
 
 	addressListener = action(async (address: string): Promise<void> => {
 		const shouldUpdate = this.address !== undefined && this.address !== address;
-		this.address = '0xe95329e118b947c123ccaf252289f1e07b055a16'; // address;
+		this.address = address;
 		if (shouldUpdate && this.wallet) {
 			await this.walletListener(this.wallet);
 			if (this.provider) {
@@ -96,21 +96,23 @@ export class OnboardStore {
 	walletListener = action(async (wallet: Wallet): Promise<void> => {
 		this.wallet = wallet;
 		if (wallet.provider) {
-			this.provider = this.getProvider(this.config, wallet.provider, wallet.name);
+			this.provider = this.getProvider(wallet.provider, wallet.name);
 		}
 		if (wallet.name) {
 			window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
 		}
 	});
 
-	private getProvider(config: NetworkConfig, provider: any, wallet: string | null): SDKProvider {
+	private getProvider(provider: any, wallet: string | null): SDKProvider {
 		let library;
+		const config = NetworkConfig.getConfig(parseInt(provider.chainId ?? NETWORK_IDS.ETH, 16));
 		if (isRpcWallet(wallet)) {
 			library = new JsonRpcProvider(rpc[config.network], config.id);
 		} else {
 			library = new Web3Provider(provider, config.id);
 		}
 		library.pollingInterval = 15000;
+		this.config = config;
 		return library;
 	}
 

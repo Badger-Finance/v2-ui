@@ -97,7 +97,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 
 	// TODO: Set a beneficiary they are able to use
 	const [bondAmount, setBondAmount] = useState<TokenBalance | null>(null);
-	const [beneficiary, setBeneficiary] = useState<Beneficiary | null>(null);
+	const [beneficiary, setBeneficiary] = useState<string>('');
 
 	if (bond === null) {
 		return null;
@@ -114,7 +114,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 		<Modal
 			open={bond !== null}
 			onClose={() => {
-				setBeneficiary(null);
+				setBeneficiary('');
 				clear();
 			}}
 			className={classes.modalContainer}
@@ -146,7 +146,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 				</Typography>
 				<Grid container spacing={2} className={classes.pricingContainer}>
 					<Grid item xs={12} sm={importantPricing ? 12 : 8}>
-						<BondPricing token={token} tokenAddress={address} />
+						<BondPricing bond={bond} />
 					</Grid>
 					<Grid item xs={12} sm={importantPricing ? 12 : 4}>
 						<EarlyBondMetric metric="Qualifying Lists" value={qualifications.join(', ')} />
@@ -156,6 +156,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 				<FormControl fullWidth>
 					<Select
 						className={classes.selectContainer}
+						placeholder={'Select beneficiary'}
 						value={beneficiary}
 						variant="outlined"
 						MenuProps={{
@@ -191,6 +192,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 				</FormControl>
 				<BondInput tokenBalance={bondTokenBalance} onChange={(balance) => setBondAmount(balance)} />
 				<Button
+					disabled={beneficiary === '' || bondAmount?.tokenBalance.eq(0)}
 					variant="contained"
 					color="primary"
 					className={classes.bondButton}
@@ -198,7 +200,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 						if (!bondAmount) {
 							return;
 						}
-						bondToCitadel(bond, bondAmount);
+						bondToCitadel(bond, bondAmount, beneficiary as Beneficiary);
 					}}
 				>
 					Bond {token}

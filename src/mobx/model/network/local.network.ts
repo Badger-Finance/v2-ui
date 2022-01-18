@@ -3,12 +3,10 @@ import { toVaultConfig } from 'web3/config/config-utils';
 import { Deploy } from 'web3/interface/deploy';
 import { BadgerVault } from '../vaults/badger-vault';
 import { Network as NetworkModel } from './network';
-import deploy from '../../../config/deployments/mainnet.json';
+import deploy from '../../../config/deployments/local.json';
 import { toRecord } from 'web3/config/token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { FLAGS } from 'config/environment';
 import { Currency } from 'config/enums/currency.enum';
-import { AdvisoryType } from '../vaults/advisory-type';
 import { Network } from '@badger-dao/sdk';
 
 export class Local extends NetworkModel {
@@ -17,11 +15,11 @@ export class Local extends NetworkModel {
 			'https://etherscan.io',
 			'https://www.gasnow.org/',
 			'Local',
-			Network.Ethereum,
+			Network.Local,
 			NETWORK_IDS.LOCAL,
 			Currency.ETH,
-			ETH_DEPLOY,
-			ethVaultDefinitions,
+			LOCAL_DEPLOY,
+			localaultDefinitions,
 		);
 	}
 	get settOrder(): string[] {
@@ -29,14 +27,19 @@ export class Local extends NetworkModel {
 	}
 }
 
-export const ETH_DEPLOY = deploy as Deploy;
+export const LOCAL_DEPLOY = deploy as Deploy;
 
-const ethVaultDefinitions: BadgerVault[] = [];
+const localaultDefinitions: BadgerVault[] = [];
 
-export const ethVaults = toVaultConfig(ethVaultDefinitions);
+export const localaults = toVaultConfig(localaultDefinitions);
 
-export const ethRewards = [];
+export const localRewards = [
+	{
+		address: LOCAL_DEPLOY.tokens.test,
+		decimals: 8,
+	},
+];
 
-const ethTokens = ethVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]).concat(ethRewards);
+const localTokens = localaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]).concat(localRewards);
 
-export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');
+export const localProtocolTokens: ProtocolTokens = toRecord(localTokens, 'address');

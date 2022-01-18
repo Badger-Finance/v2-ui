@@ -3,6 +3,7 @@ export interface Deploy {
 	tokens: { [name: string]: string };
 	geysers: { [name: string]: string };
 	sett_system: VaultSystem;
+	citadel?: { [name: string]: string };
 }
 
 export interface EthDeploy extends Deploy {

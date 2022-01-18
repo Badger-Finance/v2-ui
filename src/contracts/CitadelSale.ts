@@ -20,6 +20,7 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from './common';
 export interface CitadelSaleInterface extends utils.Interface {
 	contractName: 'CitadelSale';
 	functions: {
+		'boughtAmounts(address)': FunctionFragment;
 		'buy(uint256,uint8,bytes32[])': FunctionFragment;
 		'claim()': FunctionFragment;
 		'daoCommitments(uint8)': FunctionFragment;
@@ -28,6 +29,7 @@ export interface CitadelSaleInterface extends utils.Interface {
 		'getAmountOut(uint256)': FunctionFragment;
 		'getTokenInLimitLeft()': FunctionFragment;
 		'guestlist()': FunctionFragment;
+		'hasClaimed(address)': FunctionFragment;
 		'initialize(address,address,uint64,uint64,uint256,address,address,uint256)': FunctionFragment;
 		'owner()': FunctionFragment;
 		'renounceOwnership()': FunctionFragment;
@@ -36,6 +38,9 @@ export interface CitadelSaleInterface extends utils.Interface {
 		'saleRecipient()': FunctionFragment;
 		'saleStart()': FunctionFragment;
 		'setGuestlist(address)': FunctionFragment;
+		'setSaleDuration(uint64)': FunctionFragment;
+		'setSaleRecipient(address)': FunctionFragment;
+		'setSaleStart(uint64)': FunctionFragment;
 		'setTokenInLimit(uint256)': FunctionFragment;
 		'setTokenOutPrice(uint256)': FunctionFragment;
 		'sweep(address)': FunctionFragment;
@@ -44,10 +49,12 @@ export interface CitadelSaleInterface extends utils.Interface {
 		'tokenOut()': FunctionFragment;
 		'tokenOutPrice()': FunctionFragment;
 		'totalTokenIn()': FunctionFragment;
-		'totalTokenOut()': FunctionFragment;
+		'totalTokenOutBought()': FunctionFragment;
+		'totalTokenOutClaimed()': FunctionFragment;
 		'transferOwnership(address)': FunctionFragment;
 	};
 
+	encodeFunctionData(functionFragment: 'boughtAmounts', values: [string]): string;
 	encodeFunctionData(functionFragment: 'buy', values: [BigNumberish, BigNumberish, BytesLike[]]): string;
 	encodeFunctionData(functionFragment: 'claim', values?: undefined): string;
 	encodeFunctionData(functionFragment: 'daoCommitments', values: [BigNumberish]): string;
@@ -56,6 +63,7 @@ export interface CitadelSaleInterface extends utils.Interface {
 	encodeFunctionData(functionFragment: 'getAmountOut', values: [BigNumberish]): string;
 	encodeFunctionData(functionFragment: 'getTokenInLimitLeft', values?: undefined): string;
 	encodeFunctionData(functionFragment: 'guestlist', values?: undefined): string;
+	encodeFunctionData(functionFragment: 'hasClaimed', values: [string]): string;
 	encodeFunctionData(
 		functionFragment: 'initialize',
 		values: [string, string, BigNumberish, BigNumberish, BigNumberish, string, string, BigNumberish],
@@ -67,6 +75,9 @@ export interface CitadelSaleInterface extends utils.Interface {
 	encodeFunctionData(functionFragment: 'saleRecipient', values?: undefined): string;
 	encodeFunctionData(functionFragment: 'saleStart', values?: undefined): string;
 	encodeFunctionData(functionFragment: 'setGuestlist', values: [string]): string;
+	encodeFunctionData(functionFragment: 'setSaleDuration', values: [BigNumberish]): string;
+	encodeFunctionData(functionFragment: 'setSaleRecipient', values: [string]): string;
+	encodeFunctionData(functionFragment: 'setSaleStart', values: [BigNumberish]): string;
 	encodeFunctionData(functionFragment: 'setTokenInLimit', values: [BigNumberish]): string;
 	encodeFunctionData(functionFragment: 'setTokenOutPrice', values: [BigNumberish]): string;
 	encodeFunctionData(functionFragment: 'sweep', values: [string]): string;
@@ -75,9 +86,11 @@ export interface CitadelSaleInterface extends utils.Interface {
 	encodeFunctionData(functionFragment: 'tokenOut', values?: undefined): string;
 	encodeFunctionData(functionFragment: 'tokenOutPrice', values?: undefined): string;
 	encodeFunctionData(functionFragment: 'totalTokenIn', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'totalTokenOut', values?: undefined): string;
+	encodeFunctionData(functionFragment: 'totalTokenOutBought', values?: undefined): string;
+	encodeFunctionData(functionFragment: 'totalTokenOutClaimed', values?: undefined): string;
 	encodeFunctionData(functionFragment: 'transferOwnership', values: [string]): string;
 
+	decodeFunctionResult(functionFragment: 'boughtAmounts', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'buy', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'claim', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'daoCommitments', data: BytesLike): Result;
@@ -86,6 +99,7 @@ export interface CitadelSaleInterface extends utils.Interface {
 	decodeFunctionResult(functionFragment: 'getAmountOut', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'getTokenInLimitLeft', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'guestlist', data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: 'hasClaimed', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'renounceOwnership', data: BytesLike): Result;
@@ -94,6 +108,9 @@ export interface CitadelSaleInterface extends utils.Interface {
 	decodeFunctionResult(functionFragment: 'saleRecipient', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'saleStart', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'setGuestlist', data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: 'setSaleDuration', data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: 'setSaleRecipient', data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: 'setSaleStart', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'setTokenInLimit', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'setTokenOutPrice', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'sweep', data: BytesLike): Result;
@@ -102,7 +119,8 @@ export interface CitadelSaleInterface extends utils.Interface {
 	decodeFunctionResult(functionFragment: 'tokenOut', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'tokenOutPrice', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'totalTokenIn', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'totalTokenOut', data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: 'totalTokenOutBought', data: BytesLike): Result;
+	decodeFunctionResult(functionFragment: 'totalTokenOutClaimed', data: BytesLike): Result;
 	decodeFunctionResult(functionFragment: 'transferOwnership', data: BytesLike): Result;
 
 	events: {
@@ -161,6 +179,8 @@ export interface CitadelSale extends BaseContract {
 	removeListener: OnEvent<this>;
 
 	functions: {
+		boughtAmounts(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+
 		buy(
 			_tokenInAmount: BigNumberish,
 			_daoId: BigNumberish,
@@ -184,6 +204,8 @@ export interface CitadelSale extends BaseContract {
 		getTokenInLimitLeft(overrides?: CallOverrides): Promise<[BigNumber] & { limitLeft_: BigNumber }>;
 
 		guestlist(overrides?: CallOverrides): Promise<[string]>;
+
+		hasClaimed(arg0: string, overrides?: CallOverrides): Promise<[boolean]>;
 
 		initialize(
 			_tokenOut: string,
@@ -214,13 +236,28 @@ export interface CitadelSale extends BaseContract {
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<ContractTransaction>;
 
+		setSaleDuration(
+			_saleDuration: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<ContractTransaction>;
+
+		setSaleRecipient(
+			_saleRecipient: string,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<ContractTransaction>;
+
+		setSaleStart(
+			_saleStart: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<ContractTransaction>;
+
 		setTokenInLimit(
-			_limitAmount: BigNumberish,
+			_tokenInLimit: BigNumberish,
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<ContractTransaction>;
 
 		setTokenOutPrice(
-			_price: BigNumberish,
+			_tokenOutPrice: BigNumberish,
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<ContractTransaction>;
 
@@ -239,13 +276,17 @@ export interface CitadelSale extends BaseContract {
 
 		totalTokenIn(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-		totalTokenOut(overrides?: CallOverrides): Promise<[BigNumber]>;
+		totalTokenOutBought(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+		totalTokenOutClaimed(overrides?: CallOverrides): Promise<[BigNumber]>;
 
 		transferOwnership(
 			newOwner: string,
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<ContractTransaction>;
 	};
+
+	boughtAmounts(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
 	buy(
 		_tokenInAmount: BigNumberish,
@@ -267,6 +308,8 @@ export interface CitadelSale extends BaseContract {
 	getTokenInLimitLeft(overrides?: CallOverrides): Promise<BigNumber>;
 
 	guestlist(overrides?: CallOverrides): Promise<string>;
+
+	hasClaimed(arg0: string, overrides?: CallOverrides): Promise<boolean>;
 
 	initialize(
 		_tokenOut: string,
@@ -297,13 +340,28 @@ export interface CitadelSale extends BaseContract {
 		overrides?: Overrides & { from?: string | Promise<string> },
 	): Promise<ContractTransaction>;
 
+	setSaleDuration(
+		_saleDuration: BigNumberish,
+		overrides?: Overrides & { from?: string | Promise<string> },
+	): Promise<ContractTransaction>;
+
+	setSaleRecipient(
+		_saleRecipient: string,
+		overrides?: Overrides & { from?: string | Promise<string> },
+	): Promise<ContractTransaction>;
+
+	setSaleStart(
+		_saleStart: BigNumberish,
+		overrides?: Overrides & { from?: string | Promise<string> },
+	): Promise<ContractTransaction>;
+
 	setTokenInLimit(
-		_limitAmount: BigNumberish,
+		_tokenInLimit: BigNumberish,
 		overrides?: Overrides & { from?: string | Promise<string> },
 	): Promise<ContractTransaction>;
 
 	setTokenOutPrice(
-		_price: BigNumberish,
+		_tokenOutPrice: BigNumberish,
 		overrides?: Overrides & { from?: string | Promise<string> },
 	): Promise<ContractTransaction>;
 
@@ -319,7 +377,9 @@ export interface CitadelSale extends BaseContract {
 
 	totalTokenIn(overrides?: CallOverrides): Promise<BigNumber>;
 
-	totalTokenOut(overrides?: CallOverrides): Promise<BigNumber>;
+	totalTokenOutBought(overrides?: CallOverrides): Promise<BigNumber>;
+
+	totalTokenOutClaimed(overrides?: CallOverrides): Promise<BigNumber>;
 
 	transferOwnership(
 		newOwner: string,
@@ -327,6 +387,8 @@ export interface CitadelSale extends BaseContract {
 	): Promise<ContractTransaction>;
 
 	callStatic: {
+		boughtAmounts(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
 		buy(
 			_tokenInAmount: BigNumberish,
 			_daoId: BigNumberish,
@@ -347,6 +409,8 @@ export interface CitadelSale extends BaseContract {
 		getTokenInLimitLeft(overrides?: CallOverrides): Promise<BigNumber>;
 
 		guestlist(overrides?: CallOverrides): Promise<string>;
+
+		hasClaimed(arg0: string, overrides?: CallOverrides): Promise<boolean>;
 
 		initialize(
 			_tokenOut: string,
@@ -374,9 +438,15 @@ export interface CitadelSale extends BaseContract {
 
 		setGuestlist(_guestlist: string, overrides?: CallOverrides): Promise<void>;
 
-		setTokenInLimit(_limitAmount: BigNumberish, overrides?: CallOverrides): Promise<void>;
+		setSaleDuration(_saleDuration: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
-		setTokenOutPrice(_price: BigNumberish, overrides?: CallOverrides): Promise<void>;
+		setSaleRecipient(_saleRecipient: string, overrides?: CallOverrides): Promise<void>;
+
+		setSaleStart(_saleStart: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+		setTokenInLimit(_tokenInLimit: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+		setTokenOutPrice(_tokenOutPrice: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
 		sweep(_token: string, overrides?: CallOverrides): Promise<void>;
 
@@ -390,7 +460,9 @@ export interface CitadelSale extends BaseContract {
 
 		totalTokenIn(overrides?: CallOverrides): Promise<BigNumber>;
 
-		totalTokenOut(overrides?: CallOverrides): Promise<BigNumber>;
+		totalTokenOutBought(overrides?: CallOverrides): Promise<BigNumber>;
+
+		totalTokenOutClaimed(overrides?: CallOverrides): Promise<BigNumber>;
 
 		transferOwnership(newOwner: string, overrides?: CallOverrides): Promise<void>;
 	};
@@ -413,6 +485,8 @@ export interface CitadelSale extends BaseContract {
 	};
 
 	estimateGas: {
+		boughtAmounts(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
 		buy(
 			_tokenInAmount: BigNumberish,
 			_daoId: BigNumberish,
@@ -433,6 +507,8 @@ export interface CitadelSale extends BaseContract {
 		getTokenInLimitLeft(overrides?: CallOverrides): Promise<BigNumber>;
 
 		guestlist(overrides?: CallOverrides): Promise<BigNumber>;
+
+		hasClaimed(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
 		initialize(
 			_tokenOut: string,
@@ -463,13 +539,28 @@ export interface CitadelSale extends BaseContract {
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<BigNumber>;
 
+		setSaleDuration(
+			_saleDuration: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<BigNumber>;
+
+		setSaleRecipient(
+			_saleRecipient: string,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<BigNumber>;
+
+		setSaleStart(
+			_saleStart: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<BigNumber>;
+
 		setTokenInLimit(
-			_limitAmount: BigNumberish,
+			_tokenInLimit: BigNumberish,
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<BigNumber>;
 
 		setTokenOutPrice(
-			_price: BigNumberish,
+			_tokenOutPrice: BigNumberish,
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<BigNumber>;
 
@@ -485,7 +576,9 @@ export interface CitadelSale extends BaseContract {
 
 		totalTokenIn(overrides?: CallOverrides): Promise<BigNumber>;
 
-		totalTokenOut(overrides?: CallOverrides): Promise<BigNumber>;
+		totalTokenOutBought(overrides?: CallOverrides): Promise<BigNumber>;
+
+		totalTokenOutClaimed(overrides?: CallOverrides): Promise<BigNumber>;
 
 		transferOwnership(
 			newOwner: string,
@@ -494,6 +587,8 @@ export interface CitadelSale extends BaseContract {
 	};
 
 	populateTransaction: {
+		boughtAmounts(arg0: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
 		buy(
 			_tokenInAmount: BigNumberish,
 			_daoId: BigNumberish,
@@ -514,6 +609,8 @@ export interface CitadelSale extends BaseContract {
 		getTokenInLimitLeft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
 		guestlist(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+		hasClaimed(arg0: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
 		initialize(
 			_tokenOut: string,
@@ -544,13 +641,28 @@ export interface CitadelSale extends BaseContract {
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<PopulatedTransaction>;
 
+		setSaleDuration(
+			_saleDuration: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<PopulatedTransaction>;
+
+		setSaleRecipient(
+			_saleRecipient: string,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<PopulatedTransaction>;
+
+		setSaleStart(
+			_saleStart: BigNumberish,
+			overrides?: Overrides & { from?: string | Promise<string> },
+		): Promise<PopulatedTransaction>;
+
 		setTokenInLimit(
-			_limitAmount: BigNumberish,
+			_tokenInLimit: BigNumberish,
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<PopulatedTransaction>;
 
 		setTokenOutPrice(
-			_price: BigNumberish,
+			_tokenOutPrice: BigNumberish,
 			overrides?: Overrides & { from?: string | Promise<string> },
 		): Promise<PopulatedTransaction>;
 
@@ -569,7 +681,9 @@ export interface CitadelSale extends BaseContract {
 
 		totalTokenIn(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		totalTokenOut(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+		totalTokenOutBought(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+		totalTokenOutClaimed(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
 		transferOwnership(
 			newOwner: string,

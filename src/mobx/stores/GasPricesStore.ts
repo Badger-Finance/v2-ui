@@ -15,9 +15,11 @@ class GasPricesStore {
 	constructor() {
 		this.gasNetworks = supportedNetworks.filter((network) => network.id !== NETWORK_IDS.LOCAL);
 		this.pricesCache = {};
-		this.apis = Object.fromEntries(this.gasNetworks.map((network) => {
-			return [network.symbol, new BadgerAPI(network.id)];
-		}));
+		this.apis = Object.fromEntries(
+			this.gasNetworks.map((network) => {
+				return [network.symbol, new BadgerAPI(network.id)];
+			}),
+		);
 
 		extendObservable(this, {
 			pricesCache: this.pricesCache,

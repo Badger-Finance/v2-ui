@@ -23,6 +23,7 @@ import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
 import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../../graphql/generated/badger';
 import { ExploitApproval } from '../model/account/exploit-approval';
+import { DEBUG } from 'config/environment';
 
 export default class UserStore {
 	private store: RootStore;
@@ -224,6 +225,7 @@ export default class UserStore {
 
 		this.loadingBalances = true;
 
+		console.log('Loading Balances...');
 		const cacheKey = `${network.symbol}-${address}`;
 
 		if (cached) {
@@ -249,8 +251,12 @@ export default class UserStore {
 				multicallCustomContractAddress: multicallContractAddress,
 			});
 
+			console.log(multicallRequests);
 			const multicallResults = await multicall.call(multicallRequests);
 			const requestResults = extractBalanceRequestResults(multicallResults);
+			if (DEBUG) {
+				console.log(requestResults);
+			}
 			const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
 			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedVaults);
 			const guestListRequests = createMulticallRequest(guestLists, ContractNamespaces.GuestList, queryAddress);
@@ -269,7 +275,7 @@ export default class UserStore {
 			this.setBalances(result);
 			this.loadingBalances = false;
 		} catch (err) {
-			console.error(err);
+			console.log(err);
 			this.loadingBalances = false;
 		}
 	});
