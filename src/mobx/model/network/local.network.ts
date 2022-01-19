@@ -36,7 +36,7 @@ export const localaults = toVaultConfig(localaultDefinitions);
 export const localRewards = [
 	{
 		address: LOCAL_DEPLOY.tokens.test,
-		decimals: 8,
+		decimals: 18,
 	},
 ];
 

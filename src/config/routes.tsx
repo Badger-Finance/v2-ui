@@ -68,6 +68,7 @@ const routes = {
 	citadel: new Route<RootStore, QueryParams>({
 		path: '/citadel',
 		component: <CitadelEarlyBonding />,
+		onEnter: (_route, _params, store) => store.bondStore.updateBonds(),
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
