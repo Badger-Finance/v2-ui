@@ -227,7 +227,8 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 					Bond {bondToken.symbol}
 				</Button>
 				<Typography variant="caption" className={classes.disclaimer}>
-					*CTDL will be claimable from the early bonding page once the event has completed. Tokens will not immediately appear in your wallet.
+					*CTDL will be claimable from the early bonding page once the event has completed. Tokens will not
+					immediately appear in your wallet.
 				</Typography>
 			</Paper>
 		</Modal>

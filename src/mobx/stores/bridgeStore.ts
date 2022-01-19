@@ -103,6 +103,8 @@ class BridgeStore {
 	// done is an optional callback to execute on completion.
 	public done!: () => void | null;
 	// Transaction history.
+	// disabled for new lint - out of scope
+	/* eslint-disable-next-line no-restricted-globals */
 	public history!: RenVMTransaction[];
 	/*
 	 * Errors stop the UI from progressing until the underlying
@@ -119,8 +121,12 @@ class BridgeStore {
 	 *   - initializing tx (persisting pre-open tx data)
 	 *   - commiting tx (persisting opened tx data)
 	 */
+	// disabled for new lint - out of scope
+	/* eslint-disable-next-line no-restricted-globals */
 	public error!: Error | null;
 	public loading!: boolean;
+	// disabled for new lint - out of scope
+	/* eslint-disable-next-line no-restricted-globals */
 	public status!: Status;
 
 	constructor(store: RootStore) {

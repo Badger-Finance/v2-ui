@@ -21,6 +21,8 @@ export abstract class Network {
 	readonly rpc: string;
 	readonly gasProviderUrl: string;
 	readonly explorer: string;
+	// disabled for new lint - out of scope
+	/* eslint-disable-next-line no-restricted-globals */
 	readonly name: string;
 	readonly symbol: ChainNetwork;
 	readonly id: number;

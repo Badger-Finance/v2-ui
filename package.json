@@ -103,6 +103,7 @@
 		]
 	},
 	"resolutions": {
-		"react-error-overlay": "6.0.9"
+		"react-error-overlay": "6.0.9",
+		"@typescript-eslint/typescript-estree": "5.9.0"
 	}
 }

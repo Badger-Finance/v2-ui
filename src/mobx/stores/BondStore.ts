@@ -28,8 +28,8 @@ export class BondStore {
 	}
 
 	async updateBonds() {
-	const { onboard } = this.store;
-	const { provider, address } = onboard;
+		const { onboard } = this.store;
+		const { provider, address } = onboard;
 		if (!provider || !address) {
 			return;
 		}
