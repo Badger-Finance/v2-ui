@@ -8,7 +8,7 @@ import { StoreContext } from 'mobx/store-context';
 import { VaultSortOrder } from '../../mobx/model/ui/vaults-filters';
 import VaultListFiltersWidget from '../common/VaultListFiltersWidget';
 
-export const NAME_COLUMN_MAX_WIDTH = '40%';
+export const NAME_COLUMN_MAX_WIDTH = '35%';
 export const INFORMATION_SECTION_MAX_WIDTH = '75%';
 
 const useStyles = makeStyles((theme) => ({

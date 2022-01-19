@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js';
 import { inCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { VaultActionButtons } from '../common/VaultActionButtons';
-import { VaultItemName } from './VaultItemName';
 import { VaultItemApr } from './VaultItemApr';
 import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
@@ -16,6 +15,8 @@ import { Vault, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
+import { getUserVaultBoost } from '../../utils/componentHelpers';
+import VaultBadge from './VaultBadge';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -60,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	itemText: {
 		fontSize: 16,
+		// marginBottom: 21,
 	},
 	tvl: {
 		[theme.breakpoints.down('md')]: {
@@ -97,6 +99,46 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: 'rgba(58, 58, 58, 1)',
 		cursor: 'pointer',
 	},
+	symbol: {
+		width: 24,
+		height: 24,
+		[theme.breakpoints.down('sm')]: {
+			marginRight: theme.spacing(2),
+		},
+	},
+	content: {
+		flexGrow: 0,
+		maxWidth: '9%',
+		flexBasis: '9%',
+	},
+	logoBadgeAligner: {
+		marginTop: -8,
+	},
+	badgeAligner: {
+		marginTop: 8,
+	},
+	thinFont: {
+		fontSize: 14,
+		fontWeight: 400,
+	},
+	vaultName: {
+		fontSize: 16,
+		'&:first-letter': {
+			textTransform: 'capitalize',
+		},
+	},
+	vaultNameMobile: {
+		marginTop: theme.spacing(1),
+	},
+	iconContainer: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+	},
+	badgeContainer: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+		marginTop: 8,
+	},
 }));
 
 export interface VaultListItemProps {
@@ -107,12 +149,12 @@ export interface VaultListItemProps {
 }
 
 const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: VaultListItemProps): JSX.Element => {
+	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const { user, network, router, onboard, vaults } = useContext(StoreContext);
 	const [openDepositDialog, setOpenDepositDialog] = useState(false);
 	const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
 
-	const classes = useStyles();
 	const badgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === vault?.vaultToken);
 
 	const depositBalanceDisplay = depositBalance.tokenBalance.gt(0)
@@ -127,11 +169,20 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	// sett is disabled if they are internal setts, or have a bouncer and use has no access
 	const isDisabled = !user.onGuestList(vault);
 
-	const goToVaultDetail = async () => {
-		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
-	};
-
 	const DepositModal = CustomDepositModal || VaultDeposit;
+
+	const vaultBoost = user.accountDetails?.boost ? getUserVaultBoost(vault, user.accountDetails.boost) : null;
+	const boostContribution = vaultBoost && vault.minApr ? Math.max(0, vaultBoost - vault.minApr) : null;
+	const Badge = VaultBadge({ state: vault.state });
+
+	const boostText =
+		vault.boost.enabled && vault.maxApr ? `🚀 Boosted (max. ${vault.maxApr.toFixed(2)}%)` : 'Non-boosted';
+
+	const vaultName = (
+		<Typography className={classes.vaultName}>
+			{vault.protocol} - {vault.name}
+		</Typography>
+	);
 
 	const vaultModals = badgerVault ? (
 		<>
@@ -150,12 +201,53 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		</>
 	) : null;
 
+	const goToVaultDetail = async () => {
+		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
+	};
+
 	if (isMobile) {
 		return (
 			<Grid container component={Card} className={classes.mobileContainer}>
 				<Grid container spacing={2} className={classes.nameAndAprMobile} onClick={goToVaultDetail}>
 					<Grid item xs={12}>
-						<VaultItemName vault={vault} boost={user.accountDetails?.boost} />
+						<Grid container>
+							<Grid container alignItems="center">
+								<img
+									alt={`Badger ${vault.name} Vault Symbol`}
+									className={classes.symbol}
+									src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
+								/>
+								{Badge}
+							</Grid>
+							<Grid container direction="column" className={classes.vaultNameMobile}>
+								<Grid item container spacing={2}>
+									<Grid item xs={7}>
+										{vaultName}
+									</Grid>
+									<Grid item xs>
+										<VaultItemApr vault={vault} multiplier={multiplier} boost={vaultBoost} />
+									</Grid>
+								</Grid>
+								<Grid item container spacing={2}>
+									<Grid item xs={7}>
+										<Typography variant="body1" className={classes.thinFont} color="textSecondary">
+											{boostText}
+										</Typography>
+									</Grid>
+									{!!boostContribution && (
+										<Grid item xs>
+											<Typography
+												variant="body1"
+												color="textSecondary"
+												className={classes.thinFont}
+											>
+												My Boost: {boostContribution.toFixed(2)}%
+											</Typography>
+										</Grid>
+									)}
+								</Grid>
+							</Grid>
+						</Grid>
 					</Grid>
 				</Grid>
 				<Divider className={classes.divider} />
@@ -209,34 +301,70 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 				<Grid
 					container
 					item
-					spacing={4}
 					xs={12}
-					md={9}
+					md={10}
 					lg
+					spacing={2}
 					className={classes.clickableSection}
 					onClick={goToVaultDetail}
 				>
-					<Grid item xs={12} md={6} lg className={classes.name} container>
-						<VaultItemName vault={vault} />
+					<Grid item xs container className={classes.content} alignItems="center">
+						<Grid item xs={12} className={classes.iconContainer}>
+							<img
+								alt={`Badger ${vault.name} Vault Symbol`}
+								className={clsx(classes.symbol, Badge && classes.logoBadgeAligner)}
+								src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
+							/>
+						</Grid>
+						{Badge && (
+							<Grid item xs={12} className={classes.badgeContainer}>
+								{Badge}
+							</Grid>
+						)}
 					</Grid>
-					<Grid item xs={12} md>
-						<VaultItemApr vault={vault} multiplier={multiplier} boost={user.accountDetails?.boost} />
-					</Grid>
-					<Grid item xs={12} md className={classes.tvl}>
-						<CurrencyDisplay
-							displayValue={inCurrency(new BigNumber(vault.value), vaults.vaultsFilters.currency, 0)}
-							variant="body1"
-							justifyContent="flex-start"
-							TypographyProps={{ className: classes.itemText }}
-						/>
-					</Grid>
-					<Grid item xs={12} md>
-						<CurrencyDisplay
-							displayValue={depositBalanceDisplay}
-							variant="body1"
-							justifyContent="flex-start"
-							TypographyProps={{ className: classes.itemText }}
-						/>
+					<Grid item container xs>
+						<Grid item container spacing={3} xs={12}>
+							<Grid item xs={12} md={5} lg className={classes.name} container>
+								{vaultName}
+							</Grid>
+							<Grid item xs={12} md>
+								<VaultItemApr vault={vault} multiplier={multiplier} boost={vaultBoost} />
+							</Grid>
+							<Grid item xs={12} md className={classes.tvl}>
+								<CurrencyDisplay
+									displayValue={inCurrency(
+										new BigNumber(vault.value),
+										vaults.vaultsFilters.currency,
+										0,
+									)}
+									variant="body1"
+									justifyContent="flex-start"
+									TypographyProps={{ className: classes.itemText }}
+								/>
+							</Grid>
+							<Grid item xs={12} md>
+								<CurrencyDisplay
+									displayValue={depositBalanceDisplay}
+									variant="body1"
+									justifyContent="flex-start"
+									TypographyProps={{ className: classes.itemText }}
+								/>
+							</Grid>
+						</Grid>
+						<Grid item container spacing={4} xs={12}>
+							<Grid item xs={12} md={5} lg className={classes.name} container>
+								<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
+									{boostText}
+								</Typography>
+							</Grid>
+							<Grid item xs={12} md>
+								{boostContribution && (
+									<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
+										My Boost: {boostContribution.toFixed(2)}%
+									</Typography>
+								)}
+							</Grid>
+						</Grid>
 					</Grid>
 				</Grid>
 				<Grid item xs={12} md className={classes.nonClickableSection}>

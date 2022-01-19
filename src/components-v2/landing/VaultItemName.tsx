@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 		padding: '10.5px',
 	},
 	nameContainer: {
-		height: 34,
 		display: 'flex',
 		flexDirection: 'column-reverse',
 	},
@@ -50,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 14,
 	},
 	thinFont: {
+		fontSize: 14,
 		fontWeight: 400,
 	},
 	vaultNameMobile: {
@@ -130,7 +130,7 @@ export const VaultItemName = ({ vault, boost }: Props): JSX.Element => {
 		<Grid container alignItems="center" className={classes.rootContainerLarge}>
 			<Grid item xs="auto" className={classes.vaultIcon}>
 				{vaultIcon}
-				<span className={classes.tagDesktop}>{Badge}</span>
+				{Badge && <span className={classes.tagDesktop}>{Badge}</span>}
 			</Grid>
 			<Grid item xs className={classes.nameAndBoostContainer}>
 				<div className={classes.nameContainer}>{vaultName}</div>
