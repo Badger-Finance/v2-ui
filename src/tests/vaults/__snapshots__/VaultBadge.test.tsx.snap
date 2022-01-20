@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VaultTag "deprecated" Vaults 1`] = `
+<div>
+  <div
+    class="MuiChip-root-6 makeStyles-tag-1 makeStyles-deprecatedTag-3 MuiChip-sizeSmall-7"
+  >
+    <span
+      class="MuiChip-label-28 MuiChip-labelSmall-29"
+    >
+      Expiring
+    </span>
+  </div>
+</div>
+`;
+
+exports[`VaultTag "experimental" Vaults 1`] = `
+<div>
+  <div
+    class="MuiChip-root-6 makeStyles-tag-1 makeStyles-experimentalTag-4 MuiChip-sizeSmall-7"
+  >
+    <span
+      class="MuiChip-label-28 MuiChip-labelSmall-29"
+    >
+      Trial Run
+    </span>
+  </div>
+</div>
+`;
+
+exports[`VaultTag "guarded" Vaults 1`] = `
+<div>
+  <div
+    class="MuiChip-root-6 makeStyles-tag-1 makeStyles-experimentalTag-4 MuiChip-sizeSmall-7"
+  >
+    <span
+      class="MuiChip-label-28 MuiChip-labelSmall-29"
+    >
+      Trial Run
+    </span>
+  </div>
+</div>
+`;
+
+exports[`VaultTag "new" Vaults 1`] = `
+<div>
+  <div
+    class="MuiChip-root-6 makeStyles-tag-1 makeStyles-newTag-2 MuiChip-sizeSmall-7"
+  >
+    <span
+      class="MuiChip-label-28 MuiChip-labelSmall-29"
+    >
+      <div
+        class="MuiBox-root-36 MuiBox-root-37"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root-38 makeStyles-starIcon-5 MuiSvgIcon-fontSizeInherit-44"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+          />
+        </svg>
+         New
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`VaultTag "open" Vaults 1`] = `<div />`;

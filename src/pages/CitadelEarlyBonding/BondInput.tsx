@@ -1,8 +1,9 @@
-import React, { useState, Fragment, useEffect } from 'react';
-import { Box, ButtonBase, Divider, Grid, TextField, Typography } from '@material-ui/core';
+import React, { useState, Fragment } from 'react';
+import { Box, ButtonBase, Divider, Grid, Typography } from '@material-ui/core';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { makeStyles } from '@material-ui/core/styles';
+import { AmountTextField } from 'components-v2/common/dialogs/styled';
 
 interface Props {
 	tokenBalance: TokenBalance;
@@ -11,8 +12,8 @@ interface Props {
 
 const useStyles = makeStyles((theme) => ({
 	inputContainer: {
-		marginTop: theme.spacing(2),
-		marginBottom: theme.spacing(2),
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1),
 	},
 	percentagesContainer: {
 		display: 'flex',
@@ -22,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	input: {
 		textAlign: 'end',
-		background: 'white',
 		borderRadius: '10px',
 	},
 	balances: {
@@ -32,8 +32,13 @@ const useStyles = makeStyles((theme) => ({
 
 const BondInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 	const { balance, price, token } = tokenBalance;
-	const [inputValue, setInputValue] = useState(balance.toString());
-	const { inputProps, onValidChange } = useNumericInput(12, 'black', false);
+	const [inputValue, setInputValue] = useState('0');
+	const { inputProps, onValidChange } = useNumericInput({
+		fontSize: '16px',
+		lineHeight: '25px',
+		fontWeight: 'bold',
+		letterSpacing: '0.25px',
+	});
 	const classes = useStyles();
 
 	const handleInputChange = (amount: string) => {
@@ -48,13 +53,9 @@ const BondInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 		);
 	};
 
-	useEffect(() => {
-		setInputValue(tokenBalance.balance.toString());
-	}, [tokenBalance]);
-
 	return (
 		<div className={classes.inputContainer}>
-			<TextField
+			<AmountTextField
 				fullWidth
 				inputProps={inputProps}
 				className={classes.input}

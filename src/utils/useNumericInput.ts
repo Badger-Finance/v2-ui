@@ -37,7 +37,7 @@ function isValidChange(input: string): boolean {
  * Utility hook that returns in a headless fashion all the props required to have an input with numeric validation.
  * @return {NumericInputProps} input props
  */
-export const useNumericInput = (fontSize?: number, color?: string, alignRight = true): NumericInputProps => {
+export const useNumericInput = (styles?: CSSProperties): NumericInputProps => {
 	const onValidChange = (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => {
 		// replace commas with periods
 		const input = (event.target.value as string).replace(/,/g, '.');
@@ -57,14 +57,8 @@ export const useNumericInput = (fontSize?: number, color?: string, alignRight = 
 			maxLength: 79,
 			spellCheck: false,
 			style: {
-				textAlign: alignRight ? 'right' : 'left',
-				...(fontSize && {
-					fontSize: fontSize,
-					padding: `${fontSize + 2}px`,
-				}),
-				...(color && {
-					color: color,
-				}),
+				textAlign: 'right',
+				...styles,
 			},
 		},
 		onValidChange,

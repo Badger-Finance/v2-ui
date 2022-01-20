@@ -6,143 +6,147 @@ exports[`Vault List Header renders correctly 1`] = `
     class="MuiGrid-root-14 makeStyles-root-9 MuiGrid-container-15 MuiGrid-item-16"
   >
     <div
-      class="MuiGrid-root-14 makeStyles-titlesContainer-10 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-9-85 MuiGrid-grid-lg-true-90"
+      class="MuiGrid-root-14 makeStyles-titlesContainer-10 MuiGrid-container-15 MuiGrid-spacing-xs-2-38 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-10-86 MuiGrid-grid-lg-true-90"
     >
       <div
-        class="MuiGrid-root-14 makeStyles-title-1 makeStyles-nameColumn-7 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-6-82 MuiGrid-grid-lg-true-90"
+        class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-spacing-xs-2-38 MuiGrid-item-16 MuiGrid-grid-xs-true-48"
       >
-        <p
-          class="MuiTypography-root-117 makeStyles-title-1 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+        <div
+          class="MuiGrid-root-14 makeStyles-title-1 makeStyles-nameColumn-7 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-true-90"
         >
-          All Setts
-        </p>
-        <img
-          alt="List description"
-          class="makeStyles-sortInfoIcon-3"
-          color="primary"
-          src="/assets/icons/vault-sort-info.svg"
-          title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-        />
-      </div>
-      <div
-        class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
-      >
-        <p
-          class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
-        >
-          APR
-        </p>
-        <img
-          alt="What is APR?"
-          class="makeStyles-sortInfoIcon-3"
-          color="primary"
-          src="/assets/icons/vault-sort-info.svg"
-          title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-        />
-        <button
-          aria-label="sort descending by APR"
-          class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label-166"
+          <p
+            class="MuiTypography-root-117 makeStyles-title-1 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root-222"
+            All Setts
+          </p>
+          <img
+            alt="List description"
+            class="makeStyles-sortInfoIcon-3"
+            color="primary"
+            src="/assets/icons/vault-sort-info.svg"
+            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
           />
-        </button>
-      </div>
-      <div
-        class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 makeStyles-tvlColumn-8 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
-      >
-        <p
-          class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+        </div>
+        <div
+          class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
         >
-          TVL
-        </p>
-        <img
-          alt="What is TVL?"
-          class="makeStyles-sortInfoIcon-3"
-          color="primary"
-          src="/assets/icons/vault-sort-info.svg"
-          title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-        />
-        <button
-          aria-label="sort descending by TVL"
-          class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label-166"
+          <p
+            class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root-222"
+            APR
+          </p>
+          <img
+            alt="What is APR?"
+            class="makeStyles-sortInfoIcon-3"
+            color="primary"
+            src="/assets/icons/vault-sort-info.svg"
+            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
           />
-        </button>
-      </div>
-      <div
-        class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
-      >
-        <p
-          class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
-        >
-          MY DEPOSITS
-        </p>
-        <img
-          alt="What represent My Deposits?"
-          class="makeStyles-sortInfoIcon-3"
-          color="primary"
-          src="/assets/icons/vault-sort-info.svg"
-          title="It represents the dollar value of all assets, you deposited in each vault."
-        />
-        <button
-          aria-label="sort ascending by balance"
-          class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiIconButton-label-166"
+          <button
+            aria-label="sort descending by APR"
+            class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
+            tabindex="0"
+            type="button"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <span
+              class="MuiIconButton-label-166"
             >
-              <path
-                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root-222"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-222"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 makeStyles-tvlColumn-8 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
+        >
+          <p
+            class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+          >
+            TVL
+          </p>
+          <img
+            alt="What is TVL?"
+            class="makeStyles-sortInfoIcon-3"
+            color="primary"
+            src="/assets/icons/vault-sort-info.svg"
+            title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
           />
-        </button>
+          <button
+            aria-label="sort descending by TVL"
+            class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label-166"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-222"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiGrid-root-14 makeStyles-title-1 makeStyles-columnTitle-6 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-align-items-xs-center-23 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
+        >
+          <p
+            class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+          >
+            MY DEPOSITS
+          </p>
+          <img
+            alt="What represent My Deposits?"
+            class="makeStyles-sortInfoIcon-3"
+            color="primary"
+            src="/assets/icons/vault-sort-info.svg"
+            title="Represents the dollar value of all assets you deposited in each vault"
+          />
+          <button
+            aria-label="sort ascending by balance"
+            class="MuiButtonBase-root-167 MuiIconButton-root-158 makeStyles-sortIcon-2"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label-166"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-170 MuiSvgIcon-colorPrimary-171"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-222"
+            />
+          </button>
+        </div>
       </div>
     </div>
     <div

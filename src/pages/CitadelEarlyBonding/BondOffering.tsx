@@ -1,9 +1,14 @@
-import { Typography, makeStyles, Card, Paper, Button } from '@material-ui/core';
+import { Typography, makeStyles, Card, Paper, Button, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { IBond } from './bonds.config';
+import { useContext } from 'react';
+import { CitadelBond, SaleStatus } from './bonds.config';
 import clsx from 'clsx';
-import BondPricing from './BondPricing';
+import BondPricing, { EarlyBondMetric } from './BondPricing';
+import { StoreContext } from 'mobx/store-context';
+import { inCurrency } from 'mobx/utils/helpers';
+import BigNumber from 'bignumber.js';
+import { Currency } from 'config/enums/currency.enum';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const useStyles = makeStyles((theme) => ({
 	cardSplash: {
@@ -59,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 	pending: {
 		backgroundColor: '#FF7C33',
 	},
-	opened: {
+	open: {
 		backgroundColor: '#66BB6A',
 	},
 	closed: {
@@ -68,59 +73,87 @@ const useStyles = makeStyles((theme) => ({
 	bondButton: {
 		width: '100%',
 	},
+	bondPricing: {
+		marginBottom: theme.spacing(3),
+	},
 }));
 
 interface BondOfferingProps {
-	bond: IBond;
-	select: (bond: IBond) => void;
+	bond: CitadelBond;
+	select: (bond: CitadelBond) => void;
+	status: SaleStatus;
 }
 
-enum SaleStatus {
-	Pending = 'Pending',
-	Opened = 'Opened',
-	Closed = 'Closed',
-}
+const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX.Element => {
+	const { prices, user, bondStore } = useContext(StoreContext);
+	const { purchasedTokens, purchasedTokensValue, purchasedBonds, purchasedBondsValue } = bondStore.getBondInfo(bond);
+	const { bondToken, claimed } = bond;
 
-const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element => {
-	const { token, address } = bond;
+	// const bondTokenPrice = prices.getPrice(bond.address);
+	const bondTokenPrice = prices.getPrice(ETH_DEPLOY.tokens.wBTC);
+	const bondTokenBalance = user.getTokenBalance(bond.address);
 	const classes = useStyles();
 
-	const status = Date.now() % 3 ? SaleStatus.Opened : SaleStatus.Pending;
 	const bondStatusIconClass =
-		status === SaleStatus.Pending
-			? classes.pending
-			: status === SaleStatus.Opened
-			? classes.opened
-			: classes.closed;
-	const tokenName = token.toLowerCase();
+		status === SaleStatus.Pending ? classes.pending : status === SaleStatus.Open ? classes.open : classes.closed;
+	const tokenName = bondToken.symbol.toLowerCase();
+
+	const buttonText = status === SaleStatus.Closed ? 'Claim' : `Bond ${bondToken.symbol}`;
+	const cannotBond = status === SaleStatus.Open && bondTokenBalance.tokenBalance.eq(0);
+	const cannotClaim = status === SaleStatus.Closed && (claimed || purchasedTokens === 0);
+
+	// TODO: Add loading of user data (beneficiary whitelist) for distabled check
 	return (
 		<Card component={Paper}>
-			<img className={classes.cardSplash} src={`/assets/img/bond-${tokenName}.png`} alt={`${token}`} />
+			<img className={classes.cardSplash} src={`/assets/img/bond-${tokenName}.png`} alt={`${bondToken.name}`} />
 			<div className={classes.bondContent}>
 				<div className={classes.bondTitle}>
 					<img
 						src={`/assets/icons/${tokenName}.png`}
 						className={classes.bondIcon}
-						alt={`${token}`}
+						alt={`${bondToken.name}`}
 						width={23}
 						height={23}
 					/>
-					<Typography variant="body1">{token} Bond</Typography>
+					<Typography variant="body1">{bondToken.name} Bond</Typography>
 					<div className={classes.bondStatus}>
 						<Typography variant="caption" className={clsx(classes.bondStatusIcon, bondStatusIconClass)}>
 							{status}
 						</Typography>
 					</div>
 				</div>
-				<BondPricing token={token} tokenAddress={address} />
+				<div className={classes.bondPricing}>
+					<BondPricing bond={bond} />
+					<Grid container spacing={2}>
+						<Grid item xs={6}>
+							<EarlyBondMetric
+								metric="Your Tokens"
+								value={`${purchasedTokens.toFixed(2)} CTDL`}
+								subvalue={inCurrency(new BigNumber(purchasedTokensValue), Currency.USD)}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<EarlyBondMetric
+								metric="Total Bonded"
+								value={`${purchasedBonds.toFixed(2)} ${bondToken.symbol}`}
+								subvalue={inCurrency(purchasedBondsValue, Currency.USD)}
+							/>
+						</Grid>
+					</Grid>
+				</div>
 				<Button
-					onClick={() => select(bond)}
+					onClick={() => {
+						if (status === SaleStatus.Open) {
+							select(bond);
+						} else if (status === SaleStatus.Closed) {
+						}
+					}}
 					variant="contained"
 					color="primary"
 					className={classes.bondButton}
-					disabled={status !== SaleStatus.Opened}
+					disabled={cannotBond || cannotClaim}
 				>
-					Bond
+					{buttonText}
 				</Button>
 			</div>
 		</Card>

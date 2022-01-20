@@ -72,10 +72,9 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 		[currencyIcon, displayValue] = currencyValue.split('.png');
 	}
 
-	const available = vaults.availableBalances[vault.vaultToken];
-
 	const [showMore, setShowMore] = useState(true);
 	const expandText = showMore ? 'Hide' : 'Show More';
+	const available = vaults.availableBalances[vault.vaultToken];
 
 	return (
 		<Grid container className={classes.root}>
@@ -102,10 +101,12 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 						tokens per share
 					</Typography>
 				</div>
-				{vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available && (
+				{vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available !== undefined && (
 					<div className={classes.submetric}>
 						<Typography variant="body1" className={classes.submetricValue}>
 							{available.balanceDisplay(5)}
+							{/* TODO: replace w/ api values once available */}
+							{/* vault.available.toFixed(4) */}
 						</Typography>
 						<Typography variant="caption" className={classes.submetricType}>
 							tokens withdrawable

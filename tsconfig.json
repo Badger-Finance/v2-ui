@@ -14,13 +14,14 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "react",
+		"jsx": "react-jsx",
 		"noImplicitAny": true,
 		"noImplicitThis": true,
 		"strictNullChecks": true,
 		"noFallthroughCasesInSwitch": true,
 		"experimentalDecorators": true,
-		"downlevelIteration": true
+		"downlevelIteration": true,
+		"useUnknownInCatchVariables": false
 	},
 	"include": ["src"]
 }

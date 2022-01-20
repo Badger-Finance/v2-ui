@@ -42,6 +42,7 @@ import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.j
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { Network } from '@badger-dao/sdk';
+import { DEBUG } from 'config/environment';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -558,7 +559,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 			if (swapRatio >= 1) return 0;
 			return 1 - swapRatio;
 		} catch (err) {
-			queueNotification(`WARNING: Failed to estimate slippage (${err.message})`, 'error');
+			if (DEBUG) {
+				console.error(err);
+			}
+			queueNotification(`WARNING: Failed to estimate slippage`, 'error');
 			return 0;
 		}
 	};
