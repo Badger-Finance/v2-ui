@@ -18,7 +18,8 @@ const getVaultChartInformationEndpoint = `${BADGER_API}/charts`;
 // api function calls
 
 export const fetchClaimProof = async (address: string, chain = Network.Ethereum): Promise<RewardMerkleClaim | null> => {
-	return fetchData(() => fetch(`${getClaimProofEndpoint}/${address}?chain=${chain}`));
+	const fetchChain = chain === Network.Local ? Network.Ethereum : chain;
+	return fetchData(() => fetch(`${getClaimProofEndpoint}/${address}?chain=${fetchChain}`));
 };
 
 export const fetchVaultChartInformation = async ({

@@ -1,6 +1,7 @@
 {
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
+		"files": ["*.ts", "*.tsx"], // Your TypeScript files extension
 		"project": "tsconfig.json",
 		"sourceType": "module"
 	},

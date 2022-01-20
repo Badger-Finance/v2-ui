@@ -15,12 +15,11 @@ import {
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import CloseIcon from '@material-ui/icons/Close';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import BondInput from './BondInput';
 import BondPricing, { EarlyBondMetric } from './BondPricing';
-import { Beneficiary, IBond } from './bonds.config';
+import { Beneficiary, CitadelBond } from './bonds.config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { bondToCitadel } from './bonds.utils';
 
 const useStyles = makeStyles((theme) => ({
 	modalContainer: {
@@ -84,37 +83,48 @@ const useStyles = makeStyles((theme) => ({
 	disclaimer: {
 		color: '#A6A4A2',
 	},
+	mintedOutput: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginTop: theme.spacing(3),
+	},
+	grayText: {
+		color: '#C3C3C3',
+	},
 }));
 
 interface BondModalProps {
-	bond: IBond | null;
+	bond: CitadelBond | null;
 	qualifications: Beneficiary[];
 	clear: () => void;
 }
 
 const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JSX.Element | null => {
+	const { bondStore } = useContext(StoreContext);
 	const classes = useStyles();
 
 	// TODO: Set a beneficiary they are able to use
 	const [bondAmount, setBondAmount] = useState<TokenBalance | null>(null);
-	const [beneficiary, setBeneficiary] = useState<Beneficiary | null>(null);
+	const [beneficiary, setBeneficiary] = useState<string>('');
 
 	if (bond === null) {
 		return null;
 	}
 
-	const { token, address, bondType } = bond;
-	const tokenName = token.toLowerCase();
+	const { address, bondToken, bondType } = bond;
+	const { tokenRatio } = bondStore.getBondInfo(bond);
+	const tokenName = bondToken.symbol.toLowerCase();
 	const store = useContext(StoreContext);
 	const bondTokenBalance = store.user.getTokenBalance(address);
-
 	const importantPricing = qualifications.length > 4 || qualifications.length === 0;
+
+	const outputAmount = bondAmount ? bondAmount.balance.times(tokenRatio) : 0;
 
 	return (
 		<Modal
 			open={bond !== null}
 			onClose={() => {
-				setBeneficiary(null);
+				setBeneficiary('');
 				clear();
 			}}
 			className={classes.modalContainer}
@@ -127,14 +137,19 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 		>
 			<Paper className={classes.bondingPaper}>
 				<div className={classes.bondHeader}>
-					<img src={`/assets/icons/${tokenName}.png`} alt={`${tokenName}`} width={35} height={35} />
+					<img
+						src={`/assets/icons/${bondToken.symbol.toLowerCase()}.png`}
+						alt={`${tokenName}`}
+						width={35}
+						height={35}
+					/>
 					<img src={`/assets/icons/citadel.svg`} className={classes.citadelIcon} alt="Citadel" />
 					<div>
-						<Typography variant="caption" align="left">
+						<Typography className={classes.grayText} variant="caption" align="left">
 							{bondType} Bond
 						</Typography>
 						<Typography variant="h5" align="left">
-							{token} Bond
+							{bondToken.symbol} Bond
 						</Typography>
 					</div>
 					<IconButton className={classes.closeButton} onClick={() => clear()}>
@@ -142,11 +157,11 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 					</IconButton>
 				</div>
 				<Typography variant="body2">
-					This bond allows users to buy CTDL from the protocol in exchange for {token}.
+					This bond allows users to buy CTDL from the protocol in exchange for {bondToken.name}.
 				</Typography>
 				<Grid container spacing={2} className={classes.pricingContainer}>
 					<Grid item xs={12} sm={importantPricing ? 12 : 8}>
-						<BondPricing token={token} tokenAddress={address} />
+						<BondPricing bond={bond} />
 					</Grid>
 					<Grid item xs={12} sm={importantPricing ? 12 : 4}>
 						<EarlyBondMetric metric="Qualifying Lists" value={qualifications.join(', ')} />
@@ -156,6 +171,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 				<FormControl fullWidth>
 					<Select
 						className={classes.selectContainer}
+						placeholder={'Select beneficiary'}
 						value={beneficiary}
 						variant="outlined"
 						MenuProps={{
@@ -190,7 +206,14 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 					</Select>
 				</FormControl>
 				<BondInput tokenBalance={bondTokenBalance} onChange={(balance) => setBondAmount(balance)} />
+				<div className={classes.mintedOutput}>
+					<Typography className={classes.grayText} variant="body2">
+						Minted CTDL:
+					</Typography>
+					<Typography variant="body2">{outputAmount.toFixed(bondToken.decimals)} CTDL</Typography>
+				</div>
 				<Button
+					disabled={beneficiary === '' || bondAmount?.tokenBalance.eq(0)}
 					variant="contained"
 					color="primary"
 					className={classes.bondButton}
@@ -198,14 +221,14 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 						if (!bondAmount) {
 							return;
 						}
-						bondToCitadel(bond, bondAmount);
+						bondStore.bond(bond, bondAmount, beneficiary as Beneficiary);
 					}}
 				>
-					Bond {token}
+					Bond {bondToken.symbol}
 				</Button>
 				<Typography variant="caption" className={classes.disclaimer}>
-					*sCTDL will be available in your wallet upon bonding, however will not be active until Citadel
-					opening at {new Date().toLocaleString()}.
+					*CTDL will be claimable from the early bonding page once the event has completed. Tokens will not
+					immediately appear in your wallet.
 				</Typography>
 			</Paper>
 		</Modal>

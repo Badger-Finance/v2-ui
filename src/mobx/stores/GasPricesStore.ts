@@ -1,28 +1,35 @@
-import { RootStore } from '../RootStore';
 import { BadgerAPI, Network, GasPrices } from '@badger-dao/sdk';
 import { GasPricesSummary } from '../model/network/gas-prices-summary';
 import { supportedNetworks } from '../../config/networks.config';
 import { extendObservable } from 'mobx';
-import { ONE_MIN_MS } from '../../config/constants';
-import { BADGER_API } from 'mobx/utils/apiV2';
+import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
+import { Network as BadgerNetwork } from '../../mobx/model/network/network';
+import { RootStore } from 'mobx/RootStore';
+
+type BadgerApis = { [network: string]: BadgerAPI };
 
 class GasPricesStore {
-	private store: RootStore;
+	private apis: BadgerApis;
+	private gasNetworks: BadgerNetwork[];
 	private pricesCache: GasPricesSummary;
 
-	constructor(store: RootStore) {
-		this.store = store;
+	constructor(private store: RootStore) {
+		this.gasNetworks = supportedNetworks.filter((network) => network.id !== NETWORK_IDS.LOCAL);
 		this.pricesCache = {};
+		this.apis = Object.fromEntries(
+			this.gasNetworks.map((network) => {
+				return [network.symbol, new BadgerAPI(network.id)];
+			}),
+		);
 
 		extendObservable(this, {
 			pricesCache: this.pricesCache,
 		});
 
-		this.init();
-
 		setInterval(async () => {
-			await this.init();
+			this.pricesCache = await this.updateGasPrices();
 		}, ONE_MIN_MS / 2);
+		this.updateGasPrices();
 	}
 
 	get initialized(): boolean {
@@ -33,22 +40,18 @@ class GasPricesStore {
 		return this.pricesCache[network];
 	}
 
-	async init(): Promise<void> {
+	async updateGasPrices(): Promise<GasPricesSummary> {
 		const pricesCache: GasPricesSummary = {};
 
-		// TODO: add support for multichain in the BadgerAPI an implement it here
 		const networkPrices = await Promise.all(
-			supportedNetworks.map((network) => {
-				const api = new BadgerAPI(network.id, BADGER_API);
-				return api.loadGasPrices();
-			}),
+			this.gasNetworks.map((network) => this.apis[network.symbol].loadGasPrices()),
 		);
 
 		for (let i = 0; i < networkPrices.length; i++) {
 			pricesCache[supportedNetworks[i].symbol] = networkPrices[i];
 		}
 
-		this.pricesCache = pricesCache;
+		return pricesCache;
 	}
 }
 

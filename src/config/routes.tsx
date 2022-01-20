@@ -13,7 +13,6 @@ import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
 import { Box, Link, Typography } from '@material-ui/core';
-import { FLAGS } from './environment';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -66,11 +65,10 @@ const routes = {
 		component: <IbBTC />,
 		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
 	}),
-	...(FLAGS.CITADEL_SALE && {
-		citadel: new Route<RootStore, QueryParams>({
-			path: '/citadel',
-			component: <CitadelEarlyBonding />,
-		}),
+	citadel: new Route<RootStore, QueryParams>({
+		path: '/citadel',
+		component: <CitadelEarlyBonding />,
+		onEnter: (_route, _params, store) => store.bondStore.updateBonds(),
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
