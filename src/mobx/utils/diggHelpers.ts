@@ -99,6 +99,7 @@ export const getRebaseLogs = async (provider: provider, network: NetworkModel): 
 	const contractInstance = new web3.eth.Contract(policy.abi as AbiItem[], policy.contractAddress);
 	const currentBlock = await web3.eth.getBlockNumber();
 	const events = await contractInstance.getPastEvents('LogRebase', {
+		// 10k is the maximum queryable block amount wrt log queryies @jintao
 		fromBlock: (currentBlock - 10_000).toFixed(),
 		toBlock: (currentBlock - 1).toFixed(),
 	});
