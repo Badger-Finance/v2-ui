@@ -5,11 +5,9 @@ import { VaultItemApr } from '../../components-v2/landing/VaultItemApr';
 import { customRender, fireEvent, screen } from '../Utils';
 import store from '../../mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-import * as ComponentHelpers from '../../utils/componentHelpers';
 
 const boostedVault: Vault = {
 	name: 'ibBTC / crvsBTC LP',
-	newVault: true,
 	asset: 'crvibBTC',
 	vaultAsset: 'bcrvibBTC',
 	state: VaultState.Open,
@@ -114,7 +112,6 @@ const boostedVault: Vault = {
 
 const normalVault: Vault = {
 	name: 'Badger',
-	newVault: false,
 	asset: 'Badger',
 	vaultAsset: 'bBadger',
 	state: VaultState.Open,
@@ -168,7 +165,7 @@ const normalVault: Vault = {
 describe('VaultItemApr', () => {
 	describe('No APR Vaults', () => {
 		it('renders zero APR', () => {
-			checkSnapshot(<VaultItemApr vault={{ ...normalVault, apr: 0 }} />);
+			checkSnapshot(<VaultItemApr boost={null} vault={{ ...normalVault, apr: 0 }} />);
 		});
 	});
 
@@ -176,18 +173,14 @@ describe('VaultItemApr', () => {
 		const sampleMultiplier = 0.020652602960278606;
 		const mockUserBoost = 10;
 
-		beforeEach(() => {
-			jest.spyOn(ComponentHelpers, 'getUserVaultBoost').mockReturnValue(mockUserBoost);
-		});
-
 		it('displays correct APR and boost information', () => {
-			checkSnapshot(<VaultItemApr vault={boostedVault} boost={1} multiplier={sampleMultiplier} />);
+			checkSnapshot(<VaultItemApr vault={boostedVault} boost={mockUserBoost} multiplier={sampleMultiplier} />);
 		});
 
 		it('displays APR breakdown on hover', async () => {
 			const { container } = customRender(
 				<StoreProvider value={store}>
-					<VaultItemApr vault={boostedVault} boost={1} multiplier={sampleMultiplier} />
+					<VaultItemApr vault={boostedVault} boost={mockUserBoost} multiplier={sampleMultiplier} />
 				</StoreProvider>,
 			);
 
@@ -199,13 +192,13 @@ describe('VaultItemApr', () => {
 
 	describe('Non-Boosted Vaults', () => {
 		it('displays correct APR and boost information', () => {
-			checkSnapshot(<VaultItemApr vault={normalVault} />);
+			checkSnapshot(<VaultItemApr boost={null} vault={normalVault} />);
 		});
 
 		it('displays APR breakdown on hover', async () => {
 			const { container } = customRender(
 				<StoreProvider value={store}>
-					<VaultItemApr vault={normalVault} />
+					<VaultItemApr boost={null} vault={normalVault} />
 				</StoreProvider>,
 			);
 
