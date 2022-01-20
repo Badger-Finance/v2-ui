@@ -1,4 +1,4 @@
-import { action, extendObservable } from 'mobx';
+import { action, computed, extendObservable } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import Web3 from 'web3';
@@ -13,6 +13,11 @@ import { Currency, Network, ProtocolSummary, TokenConfiguration, Vault, VaultSta
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
 import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import { Currency as UiCurrency } from '../../config/enums/currency.enum';
+import BigNumber from 'bignumber.js';
+import { ContractCallReturnContext } from 'ethereum-multicall';
+import { parseCallReturnContext } from 'mobx/utils/multicall';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const formatVaultListItem = (vault: Vault): [string, string] => {
 	const sanitizedVaultName = vault.name.replace(/\/+/g, '-'); // replace "/" with "-"
@@ -28,6 +33,7 @@ export default class VaultStore {
 	private slugCache: VaultSlugCache;
 	private protocolSummaryCache: ProtocolSummaryCache;
 	public protocolTokens: Set<string>;
+	public availableBalances: TokenBalances = {};
 	public initialized: boolean;
 	public showVaultFilters: boolean;
 	public vaultsFilters: VaultsFilters;
@@ -41,6 +47,7 @@ export default class VaultStore {
 			settCache: undefined,
 			priceCache: undefined,
 			initialized: false,
+			availableBalances: this.availableBalances,
 			vaultsFilters: {},
 			showVaultFilters: false,
 		});
@@ -300,6 +307,30 @@ export default class VaultStore {
 		} else {
 			this.protocolSummaryCache[chain] = null;
 		}
+	});	
+	
+	updateAvailableBalance = action((returnContext: ContractCallReturnContext): void => {
+		const { prices } = this.store;
+		const settAddress = returnContext.originalContractCallContext.contractAddress;
+		const vault = parseCallReturnContext(returnContext.callsReturnContext);
+		if (!vault.available) {
+			return;
+		}
+		const balanceResults = vault.available[0];
+		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
+			return;
+		}
+		const settToken = this.getToken(settAddress);
+		if (!settToken) {
+			return;
+		}
+		const balance = new BigNumber(balanceResults[0].hex);
+		if (!balance || balance.isNaN()) {
+			return;
+		}
+		const tokenPrice = prices.getPrice(settAddress);
+		const key = Web3.utils.toChecksumAddress(settAddress);
+		this.availableBalances[key] = new TokenBalance(settToken, balance, tokenPrice);
 	});
 
 	clearFilters = action(() => {
