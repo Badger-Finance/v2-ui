@@ -21,6 +21,8 @@ export abstract class Network {
 	readonly rpc: string;
 	readonly gasProviderUrl: string;
 	readonly explorer: string;
+	// disabled for new lint - out of scope
+	/* eslint-disable-next-line no-restricted-globals */
 	readonly name: string;
 	readonly symbol: ChainNetwork;
 	readonly id: number;
@@ -108,6 +110,9 @@ export abstract class Network {
 				tokenAddresses.push(token);
 			}
 		}
+		// TODO: REMOVE LOCAL CITADEL TEST BALANCES (FORK NET)
+		tokenAddresses.push('0x1f10F3Ba7ACB61b2F50B9d6DdCf91a6f787C0E82');
+		tokenAddresses.push('0x525C7063E7C20997BaaE9bDa922159152D0e8417');
 		return createBalancesRequest({
 			tokenAddresses,
 			generalVaultAddresses,

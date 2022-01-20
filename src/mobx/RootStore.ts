@@ -25,6 +25,7 @@ import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config
 import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
+import BondStore from './stores/BondStore';
 
 export class RootStore {
 	public api: BadgerAPI;
@@ -47,6 +48,7 @@ export class RootStore {
 	public vaultCharts: VaultChartsStore;
 	public lockedCvxDelegation: LockedCvxDelegationStore;
 	public gasPrices: GasPricesStore;
+	public bondStore: BondStore;
 
 	constructor() {
 		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
@@ -71,6 +73,7 @@ export class RootStore {
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
 		this.gasPrices = new GasPricesStore(this);
 		this.ibBTCStore = new IbBTCStore(this);
+		this.bondStore = new BondStore(this);
 	}
 
 	async updateNetwork(network: number): Promise<void> {
@@ -117,12 +120,16 @@ export class RootStore {
 				this.user.checkApprovalVulnerabilities(address),
 			];
 
-			if (network.id === NETWORK_IDS.ETH) {
+			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
 				updateActions.push(this.airdrops.fetchAirdrops());
 
 				// handle per page reloads, when init route is skipped
 				if (this.router.currentPath === routes.IbBTC.path) {
 					updateActions.push(this.ibBTCStore.init());
+				}
+
+				if (this.router.currentPath === routes.citadel.path) {
+					updateActions.push(this.bondStore.updateBonds());
 				}
 			}
 

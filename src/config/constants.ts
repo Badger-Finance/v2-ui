@@ -52,6 +52,7 @@ export const RPC_WALLETS: { [index: string]: boolean } = {
 
 export enum NETWORK_IDS {
 	ETH = 1,
+	LOCAL = 1337,
 	BSC = 56,
 	MATIC = 137,
 	XDAI = 100,

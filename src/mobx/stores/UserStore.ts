@@ -269,7 +269,7 @@ export default class UserStore {
 			this.setBalances(result);
 			this.loadingBalances = false;
 		} catch (err) {
-			console.error(err);
+			console.log(err);
 			this.loadingBalances = false;
 		}
 	});
