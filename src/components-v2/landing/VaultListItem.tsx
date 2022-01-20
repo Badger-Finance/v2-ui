@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	itemText: {
 		fontSize: 16,
-		// marginBottom: 21,
 	},
 	tvl: {
 		[theme.breakpoints.down('md')]: {
@@ -106,16 +105,12 @@ const useStyles = makeStyles((theme) => ({
 			marginRight: theme.spacing(2),
 		},
 	},
-	content: {
-		flexGrow: 0,
-		maxWidth: '9%',
-		flexBasis: '9%',
+	symbolWithBadge: {
+		marginTop: theme.spacing(-1),
 	},
-	logoBadgeAligner: {
-		marginTop: -8,
-	},
-	badgeAligner: {
-		marginTop: 8,
+	iconBadgeContainer: {
+		width: 80,
+		alignSelf: 'stretch',
 	},
 	thinFont: {
 		fontSize: 14,
@@ -133,6 +128,7 @@ const useStyles = makeStyles((theme) => ({
 	iconContainer: {
 		display: 'flex',
 		justifyContent: 'flex-end',
+		alignItems: 'center',
 	},
 	badgeContainer: {
 		display: 'flex',
@@ -155,25 +151,27 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	const [openDepositDialog, setOpenDepositDialog] = useState(false);
 	const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
 
-	const badgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === vault?.vaultToken);
+	const goToVaultDetail = async () => {
+		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
+	};
+
+	const badgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === vault.vaultToken);
+	const vaultBoost = user.accountDetails?.boost ? getUserVaultBoost(vault, user.accountDetails.boost) : null;
+	const boostContribution = vaultBoost && vault.minApr ? Math.max(0, vaultBoost - vault.minApr) : null;
+
+	const multiplier =
+		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
 
 	const depositBalanceDisplay = depositBalance.tokenBalance.gt(0)
 		? depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency)
 		: `${currencyConfiguration[vaults.vaultsFilters.currency].prefix}-`;
 
-	const canWithdraw = depositBalance.tokenBalance.gt(0);
-
-	const multiplier =
-		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
-
 	// sett is disabled if they are internal setts, or have a bouncer and use has no access
 	const isDisabled = !user.onGuestList(vault);
+	const canWithdraw = depositBalance.tokenBalance.gt(0);
 
-	const DepositModal = CustomDepositModal || VaultDeposit;
-
-	const vaultBoost = user.accountDetails?.boost ? getUserVaultBoost(vault, user.accountDetails.boost) : null;
-	const boostContribution = vaultBoost && vault.minApr ? Math.max(0, vaultBoost - vault.minApr) : null;
 	const Badge = VaultBadge({ state: vault.state });
+	const DepositModal = CustomDepositModal || VaultDeposit;
 
 	const boostText =
 		vault.boost.enabled && vault.maxApr ? `🚀 Boosted (max. ${vault.maxApr.toFixed(2)}%)` : 'Non-boosted';
@@ -200,10 +198,6 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 			/>
 		</>
 	) : null;
-
-	const goToVaultDetail = async () => {
-		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
-	};
 
 	if (isMobile) {
 		return (
@@ -308,22 +302,29 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 					className={classes.clickableSection}
 					onClick={goToVaultDetail}
 				>
-					<Grid item xs container className={classes.content} alignItems="center">
-						<Grid item xs={12} className={classes.iconContainer}>
+					<Grid
+						item
+						xs="auto"
+						container
+						direction="column"
+						justifyContent={!!Badge ? 'space-between' : 'center'}
+						className={classes.iconBadgeContainer}
+					>
+						<Grid item xs className={classes.iconContainer}>
 							<img
 								alt={`Badger ${vault.name} Vault Symbol`}
-								className={clsx(classes.symbol, Badge && classes.logoBadgeAligner)}
+								className={clsx(classes.symbol, !!Badge && classes.symbolWithBadge)}
 								src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
 							/>
 						</Grid>
-						{Badge && (
-							<Grid item xs={12} className={classes.badgeContainer}>
+						{!!Badge && (
+							<Grid item xs="auto" container justifyContent="flex-end">
 								{Badge}
 							</Grid>
 						)}
 					</Grid>
 					<Grid item container xs>
-						<Grid item container spacing={3} xs={12}>
+						<Grid item container spacing={2} xs={12}>
 							<Grid item xs={12} md={5} lg className={classes.name} container>
 								{vaultName}
 							</Grid>
@@ -351,13 +352,13 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								/>
 							</Grid>
 						</Grid>
-						<Grid item container spacing={4} xs={12}>
+						<Grid item container spacing={2} xs={12}>
 							<Grid item xs={12} md={5} lg className={classes.name} container>
 								<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
 									{boostText}
 								</Typography>
 							</Grid>
-							<Grid item xs={12} md>
+							<Grid item xs={12} md={7}>
 								{boostContribution && (
 									<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
 										My Boost: {boostContribution.toFixed(2)}%
