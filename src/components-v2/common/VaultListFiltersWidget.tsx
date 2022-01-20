@@ -56,8 +56,12 @@ const VaultListFiltersWidget = (): JSX.Element => {
 
 	return (
 		<>
-			<Grid container justifyContent="flex-end" alignItems="center" onClick={toggleShowDialog}>
-				<IconButton className={classes.filterButton} aria-label="Open Vaults Filters">
+			<Grid container justifyContent="flex-end" alignItems="center">
+				<IconButton
+					className={classes.filterButton}
+					aria-label="Open Vaults Filters"
+					onClick={toggleShowDialog}
+				>
 					<img src="/assets/icons/vault-filters.svg" alt="vault filters" />
 				</IconButton>
 				{!!vaults.vaultsFiltersCount && (
