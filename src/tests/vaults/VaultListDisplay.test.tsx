@@ -190,7 +190,7 @@ describe('VaultListDisplay', () => {
 	});
 
 	it('does not display deprecated vaults with no user balance', () => {
-		const vaults = [...SAMPLE_VAULTS].splice(1, 2);
+		const vaults = [...SAMPLE_VAULTS].splice(0, 1);
 		vaults[0].state = VaultState.Deprecated;
 
 		jest.spyOn(defaultNetwork, 'settOrder', 'get').mockReturnValue(vaults.map((vault) => vault.vaultToken));
