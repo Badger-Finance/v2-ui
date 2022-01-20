@@ -7,6 +7,7 @@ export type ParsedCallReturn = Record<string, CallReturnContext['returnValues'][
 
 export function getChainMulticallContract(network: Network): string {
 	switch (network) {
+		case Network.Local:
 		case Network.Ethereum:
 			return '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696';
 		case Network.Polygon:
