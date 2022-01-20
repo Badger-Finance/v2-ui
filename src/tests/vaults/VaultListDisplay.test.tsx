@@ -90,7 +90,7 @@ describe('VaultListDisplay', () => {
 
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<VaultListDisplay state={VaultState.Open} />
+				<VaultListDisplay />
 			</StoreProvider>,
 		);
 
@@ -103,7 +103,7 @@ describe('VaultListDisplay', () => {
 	it('can change currency', () => {
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<VaultListDisplay state={VaultState.Open} />
+				<VaultListDisplay />
 			</StoreProvider>,
 		);
 
@@ -116,7 +116,7 @@ describe('VaultListDisplay', () => {
 	it('can apply protocol filters', () => {
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<VaultListDisplay state={VaultState.Open} />
+				<VaultListDisplay />
 			</StoreProvider>,
 		);
 
@@ -131,7 +131,7 @@ describe('VaultListDisplay', () => {
 	it('can apply token type filters', () => {
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<VaultListDisplay state={VaultState.Open} />
+				<VaultListDisplay />
 			</StoreProvider>,
 		);
 
@@ -145,7 +145,7 @@ describe('VaultListDisplay', () => {
 	it('can clear filters', () => {
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<VaultListDisplay state={VaultState.Open} />
+				<VaultListDisplay />
 			</StoreProvider>,
 		);
 
@@ -178,13 +178,39 @@ describe('VaultListDisplay', () => {
 
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<VaultListDisplay state={VaultState.Open} />
+				<VaultListDisplay />
 			</StoreProvider>,
 		);
 
 		fireEvent.click(screen.getByLabelText('Open Vaults Filters'));
 		fireEvent.click(screen.getByRole('checkbox', { name: 'Boosted Tokens' }));
 		fireEvent.click(screen.getByRole('button', { name: 'Apply Filters' }));
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('does not display deprecated vaults with no user balance', () => {
+		const vaults = [...SAMPLE_VAULTS].splice(1, 2);
+		vaults[0].state = VaultState.Deprecated;
+
+		jest.spyOn(defaultNetwork, 'settOrder', 'get').mockReturnValue(vaults.map((vault) => vault.vaultToken));
+
+		Object.defineProperty(defaultNetwork, 'vaults', {
+			value: vaults.map((vault) => ({
+				depositToken: { address: vault.underlyingToken, decimals: 18 },
+				vaultToken: { address: vault.vaultToken, decimals: 18 },
+			})),
+		});
+
+		store.vaults.getVaultMap = jest
+			.fn()
+			.mockReturnValue(Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])));
+
+		const { container } = customRender(
+			<StoreProvider value={store}>
+				<VaultListDisplay />
+			</StoreProvider>,
+		);
 
 		expect(container).toMatchSnapshot();
 	});
