@@ -1,46 +1,62 @@
 import React from 'react';
 import { Box, Chip, makeStyles } from '@material-ui/core';
-import { Vault } from '@badger-dao/sdk';
+import { VaultState } from '@badger-dao/sdk';
 import { Star } from '@material-ui/icons';
+import clsx from 'clsx';
 
 interface VaultBadgeProps {
-	vault: Vault;
+	state: VaultState;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
+	tag: {
+		fontSize: '12px',
+		alignItems: 'center',
+		height: 19,
+		fontWeight: 700,
+		paddingBottom: 2,
+	},
 	newTag: {
 		background: 'white',
-		fontSize: '12px',
-		fontWeight: 700,
-		alignItems: 'center',
 		color: 'black',
-		marginTop: theme.spacing(1),
-		height: 19,
+	},
+	deprecatedTag: {
+		color: '#FF0303',
+		backgroundColor: '#FDCDCD',
+	},
+	experimentalTag: {
+		background: 'black',
+		color: 'white',
 	},
 	starIcon: {
 		marginRight: 2,
 	},
-}));
+});
 
-const VaultBadge = ({ vault }: VaultBadgeProps): JSX.Element | null => {
+const VaultBadge = ({ state }: VaultBadgeProps): JSX.Element | null => {
 	const classes = useStyles();
 
-	if (vault.newVault) {
-		return (
-			<Chip
-				label={
-					<Box display="flex" alignItems="center">
-						<Star className={classes.starIcon} fontSize="inherit" /> New
-					</Box>
-				}
-				className={classes.newTag}
-				size="small"
-			/>
-		);
+	switch (state) {
+		case VaultState.New:
+			return (
+				<Chip
+					label={
+						<Box display="flex" alignItems="center">
+							<Star className={classes.starIcon} fontSize="inherit" /> New
+						</Box>
+					}
+					className={clsx(classes.tag, classes.newTag)}
+					size="small"
+				/>
+			);
+		case VaultState.Experimental:
+		case VaultState.Guarded:
+			return <Chip className={clsx(classes.tag, classes.experimentalTag)} size="small" label="Trial Run" />;
+		case VaultState.Deprecated:
+			return <Chip className={clsx(classes.tag, classes.deprecatedTag)} size="small" label="Expiring" />;
+		default:
+			return null;
 	}
-
-	//TODO: figure out new badges states
-	return null;
 };
 
 export default VaultBadge;

@@ -38,7 +38,6 @@ export const SAMPLE_SETT: Vault = {
 		enabled: false,
 		weight: 0,
 	},
-	newVault: false,
 	name: 'Curve.fi renBTC/wBTC/sBTC',
 	protocol: Protocol.Curve,
 	pricePerFullShare: 1.0082389531413567,
@@ -172,7 +171,6 @@ export const SAMPLE_TOKEN_BALANCE = new TokenBalance(
 export const SAMPLE_VAULTS: Vault[] = [
 	{
 		name: 'ibBTC / crvsBTC LP',
-		newVault: true,
 		asset: 'crvibBTC',
 		vaultAsset: 'bcrvibBTC',
 		state: VaultState.Open,
@@ -276,7 +274,6 @@ export const SAMPLE_VAULTS: Vault[] = [
 	},
 	{
 		name: 'Badger',
-		newVault: false,
 		asset: 'Badger',
 		vaultAsset: 'bBadger',
 		state: VaultState.Open,
@@ -328,7 +325,6 @@ export const SAMPLE_VAULTS: Vault[] = [
 	},
 	{
 		name: 'Digg',
-		newVault: false,
 		asset: 'DIGG',
 		vaultAsset: 'bDIGG',
 		state: VaultState.Open,
