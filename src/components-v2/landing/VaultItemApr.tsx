@@ -1,10 +1,8 @@
 import React from 'react';
-import { Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import { Tooltip, Typography } from '@material-ui/core';
 import VaultItemRoiTooltip from './VaultItemRoiTooltip';
 import { makeStyles } from '@material-ui/core/styles';
 import { Vault } from '@badger-dao/sdk';
-import { getUserVaultBoost } from '../../utils/componentHelpers';
-import clsx from 'clsx';
 
 const useStyles = makeStyles({
 	apr: {
@@ -15,57 +13,22 @@ const useStyles = makeStyles({
 		fontWeight: 400,
 		cursor: 'default',
 	},
-	nonBoostedMobileApr: {
-		marginBottom: 21,
-	},
 });
 
 interface Props {
 	vault: Vault;
+	boost: number | null;
 	isDisabled?: boolean;
 	multiplier?: number;
-	boost?: number;
 }
 
 export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element => {
 	const classes = useStyles();
-	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-	const vaultBoost = boost ? getUserVaultBoost(vault, boost) : undefined;
 
 	if (!vault.apr) {
 		return (
-			<Typography
-				className={clsx(classes.apr, isMobile && classes.nonBoostedMobileApr)}
-				variant="body1"
-				color={'textPrimary'}
-			>
+			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
 				0%
-			</Typography>
-		);
-	}
-
-	let vaultApr: JSX.Element;
-
-	if (vaultBoost && vault.minApr) {
-		const boostContribution = Math.max(0, vaultBoost - vault.minApr);
-		vaultApr = (
-			<div>
-				<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
-					{`${vaultBoost.toFixed(2)}%`}
-				</Typography>
-				<Typography variant="body1" color="textSecondary" className={classes.boost}>
-					My Boost: {boostContribution.toFixed(2)}%
-				</Typography>
-			</div>
-		);
-	} else {
-		vaultApr = (
-			<Typography
-				className={clsx(classes.apr, isMobile && classes.nonBoostedMobileApr)}
-				variant="body1"
-				color={'textPrimary'}
-			>
-				{`${vault.apr.toFixed(2)}%`}
 			</Typography>
 		);
 	}
@@ -85,7 +48,9 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 			// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
 			id={`${vault.name} apr breakdown`}
 		>
-			{vaultApr}
+			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
+				{`${(boost || vault.apr).toFixed(2)}%`}
+			</Typography>
 		</Tooltip>
 	);
 };

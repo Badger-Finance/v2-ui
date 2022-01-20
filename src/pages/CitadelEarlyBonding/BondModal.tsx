@@ -1,10 +1,26 @@
-import { Modal, Paper, Backdrop, makeStyles, Typography, Button } from '@material-ui/core';
+import {
+	Modal,
+	Paper,
+	Backdrop,
+	makeStyles,
+	Typography,
+	Button,
+	Divider,
+	IconButton,
+	FormControl,
+	MenuItem,
+	Select,
+	Grid,
+} from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import React, { useContext } from 'react';
+import CloseIcon from '@material-ui/icons/Close';
+import React, { useContext, useState } from 'react';
 import BondInput from './BondInput';
-import BondPricing from './BondPricing';
-import { IBond } from './bonds.config';
+import BondPricing, { EarlyBondMetric } from './BondPricing';
+import { Beneficiary, IBond } from './bonds.config';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { bondToCitadel } from './bonds.utils';
 
 const useStyles = makeStyles((theme) => ({
 	modalContainer: {
@@ -16,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
 			marginLeft: theme.spacing(2),
 			marginRight: theme.spacing(2),
 		},
+	},
+	closeButton: {
+		marginLeft: 'auto',
 	},
 	bondingPaper: {
 		maxWidth: '570px',
@@ -29,8 +48,11 @@ const useStyles = makeStyles((theme) => ({
 			maxWidth: '398px',
 		},
 	},
-	bondIcon: {
-		marginRight: theme.spacing(2),
+	citadelIcon: {
+		display: 'flex',
+		height: '85px',
+		marginLeft: theme.spacing(-3),
+		marginBottom: theme.spacing(0.75),
 	},
 	bondHeader: {
 		display: 'flex',
@@ -40,35 +62,61 @@ const useStyles = makeStyles((theme) => ({
 	bondButton: {
 		width: '100%',
 		marginBottom: theme.spacing(1.5),
+		marginTop: theme.spacing(3),
 	},
 	pricingContainer: {
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(3),
+	},
+	beneficiaryItem: {
 		display: 'flex',
-		flexGrow: 1,
-		alignContent: 'flex-end',
-		marginTop: theme.spacing(1),
-		marginBottom: theme.spacing(-2),
+		alignItems: 'center',
+		color: '#C3C3C3',
+	},
+	beneficiaryIcon: {
+		marginLeft: theme.spacing(0.5),
+		marginRight: theme.spacing(1.5),
+	},
+	selectContainer: {
+		borderRadius: '10px',
+		marginTop: theme.spacing(4),
+	},
+	disclaimer: {
+		color: '#A6A4A2',
 	},
 }));
 
 interface BondModalProps {
 	bond: IBond | null;
+	qualifications: Beneficiary[];
 	clear: () => void;
 }
 
-const BondModal = observer(({ bond, clear }: BondModalProps): JSX.Element | null => {
+const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JSX.Element | null => {
 	const classes = useStyles();
+
+	// TODO: Set a beneficiary they are able to use
+	const [bondAmount, setBondAmount] = useState<TokenBalance | null>(null);
+	const [beneficiary, setBeneficiary] = useState<Beneficiary | null>(null);
+
 	if (bond === null) {
 		return null;
 	}
-	const { token, address } = bond;
+
+	const { token, address, bondType } = bond;
 	const tokenName = token.toLowerCase();
 	const store = useContext(StoreContext);
 	const bondTokenBalance = store.user.getTokenBalance(address);
 
+	const importantPricing = qualifications.length > 4 || qualifications.length === 0;
+
 	return (
 		<Modal
 			open={bond !== null}
-			onClose={() => clear()}
+			onClose={() => {
+				setBeneficiary(null);
+				clear();
+			}}
 			className={classes.modalContainer}
 			BackdropComponent={Backdrop}
 			BackdropProps={{
@@ -79,29 +127,84 @@ const BondModal = observer(({ bond, clear }: BondModalProps): JSX.Element | null
 		>
 			<Paper className={classes.bondingPaper}>
 				<div className={classes.bondHeader}>
-					<img
-						src={`/assets/icons/${tokenName}.png`}
-						className={classes.bondIcon}
-						alt=""
-						width={23}
-						height={23}
-					/>
-					<Typography variant="body1" align="left">
-						{token} Bond
-					</Typography>
+					<img src={`/assets/icons/${tokenName}.png`} alt={`${tokenName}`} width={35} height={35} />
+					<img src={`/assets/icons/citadel.svg`} className={classes.citadelIcon} alt="Citadel" />
+					<div>
+						<Typography variant="caption" align="left">
+							{bondType} Bond
+						</Typography>
+						<Typography variant="h5" align="left">
+							{token} Bond
+						</Typography>
+					</div>
+					<IconButton className={classes.closeButton} onClick={() => clear()}>
+						<CloseIcon />
+					</IconButton>
 				</div>
-				<div className={classes.pricingContainer}>
-					<BondPricing token={token} tokenAddress={address} />
-				</div>
-				<Typography variant="caption">
+				<Typography variant="body2">
 					This bond allows users to buy CTDL from the protocol in exchange for {token}.
 				</Typography>
-				<BondInput tokenBalance={bondTokenBalance} onChange={(balance) => {}} />
-				<Button variant="contained" color="primary" className={classes.bondButton}>
-					Bond
+				<Grid container spacing={2} className={classes.pricingContainer}>
+					<Grid item xs={12} sm={importantPricing ? 12 : 8}>
+						<BondPricing token={token} tokenAddress={address} />
+					</Grid>
+					<Grid item xs={12} sm={importantPricing ? 12 : 4}>
+						<EarlyBondMetric metric="Qualifying Lists" value={qualifications.join(', ')} />
+					</Grid>
+				</Grid>
+				<Divider />
+				<FormControl fullWidth>
+					<Select
+						className={classes.selectContainer}
+						value={beneficiary}
+						variant="outlined"
+						MenuProps={{
+							anchorOrigin: {
+								vertical: 'bottom',
+								horizontal: 'left',
+							},
+							transformOrigin: {
+								vertical: 'top',
+								horizontal: 'left',
+							},
+							getContentAnchorEl: null,
+						}}
+						onChange={(event) => setBeneficiary(event.target.value as Beneficiary)}
+					>
+						{Object.keys(Beneficiary).map((beneficiary, i) => (
+							<MenuItem key={i} value={beneficiary}>
+								<div className={classes.beneficiaryItem}>
+									<img
+										src={`/assets/icons/${beneficiary.toLowerCase()}.png`}
+										alt={`${tokenName}`}
+										width={23}
+										height={23}
+										className={classes.beneficiaryIcon}
+									/>
+									<Typography variant="body1" align="left">
+										{beneficiary}
+									</Typography>
+								</div>
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl>
+				<BondInput tokenBalance={bondTokenBalance} onChange={(balance) => setBondAmount(balance)} />
+				<Button
+					variant="contained"
+					color="primary"
+					className={classes.bondButton}
+					onClick={() => {
+						if (!bondAmount) {
+							return;
+						}
+						bondToCitadel(bond, bondAmount);
+					}}
+				>
+					Bond {token}
 				</Button>
-				<Typography variant="caption">
-					sCTDL will be available in your wallet upon bonding, however will not be active until Citadel
+				<Typography variant="caption" className={classes.disclaimer}>
+					*sCTDL will be available in your wallet upon bonding, however will not be active until Citadel
 					opening at {new Date().toLocaleString()}.
 				</Typography>
 			</Paper>

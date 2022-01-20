@@ -1,7 +1,7 @@
 import { Typography, makeStyles, Card, Paper, Button } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { IBond } from './bonds.config';
+import { IBond, SaleStatus } from './bonds.config';
 import clsx from 'clsx';
 import BondPricing from './BondPricing';
 
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 	pending: {
 		backgroundColor: '#FF7C33',
 	},
-	opened: {
+	open: {
 		backgroundColor: '#66BB6A',
 	},
 	closed: {
@@ -68,31 +68,26 @@ const useStyles = makeStyles((theme) => ({
 	bondButton: {
 		width: '100%',
 	},
+	bondPricing: {
+		marginBottom: theme.spacing(3),
+	},
 }));
 
 interface BondOfferingProps {
 	bond: IBond;
 	select: (bond: IBond) => void;
+	status: SaleStatus;
 }
 
-enum SaleStatus {
-	Pending = 'Pending',
-	Opened = 'Opened',
-	Closed = 'Closed',
-}
-
-const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element => {
+const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX.Element => {
 	const { token, address } = bond;
 	const classes = useStyles();
 
-	const status = Date.now() % 3 ? SaleStatus.Opened : SaleStatus.Pending;
 	const bondStatusIconClass =
-		status === SaleStatus.Pending
-			? classes.pending
-			: status === SaleStatus.Opened
-			? classes.opened
-			: classes.closed;
+		status === SaleStatus.Pending ? classes.pending : status === SaleStatus.Open ? classes.open : classes.closed;
 	const tokenName = token.toLowerCase();
+
+	// TODO: Add loading of user data (beneficiary whitelist) for distabled check
 	return (
 		<Card component={Paper}>
 			<img className={classes.cardSplash} src={`/assets/img/bond-${tokenName}.png`} alt={`${token}`} />
@@ -112,13 +107,15 @@ const BondOffering = observer(({ bond, select }: BondOfferingProps): JSX.Element
 						</Typography>
 					</div>
 				</div>
-				<BondPricing token={token} tokenAddress={address} />
+				<div className={classes.bondPricing}>
+					<BondPricing token={token} tokenAddress={address} />
+				</div>
 				<Button
 					onClick={() => select(bond)}
 					variant="contained"
 					color="primary"
 					className={classes.bondButton}
-					disabled={status !== SaleStatus.Opened}
+					disabled={status !== SaleStatus.Open}
 				>
 					Bond
 				</Button>
