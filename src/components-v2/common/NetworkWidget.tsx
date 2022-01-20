@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const networkAbbreviationBySymbol: Record<ChainNetworkSymbol, string> = {
+	[ChainNetworkSymbol.Local]: 'ETH',
 	[ChainNetworkSymbol.Ethereum]: 'ETH',
 	[ChainNetworkSymbol.BinanceSmartChain]: 'BSC',
 	[ChainNetworkSymbol.Arbitrum]: 'ARBITRUM',

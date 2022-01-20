@@ -7,6 +7,7 @@ export function setupMockAPI(): void {
 			type: VaultType.Standard,
 			apr: 1.28046491065017,
 			asset: 'crvrenWBTC',
+			available: 473.60121685437,
 			balance: 473.60121685437,
 			boost: {
 				enabled: false,
@@ -67,6 +68,7 @@ export function setupMockAPI(): void {
 			type: VaultType.Standard,
 			apr: 278.946597358605,
 			asset: 'BADGER-WBTC',
+			available: 473.60121685437,
 			balance: 0.0378818139342264,
 			boost: {
 				enabled: false,
@@ -127,6 +129,7 @@ export function setupMockAPI(): void {
 			type: VaultType.Standard,
 			apr: 8.02482905107376,
 			asset: 'SLP-WBTC-ETH',
+			available: 473.60121685437,
 			balance: 0.000544739337494635,
 			newVault: false,
 			boost: {
@@ -189,6 +192,7 @@ export function setupMockAPI(): void {
 			type: VaultType.Standard,
 			apr: 12.1488615485636,
 			asset: 'DIGG',
+			available: 473.60121685437,
 			balance: 230.614422202,
 			newVault: false,
 			boost: {
@@ -241,6 +245,7 @@ export function setupMockAPI(): void {
 			type: VaultType.Standard,
 			apr: 0,
 			asset: 'BADGER',
+			available: 473.60121685437,
 			balance: 3207364.24255943,
 			newVault: false,
 			boost: {
@@ -278,6 +283,7 @@ export function setupMockAPI(): void {
 			type: VaultType.Standard,
 			apr: 2.65777115288197,
 			asset: 'WBTC',
+			available: 473.60121685437,
 			balance: 1914.31703991,
 			boost: {
 				enabled: false,
@@ -332,6 +338,7 @@ export function setupMockAPI(): void {
 			type: VaultType.Standard,
 			apr: 177.284923726919,
 			asset: 'imBTC',
+			available: 473.60121685437,
 			balance: 362.480168846736,
 			newVault: false,
 			boost: {

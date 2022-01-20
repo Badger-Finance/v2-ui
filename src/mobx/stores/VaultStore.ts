@@ -9,12 +9,8 @@ import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-ca
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { VaultMap } from '../model/vaults/vault-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
-import BigNumber from 'bignumber.js';
-import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { Currency, Network, ProtocolSummary, TokenConfiguration, Vault, VaultState } from '@badger-dao/sdk';
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
-import { parseCallReturnContext } from '../utils/multicall';
-import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import { Currency as UiCurrency } from '../../config/enums/currency.enum';
 
@@ -33,7 +29,6 @@ export default class VaultStore {
 	private protocolSummaryCache: ProtocolSummaryCache;
 	public protocolTokens: Set<string>;
 	public initialized: boolean;
-	public availableBalances: TokenBalances = {};
 	public showVaultFilters: boolean;
 	public vaultsFilters: VaultsFilters;
 
@@ -46,7 +41,6 @@ export default class VaultStore {
 			settCache: undefined,
 			priceCache: undefined,
 			initialized: false,
-			availableBalances: this.availableBalances,
 			vaultsFilters: {},
 			showVaultFilters: false,
 		});
@@ -307,30 +301,6 @@ export default class VaultStore {
 			this.protocolSummaryCache[chain] = null;
 		}
 	});
-
-	updateAvailableBalance = (returnContext: ContractCallReturnContext): void => {
-		const { prices } = this.store;
-		const settAddress = returnContext.originalContractCallContext.contractAddress;
-		const vault = parseCallReturnContext(returnContext.callsReturnContext);
-		if (!vault.available) {
-			return;
-		}
-		const balanceResults = vault.available[0];
-		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
-			return;
-		}
-		const settToken = this.getToken(settAddress);
-		if (!settToken) {
-			return;
-		}
-		const balance = new BigNumber(balanceResults[0].value);
-		if (!balance || balance.isNaN()) {
-			return;
-		}
-		const tokenPrice = prices.getPrice(settAddress);
-		const key = Web3.utils.toChecksumAddress(settAddress);
-		this.availableBalances[key] = new TokenBalance(settToken, balance, tokenPrice);
-	};
 
 	clearFilters = action(() => {
 		this.vaultsFilters = {
