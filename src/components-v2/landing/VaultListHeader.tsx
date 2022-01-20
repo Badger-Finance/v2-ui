@@ -8,7 +8,6 @@ import { StoreContext } from 'mobx/store-context';
 import { VaultSortOrder } from '../../mobx/model/ui/vaults-filters';
 import VaultListFiltersWidget from '../common/VaultListFiltersWidget';
 
-export const NAME_COLUMN_MAX_WIDTH = '35%';
 export const INFORMATION_SECTION_MAX_WIDTH = '75%';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
 		textTransform: 'uppercase',
 	},
 	sortIcon: {
-		padding: theme.spacing(0.5),
+		padding: 0,
+		paddingLeft: 2,
 	},
 	sortInfoIcon: {
 		marginLeft: 10,
@@ -31,16 +31,9 @@ const useStyles = makeStyles((theme) => ({
 		opacity: 0.5,
 	},
 	columnTitle: {
+		flexWrap: 'nowrap',
 		'&:hover button:first-of-type': {
 			display: 'block',
-		},
-	},
-	nameColumn: {
-		display: 'flex',
-		[theme.breakpoints.up('lg')]: {
-			flexGrow: 0,
-			maxWidth: NAME_COLUMN_MAX_WIDTH,
-			flexBasis: NAME_COLUMN_MAX_WIDTH,
 		},
 	},
 	tvlColumn: {
@@ -214,15 +207,7 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 					className={classes.titlesContainer}
 				>
 					<Grid item xs container spacing={2}>
-						<Grid
-							item
-							xs={12}
-							md={5}
-							lg
-							container
-							alignItems="center"
-							className={clsx(classes.title, classes.nameColumn)}
-						>
+						<Grid item xs={12} md={6} lg={4} container alignItems="center" className={clsx(classes.title)}>
 							<Typography className={classes.title} variant="body2" color="textSecondary">
 								{title}
 							</Typography>

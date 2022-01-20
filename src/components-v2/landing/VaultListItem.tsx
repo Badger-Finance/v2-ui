@@ -14,7 +14,7 @@ import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
 import { Vault, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
-import { NAME_COLUMN_MAX_WIDTH, INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
+import { INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
 import VaultBadge from './VaultBadge';
 
@@ -38,13 +38,6 @@ const useStyles = makeStyles((theme) => ({
 		paddingRight: theme.spacing(2),
 		[theme.breakpoints.up('md')]: {
 			display: 'none',
-		},
-	},
-	name: {
-		[theme.breakpoints.up('lg')]: {
-			flexGrow: 0,
-			maxWidth: NAME_COLUMN_MAX_WIDTH,
-			flexBasis: NAME_COLUMN_MAX_WIDTH,
 		},
 	},
 	clickableSection: {
@@ -324,8 +317,8 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						)}
 					</Grid>
 					<Grid item container xs>
-						<Grid item container spacing={2} xs={12}>
-							<Grid item xs={12} md={5} lg className={classes.name} container>
+						<Grid item container spacing={4} xs={12}>
+							<Grid item xs={12} md={6} lg={4} container>
 								{vaultName}
 							</Grid>
 							<Grid item xs={12} md>
@@ -352,13 +345,13 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								/>
 							</Grid>
 						</Grid>
-						<Grid item container spacing={2} xs={12}>
-							<Grid item xs={12} md={5} lg className={classes.name} container>
+						<Grid item container spacing={4} xs={12}>
+							<Grid item xs={12} md={6} lg={4} container>
 								<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
 									{boostText}
 								</Typography>
 							</Grid>
-							<Grid item xs={12} md={7}>
+							<Grid item xs={12} md={6} lg={8}>
 								{boostContribution && (
 									<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
 										My Boost: {boostContribution.toFixed(2)}%
