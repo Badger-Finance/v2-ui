@@ -350,7 +350,7 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 								MY DEPOSITS
 							</Typography>
 							<Tooltip
-								title="It represents the dollar value of all assets, you deposited in each vault."
+								title="Represents the dollar value of all assets you deposited in each vault"
 								placement="top"
 								arrow
 								color="primary"
