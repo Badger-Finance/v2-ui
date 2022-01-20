@@ -11,143 +11,147 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
       class="MuiGrid-root-23 makeStyles-root-18 MuiGrid-container-24 MuiGrid-item-25"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
         >
-          <p
-            class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            All Vaults
-          </p>
-          <img
-            alt="List description"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-          />
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            APR
-          </p>
-          <img
-            alt="What is APR?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-          />
-          <button
-            aria-label="sort descending by APR"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              All Vaults
+            </p>
+            <img
+              alt="List description"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
-            TVL
-          </p>
-          <img
-            alt="What is TVL?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-          />
-          <button
-            aria-label="sort descending by TVL"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              APR
+            </p>
+            <img
+              alt="What is APR?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            MY DEPOSITS
-          </p>
-          <img
-            alt="What represent My Deposits?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="It represents the dollar value of all assets, you deposited in each vault."
-          />
-          <button
-            aria-label="sort ascending by balance"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <button
+              aria-label="sort descending by APR"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <span
+                class="MuiIconButton-label-175"
               >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              TVL
+            </p>
+            <img
+              alt="What is TVL?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
             />
-          </button>
+            <button
+              aria-label="sort descending by TVL"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              MY DEPOSITS
+            </p>
+            <img
+              alt="What represent My Deposits?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="It represents the dollar value of all assets, you deposited in each vault."
+            />
+            <button
+              aria-label="sort ascending by balance"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -171,7 +175,7 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-370"
             />
           </button>
           <p
@@ -186,84 +190,92 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
     </div>
   </li>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger ibBTC / crvsBTC LP Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bcrvibbtc.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger ibBTC / crvsBTC LP Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bcrvibbtc.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Convex
+               - 
+              ibBTC / crvsBTC LP
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              19.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-294"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Convex
-                 - 
-                ibBTC / crvsBTC LP
+                $141,375,417
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-297"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               🚀 Boosted (max. 61.65%)
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          19.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-298"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $141,375,417
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-301"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -277,13 +289,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -293,13 +305,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -309,84 +321,92 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger Badger Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bbadger.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger Badger Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bbadger.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Badger
+               - 
+              Badger
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              8.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-355"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Badger
-                 - 
-                Badger
+                $33,715,600
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-358"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               Non-boosted
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          8.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-359"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $33,715,600
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-362"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -400,13 +420,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -416,13 +436,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -432,84 +452,92 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger Digg Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bdigg.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger Digg Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bdigg.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Badger
+               - 
+              Digg
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              8.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-366"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Badger
-                 - 
-                Digg
+                $9,688,308
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-369"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               Non-boosted
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          8.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-370"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $9,688,308
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-373"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -523,13 +551,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -539,13 +567,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -568,143 +596,147 @@ exports[`VaultListDisplay can apply token type filters 1`] = `
       class="MuiGrid-root-23 makeStyles-root-18 MuiGrid-container-24 MuiGrid-item-25"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
         >
-          <p
-            class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            All Vaults
-          </p>
-          <img
-            alt="List description"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-          />
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            APR
-          </p>
-          <img
-            alt="What is APR?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-          />
-          <button
-            aria-label="sort descending by APR"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              All Vaults
+            </p>
+            <img
+              alt="List description"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
-            TVL
-          </p>
-          <img
-            alt="What is TVL?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-          />
-          <button
-            aria-label="sort descending by TVL"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              APR
+            </p>
+            <img
+              alt="What is APR?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            MY DEPOSITS
-          </p>
-          <img
-            alt="What represent My Deposits?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="It represents the dollar value of all assets, you deposited in each vault."
-          />
-          <button
-            aria-label="sort ascending by balance"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <button
+              aria-label="sort descending by APR"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <span
+                class="MuiIconButton-label-175"
               >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              TVL
+            </p>
+            <img
+              alt="What is TVL?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
             />
-          </button>
+            <button
+              aria-label="sort descending by TVL"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              MY DEPOSITS
+            </p>
+            <img
+              alt="What represent My Deposits?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="It represents the dollar value of all assets, you deposited in each vault."
+            />
+            <button
+              aria-label="sort ascending by balance"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -728,7 +760,7 @@ exports[`VaultListDisplay can apply token type filters 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-370"
             />
           </button>
           <p
@@ -743,84 +775,92 @@ exports[`VaultListDisplay can apply token type filters 1`] = `
     </div>
   </li>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger ibBTC / crvsBTC LP Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bcrvibbtc.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger ibBTC / crvsBTC LP Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bcrvibbtc.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Convex
+               - 
+              ibBTC / crvsBTC LP
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              19.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-294"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Convex
-                 - 
-                ibBTC / crvsBTC LP
+                $141,375,417
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-297"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               🚀 Boosted (max. 61.65%)
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          19.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-298"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $141,375,417
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-301"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -834,13 +874,13 @@ exports[`VaultListDisplay can apply token type filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -850,13 +890,13 @@ exports[`VaultListDisplay can apply token type filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -879,143 +919,147 @@ exports[`VaultListDisplay can change currency 1`] = `
       class="MuiGrid-root-23 makeStyles-root-18 MuiGrid-container-24 MuiGrid-item-25"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
         >
-          <p
-            class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            All Vaults
-          </p>
-          <img
-            alt="List description"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-          />
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            APR
-          </p>
-          <img
-            alt="What is APR?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-          />
-          <button
-            aria-label="sort descending by APR"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              All Vaults
+            </p>
+            <img
+              alt="List description"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
-            TVL
-          </p>
-          <img
-            alt="What is TVL?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-          />
-          <button
-            aria-label="sort descending by TVL"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              APR
+            </p>
+            <img
+              alt="What is APR?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            MY DEPOSITS
-          </p>
-          <img
-            alt="What represent My Deposits?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="It represents the dollar value of all assets, you deposited in each vault."
-          />
-          <button
-            aria-label="sort ascending by balance"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <button
+              aria-label="sort descending by APR"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <span
+                class="MuiIconButton-label-175"
               >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              TVL
+            </p>
+            <img
+              alt="What is TVL?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
             />
-          </button>
+            <button
+              aria-label="sort descending by TVL"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              MY DEPOSITS
+            </p>
+            <img
+              alt="What represent My Deposits?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="It represents the dollar value of all assets, you deposited in each vault."
+            />
+            <button
+              aria-label="sort ascending by balance"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -1039,7 +1083,7 @@ exports[`VaultListDisplay can change currency 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-370"
             />
           </button>
           <p
@@ -1054,84 +1098,92 @@ exports[`VaultListDisplay can change currency 1`] = `
     </div>
   </li>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger ibBTC / crvsBTC LP Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bcrvibbtc.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger ibBTC / crvsBTC LP Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bcrvibbtc.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Convex
+               - 
+              ibBTC / crvsBTC LP
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              19.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-294"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Convex
-                 - 
-                ibBTC / crvsBTC LP
+                ₿3,216
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-297"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                ₿-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               🚀 Boosted (max. 61.65%)
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          19.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-298"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            ₿3,216
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-301"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            ₿-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -1145,13 +1197,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -1161,13 +1213,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -1177,84 +1229,92 @@ exports[`VaultListDisplay can change currency 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger Badger Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bbadger.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger Badger Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bbadger.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Badger
+               - 
+              Badger
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              8.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-355"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Badger
-                 - 
-                Badger
+                ₿767
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-358"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                ₿-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               Non-boosted
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          8.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-359"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            ₿767
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-362"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            ₿-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -1268,13 +1328,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -1284,13 +1344,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -1300,84 +1360,92 @@ exports[`VaultListDisplay can change currency 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger Digg Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bdigg.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger Digg Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bdigg.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Badger
+               - 
+              Digg
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              8.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-366"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Badger
-                 - 
-                Digg
+                ₿220
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-369"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                ₿-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               Non-boosted
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          8.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-370"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            ₿220
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-373"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            ₿-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -1391,13 +1459,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -1407,13 +1475,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -1436,143 +1504,147 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
       class="MuiGrid-root-23 makeStyles-root-18 MuiGrid-container-24 MuiGrid-item-25"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
         >
-          <p
-            class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            All Vaults
-          </p>
-          <img
-            alt="List description"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-          />
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            APR
-          </p>
-          <img
-            alt="What is APR?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-          />
-          <button
-            aria-label="sort descending by APR"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              All Vaults
+            </p>
+            <img
+              alt="List description"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
-            TVL
-          </p>
-          <img
-            alt="What is TVL?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-          />
-          <button
-            aria-label="sort descending by TVL"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              APR
+            </p>
+            <img
+              alt="What is APR?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            MY DEPOSITS
-          </p>
-          <img
-            alt="What represent My Deposits?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="It represents the dollar value of all assets, you deposited in each vault."
-          />
-          <button
-            aria-label="sort ascending by balance"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <button
+              aria-label="sort descending by APR"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <span
+                class="MuiIconButton-label-175"
               >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              TVL
+            </p>
+            <img
+              alt="What is TVL?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
             />
-          </button>
+            <button
+              aria-label="sort descending by TVL"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              MY DEPOSITS
+            </p>
+            <img
+              alt="What represent My Deposits?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="It represents the dollar value of all assets, you deposited in each vault."
+            />
+            <button
+              aria-label="sort ascending by balance"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -1596,7 +1668,7 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-370"
             />
           </button>
           <p
@@ -1611,84 +1683,92 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
     </div>
   </li>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger Badger Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bbadger.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger Badger Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bbadger.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Badger
+               - 
+              Badger
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              8.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-355"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Badger
-                 - 
-                Badger
+                $33,715,600
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-358"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               Non-boosted
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          8.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-359"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $33,715,600
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-362"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -1702,13 +1782,13 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -1718,13 +1798,13 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -1734,84 +1814,92 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger Digg Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bdigg.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger Digg Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bdigg.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Badger
+               - 
+              Digg
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              8.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-366"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Badger
-                 - 
-                Digg
+                $9,688,308
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-369"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               Non-boosted
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          8.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-370"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $9,688,308
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-373"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -1825,13 +1913,13 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -1841,13 +1929,13 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -1870,143 +1958,147 @@ exports[`VaultListDisplay can clear filters 1`] = `
       class="MuiGrid-root-23 makeStyles-root-18 MuiGrid-container-24 MuiGrid-item-25"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
         >
-          <p
-            class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            All Vaults
-          </p>
-          <img
-            alt="List description"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-          />
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            APR
-          </p>
-          <img
-            alt="What is APR?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-          />
-          <button
-            aria-label="sort descending by APR"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              All Vaults
+            </p>
+            <img
+              alt="List description"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
-            TVL
-          </p>
-          <img
-            alt="What is TVL?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-          />
-          <button
-            aria-label="sort descending by TVL"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+              APR
+            </p>
+            <img
+              alt="What is APR?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            MY DEPOSITS
-          </p>
-          <img
-            alt="What represent My Deposits?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="It represents the dollar value of all assets, you deposited in each vault."
-          />
-          <button
-            aria-label="sort ascending by balance"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <button
+              aria-label="sort descending by APR"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <span
+                class="MuiIconButton-label-175"
               >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              TVL
+            </p>
+            <img
+              alt="What is TVL?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
             />
-          </button>
+            <button
+              aria-label="sort descending by TVL"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              MY DEPOSITS
+            </p>
+            <img
+              alt="What represent My Deposits?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="It represents the dollar value of all assets, you deposited in each vault."
+            />
+            <button
+              aria-label="sort ascending by balance"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-370"
+              />
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -2030,7 +2122,7 @@ exports[`VaultListDisplay can clear filters 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-370"
             />
           </button>
         </div>
@@ -2038,84 +2130,92 @@ exports[`VaultListDisplay can clear filters 1`] = `
     </div>
   </li>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger ibBTC / crvsBTC LP Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bcrvibbtc.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger ibBTC / crvsBTC LP Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bcrvibbtc.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Convex
+               - 
+              ibBTC / crvsBTC LP
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              19.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-441"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Convex
-                 - 
-                ibBTC / crvsBTC LP
+                $141,375,417
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-444"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               🚀 Boosted (max. 61.65%)
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          19.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-445"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $141,375,417
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-448"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -2129,13 +2229,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -2145,13 +2245,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -2161,84 +2261,92 @@ exports[`VaultListDisplay can clear filters 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger Badger Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bbadger.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger Badger Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bbadger.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Badger
+               - 
+              Badger
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              8.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-355"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Badger
-                 - 
-                Badger
+                $33,715,600
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-358"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               Non-boosted
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          8.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-359"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $33,715,600
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-362"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -2252,13 +2360,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -2268,13 +2376,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -2284,84 +2392,92 @@ exports[`VaultListDisplay can clear filters 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-231 makeStyles-enabledVault-232 MuiGrid-container-24 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-4-49 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+      class="MuiGrid-root-23 makeStyles-clickableSection-235 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-iconBadgeContainer-249 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41 MuiGrid-grid-xs-auto-56"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-rootContainerLarge-276 MuiGrid-container-24 MuiGrid-align-items-xs-center-32"
+          class="MuiGrid-root-23 makeStyles-iconContainer-253 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+        >
+          <img
+            alt="Badger Digg Vault Symbol"
+            class="makeStyles-symbol-247"
+            src="/assets/icons/bdigg.png"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+      >
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <div
-            class="MuiGrid-root-23 makeStyles-vaultIcon-281 MuiGrid-item-25 MuiGrid-grid-xs-auto-56"
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            <img
-              alt="Badger Digg Vault Symbol"
-              class="makeStyles-symbol-280"
-              src="/assets/icons/bdigg.png"
-            />
-            <span
-              class="makeStyles-tagDesktop-286"
-            />
+            <p
+              class="MuiTypography-root-126 makeStyles-vaultName-251 MuiTypography-body1-128"
+            >
+              Badger
+               - 
+              Digg
+            </p>
           </div>
           <div
-            class="MuiGrid-root-23 makeStyles-nameAndBoostContainer-277 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 makeStyles-apr-289 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
+            >
+              8.17%
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
             <div
-              class="makeStyles-nameContainer-278"
+              class="MuiBox-root-293 MuiBox-root-467"
             >
               <p
-                class="MuiTypography-root-126 makeStyles-vaultName-279 MuiTypography-body1-128"
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
               >
-                Badger
-                 - 
-                Digg
+                $9,688,308
               </p>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <div
+              class="MuiBox-root-293 MuiBox-root-470"
+            >
+              <p
+                class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
+              >
+                $-
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
+        >
+          <div
+            class="MuiGrid-root-23 makeStyles-name-234 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
+          >
             <p
-              class="MuiTypography-root-126 makeStyles-thinFont-284 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
+              class="MuiTypography-root-126 makeStyles-thinFont-250 MuiTypography-body1-128 MuiTypography-colorTextSecondary-152"
             >
               Non-boosted
             </p>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <p
-          class="MuiTypography-root-126 makeStyles-apr-292 MuiTypography-body1-128 MuiTypography-colorTextPrimary-151"
-        >
-          8.17%
-        </p>
-      </div>
-      <div
-        class="MuiGrid-root-23 makeStyles-tvl-238 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-471"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $9,688,308
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-      >
-        <div
-          class="MuiBox-root-297 MuiBox-root-474"
-        >
-          <p
-            class="MuiTypography-root-126 makeStyles-itemText-237 MuiTypography-body1-128"
-          >
-            $-
-          </p>
+          <div
+            class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-7-92"
+          />
         </div>
       </div>
     </div>
@@ -2375,13 +2491,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-outlined-310 makeStyles-button-302 MuiButton-outlinedPrimary-311 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-outlined-306 makeStyles-button-298 MuiButton-outlinedPrimary-307 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Deposit
             </span>
@@ -2391,13 +2507,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-button-302 MuiButton-containedPrimary-314 MuiButton-disabled-318 WithStyles(ForwardRef(Button))-disabled-304 MuiButtonBase-disabled-177"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-button-298 MuiButton-containedPrimary-310 MuiButton-disabled-314 WithStyles(ForwardRef(Button))-disabled-300 MuiButtonBase-disabled-177"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Withdraw
             </span>
@@ -2420,143 +2536,147 @@ exports[`VaultListDisplay displays empty search message 1`] = `
       class="MuiGrid-root-23 makeStyles-root-18 MuiGrid-container-24 MuiGrid-item-25"
     >
       <div
-        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-9-94 MuiGrid-grid-lg-true-99"
+        class="MuiGrid-root-23 makeStyles-titlesContainer-19 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-10-95 MuiGrid-grid-lg-true-99"
       >
         <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-item-25 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-6-91 MuiGrid-grid-lg-true-99"
+          class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-2-47 MuiGrid-item-25 MuiGrid-grid-xs-true-57"
         >
-          <p
-            class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-nameColumn-16 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-5-90 MuiGrid-grid-lg-true-99"
           >
-            All Vaults
-          </p>
-          <img
-            alt="List description"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-          />
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            APR
-          </p>
-          <img
-            alt="What is APR?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-          />
-          <button
-            aria-label="sort descending by APR"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 makeStyles-title-10 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-352"
+              All Vaults
+            </p>
+            <img
+              alt="List description"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
           >
-            TVL
-          </p>
-          <img
-            alt="What is TVL?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-          />
-          <button
-            aria-label="sort descending by TVL"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-352"
+              APR
+            </p>
+            <img
+              alt="What is APR?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
             />
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
-        >
-          <p
-            class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
-          >
-            MY DEPOSITS
-          </p>
-          <img
-            alt="What represent My Deposits?"
-            class="makeStyles-sortInfoIcon-12"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="It represents the dollar value of all assets, you deposited in each vault."
-          />
-          <button
-            aria-label="sort ascending by balance"
-            class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label-175"
+            <button
+              aria-label="sort descending by APR"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <span
+                class="MuiIconButton-label-175"
               >
-                <path
-                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-352"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-348"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 makeStyles-tvlColumn-17 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              TVL
+            </p>
+            <img
+              alt="What is TVL?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
             />
-          </button>
+            <button
+              aria-label="sort descending by TVL"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11 makeStyles-nonSetSort-13"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-348"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-23 makeStyles-title-10 makeStyles-columnTitle-15 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-align-items-xs-center-32 MuiGrid-grid-xs-12-69 MuiGrid-grid-md-true-85"
+          >
+            <p
+              class="MuiTypography-root-126 MuiTypography-body2-127 MuiTypography-colorTextSecondary-152"
+            >
+              MY DEPOSITS
+            </p>
+            <img
+              alt="What represent My Deposits?"
+              class="makeStyles-sortInfoIcon-12"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="It represents the dollar value of all assets, you deposited in each vault."
+            />
+            <button
+              aria-label="sort ascending by balance"
+              class="MuiButtonBase-root-176 MuiIconButton-root-167 makeStyles-sortIcon-11"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-175"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-179 MuiSvgIcon-colorPrimary-180"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-348"
+              />
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -2580,7 +2700,7 @@ exports[`VaultListDisplay displays empty search message 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-352"
+              class="MuiTouchRipple-root-348"
             />
           </button>
           <p
@@ -2595,10 +2715,10 @@ exports[`VaultListDisplay displays empty search message 1`] = `
     </div>
   </li>
   <div
-    class="MuiPaper-root-248 MuiCard-root-247 MuiGrid-root-23 makeStyles-root-417 MuiGrid-container-24 MuiGrid-justify-content-xs-center-41 MuiPaper-elevation1-252 MuiPaper-rounded-249"
+    class="MuiPaper-root-261 MuiCard-root-260 MuiGrid-root-23 makeStyles-root-413 MuiGrid-container-24 MuiGrid-justify-content-xs-center-41 MuiPaper-elevation1-265 MuiPaper-rounded-262"
   >
     <div
-      class="MuiGrid-root-23 makeStyles-content-419 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-10-67 MuiGrid-grid-sm-6-77 MuiGrid-grid-md-3-88"
+      class="MuiGrid-root-23 makeStyles-content-415 MuiGrid-container-24 MuiGrid-item-25 MuiGrid-grid-xs-10-67 MuiGrid-grid-sm-6-77 MuiGrid-grid-md-3-88"
     >
       <div
         class="MuiGrid-root-23 MuiGrid-container-24 MuiGrid-spacing-xs-1-46 MuiGrid-direction-xs-column-27 MuiGrid-justify-content-xs-center-41"
@@ -2637,17 +2757,17 @@ exports[`VaultListDisplay displays empty search message 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-contained-313 makeStyles-filtersButton-418 MuiButton-containedPrimary-314"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-contained-309 makeStyles-filtersButton-414 MuiButton-containedPrimary-310"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Filters
             </span>
             <span
-              class="MuiTouchRipple-root-352"
+              class="MuiTouchRipple-root-348"
             />
           </button>
         </div>
@@ -2655,17 +2775,17 @@ exports[`VaultListDisplay displays empty search message 1`] = `
           class="MuiGrid-root-23 MuiGrid-item-25 MuiGrid-grid-xs-12-69"
         >
           <button
-            class="MuiButtonBase-root-176 MuiButton-root-305 MuiButton-text-307 MuiButton-textPrimary-308"
+            class="MuiButtonBase-root-176 MuiButton-root-301 MuiButton-text-303 MuiButton-textPrimary-304"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-306"
+              class="MuiButton-label-302"
             >
               Go Back To All Vaults
             </span>
             <span
-              class="MuiTouchRipple-root-352"
+              class="MuiTouchRipple-root-348"
             />
           </button>
         </div>
