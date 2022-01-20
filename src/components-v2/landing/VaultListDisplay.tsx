@@ -10,6 +10,7 @@ import VaultListItem from './VaultListItem';
 import VaultList from './VaultList';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
+import { VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -42,6 +43,7 @@ const VaultListDisplay = observer(() => {
 	}
 
 	const settListItems = vaultOrder.flatMap((vault) => {
+		// TODO: This isn't really needed - but let's keep it until we have sdk fallbacks in place
 		const badgerVault = network.vaults.find((badgerVault) => badgerVault.vaultToken.address === vault.vaultToken);
 
 		if (!badgerVault) {
@@ -50,6 +52,11 @@ const VaultListDisplay = observer(() => {
 
 		const scalar = new BigNumber(vault.pricePerFullShare);
 		const depositBalance = user.getBalance(BalanceNamespace.Vault, badgerVault).scale(scalar, true);
+
+		// Hide deprecated vaults that the user is not deposited into
+		if (vault.state === VaultState.Deprecated && depositBalance.tokenBalance.eq(0)) {
+			return [];
+		}
 
 		return (
 			<VaultListItem
