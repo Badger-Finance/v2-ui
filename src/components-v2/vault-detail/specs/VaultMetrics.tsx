@@ -59,7 +59,7 @@ interface Props {
 }
 
 const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
-	const { uiState, vaults } = React.useContext(StoreContext);
+	const { uiState } = React.useContext(StoreContext);
 	const classes = useStyles();
 
 	const currencyValue = inCurrency(new BigNumber(vault.value), uiState.currency);
@@ -71,8 +71,6 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 	if (currencyValue && hasCurrencyIcon) {
 		[currencyIcon, displayValue] = currencyValue.split('.png');
 	}
-
-	const available = vaults.availableBalances[vault.vaultToken];
 
 	const [showMore, setShowMore] = useState(true);
 	const expandText = showMore ? 'Hide' : 'Show More';
@@ -102,10 +100,10 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 						tokens per share
 					</Typography>
 				</div>
-				{vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available && (
+				{vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && (
 					<div className={classes.submetric}>
 						<Typography variant="body1" className={classes.submetricValue}>
-							{available.balanceDisplay(5)}
+							{vault.available.toFixed(4)}
 						</Typography>
 						<Typography variant="caption" className={classes.submetricType}>
 							tokens withdrawable

@@ -2794,3 +2794,26 @@ exports[`VaultListDisplay displays empty search message 1`] = `
   </div>
 </div>
 `;
+
+exports[`VaultListDisplay does not display deprecated vaults with no user balance 1`] = `
+<div>
+  <div
+    class="makeStyles-messageContainer-2"
+  >
+    <img
+      alt="Badger Builder"
+      src="/assets/icons/builder.png"
+    />
+    <h4
+      class="MuiTypography-root-5 makeStyles-titleText-3 MuiTypography-h4-13"
+    >
+      There are currently no vaults on Ethereum.
+    </h4>
+    <h6
+      class="MuiTypography-root-5 MuiTypography-h6-15"
+    >
+      Check our other zones for more potential vaults
+    </h6>
+  </div>
+</div>
+`;

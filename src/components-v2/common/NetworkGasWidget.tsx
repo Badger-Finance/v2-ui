@@ -106,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const networkIcons: Record<Network, string> = {
+	[Network.Local]: 'ethereum-network.svg',
 	[Network.Ethereum]: 'ethereum-network.svg',
 	[Network.BinanceSmartChain]: 'bsc-network.svg',
 	[Network.Arbitrum]: 'arbitrum-network.svg',

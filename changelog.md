@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### 2.13.1 - 01/20/2022
+
+-   update list item displays + behavior
+-   fix an issue causing wallet connect based users to be unable to connect
+
 ### 2.13.0 - 01/14/2022
 
 -   add new vault list styles

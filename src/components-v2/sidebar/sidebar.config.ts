@@ -3,6 +3,16 @@ import { FLAGS } from 'config/environment';
 import { SidebarConfig } from './interface/sidebar-config.interface';
 
 const sidebarConfig: Record<Network, SidebarConfig> = {
+	[Network.Local]: {
+		cycle: true,
+		digg: true,
+		ibBTC: true,
+		bridge: true,
+		boost: true,
+		airdrops: true,
+		honey: true,
+		auction: true,
+	},
 	[Network.Ethereum]: {
 		cycle: true,
 		digg: true,
