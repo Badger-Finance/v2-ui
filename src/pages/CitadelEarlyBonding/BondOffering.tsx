@@ -142,7 +142,12 @@ const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX
 					</Grid>
 				</div>
 				<Button
-					onClick={() => select(bond)}
+					onClick={() => {
+						if (status === SaleStatus.Open) {
+							select(bond);
+						} else if (status === SaleStatus.Closed) {
+						}
+					}}
 					variant="contained"
 					color="primary"
 					className={classes.bondButton}

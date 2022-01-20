@@ -4,6 +4,7 @@ import { supportedNetworks } from '../../config/networks.config';
 import { extendObservable } from 'mobx';
 import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
 import { Network as BadgerNetwork } from '../../mobx/model/network/network';
+import { RootStore } from 'mobx/RootStore';
 
 type BadgerApis = { [network: string]: BadgerAPI };
 
@@ -12,7 +13,7 @@ class GasPricesStore {
 	private gasNetworks: BadgerNetwork[];
 	private pricesCache: GasPricesSummary;
 
-	constructor() {
+	constructor(private store: RootStore) {
 		this.gasNetworks = supportedNetworks.filter((network) => network.id !== NETWORK_IDS.LOCAL);
 		this.pricesCache = {};
 		this.apis = Object.fromEntries(

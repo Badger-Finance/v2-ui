@@ -1,13 +1,13 @@
 import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Typography, Grid, Box, Link } from '@material-ui/core';
 import { LayoutContainer, PageHeaderContainer } from 'components-v2/common/Containers';
 import PageHeader from 'components-v2/common/PageHeader';
 import { Beneficiary, SaleStatus, CitadelBond } from './bonds.config';
 import BondOffering from './BondOffering';
 import BondModal from './BondModal';
-import { ONE_DAY_MS } from 'config/constants';
+import { ONE_DAY_MS, ONE_MIN_MS } from 'config/constants';
 import { FLAGS } from 'config/environment';
 import { BigNumber, ethers } from 'ethers';
 import clsx from 'clsx';
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const SALE_OPEN_EPOCH = 1642515600;
+const SALE_OPEN_EPOCH = 1642655600;
 const SALE_OPEN_MS = SALE_OPEN_EPOCH * 1000;
 
 // Adapted from
@@ -59,8 +59,16 @@ const CitadelEarlyBonding = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const isSmallScreen = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const [selectedBond, setSelectedBond] = useState<CitadelBond | null>(null);
+	const [currentTime, setCurrentTime] = useState(Date.now());
 
-	const launchTime = (SALE_OPEN_MS - Date.now()) / 1000;
+	useEffect(() => {
+		const networkInterval = setInterval(() => {
+			setCurrentTime(Date.now());
+		}, ONE_MIN_MS);
+		return () => clearInterval(networkInterval);
+	}, []);
+
+	const launchTime = (SALE_OPEN_MS - currentTime) / 1000;
 	const saleStatus =
 		launchTime > 0 ? SaleStatus.Pending : launchTime + SALE_DURATION > 0 ? SaleStatus.Open : SaleStatus.Closed;
 	const saleStarted = saleStatus !== SaleStatus.Pending;

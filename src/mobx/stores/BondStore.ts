@@ -18,6 +18,9 @@ interface CitadelBondInfo {
 	purchasedBondsValue: BigNumber;
 }
 
+/**
+ * TODO: Clean up general ethers contract call support
+ */
 export class BondStore {
 	public bonds: CitadelBond[];
 	constructor(private store: RootStore) {
@@ -74,7 +77,6 @@ export class BondStore {
 				}
 			}),
 		);
-		console.log('set loaded bonds');
 		this.bonds = loadedBonds;
 	}
 
@@ -103,9 +105,32 @@ export class BondStore {
 			}
 			const tx = await sale.buy(amount.tokenBalance.toString(), beneficiaryId, bondProof);
 			await tx.wait();
-			console.log('bond purchase done');
 			await Promise.all([this.updateBonds(), this.store.user.reloadBalances()]);
-			console.log('updates done');
+		} catch (err) {
+			if (DEBUG) {
+				console.log(err);
+			}
+		}
+	}
+
+	async claim(bond: CitadelBond): Promise<void> {
+		const { onboard } = this.store;
+		const { provider, address } = onboard;
+		if (!provider || !address) {
+			return;
+		}
+		console.log(`Triggered a claim event for ${bond.address}`);
+		const sale = CitadelSale__factory.connect(bond.bondAddress, provider.getSigner());
+		if (!sale) {
+			if (DEBUG) {
+				throw Error('Sale contract not defined for bond');
+			}
+			return;
+		}
+		try {
+			const tx = await sale.claim();
+			await tx.wait();
+			await Promise.all([this.updateBonds(), this.store.user.reloadBalances()]);
 		} catch (err) {
 			if (DEBUG) {
 				console.log(err);
