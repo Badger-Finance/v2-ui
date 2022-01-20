@@ -72,7 +72,7 @@ const VaultListDisplay = observer(() => {
 		return <NoVaults network={network.name} />;
 	}
 
-	return <VaultList title="All Vaults" settList={settListItems} />;
+	return <VaultList title="Vaults" settList={settListItems} />;
 });
 
 export default VaultListDisplay;
