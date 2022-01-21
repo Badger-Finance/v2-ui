@@ -92,8 +92,7 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 	},
 	symbol: {
-		width: 24,
-		height: 24,
+		maxWidth: '100%',
 		[theme.breakpoints.down('sm')]: {
 			marginRight: theme.spacing(2),
 		},
@@ -206,7 +205,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								<img
 									alt={`Badger ${vault.name} Vault Symbol`}
 									className={classes.symbol}
-									src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
+									src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.svg`}
 								/>
 								{Badge}
 							</Grid>
@@ -311,7 +310,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							<img
 								alt={`Badger ${vault.name} Vault Symbol`}
 								className={clsx(classes.symbol, !!Badge && classes.symbolWithBadge)}
-								src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
+								src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.svg`}
 							/>
 						</Grid>
 						{!!Badge && (
