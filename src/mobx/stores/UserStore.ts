@@ -296,12 +296,15 @@ export default class UserStore {
 
 		// add underlying tokens, and sett tokens to user balances
 		userGeneralVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
+		userGeneralVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
 
 		// add guarded underlying tokens, and sett tokens to user balances
 		userGuardedVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
+		userGuardedVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
 
 		// add deprecated underlying tokens, and sett tokens to user balances
 		userDeprecatedVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
+		userDeprecatedVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
 
 		return {
 			tokenBalances,

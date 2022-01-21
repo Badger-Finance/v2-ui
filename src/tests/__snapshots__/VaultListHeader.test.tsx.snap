@@ -120,7 +120,7 @@ exports[`Vault List Header renders correctly 1`] = `
             class="makeStyles-sortInfoIcon-3"
             color="primary"
             src="/assets/icons/vault-sort-info.svg"
-            title="It represents the dollar value of all assets, you deposited in each vault."
+            title="Represents the dollar value of all assets you deposited in each vault"
           />
           <button
             aria-label="sort ascending by balance"

@@ -125,7 +125,7 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
               class="makeStyles-sortInfoIcon-12"
               color="primary"
               src="/assets/icons/vault-sort-info.svg"
-              title="It represents the dollar value of all assets, you deposited in each vault."
+              title="Represents the dollar value of all assets you deposited in each vault"
             />
             <button
               aria-label="sort ascending by balance"
@@ -710,7 +710,7 @@ exports[`VaultListDisplay can apply token type filters 1`] = `
               class="makeStyles-sortInfoIcon-12"
               color="primary"
               src="/assets/icons/vault-sort-info.svg"
-              title="It represents the dollar value of all assets, you deposited in each vault."
+              title="Represents the dollar value of all assets you deposited in each vault"
             />
             <button
               aria-label="sort ascending by balance"
@@ -1033,7 +1033,7 @@ exports[`VaultListDisplay can change currency 1`] = `
               class="makeStyles-sortInfoIcon-12"
               color="primary"
               src="/assets/icons/vault-sort-info.svg"
-              title="It represents the dollar value of all assets, you deposited in each vault."
+              title="Represents the dollar value of all assets you deposited in each vault"
             />
             <button
               aria-label="sort ascending by balance"
@@ -1618,7 +1618,7 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
               class="makeStyles-sortInfoIcon-12"
               color="primary"
               src="/assets/icons/vault-sort-info.svg"
-              title="It represents the dollar value of all assets, you deposited in each vault."
+              title="Represents the dollar value of all assets you deposited in each vault"
             />
             <button
               aria-label="sort ascending by balance"
@@ -2072,7 +2072,7 @@ exports[`VaultListDisplay can clear filters 1`] = `
               class="makeStyles-sortInfoIcon-12"
               color="primary"
               src="/assets/icons/vault-sort-info.svg"
-              title="It represents the dollar value of all assets, you deposited in each vault."
+              title="Represents the dollar value of all assets you deposited in each vault"
             />
             <button
               aria-label="sort ascending by balance"
@@ -2650,7 +2650,7 @@ exports[`VaultListDisplay displays empty search message 1`] = `
               class="makeStyles-sortInfoIcon-12"
               color="primary"
               src="/assets/icons/vault-sort-info.svg"
-              title="It represents the dollar value of all assets, you deposited in each vault."
+              title="Represents the dollar value of all assets you deposited in each vault"
             />
             <button
               aria-label="sort ascending by balance"
