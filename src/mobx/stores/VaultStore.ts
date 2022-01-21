@@ -1,4 +1,4 @@
-import { action, computed, extendObservable } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import Web3 from 'web3';
@@ -17,7 +17,6 @@ import BigNumber from 'bignumber.js';
 import { ContractCallReturnContext } from 'ethereum-multicall';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const formatVaultListItem = (vault: Vault): [string, string] => {
 	const sanitizedVaultName = vault.name.replace(/\/+/g, '-'); // replace "/" with "-"
@@ -307,8 +306,8 @@ export default class VaultStore {
 		} else {
 			this.protocolSummaryCache[chain] = null;
 		}
-	});	
-	
+	});
+
 	updateAvailableBalance = action((returnContext: ContractCallReturnContext): void => {
 		const { prices } = this.store;
 		const settAddress = returnContext.originalContractCallContext.contractAddress;
