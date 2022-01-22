@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
+import { Grid, Button, TextField, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
 import { toJS } from 'mobx';
@@ -8,6 +8,7 @@ import { MIN_AMOUNT } from './constants';
 import { Slippage, ValuesProp } from './Common';
 import { sett_system } from 'config/deployments/mainnet.json';
 import { VaultMap } from '../../mobx/model/vaults/vault-map';
+import { shortenAddress } from 'utils/componentHelpers';
 
 interface MintFormProps {
 	values: ValuesProp;
@@ -37,7 +38,6 @@ export const MintForm = ({
 	const {
 		onboard,
 		vaults: { settMap },
-		bridge: { shortAddr },
 	} = store;
 
 	const next = (e: React.MouseEvent<HTMLElement>) => {
@@ -72,6 +72,9 @@ export const MintForm = ({
 		return vault ? vault.apr : 0;
 	};
 
+	const theme = useTheme();
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+	const displayAddress = onboard.address && isSmallScreen ? shortenAddress(onboard.address) : onboard.address;
 	return (
 		<>
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
@@ -138,7 +141,7 @@ export const MintForm = ({
 				<Grid item xs={12} className={classes.summaryWrapper}>
 					<div className={`${classes.summaryRow} ${classes.longText}`}>
 						<Typography variant="subtitle1">Destination: </Typography>
-						<Typography variant="body1">{shortAddr || '0x...'}</Typography>
+						<Typography variant="body1">{displayAddress || '0x...'}</Typography>
 					</div>
 
 					{isEarn && (
