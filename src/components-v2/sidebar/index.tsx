@@ -161,7 +161,7 @@ const Sidebar = observer(() => {
 					className={classes.badgerLogoContainer}
 					onClick={() => window.open('https://badger.com/', '_blank')}
 				>
-					<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger-santa.png'} />
+					<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger_head.svg'} />
 					<span className={classes.badgerTitle}>Badger</span>
 				</div>
 			)}
