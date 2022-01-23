@@ -10,6 +10,7 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
 import { getOnboardWallets, isRpcWallet, onboardWalletCheck } from 'config/wallets';
 import rpc from 'config/rpc.config';
+import { DEBUG } from 'config/environment';
 
 const WALLET_STORAGE_KEY = 'selectedWallet';
 
@@ -94,12 +95,18 @@ export class OnboardStore {
 	});
 
 	walletListener = action(async (wallet: Wallet): Promise<void> => {
-		this.wallet = wallet;
-		if (wallet.provider) {
-			this.provider = this.getProvider(wallet.provider, wallet.name);
-		}
-		if (wallet.name) {
-			window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
+		try {
+			this.wallet = wallet;
+			if (wallet.provider) {
+				this.provider = this.getProvider(wallet.provider, wallet.name);
+			}
+			if (wallet.name) {
+				window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
+			}
+		} catch (err) {
+			if (DEBUG) {
+				console.error(err);
+			}
 		}
 	});
 
