@@ -39,4 +39,10 @@ export const currencyConfiguration: Record<Currency, CurrencyConfig> = {
 		// TODO: Update xDAI icon once this is a goal
 		prefix: '/assets/icons/bnb-white.png',
 	},
+	[Currency.FTM]: {
+		getExchangeRate: (rates) => rates.xdai,
+		decimals: 2,
+		// TODO: Update xDAI icon once this is a goal
+		prefix: '/assets/icons/ftm.png',
+	},
 };

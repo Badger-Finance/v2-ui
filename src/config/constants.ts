@@ -58,6 +58,7 @@ export enum NETWORK_IDS {
 	XDAI = 100,
 	ARB = 42161,
 	AVAX = 43114,
+	FTM = 250,
 }
 
 export const EXPLOIT_HACKER_ADDRESS = '0x1fcdb04d0c5364fbd92c73ca8af9baa72c269107';
