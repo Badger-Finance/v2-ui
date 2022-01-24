@@ -115,8 +115,8 @@ describe('reduceClaims', () => {
 			['1', '2'],
 		];
 		const expected: TokenBalance[] = [
-			store.rewards.balanceFromProof(badger, 'NaN'),
-			store.rewards.balanceFromProof(digg, 'NaN'),
+			store.rewards.balanceFromProof(badger, '0'),
+			store.rewards.balanceFromProof(digg, '0'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
@@ -136,8 +136,8 @@ describe('reduceClaims', () => {
 			['NaN', 'NaN'],
 		];
 		const expected: TokenBalance[] = [
-			store.rewards.balanceFromProof(badger, 'NaN'),
-			store.rewards.balanceFromProof(digg, 'NaN'),
+			store.rewards.balanceFromProof(badger, '0'),
+			store.rewards.balanceFromProof(digg, '0'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
@@ -159,7 +159,7 @@ describe('reduceClaims', () => {
 		const expected: TokenBalance[] = [
 			store.rewards.balanceFromProof(badger, '99'),
 			store.rewards.balanceFromProof(digg, '198'),
-			store.rewards.balanceFromProof(wbtc, 'NaN'),
+			store.rewards.balanceFromProof(wbtc, '0'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
