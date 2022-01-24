@@ -94,12 +94,16 @@ export class OnboardStore {
 	});
 
 	walletListener = action(async (wallet: Wallet): Promise<void> => {
-		this.wallet = wallet;
-		if (wallet.provider) {
-			this.provider = this.getProvider(wallet.provider, wallet.name);
-		}
-		if (wallet.name) {
-			window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
+		try {
+			this.wallet = wallet;
+			if (wallet.provider) {
+				this.provider = this.getProvider(wallet.provider, wallet.name);
+			}
+			if (wallet.name) {
+				window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
+			}
+		} catch (err) {
+			console.error(err);
 		}
 	});
 

@@ -19,7 +19,6 @@ import {
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
 import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
-import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
@@ -211,8 +210,6 @@ class BridgeStore {
 		const { wallet, address } = this.store.onboard;
 
 		if (!wallet || !address) return;
-
-		this.shortAddr = shortenAddress(address);
 
 		this.loading = true;
 		return Promise.all([
