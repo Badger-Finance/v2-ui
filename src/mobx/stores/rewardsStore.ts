@@ -97,6 +97,7 @@ class RewardsStore {
 		const amount = new BigNumber(balance).dividedBy(divisor);
 		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
+	
 	mockBalance(token: string): TokenBalance {
 		return new TokenBalance(this.store.vaults.getToken(token), new BigNumber(0), this.store.prices.getPrice(token));
 	}
