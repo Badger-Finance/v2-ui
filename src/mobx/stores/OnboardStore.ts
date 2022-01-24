@@ -10,7 +10,6 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
 import { getOnboardWallets, isRpcWallet, onboardWalletCheck } from 'config/wallets';
 import rpc from 'config/rpc.config';
-import { DEBUG } from 'config/environment';
 
 const WALLET_STORAGE_KEY = 'selectedWallet';
 
@@ -104,9 +103,7 @@ export class OnboardStore {
 				window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
 			}
 		} catch (err) {
-			if (DEBUG) {
-				console.error(err);
-			}
+			console.error(err);
 		}
 	});
 
