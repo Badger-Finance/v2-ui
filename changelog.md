@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### 2.13.2 - 01/24/2022
+
+-   fixed some visual alignment + festivity issues
+-   fixed network handling display issue
+
 ### 2.13.1 - 01/20/2022
 
 -   update list item displays + behavior
