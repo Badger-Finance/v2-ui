@@ -36,7 +36,7 @@ export const reduceClaims = (
 		}
 		const claimed = new BigNumber(amounts[i]);
 		const earned = new BigNumber(proof.cumulativeAmounts[i]);
-		const amount = earned.minus(claimed);
+		const amount = earned.minus(claimed).gt(0) ? earned.minus(claimed) : new BigNumber(0);
 		let claimable;
 		if (claims) {
 			claimable = rewards.balanceFromProof(token, amount.toFixed());
