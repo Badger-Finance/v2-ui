@@ -2,6 +2,7 @@ import { Network, NetworkConfig } from '@badger-dao/sdk';
 import { StateAndHelpers, WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
 import { Network as NetworkModel } from 'mobx/model/network/network';
 import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_IDS, RPC_WALLETS } from './constants';
+import { supportedNetworks } from './networks.config';
 import rpc from './rpc.config';
 
 export interface WalletProviderInfo {
@@ -68,7 +69,7 @@ const supportedNetwork = () => {
 		const { network, appNetworkId } = stateAndHelpers;
 		const chain = NetworkModel.networkFromId(network ?? appNetworkId);
 		if (!chain || !chain.symbol || !Object.values(Network).includes(chain.symbol as Network)) {
-			const networkMembers = Object.values(Network).join(', ');
+			const networkMembers = supportedNetworks.map((network) => network.name).join(', ');
 			return {
 				heading: `Unsupported Network`,
 				description: `Switch your network to one of the supported networks: ${networkMembers}`,
