@@ -190,7 +190,7 @@ class BridgeStore {
 		);
 
 		observe(this.store.onboard, 'address', ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
-			if (!oldValue && !!newValue) {
+			if (this.network === Network.Ethereum && !oldValue && !!newValue) {
 				this.reload();
 			}
 		});
