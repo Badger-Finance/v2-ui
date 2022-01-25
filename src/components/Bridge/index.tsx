@@ -126,6 +126,9 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		width: '100%',
 		padding: '.5rem 0 0 1rem',
+		[theme.breakpoints.only('xs')]: {
+			padding: 0,
+		},
 	},
 	focusableBorderedContainer: {
 		border: '1px solid #5C5C5C',
@@ -144,6 +147,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 	longText: {
 		wordBreak: 'break-all',
+	},
+	receiveAmountHeading: {
+		[theme.breakpoints.only('xs')]: {
+			width: '100%',
+			fontSize: '2.5rem',
+		},
+	},
+	mobileContainer: {
+		[theme.breakpoints.only('xs')]: {
+			margin: '1em auto 0',
+		},
 	},
 }));
 export const Bridge = observer(() => {

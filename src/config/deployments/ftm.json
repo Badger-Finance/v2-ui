@@ -1,0 +1,11 @@
+{
+	"token": "0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9",
+	"tokens": {
+		"badger": "0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9"
+	},
+	"geysers": {},
+	"sett_system": {
+		"vaults": {},
+		"strategies": {}
+	}
+}
