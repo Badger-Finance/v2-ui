@@ -1,6 +1,5 @@
 import { Network, NetworkConfig } from '@badger-dao/sdk';
 import { StateAndHelpers, WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
-import { Network as NetworkModel } from 'mobx/model/network/network';
 import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_IDS, RPC_WALLETS } from './constants';
 import { supportedNetworks } from './networks.config';
 import rpc from './rpc.config';
@@ -78,7 +77,7 @@ const supportedNetwork = () => {
 	};
 };
 
-export function isSupportedNetwork(chainId?: number): boolean  {
+export function isSupportedNetwork(chainId?: number): boolean {
 	if (!chainId) {
 		return true;
 	}

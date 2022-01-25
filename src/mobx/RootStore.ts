@@ -26,7 +26,6 @@ import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
 import BondStore from './stores/BondStore';
-import { isSupportedNetwork } from 'config/wallets';
 
 export class RootStore {
 	public api: BadgerAPI;
