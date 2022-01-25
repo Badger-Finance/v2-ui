@@ -161,6 +161,16 @@ const ethVaultDefinitions: BadgerVault[] = [
 	},
 	{
 		depositToken: {
+			address: ETH_DEPLOY.tokens.badger,
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.rembadger'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
 			address: ETH_DEPLOY.tokens.digg,
 			decimals: 9,
 		},
