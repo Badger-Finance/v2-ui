@@ -2,6 +2,7 @@ import { arbitrumProtocolTokens } from 'mobx/model/network/arbitrum.network';
 import { avaxProtocolTokens } from 'mobx/model/network/avalanche.network';
 import { bscProtocolTokens } from 'mobx/model/network/bsc.network';
 import { ethProtocolTokens } from 'mobx/model/network/eth.network';
+import { ftmProtocolTokens } from 'mobx/model/network/ftm.network';
 import { maticProtocolTokens } from 'mobx/model/network/matic.network';
 import { BadgerToken } from 'mobx/model/tokens/badger-token';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
@@ -13,6 +14,7 @@ export const protocolTokens = (): ProtocolTokens => {
 		...(maticProtocolTokens && maticProtocolTokens),
 		...(arbitrumProtocolTokens && arbitrumProtocolTokens),
 		...(avaxProtocolTokens && avaxProtocolTokens),
+		...(ftmProtocolTokens && ftmProtocolTokens),
 	};
 };
 

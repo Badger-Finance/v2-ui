@@ -6,4 +6,5 @@ export enum Currency {
 	BNB = 'BNB',
 	MATIC = 'MATIC',
 	XDAI = 'XDAI',
+	FTM = 'FTM',
 }

@@ -5,4 +5,5 @@ export interface ExchangeRates {
 	bnb: number;
 	matic: number;
 	xdai: number;
+	ftm: number;
 }

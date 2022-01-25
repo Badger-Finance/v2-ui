@@ -121,7 +121,9 @@ export const MintForm = ({
 
 				<Grid item xs={12}>
 					<div className={`${classes.row} ${classes.longText}`}>
-						<Typography variant="h1">{values.receiveAmount.toFixed(8) || '0.00'}</Typography>
+						<Typography variant="h1" className={classes.receiveAmountHeading}>
+							{values.receiveAmount.toFixed(8) || '0.00'}
+						</Typography>
 						{assetSelect()}
 					</div>
 				</Grid>
