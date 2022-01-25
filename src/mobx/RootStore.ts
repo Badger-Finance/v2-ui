@@ -26,6 +26,7 @@ import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
 import BondStore from './stores/BondStore';
+import { isSupportedNetwork } from 'config/wallets';
 
 export class RootStore {
 	public api: BadgerAPI;
@@ -77,6 +78,7 @@ export class RootStore {
 	}
 
 	async updateNetwork(network: number): Promise<void> {
+		// push network state to app
 		if (this.network.network.id !== network) {
 			const appNetwork = Network.networkFromId(network);
 			this.network.network = appNetwork;
@@ -130,6 +132,12 @@ export class RootStore {
 
 				if (this.router.currentPath === routes.citadel.path) {
 					updateActions.push(this.bondStore.updateBonds());
+				}
+			}
+
+			if (this.bridge.isBridgeSupported()) {
+				if (this.router.currentPath === routes.bridge.path) {
+					updateActions.push(this.bridge.reload());
 				}
 			}
 

@@ -23,7 +23,8 @@ import { isEqual } from '../../utils/lodashToNative';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
-import { Network } from '@badger-dao/sdk';
+import { Network, SDKProvider } from '@badger-dao/sdk';
+import { isSupportedNetwork } from 'config/wallets';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -191,12 +192,6 @@ class BridgeStore {
 			},
 		);
 
-		observe(this.store.onboard, 'address', ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
-			if (this.isBridgeSupported() && !oldValue && !!newValue) {
-				this.reload();
-			}
-		});
-
 		this.updateTimer = setTimeout(() => {
 			// NB: Only ETH supported for now.
 			if (this.network !== Network.Ethereum) return;
@@ -210,6 +205,9 @@ class BridgeStore {
 	}
 
 	isBridgeSupported = action((): boolean => {
+		if (!this.store.onboard.onSupportedNetwork) {
+			return false;
+		}
 		return supportedBridgeNetworks.includes(this.store.network.network?.symbol);
 	});
 
@@ -224,7 +222,7 @@ class BridgeStore {
 		if (!wallet || !address) return;
 
 		this.loading = true;
-		return Promise.all([
+		await Promise.all([
 			// Fetch old transactions and reload any incomplete tx.
 			this._fetchTx(address),
 			this._getBalances(address),

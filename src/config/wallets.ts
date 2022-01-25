@@ -66,9 +66,8 @@ export const getOnboardWallets = (config: NetworkConfig): WalletProviderInfo[] =
 
 const supportedNetwork = () => {
 	return async (stateAndHelpers: StateAndHelpers): Promise<WalletCheckModal | undefined> => {
-		const { network, appNetworkId } = stateAndHelpers;
-		const chain = NetworkModel.networkFromId(network ?? appNetworkId);
-		if (!chain || !chain.symbol || !Object.values(Network).includes(chain.symbol as Network)) {
+		const { network } = stateAndHelpers;
+		if (!isSupportedNetwork(network)) {
 			const networkMembers = supportedNetworks.map((network) => network.name).join(', ');
 			return {
 				heading: `Unsupported Network`,
@@ -78,6 +77,19 @@ const supportedNetwork = () => {
 		}
 	};
 };
+
+export function isSupportedNetwork(chainId?: number): boolean  {
+	if (!chainId) {
+		return true;
+	}
+	try {
+		// verify sdk support for given chain
+		const config = NetworkConfig.getConfig(chainId);
+		return new Set(supportedNetworks.map((network) => network.id)).has(config.id);
+	} catch {
+		return false;
+	}
+}
 
 export const onboardWalletCheck = [
 	supportedNetwork(),
