@@ -372,8 +372,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(2000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					// TODO: UPDATE LINKS
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-mim-3crv',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/mim-3crv-curve-lp',
 					depositLink: 'https://curve.fi/mim/deposit',
 					strategyLink: 'https://badger.wiki/strategies#691cfc90b4a6453da20ac3a37aca1ab1',
 				},
@@ -383,8 +382,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(2000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					// TODO: UPDATE LINKS
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-frax-3crv',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/frax-3crv-curve-lp',
 					depositLink: 'https://curve.fi/frax/deposit',
 					strategyLink: 'https://badger.wiki/strategies#570fcd8b773242a9bc22c1b4c53dcb60',
 				},
