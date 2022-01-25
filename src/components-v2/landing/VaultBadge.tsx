@@ -50,8 +50,9 @@ const VaultBadge = ({ state }: VaultBadgeProps): JSX.Element | null => {
 				/>
 			);
 		case VaultState.Experimental:
-		case VaultState.Guarded:
 			return <Chip className={clsx(classes.tag, classes.experimentalTag)} size="small" label="Trial Run" />;
+		case VaultState.Guarded:
+			return <Chip className={clsx(classes.tag, classes.experimentalTag)} size="small" label="Guarded" />;
 		case VaultState.Deprecated:
 			return <Chip className={clsx(classes.tag, classes.deprecatedTag)} size="small" label="Expiring" />;
 		default:
