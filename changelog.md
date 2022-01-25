@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### 2.13.3 - 01/25/2022
+
+-   fixed issues causing data to not load when hard refreshing the bridge page
+
 ### 2.13.2 - 01/24/2022
 
 -   fixed some visual alignment + festivity issues
