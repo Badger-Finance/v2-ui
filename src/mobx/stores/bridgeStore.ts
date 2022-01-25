@@ -189,6 +189,12 @@ class BridgeStore {
 			},
 		);
 
+		observe(this.store.onboard, 'address', ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
+			if (!oldValue && !!newValue) {
+				this.reload();
+			}
+		});
+
 		this.updateTimer = setTimeout(() => {
 			// NB: Only ETH supported for now.
 			if (this.network !== Network.Ethereum) return;
