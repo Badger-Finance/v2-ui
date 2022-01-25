@@ -6,13 +6,17 @@ import Web3 from 'web3';
 import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
-import { CoingeckoPriceResponse, FANTOM_PRICE_KEY, MATIC_PRICE_KEY } from 'mobx/model/system-config/coingecko-price-response';
+import {
+	CoingeckoPriceResponse,
+	FANTOM_PRICE_KEY,
+	MATIC_PRICE_KEY,
+} from 'mobx/model/system-config/coingecko-price-response';
 import { fetchData } from '../../utils/fetchData';
 import { DEBUG } from '../../config/environment';
 import BigNumber from 'bignumber.js';
 import { Currency, PriceSummary } from '@badger-dao/sdk';
 
-type CoinGeckoBatchResponse = {[key: string]: CoingeckoPriceResponse};
+type CoinGeckoBatchResponse = { [key: string]: CoingeckoPriceResponse };
 
 export default class PricesStore {
 	private store: RootStore;
@@ -75,7 +79,8 @@ export default class PricesStore {
 	});
 
 	async getExchangeRates(): Promise<ExchangeRates | null> {
-		const baseRatesUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb,ftm';
+		const baseRatesUrl =
+			'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb,ftm';
 		const maticRateUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=matic-network,fantom&vs_currencies=eth';
 		const errorMessage = 'Failed to load exchange rates';
 		const defaultAccessor = (res: ExchangeRatesResponse) => res.ethereum;
