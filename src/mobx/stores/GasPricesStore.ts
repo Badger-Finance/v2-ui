@@ -5,6 +5,7 @@ import { extendObservable } from 'mobx';
 import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
 import { Network as BadgerNetwork } from '../../mobx/model/network/network';
 import { RootStore } from 'mobx/RootStore';
+import { getApi } from 'mobx/utils/apiV2';
 
 type BadgerApis = { [network: string]: BadgerAPI };
 
@@ -18,7 +19,7 @@ class GasPricesStore {
 		this.pricesCache = {};
 		this.apis = Object.fromEntries(
 			this.gasNetworks.map((network) => {
-				return [network.symbol, new BadgerAPI(network.id)];
+				return [network.symbol, new BadgerAPI(network.id, getApi())];
 			}),
 		);
 
