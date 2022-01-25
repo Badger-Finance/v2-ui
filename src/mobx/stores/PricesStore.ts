@@ -6,11 +6,13 @@ import Web3 from 'web3';
 import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
-import { MaticPriceResponse, MATIC_PRICE_KEY } from 'mobx/model/system-config/matic-price-response';
+import { CoingeckoPriceResponse, FANTOM_PRICE_KEY, MATIC_PRICE_KEY } from 'mobx/model/system-config/coingecko-price-response';
 import { fetchData } from '../../utils/fetchData';
 import { DEBUG } from '../../config/environment';
 import BigNumber from 'bignumber.js';
 import { Currency, PriceSummary } from '@badger-dao/sdk';
+
+type CoinGeckoBatchResponse = {[key: string]: CoingeckoPriceResponse};
 
 export default class PricesStore {
 	private store: RootStore;
@@ -73,27 +75,27 @@ export default class PricesStore {
 	});
 
 	async getExchangeRates(): Promise<ExchangeRates | null> {
-		const baseRatesUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb';
-		const maticRateUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=eth';
+		const baseRatesUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb,ftm';
+		const maticRateUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=matic-network,fantom&vs_currencies=eth';
 		const errorMessage = 'Failed to load exchange rates';
 		const defaultAccessor = (res: ExchangeRatesResponse) => res.ethereum;
-		const maticAccessor = (res: MaticPriceResponse) => res[MATIC_PRICE_KEY].eth;
 
-		const [defaultRatesFetch, maticRateFetch] = await Promise.all([
+		const [defaultRatesFetch, otherRatesFetch] = await Promise.all([
 			fetchData<ExchangeRates, ExchangeRatesResponse>(baseRatesUrl, { accessor: defaultAccessor }),
-			fetchData<number, MaticPriceResponse>(maticRateUrl, { accessor: maticAccessor }),
+			fetchData<CoinGeckoBatchResponse, CoinGeckoBatchResponse>(maticRateUrl),
 		]);
 
 		const [defaultRates, defaultRatesError] = defaultRatesFetch;
-		const [maticRate, maticRateError] = maticRateFetch;
-		const ratesMissing = defaultRatesError || maticRateError;
+		const [otherRates, otherRatesError] = otherRatesFetch;
+		const ratesMissing = defaultRatesError || otherRatesError;
 
 		if (DEBUG && ratesMissing) {
 			this.store.uiState.queueError(errorMessage);
 		}
 
-		if (defaultRates && maticRate) {
-			defaultRates.matic = 1 / Number(maticRate);
+		if (defaultRates && otherRates) {
+			defaultRates.matic = 1 / Number(otherRates[MATIC_PRICE_KEY].eth);
+			defaultRates.ftm = 1 / Number(otherRates[FANTOM_PRICE_KEY].eth);
 		}
 
 		return defaultRates;
