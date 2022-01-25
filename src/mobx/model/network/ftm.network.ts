@@ -27,6 +27,6 @@ export const FTM_DEPLOY: Deploy = deploy;
 
 export const ftmVaults: BadgerVault[] = [];
 
-const xDaiTokens = ftmVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]);
+const ftmTokens = ftmVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]);
 
-export const xDaiProtocolTokens: ProtocolTokens = toRecord(xDaiTokens, 'address');
+export const ftmProtocolTokens: ProtocolTokens = toRecord(ftmTokens, 'address');
