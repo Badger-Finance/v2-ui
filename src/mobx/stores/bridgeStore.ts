@@ -63,6 +63,8 @@ const defaultProps = {
 	shortAddr: '',
 };
 
+const supportedBridgeNetworks: string[] = [Network.Ethereum];
+
 class BridgeStore {
 	private store!: RootStore;
 	private network!: string | undefined;
@@ -190,7 +192,7 @@ class BridgeStore {
 		);
 
 		observe(this.store.onboard, 'address', ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
-			if (this.network === Network.Ethereum && !oldValue && !!newValue) {
+			if (this.isBridgeSupported() && !oldValue && !!newValue) {
 				this.reload();
 			}
 		});
@@ -206,6 +208,10 @@ class BridgeStore {
 			this._getBalances(address);
 		}, UPDATE_INTERVAL_SECONDS);
 	}
+
+	isBridgeSupported = action((): boolean => {
+		return supportedBridgeNetworks.includes(this.store.network.network?.symbol);
+	});
 
 	reload = action(async () => {
 		// Always reset first on reload even though we may not be loading any data.
