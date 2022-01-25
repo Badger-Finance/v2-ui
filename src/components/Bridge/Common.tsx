@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
+import clsx from 'clsx';
 
 const slippageOptions: string[] = ['0.5', '1.0', '3.0'];
 
@@ -30,12 +31,14 @@ interface SlippageProps {
 
 export const Slippage = (props: SlippageProps): JSX.Element => {
 	const { values, classes, handleChange, handleSetMaxSlippage, disabled } = props;
+	const containerClasses = clsx(classes.row, classes.mobileContainer);
+
 	return (
 		<Grid item xs={12}>
 			<Typography variant="body1" color="textSecondary" style={{ textAlign: 'left' }}>
 				Max slippage (%):
 			</Typography>
-			<div className={classes.row}>
+			<div className={containerClasses}>
 				{slippageOptions.map((opt: string, idx: number) => (
 					<Button
 						key={`slippage-option-${idx}`}
@@ -48,6 +51,7 @@ export const Slippage = (props: SlippageProps): JSX.Element => {
 					</Button>
 				))}
 				<TextField
+					className={classes.mobileContainer}
 					variant="outlined"
 					size="small"
 					value={values.maxSlippage}

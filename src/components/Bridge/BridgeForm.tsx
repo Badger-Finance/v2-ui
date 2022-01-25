@@ -651,7 +651,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	const assetSelect = () => {
 		return (
-			<FormControl>
+			<FormControl className={classes.mobileContainer}>
 				{tabValue === 0 && (
 					<Select
 						variant="outlined"
