@@ -155,7 +155,7 @@ exports[`Landing Renders correctly 1`] = `
                 title="Represents the dollar value of all assets you deposited in each vault"
               />
               <button
-``                aria-label="sort descending by balance"
+                aria-label="sort descending by balance"
                 class="MuiButtonBase-root-206 MuiIconButton-root-197 makeStyles-sortIcon-175 makeStyles-nonSetSort-177"
                 tabindex="0"
                 type="button"
