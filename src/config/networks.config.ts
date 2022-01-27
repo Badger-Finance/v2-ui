@@ -15,7 +15,7 @@ export const supportedNetworks: Network[] = [
 	new Polygon(),
 	new BinanceSmartChain(),
 	new Arbitrum(),
-	new Avalanche(),
+	...(FLAGS.AVAX ? [new Avalanche()] : []),
 	...(FLAGS.XDAI ? [new xDai()] : []),
 	...(FLAGS.FTM ? [new Fantom()] : []),
 ];
