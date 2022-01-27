@@ -27,7 +27,7 @@ const NetworkNotification = observer((): JSX.Element | null => {
 	const { network: networkStore } = useContext(StoreContext);
 	const { network } = networkStore;
 	const classes = useStyles();
-	if (!network.notification) {
+	if (!network || !network.notification) {
 		return null;
 	}
 	return (

@@ -1,5 +1,6 @@
-import { Network } from '@badger-dao/sdk';
+import { Network, NetworkConfig } from '@badger-dao/sdk';
 import { FLAGS } from 'config/environment';
+import { isSupportedNetwork } from 'config/wallets';
 import { SidebarConfig } from './interface/sidebar-config.interface';
 
 const sidebarConfig: Record<Network, SidebarConfig> = {
@@ -85,6 +86,13 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 	},
 };
 
-export function getSidebarConfig(network: Network): SidebarConfig {
-	return sidebarConfig[network];
+export function getSidebarConfig(network?: Network): SidebarConfig {
+	let chain = Network.Ethereum;
+	try {
+		const config = NetworkConfig.getConfig(network ?? chain);
+		if (isSupportedNetwork(config.id)) {
+			return sidebarConfig[config.network];
+		}
+	} catch {} // ignore network not found error - defaults to ethereum
+	return sidebarConfig[chain];
 }

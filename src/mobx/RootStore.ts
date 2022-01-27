@@ -77,6 +77,7 @@ export class RootStore {
 	}
 
 	async updateNetwork(network: number): Promise<void> {
+		// push network state to app
 		if (this.network.network.id !== network) {
 			const appNetwork = Network.networkFromId(network);
 			this.network.network = appNetwork;
@@ -130,6 +131,12 @@ export class RootStore {
 
 				if (this.router.currentPath === routes.citadel.path) {
 					updateActions.push(this.bondStore.updateBonds());
+				}
+			}
+
+			if (this.bridge.isBridgeSupported()) {
+				if (this.router.currentPath === routes.bridge.path) {
+					updateActions.push(this.bridge.reload());
 				}
 			}
 
