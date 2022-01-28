@@ -85,7 +85,11 @@ export class OnboardStore {
 		}
 	});
 
-	networkListener = action(async (network: number) => {
+	networkListener = action(async (network: number | undefined) => {
+		if (!network) {
+			return;
+		}
+
 		if (isSupportedNetwork(network)) {
 			this.onSupportedNetwork = true;
 			await this.store.updateNetwork(network);

@@ -123,8 +123,8 @@ exports[`Vault List Header renders correctly 1`] = `
             title="Represents the dollar value of all assets you deposited in each vault"
           />
           <button
-            aria-label="sort ascending by balance"
-            class="MuiButtonBase-root-166 MuiIconButton-root-157 makeStyles-sortIcon-2"
+            aria-label="sort descending by balance"
+            class="MuiButtonBase-root-166 MuiIconButton-root-157 makeStyles-sortIcon-2 makeStyles-nonSetSort-4"
             tabindex="0"
             type="button"
           >

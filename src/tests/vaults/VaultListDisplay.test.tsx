@@ -1,7 +1,7 @@
 import React from 'react';
 import store from '../../mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-import { Protocol, VaultState } from '@badger-dao/sdk';
+import { Protocol, Vault, VaultState } from '@badger-dao/sdk';
 import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 import { customRender, fireEvent, screen } from '../Utils';
 import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';
@@ -23,19 +23,25 @@ const sampleExchangeRates: ExchangeRates = {
 	xdai: 1,
 };
 
+const mockVaultsInformation = (vaults: Vault[]) => {
+	jest.spyOn(defaultNetwork, 'settOrder', 'get').mockReturnValue(vaults.map((vault) => vault.vaultToken));
+
+	Object.defineProperty(defaultNetwork, 'vaults', {
+		value: vaults.map((vault) => ({
+			depositToken: { address: vault.underlyingToken, decimals: 18 },
+			vaultToken: { address: vault.vaultToken, decimals: 18 },
+		})),
+	});
+
+	store.vaults.getVaultMap = jest
+		.fn()
+		.mockReturnValue(Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])));
+};
+
 describe('VaultListDisplay', () => {
 	beforeEach(() => {
-		jest.spyOn(defaultNetwork, 'settOrder', 'get').mockReturnValue(SAMPLE_VAULTS.map((vault) => vault.vaultToken));
-		Object.defineProperty(defaultNetwork, 'vaults', {
-			value: SAMPLE_VAULTS.map((vault) => ({
-				depositToken: { address: vault.underlyingToken, decimals: 18 },
-				vaultToken: { address: vault.vaultToken, decimals: 18 },
-			})),
-		});
+		mockVaultsInformation(SAMPLE_VAULTS);
 		store.prices.exchangeRates = sampleExchangeRates;
-		store.vaults.getVaultMap = jest
-			.fn()
-			.mockReturnValue(Object.fromEntries(SAMPLE_VAULTS.map((vault) => [vault.vaultToken, vault])));
 	});
 
 	afterEach(() => {
@@ -162,19 +168,7 @@ describe('VaultListDisplay', () => {
 
 	it('displays empty search message', () => {
 		const vaults = [...SAMPLE_VAULTS].splice(1, 2);
-
-		jest.spyOn(defaultNetwork, 'settOrder', 'get').mockReturnValue(vaults.map((vault) => vault.vaultToken));
-
-		Object.defineProperty(defaultNetwork, 'vaults', {
-			value: vaults.map((vault) => ({
-				depositToken: { address: vault.underlyingToken, decimals: 18 },
-				vaultToken: { address: vault.vaultToken, decimals: 18 },
-			})),
-		});
-
-		store.vaults.getVaultMap = jest
-			.fn()
-			.mockReturnValue(Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])));
+		mockVaultsInformation(vaults);
 
 		const { container } = customRender(
 			<StoreProvider value={store}>
@@ -193,18 +187,60 @@ describe('VaultListDisplay', () => {
 		const vaults = [...SAMPLE_VAULTS].splice(0, 1);
 		vaults[0].state = VaultState.Deprecated;
 
-		jest.spyOn(defaultNetwork, 'settOrder', 'get').mockReturnValue(vaults.map((vault) => vault.vaultToken));
+		mockVaultsInformation(vaults);
 
-		Object.defineProperty(defaultNetwork, 'vaults', {
-			value: vaults.map((vault) => ({
-				depositToken: { address: vault.underlyingToken, decimals: 18 },
-				vaultToken: { address: vault.vaultToken, decimals: 18 },
-			})),
+		const { container } = customRender(
+			<StoreProvider value={store}>
+				<VaultListDisplay />
+			</StoreProvider>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('uses default sort criteria by default', () => {
+		const vaults = [...SAMPLE_VAULTS];
+
+		mockVaultsInformation(vaults);
+
+		jest.spyOn(UserStore.prototype, 'getTokenBalance').mockImplementation((address: string) => {
+			if (address === vaults[2].vaultToken) {
+				return new TokenBalance(
+					{
+						address,
+						symbol: '',
+						decimals: 18,
+						name: '',
+					},
+					new BigNumber(10),
+					new BigNumber(2),
+				);
+			}
+
+			if (address === vaults[1].underlyingToken) {
+				return new TokenBalance(
+					{
+						address,
+						symbol: '',
+						decimals: 18,
+						name: '',
+					},
+					new BigNumber(1),
+					new BigNumber(2),
+				);
+			}
+
+			return new TokenBalance(
+				{
+					address,
+					symbol: '',
+					decimals: 18,
+					name: '',
+				},
+				new BigNumber(0),
+				new BigNumber(0),
+			);
 		});
-
-		store.vaults.getVaultMap = jest
-			.fn()
-			.mockReturnValue(Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])));
 
 		const { container } = customRender(
 			<StoreProvider value={store}>
