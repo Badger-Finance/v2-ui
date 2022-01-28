@@ -191,12 +191,6 @@ class BridgeStore {
 			},
 		);
 
-		observe(this.store.onboard, 'address', ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
-			if (this.isBridgeSupported() && !oldValue && !!newValue) {
-				this.reload();
-			}
-		});
-
 		this.updateTimer = setTimeout(() => {
 			// NB: Only ETH supported for now.
 			if (this.network !== Network.Ethereum) return;
@@ -210,6 +204,9 @@ class BridgeStore {
 	}
 
 	isBridgeSupported = action((): boolean => {
+		if (!this.store.onboard.onSupportedNetwork) {
+			return false;
+		}
 		return supportedBridgeNetworks.includes(this.store.network.network?.symbol);
 	});
 
@@ -224,7 +221,7 @@ class BridgeStore {
 		if (!wallet || !address) return;
 
 		this.loading = true;
-		return Promise.all([
+		await Promise.all([
 			// Fetch old transactions and reload any incomplete tx.
 			this._fetchTx(address),
 			this._getBalances(address),

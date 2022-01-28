@@ -2,7 +2,6 @@ import { GasPrices } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
-import { isRpcWallet } from 'config/wallets';
 import { action, extendObservable } from 'mobx';
 import { Network } from 'mobx/model/network/network';
 import { RootStore } from 'mobx/RootStore';
@@ -80,34 +79,6 @@ export class NetworkStore {
 		} else {
 			this.store.rewards.resetRewards();
 		}
-	});
-
-	// Check to see if the wallet's connected network matches the currently defined network
-	// if it doesn't, set to the proper network
-	checkNetwork = action((network: number): boolean => {
-		const { onboard } = this.store.onboard;
-		// M50: Some onboard wallets don't have providers, we mock in the app network to fill in the gap here
-		const walletState = onboard.getState();
-		const walletName = walletState.wallet.name;
-		if (!walletName) {
-			return false;
-		}
-
-		// If this returns undefined, the network is not supported.
-		const networkId = isRpcWallet(walletName) ? walletState.appNetworkId : network;
-		const connectedNetwork = Network.networkFromId(networkId);
-
-		if (!connectedNetwork) {
-			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
-			onboard.walletReset();
-			window.localStorage.removeItem('selectedWallet');
-			return false;
-		}
-
-		if (connectedNetwork.id !== this.network.id) {
-			this.network = connectedNetwork;
-		}
-		return true;
 	});
 
 	updateGasPrices = action(async () => {

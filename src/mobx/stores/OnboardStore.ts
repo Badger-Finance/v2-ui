@@ -8,12 +8,13 @@ import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config
 import { action, extendObservable } from 'mobx';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
-import { getOnboardWallets, isRpcWallet, onboardWalletCheck } from 'config/wallets';
+import { getOnboardWallets, isRpcWallet, isSupportedNetwork, onboardWalletCheck } from 'config/wallets';
 import rpc from 'config/rpc.config';
 
 const WALLET_STORAGE_KEY = 'selectedWallet';
 
 export class OnboardStore {
+	public onSupportedNetwork: boolean;
 	public config: NetworkConfig;
 	public wallet?: Wallet;
 	public onboard: API;
@@ -22,6 +23,7 @@ export class OnboardStore {
 	public address?: string;
 
 	constructor(private store: RootStore, config: NetworkConfig) {
+		this.onSupportedNetwork = true;
 		this.config = config;
 		this.onboard = Onboard(this.getInitialization(config));
 		const notifyOptions: InitOptions = {
@@ -30,6 +32,7 @@ export class OnboardStore {
 		};
 		this.notify = Notify(notifyOptions);
 		extendObservable(this, {
+			onSupportedNetwork: this.onSupportedNetwork,
 			onboard: this.onboard,
 			provider: undefined,
 			address: undefined,
@@ -83,14 +86,16 @@ export class OnboardStore {
 	});
 
 	networkListener = action(async (network: number) => {
-		try {
-			// trigger network check for supported networks (todo: migrate to onboard network check)
-			NetworkConfig.getConfig(network);
+		if (isSupportedNetwork(network)) {
+			this.onSupportedNetwork = true;
 			await this.store.updateNetwork(network);
 			if (this.provider) {
 				await this.store.updateProvider(this.provider);
 			}
-		} catch {} // do nothing on bad network change
+		} else {
+			this.onSupportedNetwork = false;
+			await this.onboard.walletCheck();
+		}
 	});
 
 	walletListener = action(async (wallet: Wallet): Promise<void> => {
@@ -109,7 +114,8 @@ export class OnboardStore {
 
 	private getProvider(provider: any, wallet: string | null): SDKProvider {
 		let library;
-		const config = NetworkConfig.getConfig(parseInt(provider.chainId ?? NETWORK_IDS.ETH, 16));
+		const targetChain = provider.chainId ? parseInt(provider.chainId, 16) : NETWORK_IDS.ETH;
+		const config = NetworkConfig.getConfig(targetChain);
 		if (isRpcWallet(wallet)) {
 			library = new JsonRpcProvider(rpc[config.network], config.id);
 		} else {
