@@ -220,7 +220,8 @@ export default class VaultStore {
 				// default sorting uses the following criteria:
 				// 1 - balance deposited in vault
 				// 2 - vault's underlying token balance
-				// 3 - vault's TVL
+				// 3 - new vaults
+				// 4 - vault's TVL
 				vaults = vaults = vaults.sort((a, b) => {
 					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
 					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
@@ -234,6 +235,12 @@ export default class VaultStore {
 
 					if (!depositTokenBalanceB.isZero() || !depositTokenBalanceA.isZero()) {
 						return depositTokenBalanceB.minus(depositTokenBalanceA).toNumber();
+					}
+
+					if (b.state === VaultState.New || a.state === VaultState.New) {
+						const isVaultBNew = b.state === VaultState.New;
+						const isVaultANew = a.state === VaultState.New;
+						return Number(isVaultBNew) - Number(isVaultANew);
 					}
 
 					return b.value - a.value;
