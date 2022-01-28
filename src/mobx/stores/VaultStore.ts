@@ -63,7 +63,6 @@ export default class VaultStore {
 			currency: store.uiState.currency,
 			protocols: [],
 			types: [],
-			sortOrder: VaultSortOrder.BALANCE_DESC,
 		};
 
 		this.refresh();
@@ -218,6 +217,34 @@ export default class VaultStore {
 				});
 				break;
 			default:
+				// default sorting uses the following criteria:
+				// 1 - balance deposited in vault
+				// 2 - vault's underlying token balance
+				// 3 - new vaults
+				// 4 - vault's TVL
+				vaults = vaults = vaults.sort((a, b) => {
+					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
+					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
+
+					if (!vaultTokenBalanceA.isZero() || !vaultTokenBalanceB.isZero()) {
+						return vaultTokenBalanceB.minus(vaultTokenBalanceA).toNumber();
+					}
+
+					const depositTokenBalanceB = user.getTokenBalance(b.underlyingToken).value;
+					const depositTokenBalanceA = user.getTokenBalance(a.underlyingToken).value;
+
+					if (!depositTokenBalanceB.isZero() || !depositTokenBalanceA.isZero()) {
+						return depositTokenBalanceB.minus(depositTokenBalanceA).toNumber();
+					}
+
+					if (b.state === VaultState.New || a.state === VaultState.New) {
+						const isVaultBNew = b.state === VaultState.New;
+						const isVaultANew = a.state === VaultState.New;
+						return Number(isVaultBNew) - Number(isVaultANew);
+					}
+
+					return b.value - a.value;
+				});
 				break;
 		}
 
@@ -338,7 +365,6 @@ export default class VaultStore {
 			currency: this.store.uiState.currency,
 			protocols: [],
 			types: [],
-			sortOrder: VaultSortOrder.BALANCE_DESC,
 		};
 	});
 }
