@@ -48,6 +48,7 @@ export const FLAGS = {
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 	XDAI: toBool(process.env.REACT_APP_XDAI),
 	FTM: toBool(process.env.REACT_APP_FTM),
+	AVAX: toBool(process.env.REACT_APP_AVAX),
 	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
 	CITADEL_SALE: toBool(process.env.REACT_APP_CITADEL_SALE),
 };
