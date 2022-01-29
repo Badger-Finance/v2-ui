@@ -28,13 +28,18 @@ body::-webkit-scrollbar-thumb {
 }
 
 .bn-onboard-modal-content {
+	width: 349px;
+	position: absolute !important;
+	top: 0;
+	right: 0;
+	height: 100vh;
+	border-radius: 0 !important;
 	padding: 24px 32px !important;
 	background: #2b2b2b !important;
 }
 
 .bn-onboard-select-description {
-	color: #c3c3c3 !important;
-	font-size: 14px !important;
+	display: none !important;
 }
 
 .bn-onboard-modal-content-close {
@@ -80,9 +85,13 @@ body::-webkit-scrollbar-thumb {
 	display: none;
 }
 
+span.bn-onboard-select-wallet-info {
+	color: #c3c3c3 !important;
+}
+
 @media (min-width: 681px) {
 	.bn-onboard-icon-button {
-		width: 271px !important;
+		width: 274px !important;
 	}
 
 	.bn-onboard-modal-select-wallets {
@@ -97,7 +106,7 @@ body::-webkit-scrollbar-thumb {
 		display: flex;
 		flex-grow: 0;
 		flex-basis: 50%;
-		margin-bottom: 23px !important;
+		margin-bottom: 10px !important;
 	}
 
 	.bn-onboard-modal-select-wallets li:nth-child(even) {
@@ -112,6 +121,11 @@ body::-webkit-scrollbar-thumb {
 
 	ul.bn-onboard-modal-select-wallets > div {
 		margin-bottom: 20px !important;
+	}
+
+	.bn-onboard-modal-content {
+		border-top-left-radius: 8px !important;
+		border-bottom-left-radius: 8px !important;
 	}
 }
 

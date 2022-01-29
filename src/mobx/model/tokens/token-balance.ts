@@ -63,7 +63,7 @@ export class TokenBalance {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
 
-		return this.balance.toFixed(decimals);
+		return this.balance.decimalPlaces(decimals, BigNumber.ROUND_HALF_FLOOR).toString();
 	}
 
 	balanceValueDisplay(currency: Currency, precision?: number): string | undefined {
