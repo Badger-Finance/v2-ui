@@ -221,7 +221,6 @@ export default class VaultStore {
 				// 1 - balance deposited in vault
 				// 2 - vault's underlying token balance
 				// 3 - new vaults
-				// 4 - vault's TVL
 				vaults = vaults = vaults.sort((a, b) => {
 					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
 					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
@@ -243,7 +242,8 @@ export default class VaultStore {
 						return Number(isVaultBNew) - Number(isVaultANew);
 					}
 
-					return b.value - a.value;
+					// leave default order
+					return 0;
 				});
 				break;
 		}
