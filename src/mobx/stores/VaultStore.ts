@@ -221,6 +221,7 @@ export default class VaultStore {
 				// 1 - balance deposited in vault
 				// 2 - vault's underlying token balance
 				// 3 - new vaults
+				// 4 - boosted vaults
 				vaults = vaults = vaults.sort((a, b) => {
 					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
 					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
@@ -240,6 +241,10 @@ export default class VaultStore {
 						const isVaultBNew = b.state === VaultState.New;
 						const isVaultANew = a.state === VaultState.New;
 						return Number(isVaultBNew) - Number(isVaultANew);
+					}
+
+					if (b.boost.enabled || a.boost.enabled) {
+						return Number(b.boost.enabled) - Number(a.boost.enabled);
 					}
 
 					// leave default order
