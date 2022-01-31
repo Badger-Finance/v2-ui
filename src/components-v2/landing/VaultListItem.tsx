@@ -174,7 +174,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 
 	const vaultName = (
 		<Typography className={classes.vaultName}>
-			{vault.protocol} - {vault.name}
+			{vault.protocol} - {vault.name} - {vault.vaultAsset}
 		</Typography>
 	);
 
@@ -310,7 +310,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							<img
 								alt={`Badger ${vault.name} Vault Symbol`}
 								className={clsx(classes.symbol, !!Badge && classes.symbolWithBadge)}
-								src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.svg`}
+								src={`/assets/icons/${vault.vaultAsset.toLowerCase()}-${network.network.symbol}.svg`}
 							/>
 						</Grid>
 						{!!Badge && (
