@@ -8,6 +8,7 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		cycle: true,
 		digg: true,
 		ibBTC: true,
+		recoverTxn: true,
 		bridge: true,
 		boost: true,
 		airdrops: true,
