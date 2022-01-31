@@ -103,7 +103,7 @@ const WalletDrawer = (): JSX.Element | null => {
 		.sort((a, b) => b.value.minus(a.value).toNumber());
 
 	return (
-		<Drawer open={uiState.showWalletDrawer} anchor="right">
+		<Drawer open={uiState.showWalletDrawer} anchor="right" onClose={() => uiState.toggleWalletDrawer()}>
 			<Grid container direction="column" className={classes.root} justifyContent="space-between">
 				<Grid item>
 					<Grid
