@@ -192,7 +192,7 @@ const WalletDrawer = (): JSX.Element | null => {
 					<Typography variant="subtitle2" display="inline">
 						Wallet Address Copied
 					</Typography>
-					<IconButton onClick={() => setShowCopiedMessage(false)}>
+					<IconButton onClick={() => setShowCopiedMessage(false)} aria-label="dismiss copied address message">
 						<CloseIcon />
 					</IconButton>
 				</Grid>
