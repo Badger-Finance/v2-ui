@@ -174,7 +174,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 
 	const vaultName = (
 		<Typography className={classes.vaultName}>
-			{vault.protocol} - {vault.name} - {vault.vaultAsset}
+			{vault.protocol} - {vault.name}
 		</Typography>
 	);
 
