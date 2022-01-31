@@ -28,7 +28,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .bn-onboard-modal-content {
-	width: 349px;
+	/*349px - 32px each side*/
+	width: 285px;
 	position: absolute !important;
 	top: 0;
 	right: 0;
