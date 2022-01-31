@@ -51,6 +51,7 @@ export class Ethereum extends NetworkModel {
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.badger'],
+			this.deploy.sett_system.vaults['native.rembadger'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
 			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
