@@ -51,6 +51,7 @@ export class Ethereum extends NetworkModel {
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.badger'],
+			this.deploy.sett_system.vaults['native.rembadger'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
 			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
@@ -158,6 +159,16 @@ const ethVaultDefinitions: BadgerVault[] = [
 			decimals: 18,
 		},
 		geyser: ETH_DEPLOY.geysers['native.badger'],
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens.badger,
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.rembadger'],
+			decimals: 18,
+		},
 	},
 	{
 		depositToken: {

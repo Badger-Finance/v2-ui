@@ -100,6 +100,7 @@
 		},
 		"vaults": {
 			"native.badger": "0x19D97D8fA813EE2f51aD4B4e04EA08bAf4DFfC28",
+			"native.rembadger": "0x6af7377b5009d7d154f36fe9e235ae1da27aea22",
 			"native.renCrv": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
 			"native.sbtcCrv": "0xd04c48A53c111300aD41190D63681ed3dAd998eC",
 			"native.tbtcCrv": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",
