@@ -207,7 +207,7 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 					className={classes.titlesContainer}
 				>
 					<Grid item xs container spacing={2}>
-						<Grid item xs={12} md={6} lg={4} container alignItems="center" className={clsx(classes.title)}>
+						<Grid item xs={12} md={5} lg={4} container alignItems="center" className={clsx(classes.title)}>
 							<Typography className={classes.title} variant="body2" color="textSecondary">
 								{title}
 							</Typography>
