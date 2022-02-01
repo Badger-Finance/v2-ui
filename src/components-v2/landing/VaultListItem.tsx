@@ -128,6 +128,9 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-end',
 		marginTop: 8,
 	},
+	tabletTvl: {
+		whiteSpace: 'pre',
+	},
 }));
 
 export interface VaultListItemProps {
@@ -139,6 +142,7 @@ export interface VaultListItemProps {
 
 const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: VaultListItemProps): JSX.Element => {
 	const classes = useStyles();
+	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const { user, network, router, onboard, vaults } = useContext(StoreContext);
 	const [openDepositDialog, setOpenDepositDialog] = useState(false);
@@ -318,7 +322,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 					</Grid>
 					<Grid item container xs>
 						<Grid item container spacing={4} xs={12}>
-							<Grid item xs={12} md={6} lg={4} container>
+							<Grid item xs={12} md={5} lg={4} container>
 								{vaultName}
 							</Grid>
 							<Grid item xs={12} md>
@@ -346,12 +350,12 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							</Grid>
 						</Grid>
 						<Grid item container spacing={4} xs={12}>
-							<Grid item xs={12} md={6} lg={4} container>
+							<Grid item xs={12} md={5} lg={4} container>
 								<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
 									{boostText}
 								</Typography>
 							</Grid>
-							<Grid item xs={12} md={6} lg={8}>
+							<Grid item xs={12} md={5} lg={8}>
 								{boostContribution && (
 									<Typography variant="body1" color="textSecondary" className={classes.thinFont}>
 										My Boost: {boostContribution.toFixed(2)}%
@@ -359,6 +363,30 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								)}
 							</Grid>
 						</Grid>
+						{isTablet && (
+							<Grid item container spacing={4} xs={12}>
+								<Grid item xs={12} md={6} lg={4} container className={classes.tabletTvl}>
+									<Typography
+										display="inline"
+										variant="body1"
+										color="textSecondary"
+										className={classes.thinFont}
+									>
+										{'TVL: '}
+									</Typography>
+									<CurrencyDisplay
+										displayValue={inCurrency(
+											new BigNumber(vault.value),
+											vaults.vaultsFilters.currency,
+											0,
+										)}
+										variant="body1"
+										justifyContent="flex-start"
+										TypographyProps={{ className: classes.thinFont, color: 'textSecondary' }}
+									/>
+								</Grid>
+							</Grid>
+						)}
 					</Grid>
 				</Grid>
 				<Grid item xs={12} md className={classes.nonClickableSection}>
