@@ -7,6 +7,7 @@ import store from '../../mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
 
 const boostedVault: Vault = {
+	available: 0,
 	name: 'ibBTC / crvsBTC LP',
 	asset: 'crvibBTC',
 	vaultAsset: 'bcrvibBTC',
@@ -111,6 +112,7 @@ const boostedVault: Vault = {
 };
 
 const normalVault: Vault = {
+	available: 0,
 	name: 'Badger',
 	asset: 'Badger',
 	vaultAsset: 'bBadger',
@@ -169,6 +171,10 @@ describe('VaultItemApr', () => {
 		});
 	});
 
+	afterEach(() => {
+		jest.useRealTimers();
+	});
+
 	describe('Boosted Vaults', () => {
 		const sampleMultiplier = 0.020652602960278606;
 		const mockUserBoost = 10;
@@ -178,6 +184,7 @@ describe('VaultItemApr', () => {
 		});
 
 		it('displays APR breakdown on hover', async () => {
+			jest.useFakeTimers();
 			const { container } = customRender(
 				<StoreProvider value={store}>
 					<VaultItemApr vault={boostedVault} boost={mockUserBoost} multiplier={sampleMultiplier} />
@@ -186,6 +193,7 @@ describe('VaultItemApr', () => {
 
 			fireEvent.mouseOver(screen.getByText(`${mockUserBoost.toFixed(2)}%`));
 			await screen.findByText(boostedVault.sources[0].name, { exact: false });
+			jest.runAllTimers();
 			expect(container).toMatchSnapshot();
 		});
 	});
@@ -196,6 +204,7 @@ describe('VaultItemApr', () => {
 		});
 
 		it('displays APR breakdown on hover', async () => {
+			jest.useFakeTimers();
 			const { container } = customRender(
 				<StoreProvider value={store}>
 					<VaultItemApr boost={null} vault={normalVault} />
@@ -204,6 +213,7 @@ describe('VaultItemApr', () => {
 
 			fireEvent.mouseOver(screen.getByText(`${normalVault.apr.toFixed(2)}%`));
 			await screen.findByText(normalVault.sources[0].name, { exact: false });
+			jest.runAllTimers();
 			expect(container).toMatchSnapshot();
 		});
 	});
