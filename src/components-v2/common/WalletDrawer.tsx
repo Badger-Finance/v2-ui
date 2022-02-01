@@ -8,6 +8,7 @@ import { shortenAddress } from '../../utils/componentHelpers';
 import CurrencyDisplay from './CurrencyDisplay';
 import { inCurrency } from '../../mobx/utils/helpers';
 import copy from 'copy-to-clipboard';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 const WalletDrawer = (): JSX.Element | null => {
 	const [showCopiedMessage, setShowCopiedMessage] = useState(false);
-	const { uiState, user, onboard } = useContext(StoreContext);
+	const { uiState, user, onboard, network } = useContext(StoreContext);
 	const { ensName } = useENS(onboard.address);
 	const classes = useStyles();
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
@@ -98,9 +99,13 @@ const WalletDrawer = (): JSX.Element | null => {
 		return null;
 	}
 
-	const tokenBalances = Object.values(user.tokenBalances)
-		.filter((balance) => balance.tokenBalance.gt(0))
-		.sort((a, b) => b.value.minus(a.value).toNumber());
+	const tokenBalances = Object.keys(network.network.deploy.tokens).flatMap((token) => {
+		const isBadgerToken = ['badger', 'digg'].includes(token.toLowerCase());
+		return isBadgerToken ? [user.getTokenBalance(network.network.deploy.tokens[token])] : [];
+	});
+
+	const sortedBalances = tokenBalances.sort((a, b) => b.value.minus(a.value).toNumber());
+	const totalBalance = tokenBalances.reduce((total, next) => total.plus(next.value), new BigNumber(0));
 
 	return (
 		<Drawer open={uiState.showWalletDrawer} anchor="right" onClose={() => uiState.toggleWalletDrawer()}>
@@ -139,12 +144,12 @@ const WalletDrawer = (): JSX.Element | null => {
 						<CurrencyDisplay
 							variant="body1"
 							justifyContent="flex-start"
-							displayValue={inCurrency(user.walletValue, uiState.currency)}
+							displayValue={inCurrency(totalBalance, uiState.currency)}
 							TypographyProps={{ className: classes.balance }}
 						/>
 					</Grid>
 					<Grid item container className={classes.balancesList}>
-						{tokenBalances.map((tokenBalance) => (
+						{sortedBalances.map((tokenBalance) => (
 							<Grid container className={classes.tokenBalance} key={tokenBalance.token.address}>
 								<Grid item container justifyContent="space-between" alignItems="center">
 									<div className={classes.tokenNameAndIcon}>

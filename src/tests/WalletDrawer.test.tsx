@@ -3,11 +3,13 @@ import '@testing-library/jest-dom';
 import { OnboardStore } from '../mobx/stores/OnboardStore';
 import store from '../mobx/RootStore';
 import { StoreProvider } from '../mobx/store-context';
-import { SAMPLE_TOKEN_BALANCE } from './utils/samples';
 import WalletDrawer from '../components-v2/common/WalletDrawer';
 import { customRender, screen, fireEvent } from './Utils';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import * as copy from 'copy-to-clipboard';
+import UserStore from '../mobx/stores/UserStore';
+import deploy from '../config/deployments/mainnet.json';
+import BigNumber from 'bignumber.js';
 
 jest.mock('copy-to-clipboard', () => {
 	return jest.fn().mockReturnValue(true);
@@ -17,10 +19,32 @@ describe('Wallet Drawer', () => {
 	beforeEach(() => {
 		store.uiState.showWalletDrawer = true;
 		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-		store.user.tokenBalances = {
-			[SAMPLE_TOKEN_BALANCE.token.address]: TokenBalance.fromBalance(SAMPLE_TOKEN_BALANCE, '10000'),
-		};
 		jest.spyOn(OnboardStore.prototype, 'isActive').mockReturnValue(true);
+		jest.spyOn(UserStore.prototype, 'getTokenBalance').mockImplementation((token) => {
+			if (token === deploy.tokens.badger) {
+				return new TokenBalance(
+					{
+						address: '0x1',
+						name: 'Badger',
+						symbol: 'Badger',
+						decimals: 18,
+					},
+					new BigNumber(1000 * 1e18),
+					new BigNumber(80),
+				);
+			} else {
+				return new TokenBalance(
+					{
+						address: '0x2',
+						name: 'Digg',
+						symbol: 'DIGG',
+						decimals: 8,
+					},
+					new BigNumber(0.1 * 1e8),
+					new BigNumber(50000),
+				);
+			}
+		});
 	});
 
 	afterEach(() => {
