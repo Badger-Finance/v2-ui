@@ -10,24 +10,24 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface AdvisoryLinkProps {
-  href: string;
-  linkText: string;
+	href: string;
+	linkText: string;
 }
 
 const AdvisoryLink = ({ href, linkText }: AdvisoryLinkProps): JSX.Element => {
 	const classes = useStyles();
-  return (
-			<div className={classes.linkContainer}>
-      <Link
-        target="_blank"
-        rel="noreferrer"
-        // TODO: Update with information on the remuneration vault link
-        href={href}
-      >
-        {linkText}
-      </Link>
-    </div>
-  )
+	return (
+		<div className={classes.linkContainer}>
+			<Link
+				target="_blank"
+				rel="noreferrer"
+				// TODO: Update with information on the remuneration vault link
+				href={href}
+			>
+				{linkText}
+			</Link>
+		</div>
+	);
 };
 
 export default AdvisoryLink;

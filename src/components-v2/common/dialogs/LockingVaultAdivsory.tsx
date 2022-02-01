@@ -15,7 +15,10 @@ const LockingVaultAdvisory = ({ accept }: VaultAdvisoryBaseProps): JSX.Element =
 				Any vault withdraws will have an opportunity to utilize the freshly deposited liquidity before it gets
 				locked on a first-come-first-serve basis.
 			</p>
-      <AdvisoryLink href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex" linkText="Learn More" />
+			<AdvisoryLink
+				href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
+				linkText="Learn More"
+			/>
 		</GenericVaultAdvisory>
 	);
 };

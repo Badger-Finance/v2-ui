@@ -53,7 +53,7 @@ export interface VaultModalProps {
 export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
 	const { onboard, user, contracts, vaults } = useContext(StoreContext);
 	const classes = useStyles();
-	
+
 	const [accepted, setAccepted] = useState(badgerVault.withdrawAdvisory ? false : true);
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
