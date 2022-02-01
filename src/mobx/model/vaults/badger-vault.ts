@@ -5,5 +5,6 @@ export interface BadgerVault {
 	depositToken: BadgerToken;
 	vaultToken: BadgerToken; // rename to settToken for API response
 	geyser?: string;
-	vaultAdvisory?: AdvisoryType;
+	depositAdvisory?: AdvisoryType;
+	withdrawAdvisory?: AdvisoryType;
 }

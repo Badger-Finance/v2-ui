@@ -169,6 +169,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.rembadger'],
 			decimals: 18,
 		},
+		withdrawAdvisory: AdvisoryType.Remuneration,
 	},
 	{
 		depositToken: {
@@ -326,7 +327,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.icvx'],
 			decimals: 18,
 		},
-		vaultAdvisory: AdvisoryType.ConvexLock,
+		depositAdvisory: AdvisoryType.ConvexLock,
 	},
 	{
 		depositToken: {

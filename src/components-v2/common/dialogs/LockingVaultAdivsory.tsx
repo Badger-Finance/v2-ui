@@ -1,21 +1,8 @@
-import { Link, makeStyles } from '@material-ui/core';
 import React from 'react';
-import GenericVaultAdvisory from './GenericVaulAdvisory';
+import AdvisoryLink from './AdvisoryLink';
+import GenericVaultAdvisory, { VaultAdvisoryBaseProps } from './GenericVaulAdvisory';
 
-const useStyles = makeStyles(() => ({
-	linkContainer: {
-		display: 'flex',
-		justifyContent: 'center',
-		fontSize: '0.95rem',
-	},
-}));
-
-interface Props {
-	accept: () => void;
-}
-
-const LockingVaultAdvisory = ({ accept }: Props): JSX.Element => {
-	const classes = useStyles();
+const LockingVaultAdvisory = ({ accept }: VaultAdvisoryBaseProps): JSX.Element => {
 	return (
 		<GenericVaultAdvisory accept={accept}>
 			<p>This vault locks Convex in a staking contract that is 16 weeks long.</p>
@@ -28,15 +15,7 @@ const LockingVaultAdvisory = ({ accept }: Props): JSX.Element => {
 				Any vault withdraws will have an opportunity to utilize the freshly deposited liquidity before it gets
 				locked on a first-come-first-serve basis.
 			</p>
-			<div className={classes.linkContainer}>
-				<Link
-					target="_blank"
-					rel="noreferrer"
-					href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
-				>
-					Learn More
-				</Link>
-			</div>
+      <AdvisoryLink href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex" linkText="Learn More" />
 		</GenericVaultAdvisory>
 	);
 };

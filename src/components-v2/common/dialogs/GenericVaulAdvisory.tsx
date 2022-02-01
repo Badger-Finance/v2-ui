@@ -19,8 +19,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-interface Props {
+interface Props extends VaultAdvisoryBaseProps {
 	children: React.ReactNode;
+}
+
+export interface VaultAdvisoryBaseProps {
 	accept: () => void;
 }
 
