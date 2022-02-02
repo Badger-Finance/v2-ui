@@ -3,6 +3,7 @@ import { Button, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import useENS from 'hooks/useEns';
+import { shortenAddress } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	walletDot: {
@@ -26,13 +27,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const shortenAddress = (address?: string) => {
-	if (!address) {
-		return 'Connect';
-	}
-	return address.slice(0, 4) + '..' + address.slice(address.length - 4, address.length);
-};
-
 const WalletWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
@@ -41,7 +35,7 @@ const WalletWidget = observer(() => {
 
 	async function connect(): Promise<void> {
 		if (onboard.isActive()) {
-			onboard.disconnect();
+			uiState.toggleWalletDrawer();
 		} else {
 			try {
 				await onboard.connect();
@@ -53,6 +47,7 @@ const WalletWidget = observer(() => {
 	}
 
 	const { ensName } = useENS(onboard.address);
+	const walletAddress = onboard.address ? shortenAddress(onboard.address) : 'Connect';
 
 	return (
 		<Button
@@ -63,7 +58,7 @@ const WalletWidget = observer(() => {
 			className={classes.walletButton}
 			classes={{ label: classes.walletButtonLabel }}
 		>
-			{ensName ? ensName : shortenAddress(onboard.address)}
+			{ensName || walletAddress}
 		</Button>
 	);
 });

@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Wallet Drawer displays correctly 1`] = `
+<body
+  style="padding-right: 0px; overflow: hidden;"
+>
+   
+   
+  
+  
+  <div
+    aria-hidden="true"
+  />
+  <div
+    class="MuiDrawer-root-17 MuiDrawer-modal-28"
+    role="presentation"
+    style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiBackdrop-root-29"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    />
+    <div
+      data-test="sentinelStart"
+      tabindex="0"
+    />
+    <div
+      class="MuiPaper-root-31 MuiDrawer-paper-19 MuiDrawer-paperAnchorRight-21 MuiPaper-elevation16-50"
+      tabindex="-1"
+    >
+      <div
+        class="MuiGrid-root-59 makeStyles-root-1 MuiGrid-container-60 MuiGrid-direction-xs-column-63 MuiGrid-justify-content-xs-space-between-79"
+      >
+        <div
+          class="MuiGrid-root-59 MuiGrid-item-61"
+        >
+          <div
+            class="MuiGrid-root-59 makeStyles-titleRow-5 MuiGrid-container-60 MuiGrid-item-61 MuiGrid-align-items-xs-center-68 MuiGrid-justify-content-xs-space-between-79"
+          >
+            <h6
+              class="MuiTypography-root-162 makeStyles-title-2 MuiTypography-h6-172 MuiTypography-displayInline-190"
+            >
+              Wallet
+            </h6>
+            <button
+              class="MuiButtonBase-root-201 MuiIconButton-root-192 makeStyles-closeButton-14"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-200"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-204"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-248"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-59 makeStyles-addressRow-6 MuiGrid-container-60 MuiGrid-item-61 MuiGrid-align-items-xs-center-68"
+          >
+            <h6
+              class="MuiTypography-root-162 MuiTypography-subtitle2-174 MuiTypography-displayInline-190"
+            >
+              0x1a..1a1a
+            </h6>
+            <button
+              aria-label="copy wallet address"
+              class="MuiButtonBase-root-201 MuiIconButton-root-192 makeStyles-copyWalletButton-15"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-200"
+              >
+                <img
+                  alt="copy wallet address icon"
+                  src="/assets/icons/copy-wallet-address.svg"
+                />
+              </span>
+              <span
+                class="MuiTouchRipple-root-248"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-59 MuiGrid-item-61"
+          >
+            <h6
+              class="MuiTypography-root-162 MuiTypography-subtitle2-174 MuiTypography-colorTextSecondary-188"
+            >
+              Balance:
+            </h6>
+            <div
+              class="MuiBox-root-215 MuiBox-root-216"
+            >
+              <p
+                class="MuiTypography-root-162 makeStyles-balance-3 MuiTypography-body1-164"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-59 makeStyles-balancesList-11 MuiGrid-container-60 MuiGrid-item-61"
+          >
+            <div
+              class="MuiGrid-root-59 makeStyles-tokenBalance-10 MuiGrid-container-60"
+            >
+              <div
+                class="MuiGrid-root-59 MuiGrid-container-60 MuiGrid-item-61 MuiGrid-align-items-xs-center-68 MuiGrid-justify-content-xs-space-between-79"
+              >
+                <div
+                  class="makeStyles-tokenNameAndIcon-7"
+                >
+                  <img
+                    alt="Badger icon"
+                    class="makeStyles-icon-9"
+                    src="/assets/icons/badger.png"
+                  />
+                  <p
+                    class="MuiTypography-root-162 makeStyles-tokenName-8 MuiTypography-body1-164 MuiTypography-displayInline-190"
+                  >
+                    Badger
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root-215 MuiBox-root-217"
+                >
+                  <p
+                    class="MuiTypography-root-162 MuiTypography-body1-164"
+                  >
+                    1000.000000
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-59 makeStyles-balanceDisplayValue-12 MuiGrid-container-60 MuiGrid-item-61 MuiGrid-justify-content-xs-flex-end-78"
+              >
+                <h6
+                  class="MuiTypography-root-162 MuiTypography-subtitle2-174 MuiTypography-colorTextSecondary-188"
+                />
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-59 makeStyles-tokenBalance-10 MuiGrid-container-60"
+            >
+              <div
+                class="MuiGrid-root-59 MuiGrid-container-60 MuiGrid-item-61 MuiGrid-align-items-xs-center-68 MuiGrid-justify-content-xs-space-between-79"
+              >
+                <div
+                  class="makeStyles-tokenNameAndIcon-7"
+                >
+                  <img
+                    alt="Digg icon"
+                    class="makeStyles-icon-9"
+                    src="/assets/icons/digg.png"
+                  />
+                  <p
+                    class="MuiTypography-root-162 makeStyles-tokenName-8 MuiTypography-body1-164 MuiTypography-displayInline-190"
+                  >
+                    DIGG
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root-215 MuiBox-root-218"
+                >
+                  <p
+                    class="MuiTypography-root-162 MuiTypography-body1-164"
+                  >
+                    0.100000
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-59 makeStyles-balanceDisplayValue-12 MuiGrid-container-60 MuiGrid-item-61 MuiGrid-justify-content-xs-flex-end-78"
+              >
+                <h6
+                  class="MuiTypography-root-162 MuiTypography-subtitle2-174 MuiTypography-colorTextSecondary-188"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-59 MuiGrid-item-61"
+        >
+          <button
+            aria-label="disconnect wallet"
+            class="MuiButtonBase-root-201 MuiButton-root-219 MuiButton-text-221"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-220 makeStyles-disconnectWalletText-4"
+            >
+              <img
+                alt="disconnect wallet icon"
+                aria-label="disconnect wallet"
+                class="makeStyles-disconnectWalletIcon-16"
+                src="/assets/icons/disconnect-wallet.svg"
+              />
+              Disconnect Wallet
+            </span>
+            <span
+              class="MuiTouchRipple-root-248"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      data-test="sentinelEnd"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;

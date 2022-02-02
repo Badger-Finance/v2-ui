@@ -10,6 +10,7 @@ class UiState {
 	private readonly store!: RootStore;
 	public currency: Currency;
 	public airdropStats: any;
+	public showWalletDrawer: boolean;
 	public sidebarOpen!: boolean;
 	public showUserBalances: boolean;
 	public notification: any = {};
@@ -24,6 +25,7 @@ class UiState {
 		this.gasPrice = GasSpeed.Rapid;
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		this.showNotification = this.notificationClosingThreshold < 3;
+		this.showWalletDrawer = false;
 		const { network } = store.network;
 
 		extendObservable(this, {
@@ -34,6 +36,7 @@ class UiState {
 			notification: {},
 			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
+			showWalletDrawer: this.showWalletDrawer,
 		});
 
 		if (APP_NEWS_STORAGE_HASH) {
@@ -104,6 +107,10 @@ class UiState {
 
 	closeSidebar = action(() => {
 		this.sidebarOpen = false;
+	});
+
+	toggleWalletDrawer = action(() => {
+		this.showWalletDrawer = !this.showWalletDrawer;
 	});
 }
 

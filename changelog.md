@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### 2.13.4 - 02/01/2022
+
+-   add new wallet bar
+-   update vaults default sorting
+
 ### 2.13.3 - 01/25/2022
 
 -   fixed issues causing data to not load when hard refreshing the bridge page
