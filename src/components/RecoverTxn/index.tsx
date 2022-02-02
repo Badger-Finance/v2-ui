@@ -7,11 +7,14 @@ import PageHeader from '../../components-v2/common/PageHeader';
 import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 import { AmountTextField } from '../../components-v2/common/dialogs/styled';
 import Button from '@material-ui/core/Button';
-import useSearchTxnById from './hooks/search';
+import useSearchTxnById, { TxnSearch } from './hooks/search';
 import { bridge_system, tokens } from 'config/deployments/mainnet.json';
 import { RenVMParams, RenVMTransaction } from '../../mobx/model/bridge/renVMTransaction';
 import { EthArgs } from '@renproject/interfaces';
 import routes from '../../config/routes';
+import { SearchResult } from './lib/searchResult';
+
+type ResumableTransaction = Partial<RenVMTransaction>;
 
 export const RecoverTxn = observer(() => {
 	const {
@@ -20,7 +23,7 @@ export const RecoverTxn = observer(() => {
 		router,
 	} = useContext(StoreContext);
 	const [txnId, setTxnId] = useState<string>('');
-	const { searchTxn, searchTxnLoading, handleSearchByTxnId }: any = useSearchTxnById();
+	const { searchTxn, searchTxnLoading, handleSearchByTxnId }: TxnSearch = useSearchTxnById();
 	const classes = useStyles();
 
 	const handleTransactionFormSubmit = (event: FormEvent) => {
@@ -28,7 +31,7 @@ export const RecoverTxn = observer(() => {
 		handleSearchByTxnId(txnId);
 	};
 
-	const createTxnParams = (searchTxn: any): RenVMTransaction => {
+	const createTxnParams = (searchTxn: SearchResult): ResumableTransaction => {
 		const contractParams: EthArgs = [
 			{
 				name: '_token',
@@ -61,22 +64,22 @@ export const RecoverTxn = observer(() => {
 			contractParams,
 		};
 
-		const txnParams: RenVMTransaction = {
+		const txnParams: ResumableTransaction = {
 			params,
 			user: onboard.address,
 			renVMMessage: 'Waiting for 6 confirmations.',
-			renVMStatus: 'detected',
+			renVMStatus: 'detected' as any,
 			nonce: JSON.stringify(searchTxn?.queryTx?.result?.in?.nonce),
-		} as any;
+		};
 
 		return txnParams;
 	};
 
 	useEffect(() => {
 		if (!searchTxnLoading && searchTxn) {
-			const txn: RenVMTransaction = createTxnParams(searchTxn);
+			const txn: ResumableTransaction = createTxnParams(searchTxn);
 			router.goTo(routes.bridge);
-			resumeTx(txn);
+			resumeTx(txn as RenVMTransaction);
 		}
 	}, [searchTxn, searchTxnLoading, onboard, router, resumeTx, createTxnParams]);
 

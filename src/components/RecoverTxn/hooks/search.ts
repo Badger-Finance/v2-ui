@@ -5,11 +5,16 @@ import { ChainCommon } from '@renproject/interfaces';
 
 import { NETWORK } from '../lib/environmentVariables';
 import { allChains, ChainMapper } from '../lib/chains/chains';
-import { search, SearchErrors } from '../lib/search';
-import { Searching, SearchResult } from '../lib/searchResult';
-import { TaggedError } from '../lib/taggedError';
+import { search } from '../lib/search';
+import { SearchResult } from '../lib/searchResult';
 
-function useTxnSearch() {
+export type TxnSearch = {
+	searchTxn: SearchResult | null;
+	handleSearchByTxnId: (txId: string) => void;
+	searchTxnLoading: boolean;
+};
+
+function useTxnSearch(): TxnSearch {
 	const [searchTxnLoading, setSearchTxnLoading] = useState<boolean>(false);
 	const [searchTxn, setSearchTxn] = useState<SearchResult | null>(null);
 
@@ -44,33 +49,16 @@ function useTxnSearch() {
 	);
 
 	const handleSearchByTxnId = useCallback(
-		(txnId) => {
+		(txnId: string) => {
 			setSearchTxn(null);
 			setSearchTxnLoading(true);
-			setSearchTxn(Searching(txnId));
 
 			search(txnId, console.log, getChain)
-				.then((result: any) => {
-					if (result && Array.isArray(result)) {
-						if (result.length === 0) {
-							setSearchTxn(Searching(txnId, { noResult: true }));
-							return;
-						} else if (result.length === 1) {
-							result = result[0];
-						} else {
-							setSearchTxn(Searching(txnId, { multipleResults: result }));
-							return;
-						}
+				.then((result: SearchResult | SearchResult[]) => {
+					if (Array.isArray(result)) {
+						result = result[0];
 					}
-
 					setSearchTxn(result);
-				})
-				.catch((error: any) => {
-					if ((error as TaggedError)._tag === SearchErrors.NO_RESULTS) {
-						setSearchTxn(Searching(txnId, { noResult: true }));
-					} else {
-						setSearchTxn(Searching(txnId, { errorSearching: error }));
-					}
 				})
 				.finally(() => setSearchTxnLoading(false));
 		},

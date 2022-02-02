@@ -35,27 +35,6 @@ export interface SearchResultCommon {
 	resultPath: string;
 }
 
-// Searching ////////////////////////////////////////////////////////////////////
-
-export interface Searching extends SearchResultCommon {
-	type: SearchResultType.Searching;
-	resultPath: string;
-	searchString: string;
-
-	noResult?: boolean;
-	errorSearching?: Error;
-	multipleResults?: SearchResult[];
-}
-
-/* eslint-disable @typescript-eslint/no-redeclare */
-export const Searching = (searchString: string, details?: Partial<Searching>): Searching => ({
-	uuid: uuid(),
-	type: SearchResultType.Searching,
-	searchString,
-	resultPath: `/search/${encodeURIComponent(searchString)}`,
-	...details,
-});
-
 // RenVMTransaction ////////////////////////////////////////////////////////////
 
 export enum RenVMTransactionError {
@@ -105,13 +84,13 @@ export interface RenVMTransaction extends SearchResultCommon {
 	type: SearchResultType.RenVMTransaction;
 	resultPath: string;
 	txHash: string;
-	queryTx?: SummarizedTransaction | Error;
+	queryTx?: SummarizedTransaction;
 	deposit?: LockAndMintDeposit;
 }
 
 export const RenVMTransaction = (
 	transactionHash: string,
-	queryTx?: SummarizedTransaction | Error,
+	queryTx?: SummarizedTransaction,
 	deposit?: LockAndMintDeposit,
 ): RenVMTransaction => {
 	return {
@@ -130,13 +109,13 @@ export interface LegacyRenVMTransaction extends SearchResultCommon {
 	type: SearchResultType.LegacyRenVMTransaction;
 	resultPath: string;
 	txHash: string;
-	queryTx?: SummarizedTransaction | Error;
+	queryTx?: SummarizedTransaction;
 	deposit?: LockAndMintDeposit;
 }
 
 export const LegacyRenVMTransaction = (
 	transactionHash: string,
-	queryTx?: SummarizedTransaction | Error,
+	queryTx?: SummarizedTransaction,
 	deposit?: LockAndMintDeposit,
 ): LegacyRenVMTransaction => {
 	return {
@@ -160,6 +139,7 @@ export interface RenVMGateway extends SearchResultCommon {
 		transactionType: TransactionType.Mint;
 		summary: TransactionSummary;
 	};
+	queryTx?: SummarizedTransaction;
 	lockAndMint?: LockAndMint;
 }
 
@@ -184,4 +164,4 @@ export const RenVMGateway = (
 
 ////////////////////////////////////////////////////////////////////////////////
 
-export type SearchResult = Searching | RenVMTransaction | LegacyRenVMTransaction | RenVMGateway;
+export type SearchResult = RenVMTransaction | LegacyRenVMTransaction | RenVMGateway;
