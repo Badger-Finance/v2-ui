@@ -44,7 +44,7 @@ const Announcements = (): JSX.Element | null => {
 	const { uiState } = useContext(StoreContext);
 	const classes = useStyles();
 
-	if (!uiState.shouldShowNotification) {
+	if (!uiState.shouldShowNotification || !APP_NEWS_MESSAGE) {
 		return null;
 	}
 
@@ -53,9 +53,11 @@ const Announcements = (): JSX.Element | null => {
 			<div className={classes.content}>
 				<Typography variant="body2">
 					{APP_NEWS_MESSAGE}{' '}
-					<a href={APP_NEWS_URL} rel="noreferrer" target="_blank" className={classes.link}>
-						{APP_NEWS_URL_TEXT}
-					</a>
+					{APP_NEWS_URL && APP_NEWS_URL_TEXT && (
+						<a href={APP_NEWS_URL} rel="noreferrer" target="_blank" className={classes.link}>
+							{APP_NEWS_URL_TEXT}
+						</a>
+					)}
 				</Typography>
 				<IconButton className={classes.closeButton} onClick={() => uiState.closeNotification()}>
 					<CloseIcon />
