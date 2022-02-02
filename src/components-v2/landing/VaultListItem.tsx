@@ -15,7 +15,7 @@ import { Vault, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
-import { getUserVaultBoost } from '../../utils/componentHelpers';
+import { getUserVaultBoost, getVaultIconPath } from '../../utils/componentHelpers';
 import VaultBadge from './VaultBadge';
 
 const useStyles = makeStyles((theme) => ({
@@ -205,7 +205,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								<img
 									alt={`Badger ${vault.name} Vault Symbol`}
 									className={classes.symbol}
-									src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.svg`}
+									src={getVaultIconPath(vault, network.network)}
 								/>
 								{Badge}
 							</Grid>
@@ -310,7 +310,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							<img
 								alt={`Badger ${vault.name} Vault Symbol`}
 								className={clsx(classes.symbol, !!Badge && classes.symbolWithBadge)}
-								src={`/assets/icons/${vault.vaultAsset.toLowerCase()}-${network.network.symbol}.svg`}
+								src={getVaultIconPath(vault, network.network)}
 							/>
 						</Grid>
 						{!!Badge && (
