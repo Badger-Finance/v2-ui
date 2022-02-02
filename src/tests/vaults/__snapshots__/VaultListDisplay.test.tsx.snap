@@ -204,7 +204,7 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           <img
             alt="Badger ibBTC / crvsBTC LP Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bcrvibbtc.png"
+            src="/assets/icons/bcrvibbtc-ethereum.svg"
           />
         </div>
       </div>
@@ -335,7 +335,7 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           <img
             alt="Badger Badger Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bbadger.png"
+            src="/assets/icons/bbadger-ethereum.svg"
           />
         </div>
       </div>
@@ -466,7 +466,7 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           <img
             alt="Badger Digg Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bdigg.png"
+            src="/assets/icons/bdigg-ethereum.svg"
           />
         </div>
       </div>
@@ -789,7 +789,7 @@ exports[`VaultListDisplay can apply token type filters 1`] = `
           <img
             alt="Badger ibBTC / crvsBTC LP Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bcrvibbtc.png"
+            src="/assets/icons/bcrvibbtc-ethereum.svg"
           />
         </div>
       </div>
@@ -1112,7 +1112,7 @@ exports[`VaultListDisplay can change currency 1`] = `
           <img
             alt="Badger ibBTC / crvsBTC LP Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bcrvibbtc.png"
+            src="/assets/icons/bcrvibbtc-ethereum.svg"
           />
         </div>
       </div>
@@ -1243,7 +1243,7 @@ exports[`VaultListDisplay can change currency 1`] = `
           <img
             alt="Badger Badger Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bbadger.png"
+            src="/assets/icons/bbadger-ethereum.svg"
           />
         </div>
       </div>
@@ -1374,7 +1374,7 @@ exports[`VaultListDisplay can change currency 1`] = `
           <img
             alt="Badger Digg Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bdigg.png"
+            src="/assets/icons/bdigg-ethereum.svg"
           />
         </div>
       </div>
@@ -1697,7 +1697,7 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           <img
             alt="Badger Badger Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bbadger.png"
+            src="/assets/icons/bbadger-ethereum.svg"
           />
         </div>
       </div>
@@ -1828,7 +1828,7 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           <img
             alt="Badger Digg Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bdigg.png"
+            src="/assets/icons/bdigg-ethereum.svg"
           />
         </div>
       </div>
@@ -2144,7 +2144,7 @@ exports[`VaultListDisplay can clear filters 1`] = `
           <img
             alt="Badger ibBTC / crvsBTC LP Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bcrvibbtc.png"
+            src="/assets/icons/bcrvibbtc-ethereum.svg"
           />
         </div>
       </div>
@@ -2275,7 +2275,7 @@ exports[`VaultListDisplay can clear filters 1`] = `
           <img
             alt="Badger Badger Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bbadger.png"
+            src="/assets/icons/bbadger-ethereum.svg"
           />
         </div>
       </div>
@@ -2406,7 +2406,7 @@ exports[`VaultListDisplay can clear filters 1`] = `
           <img
             alt="Badger Digg Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bdigg.png"
+            src="/assets/icons/bdigg-ethereum.svg"
           />
         </div>
       </div>
@@ -3013,7 +3013,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <img
             alt="Badger Digg Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bdigg.png"
+            src="/assets/icons/bdigg-ethereum.svg"
           />
         </div>
       </div>
@@ -3144,7 +3144,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <img
             alt="Badger Badger Vault Symbol"
             class="makeStyles-symbol-245"
-            src="/assets/icons/bbadger.png"
+            src="/assets/icons/bbadger-ethereum.svg"
           />
         </div>
       </div>

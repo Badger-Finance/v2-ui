@@ -98,3 +98,7 @@ export function useFormatExampleList(userStore: UserStore): (vaults: Vault[]) =>
 			.sort((a, b) => a.length - b.length) // sort with the shortest name
 			.join(', ');
 }
+
+export function getVaultIconPath(vault: Vault, network: Network): string {
+	return `/assets/icons/${vault.vaultAsset.toLowerCase()}-${network.symbol}.svg`;
+}

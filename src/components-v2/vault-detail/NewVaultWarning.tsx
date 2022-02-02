@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(1),
 		border: `1px solid ${theme.palette.primary.main}`,
 		borderRadius: 8,
-		marginTop: theme.spacing(2),
 	},
 	guardedVaultText: {
 		fontSize: 14,

@@ -15,8 +15,9 @@ import { Vault, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
-import { getUserVaultBoost } from '../../utils/componentHelpers';
+import { getUserVaultBoost, getVaultIconPath } from '../../utils/componentHelpers';
 import VaultBadge from './VaultBadge';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -92,8 +93,7 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 	},
 	symbol: {
-		width: 24,
-		height: 24,
+		maxWidth: '100%',
 		[theme.breakpoints.down('sm')]: {
 			marginRight: theme.spacing(2),
 		},
@@ -164,7 +164,9 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		: `${currencyConfiguration[vaults.vaultsFilters.currency].prefix}-`;
 
 	// sett is disabled if they are internal setts, or have a bouncer and use has no access
-	const isDisabled = !user.onGuestList(vault);
+	// rem badger does not support deposit, any more and we should maintain a config @jintao
+	const canDeposit =
+		!user.onGuestList(vault) || vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger'];
 	const canWithdraw = depositBalance.tokenBalance.gt(0);
 
 	const Badge = VaultBadge({ state: vault.state });
@@ -206,7 +208,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								<img
 									alt={`Badger ${vault.name} Vault Symbol`}
 									className={classes.symbol}
-									src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
+									src={getVaultIconPath(vault, network.network)}
 								/>
 								{Badge}
 							</Grid>
@@ -274,7 +276,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 				<Grid container className={classes.actionButtonsMobile}>
 					<VaultActionButtons
 						isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
-						isDepositDisabled={!onboard.isActive() || isDisabled}
+						isDepositDisabled={!onboard.isActive() || canDeposit}
 						onWithdrawClick={() => {
 							setOpenWithdrawDialog(true);
 						}}
@@ -288,7 +290,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 
 	const listItem = (
 		<>
-			<Grid container component={Card} className={clsx(classes.root, !isDisabled && classes.enabledVault)}>
+			<Grid container component={Card} className={clsx(classes.root, !canDeposit && classes.enabledVault)}>
 				<Grid
 					container
 					item
@@ -311,7 +313,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							<img
 								alt={`Badger ${vault.name} Vault Symbol`}
 								className={clsx(classes.symbol, !!Badge && classes.symbolWithBadge)}
-								src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
+								src={getVaultIconPath(vault, network.network)}
 							/>
 						</Grid>
 						{!!Badge && (
@@ -392,7 +394,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 				<Grid item xs={12} md className={classes.nonClickableSection}>
 					<VaultActionButtons
 						isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
-						isDepositDisabled={!onboard.isActive() || isDisabled}
+						isDepositDisabled={!onboard.isActive() || canDeposit}
 						onWithdrawClick={() => setOpenWithdrawDialog(true)}
 						onDepositClick={() => setOpenDepositDialog(true)}
 					/>
@@ -402,7 +404,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		</>
 	);
 
-	if (isDisabled) {
+	if (canDeposit) {
 		return (
 			<Tooltip
 				enterTouchDelay={0}

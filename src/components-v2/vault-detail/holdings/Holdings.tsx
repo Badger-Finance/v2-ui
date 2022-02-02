@@ -10,7 +10,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
 import { Vault, VaultData } from '@badger-dao/sdk';
-import { shouldDisplayEarnings } from 'utils/componentHelpers';
+import { getVaultIconPath, shouldDisplayEarnings } from 'utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {
@@ -32,7 +32,7 @@ interface Props {
 }
 
 export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }: Props): JSX.Element | null => {
-	const { vaults, user } = React.useContext(StoreContext);
+	const { vaults, user, network } = React.useContext(StoreContext);
 	const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 	const classes = useStyles();
 	const canDeposit = user.onGuestList(vault);
@@ -46,7 +46,7 @@ export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }
 	}
 
 	const { earnedBalance, earnedValue, balance, value } = userData;
-	const logo = `/assets/icons/${vault.vaultAsset.toLowerCase()}.png`;
+	const logo = getVaultIconPath(vault, network.network);
 
 	const depositToken = vaults.getToken(vault.underlyingToken);
 	const decimals = depositToken?.decimals || 18;
