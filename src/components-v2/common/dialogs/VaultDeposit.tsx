@@ -51,7 +51,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 	const store = useContext(StoreContext);
 	const { contracts, user, onboard } = store;
 
-	const [accepted, setAccepted] = useState(badgerVault.vaultAdvisory ? false : true);
+	const [accepted, setAccepted] = useState(badgerVault.depositAdvisory ? false : true);
 	const [showFees, setShowFees] = useState(false);
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
@@ -82,11 +82,11 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 		await contracts.deposit(vault, badgerVault, userBalance, depositBalance);
 	};
 
-	if (!accepted && badgerVault.vaultAdvisory) {
+	if (!accepted && badgerVault.depositAdvisory) {
 		return (
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 				<VaultDialogTitle vault={vault} mode="Deposit" />
-				<VaultAdvisory accept={() => setAccepted(true)} type={badgerVault.vaultAdvisory} />
+				<VaultAdvisory accept={() => setAccepted(true)} type={badgerVault.depositAdvisory} />
 			</Dialog>
 		);
 	}

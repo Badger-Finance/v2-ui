@@ -12,6 +12,7 @@ import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { VaultConversionAndFee } from './VaultConversionAndFee';
 import { makeStyles } from '@material-ui/core/styles';
 import { Vault } from '@badger-dao/sdk';
+import VaultAdvisory from './VaultAdvisory';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -51,8 +52,9 @@ export interface VaultModalProps {
 
 export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
 	const { onboard, user, contracts, vaults } = useContext(StoreContext);
-
 	const classes = useStyles();
+
+	const [accepted, setAccepted] = useState(badgerVault.withdrawAdvisory ? false : true);
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
@@ -80,6 +82,15 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 		const withdrawBalance = TokenBalance.fromBalance(userBalance, amount);
 		await contracts.withdraw(vault, badgerVault, userBalance, withdrawBalance);
 	};
+
+	if (!accepted && badgerVault.withdrawAdvisory) {
+		return (
+			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+				<VaultDialogTitle vault={vault} mode="Withdraw" />
+				<VaultAdvisory accept={() => setAccepted(true)} type={badgerVault.withdrawAdvisory} />
+			</Dialog>
+		);
+	}
 
 	const withdrawFees = (
 		<>
@@ -125,7 +136,7 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 				</Grid>
 				{withdrawFees}
 				<ActionButton
-					aria-label="Deposit"
+					aria-label="Withdraw"
 					size="large"
 					disabled={isLoading || !canWithdraw}
 					onClick={handleSubmit}

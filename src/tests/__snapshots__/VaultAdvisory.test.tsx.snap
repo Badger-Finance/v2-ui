@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Evaluates ConvexLock with %i decimals as %f 1`] = `
+<div>
+  <div
+    class="makeStyles-vaultAdvisoryContainer-1"
+  >
+    <div
+      class="makeStyles-childContainer-2"
+    >
+      <p>
+        This vault locks Convex in a staking contract that is 16 weeks long.
+      </p>
+      <p>
+        The Total Withdrawable Amount in the vault may be lower than your balance depending on what is currently available and will fluctuate with deposits and withdraws from the vault as well as locks and unlocks from the contract.
+      </p>
+      <p>
+        Any vault withdraws will have an opportunity to utilize the freshly deposited liquidity before it gets locked on a first-come-first-serve basis.
+      </p>
+      <div
+        class="makeStyles-linkContainer-3"
+      >
+        <a
+          class="MuiTypography-root-10 MuiLink-root-4 MuiLink-underlineHover-6 MuiTypography-colorPrimary-33"
+          href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Learn More
+        </a>
+      </div>
+    </div>
+    <label
+      class="MuiFormControlLabel-root-40"
+    >
+      <span
+        aria-disabled="false"
+        class="MuiButtonBase-root-65 MuiIconButton-root-56 PrivateSwitchBase-root-52 MuiCheckbox-root-46 MuiCheckbox-colorPrimary-50 MuiIconButton-colorPrimary-60"
+      >
+        <span
+          class="MuiIconButton-label-64"
+        >
+          <input
+            class="PrivateSwitchBase-input-55"
+            data-indeterminate="false"
+            name="read"
+            type="checkbox"
+            value=""
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-68 MuiSvgIcon-fontSizeSmall-75"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root-108"
+        />
+      </span>
+      <span
+        class="MuiTypography-root-10 MuiFormControlLabel-label-45 MuiTypography-body1-12"
+      >
+        I have read and understand the above vault advisory
+      </span>
+    </label>
+    <button
+      aria-label="Deposit"
+      class="MuiButtonBase-root-65 MuiButton-root-79 MuiButton-contained-87 WithStyles(ForwardRef(Button))-root-77 WithStyles(ForwardRef(Button))-root-78 MuiButton-containedSecondary-89 MuiButton-containedSizeLarge-99 MuiButton-sizeLarge-101 MuiButton-disabled-92 MuiButton-fullWidth-102 MuiButtonBase-disabled-66"
+      disabled=""
+      tabindex="-1"
+      type="button"
+    >
+      <span
+        class="MuiButton-label-80"
+      >
+        Accept
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Evaluates Invalid with %i decimals as %f 1`] = `<div />`;
+
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Evaluates None with %i decimals as %f 1`] = `<div />`;
+
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Evaluates Remuneration with %i decimals as %f 1`] = `
+<div>
+  <div
+    class="makeStyles-vaultAdvisoryContainer-1"
+  >
+    <div
+      class="makeStyles-childContainer-2"
+    >
+      <p>
+        Withdrawing from your remBADGER position is a one-way transaction.
+      </p>
+      <p>
+        Once withdrawn, you will not be able to re-deposit, and as a result, agree to forfeit any future accrued Badger rewards emitted throughout the designated restitution period as outlined in
+         
+        <a
+          class="MuiTypography-root-9 MuiLink-root-3 MuiLink-underlineHover-5 MuiTypography-colorPrimary-32"
+          href="https://forum.badger.finance/t/bip-80-restitution-of-non-recoverable-assets-via-rembadger-sett/5362"
+        >
+          BIP 81
+        </a>
+        .
+      </p>
+      <p>
+        The amount of redeemable remBADGER will depend on when it’s withdrawn and will increase over time as additional funds are added to the vault by BadgerDAO.
+      </p>
+      <div
+        class="makeStyles-linkContainer-39"
+      >
+        <a
+          class="MuiTypography-root-9 MuiLink-root-3 MuiLink-underlineHover-5 MuiTypography-colorPrimary-32"
+          href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Learn More
+        </a>
+      </div>
+    </div>
+    <label
+      class="MuiFormControlLabel-root-40"
+    >
+      <span
+        aria-disabled="false"
+        class="MuiButtonBase-root-65 MuiIconButton-root-56 PrivateSwitchBase-root-52 MuiCheckbox-root-46 MuiCheckbox-colorPrimary-50 MuiIconButton-colorPrimary-60"
+      >
+        <span
+          class="MuiIconButton-label-64"
+        >
+          <input
+            class="PrivateSwitchBase-input-55"
+            data-indeterminate="false"
+            name="read"
+            type="checkbox"
+            value=""
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-68 MuiSvgIcon-fontSizeSmall-75"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root-108"
+        />
+      </span>
+      <span
+        class="MuiTypography-root-9 MuiFormControlLabel-label-45 MuiTypography-body1-11"
+      >
+        I have read and understand the above vault advisory
+      </span>
+    </label>
+    <button
+      aria-label="Deposit"
+      class="MuiButtonBase-root-65 MuiButton-root-79 MuiButton-contained-87 WithStyles(ForwardRef(Button))-root-77 WithStyles(ForwardRef(Button))-root-78 MuiButton-containedSecondary-89 MuiButton-containedSizeLarge-99 MuiButton-sizeLarge-101 MuiButton-disabled-92 MuiButton-fullWidth-102 MuiButtonBase-disabled-66"
+      disabled=""
+      tabindex="-1"
+      type="button"
+    >
+      <span
+        class="MuiButton-label-80"
+      >
+        Accept
+      </span>
+    </button>
+  </div>
+</div>
+`;

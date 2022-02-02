@@ -216,6 +216,16 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					depositLink:
 						'https://app.sushi.com/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 				},
+				[ethDeploy.sett_system.vaults['native.rembadger']]: {
+					// rembadger has no strategy, this is not used anyway - @jintao
+					address: ethDeploy.sett_system.strategies['native.badger'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(0),
+						[StrategyFee.strategistPerformance]: new BigNumber(0),
+						[StrategyFee.withdraw]: new BigNumber(0),
+					},
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/rembadger',
+				},
 				[ethDeploy.sett_system.vaults['native.renCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.renCrv'],
 					fees: {
