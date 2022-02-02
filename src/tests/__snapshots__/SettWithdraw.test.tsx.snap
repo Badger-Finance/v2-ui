@@ -268,7 +268,7 @@ exports[`Vault Withdraw displays sett information 1`] = `
             </div>
           </div>
           <button
-            aria-label="Deposit"
+            aria-label="Withdraw"
             class="MuiButtonBase-root-249 MuiButton-root-220 MuiButton-contained-228 WithStyles(ForwardRef(Button))-root-306 WithStyles(ForwardRef(Button))-root-307 MuiButton-containedPrimary-229 MuiButton-containedSizeLarge-240 MuiButton-sizeLarge-242 MuiButton-disabled-233 MuiButton-fullWidth-243 MuiButtonBase-disabled-250"
             disabled=""
             tabindex="-1"
