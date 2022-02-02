@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(2),
 	},
 	guardedVault: {
+		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
 	},
 	settInfoTitle: {
