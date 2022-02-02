@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Performance, scalePerformance } from '../../../mobx/model/rewards/performance';
@@ -6,6 +6,9 @@ import ApyDisplayBadge, { ComparisonMode } from './ApyComparisonBadge';
 import { formatWithoutExtraZeros } from '../../../mobx/utils/helpers';
 import { ApyComparisonModeSelector } from './ApyComparisonModeSelector';
 import { Vault } from '@badger-dao/sdk';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../../mobx/store-context';
+import { getVaultIconPath } from '../../../utils/componentHelpers';
 
 const reduceSourcePerformance = (prev: Performance, current: Performance) => {
 	const {
@@ -75,7 +78,8 @@ interface Props {
 	vault: Vault;
 }
 
-export const Description = ({ vault }: Props): JSX.Element => {
+export const Description = observer(({ vault }: Props): JSX.Element => {
+	const { network } = useContext(StoreContext);
 	const [timeframe, setTimeframe] = React.useState<keyof Performance>('sevenDay');
 	const classes = useStyles();
 	const performanceSummary = getSourcesPerformanceSummary(vault);
@@ -93,7 +97,7 @@ export const Description = ({ vault }: Props): JSX.Element => {
 			<Grid item className={classes.logoContainer}>
 				<img
 					className={classes.settLogo}
-					src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
+					src={getVaultIconPath(vault, network.network)}
 					alt={`Badger ${vault.name} Vault Symbol`}
 				/>
 			</Grid>
@@ -124,4 +128,4 @@ export const Description = ({ vault }: Props): JSX.Element => {
 			</Grid>
 		</div>
 	);
-};
+});
