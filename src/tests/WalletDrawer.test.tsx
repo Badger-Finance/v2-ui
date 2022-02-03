@@ -24,7 +24,7 @@ describe('Wallet Drawer', () => {
 			if (token === deploy.tokens.badger) {
 				return new TokenBalance(
 					{
-						address: '0x1',
+						address: deploy.tokens.badger,
 						name: 'Badger',
 						symbol: 'Badger',
 						decimals: 18,
@@ -32,12 +32,23 @@ describe('Wallet Drawer', () => {
 					new BigNumber(1000 * 1e18),
 					new BigNumber(80),
 				);
+			} else if (token === deploy.tokens.digg) {
+				return new TokenBalance(
+					{
+						address: deploy.tokens.digg,
+						name: 'Digg',
+						symbol: 'DIGG',
+						decimals: 8,
+					},
+					new BigNumber(0.1 * 1e8),
+					new BigNumber(50000),
+				);
 			} else {
 				return new TokenBalance(
 					{
-						address: '0x2',
-						name: 'Digg',
-						symbol: 'DIGG',
+						address: deploy.tokens.remdigg,
+						name: 'remDigg',
+						symbol: 'remDIGG',
 						decimals: 8,
 					},
 					new BigNumber(0.1 * 1e8),

@@ -393,6 +393,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 
 export const ethVaults = toVaultConfig(ethVaultDefinitions);
 
+// named "rewards", this array is a way to inject token balance look ups
 export const ethRewards = [
 	{
 		address: ETH_DEPLOY.tokens['farm'],
@@ -420,6 +421,10 @@ export const ethRewards = [
 		address: ETH_DEPLOY.tokens['sBTC'],
 		decimals: 18,
 		symbol: 'sBTC',
+	},
+	{
+		address: ETH_DEPLOY.tokens['remdigg'],
+		decimals: 18,
 	},
 ];
 
