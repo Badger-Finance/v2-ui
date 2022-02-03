@@ -63,7 +63,7 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-248"
+                class="MuiTouchRipple-root-249"
               />
             </button>
           </div>
@@ -90,7 +90,7 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 />
               </span>
               <span
-                class="MuiTouchRipple-root-248"
+                class="MuiTouchRipple-root-249"
               />
             </button>
           </div>
@@ -189,6 +189,44 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 />
               </div>
             </div>
+            <div
+              class="MuiGrid-root-59 makeStyles-tokenBalance-10 MuiGrid-container-60"
+            >
+              <div
+                class="MuiGrid-root-59 MuiGrid-container-60 MuiGrid-item-61 MuiGrid-align-items-xs-center-68 MuiGrid-justify-content-xs-space-between-79"
+              >
+                <div
+                  class="makeStyles-tokenNameAndIcon-7"
+                >
+                  <img
+                    alt="remDigg icon"
+                    class="makeStyles-icon-9"
+                    src="/assets/icons/digg.png"
+                  />
+                  <p
+                    class="MuiTypography-root-162 makeStyles-tokenName-8 MuiTypography-body1-164 MuiTypography-displayInline-190"
+                  >
+                    remDIGG
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root-215 MuiBox-root-219"
+                >
+                  <p
+                    class="MuiTypography-root-162 MuiTypography-body1-164"
+                  >
+                    0.100000
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-59 makeStyles-balanceDisplayValue-12 MuiGrid-container-60 MuiGrid-item-61 MuiGrid-justify-content-xs-flex-end-78"
+              >
+                <h6
+                  class="MuiTypography-root-162 MuiTypography-subtitle2-174 MuiTypography-colorTextSecondary-188"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -196,12 +234,12 @@ exports[`Wallet Drawer displays correctly 1`] = `
         >
           <button
             aria-label="disconnect wallet"
-            class="MuiButtonBase-root-201 MuiButton-root-219 MuiButton-text-221"
+            class="MuiButtonBase-root-201 MuiButton-root-220 MuiButton-text-222"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-220 makeStyles-disconnectWalletText-4"
+              class="MuiButton-label-221 makeStyles-disconnectWalletText-4"
             >
               <img
                 alt="disconnect wallet icon"
@@ -212,7 +250,7 @@ exports[`Wallet Drawer displays correctly 1`] = `
               Disconnect Wallet
             </span>
             <span
-              class="MuiTouchRipple-root-248"
+              class="MuiTouchRipple-root-249"
             />
           </button>
         </div>
