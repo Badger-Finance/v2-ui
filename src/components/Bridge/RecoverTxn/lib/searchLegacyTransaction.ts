@@ -36,20 +36,6 @@ export const getLegacyTransactionDepositInstance = async (
 	network: RenNetwork,
 	summary: TransactionSummary,
 ) => {
-	// const abi = (searchDetails.in.p.abi[0].inputs || []).slice(0, -3);
-
-	// const abiCoder = new AbiCoder();
-	// const abiValues = abiCoder.decodeParameters(
-	//   abi.map((x) => x.type),
-	//   "0x" + searchDetails.in.p.value.toString("hex")
-	// );
-
-	// const parameters: EthArgs = abi.map((abiItem, i) => ({
-	//   name: abiItem.name,
-	//   type: abiItem.type,
-	//   value: abiValues[i],
-	// }));
-
 	const inputs = searchDetails.in;
 
 	if (summary.fromChain && summary.toChain) {

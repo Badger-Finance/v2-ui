@@ -1,6 +1,6 @@
 import { toURLBase64 } from '@renproject/utils';
 
-import { DEBUG } from '../environmentVariables';
+import { DEBUG } from '../../../../../config/environment';
 
 const assert = (input: boolean) => {
 	if (!input) {

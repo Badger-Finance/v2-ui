@@ -19,8 +19,6 @@ export const DEFAULT_CURRENCY = Currency.USD;
 export const MAX_LAYOUT_WIDTH = 1183; // 1135px (width on mocks) + 24px of padding on each side
 export const DEFAULT_NETWORK = Network.Ethereum;
 
-export const PERSISTED_TXN = 'PERSISTED_TXN';
-
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
 	pending: 'Transaction Pending.',
 	burned: 'Tokens Burned.',

@@ -12,7 +12,6 @@ import {
 	defaultRetryOptions,
 	// abis
 	ERC20,
-	PERSISTED_TXN,
 	RENVM_GATEWAY_ADDRESS,
 } from 'config/constants';
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
@@ -33,6 +32,8 @@ export enum Status {
 	// Currently processing a tx (can only process one at a time).
 	PROCESSING,
 }
+
+const PERSISTED_TXN: string = 'PERSISTED_TXN';
 
 // BTC variants is 8 decimals.
 const DECIMALS = 10 ** 8;

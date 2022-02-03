@@ -1,6 +1,6 @@
 import { ChainCommon } from '@renproject/interfaces';
 
-import { DEBUG } from './environmentVariables';
+import { DEBUG } from '../../../../config/environment';
 import { SearchResult } from './searchResult';
 import { searchTactics } from './searchTactics';
 
