@@ -104,7 +104,7 @@ export const MintForm = ({
 								<div key="btc">
 									<img
 										className={classes.tokenIcon}
-										src={`/assets/icons/btc.svg`}
+										src={`/assets/icons/btc-ethereum.svg`}
 										alt="bitcoin icon"
 									/>
 									<Typography variant="body1" component="div">
