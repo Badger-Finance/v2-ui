@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### 2.13.5 - 02/01/2022
+
+-   enable rembadger + remdigg support
+
 ### 2.13.4 - 02/01/2022
 
 -   add new wallet bar

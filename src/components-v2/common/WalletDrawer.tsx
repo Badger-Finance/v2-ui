@@ -156,7 +156,10 @@ const WalletDrawer = (): JSX.Element | null => {
 										<img
 											className={classes.icon}
 											// small hack to allow rem tokens to share icons with their badger counterparts
-											src={`/assets/icons/${tokenBalance.token.symbol.replace('rem', '').toLowerCase().trim()}.png`}
+											src={`/assets/icons/${tokenBalance.token.symbol
+												.replace('rem', '')
+												.toLowerCase()
+												.trim()}.png`}
 											alt={`${tokenBalance.token.name} icon`}
 										/>
 										<Typography variant="body1" display="inline" className={classes.tokenName}>
