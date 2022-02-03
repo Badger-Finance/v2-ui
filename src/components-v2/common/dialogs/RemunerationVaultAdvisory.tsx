@@ -11,7 +11,7 @@ const RemunerationVaultAdvisory = ({ accept }: VaultAdvisoryBaseProps): JSX.Elem
 				Once withdrawn, you will not be able to re-deposit, and as a result, agree to forfeit any future accrued
 				Badger rewards emitted throughout the designated restitution period as outlined in{' '}
 				<Link href="https://forum.badger.finance/t/bip-80-restitution-of-non-recoverable-assets-via-rembadger-sett/5362">
-					BIP 81
+					BIP 80
 				</Link>
 				.
 			</p>

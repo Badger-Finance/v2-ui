@@ -107,7 +107,7 @@ exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advi
           class="MuiTypography-root-9 MuiLink-root-3 MuiLink-underlineHover-5 MuiTypography-colorPrimary-32"
           href="https://forum.badger.finance/t/bip-80-restitution-of-non-recoverable-assets-via-rembadger-sett/5362"
         >
-          BIP 81
+          BIP 80
         </a>
         .
       </p>
