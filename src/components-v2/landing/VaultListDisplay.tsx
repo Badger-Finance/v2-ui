@@ -11,6 +11,7 @@ import VaultList from './VaultList';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
 import { VaultState } from '@badger-dao/sdk';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -52,9 +53,15 @@ const VaultListDisplay = observer(() => {
 
 		const scalar = new BigNumber(vault.pricePerFullShare);
 		const depositBalance = user.getBalance(BalanceNamespace.Vault, badgerVault).scale(scalar, true);
+		const hasNoBalance = depositBalance.tokenBalance.eq(0);
+
+		// Hide the remBadger vault from users who do not have rembadger (this default hides the sett)
+		if (badgerVault.vaultToken.address === ETH_DEPLOY.sett_system.vaults['native.rembadger'] && hasNoBalance) {
+			return [];
+		}
 
 		// Hide deprecated vaults that the user is not deposited into
-		if (vault.state === VaultState.Deprecated && depositBalance.tokenBalance.eq(0)) {
+		if (vault.state === VaultState.Deprecated && hasNoBalance) {
 			return [];
 		}
 

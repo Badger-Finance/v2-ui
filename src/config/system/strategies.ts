@@ -22,7 +22,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					},
 					// TODO: Update user guide
 					userGuide:
-						'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-sushi-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-avalanche/arbitrum-sushi-weth-helper-vault',
 				},
 			};
 		case Network.Arbitrum:
@@ -35,7 +35,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					userGuide:
-						'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-sushi-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-sushi-weth-helper-vault',
 					depositLink: 'https://app.sushi.com/add/ETH/0xd4d42F0b6DEF4CE0383636770eF773390d85c61A',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.sushiWethWbtc']]: {
@@ -45,7 +45,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-wbtc-eth-slp',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-wbtc-eth-slp',
 					depositLink: 'https://app.sushi.com/add/ETH/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.crvWbtcRen']]: {
@@ -55,7 +56,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-renbtc-wbtc',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-renbtc-wbtc',
 					depositLink: 'https://arbitrum.curve.fi/ren/deposit',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.tricrypto']]: {
@@ -65,7 +67,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-tricrypto2',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-tricrypto2',
 					depositLink: 'https://arbitrum.curve.fi/tricrypto/deposit',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.swaprWethSwapr']]: {
@@ -76,7 +79,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					userGuide:
-						'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-swapr-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-swapr-weth-helper-vault',
 					depositLink:
 						'https://swapr.eth.link/#/add/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0xdE903E2712288A1dA82942DDdF2c20529565aC30?chainId=42161',
 				},
@@ -88,7 +91,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					userGuide:
-						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-tricrypto-crv',
+						'https://app.gitbook.com/@badger-finance/s/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-tricrypto-crv',
 					depositLink: 'https://arbitrum.curve.fi/tricrypto/deposit',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.swaprWethWbtc']]: {
@@ -98,7 +101,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-wbtc-weth',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-wbtc-weth',
 					depositLink:
 						'https://swapr.eth.link/#/add/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f/ETH?chainId=42161',
 				},
@@ -109,7 +113,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-badger-weth',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-badger-weth',
 					depositLink:
 						'https://swapr.eth.link/#/add/ETH/0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E?chainId=42161',
 				},
@@ -120,7 +125,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-ibbtc-weth',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-arbitrum/arbitrum-ibbtc-weth',
 					depositLink:
 						'https://swapr.eth.link/#/add/ETH/0x9Ab3FD50FcAe73A1AEDa959468FD0D662c881b42?chainId=42161',
 				},
@@ -136,7 +142,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					},
 					depositLink:
 						'https://app.sushi.com/add/0x4EaC4c4e9050464067D673102F8E24b2FccEB350/0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6',
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/polygon-wbtc-ibbtc-slp',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-polygon/polygon-wbtc-ibbtc-slp',
 				},
 				[maticDeploy.sett_system.vaults['BQLP-WBTC-USDC']]: {
 					address: maticDeploy.sett_system.strategies['BQLP-WBTC-USDC'],
@@ -147,16 +154,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					},
 					depositLink:
 						'https://quickswap.exchange/#/add/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174/0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6',
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/polygon-wbtc-usdc-qlp',
-				},
-				[maticDeploy.sett_system.vaults['BATRICRYPTO']]: {
-					address: maticDeploy.sett_system.strategies['BATRICRYPTO'],
-					fees: {
-						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(10),
-					},
-					depositLink: 'https://polygon.curve.fi/atricrypto/deposit',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-polygon/polygon-wbtc-usdc-qlp',
 				},
 				[maticDeploy.sett_system.vaults['BCRV-WBTC-RENBTC']]: {
 					address: maticDeploy.sett_system.strategies['BCRV-WBTC-RENBTC'],
@@ -166,7 +165,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					depositLink: 'https://polygon.curve.fi/ren/deposit',
-					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/polygon-amwbtc-renwbtc',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-polygon/polygon-amwbtc-renwbtc',
 				},
 			};
 		case Network.BinanceSmartChain:
@@ -212,9 +212,19 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#fe02e2fa6ea446ca9b975d1eecf3120c',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/badger',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/badger',
 					depositLink:
 						'https://app.sushi.com/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d',
+				},
+				[ethDeploy.sett_system.vaults['native.rembadger']]: {
+					// rembadger has no strategy, this is not used anyway - @jintao
+					address: ethDeploy.sett_system.strategies['native.badger'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(0),
+						[StrategyFee.strategistPerformance]: new BigNumber(0),
+						[StrategyFee.withdraw]: new BigNumber(0),
+					},
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/rembadger',
 				},
 				[ethDeploy.sett_system.vaults['native.renCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.renCrv'],
@@ -224,7 +234,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#2304f0f6a0684aee82853f9635211ec9',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-renbtc-wbtc',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-renbtc-wbtc',
 					depositLink: 'https://curve.fi/ren/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.sbtcCrv']]: {
@@ -235,7 +246,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#ce634a6ad4b0486288180d775a1552ab',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-renbtc-wbtc-sbtc',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-renbtc-wbtc-sbtc',
 					depositLink: 'https://curve.fi/sbtc/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.tbtcCrv']]: {
@@ -246,7 +258,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#cba0515b901e423d892f9c0cf66b272f',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-tbtc-sbtc',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-tbtc-sbtc',
 					depositLink: 'https://curve.fi/tbtc/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.uniBadgerWbtc']]: {
@@ -257,7 +270,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#9da96d000b3e49cc92f04a49dd08a9bd',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/wrapped-btc-badger-uniswap-lp',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/wrapped-btc-badger-uniswap-lp',
 					depositLink:
 						'https://app.uniswap.org/#/add/v2/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 				},
@@ -268,7 +282,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.harvestStrategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					strategyLink: 'https://docs.badger.com/badger-finance/user-guides/harvest-renbtc-wbtc',
+					strategyLink:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/harvest-renbtc-wbtc',
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/v/master/sett-user-guides/harvest-renbtc-wbtc',
 				},
@@ -286,7 +301,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#2f5ee4a857754023af1fdba144a0c1be',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/wrapped-btc-wrapped-ether-slp',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/wrapped-btc-wrapped-ether-slp',
 					depositLink: 'https://app.sushi.com/add/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/ETH',
 				},
 				[ethDeploy.sett_system.vaults['native.sushiBadgerWbtc']]: {
@@ -297,7 +313,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#46bfa12ac9d24b9bb7d28d1f9bc3256a',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/wrapped-btc-badger-slp',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/wrapped-btc-badger-slp',
 					depositLink:
 						'https://app.sushi.com/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
@@ -309,7 +326,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#b63c02c4f27f43229624da8abb377be2',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/digg',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/digg',
 					depositLink:
 						'https://app.sushi.com/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x798D1bE841a82a273720CE31c822C61a67a601C3',
 				},
@@ -320,7 +337,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
-					strategyLink: 'https://docs.badger.com/badger-finance/user-guides/digg-wbtc-uniswap-lp',
+					strategyLink:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/digg-wbtc-uniswap-lp',
 				},
 				[ethDeploy.sett_system.vaults['native.sushiDiggWbtc']]: {
 					address: ethDeploy.sett_system.strategies['native.sushiDiggWbtc'],
@@ -330,7 +348,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#e1a46fc7a95d4f73b586435f45586748',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/wrapped-btc-digg-SLP',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/wrapped-btc-digg-SLP',
 					depositLink:
 						'https://app.sushi.com/add/0x798D1bE841a82a273720CE31c822C61a67a601C3/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
@@ -342,7 +361,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: 'https://badger.wiki/strategies#8dbbd221e429409db3b487da966a14b8',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/yearn-wrapped-btc',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/yearn-wrapped-btc',
 				},
 				[ethDeploy.sett_system.vaults['native.sushiibBTCwBTC']]: {
 					address: ethDeploy.sett_system.strategies['experimental.sushiIBbtcWbtc'],
@@ -352,7 +372,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(20),
 					},
 					strategyLink: 'https://badger.wiki/strategies#418b98a05da849a3a8dd97f74f8c0c80',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/wrapped-btc-ibbtc-slp',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/wrapped-btc-ibbtc-slp',
 					depositLink:
 						'https://app.sushi.com/add/0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
@@ -395,7 +416,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#56cd7b65cd384740aa9f339bf3ee2597',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-hbtc',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-hbtc',
 					depositLink: 'https://curve.fi/hbtc/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.pbtcCrv']]: {
@@ -405,7 +426,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#39a0decd933b4869b98c9276118b9d39',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-pbtc',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-pbtc',
 					depositLink: 'https://curve.fi/pbtc/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.obtcCrv']]: {
@@ -415,7 +436,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#82d72e94cb3b49f0836d8197ad13bc36',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-obtc',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-obtc',
 					depositLink: 'https://curve.fi/obtc/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.bbtcCrv']]: {
@@ -425,7 +446,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#fe4a64edc830472da5a700d0fc30716c',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-bbtc',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-bbtc',
 					depositLink: 'https://curve.fi/bbtc/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.tricryptoCrv']]: {
@@ -443,7 +464,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#d5806054c232432e8e8a1d75ae329bf8',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/tricrypto2',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/tricrypto2',
 					depositLink: 'https://curve.fi/tricrypto2/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.cvxCrv']]: {
@@ -453,7 +474,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: 'https://badger.wiki/strategies#51d48102bc4847a6a5a1a059c4b827b3',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/cvxcrv-helper',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/cvxcrv-helper',
 				},
 				[ethDeploy.sett_system.vaults['native.cvx']]: {
 					address: ethDeploy.sett_system.strategies['native.cvx'],
@@ -462,7 +483,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: 'https://badger.wiki/strategies#1346adfaad7946eebd29a17fb4f6e8b7',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/cvx-helper',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/cvx-helper',
 				},
 				[ethDeploy.sett_system.vaults['native.icvx']]: {
 					address: ethDeploy.sett_system.strategies['native.icvx'],
@@ -501,7 +522,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					depositLink: 'https://curve.fi/factory/52/deposit',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/bvecvx-cvx-curve-lp',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/bvecvx-cvx-curve-lp',
 				},
 				[ethDeploy.sett_system.vaults['native.ibbtcCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.ibbtcCrv'],
@@ -510,7 +532,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					depositLink: 'https://curve.fi/factory/60/deposit',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/ibbtc-sbtc-curve-lp',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/ibbtc-sbtc-curve-lp',
 				},
 			};
 	}

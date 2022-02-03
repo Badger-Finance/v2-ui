@@ -52,7 +52,8 @@
 		"bveCVXCVX": "0x04c90C198b2eFF55716079bc06d7CCc4aa4d7512",
 		"curve.ibBTC": "0xFbdCA68601f835b27790D98bbb8eC7f05FDEaA9B",
 		"curve.mim-3crv": "0x5a6A4D54456819380173272A5E8E9B9904BdF41B",
-		"curve.frax-3crv": "0xd632f22692FaC7611d2AA1C0D552930D43CAEd3B"
+		"curve.frax-3crv": "0xd632f22692FaC7611d2AA1C0D552930D43CAEd3B",
+		"remdigg": "0x99F39D495C6A5237f43602f3Ab5F49786E46c9B0"
 	},
 	"logic": {
 		"SmartVesting": "0x07c0E4f4C977a29c46Fb26597ea8C9105ca50b42",
@@ -100,7 +101,7 @@
 		},
 		"vaults": {
 			"native.badger": "0x19D97D8fA813EE2f51aD4B4e04EA08bAf4DFfC28",
-			"native.rembadger": "0x6af7377b5009d7d154f36fe9e235ae1da27aea22",
+			"native.rembadger": "0x6aF7377b5009d7d154F36FE9e235aE1DA27Aea22",
 			"native.renCrv": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
 			"native.sbtcCrv": "0xd04c48A53c111300aD41190D63681ed3dAd998eC",
 			"native.tbtcCrv": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",

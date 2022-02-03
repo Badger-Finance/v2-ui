@@ -11,7 +11,7 @@ exports[`Description displays sett description 1`] = `
       <img
         alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
         class="makeStyles-settLogo-5"
-        src="/assets/icons/bsbtccrv.png"
+        src="/assets/icons/bsbtccrv-ethereum.svg"
       />
     </div>
     <div

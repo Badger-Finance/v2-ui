@@ -169,6 +169,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.rembadger'],
 			decimals: 18,
 		},
+		withdrawAdvisory: AdvisoryType.Remuneration,
 	},
 	{
 		depositToken: {
@@ -326,7 +327,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.icvx'],
 			decimals: 18,
 		},
-		vaultAdvisory: AdvisoryType.ConvexLock,
+		depositAdvisory: AdvisoryType.ConvexLock,
 	},
 	{
 		depositToken: {
@@ -392,6 +393,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 
 export const ethVaults = toVaultConfig(ethVaultDefinitions);
 
+// named "rewards", this array is a way to inject token balance look ups
 export const ethRewards = [
 	{
 		address: ETH_DEPLOY.tokens['farm'],
@@ -419,6 +421,10 @@ export const ethRewards = [
 		address: ETH_DEPLOY.tokens['sBTC'],
 		decimals: 18,
 		symbol: 'sBTC',
+	},
+	{
+		address: ETH_DEPLOY.tokens['remdigg'],
+		decimals: 18,
 	},
 ];
 
