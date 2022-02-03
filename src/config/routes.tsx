@@ -13,7 +13,6 @@ import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
 import { Box, Link, Typography } from '@material-ui/core';
-import { RecoverTxn } from '../components/RecoverTxn';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -70,10 +69,6 @@ const routes = {
 		path: '/citadel',
 		component: <CitadelEarlyBonding />,
 		onEnter: (_route, _params, store) => store.bondStore.updateBonds(),
-	}),
-	recoverTxn: new Route<RootStore, QueryParams>({
-		path: '/recover-txn',
-		component: <RecoverTxn />,
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',

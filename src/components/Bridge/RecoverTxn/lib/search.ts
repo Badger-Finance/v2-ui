@@ -3,7 +3,6 @@ import { ChainCommon } from '@renproject/interfaces';
 import { DEBUG } from './environmentVariables';
 import { SearchResult } from './searchResult';
 import { searchTactics } from './searchTactics';
-import { TaggedError } from './taggedError';
 
 export enum SearchErrors {
 	NO_RESULTS = 'No results found.',
@@ -36,5 +35,5 @@ export const search = async (
 		}
 	}
 
-	throw new TaggedError(SearchErrors.NO_RESULTS);
+	return [];
 };

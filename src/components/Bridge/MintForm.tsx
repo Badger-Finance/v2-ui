@@ -97,6 +97,7 @@ export const MintForm = ({
 						disabled={onboard.isActive() === false}
 						placeholder="0.00"
 						onChange={handleChange('amount')}
+						style={{ width: '100%' }}
 						InputProps={{
 							style: { fontSize: '3rem' },
 							endAdornment: [

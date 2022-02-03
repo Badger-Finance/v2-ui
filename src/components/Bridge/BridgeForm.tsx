@@ -273,7 +273,7 @@ const initialStateResettable = {
 	showResumeTxDialog: false,
 };
 
-export const BridgeForm = observer(({ classes }: any) => {
+export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => {
 	const store = useContext(StoreContext);
 	const spacer = <div className={classes.before} />;
 
@@ -310,7 +310,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const intialState = {
 		...initialTokenState,
 		...initialStateResettable,
-		tabValue: 0, // Keep on same tab even after reset
 	};
 
 	const [states, setStates] = useState(intialState);
@@ -322,7 +321,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 		step,
 		burnAmount,
 		btcAddr,
-		tabValue,
 		estimatedSlippage,
 		maxSlippage,
 		renFee,
@@ -362,11 +360,11 @@ export const BridgeForm = observer(({ classes }: any) => {
 		setStates((prevState) => ({
 			...prevState,
 			token: newValue !== 1 ? 'renBTC' : 'byvWBTC',
-			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
 			amount: '',
 		}));
+		setTabValue(newValue);
 	};
 
 	const handleSetMaxSlippage = (newValue: string) => () => {

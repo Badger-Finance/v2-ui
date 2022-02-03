@@ -10,7 +10,7 @@ import { SearchResult } from '../lib/searchResult';
 
 export type TxnSearch = {
 	searchTxn: SearchResult | null;
-	handleSearchByTxnId: (txId: string) => void;
+	searchByTxnId: (txId: string) => void;
 	searchTxnLoading: boolean;
 };
 
@@ -48,7 +48,7 @@ function useTxnSearch(): TxnSearch {
 		[chains, getChainDetails],
 	);
 
-	const handleSearchByTxnId = useCallback(
+	const searchByTxnId = useCallback(
 		(txnId: string) => {
 			setSearchTxn(null);
 			setSearchTxnLoading(true);
@@ -60,6 +60,7 @@ function useTxnSearch(): TxnSearch {
 					}
 					setSearchTxn(result);
 				})
+				.catch(console.log)
 				.finally(() => setSearchTxnLoading(false));
 		},
 		[getChain],
@@ -67,7 +68,7 @@ function useTxnSearch(): TxnSearch {
 
 	return {
 		searchTxn,
-		handleSearchByTxnId,
+		searchByTxnId,
 		searchTxnLoading,
 	};
 }

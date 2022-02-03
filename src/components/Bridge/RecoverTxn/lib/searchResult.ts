@@ -88,6 +88,7 @@ export interface RenVMTransaction extends SearchResultCommon {
 	deposit?: LockAndMintDeposit;
 }
 
+/* eslint-disable @typescript-eslint/no-redeclare */
 export const RenVMTransaction = (
 	transactionHash: string,
 	queryTx?: SummarizedTransaction,
@@ -113,6 +114,7 @@ export interface LegacyRenVMTransaction extends SearchResultCommon {
 	deposit?: LockAndMintDeposit;
 }
 
+/* eslint-disable @typescript-eslint/no-redeclare */
 export const LegacyRenVMTransaction = (
 	transactionHash: string,
 	queryTx?: SummarizedTransaction,
@@ -143,6 +145,7 @@ export interface RenVMGateway extends SearchResultCommon {
 	lockAndMint?: LockAndMint;
 }
 
+/* eslint-disable @typescript-eslint/no-redeclare */
 export const RenVMGateway = (
 	address: string,
 	queryGateway?: {
