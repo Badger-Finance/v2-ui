@@ -100,7 +100,7 @@ const WalletDrawer = (): JSX.Element | null => {
 	}
 
 	const tokenBalances = Object.keys(network.network.deploy.tokens).flatMap((token) => {
-		const isBadgerToken = ['badger', 'digg'].includes(token.toLowerCase());
+		const isBadgerToken = ['badger', 'digg', 'remdigg'].includes(token.toLowerCase());
 		return isBadgerToken ? [user.getTokenBalance(network.network.deploy.tokens[token])] : [];
 	});
 
@@ -155,7 +155,11 @@ const WalletDrawer = (): JSX.Element | null => {
 									<div className={classes.tokenNameAndIcon}>
 										<img
 											className={classes.icon}
-											src={`/assets/icons/${tokenBalance.token.symbol.toLowerCase().trim()}.png`}
+											// small hack to allow rem tokens to share icons with their badger counterparts
+											src={`/assets/icons/${tokenBalance.token.symbol
+												.replace('rem', '')
+												.toLowerCase()
+												.trim()}.png`}
 											alt={`${tokenBalance.token.name} icon`}
 										/>
 										<Typography variant="body1" display="inline" className={classes.tokenName}>
