@@ -165,7 +165,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 
 	// sett is disabled if they are internal setts, or have a bouncer and use has no access
 	// rem badger does not support deposit, any more and we should maintain a config @jintao
-	const canDeposit =
+	const disallowDeposit =
 		!user.onGuestList(vault) || vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger'];
 	const canWithdraw = depositBalance.tokenBalance.gt(0);
 
@@ -276,7 +276,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 				<Grid container className={classes.actionButtonsMobile}>
 					<VaultActionButtons
 						isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
-						isDepositDisabled={!onboard.isActive() || canDeposit}
+						isDepositDisabled={!onboard.isActive() || disallowDeposit}
 						onWithdrawClick={() => {
 							setOpenWithdrawDialog(true);
 						}}
@@ -290,7 +290,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 
 	const listItem = (
 		<>
-			<Grid container component={Card} className={clsx(classes.root, !canDeposit && classes.enabledVault)}>
+			<Grid container component={Card} className={clsx(classes.root, !disallowDeposit && classes.enabledVault)}>
 				<Grid
 					container
 					item
@@ -394,7 +394,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 				<Grid item xs={12} md className={classes.nonClickableSection}>
 					<VaultActionButtons
 						isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
-						isDepositDisabled={!onboard.isActive() || canDeposit}
+						isDepositDisabled={!onboard.isActive() || disallowDeposit}
 						onWithdrawClick={() => setOpenWithdrawDialog(true)}
 						onDepositClick={() => setOpenDepositDialog(true)}
 					/>
@@ -404,7 +404,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		</>
 	);
 
-	if (canDeposit) {
+	if (disallowDeposit) {
 		return (
 			<Tooltip
 				enterTouchDelay={0}
