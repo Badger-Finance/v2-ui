@@ -22,14 +22,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DashboardCard = observer(() => {
+	const [chartData, setChartData] = useState<any>(undefined);
+	const [range, setRange] = useState(7);
+	const [title, setGraphSelected] = useState('Total Volume');
 	const classes = useStyles();
 
-	const componentDidMount = () => {
-		handleChangeRange(7);
+	const handleGraphSelected = async (graph: string) => {
+		const chart = graph === 'Price' ? 'prices' : graph === 'Total Volume' ? 'total_volumes' : 'market_caps';
+		const diggChartData = await fetchDiggChart(chart, range);
+		setChartData(diggChartData);
+		setGraphSelected(graph);
 	};
-
-	useEffect(componentDidMount, []);
-	const [title, setGraphSelected] = useState<string>('Total Volume');
 
 	const handleChangeRange = async (range: number) => {
 		const chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
@@ -37,12 +40,14 @@ const DashboardCard = observer(() => {
 		setChartData(diggChartData);
 		setRange(range);
 	};
-	useEffect(() => {
-		handleChangeRange(range);
-	}, [title]);
 
-	const [chartData, setChartData] = useState<any>(undefined);
-	const [range, setRange] = useState<number>(7);
+	useEffect(() => {
+		const initialChartFetch = async () => {
+			const diggChartData = await fetchDiggChart('total_volumes', 7);
+			setChartData(diggChartData);
+		};
+		initialChartFetch();
+	}, []);
 
 	const ranges = (
 		<ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
@@ -81,9 +86,9 @@ const DashboardCard = observer(() => {
 				value={['Total Volume', 'Price', 'Market cap'].indexOf(title)}
 				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}
 			>
-				<Tab onClick={() => setGraphSelected('Total Volume')} label="Total Volume"></Tab>
-				<Tab onClick={() => setGraphSelected('Price')} label="Price"></Tab>
-				<Tab onClick={() => setGraphSelected('Market cap')} label="Market cap"></Tab>
+				<Tab onClick={() => handleGraphSelected('Total Volume')} label="Total Volume" />
+				<Tab onClick={() => handleGraphSelected('Price')} label="Price" />
+				<Tab onClick={() => handleGraphSelected('Market cap')} label="Market cap" />
 			</Tabs>
 			<div className={classes.chartHeader}>
 				<CardHeader title={title} subheader="Drag the chart and pan the axes to explore." />
