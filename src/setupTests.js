@@ -1,6 +1,7 @@
 // See https://github.com/facebook/jest/issues/9983
 import { TextEncoder, TextDecoder } from 'util';
 import fetchMock from 'jest-fetch-mock';
+import '@testing-library/jest-dom';
 import crypto from 'crypto';
 import LockedCvxDelegationStore from './mobx/stores/lockedCvxDelegationStore';
 import { setupMockAPI } from './tests/utils/setup';

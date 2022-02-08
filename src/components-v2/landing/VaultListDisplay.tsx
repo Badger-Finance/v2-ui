@@ -12,6 +12,7 @@ import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
 import { VaultState } from '@badger-dao/sdk';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { VaultNameSource } from '../../mobx/model/vaults/vault-name-source';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -43,6 +44,9 @@ const VaultListDisplay = observer(() => {
 		);
 	}
 
+	// we keep track of the vault names to prevent duplicates
+	const vaultNameOccurrences: Record<string, number> = {};
+
 	const settListItems = vaultOrder.flatMap((vault) => {
 		// TODO: This isn't really needed - but let's keep it until we have sdk fallbacks in place
 		const badgerVault = network.vaults.find((badgerVault) => badgerVault.vaultToken.address === vault.vaultToken);
@@ -54,6 +58,11 @@ const VaultListDisplay = observer(() => {
 		const scalar = new BigNumber(vault.pricePerFullShare);
 		const depositBalance = user.getBalance(BalanceNamespace.Vault, badgerVault).scale(scalar, true);
 		const hasNoBalance = depositBalance.tokenBalance.eq(0);
+
+		const occurrenceKey = `${vault.protocol}-${vault.name}`;
+		const vaultNameOccurrence = (vaultNameOccurrences[occurrenceKey] ?? 0) + 1;
+		const hasOverlappingName = vaultNameOccurrence > 1;
+		vaultNameOccurrences[occurrenceKey] = vaultNameOccurrence;
 
 		// Hide the remBadger vault from users who do not have rembadger (this default hides the sett)
 		if (badgerVault.vaultToken.address === ETH_DEPLOY.sett_system.vaults['native.rembadger'] && hasNoBalance) {
@@ -70,6 +79,7 @@ const VaultListDisplay = observer(() => {
 				vault={vault}
 				key={vault.vaultToken}
 				depositBalance={depositBalance}
+				nameSource={hasOverlappingName ? VaultNameSource.DepositTokenSymbol : VaultNameSource.VaultName}
 				CustomDepositModal={isVaultVaultIbbtc(vault) ? IbbtcVaultDepositDialog : undefined}
 			/>
 		);

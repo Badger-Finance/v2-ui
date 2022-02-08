@@ -18,6 +18,7 @@ import { INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
 import { getUserVaultBoost, getVaultIconPath } from '../../utils/componentHelpers';
 import VaultBadge from './VaultBadge';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { VaultNameSource } from '../../mobx/model/vaults/vault-name-source';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -136,11 +137,17 @@ const useStyles = makeStyles((theme) => ({
 export interface VaultListItemProps {
 	vault: Vault;
 	depositBalance: TokenBalance;
+	nameSource?: VaultNameSource;
 	// this will probably never be used except for special cases such as the ibBTC zap deposit workflow
 	CustomDepositModal?: (props: VaultModalProps) => JSX.Element;
 }
 
-const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: VaultListItemProps): JSX.Element => {
+const VaultListItem = ({
+	vault,
+	CustomDepositModal,
+	depositBalance,
+	nameSource = VaultNameSource.VaultName,
+}: VaultListItemProps): JSX.Element => {
 	const classes = useStyles();
 	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
@@ -175,9 +182,14 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	const boostText =
 		vault.boost.enabled && vault.maxApr ? `🚀 Boosted (max. ${vault.maxApr.toFixed(2)}%)` : 'Non-boosted';
 
+	const vaultNameOptions = {
+		[VaultNameSource.VaultName]: vault.name,
+		[VaultNameSource.DepositTokenSymbol]: depositBalance.token.symbol,
+	};
+
 	const vaultName = (
 		<Typography className={classes.vaultName}>
-			{vault.protocol} - {vault.name}
+			{vault.protocol} - {vaultNameOptions[nameSource]}
 		</Typography>
 	);
 
@@ -420,5 +432,6 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	}
 
 	return listItem;
-});
-export default VaultListItem;
+};
+
+export default observer(VaultListItem);
