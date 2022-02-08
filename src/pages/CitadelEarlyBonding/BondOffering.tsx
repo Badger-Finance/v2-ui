@@ -8,7 +8,7 @@ import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import { Currency } from 'config/enums/currency.enum';
-import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+// import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const useStyles = makeStyles((theme) => ({
 	cardSplash: {
@@ -85,12 +85,12 @@ interface BondOfferingProps {
 }
 
 const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX.Element => {
-	const { prices, user, bondStore } = useContext(StoreContext);
+	const { user, bondStore } = useContext(StoreContext);
 	const { purchasedTokens, purchasedTokensValue, purchasedBonds, purchasedBondsValue } = bondStore.getBondInfo(bond);
 	const { bondToken, claimed } = bond;
 
 	// const bondTokenPrice = prices.getPrice(bond.address);
-	const bondTokenPrice = prices.getPrice(ETH_DEPLOY.tokens.wBTC);
+	// const bondTokenPrice = prices.getPrice(ETH_DEPLOY.tokens.wBTC);
 	const bondTokenBalance = user.getTokenBalance(bond.address);
 	const classes = useStyles();
 
