@@ -298,21 +298,18 @@ export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => v
 };
 
 export function getVaultsSlugCache(vaults: Vault[]): Record<string, string> {
+	const occurrences: Record<string, number> = {};
 	return Object.fromEntries(
-		vaults.map((vault, currentVaultIndex, vaults) => {
+		vaults.map((vault) => {
 			let sanitizedVaultName = vault.name.replace(/\/+/g, '-'); // replace "/" with "-"
-			let previousOccurrences = 0;
 
-			for (let i = 0; i < currentVaultIndex; i++) {
-				const previousVault = vaults[i];
-				if (previousVault.name === vault.name && previousVault.protocol === vault.protocol) {
-					previousOccurrences++;
-				}
-			}
+			occurrences[sanitizedVaultName] = (occurrences[sanitizedVaultName] ?? 0) + 1;
+
+			const totalOccurrences = occurrences[sanitizedVaultName];
 
 			// in the event of duplicate vault names append an index suffix to prevent slug overlapping
-			if (previousOccurrences > 0) {
-				sanitizedVaultName = `${sanitizedVaultName}-${previousOccurrences}`;
+			if (totalOccurrences > 1) {
+				sanitizedVaultName = `${sanitizedVaultName}-${totalOccurrences}`;
 			}
 
 			return [vault.vaultToken, slugify(`${vault.protocol}-${sanitizedVaultName}`, { lower: true })];

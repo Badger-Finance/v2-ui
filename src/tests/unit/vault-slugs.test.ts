@@ -90,6 +90,34 @@ const sampleVaults: Vault[] = [
 		},
 		type: VaultType.Standard,
 	},
+	{
+		name: 'CVX',
+		asset: 'CVX',
+		vaultAsset: 'bveCVX',
+		state: VaultState.Open,
+		underlyingToken: '0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B',
+		vaultToken: '0xfd05D3C7fe2924020620A8bE4961bBaA747e6306',
+		value: 9942.779677051958,
+		available: 0,
+		balance: 1143509.3711711436,
+		protocol: Protocol.Convex,
+		pricePerFullShare: 1,
+		tokens: [],
+		apr: 69.12878447730935,
+		boost: {
+			enabled: false,
+			weight: 0,
+		},
+		sources: [],
+		bouncer: BouncerType.None,
+		strategy: {
+			address: '0x3ff634ce65cDb8CC0D569D6d1697c41aa666cEA9',
+			withdrawFee: 10,
+			performanceFee: 0,
+			strategistFee: 0,
+		},
+		type: VaultType.Standard,
+	},
 ];
 
 describe('getVaultsSlugCache', () => {
@@ -97,7 +125,8 @@ describe('getVaultsSlugCache', () => {
 		const expectedSlugs = {
 			[sampleVaults[0].vaultToken]: 'convex-renbtc-wbtc-sbtc',
 			[sampleVaults[1].vaultToken]: 'convex-cvx',
-			[sampleVaults[2].vaultToken]: 'convex-cvx-1',
+			[sampleVaults[2].vaultToken]: 'convex-cvx-2',
+			[sampleVaults[3].vaultToken]: 'convex-cvx-3',
 		};
 
 		expect(getVaultsSlugCache(sampleVaults)).toEqual(expectedSlugs);
