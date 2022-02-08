@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
@@ -97,48 +97,59 @@ export const Redeem = observer((): any => {
 		setConversionRate(conversionRate.balanceDisplay(6));
 	};
 
-	const calculateRedeem = async (ibbtcBalance: TokenBalance, outTokenBalance: TokenBalance): Promise<void> => {
-		const [{ sett, fee, max }, conversionRate] = await Promise.all([
-			store.ibBTCStore.calcRedeemAmount(ibbtcBalance, outTokenBalance.token),
-			store.ibBTCStore.getRedeemConversionRate(outTokenBalance.token),
-		]);
+	const calculateRedeem = useCallback(
+		async (ibbtcBalance: TokenBalance, outTokenBalance: TokenBalance): Promise<void> => {
+			const [{ sett, fee, max }, conversionRate] = await Promise.all([
+				store.ibBTCStore.calcRedeemAmount(ibbtcBalance, outTokenBalance.token),
+				store.ibBTCStore.getRedeemConversionRate(outTokenBalance.token),
+			]);
 
-		setMaxRedeem(max);
-		setRedeemInformation({
-			inputAmount: ibbtcBalance,
-			redeemAmount: TokenBalance.fromBigNumber(outTokenBalance, sett),
-			max: TokenBalance.fromBigNumber(ibBTC, max),
-			fee: TokenBalance.fromBigNumber(ibBTC, fee),
-			conversionRate: TokenBalance.fromBigNumber(outTokenBalance, conversionRate),
-		});
-	};
+			setMaxRedeem(max);
+			setRedeemInformation({
+				inputAmount: ibbtcBalance,
+				redeemAmount: TokenBalance.fromBigNumber(outTokenBalance, sett),
+				max: TokenBalance.fromBigNumber(ibBTC, max),
+				fee: TokenBalance.fromBigNumber(ibBTC, fee),
+				conversionRate: TokenBalance.fromBigNumber(outTokenBalance, conversionRate),
+			});
+		},
+		[ibBTC, store.ibBTCStore],
+	);
 
 	const handleInputChange = (change: string) => {
 		setInputAmount(change);
 		setRedeemBalance(TokenBalance.fromBalance(ibBTC, change));
-		debounceInputAmountChange(change);
+		handleInputAmountChange(change);
 	};
 
-	const debounceInputAmountChange = useCallback(
-		debounce(200, async (change): Promise<void> => {
-			const input = new BigNumber(change);
+	const debounceInputAmountChange = useMemo(
+		() =>
+			debounce(200, async (change: string): Promise<void> => {
+				const input = new BigNumber(change);
 
-			if (!selectedToken) {
-				return;
-			}
+				if (!selectedToken) {
+					return;
+				}
 
-			if (!input.gt(ZERO)) {
-				setOutputAmount(undefined);
-				setMaxRedeem(undefined);
-				setIsEnoughToRedeem(true);
-				setFee('0.000');
-				setTotalRedeem('0.000');
-				return;
-			}
+				if (!input.gt(ZERO)) {
+					setOutputAmount(undefined);
+					setMaxRedeem(undefined);
+					setIsEnoughToRedeem(true);
+					setFee('0.000');
+					setTotalRedeem('0.000');
+					return;
+				}
 
-			await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
-		}),
-		[selectedToken],
+				await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
+			}),
+		[calculateRedeem, selectedToken, ibBTC],
+	);
+
+	const handleInputAmountChange = useCallback(
+		(change: string) => {
+			debounceInputAmountChange(change);
+		},
+		[debounceInputAmountChange],
 	);
 
 	const handleApplyMaxBalance = async (): Promise<void> => {

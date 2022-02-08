@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
 	Button,
 	FormControlLabel,
@@ -112,14 +112,17 @@ export const Mint = observer((): JSX.Element => {
 		setOutputAmount(outputAmount.balanceDisplay(6));
 	};
 
-	const calculateMintInformation = async (settTokenAmount: TokenBalance): Promise<void> => {
-		const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(settTokenAmount);
-		setMintInformation(
-			settTokenAmount,
-			TokenBalance.fromBigNumber(ibBTC, bBTC),
-			TokenBalance.fromBigNumber(ibBTC, fee),
-		);
-	};
+	const calculateMintInformation = useCallback(
+		async (settTokenAmount: TokenBalance): Promise<void> => {
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(settTokenAmount);
+			setMintInformation(
+				settTokenAmount,
+				TokenBalance.fromBigNumber(ibBTC, bBTC),
+				TokenBalance.fromBigNumber(ibBTC, fee),
+			);
+		},
+		[ibBTC, store.ibBTCStore],
+	);
 
 	const handleInputChange = (change: string) => {
 		if (!selectedToken) {
@@ -128,7 +131,7 @@ export const Mint = observer((): JSX.Element => {
 
 		setInputAmount(change);
 		setMintBalance(TokenBalance.fromBalance(selectedToken, change));
-		debounceInputAmountChange(change);
+		handleInputAmountChange(change);
 	};
 
 	const handleCustomSlippageChange = (change: string) => {
@@ -141,24 +144,32 @@ export const Mint = observer((): JSX.Element => {
 		setSlippage((event.target as HTMLInputElement).value);
 	};
 
-	const debounceInputAmountChange = useCallback(
-		debounce(200, async (change: string): Promise<void> => {
-			const input = new BigNumber(change);
+	const debounceInputAmountChange = useMemo(
+		() =>
+			debounce(200, async (change: string): Promise<void> => {
+				const input = new BigNumber(change);
 
-			if (!selectedToken) {
-				return;
-			}
+				if (!selectedToken) {
+					return;
+				}
 
-			if (!input.gt(ZERO)) {
-				setOutputAmount(undefined);
-				setFee('0.000');
-				setTotalMint('0.000');
-				return;
-			}
+				if (!input.gt(ZERO)) {
+					setOutputAmount(undefined);
+					setFee('0.000');
+					setTotalMint('0.000');
+					return;
+				}
 
-			await calculateMintInformation(TokenBalance.fromBalance(selectedToken, change));
-		}),
-		[selectedToken],
+				await calculateMintInformation(TokenBalance.fromBalance(selectedToken, change));
+			}),
+		[selectedToken, calculateMintInformation],
+	);
+
+	const handleInputAmountChange = useCallback(
+		(change: string) => {
+			debounceInputAmountChange(change);
+		},
+		[debounceInputAmountChange],
 	);
 
 	const handleApplyMaxBalance = async (): Promise<void> => {
