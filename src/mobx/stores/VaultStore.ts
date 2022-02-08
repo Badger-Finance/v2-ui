@@ -1,5 +1,4 @@
 import { action, extendObservable } from 'mobx';
-import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import Web3 from 'web3';
 import { Token } from 'mobx/model/tokens/token';
@@ -17,11 +16,7 @@ import BigNumber from 'bignumber.js';
 import { ContractCallReturnContext } from 'ethereum-multicall';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-
-const formatVaultListItem = (vault: Vault): [string, string] => {
-	const sanitizedVaultName = vault.name.replace(/\/+/g, '-'); // replace "/" with "-"
-	return [vault.vaultToken, slugify(`${vault.protocol}-${sanitizedVaultName}`, { lower: true })];
-};
+import { getVaultsSlugCache } from '../utils/helpers';
 
 export default class VaultStore {
 	private store!: RootStore;
@@ -309,7 +304,7 @@ export default class VaultStore {
 			this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
 			this.slugCache[chain] = {
 				...this.slugCache[chain],
-				...Object.fromEntries(settList.map(formatVaultListItem)),
+				...getVaultsSlugCache(settList),
 			};
 			this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
 			// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
