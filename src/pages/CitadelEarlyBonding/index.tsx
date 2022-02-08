@@ -43,12 +43,12 @@ function toCountDown(seconds: number): string {
 	if (seconds < 0) {
 		countdown = 0;
 	}
-	var d = Math.floor(countdown / (3600 * 24));
-	var h = Math.floor((countdown % (3600 * 24)) / 3600);
-	var m = Math.floor((countdown % 3600) / 60);
-	var dDisplay = d + 'd ';
-	var mDisplay = m + 'm';
-	var hDisplay = h + 'h ';
+	const d = Math.floor(countdown / (3600 * 24));
+	const h = Math.floor((countdown % (3600 * 24)) / 3600);
+	const m = Math.floor((countdown % 3600) / 60);
+	const dDisplay = d + 'd ';
+	const mDisplay = m + 'm';
+	const hDisplay = h + 'h ';
 	return dDisplay + hDisplay + mDisplay;
 }
 
