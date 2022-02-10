@@ -17,8 +17,8 @@ import { ContractCallReturnContext } from 'ethereum-multicall';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getVaultsSlugCache } from '../utils/helpers';
-import { BadgerVault } from '../model/vaults/badger-vault';
 import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
+import { FLAGS } from '../../config/environment';
 
 export default class VaultStore {
 	private store!: RootStore;
@@ -104,7 +104,21 @@ export default class VaultStore {
 
 	get vaultsDefinitions(): VaultsDefinitions | undefined | null {
 		const { network: currentNetwork } = this.store.network;
-		return this.vaultDefinitionsCache[currentNetwork.symbol];
+
+		if (FLAGS.SDK_INTEGRATION_ENABLED) {
+			return this.vaultDefinitionsCache[currentNetwork.symbol];
+		}
+
+		const networkVaultsMap = Object.fromEntries(
+			currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
+		);
+
+		return new Map(
+			currentNetwork.settOrder.flatMap((vaultAddress) => {
+				const vault = networkVaultsMap[vaultAddress];
+				return vault ? [[vaultAddress, vault]] : [];
+			}),
+		);
 	}
 
 	getSlug(address: string): string {
@@ -150,9 +164,12 @@ export default class VaultStore {
 	getVaultOrder(): Vault[] | undefined | null {
 		const {
 			user,
-			network: { network },
 			prices: { exchangeRates },
 		} = this.store;
+
+		if (!this.vaultsDefinitions) {
+			return this.vaultsDefinitions;
+		}
 
 		const vaultMap = this.getVaultMap();
 
@@ -160,11 +177,8 @@ export default class VaultStore {
 			return vaultMap;
 		}
 
-		const networkVaultOrder = network.settOrder;
-		const stateFilteredVaultMap = Object.fromEntries(Object.entries(vaultMap));
-
-		let vaults = networkVaultOrder.flatMap((vaultAddress) => {
-			const vault = stateFilteredVaultMap[Web3.utils.toChecksumAddress(vaultAddress)];
+		let vaults = Array.from(this.vaultsDefinitions.values()).flatMap((vaultDefinition) => {
+			const vault = vaultMap[Web3.utils.toChecksumAddress(vaultDefinition.vaultToken.address)];
 			return vault ? [vault] : [];
 		});
 

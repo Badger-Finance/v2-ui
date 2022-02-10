@@ -42,7 +42,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 export const VaultFees = observer(
 	({ vault, onHelpClick, showNoFees = true, ...rootProps }: Props): JSX.Element | null => {
 		const store = React.useContext(StoreContext);
-		const { network: networkStore } = store;
+		const { network: networkStore, vaults } = store;
 		const { network } = networkStore;
 
 		const classes = useStyles();
@@ -57,13 +57,13 @@ export const VaultFees = observer(
 			</div>
 		);
 
-		const networkVault = network.vaults.find(({ vaultToken }) => vaultToken.address === vault.vaultToken);
+		const vaultDefinition = vaults.getVaultDefinition(vault);
 
-		if (!networkVault) {
+		if (!vaultDefinition) {
 			return showNoFees ? noFees : null;
 		}
 
-		const settStrategy = network.strategies[networkVault.vaultToken.address];
+		const settStrategy = network.strategies[vaultDefinition.vaultToken.address];
 		const nonEmptyFees = getNonEmptyStrategyFees(settStrategy);
 
 		if (nonEmptyFees.length === 0) {
