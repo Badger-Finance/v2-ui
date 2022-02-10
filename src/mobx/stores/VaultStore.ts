@@ -105,7 +105,7 @@ export default class VaultStore {
 		return Object.values(this.vaultDefinitionsCache);
 	}
 
-	getVaultDefinition(vaultAddress: string): BadgerVault {
+	getVaultDefinition(vaultAddress: string): BadgerVault | undefined {
 		return this.vaultDefinitionsCache[vaultAddress];
 	}
 
