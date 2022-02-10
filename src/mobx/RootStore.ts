@@ -17,7 +17,7 @@ import { NetworkStore } from './stores/NetworkStore';
 import { VaultDetailStore } from './stores/VaultDetail.store';
 import { VaultChartsStore } from './stores/VaultChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerAPI, BadgerSDK, SDKProvider } from '@badger-dao/sdk';
+import { BadgerSDK, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
@@ -31,7 +31,6 @@ import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
 
 export class RootStore {
-	public api: BadgerAPI;
 	public badgerSDK: BadgerSDK;
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
@@ -55,7 +54,6 @@ export class RootStore {
 	public bondStore: BondStore;
 
 	constructor() {
-		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
 		this.badgerSDK = new BadgerSDK(defaultNetwork.id, new JsonRpcProvider(rpc[defaultNetwork.symbol]), BADGER_API);
 		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
@@ -90,7 +88,6 @@ export class RootStore {
 		}
 
 		this.uiState.setCurrency(Currency.USD);
-		this.api = new BadgerAPI(network, BADGER_API);
 		this.badgerSDK = new BadgerSDK(network, new JsonRpcProvider(rpc[appNetwork.symbol]), BADGER_API);
 		this.rewards.resetRewards();
 
