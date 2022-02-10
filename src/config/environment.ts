@@ -51,4 +51,5 @@ export const FLAGS = {
 	AVAX: toBool(process.env.REACT_APP_AVAX),
 	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
 	CITADEL_SALE: toBool(process.env.REACT_APP_CITADEL_SALE),
+	SDK_INTEGRATION_ENABLED: toBool(process.env.REACT_APP_SDK_INTEGRATION),
 };

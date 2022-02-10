@@ -18,12 +18,13 @@ import { parseCallReturnContext } from 'mobx/utils/multicall';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getVaultsSlugCache } from '../utils/helpers';
 import { BadgerVault } from '../model/vaults/badger-vault';
+import { VaultsDefinitionCache } from '../model/vaults/vaults-definition-cache';
 
 export default class VaultStore {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object
-	private vaultDefinitionsCache: Record<string, BadgerVault>;
+	private vaultDefinitionsCache: VaultsDefinitionCache;
 	private tokenCache: TokenCache;
 	private settCache: VaultCache;
 	private slugCache: VaultSlugCache;
@@ -101,12 +102,26 @@ export default class VaultStore {
 		return this.tokenCache[this.store.network.network.symbol];
 	}
 
-	get vaultsDefinitions(): BadgerVault[] {
-		return Object.values(this.vaultDefinitionsCache);
+	get vaultsDefinitions(): BadgerVault[] | undefined | null {
+		const { network: currentNetwork } = this.store.network;
+		const networkCacheDefinition = this.vaultDefinitionsCache[currentNetwork.symbol];
+
+		if (!networkCacheDefinition) {
+			return networkCacheDefinition;
+		}
+
+		return Object.values(networkCacheDefinition);
 	}
 
-	getVaultDefinition(vaultAddress: string): BadgerVault | undefined {
-		return this.vaultDefinitionsCache[vaultAddress];
+	getVaultDefinition(vault: Vault): BadgerVault | undefined | null {
+		const { network: currentNetwork } = this.store.network;
+		const networkCacheDefinition = this.vaultDefinitionsCache[currentNetwork.symbol];
+
+		if (!networkCacheDefinition) {
+			return networkCacheDefinition;
+		}
+
+		return networkCacheDefinition[vault.vaultToken];
 	}
 
 	getSlug(address: string): string {
@@ -310,9 +325,10 @@ export default class VaultStore {
 	}
 
 	loadVaultsRegistry = action(async () => {
+		const { network: currentNetwork } = this.store.network;
 		const sdkVaults = await this.store.badgerSDK.vaults.loadVaults();
-		this.vaultDefinitionsCache = Object.fromEntries(
-			sdkVaults.map((vault): [string, BadgerVault] => [
+		this.vaultDefinitionsCache[currentNetwork.symbol] = Object.fromEntries(
+			sdkVaults.map((vault) => [
 				vault.address,
 				{
 					depositToken: vault.token,

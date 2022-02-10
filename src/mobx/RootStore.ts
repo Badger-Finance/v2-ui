@@ -28,6 +28,7 @@ import routes from 'config/routes';
 import BondStore from './stores/BondStore';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import rpc from '../config/rpc.config';
+import { FLAGS } from '../config/environment';
 
 export class RootStore {
 	public api: BadgerAPI;
@@ -55,7 +56,7 @@ export class RootStore {
 
 	constructor() {
 		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
-		this.badgerSDK = new BadgerSDK(defaultNetwork.id, new JsonRpcProvider(rpc[defaultNetwork.symbol]));
+		this.badgerSDK = new BadgerSDK(defaultNetwork.id, new JsonRpcProvider(rpc[defaultNetwork.symbol]), BADGER_API);
 		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
 		this.onboard = new OnboardStore(this, config);
@@ -90,16 +91,19 @@ export class RootStore {
 
 		this.uiState.setCurrency(Currency.USD);
 		this.api = new BadgerAPI(network, BADGER_API);
-		this.badgerSDK = new BadgerSDK(network, new JsonRpcProvider(rpc[appNetwork.symbol]));
+		this.badgerSDK = new BadgerSDK(network, new JsonRpcProvider(rpc[appNetwork.symbol]), BADGER_API);
 		this.rewards.resetRewards();
 
-		let refreshData = [
-			await this.badgerSDK.ready(),
+		let refreshData: Promise<void | void[]>[] = [
 			this.network.updateGasPrices(),
 			this.vaults.refresh(),
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
 		];
+
+		if (FLAGS.SDK_INTEGRATION_ENABLED) {
+			refreshData.concat([this.badgerSDK.ready(), this.vaults.loadVaultsRegistry()]);
+		}
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
 			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
