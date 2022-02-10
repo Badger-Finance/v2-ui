@@ -17,11 +17,13 @@ import { ContractCallReturnContext } from 'ethereum-multicall';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getVaultsSlugCache } from '../utils/helpers';
+import { BadgerVault } from '../model/vaults/badger-vault';
 
 export default class VaultStore {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object
+	private vaultDefinitionsCache: Record<string, BadgerVault>;
 	private tokenCache: TokenCache;
 	private settCache: VaultCache;
 	private slugCache: VaultSlugCache;
@@ -36,6 +38,7 @@ export default class VaultStore {
 		this.store = store;
 
 		extendObservable(this, {
+			vaultDefinitionsCache: undefined,
 			tokenCache: undefined,
 			protocolSummaryCache: undefined,
 			settCache: undefined,
@@ -46,6 +49,7 @@ export default class VaultStore {
 			showVaultFilters: false,
 		});
 
+		this.vaultDefinitionsCache = {};
 		this.tokenCache = {};
 		this.settCache = {};
 		this.slugCache = {};
@@ -95,6 +99,14 @@ export default class VaultStore {
 
 	get tokenConfig(): TokenConfigRecord | undefined | null {
 		return this.tokenCache[this.store.network.network.symbol];
+	}
+
+	get vaultsDefinitions(): BadgerVault[] {
+		return Object.values(this.vaultDefinitionsCache);
+	}
+
+	getVaultDefinition(vaultAddress: string): BadgerVault {
+		return this.vaultDefinitionsCache[vaultAddress];
 	}
 
 	getSlug(address: string): string {
@@ -296,6 +308,24 @@ export default class VaultStore {
 			this.initialized = true;
 		}
 	}
+
+	loadVaultsRegistry = action(async () => {
+		const sdkVaults = await this.store.badgerSDK.vaults.loadVaults();
+		this.vaultDefinitionsCache = Object.fromEntries(
+			sdkVaults.map((vault): [string, BadgerVault] => [
+				vault.address,
+				{
+					depositToken: vault.token,
+					vaultToken: {
+						address: vault.address,
+						decimals: vault.decimals,
+						symbol: vault.symbol,
+						name: vault.name,
+					},
+				},
+			]),
+		);
+	});
 
 	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
 		const settList = await this.store.api.loadVaults(Currency.ETH);

@@ -17,7 +17,7 @@ import { NetworkStore } from './stores/NetworkStore';
 import { VaultDetailStore } from './stores/VaultDetail.store';
 import { VaultChartsStore } from './stores/VaultChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerAPI, SDKProvider } from '@badger-dao/sdk';
+import { BadgerAPI, BadgerSDK, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
@@ -26,9 +26,12 @@ import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
 import BondStore from './stores/BondStore';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import rpc from '../config/rpc.config';
 
 export class RootStore {
 	public api: BadgerAPI;
+	public badgerSDK: BadgerSDK;
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
 	public uiState: UiState;
@@ -52,6 +55,7 @@ export class RootStore {
 
 	constructor() {
 		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
+		this.badgerSDK = new BadgerSDK(defaultNetwork.id, new JsonRpcProvider(rpc[defaultNetwork.symbol]));
 		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
 		this.onboard = new OnboardStore(this, config);
@@ -77,17 +81,20 @@ export class RootStore {
 	}
 
 	async updateNetwork(network: number): Promise<void> {
+		const appNetwork = Network.networkFromId(network);
+
 		// push network state to app
 		if (this.network.network.id !== network) {
-			const appNetwork = Network.networkFromId(network);
 			this.network.network = appNetwork;
 		}
 
 		this.uiState.setCurrency(Currency.USD);
 		this.api = new BadgerAPI(network, BADGER_API);
+		this.badgerSDK = new BadgerSDK(network, new JsonRpcProvider(rpc[appNetwork.symbol]));
 		this.rewards.resetRewards();
 
 		let refreshData = [
+			await this.badgerSDK.ready(),
 			this.network.updateGasPrices(),
 			this.vaults.refresh(),
 			this.prices.loadPrices(),
@@ -114,8 +121,8 @@ export class RootStore {
 		if (signer && address) {
 			const config = NetworkConfig.getConfig(network.id);
 
-			let updateActions: Promise<void>[] = [];
-			updateActions = [
+			const updateActions = [
+				this.vaults.loadVaultsRegistry(),
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
 				this.user.checkApprovalVulnerabilities(address),
