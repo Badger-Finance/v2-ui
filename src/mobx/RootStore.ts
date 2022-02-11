@@ -99,7 +99,8 @@ export class RootStore {
 		];
 
 		if (FLAGS.SDK_INTEGRATION_ENABLED) {
-			refreshData.concat([this.badgerSDK.ready(), this.vaults.loadVaultsRegistry()]);
+			await this.badgerSDK.ready();
+			refreshData.push(this.vaults.loadVaultsRegistry());
 		}
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
