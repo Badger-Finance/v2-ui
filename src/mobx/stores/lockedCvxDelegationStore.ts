@@ -12,6 +12,7 @@ import { NETWORK_IDS, ZERO_ADDR } from 'config/constants';
 import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json';
 import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
 import { fetchData } from '../../utils/fetchData';
+import { FLAGS } from '../../config/environment';
 
 // this is mainnet only
 const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';
@@ -44,21 +45,27 @@ class LockedCvxDelegationStore {
 			delegationState: this.delegationState,
 		});
 
-		observe(this.store.user, 'accountDetails', () => {
-			this.loadLockedCvxBalance();
-			this.loadVotiumRewardsInformation();
-		});
+		if (FLAGS.LOCKED_CVX_DELEGATION_WIDGET) {
+			observe(this.store.user, 'accountDetails', () => {
+				this.loadLockedCvxBalance();
+				this.loadVotiumRewardsInformation();
+			});
 
-		observe(this.store.user, 'settBalances', () => {
-			const areVaultBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
+			observe(this.store.user, 'settBalances', () => {
+				const areVaultBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
 
-			if (areVaultBalancesAvailable) {
-				this.getUserDelegationState();
-			}
-		});
+				if (areVaultBalancesAvailable) {
+					this.getUserDelegationState();
+				}
+			});
+		}
 	}
 
 	get shouldBannerBeDisplayed(): boolean {
+		if (!FLAGS.LOCKED_CVX_DELEGATION_WIDGET) {
+			return false;
+		}
+
 		if (this.store.network.network.id !== NETWORK_IDS.ETH || !this.delegationState) {
 			return false;
 		}
