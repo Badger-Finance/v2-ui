@@ -123,7 +123,6 @@ export class RootStore {
 			const config = NetworkConfig.getConfig(network.id);
 
 			const updateActions = [
-				this.vaults.loadVaultsRegistry(),
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
 				this.user.checkApprovalVulnerabilities(address),
