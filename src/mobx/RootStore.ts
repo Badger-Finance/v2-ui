@@ -31,7 +31,7 @@ import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
 
 export class RootStore {
-	public badgerSDK: BadgerSDK;
+	public sdk: BadgerSDK;
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
 	public uiState: UiState;
@@ -54,7 +54,7 @@ export class RootStore {
 	public bondStore: BondStore;
 
 	constructor() {
-		this.badgerSDK = new BadgerSDK(defaultNetwork.id, new JsonRpcProvider(rpc[defaultNetwork.symbol]), BADGER_API);
+		this.sdk = new BadgerSDK(defaultNetwork.id, new JsonRpcProvider(rpc[defaultNetwork.symbol]), BADGER_API);
 		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
 		this.onboard = new OnboardStore(this, config);
@@ -88,10 +88,10 @@ export class RootStore {
 		}
 
 		this.uiState.setCurrency(Currency.USD);
-		this.badgerSDK = new BadgerSDK(network, new JsonRpcProvider(rpc[appNetwork.symbol]), BADGER_API);
+		this.sdk = new BadgerSDK(network, new JsonRpcProvider(rpc[appNetwork.symbol]), BADGER_API);
 		this.rewards.resetRewards();
 
-		let refreshData: Promise<void | void[]>[] = [
+		let refreshData = [
 			this.network.updateGasPrices(),
 			this.vaults.refresh(),
 			this.prices.loadPrices(),
@@ -99,7 +99,6 @@ export class RootStore {
 		];
 
 		if (FLAGS.SDK_INTEGRATION_ENABLED) {
-			await this.badgerSDK.ready();
 			refreshData.push(this.vaults.loadVaultsRegistry());
 		}
 
@@ -119,6 +118,10 @@ export class RootStore {
 		const { address } = this.onboard;
 		const { network } = this.network;
 		const signer = provider.getSigner();
+
+		if (FLAGS.SDK_USE_WALLET_PROVIDER) {
+			this.sdk = new BadgerSDK(network.id, provider, BADGER_API);
+		}
 
 		if (signer && address) {
 			const config = NetworkConfig.getConfig(network.id);

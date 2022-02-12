@@ -15,7 +15,7 @@ export class LeaderBoardStore {
 	}
 
 	loadData = action(async (): Promise<void> => {
-		const summary = await this.store.badgerSDK.api.loadLeaderboardSummary();
+		const summary = await this.store.sdk.api.loadLeaderboardSummary();
 
 		if (summary) {
 			this.ranks = summary;

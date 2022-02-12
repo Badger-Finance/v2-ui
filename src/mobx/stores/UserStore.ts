@@ -160,7 +160,7 @@ export default class UserStore {
 
 	loadBouncerProof = action(async (address: string): Promise<void> => {
 		try {
-			const proof = await this.store.badgerSDK.api.loadProof(address);
+			const proof = await this.store.sdk.api.loadProof(address);
 			if (proof) {
 				this.bouncerProof = proof;
 			}
@@ -178,7 +178,7 @@ export default class UserStore {
 	});
 
 	loadAccountDetails = action(async (address: string): Promise<void> => {
-		const accountDetails = await this.store.badgerSDK.api.loadAccount(address);
+		const accountDetails = await this.store.sdk.api.loadAccount(address);
 		if (accountDetails) {
 			this.accountDetails = accountDetails;
 		}

@@ -326,7 +326,7 @@ export default class VaultStore {
 
 	loadVaultsRegistry = action(async () => {
 		const { network: currentNetwork } = this.store.network;
-		const sdkVaults = await this.store.badgerSDK.vaults.loadVaults();
+		const sdkVaults = await this.store.sdk.vaults.loadVaults();
 		this.vaultDefinitionsCache[currentNetwork.symbol] = Object.fromEntries(
 			sdkVaults.map((vault) => [
 				vault.address,
@@ -344,7 +344,7 @@ export default class VaultStore {
 	});
 
 	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
-		const settList = await this.store.badgerSDK.api.loadVaults(Currency.ETH);
+		const settList = await this.store.sdk.api.loadVaults(Currency.ETH);
 
 		if (settList) {
 			this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
@@ -364,7 +364,7 @@ export default class VaultStore {
 	});
 
 	loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {
-		const tokenConfig = await this.store.badgerSDK.api.loadTokens();
+		const tokenConfig = await this.store.sdk.api.loadTokens();
 		if (tokenConfig) {
 			this.tokenCache[chain] = tokenConfig;
 		} else {
@@ -373,7 +373,7 @@ export default class VaultStore {
 	});
 
 	loadAssets = action(async (chain = Network.Ethereum): Promise<void> => {
-		const protocolSummary = await this.store.badgerSDK.api.loadProtocolSummary(Currency.ETH);
+		const protocolSummary = await this.store.sdk.api.loadProtocolSummary(Currency.ETH);
 		if (protocolSummary) {
 			this.protocolSummaryCache[chain] = protocolSummary;
 		} else {
