@@ -18,7 +18,7 @@ import { parseCallReturnContext } from 'mobx/utils/multicall';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getVaultsSlugCache } from '../utils/helpers';
 import { BadgerVault } from '../model/vaults/badger-vault';
-import { VaultsDefinitionCache } from '../model/vaults/vaults-definition-cache';
+import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
 
 export default class VaultStore {
 	private store!: RootStore;
@@ -102,26 +102,9 @@ export default class VaultStore {
 		return this.tokenCache[this.store.network.network.symbol];
 	}
 
-	get vaultsDefinitions(): BadgerVault[] | undefined | null {
+	get vaultsDefinitions(): VaultsDefinitions | undefined | null {
 		const { network: currentNetwork } = this.store.network;
-		const networkCacheDefinition = this.vaultDefinitionsCache[currentNetwork.symbol];
-
-		if (!networkCacheDefinition) {
-			return networkCacheDefinition;
-		}
-
-		return Object.values(networkCacheDefinition);
-	}
-
-	getVaultDefinition(vault: Vault): BadgerVault | undefined | null {
-		const { network: currentNetwork } = this.store.network;
-		const networkCacheDefinition = this.vaultDefinitionsCache[currentNetwork.symbol];
-
-		if (!networkCacheDefinition) {
-			return networkCacheDefinition;
-		}
-
-		return networkCacheDefinition[vault.vaultToken];
+		return this.vaultDefinitionsCache[currentNetwork.symbol];
 	}
 
 	getSlug(address: string): string {
@@ -327,7 +310,7 @@ export default class VaultStore {
 	loadVaultsRegistry = action(async () => {
 		const { network: currentNetwork } = this.store.network;
 		const sdkVaults = await this.store.sdk.vaults.loadVaults();
-		this.vaultDefinitionsCache[currentNetwork.symbol] = Object.fromEntries(
+		this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
 			sdkVaults.map((vault) => [
 				vault.address,
 				{

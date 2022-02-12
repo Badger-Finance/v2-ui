@@ -1,5 +1,7 @@
 import { BadgerVault } from './badger-vault';
 
+export type VaultsDefinitions = Map<string, BadgerVault>;
+
 export interface VaultsDefinitionCache {
-	[chain: string]: Record<string, BadgerVault> | undefined | null;
+	[chain: string]: VaultsDefinitions | undefined | null;
 }
