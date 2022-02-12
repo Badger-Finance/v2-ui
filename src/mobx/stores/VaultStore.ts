@@ -19,6 +19,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getVaultsSlugCache } from '../utils/helpers';
 import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
 import { FLAGS } from '../../config/environment';
+import { BadgerVault } from '../model/vaults/badger-vault';
 
 export default class VaultStore {
 	private store!: RootStore;
@@ -119,6 +120,10 @@ export default class VaultStore {
 				return vault ? [[vaultAddress, vault]] : [];
 			}),
 		);
+	}
+
+	getVaultDefinition(vault: Vault): BadgerVault | undefined | null {
+		return this.vaultsDefinitions?.get(vault.vaultToken);
 	}
 
 	getSlug(address: string): string {

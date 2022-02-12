@@ -13,6 +13,7 @@ import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { SAMPLE_VAULTS } from '../utils/samples';
 import VaultStore from '../../mobx/stores/VaultStore';
+import { vaults } from '../Landing.test';
 
 const sampleExchangeRates: ExchangeRates = {
 	usd: 3371.56,
@@ -26,16 +27,16 @@ const sampleExchangeRates: ExchangeRates = {
 
 const mockVaultsInformation = (vaults: Vault[]) => {
 	jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
-		vaults.map((vault) => ({
-			depositToken: { address: vault.underlyingToken, decimals: 18 },
-			vaultToken: { address: vault.vaultToken, decimals: 18 },
-		})),
+		new Map(
+			vaults.map((vault) => [
+				vault.vaultToken,
+				{
+					depositToken: { address: vault.underlyingToken, decimals: 18 },
+					vaultToken: { address: vault.vaultToken, decimals: 18 },
+				},
+			]),
+		),
 	);
-
-	jest.spyOn(VaultStore.prototype, 'getVaultDefinition').mockImplementation((vault: Vault) => ({
-		depositToken: { address: vault.underlyingToken, decimals: 18 },
-		vaultToken: { address: vault.vaultToken, decimals: 18 },
-	}));
 
 	store.vaults.getVaultMap = jest
 		.fn()

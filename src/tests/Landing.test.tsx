@@ -425,16 +425,16 @@ describe('Landing', () => {
 		jest.spyOn(VaultStore.prototype, 'getVaultOrder').mockReturnValue(vaults);
 
 		jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
-			vaults.map((vault) => ({
-				depositToken: { address: vault.underlyingToken, decimals: 18 },
-				vaultToken: { address: vault.vaultToken, decimals: 18 },
-			})),
+			new Map(
+				vaults.map((vault) => [
+					vault.vaultToken,
+					{
+						depositToken: { address: vault.underlyingToken, decimals: 18 },
+						vaultToken: { address: vault.vaultToken, decimals: 18 },
+					},
+				]),
+			),
 		);
-
-		jest.spyOn(VaultStore.prototype, 'getVaultDefinition').mockImplementation((vault: Vault) => ({
-			depositToken: { address: vault.underlyingToken, decimals: 18 },
-			vaultToken: { address: vault.vaultToken, decimals: 18 },
-		}));
 	});
 
 	test('Renders correctly', async () => {
