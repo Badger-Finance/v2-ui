@@ -82,6 +82,6 @@ export class NetworkStore {
 	});
 
 	updateGasPrices = action(async () => {
-		this.gasPrices = await this.store.api.loadGasPrices();
+		this.gasPrices = await this.store.sdk.api.loadGasPrices();
 	});
 }

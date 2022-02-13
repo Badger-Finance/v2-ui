@@ -17,11 +17,14 @@ import { ContractCallReturnContext } from 'ethereum-multicall';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getVaultsSlugCache } from '../utils/helpers';
+import { BadgerVault } from '../model/vaults/badger-vault';
+import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
 
 export default class VaultStore {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object
+	private vaultDefinitionsCache: VaultsDefinitionCache;
 	private tokenCache: TokenCache;
 	private settCache: VaultCache;
 	private slugCache: VaultSlugCache;
@@ -36,6 +39,7 @@ export default class VaultStore {
 		this.store = store;
 
 		extendObservable(this, {
+			vaultDefinitionsCache: undefined,
 			tokenCache: undefined,
 			protocolSummaryCache: undefined,
 			settCache: undefined,
@@ -46,6 +50,7 @@ export default class VaultStore {
 			showVaultFilters: false,
 		});
 
+		this.vaultDefinitionsCache = {};
 		this.tokenCache = {};
 		this.settCache = {};
 		this.slugCache = {};
@@ -95,6 +100,11 @@ export default class VaultStore {
 
 	get tokenConfig(): TokenConfigRecord | undefined | null {
 		return this.tokenCache[this.store.network.network.symbol];
+	}
+
+	get vaultsDefinitions(): VaultsDefinitions | undefined | null {
+		const { network: currentNetwork } = this.store.network;
+		return this.vaultDefinitionsCache[currentNetwork.symbol];
 	}
 
 	getSlug(address: string): string {
@@ -297,8 +307,27 @@ export default class VaultStore {
 		}
 	}
 
+	loadVaultsRegistry = action(async () => {
+		const { network: currentNetwork } = this.store.network;
+		const sdkVaults = await this.store.sdk.vaults.loadVaults();
+		this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
+			sdkVaults.map((vault) => [
+				vault.address,
+				{
+					depositToken: vault.token,
+					vaultToken: {
+						address: vault.address,
+						decimals: vault.decimals,
+						symbol: vault.symbol,
+						name: vault.name,
+					},
+				},
+			]),
+		);
+	});
+
 	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
-		const settList = await this.store.api.loadVaults(Currency.ETH);
+		const settList = await this.store.sdk.api.loadVaults(Currency.ETH);
 
 		if (settList) {
 			this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
@@ -318,7 +347,7 @@ export default class VaultStore {
 	});
 
 	loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {
-		const tokenConfig = await this.store.api.loadTokens();
+		const tokenConfig = await this.store.sdk.api.loadTokens();
 		if (tokenConfig) {
 			this.tokenCache[chain] = tokenConfig;
 		} else {
@@ -327,7 +356,7 @@ export default class VaultStore {
 	});
 
 	loadAssets = action(async (chain = Network.Ethereum): Promise<void> => {
-		const protocolSummary = await this.store.api.loadProtocolSummary(Currency.ETH);
+		const protocolSummary = await this.store.sdk.api.loadProtocolSummary(Currency.ETH);
 		if (protocolSummary) {
 			this.protocolSummaryCache[chain] = protocolSummary;
 		} else {
