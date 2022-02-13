@@ -1,11 +1,14 @@
 {
 	"token": "0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9",
 	"tokens": {
-		"badger": "0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9"
+		"badger": "0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9",
+		"solidly.usdc-dai": "0xC0240Ee4405f11EFb87A00B432A8be7b7Afc97CC"
 	},
 	"geysers": {},
 	"sett_system": {
-		"vaults": {},
+		"vaults": {
+			"native.usdc-dai": "0x5deaB57a0aF330F268d4D2D029a1CE6549F11DAD"
+		},
 		"strategies": {}
 	}
 }
