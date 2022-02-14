@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### 2.13.6 - 02/14/2022
+
+-   flag locked cvx delegation widget
+
 ### 2.13.5 - 02/01/2022
 
 -   enable rembadger + remdigg support

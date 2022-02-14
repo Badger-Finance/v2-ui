@@ -1,4 +1,6 @@
 import BigNumber from 'bignumber.js';
+import slugify from 'slugify';
+import { Vault } from '@badger-dao/sdk';
 import { TEN, ZERO } from '../../config/constants';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import store from 'mobx/RootStore';
@@ -294,3 +296,23 @@ export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => v
 		}
 	}
 };
+
+export function getVaultsSlugCache(vaults: Vault[]): Record<string, string> {
+	const occurrences: Record<string, number> = {};
+	return Object.fromEntries(
+		vaults.map((vault) => {
+			let sanitizedVaultName = vault.name.replace(/\/+/g, '-'); // replace "/" with "-"
+
+			occurrences[sanitizedVaultName] = (occurrences[sanitizedVaultName] ?? 0) + 1;
+
+			const totalOccurrences = occurrences[sanitizedVaultName];
+
+			// in the event of duplicate vault names append an index suffix to prevent slug overlapping
+			if (totalOccurrences > 1) {
+				sanitizedVaultName = `${sanitizedVaultName}-${totalOccurrences}`;
+			}
+
+			return [vault.vaultToken, slugify(`${vault.protocol}-${sanitizedVaultName}`, { lower: true })];
+		}),
+	);
+}
