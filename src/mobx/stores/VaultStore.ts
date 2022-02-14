@@ -357,7 +357,6 @@ export default class VaultStore {
 		} catch (error) {
 			console.error('There was an error fetching vaults from API: ', error);
 			if (FLAGS.SDK_INTEGRATION_ENABLED) {
-				await this.store.sdk.vaults.ready();
 				const sdkVaults = await this.store.sdk.vaults.loadVaults();
 				settList = sdkVaults.map((sdkVault) => new RegistryVaultAdapter(sdkVault));
 			}
