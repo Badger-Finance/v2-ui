@@ -159,14 +159,14 @@ export default class VaultStore {
 			prices: { exchangeRates },
 		} = this.store;
 
-		if (!this.vaultsDefinitions) {
-			return this.vaultsDefinitions;
-		}
-
 		const vaultMap = this.getVaultMap();
 
-		if (!vaultMap) {
-			return vaultMap;
+		if (vaultMap === undefined || this.vaultsDefinitions === undefined) {
+			return undefined;
+		}
+
+		if (!vaultMap || !this.vaultsDefinitions) {
+			return null;
 		}
 
 		let vaults = Array.from(this.vaultsDefinitions.values()).flatMap((vaultDefinition) => {
