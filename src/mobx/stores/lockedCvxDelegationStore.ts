@@ -126,7 +126,7 @@ class LockedCvxDelegationStore {
 		const cvx = new web3.eth.Contract(ERC20.abi as AbiItem[], mainnet.tokens.cvx);
 
 		try {
-			const token: Token = this.vaults.getToken(cvxAddress);
+			const token: Token = this.store.vaults.getToken(cvxAddress);
 			const [vaultBalance, strategyBalance, totalCVXBalanceStrategy, lockedCVXBalanceStrategy] =
 				await Promise.all([
 					new BigNumber(await cvx.methods.balanceOf(vaultAddress).call()),
