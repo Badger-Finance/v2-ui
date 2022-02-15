@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Collapse, Grid, Typography } from '@material-ui/core';
 import { StyledDivider } from '../styled';
 import { makeStyles } from '@material-ui/core/styles';
@@ -59,7 +59,7 @@ interface Props {
 }
 
 const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
-	const { uiState, vaults, network, lockedCvxDelegation, user } = React.useContext(StoreContext);
+	const { uiState, lockedCvxDelegation } = React.useContext(StoreContext);
 	const classes = useStyles();
 
 	const currencyValue = inCurrency(new BigNumber(vault.value), uiState.currency);

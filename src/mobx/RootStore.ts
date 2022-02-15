@@ -73,7 +73,7 @@ export class RootStore {
 		this.leaderBoard = new LeaderBoardStore(this);
 		this.vaultDetail = new VaultDetailStore(this);
 		this.vaultCharts = new VaultChartsStore(this);
-		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
+		this.lockedCvxDelegation = new LockedCvxDelegationStore(this, this.vaults);
 		this.gasPrices = new GasPricesStore(this);
 		this.ibBTCStore = new IbBTCStore(this);
 		this.bondStore = new BondStore(this);
