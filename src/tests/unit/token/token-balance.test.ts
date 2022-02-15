@@ -2,13 +2,18 @@ import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { randomValue } from 'tests/utils/random';
 import { protocolTokens } from 'web3/config/token-config';
+import { Currency } from '../../../config/enums/currency.enum';
 
 describe('token-balance', () => {
 	const randomTokenBalance = (balance?: number, cost?: number): TokenBalance => {
 		const availableTokens = protocolTokens();
 		const options = Object.keys(availableTokens);
 		const address = options[Math.floor(Math.random() * options.length)];
-		const token = availableTokens[address];
+		const token = {
+			...availableTokens[address],
+			name: availableTokens[address].name ?? '',
+			symbol: availableTokens[address].symbol ?? '',
+		};
 		if (!token) {
 			throw Error(`Require ${address} token defined`);
 		}
@@ -147,6 +152,25 @@ describe('token-balance', () => {
 			[randomTokenBalance(1), true],
 		])('given input %p returns %s', (obj, res) => {
 			expect(TokenBalance.hasBalance(obj)).toBe(res);
+		});
+	});
+
+	describe('balanceValueDisplay', () => {
+		describe('given no price is available', () => {
+			it('displays token balance', () => {
+				const mockBalance = new TokenBalance(
+					{
+						address: '',
+						name: 'Badger',
+						symbol: 'Badger',
+						decimals: 18,
+					},
+					new BigNumber(10000 * 1e18),
+					new BigNumber(0),
+				);
+				const displayString = `10000.${'0'.repeat(8)} Badger`;
+				expect(mockBalance.balanceValueDisplay(Currency.USD)).toEqual(displayString);
+			});
 		});
 	});
 });

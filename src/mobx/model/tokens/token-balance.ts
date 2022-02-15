@@ -67,6 +67,12 @@ export class TokenBalance {
 	}
 
 	balanceValueDisplay(currency: Currency, precision?: number): string | undefined {
+		if (this.price.isZero()) {
+			// cap to 8 decimals by default because the spaces for price converted values are usually too small to fit
+			// the balances with full token decimals
+			return `${this.balanceDisplay(precision ?? 8)} ${this.token.symbol}`;
+		}
+
 		return inCurrency(this.value, currency, precision);
 	}
 
