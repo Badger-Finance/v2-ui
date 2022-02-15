@@ -91,16 +91,17 @@ export class RootStore {
 		this.sdk = new BadgerSDK(network, new JsonRpcProvider(rpc[appNetwork.symbol]), BADGER_API);
 		this.rewards.resetRewards();
 
+		if (FLAGS.SDK_INTEGRATION_ENABLED) {
+			await this.sdk.ready();
+		}
+
 		let refreshData = [
 			this.network.updateGasPrices(),
 			this.vaults.refresh(),
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
+			this.vaults.loadVaultsRegistry(),
 		];
-
-		if (FLAGS.SDK_INTEGRATION_ENABLED) {
-			refreshData.push(this.vaults.loadVaultsRegistry());
-		}
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
 			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);

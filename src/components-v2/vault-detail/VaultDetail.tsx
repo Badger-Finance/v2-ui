@@ -34,12 +34,13 @@ export const VaultDetail = observer((): JSX.Element => {
 		vaultDetail,
 		network: { network },
 		router,
+		vaults,
 	} = useContext(StoreContext);
 
 	const initialNetwork = useRef(network);
 	const classes = useStyles();
 	const { vault, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = vaultDetail;
-	const badgerVault = network.vaults.find(({ vaultToken }) => vaultToken.address === vault?.vaultToken);
+	const badgerVault = vault ? vaults.getVaultDefinition(vault) : undefined;
 
 	useEffect(() => {
 		if (network.symbol !== initialNetwork.current.symbol) {

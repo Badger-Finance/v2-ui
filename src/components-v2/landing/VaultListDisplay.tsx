@@ -31,11 +31,11 @@ const VaultListDisplay = observer(() => {
 
 	const vaultOrder = vaults.getVaultOrder();
 
-	if (vaultOrder === undefined) {
+	if (vaultOrder === undefined || vaults.vaultsDefinitions === undefined) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;
 	}
 
-	if (vaultOrder === null) {
+	if (vaultOrder === null || vaults.vaultsDefinitions === null) {
 		return (
 			<div className={classes.messageContainer}>
 				<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>
@@ -44,8 +44,7 @@ const VaultListDisplay = observer(() => {
 	}
 
 	const settListItems = vaultOrder.flatMap((vault) => {
-		// TODO: This isn't really needed - but let's keep it until we have sdk fallbacks in place
-		const badgerVault = network.vaults.find((badgerVault) => badgerVault.vaultToken.address === vault.vaultToken);
+		const badgerVault = vaults.getVaultDefinition(vault);
 
 		if (!badgerVault) {
 			return [];

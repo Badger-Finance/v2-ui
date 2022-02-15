@@ -60,16 +60,15 @@ export class VaultDetailStore {
 		if (!this.searchedVault) {
 			return false;
 		}
-		const { network } = this.store.network;
-		const settToken = this.searchedVault.vaultToken;
-		const vault = network.vaults.find((s) => s.vaultToken.address === settToken);
+		const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
+		const vaultDefinition = vault ? this.store.vaults.getVaultDefinition(vault) : undefined;
 
-		if (!vault) {
+		if (!vaultDefinition) {
 			return false;
 		}
 
-		const openBalance = this.store.user.getBalance(BalanceNamespace.Vault, vault).balance;
-		const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedVault, vault).balance;
+		const openBalance = this.store.user.getBalance(BalanceNamespace.Vault, vaultDefinition).balance;
+		const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedVault, vaultDefinition).balance;
 
 		return openBalance.plus(guardedBalance).gt(0);
 	}

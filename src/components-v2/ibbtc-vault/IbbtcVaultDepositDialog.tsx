@@ -289,9 +289,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
 	useEffect(() => {
 		const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
-		const lpBadgerVault = network.network.vaults.find(
-			({ vaultToken }) => vaultToken.address === lpVault?.vaultToken,
-		);
+		const lpBadgerVault = lpVault ? vaults.getVaultDefinition(lpVault) : undefined;
 		const userLpTokenBalance = lpBadgerVault ? user.getBalance(BalanceNamespace.Token, lpBadgerVault) : undefined;
 
 		if (!userLpTokenBalance) {
