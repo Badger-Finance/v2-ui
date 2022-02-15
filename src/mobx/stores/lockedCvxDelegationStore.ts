@@ -3,6 +3,7 @@ import mainnet from '../../config/deployments/mainnet.json';
 import Web3 from 'web3';
 import CvxDelegatorAbi from '../../config/system/abis/CvxDelegator.json';
 import CvxLockerAbi from '../../config/system/abis/CvxLocker.json';
+import ERC20 from '../../config/system/abis/ERC20.json';
 import { AbiItem } from 'web3-utils';
 import { sendContractMethod } from '../utils/web3';
 import { DelegationState } from '../model/vaults/locked-cvx-delegation';
@@ -13,6 +14,9 @@ import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json'
 import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
 import { fetchData } from '../../utils/fetchData';
 import { FLAGS } from '../../config/environment';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { Token } from 'mobx/model/tokens/token';
+import VaultStore from './VaultStore';
 
 // this is mainnet only
 const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';
@@ -34,12 +38,14 @@ class LockedCvxDelegationStore {
 	totalEarned?: BigNumber | null;
 	unclaimedBalance?: BigNumber | null;
 	lockedCVXBalance?: BigNumber | null;
+	totalCVXWithdrawable?: TokenBalance | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
 
 		extendObservable(this, {
 			lockedCVXBalance: this.lockedCVXBalance,
+			totalCVXWithdrawable: this.totalCVXWithdrawable,
 			totalEarned: this.totalEarned,
 			unclaimedBalance: this.unclaimedBalance,
 			delegationState: this.delegationState,
@@ -98,6 +104,44 @@ class LockedCvxDelegationStore {
 		} catch (error) {
 			console.error('There was an error getting locked cvx balance: ', error);
 			this.lockedCVXBalance = null;
+		}
+	}
+
+	async loadTotalCVXWithdrawable(): Promise<void> {
+		const {
+			onboard: { wallet, address },
+			network: { network },
+		} = this.store;
+
+		if (network.id !== NETWORK_IDS.ETH || !wallet?.provider) {
+			return;
+		}
+
+		const strategyAddress = mainnet.sett_system.strategies['native.icvx'];
+		const vaultAddress = mainnet.sett_system.vaults['native.icvx'];
+		const cvxAddress = mainnet.tokens['cvx'];
+
+		const web3 = new Web3(wallet.provider);
+		const cvxLocker = new web3.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);
+		const cvx = new web3.eth.Contract(ERC20.abi as AbiItem[], mainnet.tokens.cvx);
+
+		try {
+			const token: Token = this.store.vaults.getToken(cvxAddress);
+			const [vaultBalance, strategyBalance, totalCVXBalanceStrategy, lockedCVXBalanceStrategy] =
+				await Promise.all([
+					new BigNumber(await cvx.methods.balanceOf(vaultAddress).call()),
+					new BigNumber(await cvx.methods.balanceOf(strategyAddress).call()),
+					new BigNumber(await cvxLocker.methods.lockedBalanceOf(strategyAddress).call()),
+					new BigNumber(await cvxLocker.methods.balanceOf(strategyAddress).call()),
+				]);
+			const balance = vaultBalance
+				.plus(strategyBalance)
+				.plus(totalCVXBalanceStrategy)
+				.minus(lockedCVXBalanceStrategy);
+			this.totalCVXWithdrawable = new TokenBalance(token, balance, balance);
+		} catch (error) {
+			console.error('There was an error getting cvx balances for the strategy: ', error);
+			this.totalCVXWithdrawable = null;
 		}
 	}
 

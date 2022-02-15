@@ -100,7 +100,6 @@ export class RootStore {
 			this.vaults.refresh(),
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
-			this.vaults.loadVaultsRegistry(),
 		];
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
@@ -131,6 +130,7 @@ export class RootStore {
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
 				this.user.checkApprovalVulnerabilities(address),
+				this.lockedCvxDelegation.loadTotalCVXWithdrawable(),
 			];
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {

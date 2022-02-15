@@ -20,7 +20,6 @@ export class Arbitrum extends NetworkModel {
 			Currency.ETH,
 			ARBITRUM_DEPLOY,
 			arbitrumVaults,
-			'NOTE: Swapr APRs are displaying incorrectly',
 		);
 	}
 

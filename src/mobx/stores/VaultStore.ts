@@ -19,6 +19,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getVaultsSlugCache } from '../utils/helpers';
 import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
 import { FLAGS } from '../../config/environment';
+import { RegistryVaultAdapter } from '../model/vaults/registry-vault-adapter';
 import { BadgerVault } from '../model/vaults/badger-vault';
 
 export default class VaultStore {
@@ -158,14 +159,14 @@ export default class VaultStore {
 			prices: { exchangeRates },
 		} = this.store;
 
-		if (!this.vaultsDefinitions) {
-			return this.vaultsDefinitions;
-		}
-
 		const vaultMap = this.getVaultMap();
 
-		if (!vaultMap) {
-			return vaultMap;
+		if (vaultMap === undefined || this.vaultsDefinitions === undefined) {
+			return undefined;
+		}
+
+		if (!vaultMap || !this.vaultsDefinitions) {
+			return null;
 		}
 
 		let vaults = Array.from(this.vaultsDefinitions.values()).flatMap((vaultDefinition) => {
@@ -349,23 +350,36 @@ export default class VaultStore {
 	});
 
 	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
-		const settList = await this.store.sdk.api.loadVaults(Currency.ETH);
+		let settList: Vault[] | null = null;
 
-		if (settList) {
-			this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
-			this.slugCache[chain] = {
-				...this.slugCache[chain],
-				...getVaultsSlugCache(settList),
-			};
-			this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
-			// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
-			const badgerToken = this.store.network.network.deploy.token;
-			if (badgerToken && !this.protocolTokens.has(badgerToken)) {
-				this.protocolTokens.add(badgerToken);
+		try {
+			settList = await this.store.sdk.api.loadVaults(Currency.ETH);
+		} catch (error) {
+			console.error('There was an error fetching vaults from API: ', error);
+			if (FLAGS.SDK_INTEGRATION_ENABLED) {
+				const sdkVaults = await this.store.sdk.vaults.loadVaults();
+				settList = sdkVaults.map((sdkVault) => new RegistryVaultAdapter(sdkVault));
 			}
-		} else {
-			this.settCache[chain] = null;
 		}
+
+		if (!settList) {
+			this.settCache[chain] = null;
+			return;
+		}
+
+		const badgerToken = this.store.network.network.deploy.token;
+		this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
+
+		// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
+		if (badgerToken && !this.protocolTokens.has(badgerToken)) {
+			this.protocolTokens.add(badgerToken);
+		}
+
+		this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
+		this.slugCache[chain] = {
+			...this.slugCache[chain],
+			...getVaultsSlugCache(settList),
+		};
 	});
 
 	loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {
