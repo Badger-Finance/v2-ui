@@ -100,7 +100,6 @@ export class RootStore {
 			this.vaults.refresh(),
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
-			this.vaults.loadVaultsRegistry(),
 		];
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
