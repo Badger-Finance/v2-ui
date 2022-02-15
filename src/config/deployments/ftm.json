@@ -10,5 +10,6 @@
 			"native.usdc-dai": "0x5deaB57a0aF330F268d4D2D029a1CE6549F11DAD"
 		},
 		"strategies": {}
-	}
+	},
+	"badgerTree": "0x89122c767a5f543e663db536b603123225bc3823"
 }
