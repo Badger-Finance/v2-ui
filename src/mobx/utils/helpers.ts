@@ -278,6 +278,7 @@ export const getNetworkFromProvider = (provider?: any): string | undefined => {
 
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
 export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
+export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
 export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
 
 /**

@@ -1,7 +1,7 @@
 import { Token } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
 import { Currency } from 'config/enums/currency.enum';
-import { inCurrency } from 'mobx/utils/helpers';
+import { inCurrency, minBalance } from 'mobx/utils/helpers';
 
 export class TokenBalance {
 	readonly token: Token;
@@ -59,7 +59,7 @@ export class TokenBalance {
 	 */
 	balanceDisplay(precision?: number): string {
 		const decimals = precision || this.token.decimals;
-		if (this.balance.gt(0) && this.balance.lt(this.minBalance(decimals))) {
+		if (this.balance.gt(0) && this.balance.lt(minBalance(decimals))) {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
 
@@ -88,6 +88,4 @@ export class TokenBalance {
 		const scaledBalance = this.scale(new BigNumber(percent / 100));
 		return scaledBalance.balanceDisplay();
 	}
-
-	minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
 }
