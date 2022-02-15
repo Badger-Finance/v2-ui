@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BridgeForm } from './BridgeForm';
 import PageHeader from 'components-v2/common/PageHeader';
-import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
+import Typography from '@material-ui/core/Typography';
+import { RecoverTxn } from './RecoverTxn';
+import { StoreContext } from '../../mobx/store-context';
+import { Status } from '../../mobx/stores/bridgeStore';
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {
@@ -99,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 18,
 	},
 	link: {
-		color: 'white',
+		color: 'inherit',
 	},
 	btcInput: {
 		fontSize: '14px',
@@ -162,6 +166,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 export const Bridge = observer(() => {
 	const classes = useStyles();
+	const {
+		bridge: { loading, status },
+	} = useContext(StoreContext);
+	const [tabValue, setTabValue] = useState(0);
 
 	const spacer = () => <div className={classes.before} />;
 
@@ -169,42 +177,48 @@ export const Bridge = observer(() => {
 		<LayoutContainer>
 			<Grid container spacing={1} justifyContent="center">
 				<PageHeaderContainer item xs={12}>
-					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
+					<PageHeader
+						title="Badger Bitcoin Bridge."
+						subtitle={
+							<Typography variant="body2" color="textSecondary">
+								RenVM has undergone robust&nbsp;
+								<a
+									className={classes.link}
+									href={'https://github.com/renproject/ren/wiki/Audits'}
+									target={'_blank'}
+									rel={'noreferrer'}
+								>
+									security audits.
+								</a>
+								&nbsp;Follow the&nbsp;
+								<a
+									className={classes.link}
+									href={
+										'https://badgerdao.medium.com/bring-your-btc-to-defi-through-the-badger-bitcoin-bridge-881e69f85b2e'
+									}
+									target={'_blank'}
+									rel={'noreferrer'}
+								>
+									user guide
+								</a>
+								&nbsp;to be aware of your risks.
+							</Typography>
+						}
+					/>
 				</PageHeaderContainer>
 				<Grid item xs={12} md={7}>
-					<Paper className={classes.statPaper} style={{ padding: '1rem' }}>
-						<p>
-							RenVM is new technology that has undergone robust&nbsp;
-							<a
-								className={classes.link}
-								href={'https://github.com/renproject/ren/wiki/Audits'}
-								target={'_blank'}
-								rel={'noreferrer'}
-							>
-								security audits.
-							</a>
-							<br />
-							Please follow the&nbsp;
-							<a
-								className={classes.link}
-								href={
-									'https://badgerdao.medium.com/bring-your-btc-to-defi-through-the-badger-bitcoin-bridge-881e69f85b2e'
-								}
-								target={'_blank'}
-								rel={'noreferrer'}
-							>
-								user guide
-							</a>
-							&nbsp;to mitigate risk of lost funds due to error.
-						</p>
-					</Paper>
-				</Grid>
-				{spacer()}
-				<Grid item xs={12} md={7}>
 					<Paper className={classes.statPaper}>
-						<BridgeForm classes={classes} />
+						<BridgeForm classes={classes} tabValue={tabValue} setTabValue={setTabValue} />
 					</Paper>
 				</Grid>
+				{tabValue === 0 && status === Status.IDLE && !loading && (
+					<>
+						{spacer()}
+						<Grid item xs={12} md={7}>
+							<RecoverTxn />
+						</Grid>
+					</>
+				)}
 			</Grid>
 		</LayoutContainer>
 	);

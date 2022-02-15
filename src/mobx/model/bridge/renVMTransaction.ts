@@ -1,5 +1,4 @@
 import { TransferParamsCommon, ContractCall, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
-import firebase from 'firebase';
 
 export interface RenVMParams extends TransferParamsCommon, ContractCall {}
 
@@ -19,7 +18,7 @@ export type RenVMTransaction = {
 	status: string;
 	// Record if there was an error processing a tx.
 	error: string;
-	updated: firebase.firestore.Timestamp;
-	created: firebase.firestore.Timestamp;
+	updated: number;
+	created: number;
 	deleted: boolean;
 };
