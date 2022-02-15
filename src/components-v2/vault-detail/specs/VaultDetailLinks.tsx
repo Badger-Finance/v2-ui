@@ -53,10 +53,7 @@ const VaultDetailLinks = observer(({ vault, badgerVault }: Props): JSX.Element =
 			{strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
 			<VaultDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultAddress}`} />
 			<VaultDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
-			<VaultDetailLink
-				title="Underlying Token Address"
-				href={`${network.explorer}/address/${underlyingToken}`}
-			/>
+			<VaultDetailLink title="Underlying Token Address" href={`${network.explorer}/address/${underlyingToken}`} />
 		</Grid>
 	);
 });
