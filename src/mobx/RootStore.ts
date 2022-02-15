@@ -73,7 +73,7 @@ export class RootStore {
 		this.leaderBoard = new LeaderBoardStore(this);
 		this.vaultDetail = new VaultDetailStore(this);
 		this.vaultCharts = new VaultChartsStore(this);
-		this.lockedCvxDelegation = new LockedCvxDelegationStore(this, this.vaults);
+		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
 		this.gasPrices = new GasPricesStore(this);
 		this.ibBTCStore = new IbBTCStore(this);
 		this.bondStore = new BondStore(this);
@@ -131,6 +131,7 @@ export class RootStore {
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
 				this.user.checkApprovalVulnerabilities(address),
+				this.lockedCvxDelegation.loadTotalCVXWithdrawable(),
 			];
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {

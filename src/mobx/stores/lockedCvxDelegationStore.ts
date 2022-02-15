@@ -34,16 +34,14 @@ const BADGER_DELEGATE_ENS = 'delegate.badgerdao.eth';
 
 class LockedCvxDelegationStore {
 	private store: RootStore;
-	private vaults: VaultStore;
 	delegationState?: DelegationState;
 	totalEarned?: BigNumber | null;
 	unclaimedBalance?: BigNumber | null;
 	lockedCVXBalance?: BigNumber | null;
 	totalCVXWithdrawable?: TokenBalance | null;
 
-	constructor(store: RootStore, vaults: VaultStore) {
+	constructor(store: RootStore) {
 		this.store = store;
-		this.vaults = vaults;
 
 		extendObservable(this, {
 			lockedCVXBalance: this.lockedCVXBalance,
@@ -51,10 +49,6 @@ class LockedCvxDelegationStore {
 			totalEarned: this.totalEarned,
 			unclaimedBalance: this.unclaimedBalance,
 			delegationState: this.delegationState,
-		});
-
-		observe(this.store.user, 'accountDetails', () => {
-			this.loadTotalCVXWithdrawable();
 		});
 
 		if (FLAGS.LOCKED_CVX_DELEGATION_WIDGET) {
