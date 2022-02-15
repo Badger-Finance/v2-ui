@@ -16,6 +16,7 @@ import { fetchData } from '../../utils/fetchData';
 import { FLAGS } from '../../config/environment';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { Token } from 'mobx/model/tokens/token';
+import VaultStore from './VaultStore';
 
 // this is mainnet only
 const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';
@@ -33,14 +34,16 @@ const BADGER_DELEGATE_ENS = 'delegate.badgerdao.eth';
 
 class LockedCvxDelegationStore {
 	private store: RootStore;
+	private vaults: VaultStore;
 	delegationState?: DelegationState;
 	totalEarned?: BigNumber | null;
 	unclaimedBalance?: BigNumber | null;
 	lockedCVXBalance?: BigNumber | null;
 	totalCVXWithdrawable?: TokenBalance | null;
 
-	constructor(store: RootStore) {
+	constructor(store: RootStore, vaults: VaultStore) {
 		this.store = store;
+		this.vaults = vaults;
 
 		extendObservable(this, {
 			lockedCVXBalance: this.lockedCVXBalance,
@@ -119,30 +122,26 @@ class LockedCvxDelegationStore {
 
 		const strategyAddress = mainnet.sett_system.strategies['native.icvx'];
 		const vaultAddress = mainnet.sett_system.vaults['native.icvx'];
+		const cvxAddress = mainnet.tokens['cvx'];
 
 		const web3 = new Web3(wallet.provider);
 		const cvxLocker = new web3.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);
 		const cvx = new web3.eth.Contract(ERC20.abi as AbiItem[], mainnet.tokens.cvx);
-		//todo remove this
-		const t: Token = {
-			address: '0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b',
-			name: 'CONVEX',
-			symbol: 'CVX',
-			decimals: 18,
-		};
 
 		try {
-			const vaultBalance = new BigNumber(await cvx.methods.balanceOf(vaultAddress).call());
-			const strategyBalance = new BigNumber(await cvx.methods.balanceOf(strategyAddress).call());
-			const totalCVXBalanceStrategy = new BigNumber(
-				await cvxLocker.methods.lockedBalanceOf(strategyAddress).call(),
-			);
-			const lockedCVXBalanceStrategy = new BigNumber(await cvxLocker.methods.balanceOf(strategyAddress).call());
+			const token: Token = this.vaults.getToken(cvxAddress);
+			const [vaultBalance, strategyBalance, totalCVXBalanceStrategy, lockedCVXBalanceStrategy] =
+				await Promise.all([
+					new BigNumber(await cvx.methods.balanceOf(vaultAddress).call()),
+					new BigNumber(await cvx.methods.balanceOf(strategyAddress).call()),
+					new BigNumber(await cvxLocker.methods.lockedBalanceOf(strategyAddress).call()),
+					new BigNumber(await cvxLocker.methods.balanceOf(strategyAddress).call()),
+				]);
 			const balance = vaultBalance
 				.plus(strategyBalance)
 				.plus(totalCVXBalanceStrategy)
 				.minus(lockedCVXBalanceStrategy);
-			this.totalCVXWithdrawable = new TokenBalance(t, balance, balance);
+			this.totalCVXWithdrawable = new TokenBalance(token, balance, balance);
 		} catch (error) {
 			console.error('There was an error getting cvx balances for the strategy: ', error);
 			this.totalCVXWithdrawable = null;
