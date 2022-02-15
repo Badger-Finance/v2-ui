@@ -309,6 +309,7 @@ export default class VaultStore {
 				this.loadVaults(network.symbol),
 				this.loadTokens(network.symbol),
 				this.loadAssets(network.symbol),
+				this.loadVaultsRegistry(),
 			]);
 			this.initialized = true;
 		}
@@ -365,12 +366,20 @@ export default class VaultStore {
 	});
 
 	loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {
-		const tokenConfig = await this.store.sdk.api.loadTokens();
-		if (tokenConfig) {
-			this.tokenCache[chain] = tokenConfig;
-		} else {
-			this.tokenCache[chain] = null;
+		let tokenConfig: TokenConfiguration | null = null;
+
+		try {
+			tokenConfig = await this.store.sdk.api.loadTokens();
+		} catch (error) {
+			if (FLAGS.SDK_INTEGRATION_ENABLED) {
+				const tokensList = Array.from(this.vaultsDefinitions?.values() ?? []).map(
+					(vault) => vault.depositToken.address,
+				);
+				tokenConfig = await this.store.sdk.tokens.loadTokens(tokensList);
+			}
 		}
+
+		this.tokenCache[chain] = tokenConfig;
 	});
 
 	loadAssets = action(async (chain = Network.Ethereum): Promise<void> => {
