@@ -304,18 +304,12 @@ export default class VaultStore {
 		const { network } = this.store.network;
 		if (network) {
 			this.initialized = false;
-
-			let updates = [
+			await Promise.all([
 				this.loadVaults(network.symbol),
 				this.loadTokens(network.symbol),
 				this.loadAssets(network.symbol),
-			];
-
-			if (FLAGS.SDK_INTEGRATION_ENABLED) {
-				updates.push(this.loadVaultsRegistry());
-			}
-
-			await Promise.all(updates);
+				this.loadVaultsRegistry(),
+			]);
 			this.initialized = true;
 		}
 	}
