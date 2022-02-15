@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### 2.14.0 - 02/15/2022
+
+-   resume txn using localstorage feature
+-   added tab in sidebar to recover txn using bitcoin txn id
+-   removed firebase in favour of localstorage and txn recovery using bitcoin txn id
+
 ### 2.13.6 - 02/14/2022
 
 -   flag locked cvx delegation widget

@@ -5,7 +5,6 @@ import { Protocol, Vault, VaultState } from '@badger-dao/sdk';
 import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 import { customRender, fireEvent, screen } from '../Utils';
 import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';
-import { defaultNetwork } from '../../config/networks.config';
 import { Currency } from '../../config/enums/currency.enum';
 import UserStore from '../../mobx/stores/UserStore';
 import { BalanceNamespace } from '../../web3/config/namespaces';
@@ -13,6 +12,8 @@ import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { SAMPLE_VAULTS } from '../utils/samples';
+import VaultStore from '../../mobx/stores/VaultStore';
+import { vaults } from '../Landing.test';
 
 const sampleExchangeRates: ExchangeRates = {
 	usd: 3371.56,
@@ -21,17 +22,21 @@ const sampleExchangeRates: ExchangeRates = {
 	bnb: 6.915813,
 	matic: 1423.994304022784,
 	xdai: 1,
+	ftm: 1,
 };
 
 const mockVaultsInformation = (vaults: Vault[]) => {
-	jest.spyOn(defaultNetwork, 'settOrder', 'get').mockReturnValue(vaults.map((vault) => vault.vaultToken));
-
-	Object.defineProperty(defaultNetwork, 'vaults', {
-		value: vaults.map((vault) => ({
-			depositToken: { address: vault.underlyingToken, decimals: 18 },
-			vaultToken: { address: vault.vaultToken, decimals: 18 },
-		})),
-	});
+	jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
+		new Map(
+			vaults.map((vault) => [
+				vault.vaultToken,
+				{
+					depositToken: { address: vault.underlyingToken, decimals: 18 },
+					vaultToken: { address: vault.vaultToken, decimals: 18 },
+				},
+			]),
+		),
+	);
 
 	store.vaults.getVaultMap = jest
 		.fn()

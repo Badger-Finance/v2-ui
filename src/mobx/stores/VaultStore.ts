@@ -17,8 +17,10 @@ import { ContractCallReturnContext } from 'ethereum-multicall';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getVaultsSlugCache } from '../utils/helpers';
-import { BadgerVault } from '../model/vaults/badger-vault';
 import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
+import { FLAGS } from '../../config/environment';
+import { RegistryVaultAdapter } from '../model/vaults/registry-vault-adapter';
+import { BadgerVault } from '../model/vaults/badger-vault';
 
 export default class VaultStore {
 	private store!: RootStore;
@@ -107,6 +109,10 @@ export default class VaultStore {
 		return this.vaultDefinitionsCache[currentNetwork.symbol];
 	}
 
+	getVaultDefinition(vault: Vault): BadgerVault | undefined | null {
+		return this.vaultsDefinitions?.get(vault.vaultToken);
+	}
+
 	getSlug(address: string): string {
 		const { network: currentNetwork } = this.store.network;
 
@@ -150,21 +156,21 @@ export default class VaultStore {
 	getVaultOrder(): Vault[] | undefined | null {
 		const {
 			user,
-			network: { network },
 			prices: { exchangeRates },
 		} = this.store;
 
 		const vaultMap = this.getVaultMap();
 
-		if (!vaultMap) {
-			return vaultMap;
+		if (vaultMap === undefined || this.vaultsDefinitions === undefined) {
+			return undefined;
 		}
 
-		const networkVaultOrder = network.settOrder;
-		const stateFilteredVaultMap = Object.fromEntries(Object.entries(vaultMap));
+		if (!vaultMap || !this.vaultsDefinitions) {
+			return null;
+		}
 
-		let vaults = networkVaultOrder.flatMap((vaultAddress) => {
-			const vault = stateFilteredVaultMap[Web3.utils.toChecksumAddress(vaultAddress)];
+		let vaults = Array.from(this.vaultsDefinitions.values()).flatMap((vaultDefinition) => {
+			const vault = vaultMap[Web3.utils.toChecksumAddress(vaultDefinition.vaultToken.address)];
 			return vault ? [vault] : [];
 		});
 
@@ -302,6 +308,7 @@ export default class VaultStore {
 				this.loadVaults(network.symbol),
 				this.loadTokens(network.symbol),
 				this.loadAssets(network.symbol),
+				this.loadVaultsRegistry(),
 			]);
 			this.initialized = true;
 		}
@@ -309,41 +316,70 @@ export default class VaultStore {
 
 	loadVaultsRegistry = action(async () => {
 		const { network: currentNetwork } = this.store.network;
-		const sdkVaults = await this.store.sdk.vaults.loadVaults();
-		this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
-			sdkVaults.map((vault) => [
-				vault.address,
-				{
-					depositToken: vault.token,
-					vaultToken: {
-						address: vault.address,
-						decimals: vault.decimals,
-						symbol: vault.symbol,
-						name: vault.name,
+		let vaultDefinitions: VaultsDefinitions;
+
+		if (FLAGS.SDK_INTEGRATION_ENABLED) {
+			const sdkVaults = await this.store.sdk.vaults.loadVaults();
+			vaultDefinitions = new Map(
+				sdkVaults.map((vault) => [
+					vault.address,
+					{
+						depositToken: vault.token,
+						vaultToken: {
+							address: vault.address,
+							decimals: vault.decimals,
+							symbol: vault.symbol,
+							name: vault.name,
+						},
 					},
-				},
-			]),
-		);
+				]),
+			);
+		} else {
+			const networkVaultsMap = Object.fromEntries(
+				currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
+			);
+			vaultDefinitions = new Map(
+				currentNetwork.settOrder.flatMap((vaultAddress) => {
+					const vault = networkVaultsMap[vaultAddress];
+					return vault ? [[vaultAddress, vault]] : [];
+				}),
+			);
+		}
+
+		this.vaultDefinitionsCache[currentNetwork.symbol] = vaultDefinitions;
 	});
 
 	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
-		const settList = await this.store.sdk.api.loadVaults(Currency.ETH);
+		let settList: Vault[] | null = null;
 
-		if (settList) {
-			this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
-			this.slugCache[chain] = {
-				...this.slugCache[chain],
-				...getVaultsSlugCache(settList),
-			};
-			this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
-			// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
-			const badgerToken = this.store.network.network.deploy.token;
-			if (badgerToken && !this.protocolTokens.has(badgerToken)) {
-				this.protocolTokens.add(badgerToken);
+		try {
+			settList = await this.store.sdk.api.loadVaults(Currency.ETH);
+		} catch (error) {
+			console.error('There was an error fetching vaults from API: ', error);
+			if (FLAGS.SDK_INTEGRATION_ENABLED) {
+				const sdkVaults = await this.store.sdk.vaults.loadVaults();
+				settList = sdkVaults.map((sdkVault) => new RegistryVaultAdapter(sdkVault));
 			}
-		} else {
-			this.settCache[chain] = null;
 		}
+
+		if (!settList) {
+			this.settCache[chain] = null;
+			return;
+		}
+
+		const badgerToken = this.store.network.network.deploy.token;
+		this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
+
+		// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
+		if (badgerToken && !this.protocolTokens.has(badgerToken)) {
+			this.protocolTokens.add(badgerToken);
+		}
+
+		this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
+		this.slugCache[chain] = {
+			...this.slugCache[chain],
+			...getVaultsSlugCache(settList),
+		};
 	});
 
 	loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {

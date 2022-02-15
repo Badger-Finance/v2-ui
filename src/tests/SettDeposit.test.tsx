@@ -6,8 +6,16 @@ import { customRender, screen } from './Utils';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/RootStore';
 import userEvent from '@testing-library/user-event';
+import VaultStore from '../mobx/stores/VaultStore';
 
 describe('Vault Deposit', () => {
+	beforeEach(() => {
+		jest.spyOn(VaultStore.prototype, 'getVaultDefinition').mockReturnValue({
+			depositToken: { address: SAMPLE_SETT.underlyingToken, decimals: 18 },
+			vaultToken: { address: SAMPLE_SETT.vaultToken, decimals: 18 },
+		});
+	});
+
 	test('displays sett information', () => {
 		const { baseElement } = customRender(
 			<StoreProvider value={store}>
