@@ -128,8 +128,7 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE =
-	"bveCVX Now Counting as Native in Boost!";
+export const APP_NEWS_MESSAGE = 'bveCVX Now Counting as Native in Boost!';
 // Text & URL should be defined or explicitly undefined.
 export const APP_NEWS_URL_TEXT = 'View Optimizer';
 export const APP_NEWS_URL = 'https://app.badger.com/boost-optimizer';
