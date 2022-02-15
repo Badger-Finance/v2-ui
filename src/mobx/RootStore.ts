@@ -131,6 +131,7 @@ export class RootStore {
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
 				this.user.checkApprovalVulnerabilities(address),
+				this.lockedCvxDelegation.loadTotalCVXWithdrawable(),
 			];
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
