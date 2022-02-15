@@ -32,17 +32,13 @@ interface Props {
 }
 
 const VaultDetailLinks = observer(({ vault, badgerVault }: Props): JSX.Element => {
-	const classes = useStyles();
 	const { network: networkStore } = React.useContext(StoreContext);
 	const { network } = networkStore;
+	const classes = useStyles();
 
 	const vaultAddress = badgerVault.vaultToken.address;
 	const strategy = network.strategies[vaultAddress];
 	const underlyingToken = vault.underlyingToken;
-	const hasBaseLink = !!(strategy.userGuide || strategy.strategyLink || strategy.depositLink);
-
-	const [expanded, setExpanded] = useState(!hasBaseLink);
-	const expandText = expanded ? 'Hide' : 'Show More';
 	const strategyAddress =
 		vault.strategy?.address && vault.strategy.address !== ethers.constants.AddressZero
 			? vault.strategy.address
@@ -55,19 +51,9 @@ const VaultDetailLinks = observer(({ vault, badgerVault }: Props): JSX.Element =
 			{strategy.userGuide && <VaultDetailLink title="User Guide" href={strategy.userGuide} />}
 			{strategy.strategyLink && <VaultDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
 			{strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
-			<Collapse in={expanded}>
-				<VaultDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultAddress}`} />
-				<VaultDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
-				<VaultDetailLink
-					title="Underlying Token Address"
-					href={`${network.explorer}/address/${underlyingToken}`}
-				/>
-			</Collapse>
-			<div className={classes.showMoreContainer}>
-				<div className={classes.showMore} onClick={() => setExpanded(!expanded)}>
-					{expandText}
-				</div>
-			</div>
+			<VaultDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultAddress}`} />
+			<VaultDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
+			<VaultDetailLink title="Underlying Token Address" href={`${network.explorer}/address/${underlyingToken}`} />
 		</Grid>
 	);
 });

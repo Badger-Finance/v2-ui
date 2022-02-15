@@ -438,7 +438,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 					</Grid>
 				)}
 				<Divider className={classes.divider} variant="fullWidth" />
-				{lpVault && settStrategy && <StrategyFees vault={lpVault} strategy={settStrategy} />}
+				{lpVault && settStrategy && <StrategyFees vault={lpVault} fees={settStrategy.fees} />}
 				<Button
 					fullWidth
 					variant="contained"
