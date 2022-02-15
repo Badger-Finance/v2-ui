@@ -17,7 +17,7 @@ import { NetworkStore } from './stores/NetworkStore';
 import { VaultDetailStore } from './stores/VaultDetail.store';
 import { VaultChartsStore } from './stores/VaultChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerAPI, SDKProvider } from '@badger-dao/sdk';
+import { BadgerSDK, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
@@ -26,9 +26,12 @@ import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
 import BondStore from './stores/BondStore';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import rpc from '../config/rpc.config';
+import { FLAGS } from '../config/environment';
 
 export class RootStore {
-	public api: BadgerAPI;
+	public sdk: BadgerSDK;
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
 	public uiState: UiState;
@@ -51,7 +54,7 @@ export class RootStore {
 	public bondStore: BondStore;
 
 	constructor() {
-		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
+		this.sdk = new BadgerSDK(defaultNetwork.id, new JsonRpcProvider(rpc[defaultNetwork.symbol]), BADGER_API);
 		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
 		this.onboard = new OnboardStore(this, config);
@@ -77,14 +80,15 @@ export class RootStore {
 	}
 
 	async updateNetwork(network: number): Promise<void> {
+		const appNetwork = Network.networkFromId(network);
+
 		// push network state to app
 		if (this.network.network.id !== network) {
-			const appNetwork = Network.networkFromId(network);
 			this.network.network = appNetwork;
 		}
 
 		this.uiState.setCurrency(Currency.USD);
-		this.api = new BadgerAPI(network, BADGER_API);
+		this.sdk = new BadgerSDK(network, new JsonRpcProvider(rpc[appNetwork.symbol]), BADGER_API);
 		this.rewards.resetRewards();
 
 		let refreshData = [
@@ -93,6 +97,10 @@ export class RootStore {
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
 		];
+
+		if (FLAGS.SDK_INTEGRATION_ENABLED) {
+			refreshData.push(this.vaults.loadVaultsRegistry());
+		}
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
 			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
@@ -111,11 +119,14 @@ export class RootStore {
 		const { network } = this.network;
 		const signer = provider.getSigner();
 
+		if (FLAGS.SDK_USE_WALLET_PROVIDER) {
+			this.sdk = new BadgerSDK(network.id, provider, BADGER_API);
+		}
+
 		if (signer && address) {
 			const config = NetworkConfig.getConfig(network.id);
 
-			let updateActions: Promise<void>[] = [];
-			updateActions = [
+			const updateActions = [
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
 				this.user.checkApprovalVulnerabilities(address),
