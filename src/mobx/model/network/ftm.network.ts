@@ -35,7 +35,8 @@ export const ftmVaults: BadgerVault[] = [
 			address: FTM_DEPLOY.sett_system.vaults['native.usdc-dai'],
 			decimals: 18,
 		},
-	},];
+	},
+];
 
 const ftmTokens = ftmVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]);
 
