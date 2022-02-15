@@ -97,13 +97,14 @@ export const MintForm = ({
 						disabled={onboard.isActive() === false}
 						placeholder="0.00"
 						onChange={handleChange('amount')}
+						style={{ width: '100%' }}
 						InputProps={{
 							style: { fontSize: '3rem' },
 							endAdornment: [
 								<div key="btc">
 									<img
 										className={classes.tokenIcon}
-										src={`/assets/icons/btc.svg`}
+										src={`/assets/icons/btc-ethereum.svg`}
 										alt="bitcoin icon"
 									/>
 									<Typography variant="body1" component="div">

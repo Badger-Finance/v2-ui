@@ -8,3 +8,4 @@ yarn-error.log
 *.swp
 .env.local
 coverage
+.idea
