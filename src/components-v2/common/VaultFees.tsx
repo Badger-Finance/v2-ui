@@ -4,9 +4,10 @@ import HelpIcon from '@material-ui/icons/Help';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { getNonEmptyStrategyFees } from '../../mobx/utils/fees';
 import { StrategyFees } from './StrategyFees';
 import { Vault } from '@badger-dao/sdk';
+import { StrategyFee } from 'mobx/model/system-config/stategy-fees';
+import { getStrategyFee } from 'mobx/utils/fees';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -63,10 +64,17 @@ export const VaultFees = observer(
 			return showNoFees ? noFees : null;
 		}
 
-		const settStrategy = network.strategies[vaultDefinition.vaultToken.address];
-		const nonEmptyFees = getNonEmptyStrategyFees(settStrategy);
+		const strategyConfig = network.strategies[vaultDefinition.vaultToken.address];
+		
+		let strategyFees = 0;
+		for (const strategyFee of Object.values(StrategyFee)) {
+			const fee = getStrategyFee(vault, strategyFee, strategyConfig);
+			if (fee > 0) {
+				strategyFees++;
+			}
+		}
 
-		if (nonEmptyFees.length === 0) {
+		if (strategyFees === 0) {
 			return showNoFees ? noFees : null;
 		}
 
@@ -91,7 +99,7 @@ export const VaultFees = observer(
 					)}
 				</div>
 				<Divider className={classes.divider} />
-				<StrategyFees vault={vault} strategy={settStrategy} />
+				<StrategyFees vault={vault} strategy={strategyConfig} />
 			</div>
 		);
 	},

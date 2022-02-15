@@ -4,14 +4,8 @@ import { VaultStrategy } from 'mobx/model/vaults/vault-strategy';
 import { StrategyConfig } from '../model/strategies/strategy-config';
 import { StrategyFee } from '../model/system-config/stategy-fees';
 
-export const getNonEmptyStrategyFees = (config: StrategyConfig): StrategyFee[] => {
-	const fees = config.fees;
-	const feeKeys = Object.keys(fees) as StrategyFee[];
-	return feeKeys.filter((key) => fees[key]?.gt(0));
-};
-
-export function getStrategyFee(vault: Vault, fee: StrategyFee, config: StrategyConfig): number {
-	const defaultFee = config.fees;
+export function getStrategyFee(vault: Vault, fee: StrategyFee, config?: StrategyConfig): number {
+	const defaultFee = config?.fees;
 	const { strategy } = vault;
 	let requestedFee: number | undefined;
 	if (strategy) {
@@ -20,25 +14,25 @@ export function getStrategyFee(vault: Vault, fee: StrategyFee, config: StrategyC
 	if (requestedFee === undefined) {
 		switch (fee) {
 			case StrategyFee.withdraw:
-				requestedFee = defaultFee.withdraw?.toNumber();
+				requestedFee = defaultFee?.withdraw?.toNumber();
 				break;
 			case StrategyFee.performance:
-				requestedFee = defaultFee.performance?.toNumber();
+				requestedFee = defaultFee?.performance?.toNumber();
 				break;
 			case StrategyFee.strategistPerformance:
-				requestedFee = defaultFee.strategistPerformance?.toNumber();
+				requestedFee = defaultFee?.strategistPerformance?.toNumber();
 				break;
 			case StrategyFee.yearnManagement:
-				requestedFee = defaultFee.yearnManagement?.toNumber();
+				requestedFee = defaultFee?.yearnManagement?.toNumber();
 				break;
 			case StrategyFee.yearnPerformance:
-				requestedFee = defaultFee.yearnPerformance?.toNumber();
+				requestedFee = defaultFee?.yearnPerformance?.toNumber();
 				break;
 			case StrategyFee.harvestPerformance:
-				requestedFee = defaultFee.harvestPerformance?.toNumber();
+				requestedFee = defaultFee?.harvestPerformance?.toNumber();
 				break;
 			case StrategyFee.harvestStrategistPerformance:
-				requestedFee = defaultFee.harvestStrategistPerformance?.toNumber();
+				requestedFee = defaultFee?.harvestStrategistPerformance?.toNumber();
 				break;
 			default:
 				break;
