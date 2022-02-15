@@ -79,7 +79,7 @@ export const VaultFees = observer(
 						There are no fees for this vault
 					</Typography>
 				</div>
-				);
+			);
 		}
 
 		return (
