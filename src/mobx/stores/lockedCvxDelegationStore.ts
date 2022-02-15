@@ -53,10 +53,13 @@ class LockedCvxDelegationStore {
 			delegationState: this.delegationState,
 		});
 
+		observe(this.store.user, 'accountDetails', () => {
+			this.loadTotalCVXWithdrawable();
+		});
+
 		if (FLAGS.LOCKED_CVX_DELEGATION_WIDGET) {
 			observe(this.store.user, 'accountDetails', () => {
 				this.loadLockedCvxBalance();
-				this.loadStrategyCvxBalance();
 				this.loadVotiumRewardsInformation();
 			});
 
@@ -110,7 +113,7 @@ class LockedCvxDelegationStore {
 		}
 	}
 
-	async loadStrategyCvxBalance(): Promise<void> {
+	async loadTotalCVXWithdrawable(): Promise<void> {
 		const {
 			onboard: { wallet, address },
 			network: { network },
