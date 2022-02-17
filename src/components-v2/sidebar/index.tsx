@@ -190,7 +190,15 @@ const Sidebar = observer(() => {
 				<SidebarItem route="/" view={views.home} title="Vaults" />
 				{config.digg && <SidebarItem route="/digg" view={views.digg} title="Digg" />}
 				{config.ibBTC && <SidebarItem route="/ibBTC" view={views.IbBTC} title="ibBTC" />}
-				{config.bridge && <SidebarItem route="/bridge" view={views.bridge} title="Bridge" />}
+				{config.bridge && (
+					<SidebarItem
+						route="/bridge"
+						view={views.bridge}
+						title="Bridge"
+						tooltipMessage="Under Maintenance"
+						disabled
+					/>
+				)}
 				{config.boost && (
 					<SidebarSection
 						title="Boost"

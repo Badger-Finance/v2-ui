@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 import { getStrategyFee } from 'mobx/utils/fees';
 import { Vault } from '@badger-dao/sdk';
+import { FeeConfig } from 'mobx/model/fees/fee-config';
 
 const useStyles = makeStyles({
 	specName: {
@@ -16,17 +17,16 @@ const useStyles = makeStyles({
 
 interface Props {
 	vault: Vault;
-	strategy: StrategyConfig;
+	fees: FeeConfig;
 	showEmpty?: boolean;
 }
 
-export const StrategyFees = ({ vault, strategy, showEmpty = false }: Props): JSX.Element => {
+export const StrategyFees = ({ vault, fees, showEmpty = false }: Props): JSX.Element => {
 	const classes = useStyles();
-	const fees = strategy.fees;
 	const feeKeys = Object.keys(fees) as StrategyFee[];
 
 	const feeItems = feeKeys.map((key) => {
-		const fee = getStrategyFee(vault, key, strategy);
+		const fee = getStrategyFee(vault, key, fees);
 
 		if (!fee) {
 			return null;

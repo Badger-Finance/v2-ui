@@ -22,6 +22,7 @@ export class Ethereum extends NetworkModel {
 			Currency.ETH,
 			ETH_DEPLOY,
 			ethVaultDefinitions,
+			'The Badger Bridge has been temporarily disabled while undergoing maintenance. The team is working diligently to expedite the process and will notify users once back online.',
 		);
 	}
 	get settOrder(): string[] {
