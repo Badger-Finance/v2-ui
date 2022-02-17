@@ -41,7 +41,7 @@ export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.El
 	} = React.useContext(StoreContext);
 	const classes = useStyles();
 
-	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw, network.strategies[vault.vaultToken]);
+	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw, network.strategies[vault.vaultToken].fees);
 	const depositToken = vaults.getToken(vault.underlyingToken);
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const depositTokenDecimals = depositToken?.decimals || 18;

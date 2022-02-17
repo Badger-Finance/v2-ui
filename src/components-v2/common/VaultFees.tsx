@@ -4,9 +4,13 @@ import HelpIcon from '@material-ui/icons/Help';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { getNonEmptyStrategyFees } from '../../mobx/utils/fees';
 import { StrategyFees } from './StrategyFees';
 import { Vault } from '@badger-dao/sdk';
+import { ethers } from 'ethers';
+import { getStrategies } from 'config/system/strategies';
+import { StrategyFee } from 'mobx/model/system-config/stategy-fees';
+import { getVaultStrategyFee } from 'mobx/utils/fees';
+import { StrategyConfig } from 'mobx/model/strategies/strategy-config';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -41,33 +45,41 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export const VaultFees = observer(
 	({ vault, onHelpClick, showNoFees = true, ...rootProps }: Props): JSX.Element | null => {
-		const store = React.useContext(StoreContext);
-		const { network: networkStore, vaults } = store;
-		const { network } = networkStore;
-
 		const classes = useStyles();
+		const store = React.useContext(StoreContext);
+		const { network: networkStore } = store;
+		const { network } = networkStore;
+		const { strategy } = vault;
 
-		const noFees = (
-			<div {...rootProps}>
-				<Typography>Fees</Typography>
-				<Divider className={classes.divider} />
-				<Typography className={classes.specName} color="textSecondary" display="inline">
-					There are no fees for this vault
-				</Typography>
-			</div>
-		);
+		const defaultFees = network.strategies[vault.vaultToken].fees;
 
-		const vaultDefinition = vaults.getVaultDefinition(vault);
-
-		if (!vaultDefinition) {
-			return showNoFees ? noFees : null;
+		let totalFees = 0;
+		if (strategy && strategy.address !== ethers.constants.AddressZero) {
+			for (const fee of Object.values(StrategyFee)) {
+				const feesAmount = getVaultStrategyFee(strategy, fee);
+				if (feesAmount && feesAmount > 0) {
+					totalFees++;
+				}
+			}
+		} else {
+			for (const fee of Object.values(StrategyFee)) {
+				const feeAmount = defaultFees[fee];
+				if (feeAmount && feeAmount.gt(0)) {
+					totalFees++;
+				}
+			}
 		}
 
-		const settStrategy = network.strategies[vaultDefinition.vaultToken.address];
-		const nonEmptyFees = getNonEmptyStrategyFees(settStrategy);
-
-		if (nonEmptyFees.length === 0) {
-			return showNoFees ? noFees : null;
+		if (totalFees === 0) {
+			return (
+				<div {...rootProps}>
+					<Typography>Fees</Typography>
+					<Divider className={classes.divider} />
+					<Typography className={classes.specName} color="textSecondary" display="inline">
+						There are no fees for this vault
+					</Typography>
+				</div>
+			);
 		}
 
 		return (
@@ -91,7 +103,7 @@ export const VaultFees = observer(
 					)}
 				</div>
 				<Divider className={classes.divider} />
-				<StrategyFees vault={vault} strategy={settStrategy} />
+				<StrategyFees vault={vault} fees={defaultFees} />
 			</div>
 		);
 	},

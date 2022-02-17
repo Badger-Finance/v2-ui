@@ -1,17 +1,10 @@
 import { Vault } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
+import { FeeConfig } from 'mobx/model/fees/fee-config';
 import { VaultStrategy } from 'mobx/model/vaults/vault-strategy';
-import { StrategyConfig } from '../model/strategies/strategy-config';
 import { StrategyFee } from '../model/system-config/stategy-fees';
 
-export const getNonEmptyStrategyFees = (config: StrategyConfig): StrategyFee[] => {
-	const fees = config.fees;
-	const feeKeys = Object.keys(fees) as StrategyFee[];
-	return feeKeys.filter((key) => fees[key]?.gt(0));
-};
-
-export function getStrategyFee(vault: Vault, fee: StrategyFee, config: StrategyConfig): number {
-	const defaultFee = config.fees;
+export function getStrategyFee(vault: Vault, fee: StrategyFee, defaultFeeConfig?: FeeConfig): number {
 	const { strategy } = vault;
 	let requestedFee: number | undefined;
 	if (strategy) {
@@ -20,25 +13,25 @@ export function getStrategyFee(vault: Vault, fee: StrategyFee, config: StrategyC
 	if (requestedFee === undefined) {
 		switch (fee) {
 			case StrategyFee.withdraw:
-				requestedFee = defaultFee.withdraw?.toNumber();
+				requestedFee = defaultFeeConfig?.withdraw?.toNumber();
 				break;
 			case StrategyFee.performance:
-				requestedFee = defaultFee.performance?.toNumber();
+				requestedFee = defaultFeeConfig?.performance?.toNumber();
 				break;
 			case StrategyFee.strategistPerformance:
-				requestedFee = defaultFee.strategistPerformance?.toNumber();
+				requestedFee = defaultFeeConfig?.strategistPerformance?.toNumber();
 				break;
 			case StrategyFee.yearnManagement:
-				requestedFee = defaultFee.yearnManagement?.toNumber();
+				requestedFee = defaultFeeConfig?.yearnManagement?.toNumber();
 				break;
 			case StrategyFee.yearnPerformance:
-				requestedFee = defaultFee.yearnPerformance?.toNumber();
+				requestedFee = defaultFeeConfig?.yearnPerformance?.toNumber();
 				break;
 			case StrategyFee.harvestPerformance:
-				requestedFee = defaultFee.harvestPerformance?.toNumber();
+				requestedFee = defaultFeeConfig?.harvestPerformance?.toNumber();
 				break;
 			case StrategyFee.harvestStrategistPerformance:
-				requestedFee = defaultFee.harvestStrategistPerformance?.toNumber();
+				requestedFee = defaultFeeConfig?.harvestStrategistPerformance?.toNumber();
 				break;
 			default:
 				break;
@@ -50,7 +43,7 @@ export function getStrategyFee(vault: Vault, fee: StrategyFee, config: StrategyC
 	return requestedFee;
 }
 
-function getVaultStrategyFee(strategy: VaultStrategy, fee: StrategyFee): number | undefined {
+export function getVaultStrategyFee(strategy: VaultStrategy, fee: StrategyFee): number | undefined {
 	if (strategy.address === ethers.constants.AddressZero) {
 		return;
 	}
