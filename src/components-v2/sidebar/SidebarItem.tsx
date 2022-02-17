@@ -5,6 +5,7 @@ import { QueryParams, Route } from 'mobx-router';
 import { RootStore } from 'mobx/RootStore';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
 	sidebarItem: {
@@ -28,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
 	active: {
 		background: theme.palette.background.paper,
 	},
+	disabled: {
+		opacity: 0.5,
+	},
 }));
 
 export interface SidebarItemProps {
@@ -36,28 +40,39 @@ export interface SidebarItemProps {
 	view: Route<RootStore, QueryParams>;
 	icon?: string;
 	alt?: string;
+	disabled?: boolean;
+	tooltipMessage?: string;
 }
 
-const SidebarItem = observer(({ title, route, view, icon, alt }: SidebarItemProps): JSX.Element => {
-	const classes = useStyles();
-	const store = useContext(StoreContext);
-	const {
-		router,
-		uiState: { closeSidebar },
-	} = store;
+const SidebarItem = observer(
+	({ title, route, view, icon, alt, disabled = false, tooltipMessage = '' }: SidebarItemProps): JSX.Element => {
+		const classes = useStyles();
+		const store = useContext(StoreContext);
+		const {
+			router,
+			uiState: { closeSidebar },
+		} = store;
+		const isActive = router.currentPath === route;
+		const containerClasses = clsx(classes.sidebarItem, {
+			[classes.active]: isActive,
+			[classes.disabled]: disabled,
+		});
 
-	async function visit() {
-		closeSidebar();
-		await router.goTo(view);
-	}
+		async function visit() {
+			if (disabled) return;
+			closeSidebar();
+			await router.goTo(view);
+		}
 
-	const isActive = router.currentPath === route;
-	return (
-		<div onClick={visit} className={clsx(classes.sidebarItem, isActive && classes.active)}>
-			{icon && <img className={classes.icon} alt={alt} src={icon} />}
-			<span>{title}</span>
-		</div>
-	);
-});
+		return (
+			<Tooltip title={tooltipMessage} placement="top" arrow color="primary">
+				<div onClick={visit} className={containerClasses}>
+					{icon && <img className={classes.icon} alt={alt} src={icon} />}
+					<span>{title}</span>
+				</div>
+			</Tooltip>
+		);
+	},
+);
 
 export default SidebarItem;
