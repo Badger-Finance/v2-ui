@@ -216,31 +216,6 @@ const Sidebar = observer(() => {
 						]}
 					/>
 				)}
-				{(config.honey || config.airdrops) && (
-					<SidebarSection
-						title="Arcade"
-						items={[
-							...(config.airdrops
-								? [
-										{
-											title: 'Airdrops',
-											route: '/airdrops',
-											view: views.airdrops,
-										},
-								  ]
-								: []),
-							...(config.honey
-								? [
-										{
-											title: 'Honey Badger Drop',
-											route: '/honey-badger-drop',
-											view: views.honeybadgerDrop,
-										},
-								  ]
-								: []),
-						]}
-					/>
-				)}
 				{config.auction && <SidebarItem route="/citadel" view={views.citadel} title="Citadel" />}
 			</div>
 			<div className={classes.daoContainer}>

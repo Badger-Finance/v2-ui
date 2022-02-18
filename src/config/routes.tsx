@@ -2,12 +2,10 @@ import React from 'react';
 import { QueryParams, Route } from 'mobx-router';
 import Landing from '../pages/Landing';
 import { RootStore } from '../mobx/RootStore';
-import { Airdrops } from '../components/Airdrops';
 import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
 import { IbBTC } from 'components/IbBTC';
 import { Bridge } from '../components/Bridge';
-import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
@@ -42,11 +40,6 @@ const routes = {
 		path: '/not-found',
 		component: <NotFound />,
 	}),
-	airdrops: new Route<RootStore, QueryParams>({
-		path: '/airdrops',
-		component: <Airdrops />,
-		onEnter: (_route, _params, store) => store.airdrops.fetchAirdrops(),
-	}),
 	boostOptimizer: new Route<RootStore, QueryParams>({
 		path: '/boost-optimizer',
 		component: <BoostOptimizer />,
@@ -54,11 +47,6 @@ const routes = {
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
-	}),
-	honeybadgerDrop: new Route<RootStore, QueryParams>({
-		path: '/honey-badger-drop',
-		component: <HoneybadgerDrop />,
-		onEnter: (_route, _params, store) => store.honeyPot.refresh(),
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
