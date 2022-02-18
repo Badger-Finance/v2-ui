@@ -4,7 +4,5 @@ export interface SidebarConfig {
 	ibBTC: boolean;
 	bridge: boolean;
 	boost: boolean;
-	airdrops: boolean;
-	honey: boolean;
 	auction: boolean;
 }
