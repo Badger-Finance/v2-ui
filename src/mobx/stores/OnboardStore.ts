@@ -135,7 +135,6 @@ export class OnboardStore {
 		return {
 			dappId: BLOCKNATIVE_API_KEY,
 			networkId: config.id,
-			networkName: config.network,
 			blockPollingInterval: 15000,
 			darkMode: true,
 			subscriptions: {
