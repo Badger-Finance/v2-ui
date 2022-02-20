@@ -10,8 +10,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: true,
 		bridge: true,
 		boost: true,
-		airdrops: true,
-		honey: true,
 		auction: true,
 	},
 	[Network.Ethereum]: {
@@ -20,8 +18,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: true,
 		bridge: true,
 		boost: true,
-		airdrops: true,
-		honey: true,
 		auction: FLAGS.CITADEL_SALE,
 	},
 	[Network.Arbitrum]: {
@@ -30,8 +26,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: true,
-		airdrops: false,
-		honey: false,
 		auction: false,
 	},
 	[Network.Avalanche]: {
@@ -40,8 +34,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		airdrops: false,
-		honey: false,
 		auction: false,
 	},
 	[Network.BinanceSmartChain]: {
@@ -50,8 +42,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		airdrops: false,
-		honey: false,
 		auction: false,
 	},
 	[Network.Polygon]: {
@@ -60,8 +50,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		airdrops: false,
-		honey: false,
 		auction: false,
 	},
 	[Network.Fantom]: {
@@ -70,8 +58,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		airdrops: false,
-		honey: false,
 		auction: false,
 	},
 	[Network.xDai]: {
@@ -80,8 +66,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		airdrops: false,
-		honey: false,
 		auction: false,
 	},
 };
