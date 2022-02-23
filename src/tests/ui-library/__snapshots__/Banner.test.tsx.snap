@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Banner renders banner information correctly 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-10 makeStyles-root-1 MuiGrid-container-11 MuiGrid-align-items-xs-center-19 MuiGrid-justify-content-xs-space-between-30"
+  >
+    <div
+      class="MuiGrid-root-10 makeStyles-messageLinkContainer-2 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-align-items-xs-center-19 MuiGrid-grid-xs-true-44"
+    >
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12"
+      >
+        <p
+          class="MuiTypography-root-113 makeStyles-message-7 MuiTypography-body1-115"
+        >
+          This is an important message
+        </p>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-10 makeStyles-actionContainer-8 MuiGrid-item-12 MuiGrid-grid-xs-auto-43"
+    >
+      <button
+        aria-label="close banner"
+        class="MuiButtonBase-root-152 MuiIconButton-root-143 makeStyles-closeIcon-9"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label-151"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-155"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root-164"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Banner uses correct link 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-10 makeStyles-root-1 MuiGrid-container-11 MuiGrid-align-items-xs-center-19 MuiGrid-justify-content-xs-space-between-30"
+  >
+    <div
+      class="MuiGrid-root-10 makeStyles-messageLinkContainer-2 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-align-items-xs-center-19 MuiGrid-grid-xs-true-44"
+    >
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12"
+      >
+        <p
+          class="MuiTypography-root-113 makeStyles-message-7 MuiTypography-body1-115"
+        >
+          This is an important message
+        </p>
+      </div>
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12"
+      >
+        <a
+          class="MuiTypography-root-113 MuiLink-root-143 MuiLink-underlineHover-145 makeStyles-link-6 MuiTypography-colorPrimary-136"
+          href="https://badger.com"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="banner link icon"
+            class="makeStyles-linkIcon-3"
+            src="/assets/icons/banner-link-icon.svg"
+          />
+          view more
+        </a>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-10 makeStyles-actionContainer-8 MuiGrid-item-12 MuiGrid-grid-xs-auto-43"
+    >
+      <button
+        aria-label="close banner"
+        class="MuiButtonBase-root-158 MuiIconButton-root-149 makeStyles-closeIcon-9"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label-157"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-161"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root-170"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
