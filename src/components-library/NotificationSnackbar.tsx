@@ -11,12 +11,13 @@ export interface NotificationSnackbarProps {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.common.white,
+		minWidth: 288,
 		maxWidth: 568,
 		borderRadius: 5,
 		minHeight: 48,
 		padding: '6px 24px',
 		[theme.breakpoints.down('md')]: {
-			maxWidth: 375,
+			width: 375,
 		},
 	},
 	textContainer: {
@@ -26,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	notificationIcon: {
 		paddingRight: 6,
-		[theme.breakpoints.down('md')]: {
-			paddingRight: 20,
-		},
 	},
 	text: {
 		display: 'inline-block',
@@ -42,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		marginLeft: 'auto',
-		paddingLeft: 48,
+		paddingLeft: 24,
 	},
 	actionButton: {
 		height: 'auto',
