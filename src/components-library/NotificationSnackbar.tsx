@@ -1,12 +1,6 @@
-import React from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
-
-export interface NotificationSnackbarProps {
-	message: string;
-	type: 'info' | 'success' | 'warning' | 'error';
-	onActionClick?: () => void;
-	action?: string | React.ReactNode;
-}
+import { CustomContentProps, SnackbarContent, useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
 		padding: '6px 24px',
 		[theme.breakpoints.down('md')]: {
 			width: 375,
+		},
+		[theme.breakpoints.down('xs')]: {
+			width: '100%',
 		},
 	},
 	textContainer: {
@@ -53,41 +50,50 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const NotificationSnackbar = ({ message, action, type, onActionClick }: NotificationSnackbarProps): JSX.Element => {
+const NotificationSnackbar = forwardRef<HTMLDivElement, CustomContentProps>((props, forwardedRef): JSX.Element => {
 	const classes = useStyles();
+	const { closeSnackbar } = useSnackbar();
+	const { id, variant, message, action } = props;
 
 	const notificationIcon = {
 		success: 'notification-success-icon.svg',
 		warning: 'notification-warning-icon.svg',
 		error: 'notification-error-icon.svg',
 		info: null,
-	}[type];
+		default: null,
+	}[variant];
+
+	const handleDismiss = useCallback(() => {
+		closeSnackbar(id);
+	}, [id, closeSnackbar]);
 
 	return (
-		<div className={classes.root}>
-			<Grid container alignItems="center">
-				<Grid item className={classes.textContainer}>
-					{notificationIcon && (
-						<img
-							className={classes.notificationIcon}
-							src={`assets/icons/${notificationIcon}`}
-							alt="notification-icon"
-						/>
-					)}
-					<Typography variant="body2" className={classes.text}>
-						{message}
-					</Typography>
-				</Grid>
-				{action && (
-					<Grid item className={classes.contentAction}>
-						<Button variant="text" className={classes.actionButton} onClick={onActionClick}>
-							{action}
-						</Button>
+		<SnackbarContent ref={forwardedRef}>
+			<div className={classes.root}>
+				<Grid container alignItems="center">
+					<Grid item className={classes.textContainer}>
+						{notificationIcon && (
+							<img
+								className={classes.notificationIcon}
+								src={`assets/icons/${notificationIcon}`}
+								alt="notification-icon"
+							/>
+						)}
+						<Typography variant="body2" className={classes.text}>
+							{message}
+						</Typography>
 					</Grid>
-				)}
-			</Grid>
-		</div>
+					{action && (
+						<Grid item className={classes.contentAction} onClick={handleDismiss}>
+							<Button variant="text" className={classes.actionButton}>
+								{action}
+							</Button>
+						</Grid>
+					)}
+				</Grid>
+			</div>
+		</SnackbarContent>
 	);
-};
+});
 
 export default NotificationSnackbar;

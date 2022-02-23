@@ -3,6 +3,7 @@ import { RootStore } from '../RootStore';
 import { Currency } from 'config/enums/currency.enum';
 import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH, DEFAULT_CURRENCY } from 'config/constants';
 import { GasSpeed } from '@badger-dao/sdk';
+import { SnackbarNotificationProps } from '../model/ui/snackbar-notification-props';
 
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
 
@@ -13,7 +14,7 @@ class UiState {
 	public showWalletDrawer: boolean;
 	public sidebarOpen!: boolean;
 	public showUserBalances: boolean;
-	public notification: any = {};
+	public notification?: SnackbarNotificationProps;
 	public gasPrice: GasSpeed;
 	public txStatus?: string;
 	private showNotification: boolean;
@@ -71,8 +72,8 @@ class UiState {
 		}
 	});
 
-	queueNotification = action((message: string, variant: string, hash?: string) => {
-		this.notification = { message, variant, persist: false, hash: hash };
+	queueNotification = action((message: string, variant: SnackbarNotificationProps['variant'], hash?: string) => {
+		this.notification = { message, variant, hash: hash };
 	});
 
 	queueError(message: string): void {
