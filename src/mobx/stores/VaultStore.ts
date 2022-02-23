@@ -304,18 +304,17 @@ export default class VaultStore {
 		const { network } = this.store.network;
 		if (network) {
 			this.initialized = false;
-			this.loadVaultsRegistry();
+			this.initializeVaultsRegistry();
 			await Promise.all([
 				this.loadVaults(network.symbol),
 				this.loadTokens(network.symbol),
 				this.loadAssets(network.symbol),
-				this.loadVaultsRegistry(),
 			]);
 			this.initialized = true;
 		}
 	}
 
-	loadVaultsRegistry = action(() => {
+	initializeVaultsRegistry = action(() => {
 		const { network: currentNetwork } = this.store.network;
 
 		const networkVaultsMap = Object.fromEntries(
