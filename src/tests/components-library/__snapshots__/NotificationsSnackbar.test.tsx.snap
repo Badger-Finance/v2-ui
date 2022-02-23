@@ -3,24 +3,28 @@
 exports[`NotificationSnackbar displays correct notification for error type with correct message 1`] = `
 <div>
   <div
-    class="makeStyles-root-1"
+    class="go1888806478"
   >
     <div
-      class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-align-items-xs-center-16"
+      class="makeStyles-root-1"
     >
       <div
-        class="MuiGrid-root-7 makeStyles-textContainer-2 MuiGrid-item-9"
+        class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-align-items-xs-center-16"
       >
-        <img
-          alt="notification-icon"
-          class="makeStyles-notificationIcon-3"
-          src="assets/icons/notification-error-icon.svg"
-        />
-        <p
-          class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
+        <div
+          class="MuiGrid-root-7 makeStyles-textContainer-2 MuiGrid-item-9"
         >
-          This is an error message
-        </p>
+          <img
+            alt="notification-icon"
+            class="makeStyles-notificationIcon-3"
+            src="assets/icons/notification-error-icon.svg"
+          />
+          <p
+            class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
+          >
+            This is an error message
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -30,19 +34,23 @@ exports[`NotificationSnackbar displays correct notification for error type with 
 exports[`NotificationSnackbar displays correct notification for info type with correct message 1`] = `
 <div>
   <div
-    class="makeStyles-root-1"
+    class="go1888806478"
   >
     <div
-      class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-align-items-xs-center-16"
+      class="makeStyles-root-1"
     >
       <div
-        class="MuiGrid-root-7 makeStyles-textContainer-2 MuiGrid-item-9"
+        class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-align-items-xs-center-16"
       >
-        <p
-          class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
+        <div
+          class="MuiGrid-root-7 makeStyles-textContainer-2 MuiGrid-item-9"
         >
-          This is an info message
-        </p>
+          <p
+            class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
+          >
+            This is an info message
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -52,24 +60,28 @@ exports[`NotificationSnackbar displays correct notification for info type with c
 exports[`NotificationSnackbar displays correct notification for success type with correct message 1`] = `
 <div>
   <div
-    class="makeStyles-root-1"
+    class="go1888806478"
   >
     <div
-      class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-align-items-xs-center-16"
+      class="makeStyles-root-1"
     >
       <div
-        class="MuiGrid-root-7 makeStyles-textContainer-2 MuiGrid-item-9"
+        class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-align-items-xs-center-16"
       >
-        <img
-          alt="notification-icon"
-          class="makeStyles-notificationIcon-3"
-          src="assets/icons/notification-success-icon.svg"
-        />
-        <p
-          class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
+        <div
+          class="MuiGrid-root-7 makeStyles-textContainer-2 MuiGrid-item-9"
         >
-          This is a success message
-        </p>
+          <img
+            alt="notification-icon"
+            class="makeStyles-notificationIcon-3"
+            src="assets/icons/notification-success-icon.svg"
+          />
+          <p
+            class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
+          >
+            This is a success message
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -79,24 +91,28 @@ exports[`NotificationSnackbar displays correct notification for success type wit
 exports[`NotificationSnackbar displays correct notification for warning type with correct message 1`] = `
 <div>
   <div
-    class="makeStyles-root-1"
+    class="go1888806478"
   >
     <div
-      class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-align-items-xs-center-16"
+      class="makeStyles-root-1"
     >
       <div
-        class="MuiGrid-root-7 makeStyles-textContainer-2 MuiGrid-item-9"
+        class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-align-items-xs-center-16"
       >
-        <img
-          alt="notification-icon"
-          class="makeStyles-notificationIcon-3"
-          src="assets/icons/notification-warning-icon.svg"
-        />
-        <p
-          class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
+        <div
+          class="MuiGrid-root-7 makeStyles-textContainer-2 MuiGrid-item-9"
         >
-          This is a warning message
-        </p>
+          <img
+            alt="notification-icon"
+            class="makeStyles-notificationIcon-3"
+            src="assets/icons/notification-warning-icon.svg"
+          />
+          <p
+            class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
+          >
+            This is a warning message
+          </p>
+        </div>
       </div>
     </div>
   </div>
