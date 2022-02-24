@@ -36,6 +36,26 @@ export const ftmVaults: BadgerVault[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.boo-xboo'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.boo-xboo'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.wbtc-renbtc'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.wbtc-renbtc'],
+			decimals: 18,
+		},
+	},
 ];
 
 const ftmTokens = ftmVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]);
