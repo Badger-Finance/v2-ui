@@ -316,13 +316,13 @@ export default class VaultStore {
 
 	initializeVaultsRegistry = action(() => {
 		const { network: currentNetwork } = this.store.network;
-
+		const networkDeployVaults = Object.values(currentNetwork.deploy.sett_system.vaults) as string[];
 		const networkVaultsMap = Object.fromEntries(
 			currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
 		);
 
 		this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
-			currentNetwork.settOrder.flatMap((vaultAddress) => {
+			networkDeployVaults.flatMap((vaultAddress) => {
 				const vault = networkVaultsMap[vaultAddress];
 				return vault ? [[vaultAddress, vault]] : [];
 			}),
