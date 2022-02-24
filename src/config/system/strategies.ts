@@ -14,17 +14,6 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 	switch (network) {
 		case Network.Fantom:
 			return {
-				[fantomDeploy.sett_system.vaults['native.usdc-dai']]: {
-					address: fantomDeploy.sett_system.strategies['native.usdc-dai'],
-					fees: {
-						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.strategistPerformance]: new BigNumber(0),
-						[StrategyFee.withdraw]: new BigNumber(10),
-					},
-					// TODO: Update user guide
-					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-avalanche/arbitrum-sushi-weth-helper-vault',
-				},
 				[fantomDeploy.sett_system.vaults['native.boo-xboo']]: {
 					address: fantomDeploy.sett_system.strategies['native.boo-xboo'],
 					fees: {

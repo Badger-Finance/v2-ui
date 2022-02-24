@@ -28,16 +28,6 @@ export const FTM_DEPLOY: Deploy = deploy;
 export const ftmVaults: BadgerVault[] = [
 	{
 		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.usdc-dai'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.usdc-dai'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
 			address: FTM_DEPLOY.tokens['solidly.boo-xboo'],
 			decimals: 18,
 		},
