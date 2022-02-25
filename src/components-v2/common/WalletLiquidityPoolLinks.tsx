@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
+import { Protocol } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { NETWORKS_LIQUIDITY_POOL_LINKS } from '../../config/system/liquidity-pool-links';
 import { LiquidityPoolLinkType } from '../../mobx/model/system-config/liquidity-pool-links';
 import WalletLiquidityPoolLink from './WalletLiquidityPoolLink';
-import { Protocol } from '../../../../sdk';
 
 const useStyles = makeStyles((theme) => ({
 	link: {
