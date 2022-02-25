@@ -1,3 +1,4 @@
+import firebase from 'firebase';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
@@ -23,6 +24,7 @@ import { defaultNetwork } from 'config/networks.config';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
 import storage from '../../utils/storage';
+import fbase from 'fbase';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -71,6 +73,7 @@ class BridgeStore {
 	private network!: string | undefined;
 	private renJS: RenJS;
 	private adapter!: Contract;
+	private db!: firebase.firestore.Firestore;
 
 	private renbtc!: Contract;
 	private wbtc!: Contract;
@@ -132,6 +135,7 @@ class BridgeStore {
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.db = fbase.firestore();
 		this.renJS = new RenJS('mainnet');
 		// NB: At construction time, the value of wallet provider is unset so we cannot fetch network
 		// from provider. Align network init logic w/ how it works in the walletStore.
@@ -222,6 +226,7 @@ class BridgeStore {
 		this.loading = true;
 		await Promise.all([
 			// Fetch old transactions and reload any incomplete tx.
+			this._fetchTx(address),
 			this._getBalances(address),
 			this._getFees(),
 			this._getRenFees(),
@@ -311,6 +316,44 @@ class BridgeStore {
 
 	complete = action(this._complete);
 
+	_fetchTx = async (userAddr: string): Promise<void> => {
+		try {
+			await retry(async () => {
+				// TODO: Implement paging of results if tx history
+				// bloat starts to become a problem.
+				const results = await this.db
+					// Use a new collection for renvm2 just in case of collision
+					.collection('transactions2')
+					.where('user', '==', userAddr.toLowerCase())
+					.orderBy('created', 'desc')
+					.get();
+
+				const transactions: RenVMTransaction[] = [];
+				results.forEach((doc) => {
+					transactions.push({
+						id: doc.id,
+						...doc.data(),
+					} as RenVMTransaction);
+				});
+				this.history = transactions;
+
+				if (results.size > 0) {
+					// Check if the first tx is uncommitted or incomplete and set current tx.
+					const tx = transactions[0];
+					if (!_isTxComplete(tx)) {
+						this.current = tx;
+					}
+				}
+			}, defaultRetryOptions);
+		} catch (err) {
+			console.error(err);
+			this.error = err;
+		}
+	};
+
+	// Fetch tx history from db. There may be uncommitted/incomplete tx in here.
+	fetchTx = action(this._fetchTx);
+
 	initTx = action(async (tx: RenVMTransaction) => {
 		const { queueNotification } = this.store.uiState;
 		const { address } = this.store.onboard;
@@ -320,17 +363,25 @@ class BridgeStore {
 		}
 
 		try {
-			const created = Date.now();
+			const created = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
+			const nonce = RenJS.utils.randomNonce();
+			const id = nonce.toString('hex');
+			const ref = this.db.collection('transactions2').doc(id);
 			// At this point we should only have are the tx params.
 			const txData = {
 				...tx,
 				// NB: Always store lowercase account addr.
+				id,
 				user: address.toLowerCase(),
-				nonce: JSON.stringify(RenJS.utils.randomNonce()),
+				nonce: JSON.stringify(nonce),
 				created,
 				deleted: false,
 			};
-			this.current = txData as RenVMTransaction;
+			await retry(async () => {
+				await ref.set(txData);
+				// Update current tx.
+				this.current = txData as RenVMTransaction;
+			}, defaultRetryOptions);
 		} catch (err) {
 			console.error(err);
 			queueNotification(`Failed to initialize tx: ${err.message}`, 'error');
@@ -348,7 +399,14 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 
 		try {
-			const updated = Date.now();
+			const nonceStr = tx.nonce;
+			if (!nonceStr) {
+				return;
+			}
+			const nonce = Buffer.from(JSON.parse(nonceStr));
+			const id = nonce.toString('hex');
+			const updated = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
+			const ref = this.db.collection('transactions2').doc(id);
 			const txData = {
 				...tx,
 				updated,
@@ -384,11 +442,17 @@ class BridgeStore {
 				txData.deleted = true;
 			}
 			this._updatePersistedTxn(txData);
-			if (this.status === Status.IDLE) return;
-			this.current = {
-				...this.current,
-				...txData,
-			} as RenVMTransaction;
+			await retry(async () => {
+				await ref.update(txData);
+				// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
+				// We avoid setting current tx if we're already in IDLE state since completion/update can
+				// be racy, esp if we have duplicate listeners.
+				if (this.status === Status.IDLE) return;
+				this.current = {
+					...this.current,
+					...txData,
+				} as RenVMTransaction;
+			}, defaultRetryOptions);
 		} catch (err) {
 			console.error(err);
 			queueNotification(`Failed to update tx: ${err.message}`, 'error');

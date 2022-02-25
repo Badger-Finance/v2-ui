@@ -304,49 +304,31 @@ export default class VaultStore {
 		const { network } = this.store.network;
 		if (network) {
 			this.initialized = false;
+			this.initializeVaultsRegistry();
 			await Promise.all([
 				this.loadVaults(network.symbol),
 				this.loadTokens(network.symbol),
 				this.loadAssets(network.symbol),
-				this.loadVaultsRegistry(),
 			]);
 			this.initialized = true;
 		}
 	}
 
-	loadVaultsRegistry = action(async () => {
+	initializeVaultsRegistry = action(() => {
 		const { network: currentNetwork } = this.store.network;
-		let vaultDefinitions: VaultsDefinitions;
+		const networkDeployVaults = Object.values(currentNetwork.deploy.sett_system.vaults) as string[];
+		const networkVaultsMap = Object.fromEntries(
+			currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
+		);
 
-		if (FLAGS.SDK_INTEGRATION_ENABLED) {
-			const sdkVaults = await this.store.sdk.vaults.loadVaults();
-			vaultDefinitions = new Map(
-				sdkVaults.map((vault) => [
-					vault.address,
-					{
-						depositToken: vault.token,
-						vaultToken: {
-							address: vault.address,
-							decimals: vault.decimals,
-							symbol: vault.symbol,
-							name: vault.name,
-						},
-					},
-				]),
-			);
-		} else {
-			const networkVaultsMap = Object.fromEntries(
-				currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
-			);
-			vaultDefinitions = new Map(
-				currentNetwork.settOrder.flatMap((vaultAddress) => {
-					const vault = networkVaultsMap[vaultAddress];
-					return vault ? [[vaultAddress, vault]] : [];
-				}),
-			);
-		}
+		this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
+			networkDeployVaults.flatMap((vaultAddress) => {
+				const vault = networkVaultsMap[vaultAddress];
+				return vault ? [[vaultAddress, vault]] : [];
+			}),
+		);
 
-		this.vaultDefinitionsCache[currentNetwork.symbol] = vaultDefinitions;
+		this.sanitizeVaultDefinitions();
 	});
 
 	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
@@ -383,12 +365,20 @@ export default class VaultStore {
 	});
 
 	loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {
-		const tokenConfig = await this.store.sdk.api.loadTokens();
-		if (tokenConfig) {
-			this.tokenCache[chain] = tokenConfig;
-		} else {
-			this.tokenCache[chain] = null;
+		let tokenConfig: TokenConfiguration | null = null;
+
+		try {
+			tokenConfig = await this.store.sdk.api.loadTokens();
+		} catch (error) {
+			if (FLAGS.SDK_INTEGRATION_ENABLED) {
+				const tokensList = Array.from(this.vaultsDefinitions?.values() ?? []).map(
+					(vault) => vault.depositToken.address,
+				);
+				tokenConfig = await this.store.sdk.tokens.loadTokens(tokensList);
+			}
 		}
+
+		this.tokenCache[chain] = tokenConfig;
 	});
 
 	loadAssets = action(async (chain = Network.Ethereum): Promise<void> => {
@@ -431,5 +421,42 @@ export default class VaultStore {
 			protocols: [],
 			types: [],
 		};
+	});
+
+	/**
+	 * Fetches the vaults on chain registry using the sdk and sanitizes the default registry.
+	 * This process is done async to prevent load time increase.
+	 */
+	private sanitizeVaultDefinitions = action(async () => {
+		if (FLAGS.SDK_INTEGRATION_ENABLED && this.vaultsDefinitions) {
+			const { network: currentNetwork } = this.store.network;
+			const sdkVaults = await this.store.sdk.vaults.loadVaults();
+			const sdkVaultsMap: VaultsDefinitions = new Map(
+				sdkVaults.map((vault) => [
+					vault.address,
+					{
+						depositToken: vault.token,
+						vaultToken: {
+							address: vault.address,
+							decimals: vault.decimals,
+							symbol: vault.symbol,
+							name: vault.name,
+						},
+					},
+				]),
+			);
+
+			this.vaultsDefinitions.forEach((vaultDefinition, vaultDefinitionKey, vaultDefinitions) => {
+				const sdkVaultDefinition = sdkVaultsMap.get(vaultDefinitionKey);
+				if (!sdkVaultDefinition) {
+					vaultDefinitions.delete(vaultDefinitionKey);
+				}
+			});
+
+			this.vaultDefinitionsCache = {
+				...this.vaultDefinitionsCache,
+				[currentNetwork.symbol]: new Map([...this.vaultsDefinitions, ...sdkVaultsMap]),
+			};
+		}
 	});
 }
