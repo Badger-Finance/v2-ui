@@ -250,6 +250,26 @@ exports[`Wallet Drawer displays correctly 1`] = `
                   >
                     <a
                       class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
+                      href="https://curve.fi/factory-crypto/4"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="MuiTypography-root-160 makeStyles-linkText-229"
+                      >
+                        Curve
+                      </span>
+                      <img
+                        alt="Curve link"
+                        src="/assets/icons/link-icon.svg"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="MuiGrid-root-57 MuiGrid-item-59"
+                  >
+                    <a
+                      class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
                       href="https://app.sushi.com/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
                       rel="noopener noreferrer"
                       target="_blank"
