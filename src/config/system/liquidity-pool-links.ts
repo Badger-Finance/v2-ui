@@ -4,6 +4,7 @@ import { LiquidityPoolLinkType, NetworksLiquidityPoolLinks } from '../../mobx/mo
 export const NETWORKS_LIQUIDITY_POOL_LINKS: NetworksLiquidityPoolLinks = {
 	[Network.Ethereum]: {
 		[LiquidityPoolLinkType.WBTC_BADGER]: {
+			[Protocol.Curve]: 'https://curve.fi/factory-crypto/4',
 			[Protocol.Sushiswap]:
 				'https://app.sushi.com/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 			[Protocol.Uniswap]:
