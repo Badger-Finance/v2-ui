@@ -19,9 +19,10 @@ export class Local extends NetworkModel {
 			NETWORK_IDS.LOCAL,
 			Currency.ETH,
 			LOCAL_DEPLOY,
-			localaultDefinitions,
+			localVaultDefinitions,
 		);
 	}
+
 	get settOrder(): string[] {
 		return [];
 	}
@@ -29,9 +30,9 @@ export class Local extends NetworkModel {
 
 export const LOCAL_DEPLOY = deploy as Deploy;
 
-const localaultDefinitions: BadgerVault[] = [];
+const localVaultDefinitions: BadgerVault[] = [];
 
-export const localaults = toVaultConfig(localaultDefinitions);
+export const localVaults = toVaultConfig(localVaultDefinitions);
 
 export const localRewards = [
 	{
@@ -40,6 +41,6 @@ export const localRewards = [
 	},
 ];
 
-const localTokens = localaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]).concat(localRewards);
+const localTokens = localVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]).concat(localRewards);
 
 export const localProtocolTokens: ProtocolTokens = toRecord(localTokens, 'address');

@@ -7,9 +7,9 @@ import BigNumber from 'bignumber.js';
 import UserStore from 'mobx/stores/UserStore';
 import { createMatchMedia } from './Utils';
 import VaultStore from '../mobx/stores/VaultStore';
-import { BouncerType, Protocol, Vault, VaultState, VaultType } from '@badger-dao/sdk';
+import { BouncerType, Protocol, VaultState, VaultType } from '@badger-dao/sdk';
 
-export const vaults = [
+const mockLandingVaults = [
 	{
 		type: VaultType.Standard,
 		apr: 12.1488615485636,
@@ -422,11 +422,11 @@ describe('Landing', () => {
 
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
 		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(1000));
-		jest.spyOn(VaultStore.prototype, 'getVaultOrder').mockReturnValue(vaults);
+		jest.spyOn(VaultStore.prototype, 'getVaultOrder').mockReturnValue(mockLandingVaults);
 
 		jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
 			new Map(
-				vaults.map((vault) => [
+				mockLandingVaults.map((vault) => [
 					vault.vaultToken,
 					{
 						depositToken: { address: vault.underlyingToken, decimals: 18 },
