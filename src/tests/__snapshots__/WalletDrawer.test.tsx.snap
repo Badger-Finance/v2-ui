@@ -12,13 +12,13 @@ exports[`Wallet Drawer displays correctly 1`] = `
     aria-hidden="true"
   />
   <div
-    class="MuiDrawer-root-13 MuiDrawer-modal-24"
+    class="MuiDrawer-root-15 MuiDrawer-modal-26"
     role="presentation"
     style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-25"
+      class="MuiBackdrop-root-27"
       style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
@@ -26,34 +26,34 @@ exports[`Wallet Drawer displays correctly 1`] = `
       tabindex="0"
     />
     <div
-      class="MuiPaper-root-27 MuiDrawer-paper-15 MuiDrawer-paperAnchorRight-17 MuiPaper-elevation16-46"
+      class="MuiPaper-root-29 MuiDrawer-paper-17 MuiDrawer-paperAnchorRight-19 MuiPaper-elevation16-48"
       tabindex="-1"
     >
       <div
-        class="MuiGrid-root-55 makeStyles-root-1 MuiGrid-container-56 MuiGrid-direction-xs-column-59 MuiGrid-justify-content-xs-space-between-75"
+        class="MuiGrid-root-57 makeStyles-root-1 MuiGrid-container-58 MuiGrid-direction-xs-column-61 MuiGrid-justify-content-xs-space-between-77"
       >
         <div
-          class="MuiGrid-root-55 MuiGrid-item-57"
+          class="MuiGrid-root-57 MuiGrid-item-59"
         >
           <div
-            class="MuiGrid-root-55 makeStyles-titleRow-5 MuiGrid-container-56 MuiGrid-item-57 MuiGrid-align-items-xs-center-64 MuiGrid-justify-content-xs-space-between-75"
+            class="MuiGrid-root-57 makeStyles-titleRow-6 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66 MuiGrid-justify-content-xs-space-between-77"
           >
             <h6
-              class="MuiTypography-root-158 makeStyles-title-2 MuiTypography-h6-168 MuiTypography-displayInline-186"
+              class="MuiTypography-root-160 makeStyles-title-2 MuiTypography-h6-170 MuiTypography-displayInline-188"
             >
               Wallet
             </h6>
             <button
-              class="MuiButtonBase-root-197 MuiIconButton-root-188 makeStyles-closeButton-9"
+              class="MuiButtonBase-root-199 MuiIconButton-root-190 makeStyles-closeButton-11"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiIconButton-label-196"
+                class="MuiIconButton-label-198"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root-200"
+                  class="MuiSvgIcon-root-202"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -63,26 +63,26 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-252"
+                class="MuiTouchRipple-root-265"
               />
             </button>
           </div>
           <div
-            class="MuiGrid-root-55 makeStyles-addressRow-6 MuiGrid-container-56 MuiGrid-item-57 MuiGrid-align-items-xs-center-64"
+            class="MuiGrid-root-57 makeStyles-addressRow-7 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66"
           >
             <h6
-              class="MuiTypography-root-158 makeStyles-address-12 MuiTypography-subtitle2-170 MuiTypography-colorTextSecondary-184 MuiTypography-displayInline-186"
+              class="MuiTypography-root-160 makeStyles-address-14 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186 MuiTypography-displayInline-188"
             >
               0x1..a1a
             </h6>
             <button
               aria-label="copy wallet address"
-              class="MuiButtonBase-root-197 MuiIconButton-root-188 makeStyles-copyWalletButton-10"
+              class="MuiButtonBase-root-199 MuiIconButton-root-190 makeStyles-copyWalletButton-12"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiIconButton-label-196"
+                class="MuiIconButton-label-198"
               >
                 <img
                   alt="copy wallet address icon"
@@ -90,167 +90,261 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 />
               </span>
               <span
-                class="MuiTouchRipple-root-252"
+                class="MuiTouchRipple-root-265"
               />
             </button>
           </div>
           <div
-            class="MuiGrid-root-55 MuiGrid-item-57"
+            class="MuiGrid-root-57 MuiGrid-item-59"
           >
             <h6
-              class="MuiTypography-root-158 MuiTypography-subtitle2-170 MuiTypography-colorTextSecondary-184"
+              class="MuiTypography-root-160 makeStyles-balanceText-3 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
             >
               Balance:
             </h6>
             <div
-              class="MuiBox-root-211 MuiBox-root-212"
+              class="MuiBox-root-213 MuiBox-root-214"
             >
               <p
-                class="MuiTypography-root-158 makeStyles-balance-3 MuiTypography-body1-160"
+                class="MuiTypography-root-160 makeStyles-balance-4 MuiTypography-body1-162"
               />
             </div>
           </div>
           <div
-            class="MuiGrid-root-55 makeStyles-balancesList-7 MuiGrid-container-56 MuiGrid-item-57"
+            class="MuiGrid-root-57 makeStyles-balancesList-8 MuiGrid-container-58 MuiGrid-item-59"
           >
             <div
-              class="MuiGrid-root-55 makeStyles-tokenBalance-217 MuiGrid-container-56"
+              class="MuiGrid-root-57 makeStyles-tokenBalance-219 MuiGrid-container-58"
             >
               <div
-                class="MuiGrid-root-55 MuiGrid-container-56 MuiGrid-item-57 MuiGrid-align-items-xs-center-64 MuiGrid-justify-content-xs-space-between-75"
+                class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66 MuiGrid-justify-content-xs-space-between-77"
               >
                 <div
-                  class="makeStyles-tokenNameAndIcon-213"
+                  class="makeStyles-tokenNameAndIcon-215"
                 >
                   <img
                     alt="Badger icon"
-                    class="makeStyles-icon-215"
+                    class="makeStyles-icon-217"
                     src="/assets/icons/badger.png"
                   />
                   <p
-                    class="MuiTypography-root-158 makeStyles-tokenName-214 MuiTypography-body1-160 MuiTypography-displayInline-186"
+                    class="MuiTypography-root-160 makeStyles-tokenName-216 MuiTypography-body1-162 MuiTypography-displayInline-188"
                   >
                     Badger
                   </p>
                 </div>
                 <div
-                  class="MuiBox-root-211 MuiBox-root-220"
+                  class="MuiBox-root-213 MuiBox-root-222"
                 >
                   <p
-                    class="MuiTypography-root-158 makeStyles-balance-216 MuiTypography-body1-160"
+                    class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-body1-162"
                   >
                     1000.000000
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-55 makeStyles-balanceDisplayValue-219 MuiGrid-container-56 MuiGrid-item-57 MuiGrid-justify-content-xs-flex-end-74"
+                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-221 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
               >
                 <h6
-                  class="MuiTypography-root-158 makeStyles-balance-216 MuiTypography-subtitle2-170 MuiTypography-colorTextSecondary-184"
+                  class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
                 />
               </div>
             </div>
             <div
-              class="MuiGrid-root-55 makeStyles-tokenBalance-217 MuiGrid-container-56"
+              class="MuiGrid-root-57 makeStyles-tokenBalance-219 MuiGrid-container-58"
             >
               <div
-                class="MuiGrid-root-55 MuiGrid-container-56 MuiGrid-item-57 MuiGrid-align-items-xs-center-64 MuiGrid-justify-content-xs-space-between-75"
+                class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66 MuiGrid-justify-content-xs-space-between-77"
               >
                 <div
-                  class="makeStyles-tokenNameAndIcon-213"
+                  class="makeStyles-tokenNameAndIcon-215"
                 >
                   <img
                     alt="Digg icon"
-                    class="makeStyles-icon-215"
+                    class="makeStyles-icon-217"
                     src="/assets/icons/digg.png"
                   />
                   <p
-                    class="MuiTypography-root-158 makeStyles-tokenName-214 MuiTypography-body1-160 MuiTypography-displayInline-186"
+                    class="MuiTypography-root-160 makeStyles-tokenName-216 MuiTypography-body1-162 MuiTypography-displayInline-188"
                   >
                     DIGG
                   </p>
                 </div>
                 <div
-                  class="MuiBox-root-211 MuiBox-root-221"
+                  class="MuiBox-root-213 MuiBox-root-223"
                 >
                   <p
-                    class="MuiTypography-root-158 makeStyles-balance-216 MuiTypography-body1-160"
+                    class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-body1-162"
                   >
                     0.100000
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-55 makeStyles-balanceDisplayValue-219 MuiGrid-container-56 MuiGrid-item-57 MuiGrid-justify-content-xs-flex-end-74"
+                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-221 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
               >
                 <h6
-                  class="MuiTypography-root-158 makeStyles-balance-216 MuiTypography-subtitle2-170 MuiTypography-colorTextSecondary-184"
+                  class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
                 />
               </div>
             </div>
             <div
-              class="MuiGrid-root-55 makeStyles-tokenBalance-217 MuiGrid-container-56"
+              class="MuiGrid-root-57 makeStyles-tokenBalance-219 MuiGrid-container-58"
             >
               <div
-                class="MuiGrid-root-55 MuiGrid-container-56 MuiGrid-item-57 MuiGrid-align-items-xs-center-64 MuiGrid-justify-content-xs-space-between-75"
+                class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66 MuiGrid-justify-content-xs-space-between-77"
               >
                 <div
-                  class="makeStyles-tokenNameAndIcon-213"
+                  class="makeStyles-tokenNameAndIcon-215"
                 >
                   <img
                     alt="remDigg icon"
-                    class="makeStyles-icon-215"
+                    class="makeStyles-icon-217"
                     src="/assets/icons/digg.png"
                   />
                   <p
-                    class="MuiTypography-root-158 makeStyles-tokenName-214 MuiTypography-body1-160 MuiTypography-displayInline-186"
+                    class="MuiTypography-root-160 makeStyles-tokenName-216 MuiTypography-body1-162 MuiTypography-displayInline-188"
                   >
                     remDIGG
                   </p>
                 </div>
                 <div
-                  class="MuiBox-root-211 MuiBox-root-222"
+                  class="MuiBox-root-213 MuiBox-root-224"
                 >
                   <p
-                    class="MuiTypography-root-158 makeStyles-balance-216 MuiTypography-body1-160"
+                    class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-body1-162"
                   >
                     0.100000
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-55 makeStyles-balanceDisplayValue-219 MuiGrid-container-56 MuiGrid-item-57 MuiGrid-justify-content-xs-flex-end-74"
+                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-221 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
               >
                 <h6
-                  class="MuiTypography-root-158 makeStyles-balance-216 MuiTypography-subtitle2-170 MuiTypography-colorTextSecondary-184"
+                  class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
                 />
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-57 makeStyles-lpLinks-9 MuiGrid-container-58 MuiGrid-item-59"
+          >
+            <div
+              class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-spacing-xs-2-81 MuiGrid-direction-xs-column-61"
+            >
+              <div
+                class="MuiGrid-root-57 MuiGrid-item-59"
+              >
+                <p
+                  class="MuiTypography-root-160 makeStyles-buyText-227 MuiTypography-body1-162 MuiTypography-colorTextSecondary-186"
+                >
+                  Buy wBTC/Badger:
+                </p>
+                <div
+                  class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-spacing-xs-3-82"
+                >
+                  <div
+                    class="MuiGrid-root-57 MuiGrid-item-59"
+                  >
+                    <a
+                      class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
+                      href="https://app.sushi.com/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="MuiTypography-root-160 makeStyles-linkText-229"
+                      >
+                        Sushiswap
+                      </span>
+                      <img
+                        alt="Sushiswap link"
+                        src="/assets/icons/link-icon.svg"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="MuiGrid-root-57 MuiGrid-item-59"
+                  >
+                    <a
+                      class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
+                      href="https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/wrapped-btc-badger-uniswap-lp#how-to-deposit"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="MuiTypography-root-160 makeStyles-linkText-229"
+                      >
+                        Uniswap
+                      </span>
+                      <img
+                        alt="Uniswap link"
+                        src="/assets/icons/link-icon.svg"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-57 MuiGrid-item-59"
+              >
+                <p
+                  class="MuiTypography-root-160 makeStyles-buyText-227 MuiTypography-body1-162 MuiTypography-colorTextSecondary-186"
+                >
+                  Buy wBTC/Dig:
+                </p>
+                <div
+                  class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-spacing-xs-3-82"
+                >
+                  <div
+                    class="MuiGrid-root-57 MuiGrid-item-59"
+                  >
+                    <a
+                      class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
+                      href="https://app.sushi.com/add/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599/0x798d1be841a82a273720ce31c822c61a67a601c3"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="MuiTypography-root-160 makeStyles-linkText-229"
+                      >
+                        Sushiswap
+                      </span>
+                      <img
+                        alt="Sushiswap link"
+                        src="/assets/icons/link-icon.svg"
+                      />
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div
-          class="MuiGrid-root-55 MuiGrid-item-57"
+          class="MuiGrid-root-57 MuiGrid-item-59"
         >
           <button
             aria-label="disconnect wallet"
-            class="MuiButtonBase-root-197 MuiButton-root-223 MuiButton-text-225"
+            class="MuiButtonBase-root-199 MuiButton-root-236 MuiButton-text-238"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-224 makeStyles-disconnectWalletText-4"
+              class="MuiButton-label-237 makeStyles-disconnectWalletText-5"
             >
               <img
                 alt="disconnect wallet icon"
                 aria-label="disconnect wallet"
-                class="makeStyles-disconnectWalletIcon-11"
+                class="makeStyles-disconnectWalletIcon-13"
                 src="/assets/icons/disconnect-wallet.svg"
               />
               Disconnect Wallet
             </span>
             <span
-              class="MuiTouchRipple-root-252"
+              class="MuiTouchRipple-root-265"
             />
           </button>
         </div>

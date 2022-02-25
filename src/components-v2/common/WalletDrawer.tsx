@@ -11,6 +11,7 @@ import copy from 'copy-to-clipboard';
 import BigNumber from 'bignumber.js';
 import WalletTokenBalance from './WalletTokenBalance';
 import clsx from 'clsx';
+import WalletLiquidityPoolLinks from './WalletLiquidityPoolLinks';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		fontSize: 20,
 		fontWeight: 700,
+	},
+	balanceText: {
+		fontWeight: 400,
 	},
 	balance: {
 		color: 'rgba(255, 255, 255, 0.87)',
@@ -41,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	balancesList: {
 		marginTop: 32,
+	},
+	lpLinks: {
+		marginTop: 20,
 	},
 	copiedMessage: {
 		background: '#66BB6A',
@@ -133,7 +140,7 @@ const WalletDrawer = (): JSX.Element | null => {
 						</IconButton>
 					</Grid>
 					<Grid item>
-						<Typography variant="subtitle2" color="textSecondary">
+						<Typography className={classes.balanceText} variant="subtitle2" color="textSecondary">
 							Balance:
 						</Typography>
 						<CurrencyDisplay
@@ -147,6 +154,9 @@ const WalletDrawer = (): JSX.Element | null => {
 						{sortedBalances.map((tokenBalance) => (
 							<WalletTokenBalance key={tokenBalance.token.address} balance={tokenBalance} />
 						))}
+					</Grid>
+					<Grid item container className={classes.lpLinks}>
+						<WalletLiquidityPoolLinks />
 					</Grid>
 				</Grid>
 				<Grid item>

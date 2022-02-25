@@ -19,8 +19,12 @@ export const debounce = (n: number, fn: (...params: any[]) => any, immediate = f
 	};
 };
 
-export const shortenAddress = (address: string): string => {
-	return address.slice(0, 4) + '..' + address.slice(address.length - 4, address.length);
+export const shortenAddress = (address: string, displayDigitsNumber = 3): string => {
+	return (
+		address.slice(0, displayDigitsNumber) +
+		'..' +
+		address.slice(address.length - displayDigitsNumber, address.length)
+	);
 };
 
 /**

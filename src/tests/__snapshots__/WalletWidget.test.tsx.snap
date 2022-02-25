@@ -10,7 +10,7 @@ exports[`WalletWidget Connected address is properly displayed 1`] = `
     <span
       class="MuiButton-label-7 makeStyles-walletButtonLabel-5"
     >
-      0x1a..1a1a
+      0x1..a1a
     </span>
     <span
       class="MuiTouchRipple-root-38"

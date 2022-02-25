@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 	},
 	tokenName: {
+		fontWeight: 400,
 		fontSize: 16,
 	},
 	icon: {
