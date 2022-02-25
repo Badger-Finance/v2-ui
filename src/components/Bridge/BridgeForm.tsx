@@ -943,7 +943,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 
 	if (status !== Status.IDLE) {
 		return (
-			<Grid container alignItems={'center'} className={classes.padded} xs={12}>
+			<Grid container alignItems={'center'} className={classes.padded}>
 				<Grid item xs={12} className={classes.cardContainer}>
 					{!current ? (
 						'Loading...'

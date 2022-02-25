@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### 2.14.1 - 02/25/2022
+
+-   reintegrated firebase due to txn recovery issues for txns not submitted to renjs
+
 ### 2.14.0 - 02/15/2022
 
 -   resume txn using localstorage feature
