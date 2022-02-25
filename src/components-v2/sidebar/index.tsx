@@ -195,8 +195,6 @@ const Sidebar = observer(() => {
 						route="/bridge"
 						view={views.bridge}
 						title="Bridge"
-						tooltipMessage="Under Maintenance"
-						disabled
 					/>
 				)}
 				{config.boost && (
