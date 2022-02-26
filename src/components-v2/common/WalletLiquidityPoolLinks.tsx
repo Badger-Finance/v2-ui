@@ -4,7 +4,7 @@ import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { NETWORKS_LIQUIDITY_POOL_LINKS } from '../../config/system/liquidity-pool-links';
-import { LiquidityPoolLinkType } from '../../mobx/model/system-config/liquidity-pool-links';
+import { LiquidityPoolLinkToken } from '../../mobx/model/system-config/liquidity-pool-links';
 import WalletLiquidityPoolLink from './WalletLiquidityPoolLink';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,22 +29,20 @@ const WalletLiquidityPoolLinks = (): JSX.Element | null => {
 	} = useContext(StoreContext);
 	const classes = useStyles();
 
-	const badgerPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][LiquidityPoolLinkType.WBTC_BADGER];
-	const diggPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][LiquidityPoolLinkType.WBTC_DIGG];
-	const thereAreBadgerPools = Object.keys(badgerPools).length > 0;
-	const thereAreDiggPools = Object.keys(diggPools).length > 0;
+	const badgerPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][LiquidityPoolLinkToken.BADGER];
+	const diggPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][LiquidityPoolLinkToken.DIGG];
 
-	if (!thereAreBadgerPools && !thereAreDiggPools) {
+	if (!badgerPools && !diggPools) {
 		return null;
 	}
 
 	return (
 		<>
 			<Grid container direction="column" spacing={2}>
-				{thereAreBadgerPools && (
+				{badgerPools && (
 					<Grid item>
 						<Typography color="textSecondary" className={classes.buyText}>
-							Buy wBTC/Badger:
+							Buy Badger:
 						</Typography>
 						<Grid container spacing={3}>
 							{(Object.keys(badgerPools) as Protocol[]).map((poolKey, index) => (
@@ -55,10 +53,10 @@ const WalletLiquidityPoolLinks = (): JSX.Element | null => {
 						</Grid>
 					</Grid>
 				)}
-				{thereAreDiggPools && (
+				{diggPools && (
 					<Grid item>
 						<Typography color="textSecondary" className={classes.buyText}>
-							Buy wBTC/Dig:
+							Buy Digg:
 						</Typography>
 						<Grid container spacing={3}>
 							{(Object.keys(diggPools) as Protocol[]).map((poolKey, index) => (

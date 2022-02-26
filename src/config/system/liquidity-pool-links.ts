@@ -1,46 +1,33 @@
 import { Network, Protocol } from '@badger-dao/sdk';
-import { LiquidityPoolLinkType, NetworksLiquidityPoolLinks } from '../../mobx/model/system-config/liquidity-pool-links';
+import {
+	LiquidityPoolLinkToken,
+	NetworksLiquidityPoolLinks,
+} from '../../mobx/model/system-config/liquidity-pool-links';
 
 export const NETWORKS_LIQUIDITY_POOL_LINKS: NetworksLiquidityPoolLinks = {
 	[Network.Ethereum]: {
-		[LiquidityPoolLinkType.WBTC_BADGER]: {
+		[LiquidityPoolLinkToken.BADGER]: {
 			[Protocol.Curve]: 'https://curve.fi/factory-crypto/4',
 			[Protocol.Sushiswap]:
-				'https://app.sushi.com/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+				'https://app.sushi.com/swap?inputCurrency=0x2260fac5e5542a773aa44fbcfedf7c193bc2c599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 			[Protocol.Uniswap]:
-				'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/wrapped-btc-badger-uniswap-lp#how-to-deposit',
+				'https://app.uniswap.org/#/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 		},
-		[LiquidityPoolLinkType.WBTC_DIGG]: {
+		[LiquidityPoolLinkToken.DIGG]: {
 			[Protocol.Sushiswap]:
-				'https://app.sushi.com/add/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599/0x798d1be841a82a273720ce31c822c61a67a601c3',
+				'https://app.sushi.com/swap?inputCurrency=0x2260fac5e5542a773aa44fbcfedf7c193bc2c599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 		},
 	},
 	[Network.Arbitrum]: {
-		[LiquidityPoolLinkType.WBTC_BADGER]: {},
-		[LiquidityPoolLinkType.WBTC_DIGG]: {},
+		[LiquidityPoolLinkToken.BADGER]: {
+			[Protocol.Swapr]:
+				'https://swapr.eth.link/#/swap?inputCurrency=ETH&outputCurrency=0xbfa641051ba0a0ad1b0acf549a89536a0d76472e&chainId=42161',
+		},
 	},
-	[Network.Avalanche]: {
-		[LiquidityPoolLinkType.WBTC_BADGER]: {},
-		[LiquidityPoolLinkType.WBTC_DIGG]: {},
-	},
-	[Network.Fantom]: {
-		[LiquidityPoolLinkType.WBTC_BADGER]: {},
-		[LiquidityPoolLinkType.WBTC_DIGG]: {},
-	},
-	[Network.BinanceSmartChain]: {
-		[LiquidityPoolLinkType.WBTC_BADGER]: {},
-		[LiquidityPoolLinkType.WBTC_DIGG]: {},
-	},
-	[Network.Polygon]: {
-		[LiquidityPoolLinkType.WBTC_BADGER]: {},
-		[LiquidityPoolLinkType.WBTC_DIGG]: {},
-	},
-	[Network.xDai]: {
-		[LiquidityPoolLinkType.WBTC_BADGER]: {},
-		[LiquidityPoolLinkType.WBTC_DIGG]: {},
-	},
-	[Network.Local]: {
-		[LiquidityPoolLinkType.WBTC_BADGER]: {},
-		[LiquidityPoolLinkType.WBTC_DIGG]: {},
-	},
+	[Network.Avalanche]: {},
+	[Network.Fantom]: {},
+	[Network.BinanceSmartChain]: {},
+	[Network.Polygon]: {},
+	[Network.xDai]: {},
+	[Network.Local]: {},
 };
