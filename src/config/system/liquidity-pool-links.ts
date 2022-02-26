@@ -25,7 +25,12 @@ export const NETWORKS_LIQUIDITY_POOL_LINKS: NetworksLiquidityPoolLinks = {
 		},
 	},
 	[Network.Avalanche]: {},
-	[Network.Fantom]: {},
+	[Network.Fantom]: {
+		[LiquidityPoolLinkToken.BADGER]: {
+			[Protocol.Spookyswap]:
+				'https://spookyswap.finance/swap?inputCurrency=0x321162Cd933E2Be498Cd2267a90534A804051b11&outputCurrency=0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9',
+		},
+	},
 	[Network.BinanceSmartChain]: {},
 	[Network.Polygon]: {},
 	[Network.xDai]: {},
