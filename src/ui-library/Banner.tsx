@@ -1,13 +1,11 @@
 import React from 'react';
-import { Button, Grid, IconButton, Link, makeStyles, Typography } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Grid, Link, makeStyles, Typography } from '@material-ui/core';
 
 export interface BannerProps {
 	message: string;
-	onClose: () => void;
 	linkText?: string;
 	link?: string;
-	action?: React.ReactNode;
+	closeElement?: React.ReactNode;
 }
 
 const useStyles = makeStyles({
@@ -56,7 +54,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const Banner = ({ message, link, linkText, action, onClose }: BannerProps): JSX.Element => {
+const Banner = ({ message, link, linkText, closeElement = null }: BannerProps): JSX.Element => {
 	const classes = useStyles();
 	return (
 		<Grid container alignItems="center" className={classes.root} justifyContent="space-between">
@@ -64,7 +62,7 @@ const Banner = ({ message, link, linkText, action, onClose }: BannerProps): JSX.
 				<Grid item>
 					<Typography className={classes.message}>{message}</Typography>
 				</Grid>
-				{linkText && linkText && (
+				{link && linkText && (
 					<Grid item>
 						<Link href={link} rel="noreferrer" target="_blank" className={classes.link}>
 							<img
@@ -77,22 +75,11 @@ const Banner = ({ message, link, linkText, action, onClose }: BannerProps): JSX.
 					</Grid>
 				)}
 			</Grid>
-			<Grid item xs="auto" className={classes.actionContainer}>
-				{action ? (
-					<Button
-						variant="text"
-						className={classes.actionButton}
-						classes={{ label: classes.actionLabel }}
-						onClick={onClose}
-					>
-						{action}
-					</Button>
-				) : (
-					<IconButton onClick={onClose} className={classes.closeIcon} size="medium" aria-label="close banner">
-						<CloseIcon />
-					</IconButton>
-				)}
-			</Grid>
+			{!!closeElement && (
+				<Grid item xs="auto" className={classes.actionContainer}>
+					{closeElement}
+				</Grid>
+			)}
 		</Grid>
 	);
 };

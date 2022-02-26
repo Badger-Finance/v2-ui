@@ -18,34 +18,6 @@ exports[`Banner renders banner information correctly 1`] = `
         </p>
       </div>
     </div>
-    <div
-      class="MuiGrid-root-10 makeStyles-actionContainer-8 MuiGrid-item-12 MuiGrid-grid-xs-auto-43"
-    >
-      <button
-        aria-label="close banner"
-        class="MuiButtonBase-root-152 MuiIconButton-root-143 makeStyles-closeIcon-9"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiIconButton-label-151"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root-155"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-          </svg>
-        </span>
-        <span
-          class="MuiTouchRipple-root-164"
-        />
-      </button>
-    </div>
   </div>
 </div>
 `;
@@ -84,34 +56,6 @@ exports[`Banner uses correct link 1`] = `
           view more
         </a>
       </div>
-    </div>
-    <div
-      class="MuiGrid-root-10 makeStyles-actionContainer-8 MuiGrid-item-12 MuiGrid-grid-xs-auto-43"
-    >
-      <button
-        aria-label="close banner"
-        class="MuiButtonBase-root-158 MuiIconButton-root-149 makeStyles-closeIcon-9"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiIconButton-label-157"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root-161"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-            />
-          </svg>
-        </span>
-        <span
-          class="MuiTouchRipple-root-170"
-        />
-      </button>
     </div>
   </div>
 </div>
