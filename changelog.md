@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### 2.14.1 - 02/28/2022
+
+-   initial app theme updates
+-   added per network badger acquisition links
+
 ### 2.14.1 - 02/25/2022
 
 -   reintegrated firebase due to txn recovery issues for txns not submitted to renjs
