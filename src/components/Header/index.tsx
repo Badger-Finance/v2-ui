@@ -106,10 +106,10 @@ const Header = observer(() => {
 			const { emitter } = notify.hash(notification.hash);
 			emitter.on('all', (tx) => network.notifyLink(tx));
 		} else {
-			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
+			enqueueSnackbar(notification.message, { ...notification, persist: false });
 		}
 	};
-	useEffect(enq, [notification]);
+	useEffect(enq, [notification, network, notify, enqueueSnackbar]);
 
 	return (
 		<div className={classes.root}>

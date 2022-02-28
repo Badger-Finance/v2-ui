@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Banner renders banner information correctly 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-10 makeStyles-root-1 MuiGrid-container-11 MuiGrid-align-items-xs-center-19 MuiGrid-justify-content-xs-space-between-30"
+  >
+    <div
+      class="MuiGrid-root-10 makeStyles-messageLinkContainer-2 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-align-items-xs-center-19 MuiGrid-grid-xs-true-44"
+    >
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12"
+      >
+        <p
+          class="MuiTypography-root-113 makeStyles-message-7 MuiTypography-body1-115"
+        >
+          This is an important message
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Banner uses correct link 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-10 makeStyles-root-1 MuiGrid-container-11 MuiGrid-align-items-xs-center-19 MuiGrid-justify-content-xs-space-between-30"
+  >
+    <div
+      class="MuiGrid-root-10 makeStyles-messageLinkContainer-2 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-align-items-xs-center-19 MuiGrid-grid-xs-true-44"
+    >
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12"
+      >
+        <p
+          class="MuiTypography-root-113 makeStyles-message-7 MuiTypography-body1-115"
+        >
+          This is an important message
+        </p>
+      </div>
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12"
+      >
+        <a
+          class="MuiTypography-root-113 MuiLink-root-143 MuiLink-underlineHover-145 makeStyles-link-6 MuiTypography-colorPrimary-136"
+          href="https://badger.com"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="banner link icon"
+            class="makeStyles-linkIcon-3"
+            src="/assets/icons/banner-link-icon.svg"
+          />
+          view more
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
