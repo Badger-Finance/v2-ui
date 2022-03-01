@@ -243,13 +243,24 @@ export default class UserStore {
 				queryAddress,
 			);
 
-			const multicall = new Multicall({
-				web3Instance: new Web3(wallet.provider),
-				tryAggregate: true,
-				multicallCustomContractAddress: multicallContractAddress,
-			});
 
-			const multicallResults = await multicall.call(multicallRequests);
+			let multicall;
+			let multicallResults; 
+			try {
+				multicall = new Multicall({
+					web3Instance: new Web3(wallet.provider),
+					tryAggregate: true,
+					multicallCustomContractAddress: multicallContractAddress,
+				});
+				multicallResults = await multicall.call(multicallRequests);
+			} catch {
+				multicall = new Multicall({
+					web3Instance: new Web3(wallet.provider),
+					multicallCustomContractAddress: multicallContractAddress,
+				});
+				multicallResults = await multicall.call(multicallRequests);
+			}
+
 			const requestResults = extractBalanceRequestResults(multicallResults);
 			const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
 			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedVaults);

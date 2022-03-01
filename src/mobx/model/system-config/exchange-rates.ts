@@ -6,4 +6,5 @@ export interface ExchangeRates {
 	matic: number;
 	xdai: number;
 	ftm: number;
+	avax: number;
 }

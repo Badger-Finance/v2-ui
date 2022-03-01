@@ -54,6 +54,7 @@ export class RootStore {
 	public bondStore: BondStore;
 
 	constructor() {
+		// this is passed as a dummy rpc - it will never be used unless required by an rpc wallet, e.g.: wallet connect
 		this.sdk = new BadgerSDK(defaultNetwork.id, new JsonRpcProvider(rpc[defaultNetwork.symbol]), BADGER_API);
 		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
