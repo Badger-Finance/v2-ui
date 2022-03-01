@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### 2.14.3 - 03/01/2022
+
+-   display Badger & Digg, NFTs and bveCVX balances breakdown in the boost optimizer
+
 ### 2.14.1 - 02/28/2022
 
 -   initial app theme updates
