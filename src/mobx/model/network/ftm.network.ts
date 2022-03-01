@@ -11,7 +11,7 @@ import { Network } from '@badger-dao/sdk';
 export class Fantom extends NetworkModel {
 	constructor() {
 		super(
-			'https://ftmscam.io/',
+			'https://ftmscan.com',
 			'https://ftmscan.com/gastracker',
 			'Fantom',
 			Network.Fantom,
