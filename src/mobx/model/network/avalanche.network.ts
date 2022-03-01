@@ -16,7 +16,7 @@ export class Avalanche extends NetworkModel {
 			'Avalanche',
 			Network.Avalanche,
 			NETWORK_IDS.AVAX,
-			Currency.MATIC,
+			Currency.AVAX,
 			AVAX_DEPLOY,
 			avaxVaults,
 		);
