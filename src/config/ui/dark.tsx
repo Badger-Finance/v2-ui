@@ -61,6 +61,23 @@ const theme = createTheme({
 		borderRadius: 8,
 	},
 	overrides: {
+		MuiTabs: {
+			indicator: {
+				height: 2,
+			},
+		},
+		MuiTab: {
+			root: {
+				'&:not(selected)': {
+					color: '#8a8a8a',
+				},
+			},
+			wrapper: {
+				fontSize: 15,
+				fontWeight: 700,
+				textTransform: 'uppercase',
+			},
+		},
 		MuiTooltip: {
 			tooltip: {
 				fontSize: '.95rem',
