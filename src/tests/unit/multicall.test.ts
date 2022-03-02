@@ -143,7 +143,7 @@ describe('Multicall utils', () => {
 			[Network.Arbitrum, '0x80C7DD17B01855a6D2347444a0FCC36136a314de'],
 			[Network.Avalanche, '0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4'],
 			[Network.xDai, '0x2325b72990D81892E0e09cdE5C80DD221F147F8B'],
-			[Network.Fantom, '0xb828c456600857abd4ed6c32facc607bd0464f4f'],
+			[Network.Fantom, '0xd98e3dbe5950ca8ce5a4b59630a5652110403e5c'],
 		])('multicall contract for %s is %s', (network, address) => {
 			expect(getChainMulticallContract(network)).toEqual(address);
 		});
