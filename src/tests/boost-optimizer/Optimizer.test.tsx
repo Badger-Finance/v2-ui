@@ -37,6 +37,9 @@ describe('Boost Optimizer', () => {
 			nativeBalance: 1000,
 			nonNativeBalance: 500,
 			stakeRatio: 20,
+			bveCvxBalance: 100,
+			nftBalance: 50,
+			rank: 0,
 		};
 
 		jest.spyOn(rankUtils, 'calculateMultiplier').mockReturnValue(10);

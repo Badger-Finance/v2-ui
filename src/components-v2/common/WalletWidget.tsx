@@ -19,10 +19,8 @@ const useStyles = makeStyles((theme) => ({
 	greenDot: {
 		background: theme.palette.success.main,
 	},
-	walletButton: {
-		textTransform: 'none',
-	},
 	walletButtonLabel: {
+		textTransform: 'none',
 		fontWeight: 500,
 	},
 }));
@@ -55,7 +53,6 @@ const WalletWidget = observer(() => {
 			color={isMobile ? 'primary' : 'default'}
 			variant={isMobile ? 'text' : 'outlined'}
 			onClick={connect}
-			className={classes.walletButton}
 			classes={{ label: classes.walletButtonLabel }}
 		>
 			{ensName || walletAddress}

@@ -82,6 +82,24 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                 >
                   Native: 
                 </h6>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  Badger & Digg: $
+                  850
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  NFTs: $
+                  50
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  bveCVX: $
+                  100
+                </p>
                 <div
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
@@ -1011,6 +1029,24 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                 >
                   Native: 
                 </h6>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  Badger & Digg: $
+                  850
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  NFTs: $
+                  50
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  bveCVX: $
+                  100
+                </p>
                 <div
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
@@ -1957,6 +1993,24 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
                 >
                   Native: 
                 </h6>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  Badger & Digg: $
+                  850
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  NFTs: $
+                  50
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  bveCVX: $
+                  100
+                </p>
                 <div
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
@@ -2904,6 +2958,24 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                 >
                   Native: 
                 </h6>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  Badger & Digg: $
+                  850
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  NFTs: $
+                  50
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  bveCVX: $
+                  100
+                </p>
                 <div
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
@@ -3840,6 +3912,24 @@ exports[`Boost Optimizer displays correct information 1`] = `
                 >
                   Native: 
                 </h6>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  Badger & Digg: $
+                  850
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  NFTs: $
+                  50
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  bveCVX: $
+                  100
+                </p>
                 <div
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
@@ -4768,6 +4858,24 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                 >
                   Native: 
                 </h6>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  Badger & Digg: $
+                  850
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  NFTs: $
+                  50
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  bveCVX: $
+                  100
+                </p>
                 <div
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
@@ -5696,6 +5804,24 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                 >
                   Native: 
                 </h6>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  Badger & Digg: $
+                  0
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  NFTs: $
+                  0
+                </p>
+                <p
+                  class="MuiTypography-root-143 MuiTypography-body2-144 MuiTypography-colorTextSecondary-169"
+                >
+                  bveCVX: $
+                  0
+                </p>
                 <div
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >

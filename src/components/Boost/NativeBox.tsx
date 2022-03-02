@@ -66,8 +66,10 @@ interface Props {
 
 export const NativeBox = observer((props: Props) => {
 	const { user } = React.useContext(StoreContext);
+	const bveCVXBalance = user.accountDetails?.bveCvxBalance ?? 0;
 	const nftBalance = user.accountDetails?.nftBalance ?? 0;
-	const nativeHoldings = user.accountDetails?.nativeBalance;
+	const nativeHoldings = user.accountDetails?.nativeBalance ?? 0;
+	const badgerDiggBalance = Math.max(nativeHoldings - nftBalance - bveCVXBalance, 0);
 
 	const {
 		nativeToAdd,
@@ -136,11 +138,15 @@ export const NativeBox = observer((props: Props) => {
 	return (
 		<Grid item className={classes.settInformation}>
 			<Typography variant="h6">Native: </Typography>
-			{nftBalance > 0 && (
-				<Typography variant="body2" color="textSecondary">
-					(${numberWithCommas(formatWithoutExtraZeros(nftBalance, 3))} from cumulative NFT Boost)
-				</Typography>
-			)}
+			<Typography variant="body2" color="textSecondary">
+				Badger & Digg: ${numberWithCommas(formatWithoutExtraZeros(badgerDiggBalance, 3))}
+			</Typography>
+			<Typography variant="body2" color="textSecondary">
+				NFTs: ${numberWithCommas(formatWithoutExtraZeros(nftBalance, 3))}
+			</Typography>
+			<Typography variant="body2" color="textSecondary">
+				bveCVX: ${numberWithCommas(formatWithoutExtraZeros(bveCVXBalance, 3))}
+			</Typography>
 			<HoldingAssetInput
 				className={classes.assetInput}
 				disabled={isLoading}

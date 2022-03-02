@@ -2,6 +2,7 @@ import { GasPrices } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
+import { BigNumber } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { Network } from 'mobx/model/network/network';
 import { RootStore } from 'mobx/RootStore';
@@ -51,11 +52,11 @@ export class NetworkStore {
 							method: 'wallet_addEthereumChain',
 							params: [
 								{
-									chainId: `0x${network.id.toString(16)}`,
+									chainId: BigNumber.from(network.id).toHexString(),
 									chainName: network.name,
 									nativeCurrency: {
-										name: network.symbol.toUpperCase(),
-										symbol: network.symbol.toLowerCase(),
+										name: network.name,
+										symbol: network.currency,
 										decimals: 18,
 									},
 									rpcUrls: [DEFAULT_RPC[network.symbol]],
