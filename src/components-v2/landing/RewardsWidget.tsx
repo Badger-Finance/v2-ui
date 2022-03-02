@@ -13,15 +13,11 @@ import RewardsDialog from '../common/dialogs/RewardsDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		rewards: {
-			color: '#F2BC1B',
-		},
-		rewardsButton: {
-			borderColor: '#F2BC1B',
-		},
-		rewardsIcon: { marginRight: theme.spacing(1) },
 		button: {
 			height: 36,
+		},
+		label: {
+			fontWeight: 'inherit',
 		},
 		loadingRewardsButton: {
 			minWidth: 37,
@@ -71,13 +67,12 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		return (
 			<>
 				<Button
+					startIcon={<img src="/assets/icons/rewards-spark.svg" alt="rewards icon" />}
 					aria-label="open rewards dialog"
-					classes={{ outlined: classes.rewardsButton }}
-					className={clsx(classes.rewards, classes.button)}
+					color="primary"
 					variant="outlined"
 					onClick={() => setOpen(true)}
 				>
-					<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
 					<CurrencyDisplay
 						displayValue={inCurrency(new BigNumber(0), currency)}
 						variant="body2"
@@ -93,9 +88,9 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		return (
 			<>
 				<Button
-					disabled
 					variant="outlined"
-					className={clsx(classes.rewards, classes.button, classes.loadingRewardsButton)}
+					color="primary"
+					className={clsx(classes.button, classes.loadingRewardsButton)}
 				>
 					<Loader size={15} />
 				</Button>
@@ -109,17 +104,17 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 	return (
 		<>
 			<Button
+				startIcon={<img src="/assets/icons/rewards-spark.svg" alt="rewards icon" />}
 				aria-label="open rewards dialog"
-				classes={{ outlined: classes.rewardsButton }}
-				className={clsx(classes.rewards, classes.button)}
+				color="primary"
 				variant="outlined"
 				onClick={() => setOpen(true)}
 			>
-				<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
 				<CurrencyDisplay
 					displayValue={inCurrency(totalRewardsValue, currency, widgetButtonDecimals)}
 					variant="body2"
 					justifyContent="center"
+					TypographyProps={{ className: classes.label }}
 				/>
 			</Button>
 			<RewardsDialog open={open} onClose={() => setOpen(false)} claimableRewards={claimableRewards} />

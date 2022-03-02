@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	networkButton: {
 		minWidth: 37,
 		textAlign: 'center',
+		padding: 0,
 	},
 	loadingGas: {
 		textAlign: 'center',
@@ -157,6 +158,7 @@ const NetworkGasWidget = (): JSX.Element => {
 				classes={{ outlined: isDialogOpen ? classes.selectedOption : undefined }}
 				className={classes.networkButton}
 				variant="outlined"
+				color="primary"
 				onClick={toggleDialog}
 			>
 				<img
