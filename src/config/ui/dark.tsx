@@ -88,7 +88,6 @@ const theme = createTheme({
 				color: '#F2A52B',
 			},
 		},
-		MuiIcon: {},
 		MuiDrawer: {
 			paper: {
 				background: '#121212',
