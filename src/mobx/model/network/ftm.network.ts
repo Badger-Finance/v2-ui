@@ -11,7 +11,7 @@ import { Network } from '@badger-dao/sdk';
 export class Fantom extends NetworkModel {
 	constructor() {
 		super(
-			'https://ftmscam.io/',
+			'https://ftmscan.com',
 			'https://ftmscan.com/gastracker',
 			'Fantom',
 			Network.Fantom,
@@ -43,6 +43,26 @@ export const ftmVaults: BadgerVault[] = [
 		},
 		vaultToken: {
 			address: FTM_DEPLOY.sett_system.vaults['native.wbtc-renbtc'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.wftm-sex'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.wftm-sex'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.solid-solidsex'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.solid-solidsex'],
 			decimals: 18,
 		},
 	},

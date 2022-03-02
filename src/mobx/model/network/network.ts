@@ -93,7 +93,7 @@ export abstract class Network {
 	}
 
 	getBalancesRequests(vaults: VaultMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
-		const tokenAddresses = Object.values(vaults).map((vault) => vault.underlyingToken);
+		let tokenAddresses = Object.values(vaults).map((vault) => vault.underlyingToken);
 		const vaultAddresses = Object.values(vaults).map((vault) => vault.vaultToken);
 		const generalVaultAddresses = vaultAddresses.filter((vault) => vaults[vault].state === VaultState.Open);
 		const guardedVaultAddresses = vaultAddresses.filter(
@@ -102,14 +102,14 @@ export abstract class Network {
 		const deprecatedVaultAddresses = vaultAddresses.filter(
 			(vault) => vaults[vault].state === VaultState.Deprecated,
 		);
-		const allContracts = new Set(
-			...[...tokenAddresses, ...vaultAddresses, ...generalVaultAddresses, ...guardedVaultAddresses],
-		);
-		for (const token of Object.keys(tokens)) {
-			if (!allContracts.has(token)) {
+		const allVaults = new Set([...generalVaultAddresses, ...guardedVaultAddresses, ...deprecatedVaultAddresses]);
+		for (const token of Object.keys(tokens).filter((t) => !tokenAddresses.includes(t))) {
+			if (!allVaults.has(token)) {
 				tokenAddresses.push(token);
 			}
 		}
+		// remove duplicate requests to cut down on calls
+		tokenAddresses = tokenAddresses.filter((t) => !allVaults.has(t));
 		return createBalancesRequest({
 			tokenAddresses,
 			generalVaultAddresses,

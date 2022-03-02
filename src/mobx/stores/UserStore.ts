@@ -23,6 +23,7 @@ import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
 import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../../graphql/generated/badger';
 import { ExploitApproval } from '../model/account/exploit-approval';
+import { DEBUG } from '../../config/environment';
 
 export default class UserStore {
 	private store: RootStore;
@@ -243,13 +244,29 @@ export default class UserStore {
 				queryAddress,
 			);
 
-			const multicall = new Multicall({
-				web3Instance: new Web3(wallet.provider),
-				tryAggregate: true,
-				multicallCustomContractAddress: multicallContractAddress,
-			});
+			let multicall;
+			let multicallResults;
+			try {
+				multicall = new Multicall({
+					web3Instance: new Web3(wallet.provider),
+					tryAggregate: true,
+					multicallCustomContractAddress: multicallContractAddress,
+				});
+				multicallResults = await multicall.call(multicallRequests);
+			} catch (err) {
+				if (DEBUG) {
+					console.error({
+						err,
+						message: `This error may be because MulticallV2 is not defined for ${network.name}.`,
+					});
+				}
+				multicall = new Multicall({
+					web3Instance: new Web3(wallet.provider),
+					multicallCustomContractAddress: multicallContractAddress,
+				});
+				multicallResults = await multicall.call(multicallRequests);
+			}
 
-			const multicallResults = await multicall.call(multicallRequests);
 			const requestResults = extractBalanceRequestResults(multicallResults);
 			const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
 			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedVaults);

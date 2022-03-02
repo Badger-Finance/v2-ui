@@ -1,8 +1,6 @@
 import React from 'react';
 import { createTheme } from '@material-ui/core';
 
-const buttonPadding = '11px 13px';
-
 const theme = createTheme({
 	props: {
 		MuiCheckbox: {
@@ -25,7 +23,7 @@ const theme = createTheme({
 	},
 	palette: {
 		type: 'dark',
-		primary: { main: '#F2BC1B' },
+		primary: { main: '#FFB84D' },
 		secondary: { main: '#121212' },
 		background: {
 			default: '#181818',
@@ -61,10 +59,27 @@ const theme = createTheme({
 		borderRadius: 8,
 	},
 	overrides: {
+		MuiTabs: {
+			indicator: {
+				height: 2,
+			},
+		},
+		MuiTab: {
+			root: {
+				'&:not(selected)': {
+					color: '#8a8a8a',
+				},
+			},
+			wrapper: {
+				fontSize: 15,
+				fontWeight: 700,
+				textTransform: 'uppercase',
+			},
+		},
 		MuiTooltip: {
 			tooltip: {
 				fontSize: '.95rem',
-				backgroundColor: '#F2BC1B',
+				backgroundColor: '#FFB84D',
 				color: '#181818',
 				fontWeight: 600,
 				padding: '.5rem .8rem',
@@ -73,18 +88,6 @@ const theme = createTheme({
 				color: '#F2A52B',
 			},
 		},
-		MuiListItemIcon: {
-			root: {
-				minWidth: '2.2rem',
-				fontSize: '1rem',
-			},
-		},
-		MuiListItemText: {
-			primary: {
-				fontSize: 'inherit',
-			},
-		},
-		MuiIcon: {},
 		MuiDrawer: {
 			paper: {
 				background: '#121212',
@@ -99,8 +102,47 @@ const theme = createTheme({
 			},
 		},
 		MuiButton: {
+			root: {
+				borderRadius: 10,
+				padding: '8px 20px',
+			},
+			outlined: {
+				padding: '8px 20px',
+			},
+			text: {
+				'& .MuiButton-startIcon': {
+					marginRight: 5,
+				},
+				'& .MuiButton-endIcon': {
+					marginLeft: 5,
+				},
+			},
 			label: {
-				fontWeight: 800,
+				textTransform: 'uppercase',
+				fontSize: 15,
+				fontWeight: 700,
+			},
+			containedPrimary: {
+				'&:hover': {
+					background: 'linear-gradient(0deg, rgba(18, 18, 18, 0.3), rgba(18, 18, 18, 0.3)), #FFB84D',
+					boxShadow:
+						'1px 1px 10px 5px rgba(0, 0, 0, 0.2), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12)',
+				},
+				'&:disabled': {
+					color: 'rgba(255, 255, 255, 0.37)',
+					background: 'rgba(255, 255, 255, 0.15)',
+				},
+			},
+			outlinedPrimary: {
+				border: '1px solid #FFB84D',
+				'&:hover': {
+					background: 'rgba(255, 184, 77, 0.1)',
+					border: '1px solid rgba(255, 184, 77, 0.5)',
+				},
+				'&:disabled': {
+					color: 'rgba(255, 255, 255, 0.37)',
+					border: '1px solid rgba(255, 255, 255, 0.15)',
+				},
 			},
 		},
 		MuiBackdrop: {
@@ -132,39 +174,4 @@ const theme = createTheme({
 	},
 });
 
-export const darkTheme = createTheme({
-	...theme,
-	overrides: {
-		...(theme.overrides ?? {}),
-		MuiButton: {
-			...(theme.overrides?.MuiButton ?? {}),
-			root: {
-				fontSize: 14,
-				textTransform: 'capitalize',
-				borderRadius: 10,
-				height: 50,
-				[theme.breakpoints.down('xs')]: {
-					padding: buttonPadding,
-				},
-			},
-			outlined: {
-				borderRadius: 10,
-				[theme.breakpoints.down('xs')]: {
-					padding: buttonPadding,
-				},
-			},
-			contained: {
-				borderRadius: 10,
-				[theme.breakpoints.down('xs')]: {
-					padding: buttonPadding,
-				},
-			},
-			text: {
-				borderRadius: 10,
-				[theme.breakpoints.down('xs')]: {
-					padding: buttonPadding,
-				},
-			},
-		},
-	},
-});
+export const darkTheme = createTheme(theme);
