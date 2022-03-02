@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Multicall utils getChainMulticallContract multicall contract for "arbitrum" 1`] = `"0x80C7DD17B01855a6D2347444a0FCC36136a314de"`;
+
+exports[`Multicall utils getChainMulticallContract multicall contract for "avalanche" 1`] = `"0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4"`;
+
+exports[`Multicall utils getChainMulticallContract multicall contract for "binance-smart-chain" 1`] = `"0xC50F4c1E81c873B2204D7eFf7069Ffec6Fbe136D"`;
+
+exports[`Multicall utils getChainMulticallContract multicall contract for "ethereum" 1`] = `"0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696"`;
+
+exports[`Multicall utils getChainMulticallContract multicall contract for "fantom" 1`] = `"0xd98e3dbe5950ca8ce5a4b59630a5652110403e5c"`;
+
+exports[`Multicall utils getChainMulticallContract multicall contract for "polygon" 1`] = `"0x275617327c958bD06b5D6b871E7f491D76113dd8"`;
+
+exports[`Multicall utils getChainMulticallContract multicall contract for "xdai" 1`] = `"0x2325b72990D81892E0e09cdE5C80DD221F147F8B"`;
