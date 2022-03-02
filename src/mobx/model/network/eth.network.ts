@@ -427,6 +427,10 @@ export const ethRewards = [
 		address: ETH_DEPLOY.tokens['remdigg'],
 		decimals: 18,
 	},
+	{
+		address: ETH_DEPLOY.tokens['mta'],
+		decimals: 18,
+	},
 ];
 
 const ethTokens = ethVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]).concat(ethRewards);
