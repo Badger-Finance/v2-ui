@@ -5,111 +5,7 @@ import { VaultItemApr } from '../../components-v2/landing/VaultItemApr';
 import { customRender, fireEvent, screen } from '../Utils';
 import store from '../../mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-
-const boostedVault: Vault = {
-	available: 0,
-	name: 'ibBTC / crvsBTC LP',
-	asset: 'crvibBTC',
-	vaultAsset: 'bcrvibBTC',
-	state: VaultState.Open,
-	underlyingToken: '0xFbdCA68601f835b27790D98bbb8eC7f05FDEaA9B',
-	vaultToken: '0xaE96fF08771a109dc6650a1BdCa62F2d558E40af',
-	value: 41931.75180585348,
-	balance: 3178.06787828893,
-	protocol: Protocol.Convex,
-	pricePerFullShare: 1,
-	tokens: [
-		{
-			value: 20094.268952577364,
-			address: '0x8751D4196027d4e6DA63716fA7786B5174F04C15',
-			name: 'wibBTC',
-			symbol: 'wibBTC',
-			decimals: 18,
-			balance: 1498.3866834755574,
-		},
-		{
-			value: 21837.482853276113,
-			address: '0x000000000000000000000000000000000000000175b1bb99792c9E1041bA13afEf80C91a1e70fB3',
-			name: 'Curve.fi renBTC/wBTC/sBTC',
-			symbol: 'crvsBTC',
-			decimals: 18,
-			balance: 1666.1554813267362,
-		},
-	],
-	apr: 19.16862206903562,
-	boost: {
-		enabled: true,
-		weight: 10000,
-	},
-	minApr: 9.461123356709754,
-	maxApr: 61.652732126597286,
-	sources: [
-		{
-			name: 'Curve LP Fees',
-			apr: 0.05773875239807311,
-			boostable: false,
-			harvestable: false,
-			performance: {
-				oneDay: 0.05773875239807311,
-				threeDay: 0.05773875239807311,
-				sevenDay: 0.05773875239807311,
-				thirtyDay: 0.05773875239807311,
-			},
-			minApr: 0.05773875239807311,
-			maxApr: 0.05773875239807311,
-		},
-		{
-			name: 'bCVXCRV Rewards',
-			apr: 3.6637832355582183,
-			boostable: false,
-			harvestable: false,
-			performance: {
-				oneDay: 3.6637832355582183,
-				threeDay: 3.6637832355582183,
-				sevenDay: 3.6637832355582183,
-				thirtyDay: 3.6637832355582183,
-			},
-			minApr: 3.6637832355582183,
-			maxApr: 3.6637832355582183,
-		},
-		{
-			name: 'Boosted Badger Rewards',
-			apr: 9.733607571140217,
-			boostable: true,
-			harvestable: false,
-			performance: {
-				oneDay: 9.733607571140217,
-				threeDay: 9.733607571140217,
-				sevenDay: 9.733607571140217,
-				thirtyDay: 9.733607571140217,
-			},
-			minApr: 0.02610885881435094,
-			maxApr: 52.217717628701884,
-		},
-		{
-			name: 'bveCVX Rewards',
-			apr: 5.713492509939111,
-			boostable: false,
-			harvestable: false,
-			performance: {
-				oneDay: 5.713492509939111,
-				threeDay: 5.713492509939111,
-				sevenDay: 5.713492509939111,
-				thirtyDay: 5.713492509939111,
-			},
-			minApr: 5.713492509939111,
-			maxApr: 5.713492509939111,
-		},
-	],
-	bouncer: BouncerType.None,
-	strategy: {
-		address: '0x6D4BA00Fd7BB73b5aa5b3D6180c6f1B0c89f70D1',
-		withdrawFee: 10,
-		performanceFee: 2000,
-		strategistFee: 0,
-	},
-	type: VaultType.Boosted,
-};
+import { SAMPLE_VAULT } from 'tests/utils/samples';
 
 const normalVault: Vault = {
 	available: 0,
@@ -134,11 +30,28 @@ const normalVault: Vault = {
 		},
 	],
 	apr: 8.174287821972374,
+	apy: 8.174287821972374,
 	boost: {
 		enabled: false,
 		weight: 0,
 	},
 	sources: [
+		{
+			name: 'Vault Compounding',
+			apr: 8.174287821972374,
+			boostable: false,
+			harvestable: false,
+			performance: {
+				oneDay: 0,
+				threeDay: 2.5464786033167146e-7,
+				sevenDay: 3.344828765174996e-7,
+				thirtyDay: 8.174287821972374,
+			},
+			minApr: 8.174287821972374,
+			maxApr: 8.174287821972374,
+		},
+	],
+	sourcesApy: [
 		{
 			name: 'Vault Compounding',
 			apr: 8.174287821972374,
@@ -180,19 +93,19 @@ describe('VaultItemApr', () => {
 		const mockUserBoost = 10;
 
 		it('displays correct APR and boost information', () => {
-			checkSnapshot(<VaultItemApr vault={boostedVault} boost={mockUserBoost} multiplier={sampleMultiplier} />);
+			checkSnapshot(<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} multiplier={sampleMultiplier} />);
 		});
 
 		it('displays APR breakdown on hover', async () => {
 			jest.useFakeTimers();
 			const { container } = customRender(
 				<StoreProvider value={store}>
-					<VaultItemApr vault={boostedVault} boost={mockUserBoost} multiplier={sampleMultiplier} />
+					<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} multiplier={sampleMultiplier} />
 				</StoreProvider>,
 			);
 
 			fireEvent.mouseOver(screen.getByText(`${mockUserBoost.toFixed(2)}%`));
-			await screen.findByText(boostedVault.sources[0].name, { exact: false });
+			await screen.findByText(SAMPLE_VAULT.sourcesApy[0].name, { exact: false });
 			jest.runAllTimers();
 			expect(container).toMatchSnapshot();
 		});
