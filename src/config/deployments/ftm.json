@@ -16,8 +16,8 @@
 			"native.wbtc-renbtc": "0x7637eFAa11d29a5b34e717ab447833bF143f2383",
 			"native.wftm-sex": "0x7cc6049a125388B51c530e51727A87aE101f6417",
 			"native.solid-solidsex": "0xC7cBF5a24caBA375C09cc824481F5508c644dF28",
-			"native.weve-usdc": "0x3BA15548226aA045aD6fe9DC9Bec1f0891532D60",
-			"native.oxd-usdc": "0xd9770deC6fdA576450e66f0c441B6b8755F7184A"
+			"native.weve-usdc": "0xd9770deC6fdA576450e66f0c441B6b8755F7184A",
+			"native.oxd-usdc": "0x3BA15548226aA045aD6fe9DC9Bec1f0891532D60"
 		},
 		"strategies": {
 			"native.boo-xboo": "0x60129B2b762952Dfe8b21f40ee8aa3B2A4623546",
