@@ -7,13 +7,4 @@ module.exports = {
 		'@storybook/preset-create-react-app',
 	],
 	framework: '@storybook/react',
-	typescript: {
-		reactDocgen: 'react-docgen-typescript',
-		reactDocgenTypescriptOptions: {
-			compilerOptions: {
-				allowSyntheticDefaultImports: false,
-				esModuleInterop: false,
-			},
-		},
-	},
 };
