@@ -9,6 +9,7 @@ import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
 import { Box, Link, Typography } from '@material-ui/core';
+import Governance from 'components/Governance';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -69,6 +70,10 @@ const routes = {
 			store.vaultDetail.reset();
 		},
 	}),
+	governance: new Route<RootStore, QueryParams>({
+		path: '/governance',
+		component: <Governance />
+	})
 };
 
 export default routes;
