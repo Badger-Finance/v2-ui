@@ -100,7 +100,7 @@ describe('ibBTC Mint', () => {
 		);
 
 		fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
-		await screen.findByRole('heading', { level: 1, name: '11.988000' });
+		await screen.findByRole('heading', { level: 3, name: '11.988000' });
 
 		expect(container).toMatchSnapshot();
 	});
