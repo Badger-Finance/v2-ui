@@ -5,7 +5,8 @@
 		"solidly.boo-xboo": "0x5804f6c40f44cf7593f73cf3aa16f7037213a623",
 		"solidly.wbtc-renbtc": "0x6058345a4d8b89ddac7042be08091f91a404b80b",
 		"solidly.wftm-sex": "0xFCEC86aF8774d69e2e4412B8De3f4aBf1f671ecC",
-		"solidly.solid-solidsex": "0x62E2819Dd417F3b430B6fa5Fd34a49A377A02ac8"
+		"solidly.solid-solidsex": "0x62E2819Dd417F3b430B6fa5Fd34a49A377A02ac8",
+		"solidly.weve-usdc": "0xD9A4108CBB40a12dE16dFFDc54aE5065878816d7"
 	},
 	"geysers": {},
 	"sett_system": {
@@ -13,13 +14,15 @@
 			"native.boo-xboo": "0x7dD26f47e1C8a060EDC1999D8781dDE90A4C33A9",
 			"native.wbtc-renbtc": "0x7637eFAa11d29a5b34e717ab447833bF143f2383",
 			"native.wftm-sex": "0x7cc6049a125388B51c530e51727A87aE101f6417",
-			"native.solid-solidsex": "0xC7cBF5a24caBA375C09cc824481F5508c644dF28"
+			"native.solid-solidsex": "0xC7cBF5a24caBA375C09cc824481F5508c644dF28",
+			"native.weve-usdc": "0xd9770deC6fdA576450e66f0c441B6b8755F7184A"
 		},
 		"strategies": {
 			"native.boo-xboo": "0x60129B2b762952Dfe8b21f40ee8aa3B2A4623546",
 			"native.wbtc-renbtc": "0xc645D9ab319E442b31e22ECf9E48f3D5913B8a01",
 			"native.wftm-sex": "0x99f4db590ee266011631985589AEde1EBbDDc137",
-			"native.solid-solidsex": "0x7AfB2E386b7990507009f81B3c486c8C596501a4"
+			"native.solid-solidsex": "0x7AfB2E386b7990507009f81B3c486c8C596501a4",
+			"native.weve-usdc": "0xd6479e4477a41EadB0fc0DAB31a992efc7EFdAcd"
 		}
 	},
 	"badgerTree": "0x89122c767a5f543e663db536b603123225bc3823"
