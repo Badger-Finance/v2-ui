@@ -61,7 +61,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 				[fantomDeploy.sett_system.vaults['native.weve-usdc']]: {
 					address: fantomDeploy.sett_system.strategies['native.weve-usdc'],
 					fees: {
-						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1500),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
