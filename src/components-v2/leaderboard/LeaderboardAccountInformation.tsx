@@ -44,10 +44,10 @@ const LeaderboardAccountInformation = observer((): JSX.Element => {
 		<Grid container>
 			<Grid item container alignItems="center" xs={12} sm className={classes.boostContainer}>
 				<Grid container item xs={12} alignItems="center" className={classes.justifyCenterOnMobile}>
-					<Typography variant="h2" display="inline">
+					<Typography variant="h4" display="inline">
 						Boost:
 					</Typography>
-					<Typography variant="h2" display="inline" className={classes.headerValueText}>
+					<Typography variant="h4" display="inline" className={classes.headerValueText}>
 						{boost !== undefined ? `${boost}x` : infoPlaceholder}
 					</Typography>
 				</Grid>

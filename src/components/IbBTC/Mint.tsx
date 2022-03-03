@@ -282,7 +282,7 @@ export const Mint = observer((): JSX.Element => {
 				</Grid>
 				<OutputContentGrid container item xs={12}>
 					<Grid item xs={12} sm={9} md={12} lg={10}>
-						<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
+						<OutputAmountText variant="h3">{outputAmount || '0.000'}</OutputAmountText>
 					</Grid>
 					<OutputTokenGrid item container xs={12} sm={3} md={12} lg={2}>
 						<OptionToken token={ibBTC.token} />
