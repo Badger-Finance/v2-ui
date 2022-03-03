@@ -124,7 +124,7 @@ export const SAMPLE_VAULT: Vault = {
 	vaultToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 };
 
-export const SAMPLE_SETT_BALANCE: VaultData = {
+export const SAMPLE_VAULT_BALANCE: VaultData = {
 	address: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 	name: 'Convex renBTC/wBTC/sBTC',
 	symbol: 'crvsBTC',

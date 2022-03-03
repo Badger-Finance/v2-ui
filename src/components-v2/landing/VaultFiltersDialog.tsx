@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		paddingTop: theme.spacing(1),
 		paddingBottom: theme.spacing(1),
-	}
+	},
 }));
 
 interface Props {
@@ -311,7 +311,13 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 						{allVaults && (
 							<FormGroup className={classes.protocolSelection}>
 								<Grid container spacing={2}>
-									{[...new Set(allVaults.filter((v) => v.state !== VaultState.Deprecated).map((vault) => vault.protocol))].map((protocol, index) => (
+									{[
+										...new Set(
+											allVaults
+												.filter((v) => v.state !== VaultState.Deprecated)
+												.map((vault) => vault.protocol),
+										),
+									].map((protocol, index) => (
 										<Grid item xs={6} sm={4} key={`${protocol}_${index}`}>
 											<FormControlLabel
 												control={

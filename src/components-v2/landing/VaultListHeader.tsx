@@ -234,7 +234,9 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 								{showAPR ? 'APR' : 'APY'}
 							</Typography>
 							<Tooltip
-								title={`An annual percentage ${showAPR ? 'rate (APR)' : 'yield (APY)'}, is the yearly rate earned by depositing in each vault.`}
+								title={`An annual percentage ${
+									showAPR ? 'rate (APR)' : 'yield (APY)'
+								}, is the yearly rate earned by depositing in each vault.`}
 								placement="top"
 								arrow
 								color="primary"

@@ -55,7 +55,11 @@ export class RootStore {
 
 	constructor() {
 		// this is passed as a dummy rpc - it will never be used unless required by an rpc wallet, e.g.: wallet connect
-		this.sdk = new BadgerSDK({network: defaultNetwork.id, provider: rpc[defaultNetwork.symbol], baseURL: BADGER_API});
+		this.sdk = new BadgerSDK({
+			network: defaultNetwork.id,
+			provider: rpc[defaultNetwork.symbol],
+			baseURL: BADGER_API,
+		});
 		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
 		this.onboard = new OnboardStore(this, config);
@@ -89,7 +93,7 @@ export class RootStore {
 		}
 
 		this.uiState.setCurrency(Currency.USD);
-		this.sdk = new BadgerSDK({network, provider: rpc[appNetwork.symbol], baseURL: BADGER_API});
+		this.sdk = new BadgerSDK({ network, provider: rpc[appNetwork.symbol], baseURL: BADGER_API });
 		this.rewards.resetRewards();
 
 		if (FLAGS.SDK_INTEGRATION_ENABLED) {
@@ -121,7 +125,7 @@ export class RootStore {
 		const signer = provider.getSigner();
 
 		if (FLAGS.SDK_USE_WALLET_PROVIDER) {
-			this.sdk = new BadgerSDK({network: network.id, provider, baseURL: BADGER_API});
+			this.sdk = new BadgerSDK({ network: network.id, provider, baseURL: BADGER_API });
 		}
 
 		if (signer && address) {
