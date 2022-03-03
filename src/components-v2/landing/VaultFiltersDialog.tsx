@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Protocol, VaultType } from '@badger-dao/sdk/lib/api/enums';
 import {
 	Button,
 	Checkbox,
@@ -24,6 +23,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { Currency } from '../../config/enums/currency.enum';
 import clsx from 'clsx';
 import { limitVaultType, useFormatExampleList } from '../../utils/componentHelpers';
+import { Protocol, VaultState, VaultType } from '@badger-dao/sdk';
 
 const StyledSwitch = withStyles((theme) => ({
 	root: {
@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(3, 0),
 	},
 	actionButtons: {
+		alignItems: 'center',
 		justifyContent: 'flex-end',
 		marginTop: theme.spacing(3),
 		[theme.breakpoints.down('xs')]: {
@@ -125,6 +126,12 @@ const useStyles = makeStyles((theme) => ({
 	checkboxRoot: {
 		paddingTop: 6,
 	},
+	toggleContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		paddingTop: theme.spacing(1),
+		paddingBottom: theme.spacing(1),
+	},
 }));
 
 interface Props {
@@ -136,6 +143,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 	const { uiState, vaults, user } = useContext(StoreContext);
 	const classes = useStyles();
 	const [hidePortfolioDust, setHidePortfolioDust] = useState(vaults.vaultsFilters.hidePortfolioDust);
+	const [showAPR, setShowAPR] = useState(vaults.vaultsFilters.showAPR);
 	const [currency, setCurrency] = useState(vaults.vaultsFilters.currency || uiState.currency);
 	const [protocols, setProtocols] = useState(vaults.vaultsFilters.protocols);
 	const [types, setTypes] = useState(vaults.vaultsFilters.types);
@@ -176,15 +184,18 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 			protocols,
 			types,
 			hidePortfolioDust,
+			showAPR,
 		};
 		onClose();
 	};
 
 	const handleClearAll = () => {
 		setHidePortfolioDust(false);
+		setShowAPR(false);
 		setCurrency(vaults.vaultsFilters.currency || uiState.currency);
 		setProtocols([]);
 		setTypes([]);
+		onClose();
 	};
 
 	const handleClose = () => {
@@ -198,6 +209,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 
 	useEffect(() => {
 		setHidePortfolioDust(vaults.vaultsFilters.hidePortfolioDust);
+		setShowAPR(vaults.vaultsFilters.showAPR);
 		setProtocols(vaults.vaultsFilters.protocols);
 		setCurrency(vaults.vaultsFilters.currency);
 		setTypes(vaults.vaultsFilters.types);
@@ -215,7 +227,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 			</DialogTitle>
 			<DialogContent className={classes.content}>
 				<Grid container>
-					<Grid item container>
+					<Grid item container className={classes.toggleContainer}>
 						<Grid item xs={9}>
 							<Typography variant="h6" className={classes.titleText}>
 								Portfolio Dust
@@ -232,6 +244,26 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 								onClick={() => setHidePortfolioDust(!hidePortfolioDust)}
 							>
 								<Typography variant="srOnly">hide portfolio dust</Typography>
+							</StyledSwitch>
+						</Grid>
+					</Grid>
+					<Grid item container className={classes.toggleContainer}>
+						<Grid item xs={9}>
+							<Typography variant="h6" className={classes.titleText}>
+								Performance Display
+							</Typography>
+							<Typography variant="body1" className={classes.caption}>
+								Show vault performance as APR
+							</Typography>
+						</Grid>
+						<Grid item xs={3} container className={classes.switchContainer}>
+							<StyledSwitch
+								name="display apr"
+								aria-label="display apr"
+								checked={showAPR}
+								onClick={() => setShowAPR(!showAPR)}
+							>
+								<Typography variant="srOnly">show performance as apr</Typography>
 							</StyledSwitch>
 						</Grid>
 					</Grid>
@@ -279,7 +311,13 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 						{allVaults && (
 							<FormGroup className={classes.protocolSelection}>
 								<Grid container spacing={2}>
-									{[...new Set(allVaults.map((vault) => vault.protocol))].map((protocol, index) => (
+									{[
+										...new Set(
+											allVaults
+												.filter((v) => v.state !== VaultState.Deprecated)
+												.map((vault) => vault.protocol),
+										),
+									].map((protocol, index) => (
 										<Grid item xs={6} sm={4} key={`${protocol}_${index}`}>
 											<FormControlLabel
 												control={

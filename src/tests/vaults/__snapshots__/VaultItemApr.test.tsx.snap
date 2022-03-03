@@ -3,14 +3,14 @@
 exports[`VaultItemApr Boosted Vaults displays APR breakdown on hover 1`] = `
 <div>
   <p
-    aria-describedby="ibBTC / crvsBTC LP apr breakdown"
+    aria-describedby="Curve.fi renBTC/wBTC/sBTC apr breakdown"
     class="MuiTypography-root-14 makeStyles-apr-1 MuiTypography-body1-16 MuiTypography-colorTextPrimary-39"
   >
     10.00%
   </p>
   <div
     class="MuiTooltip-popper-3 MuiTooltip-popperArrow-5"
-    id="ibBTC / crvsBTC LP apr breakdown"
+    id="Curve.fi renBTC/wBTC/sBTC apr breakdown"
     role="tooltip"
     style="position: absolute; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
     x-placement="left"
@@ -20,16 +20,10 @@ exports[`VaultItemApr Boosted Vaults displays APR breakdown on hover 1`] = `
       style="opacity: 1; transform: none; transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div>
-        0.06% Curve LP Fees
+        0.00% Vault Compounding
       </div>
       <div>
-        3.66% bCVXCRV Rewards
-      </div>
-      <div>
-        0.20% Boosted Badger Rewards
-      </div>
-      <div>
-        5.71% bveCVX Rewards
+        0.00% Curve LP Fees
       </div>
       <span
         class="MuiTooltip-arrow-8"

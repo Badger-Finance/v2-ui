@@ -5,23 +5,14 @@ import { extendObservable } from 'mobx';
 import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
 import { Network as BadgerNetwork } from '../../mobx/model/network/network';
 import { RootStore } from 'mobx/RootStore';
-import { getApi } from 'mobx/utils/apiV2';
-
-type BadgerApis = { [network: string]: BadgerAPI };
 
 class GasPricesStore {
-	private apis: BadgerApis;
 	private gasNetworks: BadgerNetwork[];
 	private pricesCache: GasPricesSummary;
 
 	constructor(private store: RootStore) {
 		this.gasNetworks = supportedNetworks.filter((network) => network.id !== NETWORK_IDS.LOCAL);
 		this.pricesCache = {};
-		this.apis = Object.fromEntries(
-			this.gasNetworks.map((network) => {
-				return [network.symbol, new BadgerAPI(network.id, getApi())];
-			}),
-		);
 
 		extendObservable(this, {
 			pricesCache: this.pricesCache,
@@ -45,7 +36,7 @@ class GasPricesStore {
 		const pricesCache: GasPricesSummary = {};
 
 		const networkPrices = await Promise.all(
-			this.gasNetworks.map((network) => this.apis[network.symbol].loadGasPrices()),
+			this.gasNetworks.map((network) => this.store.sdk.api.loadGasPrices(network.symbol)),
 		);
 
 		for (let i = 0; i < networkPrices.length; i++) {
