@@ -471,9 +471,7 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
                     >
                       <h6
                         class="MuiTypography-root-40 MuiTypography-subtitle2-52"
-                      >
-                        Test Token
-                      </h6>
+                      />
                     </div>
                     <div
                       class="MuiGrid-root-175 MuiGrid-container-176 MuiGrid-item-177 MuiGrid-direction-xs-column-reverse-180 MuiGrid-grid-xs-true-209"
@@ -532,7 +530,7 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
                         class="MuiTypography-root-40 MuiTypography-subtitle2-52"
                       >
                         All other tokens (e.g. 
-                        Test Token
+                        Test Token, Test Token
                         ...)
                       </h6>
                     </div>

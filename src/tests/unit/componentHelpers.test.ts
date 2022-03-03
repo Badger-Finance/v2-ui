@@ -8,33 +8,8 @@ import { Ethereum } from '../../mobx/model/network/eth.network';
 import { BinanceSmartChain } from '../../mobx/model/network/bsc.network';
 import { Arbitrum } from '../../mobx/model/network/arbitrum.network';
 import { Polygon } from '../../mobx/model/network/matic.network';
-import { Vault } from '@badger-dao/sdk';
-import { BouncerType, Protocol, VaultState, VaultType } from '@badger-dao/sdk/lib/api/enums';
-
-const mockVault: Vault = {
-	name: 'Mock Vault',
-	value: 100000,
-	balance: 1000,
-	asset: 'mock',
-	vaultAsset: 'mock',
-	boost: { enabled: false, weight: 0 },
-	bouncer: BouncerType.None,
-	apr: 10,
-	pricePerFullShare: 1,
-	protocol: Protocol.Badger,
-	sources: [],
-	state: VaultState.Experimental,
-	tokens: [],
-	underlyingToken: 'mock',
-	vaultToken: 'mock',
-	strategy: {
-		address: '0x',
-		withdrawFee: 0,
-		performanceFee: 0,
-		strategistFee: 0,
-	},
-	type: VaultType.Native,
-};
+import { SAMPLE_VAULT } from 'tests/utils/samples';
+import { VaultState } from '@badger-dao/sdk';
 
 describe('Component Helpers', () => {
 	describe('restrictToRange', () => {
@@ -71,14 +46,14 @@ describe('Component Helpers', () => {
 
 	describe('getUserVaultBoost', () => {
 		test.each([
-			['with no boosted vault', 0, null, mockVault],
-			['with deprecated vault', 0, null, { ...mockVault, state: VaultState.Deprecated }],
+			['with no boosted vault', 0, null, SAMPLE_VAULT],
+			['with deprecated vault', 0, null, { ...SAMPLE_VAULT, state: VaultState.Deprecated }],
 			[
 				'with boosted vault',
 				0.029492343980964595,
 				9.990709795536123,
 				{
-					...mockVault,
+					...SAMPLE_VAULT,
 					minApr: 9.989946327010259,
 					boost: { enabled: true, weight: 1 },
 					sources: [

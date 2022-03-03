@@ -62,6 +62,7 @@ export default class VaultStore {
 		this.showVaultFilters = false;
 		this.vaultsFilters = {
 			hidePortfolioDust: false,
+			showAPR: false,
 			currency: store.uiState.currency,
 			protocols: [],
 			types: [],
@@ -416,7 +417,8 @@ export default class VaultStore {
 
 	clearFilters = action(() => {
 		this.vaultsFilters = {
-			hidePortfolioDust: false,
+			hidePortfolioDust: this.vaultsFilters.hidePortfolioDust,
+			showAPR: this.vaultsFilters.showAPR,
 			currency: this.store.uiState.currency,
 			protocols: [],
 			types: [],

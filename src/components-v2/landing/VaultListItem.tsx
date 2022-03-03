@@ -147,14 +147,15 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	const { user, network, router, onboard, vaults } = useContext(StoreContext);
 	const [openDepositDialog, setOpenDepositDialog] = useState(false);
 	const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
+	const { showAPR } = vaults.vaultsFilters;
 
 	const goToVaultDetail = async () => {
 		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
 	};
 
 	const badgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === vault.vaultToken);
-	const vaultBoost = user.accountDetails?.boost ? getUserVaultBoost(vault, user.accountDetails.boost) : null;
-	const boostContribution = vaultBoost && vault.minApr ? Math.max(0, vaultBoost - vault.minApr) : null;
+	const vaultBoost = user.accountDetails?.boost ? getUserVaultBoost(vault, user.accountDetails.boost, showAPR) : null;
+	const boostContribution = vaultBoost && vault.minApy && vault.minApr ? Math.max(0, vaultBoost - (showAPR ? vault.minApr : vault.minApy)) : null;
 
 	const multiplier =
 		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;

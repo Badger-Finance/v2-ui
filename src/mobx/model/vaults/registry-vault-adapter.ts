@@ -22,11 +22,15 @@ export class RegistryVaultAdapter implements Vault {
 	boost: BoostConfig;
 	bouncer: BouncerType;
 	apr: number;
+	apy: number;
 	minApr?: number;
 	maxApr?: number;
+	minApy?: number;
+	maxApy?: number;
 	pricePerFullShare: number;
 	protocol: Protocol;
 	sources: ValueSource[];
+	sourcesApy: ValueSource[];
 	state: VaultState;
 	tokens: TokenBalance[];
 	underlyingToken: string;
@@ -50,9 +54,11 @@ export class RegistryVaultAdapter implements Vault {
 		this.protocol = Protocol.Badger;
 		this.tokens = [];
 		this.sources = [];
+		this.sourcesApy = [];
 		this.type = VaultType.Native;
 		this.bouncer = BouncerType.None;
 		this.apr = 0;
+		this.apy = 0;
 		this.boost = {
 			weight: 0,
 			enabled: false,
