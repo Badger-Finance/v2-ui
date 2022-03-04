@@ -91,7 +91,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 		return (
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 				<VaultDialogTitle vault={vault} mode="Deposit" />
-				<VaultAdvisory accept={() => setAccepted(true)} type={badgerVault.depositAdvisory} />
+				<VaultAdvisory accept={() => setAccepted(true)} type={advisory} />
 			</Dialog>
 		);
 	}
