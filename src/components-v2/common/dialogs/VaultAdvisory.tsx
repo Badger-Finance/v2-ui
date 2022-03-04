@@ -19,7 +19,7 @@ const VaultAdvisory = ({ type, accept }: Props): JSX.Element | null => {
 			advisory = <RemunerationVaultAdvisory accept={accept} />;
 			break;
 		case AdvisoryType.Chadger:
-			advisory = <ChadgerVaultAdvisory accept={accept} />
+			advisory = <ChadgerVaultAdvisory accept={accept} />;
 			break;
 		case AdvisoryType.None:
 		default:
