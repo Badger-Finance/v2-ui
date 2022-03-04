@@ -1,5 +1,6 @@
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import React from 'react';
+import ChadgerVaultAdvisory from './ChadgerVaultAdvisory';
 import LockingVaultAdvisory from './LockingVaultAdivsory';
 import RemunerationVaultAdvisory from './RemunerationVaultAdvisory';
 
@@ -16,6 +17,9 @@ const VaultAdvisory = ({ type, accept }: Props): JSX.Element | null => {
 			break;
 		case AdvisoryType.Remuneration:
 			advisory = <RemunerationVaultAdvisory accept={accept} />;
+			break;
+		case AdvisoryType.Chadger:
+			advisory = <ChadgerVaultAdvisory accept={accept} />
 			break;
 		case AdvisoryType.None:
 		default:
