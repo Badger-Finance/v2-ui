@@ -32,9 +32,11 @@ const useStyles = makeStyles((theme) => ({
 		pointerEvents: 'none',
 	},
 	selectButton: {
-		textTransform: 'none',
 		maxWidth: '100%',
 		minWidth: 'auto',
+	},
+	buttonLabel: {
+		textTransform: 'none',
 	},
 	listItem: {
 		textTransform: 'none',
@@ -71,6 +73,7 @@ export const OptionTokens = ({ balances, selected, onTokenSelect }: TokenListPro
 				endIcon={<ArrowDropDown />}
 				onClick={handleClick}
 				className={classes.selectButton}
+				classes={{ label: classes.buttonLabel }}
 			>
 				<OptionToken token={selected.token} />
 			</Button>

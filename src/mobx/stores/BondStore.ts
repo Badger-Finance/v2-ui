@@ -31,12 +31,12 @@ export class BondStore {
 	}
 
 	async updateBonds() {
-		const { onboard } = this.store;
+		const { onboard, sdk } = this.store;
 		const { provider, address } = onboard;
 		if (!provider || !address) {
 			return;
 		}
-		const sdk = new BadgerSDK(provider.network, provider);
+
 		const loadedBonds: CitadelBond[] = [];
 		await Promise.all(
 			allBonds.map(async (b) => {

@@ -76,6 +76,7 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 	const { vaults } = useContext(StoreContext);
 	const { sortOrder } = vaults.vaultsFilters;
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const { showAPR } = vaults.vaultsFilters;
 
 	const handleSortByApr = (): void => {
 		let toggledOrder: VaultSortOrder | undefined;
@@ -230,10 +231,12 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 							className={clsx(classes.title, classes.columnTitle)}
 						>
 							<Typography variant="body2" color="textSecondary">
-								APR
+								{showAPR ? 'APR' : 'APY'}
 							</Typography>
 							<Tooltip
-								title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
+								title={`An annual percentage ${
+									showAPR ? 'rate (APR)' : 'yield (APY)'
+								}, is the yearly rate earned by depositing in each vault.`}
 								placement="top"
 								arrow
 								color="primary"

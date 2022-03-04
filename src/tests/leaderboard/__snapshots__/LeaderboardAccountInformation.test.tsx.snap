@@ -11,16 +11,16 @@ exports[`LeaderboardAccountInformation No user connected Displays fields as N/A 
       <div
         class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
       >
-        <h2
-          class="MuiTypography-root-108 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        <h4
+          class="MuiTypography-root-108 MuiTypography-h4-116 MuiTypography-displayInline-136"
         >
           Boost:
-        </h2>
-        <h2
-          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        </h4>
+        <h4
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h4-116 MuiTypography-displayInline-136"
         >
           N/A
-        </h2>
+        </h4>
       </div>
       <div
         class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
@@ -70,16 +70,16 @@ exports[`LeaderboardAccountInformation User connected, data loaded Displays user
       <div
         class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
       >
-        <h2
-          class="MuiTypography-root-108 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        <h4
+          class="MuiTypography-root-108 MuiTypography-h4-116 MuiTypography-displayInline-136"
         >
           Boost:
-        </h2>
-        <h2
-          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        </h4>
+        <h4
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h4-116 MuiTypography-displayInline-136"
         >
           2x
-        </h2>
+        </h4>
       </div>
       <div
         class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
@@ -150,16 +150,16 @@ exports[`LeaderboardAccountInformation User connected, no data loaded Displays f
       <div
         class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
       >
-        <h2
-          class="MuiTypography-root-108 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        <h4
+          class="MuiTypography-root-108 MuiTypography-h4-116 MuiTypography-displayInline-136"
         >
           Boost:
-        </h2>
-        <h2
-          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        </h4>
+        <h4
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h4-116 MuiTypography-displayInline-136"
         >
           N/A
-        </h2>
+        </h4>
       </div>
       <div
         class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
