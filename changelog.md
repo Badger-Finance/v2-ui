@@ -1,8 +1,9 @@
 # v2 UI Changelog
 
-### 2.15.0 - 03/01/2022
+### 2.15.0 - 03/04/2022
 
--   display Badger & Digg, NFTs and bveCVX balances breakdown in the boost optimizer
+-   support apy + apr vault performance displays
+-   enable fantom support + introduce new fantom vaults
 
 ### 2.14.3 - 03/01/2022
 
