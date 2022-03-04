@@ -17,6 +17,7 @@ import { VaultFees } from '../VaultFees';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import VaultAdvisory from './VaultAdvisory';
 import { Vault, VaultState } from '@badger-dao/sdk';
+import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -83,10 +84,14 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 	};
 
 	if (!accepted && badgerVault.depositAdvisory) {
+		let advisory = badgerVault.depositAdvisory;
+		if (!advisory && (vault.state === VaultState.Guarded || vault.state === VaultState.Experimental)) {
+			advisory = AdvisoryType.Chadger;
+		}
 		return (
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 				<VaultDialogTitle vault={vault} mode="Deposit" />
-				<VaultAdvisory accept={() => setAccepted(true)} type={badgerVault.depositAdvisory} />
+				<VaultAdvisory accept={() => setAccepted(true)} type={advisory} />
 			</Dialog>
 		);
 	}
