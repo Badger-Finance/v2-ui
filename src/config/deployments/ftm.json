@@ -7,17 +7,23 @@
 		"solidly.wftm-sex": "0xFCEC86aF8774d69e2e4412B8De3f4aBf1f671ecC",
 		"solidly.solid-solidsex": "0x62E2819Dd417F3b430B6fa5Fd34a49A377A02ac8",
 		"solidly.weve-usdc": "0xD9A4108CBB40a12dE16dFFDc54aE5065878816d7",
-		"solidly.oxd-usdc": "0xEaFB5Ae6eEa34954eE5e5a27B068B8705CE926a6"
+		"solidly.oxd-usdc": "0xEaFB5Ae6eEa34954eE5e5a27B068B8705CE926a6",
+		"solidly.wftm-crv": "0xed7fd242ce91a541abcae52f3d617daca7fe6e34",
+		"solidly.usdc-mim": "0xbcab7d083cf6a01e0dda9ed7f8a02b47d125e682",
+		"solidly.wftm-renbtc": "0x4a81e80f7d77b4d1440a7fef12bd47e0344f215b"
 	},
 	"geysers": {},
 	"sett_system": {
 		"vaults": {
 			"native.boo-xboo": "0x7dD26f47e1C8a060EDC1999D8781dDE90A4C33A9",
-			"native.wbtc-renbtc": "0xb6d63a4e5ca740e96c26adabcac73be78ee39dc5",
+			"native.wbtc-renbtc": "0xB6D63A4e5Ca740e96C26AdAbcAc73BE78Ee39Dc5",
 			"native.wftm-sex": "0x7cc6049a125388B51c530e51727A87aE101f6417",
 			"native.solid-solidsex": "0xC7cBF5a24caBA375C09cc824481F5508c644dF28",
 			"native.weve-usdc": "0xd9770deC6fdA576450e66f0c441B6b8755F7184A",
-			"native.oxd-usdc": "0x3BA15548226aA045aD6fe9DC9Bec1f0891532D60"
+			"native.oxd-usdc": "0x3BA15548226aA045aD6fe9DC9Bec1f0891532D60",
+			"native.wftm-crv": "0x4145a9B8B7bdC76F14e65c26f9c71e23B9069b25",
+			"native.usdc-mim": "0x1aaf7f8154704d80e2380b3dbc967fd0486016e0",
+			"native.wftm-renbtc": "0x9a28eeFB2c5F8311f37c39314D78Be85C54B5da6"
 		},
 		"strategies": {
 			"native.boo-xboo": "0x60129B2b762952Dfe8b21f40ee8aa3B2A4623546",
@@ -25,7 +31,10 @@
 			"native.wftm-sex": "0x99f4db590ee266011631985589AEde1EBbDDc137",
 			"native.solid-solidsex": "0x7AfB2E386b7990507009f81B3c486c8C596501a4",
 			"native.weve-usdc": "0xd6479e4477a41EadB0fc0DAB31a992efc7EFdAcd",
-			"native.oxd-usdc": "0xe850B254461Ba7D6148C07ABF9f171fb9e03BB00"
+			"native.oxd-usdc": "0xe850B254461Ba7D6148C07ABF9f171fb9e03BB00",
+			"native.wftm-crv": "0x8bfc9dF1228D73BcaE1B553D0e472d5D4447D971",
+			"native.usdc-mim": "0x5631baa4c636dd5fe3dbdcd6e31c41f2385d3405",
+			"native.wftm-renbtc": "0xE143aA25Eec81B4Fc952b38b6Bca8D2395481377"
 		}
 	},
 	"badgerTree": "0x89122c767a5f543e663db536b603123225bc3823"

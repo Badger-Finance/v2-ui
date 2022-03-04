@@ -83,9 +83,12 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 		await contracts.deposit(vault, badgerVault, userBalance, depositBalance);
 	};
 
-	if (!accepted && badgerVault.depositAdvisory) {
+	if (
+		!accepted &&
+		(badgerVault.depositAdvisory || vault.state === VaultState.Guarded || vault.state === VaultState.Experimental)
+	) {
 		let advisory = badgerVault.depositAdvisory;
-		if (!advisory && (vault.state === VaultState.Guarded || vault.state === VaultState.Experimental)) {
+		if (!advisory) {
 			advisory = AdvisoryType.Chadger;
 		}
 		return (
