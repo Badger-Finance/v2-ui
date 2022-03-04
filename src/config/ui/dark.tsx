@@ -48,12 +48,18 @@ const theme = createTheme({
 	},
 	typography: {
 		fontFamily: "'Satoshi', 'IBM Plex Sans', sans-serif",
-		h1: { fontWeight: 800, fontSize: '3rem' },
-		h4: { fontSize: '1.3rem', fontWeight: 800 },
-		h2: { fontSize: '2.2rem', fontWeight: 800, marginBottom: '.2rem' },
-		h5: { fontWeight: 800 },
-		subtitle1: { fontWeight: 600 },
-		body1: { fontWeight: 600 },
+		h1: { fontWeight: 500, fontSize: 96 },
+		h2: { fontWeight: 500, fontSize: 60 },
+		h3: { fontWeight: 500, fontSize: 48 },
+		h4: { fontWeight: 500, fontSize: 34 },
+		h5: { fontWeight: 500, fontSize: 24 },
+		h6: { fontWeight: 500, fontSize: 20 },
+		subtitle1: { fontWeight: 500, fontSize: 16 },
+		subtitle2: { fontWeight: 500, fontSize: 14 },
+		body1: { fontWeight: 400, fontSize: 16 },
+		body2: { fontWeight: 400, fontSize: 14 },
+		caption: { fontWeight: 500, fontSize: 10 },
+		overline: { fontWeight: 500, fontSize: 12, textTransform: 'uppercase' },
 	},
 	shape: {
 		borderRadius: 8,
@@ -81,7 +87,7 @@ const theme = createTheme({
 				fontSize: '.95rem',
 				backgroundColor: '#FFB84D',
 				color: '#181818',
-				fontWeight: 600,
+				fontWeight: 400,
 				padding: '.5rem .8rem',
 			},
 			arrow: {
@@ -120,7 +126,7 @@ const theme = createTheme({
 			label: {
 				textTransform: 'uppercase',
 				fontSize: 15,
-				fontWeight: 700,
+				fontWeight: 500,
 			},
 			containedPrimary: {
 				'&:hover': {
@@ -142,6 +148,24 @@ const theme = createTheme({
 				'&:disabled': {
 					color: 'rgba(255, 255, 255, 0.37)',
 					border: '1px solid rgba(255, 255, 255, 0.15)',
+				},
+			},
+			sizeSmall: {
+				'& .MuiButton-label': {
+					fontSize: 13,
+					fontWeight: 500,
+				},
+			},
+			sizeLarge: {
+				'& .MuiButton-label': {
+					fontSize: 14,
+					fontWeight: 700,
+				},
+			},
+			fullWidth: {
+				'& .MuiButton-label': {
+					fontSize: 14,
+					fontWeight: 700,
 				},
 			},
 		},
@@ -169,6 +193,12 @@ const theme = createTheme({
 						backgroundColor: 'rgba(4, 191, 0, 0.08)',
 					},
 				},
+			},
+		},
+		MuiInputBase: {
+			root: {
+				fontSize: 16,
+				fontWeight: 500,
 			},
 		},
 	},

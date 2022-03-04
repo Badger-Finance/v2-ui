@@ -33,14 +33,14 @@ exports[`Vault List Header renders correctly 1`] = `
           <p
             class="MuiTypography-root-116 MuiTypography-body2-117 MuiTypography-colorTextSecondary-142"
           >
-            APR
+            APY
           </p>
           <img
             alt="What is APR?"
             class="makeStyles-sortInfoIcon-3"
             color="primary"
             src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
+            title="An annual percentage yield (APY), is the yearly rate earned by depositing in each vault."
           />
           <button
             aria-label="sort descending by APR"
@@ -63,7 +63,7 @@ exports[`Vault List Header renders correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-221"
+              class="MuiTouchRipple-root-222"
             />
           </button>
         </div>
@@ -103,7 +103,7 @@ exports[`Vault List Header renders correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-221"
+              class="MuiTouchRipple-root-222"
             />
           </button>
         </div>
@@ -143,7 +143,7 @@ exports[`Vault List Header renders correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-221"
+              class="MuiTouchRipple-root-222"
             />
           </button>
         </div>
@@ -170,7 +170,7 @@ exports[`Vault List Header renders correctly 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-221"
+            class="MuiTouchRipple-root-222"
           />
         </button>
       </div>

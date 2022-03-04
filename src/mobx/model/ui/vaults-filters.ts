@@ -12,6 +12,7 @@ export enum VaultSortOrder {
 
 export interface VaultsFilters {
 	hidePortfolioDust: boolean;
+	showAPR: boolean;
 	currency: Currency;
 	protocols: string[];
 	types: VaultType[];

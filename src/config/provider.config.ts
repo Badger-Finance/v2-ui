@@ -6,4 +6,5 @@ export enum Provider {
 	Quicknode = 'https://rpc-mainnet.matic.quiknode.pro',
 	xDai = 'https://rpc.xdaichain.com',
 	Arbitrum = 'https://arb1.arbitrum.io/rpc',
+	Fantom = 'https://rpc.fantom.tools',
 }

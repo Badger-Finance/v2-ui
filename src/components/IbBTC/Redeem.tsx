@@ -233,7 +233,7 @@ export const Redeem = observer((): any => {
 			<Grid container className={classes.outputContent}>
 				<OutputContentGrid container item xs={12}>
 					<Grid item xs={12} sm={7} md={12} lg={7}>
-						<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
+						<OutputAmountText variant="h3">{outputAmount || '0.000'}</OutputAmountText>
 					</Grid>
 					<OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
 						{initialized ? (

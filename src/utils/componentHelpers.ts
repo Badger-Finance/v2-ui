@@ -73,12 +73,12 @@ export const getFormattedNetworkName = (network: Network): string => {
 		.join(' ');
 };
 
-export function getUserVaultBoost(vault: Vault, boost: number): number | null {
-	if (!vault.boost.enabled || !vault.minApr || vault.state === VaultState.Deprecated || vault.sources.length === 0) {
+export function getUserVaultBoost(vault: Vault, boost: number, apr = false): number | null {
+	if (vault.state === VaultState.Deprecated || vault.sources.length === 0) {
 		return null;
 	}
 
-	return vault.sources
+	return (apr ? vault.sources : vault.sourcesApy)
 		.map((source) => {
 			if (!source.boostable) {
 				return source.apr;

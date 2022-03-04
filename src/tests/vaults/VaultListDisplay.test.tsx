@@ -13,7 +13,6 @@ import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { SAMPLE_VAULTS } from '../utils/samples';
 import VaultStore from '../../mobx/stores/VaultStore';
-import { vaults } from '../Landing.test';
 
 const sampleExchangeRates: ExchangeRates = {
 	usd: 3371.56,
@@ -23,6 +22,7 @@ const sampleExchangeRates: ExchangeRates = {
 	matic: 1423.994304022784,
 	xdai: 1,
 	ftm: 1,
+	avax: 1,
 };
 
 const mockVaultsInformation = (vaults: Vault[]) => {
