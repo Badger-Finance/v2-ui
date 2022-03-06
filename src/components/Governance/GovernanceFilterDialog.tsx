@@ -12,7 +12,6 @@ import {
     makeStyles,
     Typography,
 } from '@material-ui/core';
-
 import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
     },
     clearButton: {
-        padding: 0,
+        padding: 6,
+
     },
     formControlLabelText: {
         fontWeight: 400,
