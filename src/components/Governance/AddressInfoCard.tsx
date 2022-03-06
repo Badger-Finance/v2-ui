@@ -2,23 +2,30 @@ import React from 'react';
 import { Paper, Typography, makeStyles, Box, Link, Grid } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { observer } from 'mobx-react-lite';
-
+import { ClassSharp } from '@material-ui/icons';
+import ArrowUpward from '@material-ui/icons/ArrowUpward';
 export interface AddressInfoCardProps {
     title: string;
     address?: string;
+    linkAddress: string;
 }
 
 const useStyles = makeStyles((theme) => ({
 
     linkIcon: {
         display: 'inline-block',
-        transform: 'translateY(3px)',
+        transform: 'rotate(45deg)',
+        color: 'white'
+    },
+    address: {
+        maxWidth: '100px',
+        paddingRight: '1px'
     },
 }));
 
 const AddressInfoCard: React.FC<AddressInfoCardProps> = observer((props: AddressInfoCardProps) => {
     const classes = useStyles();
-    const { title, address } = props;
+    const { title, address, linkAddress } = props;
     return (
         <div >
             <Typography variant="subtitle2" color="textSecondary">
@@ -26,16 +33,14 @@ const AddressInfoCard: React.FC<AddressInfoCardProps> = observer((props: Address
             </Typography>
 
             <Grid container justifyContent="flex-start">
-                <Grid item xs={8}>
-                    <Box width="100%">
-                        <Typography noWrap>
-                            {address}
-                        </Typography>
-                    </Box>
+                <Grid item className={classes.address}>
+                    <Typography noWrap>
+                        {address}
+                    </Typography>
                 </Grid>
-                <Grid item xs="auto">
-                    <Link className={classes.linkIcon} href={'https://etherscan.io/address/' + address} target="_blank">
-                        <ExitToAppIcon />
+                <Grid item >
+                    <Link className={classes.linkIcon} href={linkAddress} target="_blank">
+                        <ArrowUpward />
                     </Link>
                 </Grid>
             </Grid>

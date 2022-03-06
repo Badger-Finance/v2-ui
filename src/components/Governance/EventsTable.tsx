@@ -67,9 +67,10 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
             }
         }
     }
-    const rowsPerPage = 2;
-    const totalPages = Math.ceil(filteredEventList.length / rowsPerPage);
-
+    const rowsPerPage = 8;
+    const totalRows = filteredEventList.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+    console.log(filteredEventList);
     const handlePages = (updatePage: number) => {
         if (updatePage > totalPages) {
             updatePage = 1;
@@ -81,13 +82,14 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
         var currentEventList: any[] = [];
         for (let i = (updatePage - 1) * rowsPerPage; i < updatePage * rowsPerPage; i++) {
             currentEventList.push(filteredEventList[i]);
+            // console.log("hi")
         }
         setEventListShow(currentEventList);
     }
 
     useEffect(() => {
         handlePages(1);
-    }, [events]);
+    }, [totalRows]);
     return (
         <Grid className={classes.infoPaper} xs={12} item>
             <Grid item container className={classes.root}>
@@ -115,7 +117,6 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
             </Grid>
             <List className={classes.list}>
                 {eventListShow}
-
             </List>
             <Pagination
                 page={page}

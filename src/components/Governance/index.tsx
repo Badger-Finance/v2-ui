@@ -29,10 +29,10 @@ const GovernancePortal = observer(() => {
                     <PageHeader title="Governance Portal" subtitle="Review recent activity from the DAO." />
                 </PageHeaderContainer>
                 <PageHeaderContainer item xs={6} sm={2} >
-                    <AddressInfoCard title="Timelock Contract" address={governancePortal.contractAddress} />
+                    <AddressInfoCard title="Timelock Contract" address={governancePortal.contractAddress} linkAddress={'https://etherscan.io/address/' + governancePortal.contractAddress} />
                 </PageHeaderContainer>
                 <PageHeaderContainer item xs={6} sm={2} >
-                    <AddressInfoCard title="Proposals" address={"snapshot"} />
+                    <AddressInfoCard title="Proposals" address={"Snapshot"} linkAddress={'https://snapshot.org/#/badgerdao.eth'} />
                 </PageHeaderContainer>
             </Grid>
 

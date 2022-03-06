@@ -48,6 +48,7 @@ export const PaginationComponent: React.FC<Props> = ({
             className={classNames(classes.pageItem, {
                 [classes.active]: page === i,
             })}
+            key={i}
         >
             <Typography variant="subtitle1" color="textSecondary">{i}</Typography>
         </button>)
