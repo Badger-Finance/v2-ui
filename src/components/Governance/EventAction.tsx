@@ -2,41 +2,41 @@ import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-eve
 import { makeStyles, Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
-    tooltipWrap: {
-        cursor: 'help',
-        borderBottom: '1px dotted',
-        fontFamily: 'monospace',
-    },
+	tooltipWrap: {
+		cursor: 'help',
+		borderBottom: '1px dotted',
+		fontFamily: 'monospace',
+	},
 }));
 
 export interface EventActionProps {
-    event: TimelockEvent;
+	event: TimelockEvent;
 }
 
 const EventAction = ({ event }: EventActionProps): JSX.Element => {
-    const classes = useStyles();
+	const classes = useStyles();
 
-    const getTooltipContent = (event: TimelockEvent, ind: number) => {
-        return event.decodedParameters ? (Object.values(event.decodedParameters)[ind] as string) : 'Could not decode';
-    };
+	const getTooltipContent = (event: TimelockEvent, ind: number) => {
+		return event.decodedParameters ? (Object.values(event.decodedParameters)[ind] as string) : 'Could not decode';
+	};
 
-    return (
-        <>
-            {event.functionName}
-            <span>(</span>
-            {event.parameterTypes &&
-                event.parameterTypes.length > 0 &&
-                event.parameterTypes.map((param, ind) => (
-                    <span key={'param-' + ind}>
-                        <Tooltip className={classes.tooltipWrap} title={getTooltipContent(event, ind)}>
-                            <span>{param}</span>
-                        </Tooltip>
-                        {event.parameterTypes && event.parameterTypes.length - 1 > ind && ', '}
-                    </span>
-                ))}
-            <span>)</span>
-        </>
-    );
+	return (
+		<>
+			{event.functionName}
+			<span>(</span>
+			{event.parameterTypes &&
+				event.parameterTypes.length > 0 &&
+				event.parameterTypes.map((param, ind) => (
+					<span key={'param-' + ind}>
+						<Tooltip className={classes.tooltipWrap} title={getTooltipContent(event, ind)}>
+							<span>{param}</span>
+						</Tooltip>
+						{event.parameterTypes && event.parameterTypes.length - 1 > ind && ', '}
+					</span>
+				))}
+			<span>)</span>
+		</>
+	);
 };
 
 export default EventAction;

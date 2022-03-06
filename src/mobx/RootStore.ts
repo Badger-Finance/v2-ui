@@ -48,7 +48,7 @@ export class RootStore {
 	public lockedCvxDelegation: LockedCvxDelegationStore;
 	public gasPrices: GasPricesStore;
 	public bondStore: BondStore;
-	public governancePortal: GovernancePortalStore
+	public governancePortal: GovernancePortalStore;
 
 	constructor() {
 		// this is passed as a dummy rpc - it will never be used unless required by an rpc wallet, e.g.: wallet connect
