@@ -44,7 +44,7 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
             <Grid container item xs={12} className={classes.root} spacing={2} >
 
                 <Grid item xs={3}>
-                    {event.blockNumber}
+                    {event.timeStamp}
                 </Grid>
                 <Grid item xs={3} className={classes.arrowbox}>
                     <Typography className={classes.address} variant="body2" color="textSecondary" noWrap >

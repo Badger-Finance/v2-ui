@@ -95,7 +95,7 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
             <Grid item container className={classes.root}>
                 <Grid item xs={3} >
                     <Typography variant="subtitle1" color="textSecondary">
-                        BlockNumber
+                        Timestamp
                     </Typography>
                 </Grid>
                 <Grid item xs={3} >
