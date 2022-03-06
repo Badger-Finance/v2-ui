@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { TimelockEvent } from 'mobx/model/governance-timelock/timelock-event';
 import EventsTableItem from './EventsTableItem';
-import { Paper, Grid, Typography, List, makeStyles } from '@material-ui/core';
+import { Grid, Typography, List, makeStyles } from '@material-ui/core';
 import { Pagination } from './Pagination';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,11 +39,9 @@ export interface EventTableProps {
 }
 
 const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
-    console.log(filters);
     const classes = useStyles();
     const [eventListShow, setEventListShow] = useState<any[]>([]);
     const [page, setPage] = useState(1);
-    console.log(events);
     let eventList: any[] = [];
     if (events) {
         for (let key of events.keys()) {
@@ -70,7 +68,6 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
     const rowsPerPage = 8;
     const totalRows = filteredEventList.length;
     const totalPages = Math.ceil(totalRows / rowsPerPage);
-    console.log(filteredEventList);
     const handlePages = (updatePage: number) => {
         if (updatePage > totalPages) {
             updatePage = 1;
@@ -82,7 +79,6 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
         var currentEventList: any[] = [];
         for (let i = (updatePage - 1) * rowsPerPage; i < updatePage * rowsPerPage; i++) {
             currentEventList.push(filteredEventList[i]);
-            // console.log("hi")
         }
         setEventListShow(currentEventList);
     }
@@ -113,11 +109,12 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
                         Proposers
                     </Typography>
                 </Grid>
-
             </Grid>
+
             <List className={classes.list}>
                 {eventListShow}
             </List>
+
             <Pagination
                 page={page}
                 totalPages={totalPages}

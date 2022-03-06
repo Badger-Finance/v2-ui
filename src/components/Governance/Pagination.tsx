@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Paper, Grid, Typography, List, makeStyles } from '@material-ui/core';
+import { Typography, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     paginationWrapper: {
         padding: theme.spacing(2),
@@ -56,7 +56,6 @@ export const PaginationComponent: React.FC<Props> = ({
     return (
         <div >
             <div className={classes.paginationWrapper}>
-
                 <button
                     onClick={() => handlePagination(page - 1)}
                     type="button"
@@ -76,7 +75,6 @@ export const PaginationComponent: React.FC<Props> = ({
                         &gt;
                     </Typography>
                 </button>
-
             </div>
         </div>
     );

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Paper, Typography, makeStyles, Box, Link, Grid } from '@material-ui/core';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Typography, makeStyles, Link, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import { ClassSharp } from '@material-ui/icons';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
+
 export interface AddressInfoCardProps {
     title: string;
     address?: string;

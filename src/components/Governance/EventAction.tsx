@@ -1,4 +1,3 @@
-import React from 'react';
 import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
 import { makeStyles, Tooltip } from '@material-ui/core';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
 import EventAction from './EventAction';
 import { Grid, Typography, ListItem, makeStyles, Link } from '@material-ui/core';
@@ -38,11 +37,9 @@ export interface EventTableProps {
 
 const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
     const classes = useStyles();
-    console.log(event);
     return (
         <ListItem className={classes.listItem}>
             <Grid container item xs={12} className={classes.root} spacing={2} >
-
                 <Grid item xs={3}>
                     {event.timeStamp}
                 </Grid>
@@ -54,7 +51,6 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
                         <ArrowUpward className={classes.arrow} />
                     </Link>
                 </Grid>
-
                 <Grid item xs={3} >
                     <EventAction event={event} />
                 </Grid>

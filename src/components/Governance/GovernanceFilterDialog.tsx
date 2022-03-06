@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Protocol, VaultType } from '@badger-dao/sdk/lib/api/enums';
 import {
     Button,
     Checkbox,
@@ -11,21 +10,10 @@ import {
     Grid,
     IconButton,
     makeStyles,
-    Switch,
     Typography,
-    withStyles,
 } from '@material-ui/core';
-import { StoreContext } from '../../mobx/store-context';
-import CloseIcon from '@material-ui/icons/Close';
-import { limitVaultType, useFormatExampleList } from '../../utils/componentHelpers';
 
-const StyledSwitch = withStyles((theme) => ({
-    root: {
-        width: '51px',
-        height: '31px',
-        padding: 0,
-    }
-}))(Switch);
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -153,7 +141,6 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
                                             classes={{ root: classes.checkboxRoot }}
                                             checked={proposed}
                                             onChange={() => handleFilterSelect("proposed")}
-                                            name={VaultType.Native}
                                         />
                                     }
                                     label={
@@ -174,7 +161,6 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
                                             classes={{ root: classes.checkboxRoot }}
                                             checked={vetoed}
                                             onChange={() => handleFilterSelect("vetoed")}
-                                            name={VaultType.Boosted}
                                         />
                                     }
                                     label={
@@ -195,7 +181,6 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
                                             classes={{ root: classes.checkboxRoot }}
                                             checked={executed}
                                             onChange={() => handleFilterSelect("executed")}
-                                            name={VaultType.Standard}
                                         />
                                     }
                                     label={
