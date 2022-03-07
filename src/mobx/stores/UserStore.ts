@@ -254,12 +254,10 @@ export default class UserStore {
 				});
 				multicallResults = await multicall.call(multicallRequests);
 			} catch (err) {
-				if (DEBUG) {
-					console.error({
-						err,
-						message: `This error may be because MulticallV2 is not defined for ${network.name}.`,
-					});
-				}
+				console.error({
+					err,
+					message: `This error may be because MulticallV2 is not defined for ${network.name}.`,
+				});
 				multicall = new Multicall({
 					web3Instance: new Web3(wallet.provider),
 					multicallCustomContractAddress: multicallContractAddress,
