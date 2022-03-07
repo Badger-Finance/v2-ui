@@ -9,9 +9,10 @@ describe('VaultAdvisory', () => {
 		it.each([
 			[AdvisoryType.ConvexLock],
 			[AdvisoryType.Remuneration],
+			[AdvisoryType.Chadger],
 			[AdvisoryType.None],
 			['Invalid'], // purposeful bad enum case
-		])('Evaluates %s with %i decimals as %f', (advisoryType: string) => {
+		])('Displays the expected %s vault advisory', (advisoryType: string) => {
 			checkSnapshot(<VaultAdvisory accept={() => {}} type={advisoryType as AdvisoryType} />);
 		});
 	});

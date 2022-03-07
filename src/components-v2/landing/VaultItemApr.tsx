@@ -3,6 +3,7 @@ import { Tooltip, Typography } from '@material-ui/core';
 import VaultItemRoiTooltip from './VaultItemRoiTooltip';
 import { makeStyles } from '@material-ui/core/styles';
 import { Vault } from '@badger-dao/sdk';
+import { numberWithCommas } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles({
 	apr: {
@@ -49,7 +50,7 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 			id={`${vault.name} apr breakdown`}
 		>
 			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
-				{`${(boost || vault.apr).toFixed(2)}%`}
+				{`${numberWithCommas((boost || vault.apr).toFixed(2))}%`}
 			</Typography>
 		</Tooltip>
 	);
