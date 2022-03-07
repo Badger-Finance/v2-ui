@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { arbitrumProtocolTokens } from 'mobx/model/network/arbitrum.network';
 import { avaxProtocolTokens } from 'mobx/model/network/avalanche.network';
 import { bscProtocolTokens } from 'mobx/model/network/bsc.network';
@@ -8,7 +9,7 @@ import { BadgerToken } from 'mobx/model/tokens/badger-token';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
 
 export const protocolTokens = (): ProtocolTokens => {
-	return {
+	const tokens = {
 		...(ethProtocolTokens && ethProtocolTokens),
 		...(bscProtocolTokens && bscProtocolTokens),
 		...(maticProtocolTokens && maticProtocolTokens),
@@ -16,6 +17,11 @@ export const protocolTokens = (): ProtocolTokens => {
 		...(avaxProtocolTokens && avaxProtocolTokens),
 		...(ftmProtocolTokens && ftmProtocolTokens),
 	};
+	return Object.fromEntries(Object.entries(tokens).map((t) => {
+		const [address, token] = t;
+		token.address = ethers.utils.getAddress(token.address);
+		return [ethers.utils.getAddress(address), token];
+	}));
 };
 
 export const getToken = (address: string): BadgerToken | undefined => {

@@ -9,7 +9,7 @@
 		"solidly.weve-usdc": "0xD9A4108CBB40a12dE16dFFDc54aE5065878816d7",
 		"solidly.oxd-usdc": "0xEaFB5Ae6eEa34954eE5e5a27B068B8705CE926a6",
 		"solidly.wftm-crv": "0xed7fd242ce91a541abcae52f3d617daca7fe6e34",
-		"solidly.usdc-mim": "0xbcab7d083cf6a01e0dda9ed7f8a02b47d125e682",
+		"solidly.usdc-mim": "0xbcab7d083Cf6a01e0DdA9ed7F8a02b47d125e682",
 		"solidly.wftm-renbtc": "0x4a81e80f7d77b4d1440a7fef12bd47e0344f215b"
 	},
 	"geysers": {},
@@ -22,7 +22,7 @@
 			"native.weve-usdc": "0xd9770deC6fdA576450e66f0c441B6b8755F7184A",
 			"native.oxd-usdc": "0x3BA15548226aA045aD6fe9DC9Bec1f0891532D60",
 			"native.wftm-crv": "0x4145a9B8B7bdC76F14e65c26f9c71e23B9069b25",
-			"native.usdc-mim": "0x1aaf7f8154704d80e2380b3dbc967fd0486016e0",
+			"native.usdc-mim": "0x1AaF7f8154704D80E2380B3DbC967FD0486016e0",
 			"native.wftm-renbtc": "0x9a28eeFB2c5F8311f37c39314D78Be85C54B5da6"
 		},
 		"strategies": {
@@ -33,7 +33,7 @@
 			"native.weve-usdc": "0xd6479e4477a41EadB0fc0DAB31a992efc7EFdAcd",
 			"native.oxd-usdc": "0xe850B254461Ba7D6148C07ABF9f171fb9e03BB00",
 			"native.wftm-crv": "0x8bfc9dF1228D73BcaE1B553D0e472d5D4447D971",
-			"native.usdc-mim": "0x5631baa4c636dd5fe3dbdcd6e31c41f2385d3405",
+			"native.usdc-mim": "0x5631Baa4C636Dd5Fe3Dbdcd6e31c41f2385D3405",
 			"native.wftm-renbtc": "0xE143aA25Eec81B4Fc952b38b6Bca8D2395481377"
 		}
 	},
