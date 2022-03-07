@@ -33,6 +33,8 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 		);
 	}
 
+	const displayApr = Number((boost || vault.apr).toFixed(2));
+
 	return (
 		<Tooltip
 			enterTouchDelay={0}
@@ -49,7 +51,7 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 			id={`${vault.name} apr breakdown`}
 		>
 			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
-				{`${(boost || vault.apr).toFixed(2)}%`}
+				{`${displayApr.toLocaleString()}%`}
 			</Typography>
 		</Tooltip>
 	);

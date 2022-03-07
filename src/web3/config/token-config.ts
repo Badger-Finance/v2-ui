@@ -17,11 +17,13 @@ export const protocolTokens = (): ProtocolTokens => {
 		...(avaxProtocolTokens && avaxProtocolTokens),
 		...(ftmProtocolTokens && ftmProtocolTokens),
 	};
-	return Object.fromEntries(Object.entries(tokens).map((t) => {
-		const [address, token] = t;
-		token.address = ethers.utils.getAddress(token.address);
-		return [ethers.utils.getAddress(address), token];
-	}));
+	return Object.fromEntries(
+		Object.entries(tokens).map((t) => {
+			const [address, token] = t;
+			token.address = ethers.utils.getAddress(token.address);
+			return [ethers.utils.getAddress(address), token];
+		}),
+	);
 };
 
 export const getToken = (address: string): BadgerToken | undefined => {
