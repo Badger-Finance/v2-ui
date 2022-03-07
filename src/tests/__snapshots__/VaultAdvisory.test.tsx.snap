@@ -1,6 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Evaluates ConvexLock with %i decimals as %f 1`] = `
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Displays the expected Chadger vault advisory 1`] = `
+<div>
+  <div
+    class="makeStyles-vaultAdvisoryContainer-1"
+  >
+    <div
+      class="makeStyles-childContainer-2"
+    >
+      <p>
+        This is a Chadger Vault, meaning a highly experimental vault that builds on new protocols. This vault carries higher levels of liquidity and smart contract risk than normal Badger Vaults.
+      </p>
+      <p>
+        Ape at your own risk.
+      </p>
+    </div>
+    <label
+      class="MuiFormControlLabel-root-3"
+    >
+      <span
+        aria-disabled="false"
+        class="MuiButtonBase-root-28 MuiIconButton-root-19 PrivateSwitchBase-root-15 MuiCheckbox-root-9 MuiCheckbox-colorPrimary-13 MuiIconButton-colorPrimary-23"
+      >
+        <span
+          class="MuiIconButton-label-27"
+        >
+          <input
+            class="PrivateSwitchBase-input-18"
+            data-indeterminate="false"
+            name="read"
+            type="checkbox"
+            value=""
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-31 MuiSvgIcon-fontSizeSmall-38"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root-101"
+        />
+      </span>
+      <span
+        class="MuiTypography-root-40 MuiFormControlLabel-label-8 MuiTypography-body1-42"
+      >
+        I have read and understand the above vault advisory
+      </span>
+    </label>
+    <button
+      aria-label="Deposit"
+      class="MuiButtonBase-root-28 MuiButton-root-72 MuiButton-contained-80 WithStyles(ForwardRef(Button))-root-70 WithStyles(ForwardRef(Button))-root-71 MuiButton-containedSecondary-82 MuiButton-containedSizeLarge-92 MuiButton-sizeLarge-94 MuiButton-disabled-85 MuiButton-fullWidth-95 MuiButtonBase-disabled-29"
+      disabled=""
+      tabindex="-1"
+      type="button"
+    >
+      <span
+        class="MuiButton-label-73"
+      >
+        Accept
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Displays the expected ConvexLock vault advisory 1`] = `
 <div>
   <div
     class="makeStyles-vaultAdvisoryContainer-1"
@@ -85,11 +155,11 @@ exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advi
 </div>
 `;
 
-exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Evaluates Invalid with %i decimals as %f 1`] = `<div />`;
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Displays the expected Invalid vault advisory 1`] = `<div />`;
 
-exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Evaluates None with %i decimals as %f 1`] = `<div />`;
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Displays the expected None vault advisory 1`] = `<div />`;
 
-exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Evaluates Remuneration with %i decimals as %f 1`] = `
+exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advisory Displays the expected Remuneration vault advisory 1`] = `
 <div>
   <div
     class="makeStyles-vaultAdvisoryContainer-1"
