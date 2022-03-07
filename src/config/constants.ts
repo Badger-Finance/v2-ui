@@ -128,8 +128,8 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE = 'bveCVX Now Counting as Native in Boost!';
+export const APP_NEWS_MESSAGE = 'Badger Vaults are now on Fantom!';
 // Text & URL should be defined or explicitly undefined.
-export const APP_NEWS_URL_TEXT = 'View Optimizer';
-export const APP_NEWS_URL = 'https://app.badger.com/boost-optimizer';
+export const APP_NEWS_URL_TEXT = undefined;
+export const APP_NEWS_URL = undefined;
 export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);
