@@ -32,9 +32,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					// TODO: Update user guide
 					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-avalanche/arbitrum-sushi-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-renbtc-wbtc-lp',
 				},
 				[fantomDeploy.sett_system.vaults['native.wftm-sex']]: {
 					address: fantomDeploy.sett_system.strategies['native.wftm-sex'],
@@ -65,9 +64,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					// TODO: Update user guide
 					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-avalanche/arbitrum-sushi-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-weve-usdc-lp',
 				},
 				[fantomDeploy.sett_system.vaults['native.oxd-usdc']]: {
 					address: fantomDeploy.sett_system.strategies['native.oxd-usdc'],
@@ -87,9 +85,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					// TODO: Update user guide
 					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-avalanche/arbitrum-sushi-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-wftm-crv-lp',
 				},
 				[fantomDeploy.sett_system.vaults['native.usdc-mim']]: {
 					address: fantomDeploy.sett_system.strategies['native.usdc-mim'],
@@ -98,9 +95,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					// TODO: Update user guide
 					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-avalanche/arbitrum-sushi-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-mim-usdc-lp',
 				},
 				[fantomDeploy.sett_system.vaults['native.wftm-renbtc']]: {
 					address: fantomDeploy.sett_system.strategies['native.wftm-renbtc'],
@@ -109,9 +105,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					// TODO: Update user guide
 					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-avalanche/arbitrum-sushi-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-wftm-renbtc-lp',
 				},
 			};
 		case Network.Avalanche:
