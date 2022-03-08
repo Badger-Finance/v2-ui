@@ -5,7 +5,6 @@ import { RootStore } from '../mobx/RootStore';
 import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
 import { IbBTC } from 'components/IbBTC';
-import { Bridge } from '../components/Bridge';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
@@ -57,11 +56,6 @@ const routes = {
 		path: '/citadel',
 		component: <CitadelEarlyBonding />,
 		onEnter: (_route, _params, store) => store.bondStore.updateBonds(),
-	}),
-	bridge: new Route<RootStore, QueryParams>({
-		path: '/bridge',
-		component: <Bridge />,
-		onEnter: (_route, _params, store) => store.bridge.reload(),
 	}),
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',

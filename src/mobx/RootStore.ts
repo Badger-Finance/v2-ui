@@ -5,7 +5,6 @@ import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
-import BridgeStore from './stores/bridgeStore';
 import VaultStore from './stores/VaultStore';
 import GasPricesStore from './stores/GasPricesStore';
 import { NETWORK_IDS } from '../config/constants';
@@ -42,7 +41,6 @@ export class RootStore {
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
 	public vaults: VaultStore;
-	public bridge: BridgeStore;
 	public honeyPot: HoneyPotStore;
 	public user: UserStore;
 	public leaderBoard: LeaderBoardStore;
@@ -72,8 +70,6 @@ export class RootStore {
 		this.uiState = new UiState(this);
 		this.vaults = new VaultStore(this);
 		this.user = new UserStore(this);
-		// RenVM bridge store.
-		this.bridge = new BridgeStore(this);
 		this.honeyPot = new HoneyPotStore(this);
 		this.leaderBoard = new LeaderBoardStore(this);
 		this.vaultDetail = new VaultDetailStore(this);
@@ -111,10 +107,6 @@ export class RootStore {
 			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
 		}
 
-		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
-			this.bridge.updateContracts();
-		}
-
 		await Promise.all(refreshData);
 	}
 
@@ -148,12 +140,6 @@ export class RootStore {
 
 				if (this.router.currentPath === routes.citadel.path) {
 					updateActions.push(this.bondStore.updateBonds());
-				}
-			}
-
-			if (this.bridge.isBridgeSupported()) {
-				if (this.router.currentPath === routes.bridge.path) {
-					updateActions.push(this.bridge.reload());
 				}
 			}
 
