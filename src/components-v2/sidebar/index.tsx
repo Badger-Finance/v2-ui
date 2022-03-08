@@ -191,20 +191,10 @@ const Sidebar = observer(() => {
 				{config.digg && <SidebarItem route="/digg" view={views.digg} title="Digg" />}
 				{config.ibBTC && <SidebarItem route="/ibBTC" view={views.IbBTC} title="ibBTC" />}
 				{config.boost && (
-					<SidebarSection
+					<SidebarItem
+						route="/boost-optimizer"
+						view={views.boostOptimizer}
 						title="Boost"
-						items={[
-							{
-								title: 'Boost Optimizer',
-								route: '/boost-optimizer',
-								view: views.boostOptimizer,
-							},
-							{
-								title: 'Boost Leaderboard',
-								route: '/leaderboard',
-								view: views.boostLeaderBoard,
-							},
-						]}
 					/>
 				)}
 				{config.auction && <SidebarItem route="/citadel" view={views.citadel} title="Citadel" />}

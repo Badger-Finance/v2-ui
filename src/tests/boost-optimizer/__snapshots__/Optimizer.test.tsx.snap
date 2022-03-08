@@ -923,24 +923,6 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
-        >
-          <button
-            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label-196"
-            >
-              View Leaderboard
-            </span>
-            <span
-              class="MuiTouchRipple-root-396"
-            />
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -1886,24 +1868,6 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
-        >
-          <button
-            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label-196"
-            >
-              View Leaderboard
-            </span>
-            <span
-              class="MuiTouchRipple-root-396"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -2852,24 +2816,6 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
-        >
-          <button
-            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label-196"
-            >
-              View Leaderboard
-            </span>
-            <span
-              class="MuiTouchRipple-root-396"
-            />
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -3806,24 +3752,6 @@ exports[`Boost Optimizer can jump to rank 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
-        >
-          <button
-            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label-196"
-            >
-              View Leaderboard
-            </span>
-            <span
-              class="MuiTouchRipple-root-396"
-            />
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -4751,24 +4679,6 @@ exports[`Boost Optimizer displays correct information 1`] = `
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
-        >
-          <button
-            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label-196"
-            >
-              View Leaderboard
-            </span>
-            <span
-              class="MuiTouchRipple-root-396"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -5698,24 +5608,6 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
-        >
-          <button
-            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label-196"
-            >
-              View Leaderboard
-            </span>
-            <span
-              class="MuiTouchRipple-root-396"
-            />
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -6634,24 +6526,6 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
-        >
-          <button
-            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label-196"
-            >
-              View Leaderboard
-            </span>
-            <span
-              class="MuiTouchRipple-root-396"
-            />
-          </button>
         </div>
       </div>
     </div>
