@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dialog, useTheme } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { ClaimMap } from '../../landing/RewardsWidget';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
@@ -9,6 +8,7 @@ import { TransactionRequestResult } from '../../../mobx/utils/web3';
 import UserGuideContent from '../../rewards/UserGuideContent';
 import ClaimedRewardsContent from '../../rewards/ClaimedRewardsContent';
 import ClaimRewardsContent from '../../rewards/ClaimRewardsContent';
+import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -21,20 +21,14 @@ const useStyles = makeStyles(() =>
 	}),
 );
 
-interface Props {
-	open: boolean;
-	onClose: () => void;
-	claimableRewards: ClaimMap;
-}
-
-const RewardsDialog = ({ open, onClose, claimableRewards }: Props): JSX.Element => {
-	const { rewards } = useContext(StoreContext);
+const RewardsDialog = (): JSX.Element => {
+	const { rewards, vaults, uiState } = useContext(StoreContext);
 	const classes = useStyles();
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
+	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
 	const [claimedRewards, setClaimedRewards] = useState<TokenBalance[]>();
 	const [guideMode, setGuideMode] = useState(false);
-
 	const hasRewards = Object.keys(claimableRewards).length > 0;
 
 	const handleClaim = async (claims: ClaimMap) => {
@@ -47,11 +41,20 @@ const RewardsDialog = ({ open, onClose, claimableRewards }: Props): JSX.Element 
 	};
 
 	const handleClaimedRewardsDialogClose = () => {
-		onClose();
+		uiState.toggleRewardsDialog();
 		setTimeout(() => {
 			setClaimedRewards(undefined);
 		}, closeDialogTransitionDuration);
 	};
+
+	useEffect(() => {
+		const balances = Object.fromEntries(
+			rewards.badgerTree.claims
+				.filter((claim) => !!vaults.getToken(claim.token.address) && claim.tokenBalance.gt(0))
+				.map((claim) => [claim.token.address, claim]),
+		);
+		setClaimableRewards(balances);
+	}, [vaults, rewards.badgerTree.claims]);
 
 	if (guideMode) {
 		return (
@@ -61,10 +64,10 @@ const RewardsDialog = ({ open, onClose, claimableRewards }: Props): JSX.Element 
 				aria-labelledby="user-guide"
 				aria-describedby="Rewards User Guide"
 				classes={{ paperWidthSm: classes.smallDialog }}
-				open={open}
-				onClose={onClose}
+				open={uiState.rewardsDialogOpen}
+				onClose={() => uiState.toggleRewardsDialog()}
 			>
-				<UserGuideContent onGoBack={() => setGuideMode(false)} onClose={onClose} />
+				<UserGuideContent onGoBack={() => setGuideMode(false)} onClose={() => uiState.toggleRewardsDialog()} />
 			</Dialog>
 		);
 	}
@@ -77,8 +80,8 @@ const RewardsDialog = ({ open, onClose, claimableRewards }: Props): JSX.Element 
 				aria-labelledby="claimed-rewards"
 				aria-describedby="Claimed Rewards Overview"
 				classes={{ paperWidthSm: classes.smallDialog }}
-				open={open}
-				onClose={onClose}
+				open={uiState.rewardsDialogOpen}
+				onClose={() => uiState.toggleRewardsDialog()}
 			>
 				<ClaimedRewardsContent
 					claimedRewards={claimedRewards}
@@ -96,12 +99,12 @@ const RewardsDialog = ({ open, onClose, claimableRewards }: Props): JSX.Element 
 			aria-labelledby="claim-modal"
 			aria-describedby="Claim your rewards"
 			classes={{ paperWidthSm: hasRewards ? classes.bigDialog : classes.smallDialog }}
-			open={open}
-			onClose={onClose}
+			open={uiState.rewardsDialogOpen}
+			onClose={() => uiState.toggleRewardsDialog()}
 		>
 			<ClaimRewardsContent
 				claimableRewards={claimableRewards}
-				onClose={onClose}
+				onClose={() => uiState.toggleRewardsDialog()}
 				onClaim={handleClaim}
 				onGuideModeSelection={() => setGuideMode(true)}
 			/>

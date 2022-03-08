@@ -63,7 +63,7 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-265"
+                class="MuiTouchRipple-root-266"
               />
             </button>
           </div>
@@ -90,7 +90,7 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 />
               </span>
               <span
-                class="MuiTouchRipple-root-265"
+                class="MuiTouchRipple-root-266"
               />
             </button>
           </div>
@@ -114,116 +114,116 @@ exports[`Wallet Drawer displays correctly 1`] = `
             class="MuiGrid-root-57 makeStyles-balancesList-8 MuiGrid-container-58 MuiGrid-item-59"
           >
             <div
-              class="MuiGrid-root-57 makeStyles-tokenBalance-219 MuiGrid-container-58"
+              class="MuiGrid-root-57 makeStyles-tokenBalance-220 MuiGrid-container-58"
             >
               <div
                 class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66 MuiGrid-justify-content-xs-space-between-77"
               >
                 <div
-                  class="makeStyles-tokenNameAndIcon-215"
+                  class="makeStyles-tokenNameAndIcon-216"
                 >
                   <img
                     alt="Badger icon"
-                    class="makeStyles-icon-217"
+                    class="makeStyles-icon-218"
                     src="/assets/icons/badger.png"
                   />
                   <p
-                    class="MuiTypography-root-160 makeStyles-tokenName-216 MuiTypography-body1-162 MuiTypography-displayInline-188"
+                    class="MuiTypography-root-160 makeStyles-tokenName-217 MuiTypography-body1-162 MuiTypography-displayInline-188"
                   >
                     Badger
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root-213 MuiBox-root-222"
-                >
-                  <p
-                    class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-body1-162"
-                  >
-                    1000.000000
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-221 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
-              >
-                <h6
-                  class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
-                />
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-57 makeStyles-tokenBalance-219 MuiGrid-container-58"
-            >
-              <div
-                class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66 MuiGrid-justify-content-xs-space-between-77"
-              >
-                <div
-                  class="makeStyles-tokenNameAndIcon-215"
-                >
-                  <img
-                    alt="Digg icon"
-                    class="makeStyles-icon-217"
-                    src="/assets/icons/digg.png"
-                  />
-                  <p
-                    class="MuiTypography-root-160 makeStyles-tokenName-216 MuiTypography-body1-162 MuiTypography-displayInline-188"
-                  >
-                    DIGG
                   </p>
                 </div>
                 <div
                   class="MuiBox-root-213 MuiBox-root-223"
                 >
                   <p
-                    class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-body1-162"
+                    class="MuiTypography-root-160 makeStyles-balance-219 MuiTypography-body1-162"
                   >
-                    0.100000
+                    1000.000000
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-221 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
+                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-222 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
               >
                 <h6
-                  class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
+                  class="MuiTypography-root-160 makeStyles-balance-219 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
                 />
               </div>
             </div>
             <div
-              class="MuiGrid-root-57 makeStyles-tokenBalance-219 MuiGrid-container-58"
+              class="MuiGrid-root-57 makeStyles-tokenBalance-220 MuiGrid-container-58"
             >
               <div
                 class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66 MuiGrid-justify-content-xs-space-between-77"
               >
                 <div
-                  class="makeStyles-tokenNameAndIcon-215"
+                  class="makeStyles-tokenNameAndIcon-216"
                 >
                   <img
-                    alt="remDigg icon"
-                    class="makeStyles-icon-217"
+                    alt="Digg icon"
+                    class="makeStyles-icon-218"
                     src="/assets/icons/digg.png"
                   />
                   <p
-                    class="MuiTypography-root-160 makeStyles-tokenName-216 MuiTypography-body1-162 MuiTypography-displayInline-188"
+                    class="MuiTypography-root-160 makeStyles-tokenName-217 MuiTypography-body1-162 MuiTypography-displayInline-188"
                   >
-                    remDIGG
+                    DIGG
                   </p>
                 </div>
                 <div
                   class="MuiBox-root-213 MuiBox-root-224"
                 >
                   <p
-                    class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-body1-162"
+                    class="MuiTypography-root-160 makeStyles-balance-219 MuiTypography-body1-162"
                   >
                     0.100000
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-221 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
+                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-222 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
               >
                 <h6
-                  class="MuiTypography-root-160 makeStyles-balance-218 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
+                  class="MuiTypography-root-160 makeStyles-balance-219 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
+                />
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-57 makeStyles-tokenBalance-220 MuiGrid-container-58"
+            >
+              <div
+                class="MuiGrid-root-57 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-align-items-xs-center-66 MuiGrid-justify-content-xs-space-between-77"
+              >
+                <div
+                  class="makeStyles-tokenNameAndIcon-216"
+                >
+                  <img
+                    alt="remDigg icon"
+                    class="makeStyles-icon-218"
+                    src="/assets/icons/digg.png"
+                  />
+                  <p
+                    class="MuiTypography-root-160 makeStyles-tokenName-217 MuiTypography-body1-162 MuiTypography-displayInline-188"
+                  >
+                    remDIGG
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root-213 MuiBox-root-225"
+                >
+                  <p
+                    class="MuiTypography-root-160 makeStyles-balance-219 MuiTypography-body1-162"
+                  >
+                    0.100000
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-57 makeStyles-balanceDisplayValue-222 MuiGrid-container-58 MuiGrid-item-59 MuiGrid-justify-content-xs-flex-end-76"
+              >
+                <h6
+                  class="MuiTypography-root-160 makeStyles-balance-219 MuiTypography-subtitle2-172 MuiTypography-colorTextSecondary-186"
                 />
               </div>
             </div>
@@ -238,7 +238,7 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 class="MuiGrid-root-57 MuiGrid-item-59"
               >
                 <p
-                  class="MuiTypography-root-160 makeStyles-buyText-227 MuiTypography-body1-162 MuiTypography-colorTextSecondary-186"
+                  class="MuiTypography-root-160 makeStyles-buyText-228 MuiTypography-body1-162 MuiTypography-colorTextSecondary-186"
                 >
                   Buy Badger:
                 </p>
@@ -249,13 +249,13 @@ exports[`Wallet Drawer displays correctly 1`] = `
                     class="MuiGrid-root-57 MuiGrid-item-59"
                   >
                     <a
-                      class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
+                      class="MuiTypography-root-160 MuiLink-root-231 MuiLink-underlineHover-233 makeStyles-link-229 MuiTypography-colorPrimary-183"
                       href="https://curve.fi/factory-crypto/4"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <span
-                        class="MuiTypography-root-160 makeStyles-linkText-229"
+                        class="MuiTypography-root-160 makeStyles-linkText-230"
                       >
                         Curve
                       </span>
@@ -269,13 +269,13 @@ exports[`Wallet Drawer displays correctly 1`] = `
                     class="MuiGrid-root-57 MuiGrid-item-59"
                   >
                     <a
-                      class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
+                      class="MuiTypography-root-160 MuiLink-root-231 MuiLink-underlineHover-233 makeStyles-link-229 MuiTypography-colorPrimary-183"
                       href="https://app.sushi.com/swap?inputCurrency=0x2260fac5e5542a773aa44fbcfedf7c193bc2c599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <span
-                        class="MuiTypography-root-160 makeStyles-linkText-229"
+                        class="MuiTypography-root-160 makeStyles-linkText-230"
                       >
                         Sushiswap
                       </span>
@@ -289,13 +289,13 @@ exports[`Wallet Drawer displays correctly 1`] = `
                     class="MuiGrid-root-57 MuiGrid-item-59"
                   >
                     <a
-                      class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
+                      class="MuiTypography-root-160 MuiLink-root-231 MuiLink-underlineHover-233 makeStyles-link-229 MuiTypography-colorPrimary-183"
                       href="https://app.uniswap.org/#/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <span
-                        class="MuiTypography-root-160 makeStyles-linkText-229"
+                        class="MuiTypography-root-160 makeStyles-linkText-230"
                       >
                         Uniswap
                       </span>
@@ -311,7 +311,7 @@ exports[`Wallet Drawer displays correctly 1`] = `
                 class="MuiGrid-root-57 MuiGrid-item-59"
               >
                 <p
-                  class="MuiTypography-root-160 makeStyles-buyText-227 MuiTypography-body1-162 MuiTypography-colorTextSecondary-186"
+                  class="MuiTypography-root-160 makeStyles-buyText-228 MuiTypography-body1-162 MuiTypography-colorTextSecondary-186"
                 >
                   Buy Digg:
                 </p>
@@ -322,13 +322,13 @@ exports[`Wallet Drawer displays correctly 1`] = `
                     class="MuiGrid-root-57 MuiGrid-item-59"
                   >
                     <a
-                      class="MuiTypography-root-160 MuiLink-root-230 MuiLink-underlineHover-232 makeStyles-link-228 MuiTypography-colorPrimary-183"
+                      class="MuiTypography-root-160 MuiLink-root-231 MuiLink-underlineHover-233 makeStyles-link-229 MuiTypography-colorPrimary-183"
                       href="https://app.sushi.com/swap?inputCurrency=0x2260fac5e5542a773aa44fbcfedf7c193bc2c599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <span
-                        class="MuiTypography-root-160 makeStyles-linkText-229"
+                        class="MuiTypography-root-160 makeStyles-linkText-230"
                       >
                         Sushiswap
                       </span>
@@ -348,12 +348,12 @@ exports[`Wallet Drawer displays correctly 1`] = `
         >
           <button
             aria-label="disconnect wallet"
-            class="MuiButtonBase-root-199 MuiButton-root-236 MuiButton-text-238"
+            class="MuiButtonBase-root-199 MuiButton-root-237 MuiButton-text-239"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-237 makeStyles-disconnectWalletText-5"
+              class="MuiButton-label-238 makeStyles-disconnectWalletText-5"
             >
               <img
                 alt="disconnect wallet icon"
@@ -364,7 +364,7 @@ exports[`Wallet Drawer displays correctly 1`] = `
               Disconnect Wallet
             </span>
             <span
-              class="MuiTouchRipple-root-265"
+              class="MuiTouchRipple-root-266"
             />
           </button>
         </div>

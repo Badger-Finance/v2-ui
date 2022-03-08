@@ -24,7 +24,7 @@ const theme = createTheme({
 	palette: {
 		type: 'dark',
 		primary: { main: '#FFB84D' },
-		secondary: { main: '#121212' },
+		secondary: { main: '#91CDFF' },
 		background: {
 			default: '#181818',
 			paper: '#2b2b2b',
@@ -72,10 +72,11 @@ const theme = createTheme({
 		},
 		MuiTab: {
 			root: {
-				'&:not(selected)': {
+				'&[aria-selected=false]': {
 					color: '#8a8a8a',
 				},
 			},
+			textColorPrimary: {},
 			wrapper: {
 				fontSize: 15,
 				fontWeight: 700,

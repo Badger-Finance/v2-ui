@@ -8,13 +8,13 @@ import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReduc
 import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { ClaimMap } from 'components-v2/landing/RewardsWidget';
 import { BadgerTree } from '../model/rewards/badger-tree';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from '../../config/constants';
 import { GasSpeed, Network } from '@badger-dao/sdk';
+import { ClaimMap } from '../model/rewards/claim-map';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.

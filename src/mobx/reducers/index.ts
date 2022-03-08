@@ -12,6 +12,7 @@ class UiState {
 	public currency: Currency;
 	public airdropStats: any;
 	public showWalletDrawer: boolean;
+	public rewardsDialogOpen: boolean;
 	public sidebarOpen!: boolean;
 	public showUserBalances: boolean;
 	public notification?: SnackbarNotificationProps;
@@ -27,12 +28,14 @@ class UiState {
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		this.showNotification = this.notificationClosingThreshold < 3;
 		this.showWalletDrawer = false;
+		this.rewardsDialogOpen = false;
 		const { network } = store.network;
 
 		extendObservable(this, {
 			showNotification: this.showNotification,
 			currency: this.currency,
 			sidebarOpen: false,
+			rewardsDialogOpen: false,
 			showUserBalances: this.showUserBalances,
 			notification: {},
 			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
@@ -112,6 +115,14 @@ class UiState {
 
 	toggleWalletDrawer = action(() => {
 		this.showWalletDrawer = !this.showWalletDrawer;
+	});
+
+	openRewardsDialog = action(() => {
+		this.rewardsDialogOpen = true;
+	});
+
+	toggleRewardsDialog = action(() => {
+		this.rewardsDialogOpen = !this.rewardsDialogOpen;
 	});
 }
 

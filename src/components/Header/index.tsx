@@ -11,7 +11,7 @@ import BigNumber from 'bignumber.js';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
 import CurrencyDisplay from '../../components-v2/common/CurrencyDisplay';
-import { RewardsWidget } from '../../components-v2/landing/RewardsWidget';
+import { RewardsButton } from '../../components-v2/landing/RewardsButton';
 import DelegationWidget from '../../components-v2/common/DelegationWidget';
 import NetworkGasWidget from '../../components-v2/common/NetworkGasWidget';
 import { MoreHoriz } from '@material-ui/icons';
@@ -198,7 +198,7 @@ const Header = observer(() => {
 							className={classes.headerRightSide}
 						>
 							<Grid item>
-								<RewardsWidget />
+								<RewardsButton />
 							</Grid>
 							{shouldBannerBeDisplayed && (
 								<Grid item>
