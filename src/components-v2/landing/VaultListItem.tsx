@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 16,
 	},
 	dca: {
-		color: 'gray',
+		color: '#FFB84D',
 		marginBottom: theme.spacing(-2),
 		paddingLeft: theme.spacing(0.5),
 		[theme.breakpoints.up('md')]: {

@@ -216,7 +216,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 	}, [vaults.vaultsFilters]);
 
 	return (
-		<Dialog open={open}>
+		<Dialog open={open} onClose={onClose}>
 			<DialogTitle disableTypography className={classes.title}>
 				<Typography variant="h6" className={classes.titleText}>
 					Filters
@@ -304,7 +304,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 						</Grid>
 					</Grid>
 					<Divider className={classes.divider} />
-					<Grid item container>
+					<Grid item container direction="column">
 						<Typography variant="h6" className={classes.titleText}>
 							Protocols
 						</Typography>
