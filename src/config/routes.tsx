@@ -5,7 +5,6 @@ import { RootStore } from '../mobx/RootStore';
 import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
 import { IbBTC } from 'components/IbBTC';
-import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
@@ -56,11 +55,6 @@ const routes = {
 		path: '/citadel',
 		component: <CitadelEarlyBonding />,
 		onEnter: (_route, _params, store) => store.bondStore.updateBonds(),
-	}),
-	boostLeaderBoard: new Route<RootStore, QueryParams>({
-		path: '/leaderboard',
-		component: <BoostLeaderBoard />,
-		onEnter: (_route, _params, store) => store.leaderBoard.loadData(),
 	}),
 	settDetails: new Route<RootStore, QueryParams>({
 		path: '/setts/:settName',
