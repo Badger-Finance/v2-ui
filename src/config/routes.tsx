@@ -56,18 +56,6 @@ const routes = {
 		component: <CitadelEarlyBonding />,
 		onEnter: (_route, _params, store) => store.bondStore.updateBonds(),
 	}),
-<<<<<<< HEAD
-	boostLeaderBoard: new Route<RootStore, QueryParams>({
-		path: '/leaderboard',
-		component: <BoostLeaderBoard />,
-		onEnter: (_route, _params, store) => store.leaderBoard.loadData(),
-=======
-	bridge: new Route<RootStore, QueryParams>({
-		path: '/bridge',
-		component: <Bridge />,
-		onEnter: (_route, _params, store) => store.bridge.reload(),
->>>>>>> 2722d484 (chore: remove leadeboard)
-	}),
 	settDetails: new Route<RootStore, QueryParams>({
 		path: '/setts/:settName',
 		component: <VaultDetail />,
