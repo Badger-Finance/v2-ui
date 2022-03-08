@@ -6,7 +6,6 @@ import { SidebarConfig } from './interface/sidebar-config.interface';
 const sidebarConfig: Record<Network, SidebarConfig> = {
 	[Network.Local]: {
 		cycle: true,
-		digg: true,
 		ibBTC: true,
 		bridge: false,
 		boost: true,
@@ -14,7 +13,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 	},
 	[Network.Ethereum]: {
 		cycle: true,
-		digg: true,
 		ibBTC: true,
 		bridge: false,
 		boost: true,
@@ -22,7 +20,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 	},
 	[Network.Arbitrum]: {
 		cycle: true,
-		digg: false,
 		ibBTC: false,
 		bridge: false,
 		boost: true,
@@ -30,7 +27,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 	},
 	[Network.Avalanche]: {
 		cycle: false,
-		digg: false,
 		ibBTC: false,
 		bridge: false,
 		boost: false,
@@ -38,7 +34,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 	},
 	[Network.BinanceSmartChain]: {
 		cycle: false,
-		digg: false,
 		ibBTC: false,
 		bridge: false,
 		boost: false,
@@ -46,7 +41,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 	},
 	[Network.Polygon]: {
 		cycle: true,
-		digg: false,
 		ibBTC: false,
 		bridge: false,
 		boost: false,
@@ -54,7 +48,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 	},
 	[Network.Fantom]: {
 		cycle: false,
-		digg: false,
 		ibBTC: false,
 		bridge: false,
 		boost: false,
@@ -62,7 +55,6 @@ const sidebarConfig: Record<Network, SidebarConfig> = {
 	},
 	[Network.xDai]: {
 		cycle: false,
-		digg: false,
 		ibBTC: false,
 		bridge: false,
 		boost: false,

@@ -9,7 +9,6 @@ import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION } from 'config/constants';
 import SidebarItem from './SidebarItem';
 import { getSidebarConfig } from './sidebar.config';
-import SidebarSection from './SidebarSection';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 
@@ -188,7 +187,6 @@ const Sidebar = observer(() => {
 					</div>
 				</Collapse>
 				<SidebarItem route="/" view={views.home} title="Vaults" />
-				{config.digg && <SidebarItem route="/digg" view={views.digg} title="Digg" />}
 				{config.ibBTC && <SidebarItem route="/ibBTC" view={views.IbBTC} title="ibBTC" />}
 				{config.auction && <SidebarItem route="/citadel" view={views.citadel} title="Citadel" />}
 			</div>

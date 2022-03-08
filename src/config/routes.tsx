@@ -3,7 +3,6 @@ import { QueryParams, Route } from 'mobx-router';
 import Landing from '../pages/Landing';
 import { RootStore } from '../mobx/RootStore';
 import { BoostOptimizer } from '../components/Boost';
-import { Digg } from '../components/Digg';
 import { IbBTC } from 'components/IbBTC';
 import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
@@ -41,10 +40,6 @@ const routes = {
 	boostOptimizer: new Route<RootStore, QueryParams>({
 		path: '/boost-optimizer',
 		component: <BoostOptimizer />,
-	}),
-	digg: new Route<RootStore, QueryParams>({
-		path: '/digg',
-		component: <Digg />,
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
