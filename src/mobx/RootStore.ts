@@ -10,7 +10,6 @@ import GasPricesStore from './stores/GasPricesStore';
 import { NETWORK_IDS } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
-import { LeaderBoardStore } from './stores/LeaderBoardStore';
 import PricesStore from './stores/PricesStore';
 import { NetworkStore } from './stores/NetworkStore';
 import { VaultDetailStore } from './stores/VaultDetail.store';
@@ -43,7 +42,6 @@ export class RootStore {
 	public vaults: VaultStore;
 	public honeyPot: HoneyPotStore;
 	public user: UserStore;
-	public leaderBoard: LeaderBoardStore;
 	public prices: PricesStore;
 	public vaultDetail: VaultDetailStore;
 	public vaultCharts: VaultChartsStore;
@@ -71,7 +69,6 @@ export class RootStore {
 		this.vaults = new VaultStore(this);
 		this.user = new UserStore(this);
 		this.honeyPot = new HoneyPotStore(this);
-		this.leaderBoard = new LeaderBoardStore(this);
 		this.vaultDetail = new VaultDetailStore(this);
 		this.vaultCharts = new VaultChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
@@ -96,12 +93,7 @@ export class RootStore {
 			await this.sdk.ready();
 		}
 
-		let refreshData = [
-			this.network.updateGasPrices(),
-			this.vaults.refresh(),
-			this.prices.loadPrices(),
-			this.leaderBoard.loadData(),
-		];
+		let refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
 			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
