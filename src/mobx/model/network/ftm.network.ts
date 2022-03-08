@@ -28,16 +28,6 @@ export const FTM_DEPLOY: Deploy = deploy;
 export const ftmVaults: BadgerVault[] = [
 	{
 		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.boo-xboo'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.boo-xboo'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
 			address: FTM_DEPLOY.tokens['solidly.wbtc-renbtc'],
 			decimals: 18,
 		},
@@ -113,6 +103,76 @@ export const ftmVaults: BadgerVault[] = [
 		},
 		vaultToken: {
 			address: FTM_DEPLOY.sett_system.vaults['native.wftm-renbtc'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.wftm-crv'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.wftm-crv-eco'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.boo-xboo'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.boo-xboo-eco'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.usdc-mim'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.usdc-mim-eco'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.wftm-scream'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.wftm-scream-eco'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.wftm-renbtc'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.wftm-renbtc-eco'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.wftm-tomb'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.wftm-tomb-eco'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.geist-g3crv'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.geist-g3crv'],
 			decimals: 18,
 		},
 	},

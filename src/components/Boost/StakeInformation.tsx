@@ -1,12 +1,10 @@
 import React from 'react';
-import { Button, Divider, Grid, Paper } from '@material-ui/core';
+import { Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
-
 import { rankAndLevelFromStakeRatio } from '../../utils/boost-ranks';
 import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
-import routes from '../../config/routes';
 import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 import { StakeInformationHeader } from './StakeInformationHeader';
 import { roundWithDecimals } from '../../utils/componentHelpers';
@@ -102,20 +100,6 @@ export const StakeInformation = observer(({ native, nonNative, onRankClick }: Pr
 						onRankClick={onRankClick}
 					/>
 				</Grid>
-			</Grid>
-
-			<Grid container className={classes.viewLeaderBoardContainer}>
-				<Button
-					fullWidth
-					color="primary"
-					variant="outlined"
-					size="small"
-					onClick={() => {
-						router.goTo(routes.boostLeaderBoard);
-					}}
-				>
-					View Leaderboard
-				</Button>
 			</Grid>
 		</Grid>
 	);

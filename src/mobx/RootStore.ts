@@ -5,13 +5,11 @@ import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
-import BridgeStore from './stores/bridgeStore';
 import VaultStore from './stores/VaultStore';
 import GasPricesStore from './stores/GasPricesStore';
 import { NETWORK_IDS } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
-import { LeaderBoardStore } from './stores/LeaderBoardStore';
 import PricesStore from './stores/PricesStore';
 import { NetworkStore } from './stores/NetworkStore';
 import { VaultDetailStore } from './stores/VaultDetail.store';
@@ -42,10 +40,8 @@ export class RootStore {
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
 	public vaults: VaultStore;
-	public bridge: BridgeStore;
 	public honeyPot: HoneyPotStore;
 	public user: UserStore;
-	public leaderBoard: LeaderBoardStore;
 	public prices: PricesStore;
 	public vaultDetail: VaultDetailStore;
 	public vaultCharts: VaultChartsStore;
@@ -72,10 +68,7 @@ export class RootStore {
 		this.uiState = new UiState(this);
 		this.vaults = new VaultStore(this);
 		this.user = new UserStore(this);
-		// RenVM bridge store.
-		this.bridge = new BridgeStore(this);
 		this.honeyPot = new HoneyPotStore(this);
-		this.leaderBoard = new LeaderBoardStore(this);
 		this.vaultDetail = new VaultDetailStore(this);
 		this.vaultCharts = new VaultChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
@@ -100,19 +93,10 @@ export class RootStore {
 			await this.sdk.ready();
 		}
 
-		let refreshData = [
-			this.network.updateGasPrices(),
-			this.vaults.refresh(),
-			this.prices.loadPrices(),
-			this.leaderBoard.loadData(),
-		];
+		let refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
 			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
-		}
-
-		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
-			this.bridge.updateContracts();
 		}
 
 		await Promise.all(refreshData);
@@ -148,12 +132,6 @@ export class RootStore {
 
 				if (this.router.currentPath === routes.citadel.path) {
 					updateActions.push(this.bondStore.updateBonds());
-				}
-			}
-
-			if (this.bridge.isBridgeSupported()) {
-				if (this.router.currentPath === routes.bridge.path) {
-					updateActions.push(this.bridge.reload());
 				}
 			}
 
