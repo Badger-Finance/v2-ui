@@ -787,7 +787,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
                 src="/assets/icons/bsbtccrv-ethereum.svg"
               />
               <div
-                class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
@@ -947,7 +947,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
                 src="/assets/icons/bbadger-ethereum.svg"
               />
               <div
-                class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
@@ -1113,7 +1113,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
                 src="/assets/icons/bdigg-ethereum.svg"
               />
               <div
-                class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
@@ -1438,7 +1438,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
                 src="/assets/icons/bsbtccrv-ethereum.svg"
               />
               <div
-                class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
@@ -1598,7 +1598,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
                 src="/assets/icons/bbadger-ethereum.svg"
               />
               <div
-                class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
@@ -1764,7 +1764,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
                 src="/assets/icons/bdigg-ethereum.svg"
               />
               <div
-                class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
