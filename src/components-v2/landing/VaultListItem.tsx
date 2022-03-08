@@ -56,6 +56,14 @@ const useStyles = makeStyles((theme) => ({
 	itemText: {
 		fontSize: 16,
 	},
+	dca: {
+		color: 'gray',
+		marginBottom: theme.spacing(-2),
+		paddingLeft: theme.spacing(0.5),
+		[theme.breakpoints.up('md')]: {
+			paddingLeft: theme.spacing(1),
+		},
+	},
 	tvl: {
 		[theme.breakpoints.down('md')]: {
 			display: 'none',
@@ -202,6 +210,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		</>
 	) : null;
 
+	const dcaMessage = 'DCA Vault';
 	if (isMobile) {
 		return (
 			<Grid container component={Card} className={classes.mobileContainer}>
@@ -214,7 +223,16 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 									className={classes.symbol}
 									src={getVaultIconPath(vault, network.network)}
 								/>
-								{Badge}
+								<Grid item container direction="column">
+									<Grid item>{Badge}</Grid>
+									<Grid item>
+										{vault.dca && (
+											<Typography variant="caption" className={classes.dca}>
+												{dcaMessage}
+											</Typography>
+										)}
+									</Grid>
+								</Grid>
 							</Grid>
 							<Grid container direction="column" className={classes.vaultNameMobile}>
 								<Grid item container spacing={2}>
@@ -324,6 +342,11 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							<Grid item xs="auto" container justifyContent="flex-end">
 								{Badge}
 							</Grid>
+						)}
+						{vault.dca && (
+							<Typography variant="caption" className={classes.dca}>
+								{dcaMessage}
+							</Typography>
 						)}
 					</Grid>
 					<Grid item container xs>
