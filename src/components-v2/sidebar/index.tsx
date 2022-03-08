@@ -190,13 +190,6 @@ const Sidebar = observer(() => {
 				<SidebarItem route="/" view={views.home} title="Vaults" />
 				{config.digg && <SidebarItem route="/digg" view={views.digg} title="Digg" />}
 				{config.ibBTC && <SidebarItem route="/ibBTC" view={views.IbBTC} title="ibBTC" />}
-				{config.boost && (
-					<SidebarItem
-						route="/boost-optimizer"
-						view={views.boostOptimizer}
-						title="Boost"
-					/>
-				)}
 				{config.auction && <SidebarItem route="/citadel" view={views.citadel} title="Citadel" />}
 			</div>
 			<div className={classes.daoContainer}>
