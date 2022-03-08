@@ -6,7 +6,6 @@ import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
 import { Network as BadgerNetwork } from '../../mobx/model/network/network';
 import { RootStore } from 'mobx/RootStore';
 import { DEBUG } from 'config/environment';
-import { ThreeSixty } from '@material-ui/icons';
 
 class GasPricesStore {
 	private gasNetworks: BadgerNetwork[];
