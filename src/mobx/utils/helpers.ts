@@ -301,7 +301,10 @@ export function getVaultsSlugCache(vaults: Vault[]): Record<string, string> {
 	const occurrences: Record<string, number> = {};
 	return Object.fromEntries(
 		vaults.map((vault) => {
-			let sanitizedVaultName = vault.name.replace(/\/+/g, '-'); // replace "/" with "-"
+			let sanitizedVaultName = vault.name
+				.replace(/[^\x00-\x7F]/g, '')
+				.replace(/\/+/g, '-')
+				.trim(); // replace "/" with "-"
 
 			occurrences[sanitizedVaultName] = (occurrences[sanitizedVaultName] ?? 0) + 1;
 
