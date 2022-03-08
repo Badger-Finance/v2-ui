@@ -56,12 +56,12 @@ const useStyles = makeStyles((theme) => ({
 	itemText: {
 		fontSize: 16,
 	},
-	dca:{
+	dca: {
 		color: 'gray',
 		marginBottom: theme.spacing(-2),
 		paddingLeft: theme.spacing(0.5),
 		[theme.breakpoints.up('md')]: {
-		paddingLeft: theme.spacing(1),
+			paddingLeft: theme.spacing(1),
 		},
 	},
 	tvl: {
@@ -223,10 +223,15 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 									className={classes.symbol}
 									src={getVaultIconPath(vault, network.network)}
 								/>
-								<Grid item direction="column">
+								<Grid item container direction="column">
 									<Grid item>{Badge}</Grid>
 									<Grid item>
-									{vault.dca && <Typography variant="caption" className={classes.dca}>{dcaMessage}</Typography>}</Grid>
+										{vault.dca && (
+											<Typography variant="caption" className={classes.dca}>
+												{dcaMessage}
+											</Typography>
+										)}
+									</Grid>
 								</Grid>
 							</Grid>
 							<Grid container direction="column" className={classes.vaultNameMobile}>
@@ -338,7 +343,11 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								{Badge}
 							</Grid>
 						)}
-						{vault.dca && <Typography variant="caption" className={classes.dca}>{dcaMessage}</Typography>}
+						{vault.dca && (
+							<Typography variant="caption" className={classes.dca}>
+								{dcaMessage}
+							</Typography>
+						)}
 					</Grid>
 					<Grid item container xs>
 						<Grid item container spacing={4} xs={12}>
