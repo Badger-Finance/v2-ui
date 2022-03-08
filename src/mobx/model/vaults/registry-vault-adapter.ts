@@ -37,6 +37,7 @@ export class RegistryVaultAdapter implements Vault {
 	vaultToken: string;
 	strategy: VaultStrategy;
 	type: VaultType;
+	dca: boolean;
 
 	constructor(registryVault: RegistryVault) {
 		this.vaultToken = registryVault.address;
@@ -69,5 +70,6 @@ export class RegistryVaultAdapter implements Vault {
 			address: '',
 			performanceFee: 0,
 		};
+		this.dca = false;
 	}
 }

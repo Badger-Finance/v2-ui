@@ -49,6 +49,7 @@ export const SAMPLE_VAULT: Vault = {
 		performanceFee: 20,
 		strategistFee: 10,
 	},
+	dca: false,
 	sources: [
 		{
 			name: 'Vault Compounding',
@@ -230,6 +231,7 @@ export const SAMPLE_VAULTS: Vault[] = [
 			enabled: false,
 			weight: 0,
 		},
+		dca: true,
 		sources: [
 			{
 				name: 'Vault Compounding',
@@ -283,6 +285,7 @@ export const SAMPLE_VAULTS: Vault[] = [
 		balance: 237.567564646,
 		protocol: Protocol.Badger,
 		pricePerFullShare: 0.18907615705168573,
+		dca: false,
 		tokens: [
 			{
 				address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
