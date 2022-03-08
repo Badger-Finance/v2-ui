@@ -10,12 +10,14 @@
 		"solidly.oxd-usdc": "0xEaFB5Ae6eEa34954eE5e5a27B068B8705CE926a6",
 		"solidly.wftm-crv": "0xed7fd242ce91a541abcae52f3d617daca7fe6e34",
 		"solidly.usdc-mim": "0xbcab7d083Cf6a01e0DdA9ed7F8a02b47d125e682",
-		"solidly.wftm-renbtc": "0x4a81e80f7d77b4d1440a7fef12bd47e0344f215b"
+		"solidly.wftm-renbtc": "0x4a81e80f7d77b4d1440a7fef12bd47e0344f215b",
+		"solidly.wftm-scream": "0x86dD79265814756713e631Dde7E162bdD538b7B1",
+		"solidly.wftm-tomb": "0x60a861Cd30778678E3d613db96139440Bd333143",
+		"solidly.geist-g3crv": "0x6c90B69aF6DBD929458497a8D1013Aa255ac71F1"
 	},
 	"geysers": {},
 	"sett_system": {
 		"vaults": {
-			"native.boo-xboo": "0x7dD26f47e1C8a060EDC1999D8781dDE90A4C33A9",
 			"native.wbtc-renbtc": "0xB6D63A4e5Ca740e96C26AdAbcAc73BE78Ee39Dc5",
 			"native.wftm-sex": "0x7cc6049a125388B51c530e51727A87aE101f6417",
 			"native.solid-solidsex": "0xC7cBF5a24caBA375C09cc824481F5508c644dF28",
@@ -23,10 +25,16 @@
 			"native.oxd-usdc": "0x3BA15548226aA045aD6fe9DC9Bec1f0891532D60",
 			"native.wftm-crv": "0x4145a9B8B7bdC76F14e65c26f9c71e23B9069b25",
 			"native.usdc-mim": "0x1AaF7f8154704D80E2380B3DbC967FD0486016e0",
-			"native.wftm-renbtc": "0x9a28eeFB2c5F8311f37c39314D78Be85C54B5da6"
+			"native.wftm-renbtc": "0x9a28eeFB2c5F8311f37c39314D78Be85C54B5da6",
+			"native.wftm-crv-eco": "0x60c5A975Bd0511e45D4C9Ae5592c8CA412BE2310",
+			"native.boo-xboo-eco": "0xFce6e3115D84c94df98BD286C1C67279dc021361",
+			"native.usdc-mim-eco": "0x561f4dBaFA71ad05694C7ea1b894b9D99f684281",
+			"native.wftm-scream-eco": "0x77e803F7d0B6d85731F68CfE1f1CA4c48de105F4",
+			"native.wftm-renbtc-eco": "0x609A51e13fd0896c0c02f0B642756533b29f36Ab",
+			"native.wftm-tomb-eco": "0x3f96f8cA67AcDE9041AD62125C5a4D062b07872c",
+			"native.geist-g3crv": "0x02330E37fcc7C27eB4632b3E31b951fDE5126c48"
 		},
 		"strategies": {
-			"native.boo-xboo": "0x60129B2b762952Dfe8b21f40ee8aa3B2A4623546",
 			"native.wbtc-renbtc": "0x711555f2b421da9a86a18dc163d04699310fe297",
 			"native.wftm-sex": "0x99f4db590ee266011631985589AEde1EBbDDc137",
 			"native.solid-solidsex": "0x7AfB2E386b7990507009f81B3c486c8C596501a4",
@@ -34,7 +42,14 @@
 			"native.oxd-usdc": "0xe850B254461Ba7D6148C07ABF9f171fb9e03BB00",
 			"native.wftm-crv": "0x8bfc9dF1228D73BcaE1B553D0e472d5D4447D971",
 			"native.usdc-mim": "0x5631Baa4C636Dd5Fe3Dbdcd6e31c41f2385D3405",
-			"native.wftm-renbtc": "0xE143aA25Eec81B4Fc952b38b6Bca8D2395481377"
+			"native.wftm-renbtc": "0xE143aA25Eec81B4Fc952b38b6Bca8D2395481377",
+			"native.wftm-crv-eco": "0xF2DeF12E2559D75Ec8FC3aAa3EFe91a8ccd8B00e",
+			"native.boo-xboo-eco": "0xC2073A6C7625Ca5C5863a3072d6025025B6dE8bc",
+			"native.usdc-mim-eco": "0x2B6F3533edfd42812Ea3F9E02cC18B99a23BE731",
+			"native.wftm-scream-eco": "0x560A990090eE872c85Df8641e90A1DC66E9D0988",
+			"native.wftm-renbtc-eco": "0xdD2f894375CdC8E4E574F0ccB9B65D617CEafee5",
+			"native.wftm-tomb-eco": "0x7EC44d9143c4A38908E5be4f7c6331f5805715D2",
+			"native.geist-g3crv": "0x24766758465f8d27395EBa4A8bD016cbC3C3978B"
 		}
 	},
 	"badgerTree": "0x89122c767a5f543e663db536b603123225bc3823"
