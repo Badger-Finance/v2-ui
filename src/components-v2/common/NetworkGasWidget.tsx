@@ -152,8 +152,6 @@ const NetworkGasWidget = (): JSX.Element => {
 		setSelectedNetwork(network);
 	}, [network]);
 
-	console.log({ init: gasPrices.initialized, gasOptions })
-
 	return (
 		<>
 			<Button
@@ -169,7 +167,13 @@ const NetworkGasWidget = (): JSX.Element => {
 					alt="selected network icon"
 				/>
 			</Button>
-			<Dialog classes={{ paperWidthSm: classes.dialog }} open={isDialogOpen} onClose={toggleDialog} fullWidth maxWidth="sm">
+			<Dialog
+				classes={{ paperWidthSm: classes.dialog }}
+				open={isDialogOpen}
+				onClose={toggleDialog}
+				fullWidth
+				maxWidth="sm"
+			>
 				<DialogTitle className={classes.title}>
 					<Typography className={classes.titleText} variant="h6">
 						Network & Gas
