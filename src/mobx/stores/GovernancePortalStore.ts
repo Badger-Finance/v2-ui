@@ -16,7 +16,7 @@ export class GovernancePortalStore {
 	public contractAddress?: string;
 	public timelockEvents?: Map<string, TimelockEvent>;
 	constructor(store: RootStore) {
-		this.contractAddress = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
+		this.contractAddress = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
 		extendObservable(this, {
 			timelockEvents: this.timelockEvents,
 		});
@@ -55,7 +55,8 @@ export class GovernancePortalStore {
 				timelockEvent.timeRemaining = 0;
 				if (eventitem.returnValues.status == 'Proposed') {
 					timelockEvent.proposer = timelockEvent.doneBy;
-					timelockEvent.timeRemaining = eventitem.returnValues.delay - Math.round((new Date()).getTime() / 1000);
+					timelockEvent.timeRemaining =
+						eventitem.returnValues.delay - Math.round(new Date().getTime() / 1000);
 				}
 				timelockEventMap.set(id, timelockEvent);
 			}

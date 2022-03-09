@@ -1,5 +1,4 @@
 import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
-import EventAction from './EventAction';
 import { Grid, Typography, ListItem, makeStyles, Link } from '@material-ui/core';
 import { ArrowUpward } from '@material-ui/icons';
 import classNames from 'classnames';
@@ -8,8 +7,7 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		paddingLeft: theme.spacing(2),
 		width: '1100px',
-		color: theme.palette.text.secondary
-		// textAlign: 'center',
+		color: theme.palette.text.secondary,
 	},
 	listItem: {
 		padding: theme.spacing(2),
@@ -93,9 +91,7 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 						<ArrowUpward className={classes.arrow} />
 					</Link>
 				</Grid>
-				<Grid item xs={3}>
-					<EventAction event={event} />
-				</Grid>
+				<Grid item xs={3}></Grid>
 				<Grid item xs={3} className={classes.arrowbox}>
 					<Typography className={classes.address} variant="body2" color={'textSecondary'} noWrap>
 						{event.proposer}
