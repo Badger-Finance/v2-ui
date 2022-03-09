@@ -301,21 +301,22 @@ export function getVaultsSlugCache(vaults: Vault[]): Record<string, string> {
 	const occurrences: Record<string, number> = {};
 	return Object.fromEntries(
 		vaults.map((vault) => {
-			let sanitizedVaultName = vault.name
+			const sanitizedVaultName = vault.name
 				.replace(/[^\x00-\x7F]/g, '')
 				.replace(/\/+/g, '-')
 				.trim(); // replace "/" with "-"
 
-			occurrences[sanitizedVaultName] = occurrences[sanitizedVaultName] ?? 0;
+			const appearances = occurrences[sanitizedVaultName] ?? 0;
 
+			let slugStoreName = sanitizedVaultName;
 			// in the event of duplicate vault names append an index suffix to prevent slug overlapping
-			if (occurrences[sanitizedVaultName] > 1) {
-				sanitizedVaultName = `${sanitizedVaultName}-${occurrences[sanitizedVaultName]}`;
+			if (appearances > 0) {
+				slugStoreName = `${sanitizedVaultName}-${occurrences[sanitizedVaultName]}`;
 			}
 
-			occurrences[sanitizedVaultName] += 1;
+			occurrences[sanitizedVaultName] = appearances + 1;
 
-			return [vault.vaultToken, slugify(`${vault.protocol}-${sanitizedVaultName}`, { lower: true })];
+			return [vault.vaultToken, slugify(`${vault.protocol}-${slugStoreName}`, { lower: true })];
 		}),
 	);
 }

@@ -1,4 +1,4 @@
-import { BouncerType, Protocol, Vault, VaultState, VaultType } from '@badger-dao/sdk';
+import { BouncerType, Protocol, Vault, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
 import { getVaultsSlugCache } from '../../mobx/utils/helpers';
 
 jest.doMock('slugify', () => ({
@@ -20,11 +20,13 @@ const sampleVaults: Vault[] = [
 		pricePerFullShare: 1.014745586208039,
 		tokens: [],
 		apr: 0.7684507208021384,
+		apy: 0.7684507208021384,
 		boost: {
 			enabled: false,
 			weight: 10000,
 		},
 		sources: [],
+		sourcesApy: [],
 		bouncer: BouncerType.None,
 		strategy: {
 			address: '0xCce0D2d1Eb2310F7e67e128bcFE3CE870A3D3a3d',
@@ -33,6 +35,7 @@ const sampleVaults: Vault[] = [
 			strategistFee: 0,
 		},
 		type: VaultType.Standard,
+		behavior: VaultBehavior.None,
 	},
 	{
 		name: 'CVX',
@@ -48,11 +51,13 @@ const sampleVaults: Vault[] = [
 		pricePerFullShare: 1.0898615700210026,
 		tokens: [],
 		apr: 0,
+		apy: 0,
 		boost: {
 			enabled: false,
 			weight: 0,
 		},
 		sources: [],
+		sourcesApy: [],
 		bouncer: BouncerType.None,
 		strategy: {
 			address: '0xBCee2c6CfA7A4e29892c3665f464Be5536F16D95',
@@ -61,6 +66,7 @@ const sampleVaults: Vault[] = [
 			strategistFee: 0,
 		},
 		type: VaultType.Standard,
+		behavior: VaultBehavior.None,
 	},
 	{
 		name: 'CVX',
@@ -76,11 +82,13 @@ const sampleVaults: Vault[] = [
 		pricePerFullShare: 1,
 		tokens: [],
 		apr: 69.12878447730935,
+		apy: 69.12878447730935,
 		boost: {
 			enabled: false,
 			weight: 0,
 		},
 		sources: [],
+		sourcesApy: [],
 		bouncer: BouncerType.None,
 		strategy: {
 			address: '0x3ff634ce65cDb8CC0D569D6d1697c41aa666cEA9',
@@ -89,6 +97,7 @@ const sampleVaults: Vault[] = [
 			strategistFee: 0,
 		},
 		type: VaultType.Standard,
+		behavior: VaultBehavior.None,
 	},
 	{
 		name: 'CVX',
@@ -96,7 +105,7 @@ const sampleVaults: Vault[] = [
 		vaultAsset: 'bveCVX',
 		state: VaultState.Open,
 		underlyingToken: '0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B',
-		vaultToken: '0xfd05D3C7fe2924020620A8bE4961bBaA747e6306',
+		vaultToken: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 		value: 9942.779677051958,
 		available: 0,
 		balance: 1143509.3711711436,
@@ -104,11 +113,13 @@ const sampleVaults: Vault[] = [
 		pricePerFullShare: 1,
 		tokens: [],
 		apr: 69.12878447730935,
+		apy: 69.12878447730935,
 		boost: {
 			enabled: false,
 			weight: 0,
 		},
 		sources: [],
+		sourcesApy: [],
 		bouncer: BouncerType.None,
 		strategy: {
 			address: '0x3ff634ce65cDb8CC0D569D6d1697c41aa666cEA9',
@@ -117,6 +128,7 @@ const sampleVaults: Vault[] = [
 			strategistFee: 0,
 		},
 		type: VaultType.Standard,
+		behavior: VaultBehavior.None,
 	},
 ];
 
@@ -124,9 +136,9 @@ describe('getVaultsSlugCache', () => {
 	it('creates vaults slug cache correctly', () => {
 		const expectedSlugs = {
 			[sampleVaults[0].vaultToken]: 'convex-renbtc-wbtc-sbtc',
-			[sampleVaults[1].vaultToken]: 'convex-cvx',
-			[sampleVaults[2].vaultToken]: 'convex-cvx-2',
-			[sampleVaults[3].vaultToken]: 'convex-cvx-3',
+			[sampleVaults[1].vaultToken]: 'convex-cvx', // 0
+			[sampleVaults[2].vaultToken]: 'convex-cvx-1', // 1
+			[sampleVaults[3].vaultToken]: 'convex-cvx-2', // 2
 		};
 
 		expect(getVaultsSlugCache(sampleVaults)).toEqual(expectedSlugs);
