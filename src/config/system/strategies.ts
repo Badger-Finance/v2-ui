@@ -163,7 +163,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-geist-g3crv-lp-solidex-ecosystem',
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-geist-g3crv-lp',
 				},
 			};
 		case Network.Avalanche:
