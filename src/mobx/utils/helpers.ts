@@ -306,14 +306,14 @@ export function getVaultsSlugCache(vaults: Vault[]): Record<string, string> {
 				.replace(/\/+/g, '-')
 				.trim(); // replace "/" with "-"
 
-			occurrences[sanitizedVaultName] = (occurrences[sanitizedVaultName] ?? 0) + 1;
-
-			const totalOccurrences = occurrences[sanitizedVaultName];
+			occurrences[sanitizedVaultName] = occurrences[sanitizedVaultName] ?? 0;
 
 			// in the event of duplicate vault names append an index suffix to prevent slug overlapping
-			if (totalOccurrences > 1) {
-				sanitizedVaultName = `${sanitizedVaultName}-${totalOccurrences}`;
+			if (occurrences[sanitizedVaultName] > 1) {
+				sanitizedVaultName = `${sanitizedVaultName}-${occurrences[sanitizedVaultName]}`;
 			}
+
+			occurrences[sanitizedVaultName] += 1;
 
 			return [vault.vaultToken, slugify(`${vault.protocol}-${sanitizedVaultName}`, { lower: true })];
 		}),
