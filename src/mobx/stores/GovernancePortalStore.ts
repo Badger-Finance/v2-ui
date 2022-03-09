@@ -16,7 +16,7 @@ export class GovernancePortalStore {
 	public contractAddress?: string;
 	public timelockEvents?: Map<string, TimelockEvent>;
 	constructor(store: RootStore) {
-		this.contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+		this.contractAddress = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
 		extendObservable(this, {
 			timelockEvents: this.timelockEvents,
 		});
@@ -37,6 +37,7 @@ export class GovernancePortalStore {
 
 		for (var eventitem of eventData) {
 			if (eventitem.returnValues.id) {
+				console.log(eventitem.returnValues);
 				let id = eventitem.returnValues.id;
 				const blockInfo = await web3.eth.getBlock(eventitem.blockNumber);
 				var timestamp: any = blockInfo.timestamp;
@@ -46,14 +47,15 @@ export class GovernancePortalStore {
 				var timelockEvent = {} as TimelockEvent;
 
 				timelockEvent = timelockEventMap.get(id) || timelockEvent;
-				timelockEvent.blockNumber = eventitem.blockNumber;
 				timelockEvent.doneBy = eventitem.returnValues.sender || '';
 				timelockEvent.status = eventitem.returnValues.status || '';
 				timelockEvent.event = eventitem.event;
 				timelockEvent.returnValues = eventitem.returnValues;
 				timelockEvent.timeStamp = utcDate;
+				timelockEvent.timeRemaining = 0;
 				if (eventitem.returnValues.status == 'Proposed') {
 					timelockEvent.proposer = timelockEvent.doneBy;
+					timelockEvent.timeRemaining = eventitem.returnValues.delay - Math.round((new Date()).getTime() / 1000);
 				}
 				timelockEventMap.set(id, timelockEvent);
 			}

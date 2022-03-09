@@ -8,7 +8,8 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		paddingLeft: theme.spacing(2),
 		width: '1100px',
-		textAlign: 'center',
+		color: theme.palette.text.secondary
+		// textAlign: 'center',
 	},
 	listItem: {
 		padding: theme.spacing(2),
@@ -66,7 +67,8 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 		<ListItem className={classes.listItem}>
 			<Grid container item xs={12} className={classes.root} spacing={2}>
 				<Grid item xs={3}>
-					{event.timeStamp}
+					<div>{event.timeStamp}</div>
+					{event.timeRemaining > 0 && <div>{event.timeRemaining} secs remaining</div>}
 				</Grid>
 				<Grid item xs={3} className={classes.arrowbox}>
 					<Typography className={classes.address} variant="body2" color="textSecondary" noWrap>

@@ -1,7 +1,7 @@
 export interface TimelockEvent {
-	blockNumber: number;
 	status: string;
 	timeStamp: string;
+	timeRemaining: number;
 	doneBy: string;
 	proposer: string;
 	event: string;
