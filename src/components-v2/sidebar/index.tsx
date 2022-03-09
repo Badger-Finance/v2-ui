@@ -9,7 +9,6 @@ import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION } from 'config/constants';
 import SidebarItem from './SidebarItem';
 import { getSidebarConfig } from './sidebar.config';
-import SidebarSection from './SidebarSection';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 
