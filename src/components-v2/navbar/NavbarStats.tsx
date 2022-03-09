@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: 4,
 	},
 	assets: {
-		[theme.breakpoints.down('sm')]: {
+		[theme.breakpoints.down('md')]: {
 			display: 'none',
 		},
 	},

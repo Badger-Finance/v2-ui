@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	mobileStats: {
-		overflow: 'scroll',
+		overflowX: 'auto',
 	},
 	mobileTabs: {
 		[theme.breakpoints.down('xs')]: {

@@ -121,7 +121,24 @@ const Landing = observer((props: LandingProps) => {
 	const { title, subtitle } = props;
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : new BigNumber(0);
+	const userAssets = (
+		<>
+			<Typography
+				variant="body2"
+				className={clsx(classes.badgerOverviewValueText, classes.badgerOverviewValueTitle)}
+			>
+				My Assets:
+			</Typography>
+			<CurrencyDisplay
+				displayValue={inCurrency(portfolioValue, currency)}
+				variant="body2"
+				justifyContent="flex-start"
+				TypographyProps={{ className: classes.badgerOverviewValueText }}
+			/>
+		</>
+	);
 
 	return (
 		<LayoutContainer>
@@ -130,23 +147,17 @@ const Landing = observer((props: LandingProps) => {
 					<Grid item xs={10} md={6}>
 						<PageHeader title={title} subtitle={subtitle} />
 					</Grid>
+					{isTablet && (
+						<Grid item container alignItems="center" justifyContent="flex-end" md>
+							{userAssets}
+						</Grid>
+					)}
 				</PageHeaderContainer>
 			</Grid>
 			{isMobile && (
 				<Grid container>
 					<Grid item container xs={10} alignItems="center">
-						<Typography
-							variant="body2"
-							className={clsx(classes.badgerOverviewValueText, classes.badgerOverviewValueTitle)}
-						>
-							My Assets:
-						</Typography>
-						<CurrencyDisplay
-							displayValue={inCurrency(portfolioValue, currency)}
-							variant="body2"
-							justifyContent="flex-start"
-							TypographyProps={{ className: classes.badgerOverviewValueText }}
-						/>
+						{userAssets}
 					</Grid>
 					<Grid item container xs={2} className={classes.filterWidgetContainer}>
 						<VaultListFiltersWidget />
