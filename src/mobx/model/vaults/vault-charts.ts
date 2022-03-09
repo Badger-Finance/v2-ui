@@ -5,6 +5,7 @@ export interface VaultChartData {
 	balance: number;
 	supply: number;
 	ratio: number;
+	pricePerFullShare: number;
 	value: number;
 }
 
