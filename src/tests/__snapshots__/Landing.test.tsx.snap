@@ -227,6 +227,11 @@ exports[`Landing Renders correctly 1`] = `
               src="/assets/icons/bsbtccrv-ethereum.svg"
             />
           </div>
+          <span
+            class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
+          >
+            Ecosystem Helper
+          </span>
         </div>
         <div
           class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
@@ -357,9 +362,9 @@ exports[`Landing Renders correctly 1`] = `
             />
           </div>
           <span
-            class="MuiTypography-root-135 makeStyles-dca-268 MuiTypography-caption-138"
+            class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
           >
-            DCA Vault
+            DCA
           </span>
         </div>
         <div
@@ -781,20 +786,30 @@ exports[`Landing Renders mobile version correctly 1`] = `
             <div
               class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
             >
-              <img
-                alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-                class="makeStyles-symbol-278"
-                src="/assets/icons/bsbtccrv-ethereum.svg"
-              />
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+              >
+                <img
+                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
+                  class="makeStyles-symbol-278"
+                  src="/assets/icons/bsbtccrv-ethereum.svg"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
                 />
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
-                />
+                >
+                  <span
+                    class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
+                  >
+                    Ecosystem Helper
+                  </span>
+                </div>
               </div>
             </div>
             <div
@@ -941,13 +956,17 @@ exports[`Landing Renders mobile version correctly 1`] = `
             <div
               class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
             >
-              <img
-                alt="Badger Badger Vault Symbol"
-                class="makeStyles-symbol-278"
-                src="/assets/icons/bbadger-ethereum.svg"
-              />
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+              >
+                <img
+                  alt="Badger Badger Vault Symbol"
+                  class="makeStyles-symbol-278"
+                  src="/assets/icons/bbadger-ethereum.svg"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
@@ -956,9 +975,9 @@ exports[`Landing Renders mobile version correctly 1`] = `
                   class="MuiGrid-root-29 MuiGrid-item-31"
                 >
                   <span
-                    class="MuiTypography-root-135 makeStyles-dca-268 MuiTypography-caption-138"
+                    class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
                   >
-                    DCA Vault
+                    DCA
                   </span>
                 </div>
               </div>
@@ -1107,13 +1126,17 @@ exports[`Landing Renders mobile version correctly 1`] = `
             <div
               class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
             >
-              <img
-                alt="Badger Digg Vault Symbol"
-                class="makeStyles-symbol-278"
-                src="/assets/icons/bdigg-ethereum.svg"
-              />
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+              >
+                <img
+                  alt="Badger Digg Vault Symbol"
+                  class="makeStyles-symbol-278"
+                  src="/assets/icons/bdigg-ethereum.svg"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
@@ -1432,20 +1455,30 @@ exports[`Landing Renders tablet version correctly 1`] = `
             <div
               class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
             >
-              <img
-                alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-                class="makeStyles-symbol-278"
-                src="/assets/icons/bsbtccrv-ethereum.svg"
-              />
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+              >
+                <img
+                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
+                  class="makeStyles-symbol-278"
+                  src="/assets/icons/bsbtccrv-ethereum.svg"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
                 />
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
-                />
+                >
+                  <span
+                    class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
+                  >
+                    Ecosystem Helper
+                  </span>
+                </div>
               </div>
             </div>
             <div
@@ -1592,13 +1625,17 @@ exports[`Landing Renders tablet version correctly 1`] = `
             <div
               class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
             >
-              <img
-                alt="Badger Badger Vault Symbol"
-                class="makeStyles-symbol-278"
-                src="/assets/icons/bbadger-ethereum.svg"
-              />
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+              >
+                <img
+                  alt="Badger Badger Vault Symbol"
+                  class="makeStyles-symbol-278"
+                  src="/assets/icons/bbadger-ethereum.svg"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"
@@ -1607,9 +1644,9 @@ exports[`Landing Renders tablet version correctly 1`] = `
                   class="MuiGrid-root-29 MuiGrid-item-31"
                 >
                   <span
-                    class="MuiTypography-root-135 makeStyles-dca-268 MuiTypography-caption-138"
+                    class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
                   >
-                    DCA Vault
+                    DCA
                   </span>
                 </div>
               </div>
@@ -1758,13 +1795,17 @@ exports[`Landing Renders tablet version correctly 1`] = `
             <div
               class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
             >
-              <img
-                alt="Badger Digg Vault Symbol"
-                class="makeStyles-symbol-278"
-                src="/assets/icons/bdigg-ethereum.svg"
-              />
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33"
+                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+              >
+                <img
+                  alt="Badger Digg Vault Symbol"
+                  class="makeStyles-symbol-278"
+                  src="/assets/icons/bdigg-ethereum.svg"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
               >
                 <div
                   class="MuiGrid-root-29 MuiGrid-item-31"

@@ -11,13 +11,14 @@ import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
 import { VaultDeposit, VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
-import { Vault, VaultState } from '@badger-dao/sdk';
+import { Vault, VaultBehavior, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
 import { getUserVaultBoost, getVaultIconPath } from '../../utils/componentHelpers';
 import VaultBadge from './VaultBadge';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import VaultBehaviorTooltip from './VaultBehaviorTooltip';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -56,13 +57,11 @@ const useStyles = makeStyles((theme) => ({
 	itemText: {
 		fontSize: 16,
 	},
-	dca: {
-		color: 'gray',
-		marginBottom: theme.spacing(-2),
+	behavior: {
+		color: '#FFB84D',
+		width: '90px',
+		marginBottom: theme.spacing(-3),
 		paddingLeft: theme.spacing(0.5),
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(1),
-		},
 	},
 	tvl: {
 		[theme.breakpoints.down('md')]: {
@@ -210,7 +209,6 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		</>
 	) : null;
 
-	const dcaMessage = 'DCA Vault';
 	if (isMobile) {
 		return (
 			<Grid container component={Card} className={classes.mobileContainer}>
@@ -218,18 +216,35 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 					<Grid item xs={12}>
 						<Grid container>
 							<Grid container alignItems="center">
-								<img
-									alt={`Badger ${vault.name} Vault Symbol`}
-									className={classes.symbol}
-									src={getVaultIconPath(vault, network.network)}
-								/>
-								<Grid item container direction="column">
+								<Grid xs={5} sm={12}>
+									<img
+										alt={`Badger ${vault.name} Vault Symbol`}
+										className={classes.symbol}
+										src={getVaultIconPath(vault, network.network)}
+									/>
+								</Grid>
+								<Grid item container direction="column" xs={7}>
 									<Grid item>{Badge}</Grid>
 									<Grid item>
-										{vault.dca && (
-											<Typography variant="caption" className={classes.dca}>
-												{dcaMessage}
-											</Typography>
+										{vault.behavior !== VaultBehavior.None && (
+											<Tooltip
+												enterTouchDelay={0}
+												enterDelay={0}
+												leaveDelay={300}
+												arrow
+												placement="bottom"
+												title={<VaultBehaviorTooltip vault={vault} />}
+												// prevents scrolling overflow off the sett list
+												PopperProps={{
+													disablePortal: true,
+												}}
+												// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
+												id={`${vault.name} vault behavior`}
+											>
+												<Typography variant="caption" className={classes.behavior}>
+													{vault.behavior}
+												</Typography>
+											</Tooltip>
 										)}
 									</Grid>
 								</Grid>
@@ -343,10 +358,25 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								{Badge}
 							</Grid>
 						)}
-						{vault.dca && (
-							<Typography variant="caption" className={classes.dca}>
-								{dcaMessage}
-							</Typography>
+						{vault.behavior !== VaultBehavior.None && (
+							<Tooltip
+								enterTouchDelay={0}
+								enterDelay={0}
+								leaveDelay={300}
+								arrow
+								placement="bottom"
+								title={<VaultBehaviorTooltip vault={vault} />}
+								// prevents scrolling overflow off the sett list
+								PopperProps={{
+									disablePortal: true,
+								}}
+								// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
+								id={`${vault.name} vault behavior`}
+							>
+								<Typography variant="caption" className={classes.behavior}>
+									{vault.behavior}
+								</Typography>
+							</Tooltip>
 						)}
 					</Grid>
 					<Grid item container xs>
