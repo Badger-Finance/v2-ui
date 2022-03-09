@@ -20,5 +20,6 @@ export interface VaultSnapshot {
 	balance: number;
 	supply: number;
 	ratio: number;
+	pricePerFullShare: number;
 	value: number;
 }
