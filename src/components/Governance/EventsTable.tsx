@@ -40,29 +40,22 @@ export interface EventTableProps {
 
 const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
 	const classes = useStyles();
-	const [eventListShow, setEventListShow] = useState<any[]>([]);
-	const [page, setPage] = useState(1);
-	let eventList: any[] = [];
+	const [eventListShow, setEventListShow] = useState<TimelockEvent[]>([]);
+	const [page, setPage] = useState<number>(1);
+	let eventList: TimelockEvent[] = [];
+	const applyFilter = (eventitem: TimelockEvent) => {
+		return filters.includes(eventitem.status);
+	}
 	if (events) {
 		for (let key of events.keys()) {
 			var eventitem = {} as TimelockEvent;
 			eventitem = events.get(key) || eventitem;
-			eventList.push(<EventsTableItem event={eventitem} key={key} />);
+			eventList.push(eventitem);
 		}
 	}
-	let filteredEventList: any[] = [];
-	if (filters.length == 0) {
-		filteredEventList = eventList;
-	} else {
-		if (events) {
-			for (let key of events.keys()) {
-				var eventitem = {} as TimelockEvent;
-				eventitem = events.get(key) || eventitem;
-				if (filters.includes(eventitem.status)) {
-					filteredEventList.push(<EventsTableItem event={eventitem} key={key} />);
-				}
-			}
-		}
+	let filteredEventList: TimelockEvent[] = eventList;
+	if (filters.length > 0) {
+		filteredEventList = eventList.filter(applyFilter);
 	}
 	const rowsPerPage = 8;
 	const totalRows = filteredEventList.length;
@@ -73,11 +66,8 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
 		} else if (updatePage < 1) {
 			updatePage = totalPages;
 		}
+		let currentEventList: TimelockEvent[] = filteredEventList.slice((updatePage - 1) * rowsPerPage, updatePage * rowsPerPage);
 		setPage(updatePage);
-		var currentEventList: any[] = [];
-		for (let i = (updatePage - 1) * rowsPerPage; i < updatePage * rowsPerPage; i++) {
-			currentEventList.push(filteredEventList[i]);
-		}
 		setEventListShow(currentEventList);
 	};
 
@@ -109,7 +99,9 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
 				</Grid>
 			</Grid>
 
-			<List className={classes.list}>{eventListShow}</List>
+			<List className={classes.list}>
+				{eventListShow && eventListShow.map((event, i) => <EventsTableItem event={event} key={'event-' + i} />)}
+			</List>
 
 			<Pagination page={page} totalPages={totalPages} handlePagination={handlePages} />
 		</Grid>

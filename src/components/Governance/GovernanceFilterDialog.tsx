@@ -70,6 +70,11 @@ interface Props {
 	onClose: () => void;
 	applyFilter: ([]) => void;
 }
+const enum Filters {
+	PROPOSED = "Proposed",
+	VETOED = "Vetoed",
+	EXECUTED = "Executed",
+}
 
 const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Element => {
 	const classes = useStyles();
@@ -77,9 +82,9 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 	const [vetoed, setVetoed] = useState(false);
 	const [executed, setExecuted] = useState(false);
 	const handleFilterSelect = (value: string) => {
-		if (value === 'proposed') {
+		if (value === Filters.PROPOSED) {
 			setProposed(!proposed);
-		} else if (value === 'vetoed') {
+		} else if (value === Filters.VETOED) {
 			setVetoed(!vetoed);
 		} else {
 			setExecuted(!executed);
@@ -89,13 +94,13 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 	const handleSave = () => {
 		let filters = [];
 		if (proposed) {
-			filters.push('Proposed');
+			filters.push(Filters.PROPOSED);
 		}
 		if (vetoed) {
-			filters.push('Vetoed');
+			filters.push(Filters.VETOED);
 		}
 		if (executed) {
-			filters.push('Executed');
+			filters.push(Filters.EXECUTED);
 		}
 		applyFilter(filters);
 		onClose();
@@ -130,13 +135,13 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 						<Grid container className={classes.tokenSelection} spacing={2}>
 							<Grid item xs={12}>
 								<FormControlLabel
-									aria-label="BadgerDAO Tokens"
+									aria-label={Filters.PROPOSED}
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
 											checked={proposed}
-											onChange={() => handleFilterSelect('proposed')}
+											onChange={() => handleFilterSelect(Filters.PROPOSED)}
 										/>
 									}
 									label={
@@ -150,13 +155,13 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 							</Grid>
 							<Grid item xs={12}>
 								<FormControlLabel
-									aria-label="Boosted Tokens"
+									aria-label={Filters.VETOED}
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
 											checked={vetoed}
-											onChange={() => handleFilterSelect('vetoed')}
+											onChange={() => handleFilterSelect(Filters.VETOED)}
 										/>
 									}
 									label={
@@ -170,13 +175,13 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 							</Grid>
 							<Grid item xs={12}>
 								<FormControlLabel
-									aria-label="Non-Boosted Tokens"
+									aria-label={Filters.EXECUTED}
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
 											checked={executed}
-											onChange={() => handleFilterSelect('executed')}
+											onChange={() => handleFilterSelect(Filters.EXECUTED)}
 										/>
 									}
 									label={

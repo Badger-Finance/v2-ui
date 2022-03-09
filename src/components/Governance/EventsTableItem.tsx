@@ -2,6 +2,7 @@ import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-eve
 import EventAction from './EventAction';
 import { Grid, Typography, ListItem, makeStyles, Link } from '@material-ui/core';
 import { ArrowUpward } from '@material-ui/icons';
+import classNames from 'classnames';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -11,10 +12,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	listItem: {
 		padding: theme.spacing(2),
-		borderTop: '0.1px solid',
-		'&:last-child div': {
-			borderBottom: 0,
-		},
+		borderTop: '0.1px solid'
 	},
 	address: {
 		width: theme.spacing(28),
@@ -29,14 +27,41 @@ const useStyles = makeStyles((theme) => ({
 		right: theme.spacing(1),
 		color: 'white',
 	},
+	status: {
+		display: 'inline-block',
+		width: 'fit-content',
+		border: '1px solid',
+		borderRadius: '12px',
+		padding: '0 5px',
+		marginRight: 5
+	},
+	Proposed: {
+		borderColor: 'yellow',
+		color: 'yellow'
+	},
+	Vetoed: {
+		borderColor: 'red',
+		color: 'red'
+	},
+	Executed: {
+		borderColor: 'green',
+		color: 'green'
+	}
 }));
 
 export interface EventTableProps {
 	event: TimelockEvent;
 }
 
+const enum Filters {
+	PROPOSED = "Proposed",
+	VETOED = "Vetoed",
+	EXECUTED = "Executed",
+}
+
 const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 	const classes = useStyles();
+	const status = event.status;
 	return (
 		<ListItem className={classes.listItem}>
 			<Grid container item xs={12} className={classes.root} spacing={2}>
@@ -45,7 +70,10 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 				</Grid>
 				<Grid item xs={3} className={classes.arrowbox}>
 					<Typography className={classes.address} variant="body2" color="textSecondary" noWrap>
-						{event.status} by {event.doneBy}
+						{status == Filters.PROPOSED && <div className={classNames([classes.status, classes.Proposed].join(' '))}><b>{status}</b></div>}
+						{status == Filters.VETOED && <div className={classNames([classes.status, classes.Vetoed].join(' '))}><b>{status}</b></div>}
+						{status == Filters.EXECUTED && <div className={classNames([classes.status, classes.Executed].join(' '))}><b>{status}</b></div>}
+						by {event.doneBy}
 					</Typography>
 					<Link href={'https://etherscan.io/address/' + event.doneBy} target="_blank">
 						<ArrowUpward className={classes.arrow} />
@@ -63,7 +91,7 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 					</Link>
 				</Grid>
 			</Grid>
-		</ListItem>
+		</ListItem >
 	);
 };
 

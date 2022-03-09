@@ -34,7 +34,7 @@ export interface Props {
 }
 export const PaginationComponent: React.FC<Props> = ({ page, totalPages, handlePagination }) => {
 	const classes = useStyles();
-	var pageJsx: any[] = [];
+	var pageJsx: JSX.Element[] = [];
 	for (let i = 1; i <= totalPages; i++) {
 		pageJsx.push(
 			<button

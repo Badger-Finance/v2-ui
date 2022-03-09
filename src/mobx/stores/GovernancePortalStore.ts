@@ -52,19 +52,6 @@ export class GovernancePortalStore {
 				timelockEvent.event = eventitem.event;
 				timelockEvent.returnValues = eventitem.returnValues;
 				timelockEvent.timeStamp = utcDate;
-				// try {
-				// 	const functionName = eventitem.returnValues.data.substring(0, 10);
-				// 	const signature = ""
-				// 	timelockEvent.functionName = web3.utils.hexToAscii(functionName);
-				// 	timelockEvent.parameterTypes = getParameterTypes(signature);
-				// 	timelockEvent.decodedParameters = web3.eth.abi.decodeParameters(
-				// 		timelockEvent.parameterTypes,
-				// 		eventitem.returnValues.data,
-				// 	);
-				// } catch (e) {
-				// 	timelockEvent.decodedParameters = null;
-				// }
-				// console.log(eventitem.returnValues.status, web3.eth.abi.encodeParameter('bytes32', web3.utils.fromAscii('Proposed')))
 				if (eventitem.returnValues.status == 'Proposed') {
 					timelockEvent.proposer = timelockEvent.doneBy;
 				}
