@@ -232,14 +232,14 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 												enterDelay={0}
 												leaveDelay={300}
 												arrow
-												placement="left"
+												placement="bottom"
 												title={<VaultBehaviorTooltip vault={vault} />}
 												// prevents scrolling overflow off the sett list
 												PopperProps={{
 													disablePortal: true,
 												}}
 												// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
-												id={`${vault.name} apr breakdown`}
+												id={`${vault.name} vault behavior`}
 											>
 												<Typography variant="caption" className={classes.behavior}>
 													{vault.behavior}
@@ -371,7 +371,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 									disablePortal: true,
 								}}
 								// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
-								id={`${vault.name} apr breakdown`}
+								id={`${vault.name} vault behavior`}
 							>
 								<Typography variant="caption" className={classes.behavior}>
 									{vault.behavior}
