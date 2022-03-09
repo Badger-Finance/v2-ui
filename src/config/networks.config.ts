@@ -17,6 +17,6 @@ export const supportedNetworks: Network[] = [
 	new Arbitrum(),
 	...(FLAGS.AVAX ? [new Avalanche()] : []),
 	...(FLAGS.XDAI ? [new xDai()] : []),
-	...(FLAGS.FTM ? [new Fantom()] : []),
+	new Fantom(),
 ];
 export const defaultNetwork = supportedNetworks[0];
