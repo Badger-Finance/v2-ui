@@ -13,6 +13,10 @@ const VaultBehaviorTooltip = ({ vault }: Props): JSX.Element | null => {
     case VaultBehavior.Compounder:
       description = `Compounds 100% of rewards into more ${name}`;
       break;
+    case VaultBehavior.DCA:
+      const emittedDCA = vault.sources.map((s) => s.name.replace('Rewards', '').trim()).join(', ');
+      description = `Compounds 100% of rewards into ${emittedDCA}`;
+      break;
     case VaultBehavior.Ecosystem:
       description = `Converts rewards to ${protocol} Helpers`;
       break;

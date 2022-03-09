@@ -227,7 +227,6 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 									<Grid item>{Badge}</Grid>
 									<Grid item>
 										{vault.behavior !== VaultBehavior.None && (
-
 											<Tooltip
 												enterTouchDelay={0}
 												enterDelay={0}
@@ -242,10 +241,10 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 												// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
 												id={`${vault.name} apr breakdown`}
 											>
-											<Typography variant="caption" className={classes.behavior}>
-												{vault.behavior}
-											</Typography>
-										</Tooltip>
+												<Typography variant="caption" className={classes.behavior}>
+													{vault.behavior}
+												</Typography>
+											</Tooltip>
 										)}
 									</Grid>
 								</Grid>
@@ -374,10 +373,10 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
 								id={`${vault.name} apr breakdown`}
 							>
-							<Typography variant="caption" className={classes.behavior}>
-								{vault.behavior}
-							</Typography>
-						</Tooltip>
+								<Typography variant="caption" className={classes.behavior}>
+									{vault.behavior}
+								</Typography>
+							</Tooltip>
 						)}
 					</Grid>
 					<Grid item container xs>
