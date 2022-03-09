@@ -39,7 +39,7 @@ const getYAxisAccessor = (mode: ChartMode) => {
 	return (data: VaultChartData) => {
 		const optionsFromMode: Record<string, number> = {
 			[ChartMode.Value]: data.value,
-			[ChartMode.Ratio]: data.ratio,
+			[ChartMode.Ratio]: data.pricePerFullShare,
 			[ChartMode.AccountBalance]: data.value,
 		};
 
