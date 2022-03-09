@@ -1,7 +1,7 @@
 import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import { BouncerType, Protocol, Vault, VaultData, VaultState, VaultType } from '@badger-dao/sdk';
+import { BouncerType, Protocol, Vault, VaultBehavior, VaultData, VaultState, VaultType } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
 
 export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
@@ -49,7 +49,7 @@ export const SAMPLE_VAULT: Vault = {
 		performanceFee: 20,
 		strategistFee: 10,
 	},
-	dca: false,
+	behavior: VaultBehavior.EcosystemHelper,
 	sources: [
 		{
 			name: 'Vault Compounding',
@@ -231,7 +231,7 @@ export const SAMPLE_VAULTS: Vault[] = [
 			enabled: false,
 			weight: 0,
 		},
-		dca: true,
+		behavior: VaultBehavior.DCA,
 		sources: [
 			{
 				name: 'Vault Compounding',
@@ -285,7 +285,7 @@ export const SAMPLE_VAULTS: Vault[] = [
 		balance: 237.567564646,
 		protocol: Protocol.Badger,
 		pricePerFullShare: 0.18907615705168573,
-		dca: false,
+		behavior: VaultBehavior.None,
 		tokens: [
 			{
 				address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',

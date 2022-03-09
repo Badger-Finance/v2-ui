@@ -9,6 +9,7 @@ import {
 	VaultState,
 	VaultStrategy,
 	VaultType,
+	VaultBehavior,
 } from '@badger-dao/sdk';
 
 export class RegistryVaultAdapter implements Vault {
@@ -37,7 +38,7 @@ export class RegistryVaultAdapter implements Vault {
 	vaultToken: string;
 	strategy: VaultStrategy;
 	type: VaultType;
-	dca: boolean;
+	behavior: VaultBehavior;
 
 	constructor(registryVault: RegistryVault) {
 		this.vaultToken = registryVault.address;
@@ -70,6 +71,6 @@ export class RegistryVaultAdapter implements Vault {
 			address: '',
 			performanceFee: 0,
 		};
-		this.dca = false;
+		this.behavior = VaultBehavior.None;
 	}
 }
