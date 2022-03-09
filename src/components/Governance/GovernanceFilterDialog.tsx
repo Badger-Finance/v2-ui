@@ -71,9 +71,9 @@ interface Props {
 	applyFilter: ([]) => void;
 }
 const enum Filters {
-	PROPOSED = "Proposed",
-	VETOED = "Vetoed",
-	EXECUTED = "Executed",
+	PROPOSED = 'Proposed',
+	VETOED = 'Vetoed',
+	EXECUTED = 'Executed',
 }
 
 const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Element => {

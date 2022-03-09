@@ -45,7 +45,7 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
 	let eventList: TimelockEvent[] = [];
 	const applyFilter = (eventitem: TimelockEvent) => {
 		return filters.includes(eventitem.status);
-	}
+	};
 	if (events) {
 		for (let key of events.keys()) {
 			var eventitem = {} as TimelockEvent;
@@ -66,7 +66,10 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
 		} else if (updatePage < 1) {
 			updatePage = totalPages;
 		}
-		let currentEventList: TimelockEvent[] = filteredEventList.slice((updatePage - 1) * rowsPerPage, updatePage * rowsPerPage);
+		let currentEventList: TimelockEvent[] = filteredEventList.slice(
+			(updatePage - 1) * rowsPerPage,
+			updatePage * rowsPerPage,
+		);
 		setPage(updatePage);
 		setEventListShow(currentEventList);
 	};

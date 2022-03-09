@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	listItem: {
 		padding: theme.spacing(2),
-		borderTop: '0.1px solid'
+		borderTop: '0.1px solid',
 	},
 	address: {
 		width: theme.spacing(28),
@@ -33,20 +33,20 @@ const useStyles = makeStyles((theme) => ({
 		border: '1px solid',
 		borderRadius: '12px',
 		padding: '0 5px',
-		marginRight: 5
+		marginRight: 5,
 	},
 	Proposed: {
 		borderColor: 'yellow',
-		color: 'yellow'
+		color: 'yellow',
 	},
 	Vetoed: {
 		borderColor: 'red',
-		color: 'red'
+		color: 'red',
 	},
 	Executed: {
 		borderColor: 'green',
-		color: 'green'
-	}
+		color: 'green',
+	},
 }));
 
 export interface EventTableProps {
@@ -54,9 +54,9 @@ export interface EventTableProps {
 }
 
 const enum Filters {
-	PROPOSED = "Proposed",
-	VETOED = "Vetoed",
-	EXECUTED = "Executed",
+	PROPOSED = 'Proposed',
+	VETOED = 'Vetoed',
+	EXECUTED = 'Executed',
 }
 
 const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
@@ -70,9 +70,21 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 				</Grid>
 				<Grid item xs={3} className={classes.arrowbox}>
 					<Typography className={classes.address} variant="body2" color="textSecondary" noWrap>
-						{status == Filters.PROPOSED && <div className={classNames([classes.status, classes.Proposed].join(' '))}><b>{status}</b></div>}
-						{status == Filters.VETOED && <div className={classNames([classes.status, classes.Vetoed].join(' '))}><b>{status}</b></div>}
-						{status == Filters.EXECUTED && <div className={classNames([classes.status, classes.Executed].join(' '))}><b>{status}</b></div>}
+						{status == Filters.PROPOSED && (
+							<div className={classNames([classes.status, classes.Proposed].join(' '))}>
+								<b>{status}</b>
+							</div>
+						)}
+						{status == Filters.VETOED && (
+							<div className={classNames([classes.status, classes.Vetoed].join(' '))}>
+								<b>{status}</b>
+							</div>
+						)}
+						{status == Filters.EXECUTED && (
+							<div className={classNames([classes.status, classes.Executed].join(' '))}>
+								<b>{status}</b>
+							</div>
+						)}
 						by {event.doneBy}
 					</Typography>
 					<Link href={'https://etherscan.io/address/' + event.doneBy} target="_blank">
@@ -91,7 +103,7 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 					</Link>
 				</Grid>
 			</Grid>
-		</ListItem >
+		</ListItem>
 	);
 };
 
