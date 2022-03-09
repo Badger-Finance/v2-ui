@@ -207,6 +207,11 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
             src="/assets/icons/bsbtccrv-ethereum.svg"
           />
         </div>
+        <span
+          class="MuiTypography-root-125 makeStyles-behavior-237 MuiTypography-caption-128"
+        >
+          Ecosystem Helper
+        </span>
       </div>
       <div
         class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-grid-xs-true-56"
@@ -339,9 +344,9 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           />
         </div>
         <span
-          class="MuiTypography-root-125 makeStyles-dca-237 MuiTypography-caption-128"
+          class="MuiTypography-root-125 makeStyles-behavior-237 MuiTypography-caption-128"
         >
-          DCA Vault
+          DCA
         </span>
       </div>
       <div
@@ -1067,6 +1072,11 @@ exports[`VaultListDisplay can change currency 1`] = `
             src="/assets/icons/bsbtccrv-ethereum.svg"
           />
         </div>
+        <span
+          class="MuiTypography-root-125 makeStyles-behavior-237 MuiTypography-caption-128"
+        >
+          Ecosystem Helper
+        </span>
       </div>
       <div
         class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-grid-xs-true-56"
@@ -1199,9 +1209,9 @@ exports[`VaultListDisplay can change currency 1`] = `
           />
         </div>
         <span
-          class="MuiTypography-root-125 makeStyles-dca-237 MuiTypography-caption-128"
+          class="MuiTypography-root-125 makeStyles-behavior-237 MuiTypography-caption-128"
         >
-          DCA Vault
+          DCA
         </span>
       </div>
       <div
@@ -1658,9 +1668,9 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           />
         </div>
         <span
-          class="MuiTypography-root-125 makeStyles-dca-237 MuiTypography-caption-128"
+          class="MuiTypography-root-125 makeStyles-behavior-237 MuiTypography-caption-128"
         >
-          DCA Vault
+          DCA
         </span>
       </div>
       <div
@@ -2109,6 +2119,11 @@ exports[`VaultListDisplay can clear filters 1`] = `
             src="/assets/icons/bsbtccrv-ethereum.svg"
           />
         </div>
+        <span
+          class="MuiTypography-root-125 makeStyles-behavior-237 MuiTypography-caption-128"
+        >
+          Ecosystem Helper
+        </span>
       </div>
       <div
         class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-grid-xs-true-56"
@@ -2241,9 +2256,9 @@ exports[`VaultListDisplay can clear filters 1`] = `
           />
         </div>
         <span
-          class="MuiTypography-root-125 makeStyles-dca-237 MuiTypography-caption-128"
+          class="MuiTypography-root-125 makeStyles-behavior-237 MuiTypography-caption-128"
         >
-          DCA Vault
+          DCA
         </span>
       </div>
       <div
@@ -3117,9 +3132,9 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           />
         </div>
         <span
-          class="MuiTypography-root-125 makeStyles-dca-237 MuiTypography-caption-128"
+          class="MuiTypography-root-125 makeStyles-behavior-237 MuiTypography-caption-128"
         >
-          DCA Vault
+          DCA
         </span>
       </div>
       <div
