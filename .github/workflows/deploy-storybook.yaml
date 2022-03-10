@@ -1,0 +1,16 @@
+name: Deploy Storybook
+on:
+    push:
+        branches:
+            - dev
+        paths:
+            - src/stories/**
+            - .storybook/**
+env:
+    DEPLOY_HOOK_ID: ${{ secrets.NETLIFY_STORYBOOK_DEPLOY_HOOK_ID }}
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Trigger Build Hook
+              run: curl -X POST -d {} https://api.netlify.com/build_hooks/${{ env.DEPLOY_HOOK_ID }}
