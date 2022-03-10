@@ -1,11 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider as NotistackProvider } from 'notistack';
 import NotificationSnackbar from '../../components-library/NotificationSnackbar';
 
-export const Snackbar = observer((props: any) => {
+export const SnackbarProvider = observer((props: any) => {
 	return (
-		<SnackbarProvider
+		<NotistackProvider
 			autoHideDuration={6000}
 			maxSnack={5}
 			anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -18,6 +18,6 @@ export const Snackbar = observer((props: any) => {
 			}}
 		>
 			{props.children}
-		</SnackbarProvider>
+		</NotistackProvider>
 	);
 });
