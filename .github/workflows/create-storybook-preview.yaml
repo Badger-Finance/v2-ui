@@ -2,7 +2,7 @@ name: Build Storybook Preview
 on:
     pull_request:
         branches:
-            - dev
+            - development
         paths:
             - src/stories/**
             - .storybook/**
@@ -24,7 +24,6 @@ jobs:
               uses: nwtgck/actions-netlify@v1.2.3
               with:
                   publish-dir: './storybook-static'
-                  production-branch: dev
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   deploy-message: 'Deploy preview'
               env:
