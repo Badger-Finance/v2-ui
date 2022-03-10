@@ -36,7 +36,7 @@ jobs:
               with:
                   node-version: '16.x'
             - name: Install dependencies
-              run: yarn install --frozen-lockfile
+              run: yarn install --production=false --frozen-lockfile
             - name: Run code linter
               run: yarn lint
             - name: Run tests
