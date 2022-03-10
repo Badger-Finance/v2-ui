@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
 		borderColor: 'green',
 		color: 'green',
 	},
+	action: {
+		textAlign: 'center',
+	},
 }));
 
 export interface EventTableProps {
@@ -91,7 +94,9 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 						<ArrowUpward className={classes.arrow} />
 					</Link>
 				</Grid>
-				<Grid item xs={3}></Grid>
+				<Grid item xs={3} className={classes.action}>
+					{event.event}
+				</Grid>
 				<Grid item xs={3} className={classes.arrowbox}>
 					<Typography className={classes.address} variant="body2" color={'textSecondary'} noWrap>
 						{event.proposer}
