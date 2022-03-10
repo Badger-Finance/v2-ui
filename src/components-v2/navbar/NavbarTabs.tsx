@@ -3,6 +3,7 @@ import { makeStyles, Tab, Tabs, useMediaQuery, useTheme } from '@material-ui/cor
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
+import { getNavbarConfig } from '../../config/navbar.config';
 
 const useStyles = makeStyles({
 	tab: {
@@ -16,9 +17,13 @@ const useStyles = makeStyles({
 });
 
 export const NavbarTabs = observer((): JSX.Element => {
+	const {
+		router,
+		network: { network },
+	} = useContext(StoreContext);
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
-	const { router } = useContext(StoreContext);
+	const config = getNavbarConfig(network.symbol);
 	return (
 		<Tabs
 			variant={isMobile ? 'fullWidth' : undefined}
@@ -32,18 +37,30 @@ export const NavbarTabs = observer((): JSX.Element => {
 				label="VAULTS"
 				onClick={() => router.goTo(routes.home)}
 			/>
-			<Tab
-				classes={{ root: classes.tab }}
-				value={routes.boostOptimizer.path}
-				label="BOOST"
-				onClick={() => router.goTo(routes.boostOptimizer)}
-			/>
-			<Tab
-				classes={{ root: classes.tab }}
-				value={routes.IbBTC.path}
-				label="IBBTC"
-				onClick={() => router.goTo(routes.IbBTC)}
-			/>
+			{config.digg && (
+				<Tab
+					classes={{ root: classes.tab }}
+					value={routes.digg.path}
+					label="DIGG"
+					onClick={() => router.goTo(routes.digg)}
+				/>
+			)}
+			{config.boost && (
+				<Tab
+					classes={{ root: classes.tab }}
+					value={routes.boostOptimizer.path}
+					label="BOOST"
+					onClick={() => router.goTo(routes.boostOptimizer)}
+				/>
+			)}
+			{config.ibBTC && (
+				<Tab
+					classes={{ root: classes.tab }}
+					value={routes.IbBTC.path}
+					label="IBBTC"
+					onClick={() => router.goTo(routes.IbBTC)}
+				/>
+			)}
 		</Tabs>
 	);
 });
