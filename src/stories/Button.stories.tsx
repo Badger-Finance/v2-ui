@@ -43,3 +43,11 @@ Outlined.args = {
 	color: 'primary',
 	size: 'medium',
 };
+
+export const Outlined2 = Template.bind({});
+
+Outlined2.args = {
+	variant: 'outlined',
+	color: 'secondary',
+	size: 'medium',
+};
