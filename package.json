@@ -75,6 +75,13 @@
 		"recharts": "^2.1.2",
 		"semver": "^7.3.5",
 		"slugify": "^1.6.0",
+		"@storybook/addon-actions": "^6.4.19",
+		"@storybook/addon-essentials": "^6.4.19",
+		"@storybook/addon-interactions": "^6.4.19",
+		"@storybook/addon-links": "^6.4.19",
+		"@storybook/node-logger": "^6.4.19",
+		"@storybook/preset-create-react-app": "^3.2.0",
+		"@storybook/react": "^6.4.19",
 		"typescript": "^4.5.4",
 		"uuid": "^8.3.2",
 		"web3": "1.5.2",
@@ -94,7 +101,9 @@
 		"codegen:graphql": "graphql-codegen -c codegen.yml",
 		"codegen:contracts": "typechain --target ethers-v5 --out-dir src/contracts src/abi/*.abi",
 		"requirements-check": "node check-version.js",
-		"postinstall": "yarn requirements-check"
+		"postinstall": "yarn requirements-check",
+		"storybook": "start-storybook -p 6006 -s public",
+		"build-storybook": "build-storybook -s public"
 	},
 	"browserslist": {
 		"production": [
@@ -110,6 +119,19 @@
 	},
 	"resolutions": {
 		"react-error-overlay": "6.0.9",
-		"@typescript-eslint/typescript-estree": "5.9.0"
+		"@typescript-eslint/typescript-estree": "5.9.0",
+		"babel-loader": "8.1.0"
+	},
+	"eslintConfig": {
+		"overrides": [
+			{
+				"files": [
+					"**/*.stories.*"
+				],
+				"rules": {
+					"import/no-anonymous-default-export": "off"
+				}
+			}
+		]
 	}
 }

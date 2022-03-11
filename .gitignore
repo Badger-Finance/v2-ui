@@ -1,5 +1,6 @@
 node_modules/
 build/
+storybook-static/
 package-lock.json
 .DS_Store
 /.idea
