@@ -248,7 +248,7 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $457,510,628,044
+                $588,545,093,651
               </p>
             </div>
           </div>
@@ -384,7 +384,7 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $33,715,600
+                $43,372,000
               </p>
             </div>
           </div>
@@ -515,7 +515,7 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $9,688,308
+                $12,463,112
               </p>
             </div>
           </div>
@@ -1113,7 +1113,7 @@ exports[`VaultListDisplay can change currency 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                ₿10,408,535
+                ₿10,128,226
               </p>
             </div>
           </div>
@@ -1249,7 +1249,7 @@ exports[`VaultListDisplay can change currency 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                ₿767
+                ₿746
               </p>
             </div>
           </div>
@@ -1380,7 +1380,7 @@ exports[`VaultListDisplay can change currency 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                ₿220
+                ₿214
               </p>
             </div>
           </div>
@@ -1708,7 +1708,7 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $33,715,600
+                $43,372,000
               </p>
             </div>
           </div>
@@ -1839,7 +1839,7 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $9,688,308
+                $12,463,112
               </p>
             </div>
           </div>
@@ -2160,7 +2160,7 @@ exports[`VaultListDisplay can clear filters 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $457,510,628,044
+                $588,545,093,651
               </p>
             </div>
           </div>
@@ -2296,7 +2296,7 @@ exports[`VaultListDisplay can clear filters 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $33,715,600
+                $43,372,000
               </p>
             </div>
           </div>
@@ -2427,7 +2427,7 @@ exports[`VaultListDisplay can clear filters 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $9,688,308
+                $12,463,112
               </p>
             </div>
           </div>
@@ -3036,7 +3036,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $9,688,308
+                $12,463,112
               </p>
             </div>
           </div>
@@ -3172,7 +3172,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
               <p
                 class="MuiTypography-root-125 makeStyles-itemText-236 MuiTypography-body1-127"
               >
-                $33,715,600
+                $43,372,000
               </p>
             </div>
           </div>

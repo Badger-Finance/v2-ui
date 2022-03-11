@@ -11,7 +11,10 @@ import clsx from 'clsx';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: '100%',
-		backgroundColor: 'rgba(255, 255, 255, 0.1)',
+		backgroundColor: '#2a2a2a',
+		position: 'sticky',
+		top: 0,
+		zIndex: 1,
 		[theme.breakpoints.up('md')]: {
 			paddingTop: '15px',
 		},
@@ -26,7 +29,11 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	mobileStats: {
+		position: 'relative',
 		overflowX: 'auto',
+		[theme.breakpoints.down('sm')]: {
+			padding: '16px 10px 16px 30x',
+		},
 	},
 	mobileTabs: {
 		[theme.breakpoints.down('xs')]: {
