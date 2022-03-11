@@ -4,13 +4,31 @@ on:
         branches:
             - development
         paths:
-            - src/stories/**
             - .storybook/**
+            - src/**/*.stories.tsx
 env:
     DEPLOY_HOOK_ID: ${{ secrets.NETLIFY_STORYBOOK_DEPLOY_HOOK_ID }}
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - name: Trigger Build Hook
-              run: curl -X POST -d {} https://api.netlify.com/build_hooks/${{ env.DEPLOY_HOOK_ID }}
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: '16.x'
+            - name: Install Dependencies
+              run: yarn install --frozen-lockfile
+            - name: Build Storybook
+              run: yarn build-storybook
+            - name: Deploy to Netlify
+              uses: nwtgck/actions-netlify@v1.2.3
+              with:
+                  production-deploy: true
+                  publish-dir: './storybook-static'
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+              env:
+                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_STORYBOOK_AUTH_TOKEN }}
+                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_STORYBOOK_SITE_ID }}
+              timeout-minutes: 1
