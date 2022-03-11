@@ -2,20 +2,11 @@ import { formatTokens, inCurrency, numberWithCommas, toFixedDecimals } from '../
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
 import store from 'mobx/RootStore';
-import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 import { Currency } from 'config/enums/currency.enum';
+import { SAMPLE_EXCHANGES_RATES } from '../utils/samples';
 
 describe('helpers', () => {
-	const exchangeRates: ExchangeRates = {
-		usd: 641.69,
-		cad: 776.44,
-		btc: 41.93,
-		bnb: 7.2,
-		matic: 1831.21,
-		xdai: 1430.23,
-	};
-
-	beforeAll(() => (store.prices.exchangeRates = exchangeRates));
+	beforeAll(() => (store.prices.exchangeRates = SAMPLE_EXCHANGES_RATES));
 
 	describe('formatTokens', () => {
 		test.each([
@@ -46,12 +37,12 @@ describe('helpers', () => {
 			[new BigNumber(0.0001), Currency.ETH, 5, 'Ξ0.00010'],
 			[new BigNumber(''), Currency.ETH, 18, undefined],
 			[new BigNumber(-1000000), Currency.ETH, 18, 'Ξ-1,000,000.000000000000000000'],
-			[new BigNumber(12.5678), Currency.BTC, 9, `₿${(12.5678 * exchangeRates.btc).toFixed(9)}`],
-			[new BigNumber(-12.5678), Currency.BTC, 9, `₿-${(12.5678 * exchangeRates.btc).toFixed(9)}`],
+			[new BigNumber(12.5678), Currency.BTC, 9, `₿${(12.5678 * SAMPLE_EXCHANGES_RATES.btc).toFixed(9)}`],
+			[new BigNumber(-12.5678), Currency.BTC, 9, `₿-${(12.5678 * SAMPLE_EXCHANGES_RATES.btc).toFixed(9)}`],
 			[new BigNumber(0.00001), Currency.BTC, 2, `₿0.04e-2`],
-			[new BigNumber(1), Currency.CAD, undefined, `C$${exchangeRates.cad}`],
+			[new BigNumber(1), Currency.CAD, undefined, `C$${SAMPLE_EXCHANGES_RATES.cad}`],
 			[new BigNumber(0.00001), Currency.CAD, 1, 'C$0.1e-1'], // Bignumber rounding
-			[new BigNumber(1), Currency.USD, undefined, `$${exchangeRates.usd}`],
+			[new BigNumber(1), Currency.USD, undefined, `$${SAMPLE_EXCHANGES_RATES.usd}`],
 			[new BigNumber(0.00001), Currency.USD, 1, '$0.1e-1'], // Bignumber rounding
 		])('inCurrency(%f, %s, %i) returns %s', (value, currency, preferredDecimals, expected) => {
 			expect(inCurrency(value, currency, preferredDecimals)).toBe(expected);

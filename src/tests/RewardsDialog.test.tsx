@@ -11,21 +11,9 @@ import { StoreProvider } from '../mobx/store-context';
 import { action } from 'mobx';
 import { TransactionRequestResult } from '../mobx/utils/web3';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
-import { SAMPLE_VAULTS } from './utils/samples';
+import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from './utils/samples';
 import UserStore from '../mobx/stores/UserStore';
-import { ExchangeRates } from '../mobx/model/system-config/exchange-rates';
 import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
-
-const mockExchangesRates: ExchangeRates = {
-	usd: 4337.2,
-	cad: 5487.64,
-	btc: 0.07463853,
-	bnb: 7.230643,
-	matic: 2502.8156676260796,
-	xdai: 4337.2,
-	ftm: 1,
-	avax: 1,
-};
 
 const mockClaimProof = {
 	index: '0x33d4',
@@ -81,7 +69,7 @@ describe('Rewards Dialog', () => {
 		jest.spyOn(RewardsStore.prototype, 'isLoading', 'get').mockReturnValue(false);
 		store.uiState.rewardsDialogOpen = true;
 		store.user.claimProof = mockClaimProof;
-		store.prices.exchangeRates = mockExchangesRates;
+		store.prices.exchangeRates = SAMPLE_EXCHANGES_RATES;
 		store.rewards.loadTreeData = action(jest.fn());
 	});
 

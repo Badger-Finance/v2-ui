@@ -3,6 +3,7 @@ import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { BouncerType, Protocol, Vault, VaultBehavior, VaultData, VaultState, VaultType } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
+import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 
 export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
 	{
@@ -288,3 +289,14 @@ export const SAMPLE_VAULTS: Vault[] = [
 		type: VaultType.Standard,
 	},
 ];
+
+export const SAMPLE_EXCHANGES_RATES: ExchangeRates = {
+	usd: 4337.2,
+	cad: 5487.64,
+	btc: 0.07463853,
+	bnb: 7.230643,
+	matic: 2502.8156676260796,
+	xdai: 4337.2,
+	ftm: 1,
+	avax: 1,
+};
