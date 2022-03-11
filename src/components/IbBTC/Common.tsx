@@ -14,7 +14,7 @@ export const BalanceGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export const BorderedFocusableContainerGrid = styled(Grid)(({ theme }) => ({
-	border: '1px solid #5C5C5C',
+	border: '1px solid #FFFFFF6B',
 	borderRadius: 8,
 	padding: '18.5px 14px',
 	'&:focus-within': {
