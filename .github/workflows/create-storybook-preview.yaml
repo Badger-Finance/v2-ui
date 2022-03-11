@@ -6,6 +6,7 @@ on:
         paths:
             - src/stories/**
             - .storybook/**
+            - src/**/*.stories.tsx
 jobs:
     build:
         runs-on: ubuntu-latest
