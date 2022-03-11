@@ -4,7 +4,6 @@ on:
         branches:
             - development
         paths:
-            - src/stories/**
             - .storybook/**
             - src/**/*.stories.tsx
 jobs:
