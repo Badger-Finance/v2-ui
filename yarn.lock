@@ -1510,10 +1510,10 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@badger-dao/sdk@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.2.2.tgz#46866256d0e419ba33a595194caab3bf47d03c4d"
-  integrity sha512-byNLJnmC0n/bJ0ma70YeKFuqQ8kWrsPeU1dKYJ46fuEtLTsEzLM+qi1miZygkPbSdNkRzKoey21iCyGX+XVvyQ==
+"@badger-dao/sdk@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.2.6.tgz#7447a8a316605ed36e548299baa5e80753d8dae8"
+  integrity sha512-2o1thnVG1djAMH4NYtnfDm12+jG+aZD5GM8h3wfxdcSVo8CNbQ5ZhTyrPnaUVNQRx9Oqc9rc5PvD+nj7RHPLgw==
   dependencies:
     "@0xsequence/indexer" "^0.35.5"
     "@0xsequence/multicall" "^0.35.5"
