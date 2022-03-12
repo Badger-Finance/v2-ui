@@ -62,8 +62,8 @@ export function shouldDisplayEarnings(vault: Vault, data: VaultData): boolean {
 	if (!vaultSource) {
 		return false;
 	}
-	const perf = vaultSource.performance;
-	return perf.oneDay > 0 || perf.threeDay > 0 || perf.sevenDay > 0 || perf.thirtyDay > 0;
+
+	return vaultSource.apr > 0;
 }
 
 export const getFormattedNetworkName = (network: Network): string => {
