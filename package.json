@@ -7,7 +7,7 @@
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.16.7",
-		"@badger-dao/sdk": "^1.2.2",
+		"@badger-dao/sdk": "^1.2.6",
 		"@graphql-codegen/cli": "1.21.4",
 		"@graphql-codegen/typescript": "1.22.0",
 		"@graphql-codegen/typescript-graphql-request": "3.2.0",
