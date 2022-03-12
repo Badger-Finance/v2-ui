@@ -95,7 +95,7 @@ exports[`Landing Renders correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="MuiTouchRipple-root-386"
+                  class="MuiTouchRipple-root-387"
                 />
               </button>
             </div>
@@ -135,7 +135,7 @@ exports[`Landing Renders correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="MuiTouchRipple-root-386"
+                  class="MuiTouchRipple-root-387"
                 />
               </button>
             </div>
@@ -175,7 +175,7 @@ exports[`Landing Renders correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="MuiTouchRipple-root-386"
+                  class="MuiTouchRipple-root-387"
                 />
               </button>
             </div>
@@ -202,7 +202,7 @@ exports[`Landing Renders correctly 1`] = `
                 />
               </span>
               <span
-                class="MuiTouchRipple-root-386"
+                class="MuiTouchRipple-root-387"
               />
             </button>
           </div>
@@ -210,7 +210,7 @@ exports[`Landing Renders correctly 1`] = `
       </div>
     </li>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-clickableSection-265 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-10-101 MuiGrid-grid-lg-true-105"
@@ -254,7 +254,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
               >
                 0.25%
               </p>
@@ -263,7 +263,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 makeStyles-tvl-269 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-326"
+                class="MuiBox-root-326 MuiBox-root-327"
               >
                 <p
                   class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
@@ -274,7 +274,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-329"
+                class="MuiBox-root-326 MuiBox-root-330"
               >
                 <p
                   class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
@@ -312,13 +312,13 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -328,13 +328,13 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
@@ -344,7 +344,7 @@ exports[`Landing Renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-clickableSection-265 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-10-101 MuiGrid-grid-lg-true-105"
@@ -388,7 +388,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
               >
                 8.17%
               </p>
@@ -397,7 +397,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 makeStyles-tvl-269 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-376"
+                class="MuiBox-root-326 MuiBox-root-377"
               >
                 <p
                   class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
@@ -408,7 +408,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-379"
+                class="MuiBox-root-326 MuiBox-root-380"
               >
                 <p
                   class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
@@ -446,13 +446,13 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -462,13 +462,13 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
@@ -478,7 +478,7 @@ exports[`Landing Renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-clickableSection-265 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-10-101 MuiGrid-grid-lg-true-105"
@@ -517,7 +517,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
               >
                 8.17%
               </p>
@@ -526,7 +526,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 makeStyles-tvl-269 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-382"
+                class="MuiBox-root-326 MuiBox-root-383"
               >
                 <p
                   class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
@@ -537,7 +537,7 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-385"
+                class="MuiBox-root-326 MuiBox-root-386"
               >
                 <p
                   class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
@@ -575,13 +575,13 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -591,13 +591,13 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
@@ -630,7 +630,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             Ethereum TVL:
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-388"
+            class="MuiBox-root-326 MuiBox-root-389"
           >
             <h6
               class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-subtitle2-147"
@@ -646,7 +646,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             Badger Price:
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-391"
+            class="MuiBox-root-326 MuiBox-root-392"
           >
             <p
               class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
@@ -697,7 +697,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
           My Assets:
         </p>
         <div
-          class="MuiBox-root-325 MuiBox-root-394"
+          class="MuiBox-root-326 MuiBox-root-395"
         >
           <p
             class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
@@ -725,7 +725,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-420"
+              class="MuiTouchRipple-root-421"
             />
           </button>
         </div>
@@ -772,7 +772,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </li>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
@@ -833,7 +833,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
                   class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
                   >
                     0.25%
                   </p>
@@ -857,7 +857,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
@@ -871,7 +871,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-404"
+            class="MuiBox-root-326 MuiBox-root-405"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -887,7 +887,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-407"
+            class="MuiBox-root-326 MuiBox-root-408"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -898,7 +898,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
@@ -910,13 +910,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -926,13 +926,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
@@ -942,7 +942,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
@@ -1003,7 +1003,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
                   class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
                   >
                     8.17%
                   </p>
@@ -1027,7 +1027,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
@@ -1041,7 +1041,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-410"
+            class="MuiBox-root-326 MuiBox-root-411"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1057,7 +1057,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-413"
+            class="MuiBox-root-326 MuiBox-root-414"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1068,7 +1068,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
@@ -1080,13 +1080,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -1096,13 +1096,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
@@ -1112,7 +1112,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
@@ -1167,7 +1167,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
                   class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
                   >
                     8.17%
                   </p>
@@ -1191,7 +1191,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
@@ -1205,7 +1205,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-416"
+            class="MuiBox-root-326 MuiBox-root-417"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1221,7 +1221,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-419"
+            class="MuiBox-root-326 MuiBox-root-420"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1232,7 +1232,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
@@ -1244,13 +1244,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -1260,13 +1260,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
@@ -1299,7 +1299,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             Ethereum TVL:
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-388"
+            class="MuiBox-root-326 MuiBox-root-389"
           >
             <h6
               class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-subtitle2-147"
@@ -1315,7 +1315,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             Badger Price:
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-391"
+            class="MuiBox-root-326 MuiBox-root-392"
           >
             <p
               class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
@@ -1366,7 +1366,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
           My Assets:
         </p>
         <div
-          class="MuiBox-root-325 MuiBox-root-394"
+          class="MuiBox-root-326 MuiBox-root-395"
         >
           <p
             class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
@@ -1394,7 +1394,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-420"
+              class="MuiTouchRipple-root-421"
             />
           </button>
         </div>
@@ -1441,7 +1441,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </li>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
@@ -1502,7 +1502,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
                   class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
                   >
                     0.25%
                   </p>
@@ -1526,7 +1526,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
@@ -1540,7 +1540,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-404"
+            class="MuiBox-root-326 MuiBox-root-405"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1556,7 +1556,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-407"
+            class="MuiBox-root-326 MuiBox-root-408"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1567,7 +1567,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
@@ -1579,13 +1579,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -1595,13 +1595,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
@@ -1611,7 +1611,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
@@ -1672,7 +1672,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
                   class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
                   >
                     8.17%
                   </p>
@@ -1696,7 +1696,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
@@ -1710,7 +1710,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-410"
+            class="MuiBox-root-326 MuiBox-root-411"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1726,7 +1726,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-413"
+            class="MuiBox-root-326 MuiBox-root-414"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1737,7 +1737,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
@@ -1749,13 +1749,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -1765,13 +1765,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
@@ -1781,7 +1781,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-294 MuiCard-root-293 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-298 MuiPaper-rounded-295"
     >
       <div
         class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
@@ -1836,7 +1836,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
                   class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-135 makeStyles-apr-322 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
                   >
                     8.17%
                   </p>
@@ -1860,7 +1860,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
@@ -1874,7 +1874,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-416"
+            class="MuiBox-root-326 MuiBox-root-417"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1890,7 +1890,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-419"
+            class="MuiBox-root-326 MuiBox-root-420"
           >
             <p
               class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
@@ -1901,7 +1901,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-396 makeStyles-divider-272"
       />
       <div
         class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
@@ -1913,13 +1913,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-outlined-339 makeStyles-button-331 MuiButton-outlinedPrimary-340 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Deposit
               </span>
@@ -1929,13 +1929,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-29 MuiGrid-item-31"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-206 MuiButton-root-334 MuiButton-contained-342 makeStyles-button-331 MuiButton-containedPrimary-343 MuiButton-disabled-347 WithStyles(ForwardRef(Button))-disabled-333 MuiButtonBase-disabled-207"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-335"
               >
                 Withdraw
               </span>
