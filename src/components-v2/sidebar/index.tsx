@@ -1,135 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import views from '../../config/routes';
-import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { Drawer, Collapse, IconButton, Hidden, useMediaQuery, useTheme, Box } from '@material-ui/core';
+import { Drawer, Hidden, IconButton, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { ExpandMore } from '@material-ui/icons';
-import { SITE_VERSION } from 'config/constants';
-import SidebarItem from './SidebarItem';
-import { getSidebarConfig } from './sidebar.config';
 import CloseIcon from '@material-ui/icons/Close';
-import clsx from 'clsx';
-
-const DRAWER_WIDTH = 200;
+import Menu from 'ui-library/Menu';
+import MenuItem from 'ui-library/MenuItem';
+import MenuItemText from '../../ui-library/MenuItemText';
+import MenuItemIcon from '../../ui-library/MenuItemIcon';
+import { Typography } from '../../ui-library/Typography';
+import { inCurrency } from '../../mobx/utils/helpers';
+import { Currency } from '../../config/enums/currency.enum';
 
 const useStyles = makeStyles((theme) => ({
-	contentRoot: {
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'space-between',
-	},
-	drawer: {
-		[theme.breakpoints.up('lg')]: {
-			width: DRAWER_WIDTH,
-			flexShrink: 0,
-		},
-	},
 	drawerPaper: {
-		width: DRAWER_WIDTH,
-	},
-	expand: {
-		transform: 'rotate(0deg)',
-		marginLeft: 'auto',
-		pointerEvents: 'none',
-		height: '1rem',
-		width: '1rem',
-		transition: theme.transitions.create('transform', {
-			duration: theme.transitions.duration.shortest,
-		}),
-		marginRight: theme.spacing(2),
-	},
-	expandOpen: {
-		transform: 'rotate(180deg)',
-	},
-	badgerPrice: {
-		whiteSpace: 'pre-wrap',
-	},
-	versionContainer: {
-		paddingBottom: theme.spacing(0.75),
-		paddingLeft: '27px',
-		'&:hover': {
-			background: '#434343',
+		background: '#3a3a3a',
+		[theme.breakpoints.down('sm')]: {
+			width: 315,
 		},
-		padding: theme.spacing(0.5),
-		display: 'flex',
-		alignItems: 'center',
-		lineHeight: '20px',
-	},
-	boostText: {
-		fontSize: '13px',
-		cursor: 'default',
-	},
-	rankText: {
-		color: theme.palette.text.secondary,
-		fontSize: '10px',
-		cursor: 'default',
-	},
-	boostContainer: {
-		display: 'flex',
-		flexDirection: 'column',
-	},
-	sidebarContainer: {
-		display: 'flex',
-		flexDirection: 'column',
-		minHeight: '100%',
-		borderRight: '1px solid #2B2B2B',
-		background: theme.palette.background.default,
-	},
-	linksContainer: {
-		display: 'flex',
-		flexDirection: 'column',
-		flexGrow: 1,
+		[theme.breakpoints.down('xs')]: {
+			width: 291,
+		},
 	},
 	socialsContainer: {
 		display: 'flex',
 		justifyContent: 'flex-start',
-		marginTop: theme.spacing(1),
+		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(1),
-		paddingLeft: '27px',
+		paddingLeft: 16,
 	},
 	socialIcon: {
-		height: '25px',
-		width: '25px',
+		height: 14,
+		width: 14,
 		cursor: 'pointer',
-		padding: theme.spacing(0.5),
-		marginRight: theme.spacing(0.25),
-	},
-	badgerLogoContainer: {
-		display: 'flex',
-		height: '77px',
-		alignItems: 'center',
-		paddingLeft: '27px',
-		cursor: 'pointer',
-	},
-	badgerIcon: {
-		width: '28px',
-		height: '28px',
-		marginRight: theme.spacing(2),
-	},
-	badgerTitle: {
-		textTransform: 'uppercase',
-		letterSpacing: '2px',
-	},
-	siteVersion: {
-		fontSize: '10px',
-		lineHeight: '20px',
-		fontWeight: 400,
-		paddingLeft: '27px',
-		cursor: 'default',
-	},
-	daoContainer: {
-		paddingBottom: theme.spacing(2),
-	},
-	daoItem: {
-		cursor: 'pointer',
-		paddingLeft: '27px',
-		paddingTop: theme.spacing(0.25),
-		paddingBottom: theme.spacing(0.25),
-		'&:hover': {
-			background: '#434343',
-		},
+		marginRight: 8,
 	},
 }));
 
@@ -137,71 +41,58 @@ const Sidebar = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const {
-		uiState: { sidebarOpen, closeSidebar },
-		rewards: { badgerTree },
-		network: { network },
-		user: { accountDetails },
+		uiState: { sidebarOpen, closeSidebar, openRewardsDialog },
+		rewards: { claimableRewards },
 	} = store;
 
-	const isMobileOrTablet = useMediaQuery(useTheme().breakpoints.down('md'));
-	const [expanded, setExpanded] = useState(false);
+	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
-	const config = getSidebarConfig(network.symbol);
-	const drawerContent = (
-		<div className={classes.sidebarContainer}>
-			{isMobileOrTablet ? (
-				<Box display="flex" justifyContent="flex-end">
-					<IconButton onClick={() => closeSidebar()}>
-						<CloseIcon />
-					</IconButton>
-				</Box>
-			) : (
-				<div
-					className={classes.badgerLogoContainer}
-					onClick={() => window.open('https://badger.com/', '_blank')}
-				>
-					<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger_head.svg'} />
-					<span className={classes.badgerTitle}>Badger</span>
-				</div>
-			)}
-			<div className={classes.linksContainer}>
-				{accountDetails && (
-					<div className={classes.versionContainer} onClick={() => setExpanded(!expanded)}>
-						<div className={classes.boostContainer}>
-							<span className={classes.boostText}>{`Boost: ${accountDetails.boost}`}</span>
-							<span className={classes.rankText}>{`Rank: ${accountDetails.boostRank}`}</span>
-						</div>
-						<div className={clsx(classes.expand, expanded && classes.expandOpen)}>
-							<ExpandMore />
-						</div>
-					</div>
-				)}
-				<Collapse in={expanded} timeout="auto" unmountOnExit>
-					<div className={classes.versionContainer}>
-						<div className={classes.boostContainer}>
-							<span className={classes.boostText}>{`Cycle: ${badgerTree.cycle}`}</span>
-							<span className={classes.rankText}>{`${
-								badgerTree?.timeSinceLastCycle && badgerTree.timeSinceLastCycle + ' since last cycle'
-							}`}</span>
-						</div>
-					</div>
-				</Collapse>
-				<SidebarItem route="/" view={views.home} title="Vaults" />
-				{config.boost && <SidebarItem route="/boost-optimizer" view={views.boostOptimizer} title="Boost" />}
-				{config.ibBTC && <SidebarItem route="/ibBTC" view={views.IbBTC} title="ibBTC" />}
-				{config.digg && <SidebarItem route="/digg" view={views.digg} title="Digg" />}
-				{config.auction && <SidebarItem route="/citadel" view={views.citadel} title="Citadel" />}
-			</div>
-			<div className={classes.daoContainer}>
-				<div className={classes.daoItem} onClick={() => window.open('https://docs.badger.com/')}>
-					Documentation
-				</div>
-				<div className={classes.daoItem} onClick={() => window.open('https://forum.badger.finance')}>
-					Forum
-				</div>
-				<div className={classes.daoItem} onClick={() => window.open('https://snapshot.page/#/badgerdao.eth')}>
-					Governance
-				</div>
+	const handleRewardsClick = () => {
+		closeSidebar();
+		setTimeout(() => {
+			openRewardsDialog();
+		}, closeDialogTransitionDuration);
+	};
+
+	return (
+		<Hidden mdUp>
+			<Drawer
+				variant="temporary"
+				anchor="left"
+				open={sidebarOpen}
+				onClose={() => closeSidebar()}
+				classes={{
+					paper: classes.drawerPaper,
+				}}
+				ModalProps={{
+					keepMounted: true, // Better open performance on mobile.
+				}}
+				disableEnforceFocus
+			>
+				<Menu disablePadding>
+					<MenuItem>
+						<MenuItemText>
+							<Typography variant="h5">Menu</Typography>
+						</MenuItemText>
+						<MenuItemIcon>
+							<IconButton onClick={() => closeSidebar()}>
+								<CloseIcon />
+							</IconButton>
+						</MenuItemIcon>
+					</MenuItem>
+					<MenuItem button onClick={handleRewardsClick}>
+						Rewards ({inCurrency(claimableRewards, Currency.USD, 2)})
+					</MenuItem>
+					<MenuItem button onClick={() => window.open('https://docs.badger.com/')}>
+						Wiki
+					</MenuItem>
+					<MenuItem button onClick={() => window.open('https://snapshot.page/#/badgerdao.eth')}>
+						Governance
+					</MenuItem>
+					<MenuItem button onClick={() => window.open('https://forum.badger.finance')}>
+						Forum
+					</MenuItem>
+				</Menu>
 				<div className={classes.socialsContainer}>
 					<img
 						onClick={() => window.open('https://discord.gg/badgerdao', '_blank')}
@@ -222,31 +113,8 @@ const Sidebar = observer(() => {
 						src="/assets/icons/telegram.svg"
 					/>
 				</div>
-				<span className={classes.siteVersion}>{SITE_VERSION}</span>
-			</div>
-		</div>
-	);
-
-	return (
-		<div className={classes.drawer}>
-			<Hidden lgUp>
-				<Drawer
-					variant="temporary"
-					anchor="right"
-					open={sidebarOpen}
-					onClose={() => closeSidebar()}
-					classes={{
-						paper: classes.drawerPaper,
-					}}
-					ModalProps={{
-						keepMounted: true, // Better open performance on mobile.
-					}}
-				>
-					{drawerContent}
-				</Drawer>
-			</Hidden>
-			<Hidden mdDown>{drawerContent}</Hidden>
-		</div>
+			</Drawer>
+		</Hidden>
 	);
 });
 

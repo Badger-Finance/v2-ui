@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { reduceTimeSinceLastCycle, reduceClaims } from '../../mobx/reducers/statsReducers';
+import { reduceTimeSinceLastCycle, reduceClaims } from '../../mobx/utils/statsReducers';
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';

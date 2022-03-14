@@ -4,13 +4,14 @@ import { startRouter } from 'mobx-router';
 import { StoreProvider } from './mobx/store-context';
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Snackbar } from './components/Snackbar';
+import { SnackbarProvider } from './components/Snackbar';
 import store from './mobx/RootStore';
 import routes from './config/routes';
 import { App } from './components/App';
 import './assets/css/onboard-override.css';
 import './assets/css/body.css';
 import { darkTheme } from './config/ui/dark';
+import SnackbarManager from './components-v2/common/SnackbarManager';
 
 startRouter(routes, store, {
 	html5history: true,
@@ -25,9 +26,11 @@ ReactDOM.render(
 	<StoreProvider value={store}>
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
-			<Snackbar>
-				<App />
-			</Snackbar>
+			<SnackbarProvider>
+				<SnackbarManager>
+					<App />
+				</SnackbarManager>
+			</SnackbarProvider>
 		</ThemeProvider>
 	</StoreProvider>,
 	document.getElementById('root'),

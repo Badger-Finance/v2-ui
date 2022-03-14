@@ -5,7 +5,7 @@ import clsx from 'clsx';
 const useStyles = makeStyles({
 	button: {
 		'&:hover': {
-			background: 'rgba(255, 255, 255, 0.15)',
+			background: '#545454',
 		},
 		'&:disabled': {
 			color: 'rgba(255, 255, 255, 0.15)',

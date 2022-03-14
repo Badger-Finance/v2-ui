@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
-		background: theme.palette.secondary.main,
+		background: '#121212',
 	},
 	darkActions: {
-		background: theme.palette.secondary.main,
+		background: '#121212',
 	},
 	claim: {
 		display: 'flex',

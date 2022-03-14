@@ -17,11 +17,11 @@ import { RewardsModalItem } from '../landing/RewardsModalItem';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { inCurrency } from '../../mobx/utils/helpers';
 import routes from '../../config/routes';
-import { ClaimMap } from '../landing/RewardsWidget';
 import BigNumber from 'bignumber.js';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
+import { ClaimMap } from '../../mobx/model/rewards/claim-map';
 
 const checkboxComplementarySpace = 1.5;
 

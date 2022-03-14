@@ -1,4 +1,4 @@
-export interface SidebarConfig {
+export interface NavbarConfig {
 	cycle: boolean;
 	digg: boolean;
 	ibBTC: boolean;

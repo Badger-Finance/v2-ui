@@ -4,7 +4,6 @@ import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import VaultStore from '../mobx/stores/VaultStore';
 import store from '../mobx/RootStore';
-import { RewardsWidget } from '../components-v2/landing/RewardsWidget';
 import { OnboardStore } from '../mobx/stores/OnboardStore';
 import RewardsStore from '../mobx/stores/rewardsStore';
 import { customRender, fireEvent, screen } from './Utils';
@@ -12,17 +11,9 @@ import { StoreProvider } from '../mobx/store-context';
 import { action } from 'mobx';
 import { TransactionRequestResult } from '../mobx/utils/web3';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
-import { SAMPLE_VAULTS } from './utils/samples';
+import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from './utils/samples';
 import UserStore from '../mobx/stores/UserStore';
-
-const mockExchangesRates = {
-	usd: 4337.2,
-	cad: 5487.64,
-	btc: 0.07463853,
-	bnb: 7.230643,
-	matic: 2502.8156676260796,
-	xdai: 4337.2,
-};
+import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
 
 const mockClaimProof = {
 	index: '0x33d4',
@@ -72,12 +63,13 @@ const mockBadgerTreeClaims: TokenBalance[] = [
 	),
 ];
 
-describe('Rewards Widget', () => {
+describe('Rewards Dialog', () => {
 	beforeEach(() => {
 		jest.spyOn(OnboardStore.prototype, 'isActive').mockReturnValue(true);
 		jest.spyOn(RewardsStore.prototype, 'isLoading', 'get').mockReturnValue(false);
+		store.uiState.rewardsDialogOpen = true;
 		store.user.claimProof = mockClaimProof;
-		store.prices.exchangeRates = mockExchangesRates;
+		store.prices.exchangeRates = SAMPLE_EXCHANGES_RATES;
 		store.rewards.loadTreeData = action(jest.fn());
 	});
 
@@ -85,7 +77,7 @@ describe('Rewards Widget', () => {
 		it('displays zero amount in rewards button', () => {
 			const { container } = customRender(
 				<StoreProvider value={store}>
-					<RewardsWidget />
+					<RewardsDialog />
 				</StoreProvider>,
 			);
 			expect(container).toMatchSnapshot();
@@ -94,11 +86,9 @@ describe('Rewards Widget', () => {
 		it('displays no rewards dialog', () => {
 			const { baseElement } = customRender(
 				<StoreProvider value={store}>
-					<RewardsWidget />
+					<RewardsDialog />
 				</StoreProvider>,
 			);
-
-			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			expect(baseElement).toMatchSnapshot();
 		});
 	});
@@ -117,7 +107,7 @@ describe('Rewards Widget', () => {
 		it('displays rewards amount in rewards button', () => {
 			const { container } = customRender(
 				<StoreProvider value={store}>
-					<RewardsWidget />
+					<RewardsDialog />
 				</StoreProvider>,
 			);
 			expect(container).toMatchSnapshot();
@@ -126,11 +116,9 @@ describe('Rewards Widget', () => {
 		it('displays claim options', async () => {
 			const { baseElement } = customRender(
 				<StoreProvider value={store}>
-					<RewardsWidget />
+					<RewardsDialog />
 				</StoreProvider>,
 			);
-
-			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			expect(baseElement).toMatchSnapshot();
 		});
 
@@ -154,11 +142,9 @@ describe('Rewards Widget', () => {
 
 			const { baseElement } = customRender(
 				<StoreProvider value={store}>
-					<RewardsWidget />
+					<RewardsDialog />
 				</StoreProvider>,
 			);
-
-			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByText('Rewards User Guide'));
 			expect(baseElement).toMatchSnapshot();
 		});
@@ -166,11 +152,10 @@ describe('Rewards Widget', () => {
 		it('can go back from user guide', () => {
 			const { baseElement } = customRender(
 				<StoreProvider value={store}>
-					<RewardsWidget />
+					<RewardsDialog />
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByText('Rewards User Guide'));
 			fireEvent.click(screen.getByRole('button', { name: 'exit guide mode' }));
 			expect(baseElement).toMatchSnapshot();
@@ -180,11 +165,9 @@ describe('Rewards Widget', () => {
 			beforeEach(() => {
 				customRender(
 					<StoreProvider value={store}>
-						<RewardsWidget />
+						<RewardsDialog />
 					</StoreProvider>,
 				);
-
-				fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 				fireEvent.click(screen.getByText('Rewards User Guide'));
 			});
 
@@ -215,14 +198,12 @@ describe('Rewards Widget', () => {
 
 			customRender(
 				<StoreProvider value={store}>
-					<RewardsWidget />
+					<RewardsDialog />
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
 			await screen.findByText('Rewards Claimed');
-
 			expect(claimSpy).toHaveBeenNthCalledWith(1, expectedParameters);
 		});
 
@@ -231,14 +212,12 @@ describe('Rewards Widget', () => {
 
 			const { baseElement } = customRender(
 				<StoreProvider value={store}>
-					<RewardsWidget />
+					<RewardsDialog />
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
 			await screen.findByText('Rewards Claimed');
-
 			expect(baseElement).toMatchSnapshot();
 		});
 	});
