@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { SnackbarProvider as NotistackProvider } from 'notistack';
 import NotificationSnackbar from '../../components-library/NotificationSnackbar';
 
-export const SnackbarProvider = observer((props: any) => {
+export const SnackbarProvider: React.FC = observer((props) => {
 	return (
 		<NotistackProvider
 			autoHideDuration={6000}
