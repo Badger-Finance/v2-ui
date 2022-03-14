@@ -9,7 +9,6 @@ import MenuItem from 'ui-library/MenuItem';
 import MenuItemText from '../../ui-library/MenuItemText';
 import MenuItemIcon from '../../ui-library/MenuItemIcon';
 import { Typography } from '../../ui-library/Typography';
-import BigNumber from 'bignumber.js';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { Currency } from '../../config/enums/currency.enum';
 
@@ -43,11 +42,10 @@ const Sidebar = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { sidebarOpen, closeSidebar, openRewardsDialog },
-		rewards: { badgerTree },
+		rewards: { claimableRewards },
 	} = store;
 
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
-	const rewards = badgerTree.claims.reduce((total, reward) => total.plus(reward.value), new BigNumber(0));
 
 	const handleRewardsClick = () => {
 		closeSidebar();
@@ -83,7 +81,7 @@ const Sidebar = observer(() => {
 						</MenuItemIcon>
 					</MenuItem>
 					<MenuItem button onClick={handleRewardsClick}>
-						Rewards ({inCurrency(rewards, Currency.USD, 2)})
+						Rewards ({inCurrency(claimableRewards, Currency.USD, 2)})
 					</MenuItem>
 					<MenuItem button onClick={() => window.open('https://docs.badger.com/')}>
 						Wiki

@@ -63,6 +63,10 @@ class RewardsStore {
 		});
 	}
 
+	get claimableRewards(): BigNumber {
+		return this.badgerTree.claims.reduce((total, reward) => total.plus(reward.value), new BigNumber(0));
+	}
+
 	get isLoading(): boolean {
 		return this.loadingTreeData || this.loadingRewards;
 	}
