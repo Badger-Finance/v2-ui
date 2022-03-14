@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, Chip, makeStyles } from '@material-ui/core';
+import { Chip, makeStyles } from '@material-ui/core';
 import { VaultState } from '@badger-dao/sdk';
-import { Star } from '@material-ui/icons';
 import clsx from 'clsx';
 
 interface VaultBadgeProps {
@@ -12,17 +11,23 @@ const useStyles = makeStyles({
 	tag: {
 		fontSize: '12px',
 		alignItems: 'center',
-		height: 19,
 		fontWeight: 700,
-		paddingBottom: 2,
+		height: 20,
 	},
 	newTag: {
-		background: 'white',
-		color: 'black',
+		background: '#FFFFFF1A',
+		color: '#FFFFFF',
+		border: '0.5px solid #FFFFFF',
+	},
+	guardedTag: {
+		background: '#FBEE781A',
+		color: '#FBEE78',
+		border: '0.5px solid #FBEE78',
 	},
 	deprecatedTag: {
-		color: '#FF0303',
-		backgroundColor: '#FDCDCD',
+		backgroundColor: '#FF614D1A',
+		color: '#FF614D',
+		border: '0.5px solid #FF614D',
 	},
 	experimentalTag: {
 		background: 'black',
@@ -38,23 +43,13 @@ const VaultBadge = ({ state }: VaultBadgeProps): JSX.Element | null => {
 
 	switch (state) {
 		case VaultState.New:
-			return (
-				<Chip
-					label={
-						<Box display="flex" alignItems="center">
-							<Star className={classes.starIcon} fontSize="inherit" /> New
-						</Box>
-					}
-					className={clsx(classes.tag, classes.newTag)}
-					size="small"
-				/>
-			);
+			return <Chip label="New" className={clsx(classes.tag, classes.newTag)} size="small" />;
 		case VaultState.Experimental:
 			return <Chip className={clsx(classes.tag, classes.experimentalTag)} size="small" label="Trial Run" />;
 		case VaultState.Guarded:
-			return <Chip className={clsx(classes.tag, classes.experimentalTag)} size="small" label="Guarded" />;
+			return <Chip className={clsx(classes.tag, classes.guardedTag)} size="small" label="Guarded" />;
 		case VaultState.Deprecated:
-			return <Chip className={clsx(classes.tag, classes.deprecatedTag)} size="small" label="Expiring" />;
+			return <Chip className={clsx(classes.tag, classes.deprecatedTag)} size="small" label="Obsolete" />;
 		default:
 			return null;
 	}
