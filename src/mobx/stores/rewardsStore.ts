@@ -4,7 +4,7 @@ import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import BigNumber from 'bignumber.js';
-import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
+import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
 import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';

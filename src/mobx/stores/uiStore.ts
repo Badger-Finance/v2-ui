@@ -7,7 +7,7 @@ import { SnackbarNotificationProps } from '../model/ui/snackbar-notification-pro
 
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
 
-class UiState {
+class UiStateStore {
 	private readonly store!: RootStore;
 	public currency: Currency;
 	public airdropStats: any;
@@ -126,4 +126,4 @@ class UiState {
 	});
 }
 
-export default UiState;
+export default UiStateStore;
