@@ -75,20 +75,25 @@ interface Props {
 
 const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Element => {
 	const classes = useStyles();
-	const [filters, setFilters] = useState<string[]>(Object.values(Filters));
+	const empty = new Set<string>();
+	const [filters, setFilters] = useState<Set<string>>(empty);
 	const handleFilterSelect = (filterValue: string) => {
-		if (filters.includes(filterValue)) {
-			setFilters(filters.filter((filteredValue) => filteredValue !== filterValue));
+		if (filters.has(filterValue)) {
+			let newfilters = new Set(filters);
+			newfilters.delete(filterValue);
+			setFilters(newfilters);
 		} else {
-			setFilters([...filters, filterValue]);
+			let newfilters = new Set(filters);
+			newfilters.add(filterValue);
+			setFilters(newfilters);
 		}
 	};
 	const handleSave = () => {
-		applyFilter(filters);
+		applyFilter(Array.from(filters.values()));
 		onClose();
 	};
 	const handleClearAll = () => {
-		setFilters([]);
+		setFilters(empty);
 	};
 	const handleClose = () => {
 		onClose();
@@ -118,7 +123,7 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
-											checked={filters.includes(Filters.PROPOSED)}
+											checked={filters.has(Filters.PROPOSED)}
 											onChange={() => handleFilterSelect(Filters.PROPOSED)}
 										/>
 									}
@@ -138,7 +143,7 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
-											checked={filters.includes(Filters.VETOED)}
+											checked={filters.has(Filters.VETOED)}
 											onChange={() => handleFilterSelect(Filters.VETOED)}
 										/>
 									}
@@ -158,7 +163,7 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
-											checked={filters.includes(Filters.EXECUTED)}
+											checked={filters.has(Filters.EXECUTED)}
 											onChange={() => handleFilterSelect(Filters.EXECUTED)}
 										/>
 									}
