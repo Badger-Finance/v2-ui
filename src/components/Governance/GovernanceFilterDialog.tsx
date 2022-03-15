@@ -78,40 +78,21 @@ const enum Filters {
 
 const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Element => {
 	const classes = useStyles();
-	const [proposed, setProposed] = useState(false);
-	const [vetoed, setVetoed] = useState(false);
-	const [executed, setExecuted] = useState(false);
-	const handleFilterSelect = (value: string) => {
-		if (value === Filters.PROPOSED) {
-			setProposed(!proposed);
-		} else if (value === Filters.VETOED) {
-			setVetoed(!vetoed);
+	const [filters, setFilters] = useState<string[]>([]);
+	const handleFilterSelect = (filterValue: string) => {
+		if (filters.includes(filterValue)) {
+			setFilters(filters.filter((filteredValue) => filteredValue !== filterValue));
 		} else {
-			setExecuted(!executed);
+			setFilters([...filters, filterValue]);
 		}
 	};
-
 	const handleSave = () => {
-		let filters: string[] = [];
-		if (proposed) {
-			filters.push(Filters.PROPOSED);
-		}
-		if (vetoed) {
-			filters.push(Filters.VETOED);
-		}
-		if (executed) {
-			filters.push(Filters.EXECUTED);
-		}
 		applyFilter(filters);
 		onClose();
 	};
-
 	const handleClearAll = () => {
-		setProposed(false);
-		setVetoed(false);
-		setExecuted(false);
+		setFilters([]);
 	};
-
 	const handleClose = () => {
 		onClose();
 	};
@@ -140,7 +121,7 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
-											checked={proposed}
+											checked={filters.includes(Filters.PROPOSED)}
 											onChange={() => handleFilterSelect(Filters.PROPOSED)}
 										/>
 									}
@@ -160,7 +141,7 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
-											checked={vetoed}
+											checked={filters.includes(Filters.VETOED)}
 											onChange={() => handleFilterSelect(Filters.VETOED)}
 										/>
 									}
@@ -180,7 +161,7 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 									control={
 										<Checkbox
 											classes={{ root: classes.checkboxRoot }}
-											checked={executed}
+											checked={filters.includes(Filters.EXECUTED)}
 											onChange={() => handleFilterSelect(Filters.EXECUTED)}
 										/>
 									}
