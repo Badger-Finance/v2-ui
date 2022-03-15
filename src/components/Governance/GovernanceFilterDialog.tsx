@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { Filters } from '../../mobx/model/governance-timelock/vote-filters';
+
 import {
 	Button,
 	Checkbox,
@@ -70,15 +72,10 @@ interface Props {
 	onClose: () => void;
 	applyFilter: ([]) => void;
 }
-const enum Filters {
-	PROPOSED = 'Proposed',
-	VETOED = 'Vetoed',
-	EXECUTED = 'Executed',
-}
 
 const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Element => {
 	const classes = useStyles();
-	const [filters, setFilters] = useState<string[]>([]);
+	const [filters, setFilters] = useState<string[]>(Object.values(Filters));
 	const handleFilterSelect = (filterValue: string) => {
 		if (filters.includes(filterValue)) {
 			setFilters(filters.filter((filteredValue) => filteredValue !== filterValue));

@@ -2,6 +2,7 @@ import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-eve
 import { Grid, Typography, ListItem, makeStyles, Link } from '@material-ui/core';
 import { ArrowUpward } from '@material-ui/icons';
 import clsx from 'clsx';
+import { Filters } from '../../mobx/model/governance-timelock/vote-filters';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		paddingLeft: theme.spacing(2),
@@ -52,12 +53,6 @@ const useStyles = makeStyles((theme) => ({
 
 export interface EventTableProps {
 	event: TimelockEvent;
-}
-
-const enum Filters {
-	PROPOSED = 'Proposed',
-	VETOED = 'Vetoed',
-	EXECUTED = 'Executed',
 }
 
 const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
