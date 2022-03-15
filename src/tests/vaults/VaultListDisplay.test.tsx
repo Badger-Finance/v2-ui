@@ -2,7 +2,6 @@ import React from 'react';
 import store from '../../mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
 import { Protocol, Vault, VaultState } from '@badger-dao/sdk';
-import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 import { customRender, fireEvent, screen } from '../Utils';
 import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';
 import { Currency } from '../../config/enums/currency.enum';
@@ -11,19 +10,8 @@ import { BalanceNamespace } from '../../web3/config/namespaces';
 import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import { SAMPLE_VAULTS } from '../utils/samples';
+import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from '../utils/samples';
 import VaultStore from '../../mobx/stores/VaultStore';
-
-const sampleExchangeRates: ExchangeRates = {
-	usd: 3371.56,
-	cad: 4215.55,
-	btc: 0.07670423,
-	bnb: 6.915813,
-	matic: 1423.994304022784,
-	xdai: 1,
-	ftm: 1,
-	avax: 1,
-};
 
 const mockVaultsInformation = (vaults: Vault[]) => {
 	jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
@@ -46,7 +34,7 @@ const mockVaultsInformation = (vaults: Vault[]) => {
 describe('VaultListDisplay', () => {
 	beforeEach(() => {
 		mockVaultsInformation(SAMPLE_VAULTS);
-		store.prices.exchangeRates = sampleExchangeRates;
+		store.prices.exchangeRates = SAMPLE_EXCHANGES_RATES;
 	});
 
 	afterEach(() => {

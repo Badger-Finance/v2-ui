@@ -1,5 +1,5 @@
 import { RouterStore } from 'mobx-router';
-import UiState from './reducers';
+import UiStateStore from './stores/uiStore';
 import ContractsStore from './stores/contractsStore';
 import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
@@ -24,7 +24,6 @@ import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
 import BondStore from './stores/BondStore';
-import { JsonRpcProvider } from '@ethersproject/providers';
 import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
 
@@ -32,7 +31,7 @@ export class RootStore {
 	public sdk: BadgerSDK;
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
-	public uiState: UiState;
+	public uiState: UiStateStore;
 	public contracts: ContractsStore;
 	public airdrops: AirdropStore;
 	public rebase: RebaseStore;
@@ -65,7 +64,7 @@ export class RootStore {
 		this.airdrops = new AirdropStore(this);
 		this.rebase = new RebaseStore(this);
 		this.rewards = new RewardsStore(this);
-		this.uiState = new UiState(this);
+		this.uiState = new UiStateStore(this);
 		this.vaults = new VaultStore(this);
 		this.user = new UserStore(this);
 		this.honeyPot = new HoneyPotStore(this);
@@ -118,7 +117,6 @@ export class RootStore {
 			const updateActions = [
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
-				this.user.checkApprovalVulnerabilities(address),
 				this.lockedCvxDelegation.loadTotalCVXWithdrawable(),
 			];
 

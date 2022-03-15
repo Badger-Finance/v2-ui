@@ -4,14 +4,14 @@ import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
 import { customRender, screen, fireEvent, cleanup } from '../Utils';
 import { Mint } from '../../components/IbBTC/Mint';
-import { Snackbar } from '../../components/Snackbar';
-import Header from '../../components/Header';
+import { SnackbarProvider } from '../../components/Snackbar';
 import IbBTCStore from 'mobx/stores/ibBTCStore';
 import { within } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { TransactionRequestResult } from '../../mobx/utils/web3';
+import SnackbarManager from '../../components-v2/common/SnackbarManager';
 
 const mockTokens = [
 	new TokenBalance(
@@ -145,10 +145,11 @@ describe('ibBTC Mint', () => {
 
 		customRender(
 			<StoreProvider value={store}>
-				<Snackbar>
-					<Header />
-					<Mint />
-				</Snackbar>
+				<SnackbarProvider>
+					<SnackbarManager>
+						<Mint />
+					</SnackbarManager>
+				</SnackbarProvider>
 			</StoreProvider>,
 		);
 

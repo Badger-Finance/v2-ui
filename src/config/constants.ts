@@ -61,7 +61,6 @@ export enum NETWORK_IDS {
 	FTM = 250,
 }
 
-export const EXPLOIT_HACKER_ADDRESS = '0x1fcdb04d0c5364fbd92c73ca8af9baa72c269107';
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const ERC20 = importedErc20;
 export const ERC20_ABI = importedErc20.abi as AbiItem[];
@@ -75,8 +74,6 @@ export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
 // https://semver.org/#is-v123-a-semantic-version
 export const SITE_VERSION = '2.15.0';
-export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
-export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
 export const BLOCKNATIVE_API_KEY = process.env.REACT_APP_BLOCKNATIVE_API_KEY;
 
 export const ZERO = new BigNumber(0);
@@ -85,11 +82,6 @@ export const MAX = Web3.utils.toTwosComplement(-1);
 export const MAX_FEE = 1e4;
 
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
-export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
-export const RENVM_NETWORK = 'mainnet';
-export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
-
-export const APPROVALS_VULNERABILITIES_SUBGRAPH = 'https://api.thegraph.com/subgraphs/name/axejintao/jello-jintao';
 
 // time constants
 export const ONE_MIN_MS = 60 * 1000;

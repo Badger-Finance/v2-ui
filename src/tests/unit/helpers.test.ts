@@ -13,6 +13,8 @@ describe('helpers', () => {
 		bnb: 7.2,
 		matic: 1831.21,
 		xdai: 1430.23,
+		ftm: 1,
+		avax: 1,
 	};
 
 	beforeAll(() => (store.prices.exchangeRates = exchangeRates));

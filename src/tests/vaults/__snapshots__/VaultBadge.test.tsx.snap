@@ -3,12 +3,12 @@
 exports[`VaultTag "deprecated" Vaults 1`] = `
 <div>
   <div
-    class="MuiChip-root-6 makeStyles-tag-1 makeStyles-deprecatedTag-3 MuiChip-sizeSmall-7"
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-deprecatedTag-4 MuiChip-sizeSmall-8"
   >
     <span
-      class="MuiChip-label-28 MuiChip-labelSmall-29"
+      class="MuiChip-label-29 MuiChip-labelSmall-30"
     >
-      Expiring
+      Obsolete
     </span>
   </div>
 </div>
@@ -17,10 +17,10 @@ exports[`VaultTag "deprecated" Vaults 1`] = `
 exports[`VaultTag "experimental" Vaults 1`] = `
 <div>
   <div
-    class="MuiChip-root-6 makeStyles-tag-1 makeStyles-experimentalTag-4 MuiChip-sizeSmall-7"
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-experimentalTag-5 MuiChip-sizeSmall-8"
   >
     <span
-      class="MuiChip-label-28 MuiChip-labelSmall-29"
+      class="MuiChip-label-29 MuiChip-labelSmall-30"
     >
       Trial Run
     </span>
@@ -31,10 +31,10 @@ exports[`VaultTag "experimental" Vaults 1`] = `
 exports[`VaultTag "guarded" Vaults 1`] = `
 <div>
   <div
-    class="MuiChip-root-6 makeStyles-tag-1 makeStyles-experimentalTag-4 MuiChip-sizeSmall-7"
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-guardedTag-3 MuiChip-sizeSmall-8"
   >
     <span
-      class="MuiChip-label-28 MuiChip-labelSmall-29"
+      class="MuiChip-label-29 MuiChip-labelSmall-30"
     >
       Guarded
     </span>
@@ -45,26 +45,12 @@ exports[`VaultTag "guarded" Vaults 1`] = `
 exports[`VaultTag "new" Vaults 1`] = `
 <div>
   <div
-    class="MuiChip-root-6 makeStyles-tag-1 makeStyles-newTag-2 MuiChip-sizeSmall-7"
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-newTag-2 MuiChip-sizeSmall-8"
   >
     <span
-      class="MuiChip-label-28 MuiChip-labelSmall-29"
+      class="MuiChip-label-29 MuiChip-labelSmall-30"
     >
-      <div
-        class="MuiBox-root-36 MuiBox-root-37"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root-38 makeStyles-starIcon-5 MuiSvgIcon-fontSizeInherit-44"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-          />
-        </svg>
-         New
-      </div>
+      New
     </span>
   </div>
 </div>

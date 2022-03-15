@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Header from './Header';
 import { MobxRouter } from 'mobx-router';
 import { useEffect } from 'react';
 import { ONE_MIN_MS } from 'config/constants';
@@ -11,8 +10,9 @@ import Announcements from '../components-v2/common/Announcements';
 import Sidebar from 'components-v2/sidebar';
 import clsx from 'clsx';
 import { useMediaQuery, useTheme } from '@material-ui/core';
-import ApprovalVulnerabilitiesWarning from '../components-v2/common/ApprovalVulnerabilitiesWarning';
 import WalletDrawer from '../components-v2/common/WalletDrawer';
+import Navbar from '../components-v2/navbar';
+import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {
@@ -61,15 +61,15 @@ export const App = (): JSX.Element => {
 	return (
 		<div className={clsx(classes.rootContainer, classes.flexContainer, classes.columnContainer)}>
 			<NetworkNotification />
+			<RewardsDialog />
 			<div className={clsx(classes.appContainer, classes.flexContainer)}>
 				<Sidebar />
 				<WalletDrawer />
 				<main className={clsx(classes.contentContainer, classes.columnContainer)}>
 					<main className={classes.content}>
 						{!isMobile && <Announcements />}
-						<Header />
+						<Navbar />
 						{isMobile && <Announcements />}
-						<ApprovalVulnerabilitiesWarning />
 						<MobxRouter store={store} />
 					</main>
 				</main>
