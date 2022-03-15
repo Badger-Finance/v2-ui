@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
-import { APPROVALS_VULNERABILITIES_SUBGRAPH, EXPLOIT_HACKER_ADDRESS, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
+import { ONE_MIN_MS } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
@@ -20,10 +20,8 @@ import { getChainMulticallContract, parseCallReturnContext } from '../utils/mult
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 import { createMulticallRequest } from '../../web3/config/config-utils';
 import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
-import { GraphQLClient } from 'graphql-request';
-import { getSdk } from '../../graphql/generated/badger';
-import { ExploitApproval } from '../model/account/exploit-approval';
 import { DEBUG } from '../../config/environment';
+import { ethers } from 'ethers';
 
 export default class UserStore {
 	private store: RootStore;
@@ -37,7 +35,6 @@ export default class UserStore {
 	public settBalances: TokenBalances = {};
 	public vaultCaps: VaultCaps = {};
 	public loadingBalances: boolean;
-	public approvalVulnerabilities?: ExploitApproval[];
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -51,7 +48,6 @@ export default class UserStore {
 			settBalances: this.settBalances,
 			vaultCaps: this.vaultCaps,
 			loadingBalances: this.loadingBalances,
-			approvalVulnerabilities: this.approvalVulnerabilities,
 		});
 	}
 
@@ -183,29 +179,6 @@ export default class UserStore {
 		if (accountDetails) {
 			this.accountDetails = accountDetails;
 		}
-	});
-
-	checkApprovalVulnerabilities = action(async (address: string) => {
-		const client = new GraphQLClient(APPROVALS_VULNERABILITIES_SUBGRAPH);
-		const sdk = getSdk(client);
-
-		const { user: userInformation } = await sdk.User({
-			id: address.toLowerCase(),
-		});
-
-		if (!userInformation) {
-			return;
-		}
-
-		const stillAtRisk: ExploitApproval[] = [];
-
-		for (const approval of userInformation.approvals) {
-			if (approval.spender.id === EXPLOIT_HACKER_ADDRESS.toLowerCase() && Number(approval.amount) > 0) {
-				stillAtRisk.push(approval);
-			}
-		}
-
-		this.approvalVulnerabilities = stillAtRisk;
 	});
 
 	updateBalances = action(async (addressOverride?: string, cached?: boolean): Promise<void> => {
@@ -397,7 +370,7 @@ export default class UserStore {
 				}
 
 				const guestList = vault.guestList[0][0];
-				if (guestList === ZERO_ADDR) {
+				if (guestList === ethers.constants.AddressZero) {
 					return null;
 				}
 

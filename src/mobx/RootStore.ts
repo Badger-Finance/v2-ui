@@ -117,7 +117,6 @@ export class RootStore {
 			const updateActions = [
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
-				this.user.checkApprovalVulnerabilities(address),
 				this.lockedCvxDelegation.loadTotalCVXWithdrawable(),
 			];
 

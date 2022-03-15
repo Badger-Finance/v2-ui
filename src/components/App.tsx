@@ -10,7 +10,6 @@ import Announcements from '../components-v2/common/Announcements';
 import Sidebar from 'components-v2/sidebar';
 import clsx from 'clsx';
 import { useMediaQuery, useTheme } from '@material-ui/core';
-import ApprovalVulnerabilitiesWarning from '../components-v2/common/ApprovalVulnerabilitiesWarning';
 import WalletDrawer from '../components-v2/common/WalletDrawer';
 import Navbar from '../components-v2/navbar';
 import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
@@ -71,7 +70,6 @@ export const App = (): JSX.Element => {
 						{!isMobile && <Announcements />}
 						<Navbar />
 						{isMobile && <Announcements />}
-						<ApprovalVulnerabilitiesWarning />
 						<MobxRouter store={store} />
 					</main>
 				</main>
