@@ -24,7 +24,6 @@ import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
 import BondStore from './stores/BondStore';
-import { JsonRpcProvider } from '@ethersproject/providers';
 import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
 
@@ -118,7 +117,6 @@ export class RootStore {
 			const updateActions = [
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
-				this.user.checkApprovalVulnerabilities(address),
 				this.lockedCvxDelegation.loadTotalCVXWithdrawable(),
 			];
 

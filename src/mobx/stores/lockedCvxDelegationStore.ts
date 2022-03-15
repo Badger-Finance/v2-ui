@@ -9,7 +9,7 @@ import { sendContractMethod } from '../utils/web3';
 import { DelegationState } from '../model/vaults/locked-cvx-delegation';
 import { extendObservable, observe } from 'mobx';
 import BigNumber from 'bignumber.js';
-import { NETWORK_IDS, ZERO_ADDR } from 'config/constants';
+import { NETWORK_IDS } from 'config/constants';
 import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json';
 import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
 import { fetchData } from '../../utils/fetchData';
@@ -17,6 +17,7 @@ import { FLAGS } from '../../config/environment';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { Token } from 'mobx/model/tokens/token';
 import VaultStore from './VaultStore';
+import { ethers } from 'ethers';
 
 // this is mainnet only
 const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';
@@ -276,7 +277,7 @@ class LockedCvxDelegationStore {
 		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
 		const alreadyDelegatedAddress = await cvxDelegator.methods.delegation(address, ID_TO_DELEGATE).call();
 
-		if (alreadyDelegatedAddress && alreadyDelegatedAddress !== ZERO_ADDR) {
+		if (alreadyDelegatedAddress && alreadyDelegatedAddress !== ethers.constants.AddressZero) {
 			const isBadgerDelegatedAddress = alreadyDelegatedAddress === badgerDelegateAddress;
 
 			this.delegationState = isBadgerDelegatedAddress

@@ -11,7 +11,6 @@ import Announcements from '../components-v2/common/Announcements';
 import Sidebar from 'components-v2/sidebar';
 import clsx from 'clsx';
 import { useMediaQuery, useTheme } from '@material-ui/core';
-import ApprovalVulnerabilitiesWarning from '../components-v2/common/ApprovalVulnerabilitiesWarning';
 import WalletDrawer from '../components-v2/common/WalletDrawer';
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +68,6 @@ export const App = (): JSX.Element => {
 						{!isMobile && <Announcements />}
 						<Header />
 						{isMobile && <Announcements />}
-						<ApprovalVulnerabilitiesWarning />
 						<MobxRouter store={store} />
 					</main>
 				</main>
