@@ -216,7 +216,7 @@ exports[`Navbar Renders correctly 1`] = `
                       VAULTS
                     </span>
                     <span
-                      class="MuiTouchRipple-root-294"
+                      class="MuiTouchRipple-root-263"
                     />
                   </button>
                   <button
@@ -232,7 +232,7 @@ exports[`Navbar Renders correctly 1`] = `
                       DIGG
                     </span>
                     <span
-                      class="MuiTouchRipple-root-294"
+                      class="MuiTouchRipple-root-263"
                     />
                   </button>
                   <button
@@ -248,7 +248,7 @@ exports[`Navbar Renders correctly 1`] = `
                       BOOST
                     </span>
                     <span
-                      class="MuiTouchRipple-root-294"
+                      class="MuiTouchRipple-root-263"
                     />
                   </button>
                   <button
@@ -264,7 +264,7 @@ exports[`Navbar Renders correctly 1`] = `
                       IBBTC
                     </span>
                     <span
-                      class="MuiTouchRipple-root-294"
+                      class="MuiTouchRipple-root-263"
                     />
                   </button>
                 </div>
@@ -317,7 +317,7 @@ exports[`Navbar Renders correctly 1`] = `
                     </div>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-294"
+                    class="MuiTouchRipple-root-263"
                   />
                 </button>
               </div>
@@ -325,7 +325,8 @@ exports[`Navbar Renders correctly 1`] = `
                 class="MuiGrid-root-17 MuiGrid-item-19"
               >
                 <button
-                  class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-261 MuiButton-outlinedPrimary-216"
+                  aria-label="open network selector"
+                  class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
                   tabindex="0"
                   type="button"
                 >
@@ -334,12 +335,12 @@ exports[`Navbar Renders correctly 1`] = `
                   >
                     <img
                       alt="selected network icon"
-                      class="makeStyles-selectedNetworkIcon-267"
+                      class="makeStyles-selectedNetworkIcon-257"
                       src="/assets/icons/ethereum-network.svg"
                     />
                   </span>
                   <span
-                    class="MuiTouchRipple-root-294"
+                    class="MuiTouchRipple-root-263"
                   />
                 </button>
               </div>
@@ -352,12 +353,12 @@ exports[`Navbar Renders correctly 1`] = `
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-211 makeStyles-walletButtonLabel-293"
+                    class="MuiButton-label-211 makeStyles-walletButtonLabel-262"
                   >
                     0x1..a1a
                   </span>
                   <span
-                    class="MuiTouchRipple-root-294"
+                    class="MuiTouchRipple-root-263"
                   />
                 </button>
               </div>
@@ -385,12 +386,12 @@ exports[`Navbar Renders mobile version correctly 1`] = `
           class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-align-items-xs-center-26 MuiGrid-grid-xs-true-51"
         >
           <button
-            class="MuiButtonBase-root-199 MuiIconButton-root-297 makeStyles-menuIcon-294"
+            class="MuiButtonBase-root-199 MuiIconButton-root-266 makeStyles-menuIcon-263"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiIconButton-label-305"
+              class="MuiIconButton-label-274"
             >
               <img
                 alt="open menu"
@@ -398,23 +399,24 @@ exports[`Navbar Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-322"
+              class="MuiTouchRipple-root-291"
             />
           </button>
           <img
             alt="Badger Logo"
-            class="makeStyles-badgerIcon-295"
+            class="makeStyles-badgerIcon-264"
             src="/assets/icons/badger_head.svg"
           />
         </div>
         <div
-          class="MuiGrid-root-17 makeStyles-buttons-296 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
+          class="MuiGrid-root-17 makeStyles-buttons-265 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
         >
           <div
             class="MuiGrid-root-17 MuiGrid-item-19"
           >
             <button
-              class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-261 MuiButton-outlinedPrimary-216"
+              aria-label="open network selector"
+              class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
               tabindex="0"
               type="button"
             >
@@ -423,12 +425,12 @@ exports[`Navbar Renders mobile version correctly 1`] = `
               >
                 <img
                   alt="selected network icon"
-                  class="makeStyles-selectedNetworkIcon-267"
+                  class="makeStyles-selectedNetworkIcon-257"
                   src="/assets/icons/ethereum-network.svg"
                 />
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
           </div>
@@ -441,12 +443,12 @@ exports[`Navbar Renders mobile version correctly 1`] = `
               type="button"
             >
               <span
-                class="MuiButton-label-211 makeStyles-walletButtonLabel-293"
+                class="MuiButton-label-211 makeStyles-walletButtonLabel-262"
               >
                 0x1..a1a
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
           </div>
@@ -454,7 +456,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
       </div>
     </div>
     <hr
-      class="MuiDivider-root-306"
+      class="MuiDivider-root-275"
     />
     <div
       class="makeStyles-mobileRow-3 makeStyles-mobileStats-4"
@@ -472,7 +474,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
             Badger Price:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-315"
+            class="MuiBox-root-157 MuiBox-root-284"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
@@ -503,7 +505,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
              TVL:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-318"
+            class="MuiBox-root-157 MuiBox-root-287"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
@@ -521,7 +523,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
             My Assets:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-321"
+            class="MuiBox-root-157 MuiBox-root-290"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
@@ -533,7 +535,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
       </div>
     </div>
     <hr
-      class="MuiDivider-root-306"
+      class="MuiDivider-root-275"
     />
     <div
       class="makeStyles-mobileTabs-5"
@@ -562,7 +564,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                 VAULTS
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
             <button
@@ -578,7 +580,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                 DIGG
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
             <button
@@ -594,7 +596,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                 BOOST
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
             <button
@@ -610,7 +612,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                 IBBTC
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
           </div>
@@ -640,12 +642,12 @@ exports[`Navbar Renders tablet version correctly 1`] = `
           class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-align-items-xs-center-26 MuiGrid-grid-xs-true-51"
         >
           <button
-            class="MuiButtonBase-root-199 MuiIconButton-root-297 makeStyles-menuIcon-294"
+            class="MuiButtonBase-root-199 MuiIconButton-root-266 makeStyles-menuIcon-263"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiIconButton-label-305"
+              class="MuiIconButton-label-274"
             >
               <img
                 alt="open menu"
@@ -653,23 +655,24 @@ exports[`Navbar Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-322"
+              class="MuiTouchRipple-root-291"
             />
           </button>
           <img
             alt="Badger Logo"
-            class="makeStyles-badgerIcon-295"
+            class="makeStyles-badgerIcon-264"
             src="/assets/icons/badger_head.svg"
           />
         </div>
         <div
-          class="MuiGrid-root-17 makeStyles-buttons-296 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
+          class="MuiGrid-root-17 makeStyles-buttons-265 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
         >
           <div
             class="MuiGrid-root-17 MuiGrid-item-19"
           >
             <button
-              class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-261 MuiButton-outlinedPrimary-216"
+              aria-label="open network selector"
+              class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
               tabindex="0"
               type="button"
             >
@@ -678,12 +681,12 @@ exports[`Navbar Renders tablet version correctly 1`] = `
               >
                 <img
                   alt="selected network icon"
-                  class="makeStyles-selectedNetworkIcon-267"
+                  class="makeStyles-selectedNetworkIcon-257"
                   src="/assets/icons/ethereum-network.svg"
                 />
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
           </div>
@@ -696,12 +699,12 @@ exports[`Navbar Renders tablet version correctly 1`] = `
               type="button"
             >
               <span
-                class="MuiButton-label-211 makeStyles-walletButtonLabel-293"
+                class="MuiButton-label-211 makeStyles-walletButtonLabel-262"
               >
                 0x1..a1a
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
           </div>
@@ -709,7 +712,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
       </div>
     </div>
     <hr
-      class="MuiDivider-root-306"
+      class="MuiDivider-root-275"
     />
     <div
       class="makeStyles-mobileRow-3 makeStyles-mobileStats-4"
@@ -727,7 +730,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
             Badger Price:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-315"
+            class="MuiBox-root-157 MuiBox-root-284"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
@@ -758,7 +761,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
              TVL:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-318"
+            class="MuiBox-root-157 MuiBox-root-287"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
@@ -776,7 +779,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
             My Assets:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-321"
+            class="MuiBox-root-157 MuiBox-root-290"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
@@ -788,7 +791,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
       </div>
     </div>
     <hr
-      class="MuiDivider-root-306"
+      class="MuiDivider-root-275"
     />
     <div
       class="makeStyles-mobileTabs-5"
@@ -817,7 +820,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 VAULTS
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
             <button
@@ -833,7 +836,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 DIGG
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
             <button
@@ -849,7 +852,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 BOOST
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
             <button
@@ -865,7 +868,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 IBBTC
               </span>
               <span
-                class="MuiTouchRipple-root-322"
+                class="MuiTouchRipple-root-291"
               />
             </button>
           </div>

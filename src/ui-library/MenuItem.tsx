@@ -18,10 +18,11 @@ interface CustomMenuItemProps extends ListItemProps {
 	button?: any;
 }
 
-const MenuItem = (props: CustomMenuItemProps): JSX.Element => {
+const MenuItem = React.forwardRef<HTMLLIElement, CustomMenuItemProps>((props, ref) => {
 	const classes = useStyles();
 	return (
 		<ListItem
+			ref={ref}
 			{...props}
 			classes={{
 				...(props.classes ?? {}),
@@ -31,6 +32,6 @@ const MenuItem = (props: CustomMenuItemProps): JSX.Element => {
 			{props.children}
 		</ListItem>
 	);
-};
+});
 
 export default MenuItem;
