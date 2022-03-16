@@ -1,5 +1,4 @@
 import React, { useContext, useRef, useState } from 'react';
-import { NETWORK_IDS } from '../../config/constants';
 import MenuItemIcon from '../../ui-library/MenuItemIcon';
 import { getNetworkIconPath } from '../../utils/network-icon';
 import MenuItemText from '../../ui-library/MenuItemText';
@@ -39,15 +38,13 @@ interface Props {
 }
 
 const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
-	const { network: networkStore, gasPrices } = useContext(StoreContext);
+	const { network: networkStore } = useContext(StoreContext);
 	const [open, setOpen] = useState(false);
 	const classes = useStyles();
 	const ref = useRef<HTMLImageElement | null>(null);
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('md'));
 
-	const isEthereum = network.id === NETWORK_IDS.ETH;
 	const isCurrentNetwork = networkStore.network.symbol === network.symbol;
-	const showGasOptions = gasPrices.initialized && isEthereum && isCurrentNetwork;
 
 	const toggleOpen = () => {
 		setOpen(!open);
@@ -85,7 +82,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
 					</MenuItemIcon>
 					<MenuItemText>{network.name}</MenuItemText>
 				</Grid>
-				{showGasOptions && (
+				{isCurrentNetwork && (
 					<Grid item xs="auto">
 						<IconButton
 							className={classes.gasButton}
