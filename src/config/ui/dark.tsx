@@ -23,10 +23,14 @@ const theme = createTheme({
 	},
 	palette: {
 		type: 'dark',
-		primary: { main: '#FFB84D' },
-		secondary: { main: '#91CDFF' },
+		primary: {
+			main: '#FFB84D',
+		},
+		secondary: {
+			main: '#91CDFF',
+		},
 		background: {
-			default: '#181818',
+			default: '#121212',
 			paper: '#2b2b2b',
 		},
 		success: {
@@ -45,6 +49,12 @@ const theme = createTheme({
 			contrastText: '#181818',
 			main: '#F2A52B',
 		},
+		text: {
+			primary: '#e6e6e6',
+			secondary: '#FFFFFF99',
+			disabled: '#FFFFFF61',
+		},
+		divider: '#FFFFFF1F',
 	},
 	typography: {
 		fontFamily: "'Satoshi', 'IBM Plex Sans', sans-serif",
@@ -96,9 +106,6 @@ const theme = createTheme({
 			},
 		},
 		MuiDrawer: {
-			paper: {
-				background: '#121212',
-			},
 			paperAnchorDockedLeft: {
 				borderRight: 0,
 			},
@@ -114,6 +121,7 @@ const theme = createTheme({
 				padding: '8px 20px',
 			},
 			outlined: {
+				border: '1px solid #FFFFFF6B',
 				padding: '8px 20px',
 			},
 			text: {
@@ -200,6 +208,11 @@ const theme = createTheme({
 			root: {
 				fontSize: 16,
 				fontWeight: 500,
+			},
+		},
+		MuiOutlinedInput: {
+			notchedOutline: {
+				borderColor: '#FFFFFF6B',
 			},
 		},
 	},
