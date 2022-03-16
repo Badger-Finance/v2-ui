@@ -72,8 +72,8 @@ const routes = {
 	}),
 	governance: new Route<RootStore, QueryParams>({
 		path: '/governance',
-		component: <Governance />
-	})
+		component: <Governance />,
+	}),
 };
 
 export default routes;
