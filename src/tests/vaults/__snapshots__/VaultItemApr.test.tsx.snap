@@ -48,7 +48,7 @@ exports[`VaultItemApr No APR Vaults renders zero APR 1`] = `
   <p
     class="MuiTypography-root-3 makeStyles-apr-1 MuiTypography-body1-5 MuiTypography-colorTextPrimary-28"
   >
-    0%
+    --%
   </p>
 </div>
 `;
