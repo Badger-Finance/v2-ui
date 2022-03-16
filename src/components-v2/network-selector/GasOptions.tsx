@@ -30,7 +30,6 @@ const GasOptions = ({ network, onSelect }: Props): JSX.Element | null => {
 	const gasOptions = gasPrices.getGasPrices(network.symbol);
 
 	const handleSelection = (gasSpeed: GasSpeed) => {
-		console.log(gasSpeed);
 		setGasPrice(gasSpeed);
 		onSelect();
 	};
@@ -44,7 +43,11 @@ const GasOptions = ({ network, onSelect }: Props): JSX.Element | null => {
 			<Menu className={classes.root}>
 				{Object.entries(gasOptions).map((price) => {
 					const [key, value] = price;
-					const displayValue = typeof value === 'number' ? value : value.maxFeePerGas;
+					// Blocknative EIP-1559-compliant [Gas Estimator](https://www.blocknative.com/gas-estimator) currently
+					// uses the following simple heuristic to calculate the recommended Max Fee for any given Base
+					// Fee and Max Priority Fee combination:
+					// Max Fee = (2 * Base Fee) + Max Priority Fee
+					const displayValue = typeof value === 'number' ? value : value.maxFeePerGas / 2;
 					return (
 						<MenuItem key={`${network.id}_${key}`} button onClick={() => handleSelection(key as GasSpeed)}>
 							<MenuItemText> {displayValue ? displayValue.toFixed(0) : 10}</MenuItemText>
