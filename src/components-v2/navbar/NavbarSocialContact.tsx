@@ -60,7 +60,7 @@ export const NavbarSocialContact = (): JSX.Element => {
 			</Grid>
 			<Grid item className={classes.governance}>
 				<Typography variant="helperText">
-					<Link color="inherit" href="/governance" rel="noopener" >
+					<Link color="inherit" href="/governance" rel="noopener">
 						GOVERNANCE
 					</Link>
 				</Typography>
