@@ -1,8 +1,7 @@
 import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
 import { Grid, Typography, ListItem, makeStyles, Link } from '@material-ui/core';
 import { ArrowUpward } from '@material-ui/icons';
-import classNames from 'classnames';
-
+import clsx from 'clsx';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		paddingLeft: theme.spacing(2),
@@ -34,15 +33,15 @@ const useStyles = makeStyles((theme) => ({
 		padding: '0 5px',
 		marginRight: 5,
 	},
-	Proposed: {
+	proposed: {
 		borderColor: 'yellow',
 		color: 'yellow',
 	},
-	Vetoed: {
+	vetoed: {
 		borderColor: 'red',
 		color: 'red',
 	},
-	Executed: {
+	executed: {
 		borderColor: 'green',
 		color: 'green',
 	},
@@ -64,6 +63,12 @@ const enum Filters {
 const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 	const classes = useStyles();
 	const status = event.status;
+	const status_class = clsx({
+		[classes.status]: true,
+		[classes.proposed]: status === Filters.PROPOSED,
+		[classes.vetoed]: status === Filters.VETOED,
+		[classes.executed]: status === Filters.EXECUTED,
+	});
 	return (
 		<ListItem className={classes.listItem}>
 			<Grid container item xs={12} className={classes.root} spacing={2}>
@@ -73,21 +78,9 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
 				</Grid>
 				<Grid item xs={3} className={classes.arrowbox}>
 					<Typography className={classes.address} variant="body2" color="textSecondary" noWrap>
-						{status == Filters.PROPOSED && (
-							<div className={classNames([classes.status, classes.Proposed].join(' '))}>
-								<b>{status}</b>
-							</div>
-						)}
-						{status == Filters.VETOED && (
-							<div className={classNames([classes.status, classes.Vetoed].join(' '))}>
-								<b>{status}</b>
-							</div>
-						)}
-						{status == Filters.EXECUTED && (
-							<div className={classNames([classes.status, classes.Executed].join(' '))}>
-								<b>{status}</b>
-							</div>
-						)}
+						<div className={status_class}>
+							<b>{status}</b>
+						</div>
 						by {event.doneBy}
 					</Typography>
 					<Link href={'https://etherscan.io/address/' + event.doneBy} target="_blank">

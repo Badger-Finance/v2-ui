@@ -92,7 +92,7 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 	};
 
 	const handleSave = () => {
-		let filters = [];
+		let filters: string[] = [];
 		if (proposed) {
 			filters.push(Filters.PROPOSED);
 		}

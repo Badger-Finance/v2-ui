@@ -1,11 +1,10 @@
 import { action, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
 import { TimelockEvent } from '../model/governance-timelock/timelock-event';
-import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
 import GovernanceTimelockAbi from '../../config/system/abis/GovernanceTimelock.json';
 import { ethers } from 'ethers';
 
+// Defined for now, will be used when signature will be shown in UI
 const getParameterTypes = (signature: string) => {
 	const parametersStart = signature.indexOf('(') + 1;
 	const parametersEnd = signature.lastIndexOf(')');
@@ -43,19 +42,17 @@ export class GovernancePortalStore {
 		const eventData = [...proposedEventData, ...vetoedEventData, ...executedEventData, ...vetoResolvedEventData];
 		eventData.sort((a: any, b: any) => b.blockNumber + b.id - a.blockNumber + a.id);
 
-		var timelockEventMap = new Map<string, TimelockEvent>();
+		let timelockEventMap = new Map<string, TimelockEvent>();
 
 		for (let eventitem of eventData) {
-			console.log(eventitem);
 			if (eventitem.args) {
-				console.log(eventitem.args.id);
-				let id = eventitem.args.id;
+				const id = eventitem.args.id;
 				const blockInfo = await provider.getBlock(eventitem.blockNumber);
-				var timestamp: any = blockInfo.timestamp;
-				var date: any = new Date(timestamp * 1000);
-				var s = date.toUTCString();
-				var utcDate = s.substring(0, s.indexOf('GMT')) + 'UTC';
-				var timelockEvent = {} as TimelockEvent;
+				const timestamp: any = blockInfo.timestamp;
+				const date: any = new Date(timestamp * 1000);
+				const s = date.toUTCString();
+				const utcDate = s.substring(0, s.indexOf('GMT')) + 'UTC';
+				let timelockEvent = {} as TimelockEvent;
 
 				timelockEvent = timelockEventMap.get(id) || timelockEvent;
 				timelockEvent.doneBy = eventitem.args.sender || '';
@@ -63,7 +60,7 @@ export class GovernancePortalStore {
 				timelockEvent.timeStamp = utcDate;
 				timelockEvent.timeRemaining = 0;
 				timelockEvent.event = eventitem.event || '';
-				if (eventitem.args.status == 'Proposed') {
+				if (eventitem.args.status === 'Proposed') {
 					timelockEvent.proposer = timelockEvent.doneBy;
 					timelockEvent.timeRemaining = eventitem.args.delay - Math.round(new Date().getTime() / 1000);
 				}
