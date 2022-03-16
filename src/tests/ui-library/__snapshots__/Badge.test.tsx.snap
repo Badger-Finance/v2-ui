@@ -1,20 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VaultTag "deprecated" Vaults 1`] = `
+exports[`Badge renders for type executed 1`] = `
 <div>
   <div
-    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-obsoleteTag-4 MuiChip-sizeSmall-8"
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-executedTag-6 MuiChip-sizeSmall-8"
   >
     <span
       class="MuiChip-label-29 MuiChip-labelSmall-30"
     >
-      Obsolete
+      Executed
     </span>
   </div>
 </div>
 `;
 
-exports[`VaultTag "experimental" Vaults 1`] = `
+exports[`Badge renders for type experimental 1`] = `
 <div>
   <div
     class="MuiChip-root-7 makeStyles-tag-1 makeStyles-experimentalTag-5 MuiChip-sizeSmall-8"
@@ -28,7 +28,7 @@ exports[`VaultTag "experimental" Vaults 1`] = `
 </div>
 `;
 
-exports[`VaultTag "guarded" Vaults 1`] = `
+exports[`Badge renders for type guarded 1`] = `
 <div>
   <div
     class="MuiChip-root-7 makeStyles-tag-1 makeStyles-guardedTag-3 MuiChip-sizeSmall-8"
@@ -42,7 +42,7 @@ exports[`VaultTag "guarded" Vaults 1`] = `
 </div>
 `;
 
-exports[`VaultTag "new" Vaults 1`] = `
+exports[`Badge renders for type new 1`] = `
 <div>
   <div
     class="MuiChip-root-7 makeStyles-tag-1 makeStyles-newTag-2 MuiChip-sizeSmall-8"
@@ -56,4 +56,16 @@ exports[`VaultTag "new" Vaults 1`] = `
 </div>
 `;
 
-exports[`VaultTag "open" Vaults 1`] = `<div />`;
+exports[`Badge renders for type obsolete 1`] = `
+<div>
+  <div
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-obsoleteTag-4 MuiChip-sizeSmall-8"
+  >
+    <span
+      class="MuiChip-label-29 MuiChip-labelSmall-30"
+    >
+      Obsolete
+    </span>
+  </div>
+</div>
+`;
