@@ -71,7 +71,7 @@ describe('NetworkGasWidget', () => {
 
 			fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
 			fireEvent.mouseOver(screen.getByText(defaultNetwork.name));
-			fireEvent.click(screen.getByText(mockGasPrices.rapid.maxFeePerGas.toFixed(0)));
+			fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
 			expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, 'rapid');
 		});
 	});
@@ -90,7 +90,7 @@ describe('NetworkGasWidget', () => {
 
 			fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
 			fireEvent.click(screen.getByRole('button', { name: 'show gas options' }));
-			fireEvent.click(screen.getByText(mockGasPrices.rapid.maxFeePerGas.toFixed(0)));
+			fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
 			expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, 'rapid');
 		});
 	});

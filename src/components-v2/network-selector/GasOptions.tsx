@@ -44,8 +44,8 @@ const GasOptions = ({ network, onSelect }: Props): JSX.Element | null => {
 				{Object.entries(gasOptions).map((price) => {
 					const [key, value] = price;
 					// Blocknative EIP-1559-compliant [Gas Estimator](https://www.blocknative.com/gas-estimator) currently
-					// uses the following simple heuristic to calculate the recommended Max Fee for any given Base
-					// Fee and Max Priority Fee combination:
+					// uses the following simple heuristic to calculate the recommended Max Fee for any given Base Fee
+					// and Max Priority Fee combination:
 					// Max Fee = (2 * Base Fee) + Max Priority Fee
 					const displayValue = typeof value === 'number' ? value : value.maxFeePerGas / 2;
 					return (
