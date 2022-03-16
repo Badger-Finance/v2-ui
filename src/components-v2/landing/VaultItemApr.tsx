@@ -29,7 +29,7 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 	if (!vault.apr) {
 		return (
 			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
-				0%
+				--%
 			</Typography>
 		);
 	}
