@@ -86,8 +86,8 @@ const Sidebar = observer(() => {
 					<MenuItem button onClick={() => window.open('https://docs.badger.com/')}>
 						Wiki
 					</MenuItem>
-					<MenuItem button onClick={() => window.open('https://snapshot.page/#/badgerdao.eth')}>
-						Governance
+					<MenuItem button>
+						<a href="/governance"> Governance</a>
 					</MenuItem>
 					<MenuItem button onClick={() => window.open('https://forum.badger.finance')}>
 						Forum
