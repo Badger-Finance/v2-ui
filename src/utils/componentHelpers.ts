@@ -1,5 +1,5 @@
 import mainnetDeploy from '../config/deployments/mainnet.json';
-import { Vault, VaultData, VaultState } from '@badger-dao/sdk';
+import { Token, Vault, VaultData, VaultState } from '@badger-dao/sdk';
 import { Network } from '../mobx/model/network/network';
 import { MAX_BOOST_LEVEL } from '../config/system/boost-ranks';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
@@ -103,6 +103,6 @@ export function useFormatExampleList(userStore: UserStore): (vaults: Vault[]) =>
 			.join(', ');
 }
 
-export function getVaultIconPath(vault: Vault, network: Network): string {
-	return `/assets/icons/${vault.vaultAsset.toLowerCase()}-${network.symbol}.svg`;
+export function getTokenIconPath(token: Token): string {
+	return `/assets/icons/${token.symbol.toLowerCase()}.svg`;
 }
