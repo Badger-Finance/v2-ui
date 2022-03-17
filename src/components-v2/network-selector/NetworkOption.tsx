@@ -10,12 +10,16 @@ import { observer } from 'mobx-react-lite';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { StoreContext } from '../../mobx/store-context';
 import MenuItem from 'ui-library/MenuItem';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	networkListIcon: {
 		width: 17,
 		height: 17,
 		marginRight: theme.spacing(1),
+	},
+	hoveredButton: {
+		backgroundColor: '#545454',
 	},
 	root: {
 		minWidth: 234,
@@ -24,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 		zIndex: 2,
 	},
 	gasButton: {
+		marginRight: -12,
 		[theme.breakpoints.up('lg')]: {
 			'&:hover': {
 				backgroundColor: 'inherit',
@@ -70,6 +75,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
 			onClick={!isMobile ? handleClick : undefined}
 			onMouseEnter={!isMobile ? toggleOpen : undefined}
 			onMouseLeave={!isMobile ? toggleOpen : undefined}
+			className={clsx(open && classes.hoveredButton)}
 		>
 			<Grid container>
 				<Grid item xs container alignItems="center" onClick={isMobile ? handleClick : undefined}>
