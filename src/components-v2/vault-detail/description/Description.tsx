@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Vault } from '@badger-dao/sdk';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../../mobx/store-context';
-import { getVaultIconPath } from '../../../utils/componentHelpers';
+import VaultLogo from '../../landing/VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -26,8 +24,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoContainer: {
 		display: 'flex',
-		width: 68,
-		height: 68,
+		alignItems: 'center',
 	},
 }));
 
@@ -35,18 +32,13 @@ interface Props {
 	vault: Vault;
 }
 
-export const Description = observer(({ vault }: Props): JSX.Element => {
-	const { network } = useContext(StoreContext);
+export const Description = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.root}>
 			<Grid item className={classes.logoContainer}>
-				<img
-					className={classes.settLogo}
-					src={getVaultIconPath(vault, network.network)}
-					alt={`Badger ${vault.name} Vault Symbol`}
-				/>
+				<VaultLogo tokens={vault.tokens} />
 			</Grid>
 			<Grid item container direction="column" justifyContent="center" className={classes.namesContainer}>
 				<Grid item container alignItems="center">
@@ -62,4 +54,4 @@ export const Description = observer(({ vault }: Props): JSX.Element => {
 			</Grid>
 		</div>
 	);
-});
+};

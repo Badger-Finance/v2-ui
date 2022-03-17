@@ -15,10 +15,11 @@ import { Vault, VaultBehavior, VaultState } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
-import { getUserVaultBoost, getVaultIconPath } from '../../utils/componentHelpers';
+import { getUserVaultBoost } from '../../utils/componentHelpers';
 import VaultBadge from './VaultBadge';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import VaultBehaviorTooltip from './VaultBehaviorTooltip';
+import VaultLogo from './VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -109,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(-1),
 	},
 	iconBadgeContainer: {
-		width: 80,
+		width: 120,
 		alignSelf: 'stretch',
 	},
 	thinFont: {
@@ -217,11 +218,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						<Grid container>
 							<Grid container alignItems="center">
 								<Grid xs={5} sm={12}>
-									<img
-										alt={`Badger ${vault.name} Vault Symbol`}
-										className={classes.symbol}
-										src={getVaultIconPath(vault, network.network)}
-									/>
+									<VaultLogo tokens={vault.tokens} />
 								</Grid>
 								<Grid item container direction="column" xs={7}>
 									<Grid item>{Badge}</Grid>
@@ -347,11 +344,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						className={classes.iconBadgeContainer}
 					>
 						<Grid item xs className={classes.iconContainer}>
-							<img
-								alt={`Badger ${vault.name} Vault Symbol`}
-								className={clsx(classes.symbol, !!Badge && classes.symbolWithBadge)}
-								src={getVaultIconPath(vault, network.network)}
-							/>
+							<VaultLogo tokens={vault.tokens} />
 						</Grid>
 						{!!Badge && (
 							<Grid item xs="auto" container justifyContent="flex-end">

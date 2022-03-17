@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
+import { Vault } from '@badger-dao/sdk';
+import VaultLogo from '../../landing/VaultLogo';
+import { StoreContext } from '../../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	titleContainer: {
@@ -18,8 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoContainer: {
 		display: 'inline-flex',
-		width: 48,
-		height: 48,
+		alignItems: 'center',
 		marginRight: theme.spacing(1),
 	},
 	logo: {
@@ -37,18 +39,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
+	vault: Vault;
 	name: string;
-	logo: string;
 	balance: BigNumber.Value;
 	value: BigNumber.Value;
-	decimals: number;
 	helpIcon?: React.ReactNode;
 }
 
 const displayUsdBalance = (value: BigNumber.Value) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
 
-export const HoldingItem = observer(({ name, logo, balance, value, decimals, helpIcon }: Props): JSX.Element => {
+export const HoldingItem = observer(({ vault, name, balance, value, helpIcon }: Props): JSX.Element => {
+	const { vaults } = useContext(StoreContext);
 	const classes = useStyles();
+	const depositToken = vaults.getToken(vault.underlyingToken);
+	const decimals = depositToken?.decimals || 18;
 
 	return (
 		<Paper className={classes.cardContainer}>
@@ -60,7 +64,7 @@ export const HoldingItem = observer(({ name, logo, balance, value, decimals, hel
 			<Grid container className={classes.amountsContainer}>
 				<Box display="inline-flex" className={classes.amountText}>
 					<div className={classes.logoContainer}>
-						<img className={classes.logo} src={logo} alt={`${name} holdings`} />
+						<VaultLogo tokens={vault.tokens} />
 					</div>
 					<div>
 						<Typography variant="h5">{formatWithoutExtraZeros(balance, decimals)}</Typography>

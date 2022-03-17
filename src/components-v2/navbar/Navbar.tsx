@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#2a2a2a',
 		position: 'sticky',
 		top: 0,
-		zIndex: 1,
+		zIndex: 100,
 		[theme.breakpoints.up('md')]: {
 			paddingTop: '15px',
 		},
