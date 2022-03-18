@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(-1),
 	},
 	iconBadgeContainer: {
-		width: 120,
+		width: 110,
 		alignSelf: 'stretch',
 	},
 	thinFont: {
