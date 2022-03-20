@@ -43,18 +43,18 @@ exports[`NetworkGasWidget displays network options 1`] = `
       </li>
       <div
         aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 makeStyles-hoveredButton-63 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiGrid-root-78 MuiGrid-container-79"
+          class="MuiGrid-root-79 MuiGrid-container-80"
         >
           <div
-            class="MuiGrid-root-78 MuiGrid-container-79 MuiGrid-item-80 MuiGrid-align-items-xs-center-87 MuiGrid-grid-xs-true-112"
+            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
           >
             <div
-              class="MuiListItemIcon-root-182 makeStyles-root-181"
+              class="MuiListItemIcon-root-183 makeStyles-root-182"
             >
               <img
                 alt="Ethereum icon"
@@ -63,26 +63,26 @@ exports[`NetworkGasWidget displays network options 1`] = `
               />
             </div>
             <div
-              class="MuiListItemText-root-185"
+              class="MuiListItemText-root-186"
             >
               <span
-                class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
               >
                 Ethereum
               </span>
             </div>
           </div>
           <div
-            class="MuiGrid-root-78 MuiGrid-item-80 MuiGrid-grid-xs-auto-111"
+            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
           >
             <button
               aria-label="show gas options"
-              class="MuiButtonBase-root-33 MuiIconButton-root-221 makeStyles-gasButton-65"
+              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiIconButton-label-229"
+                class="MuiIconButton-label-230"
               >
                 <img
                   alt="display gas options icon"
@@ -101,18 +101,18 @@ exports[`NetworkGasWidget displays network options 1`] = `
       </div>
       <div
         aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiGrid-root-78 MuiGrid-container-79"
+          class="MuiGrid-root-79 MuiGrid-container-80"
         >
           <div
-            class="MuiGrid-root-78 MuiGrid-container-79 MuiGrid-item-80 MuiGrid-align-items-xs-center-87 MuiGrid-grid-xs-true-112"
+            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
           >
             <div
-              class="MuiListItemIcon-root-182 makeStyles-root-181"
+              class="MuiListItemIcon-root-183 makeStyles-root-182"
             >
               <img
                 alt="Local icon"
@@ -121,10 +121,10 @@ exports[`NetworkGasWidget displays network options 1`] = `
               />
             </div>
             <div
-              class="MuiListItemText-root-185"
+              class="MuiListItemText-root-186"
             >
               <span
-                class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
               >
                 Local
               </span>
@@ -137,18 +137,18 @@ exports[`NetworkGasWidget displays network options 1`] = `
       </div>
       <div
         aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiGrid-root-78 MuiGrid-container-79"
+          class="MuiGrid-root-79 MuiGrid-container-80"
         >
           <div
-            class="MuiGrid-root-78 MuiGrid-container-79 MuiGrid-item-80 MuiGrid-align-items-xs-center-87 MuiGrid-grid-xs-true-112"
+            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
           >
             <div
-              class="MuiListItemIcon-root-182 makeStyles-root-181"
+              class="MuiListItemIcon-root-183 makeStyles-root-182"
             >
               <img
                 alt="Polygon icon"
@@ -157,10 +157,10 @@ exports[`NetworkGasWidget displays network options 1`] = `
               />
             </div>
             <div
-              class="MuiListItemText-root-185"
+              class="MuiListItemText-root-186"
             >
               <span
-                class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
               >
                 Polygon
               </span>
@@ -173,18 +173,18 @@ exports[`NetworkGasWidget displays network options 1`] = `
       </div>
       <div
         aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiGrid-root-78 MuiGrid-container-79"
+          class="MuiGrid-root-79 MuiGrid-container-80"
         >
           <div
-            class="MuiGrid-root-78 MuiGrid-container-79 MuiGrid-item-80 MuiGrid-align-items-xs-center-87 MuiGrid-grid-xs-true-112"
+            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
           >
             <div
-              class="MuiListItemIcon-root-182 makeStyles-root-181"
+              class="MuiListItemIcon-root-183 makeStyles-root-182"
             >
               <img
                 alt="Binance Smart Chain icon"
@@ -193,10 +193,10 @@ exports[`NetworkGasWidget displays network options 1`] = `
               />
             </div>
             <div
-              class="MuiListItemText-root-185"
+              class="MuiListItemText-root-186"
             >
               <span
-                class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
               >
                 Binance Smart Chain
               </span>
@@ -209,18 +209,18 @@ exports[`NetworkGasWidget displays network options 1`] = `
       </div>
       <div
         aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiGrid-root-78 MuiGrid-container-79"
+          class="MuiGrid-root-79 MuiGrid-container-80"
         >
           <div
-            class="MuiGrid-root-78 MuiGrid-container-79 MuiGrid-item-80 MuiGrid-align-items-xs-center-87 MuiGrid-grid-xs-true-112"
+            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
           >
             <div
-              class="MuiListItemIcon-root-182 makeStyles-root-181"
+              class="MuiListItemIcon-root-183 makeStyles-root-182"
             >
               <img
                 alt="Arbitrum icon"
@@ -229,10 +229,10 @@ exports[`NetworkGasWidget displays network options 1`] = `
               />
             </div>
             <div
-              class="MuiListItemText-root-185"
+              class="MuiListItemText-root-186"
             >
               <span
-                class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
               >
                 Arbitrum
               </span>
@@ -245,18 +245,18 @@ exports[`NetworkGasWidget displays network options 1`] = `
       </div>
       <div
         aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiGrid-root-78 MuiGrid-container-79"
+          class="MuiGrid-root-79 MuiGrid-container-80"
         >
           <div
-            class="MuiGrid-root-78 MuiGrid-container-79 MuiGrid-item-80 MuiGrid-align-items-xs-center-87 MuiGrid-grid-xs-true-112"
+            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
           >
             <div
-              class="MuiListItemIcon-root-182 makeStyles-root-181"
+              class="MuiListItemIcon-root-183 makeStyles-root-182"
             >
               <img
                 alt="Fantom icon"
@@ -265,10 +265,10 @@ exports[`NetworkGasWidget displays network options 1`] = `
               />
             </div>
             <div
-              class="MuiListItemText-root-185"
+              class="MuiListItemText-root-186"
             >
               <span
-                class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
               >
                 Fantom
               </span>
@@ -282,28 +282,28 @@ exports[`NetworkGasWidget displays network options 1`] = `
     </nav>
   </div>
   <div
-    class="makeStyles-popper-64"
+    class="makeStyles-popper-65"
     role="tooltip"
     style="position: absolute; top: 0px; left: 0px;"
     x-placement="right-start"
   >
     <div
-      class="MuiPaper-root-231 MuiPaper-elevation1-235 MuiPaper-rounded-232"
+      class="MuiPaper-root-232 MuiPaper-elevation1-236 MuiPaper-rounded-233"
     >
       <nav
-        class="MuiList-root-50 makeStyles-root-49 makeStyles-root-230 MuiList-padding-51"
+        class="MuiList-root-50 makeStyles-root-49 makeStyles-root-231 MuiList-padding-51"
       >
         <div
           aria-disabled="false"
-          class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
           role="button"
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root-185"
+            class="MuiListItemText-root-186"
           >
             <span
-              class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
             >
                
               43
@@ -315,15 +315,15 @@ exports[`NetworkGasWidget displays network options 1`] = `
         </div>
         <div
           aria-disabled="false"
-          class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
           role="button"
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root-185"
+            class="MuiListItemText-root-186"
           >
             <span
-              class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
             >
                
               39
@@ -335,15 +335,15 @@ exports[`NetworkGasWidget displays network options 1`] = `
         </div>
         <div
           aria-disabled="false"
-          class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
           role="button"
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root-185"
+            class="MuiListItemText-root-186"
           >
             <span
-              class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
             >
                
               34
@@ -355,15 +355,15 @@ exports[`NetworkGasWidget displays network options 1`] = `
         </div>
         <div
           aria-disabled="false"
-          class="MuiButtonBase-root-33 MuiListItem-root-67 MuiListItem-gutters-74 MuiListItem-button-75 makeStyles-button-66"
+          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
           role="button"
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root-185"
+            class="MuiListItemText-root-186"
           >
             <span
-              class="MuiTypography-root-191 MuiListItemText-primary-189 makeStyles-primary-184 MuiTypography-body1-193 MuiTypography-displayBlock-220"
+              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
             >
                
               30
