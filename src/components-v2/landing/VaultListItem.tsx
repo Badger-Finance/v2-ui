@@ -61,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
 	behavior: {
 		color: '#FFB84D',
 		width: '90px',
-		marginBottom: theme.spacing(-3),
-		paddingLeft: theme.spacing(0.5),
+		display: 'flex',
+		justifyContent: 'flex-end',
 	},
 	tvl: {
 		[theme.breakpoints.down('md')]: {
@@ -112,6 +112,13 @@ const useStyles = makeStyles((theme) => ({
 	iconBadgeContainer: {
 		width: 110,
 		alignSelf: 'stretch',
+		[theme.breakpoints.up('lg')]: {
+			width: 106,
+			margin: -4,
+			'& > *': {
+				padding: 2,
+			},
+		},
 	},
 	thinFont: {
 		fontSize: 14,
@@ -346,31 +353,33 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						<Grid item xs className={classes.iconContainer}>
 							<VaultLogo tokens={vault.tokens} />
 						</Grid>
-						{!!Badge && (
-							<Grid item xs="auto" container justifyContent="flex-end">
-								{Badge}
-							</Grid>
-						)}
-						{vault.behavior !== VaultBehavior.None && (
-							<Tooltip
-								enterTouchDelay={0}
-								enterDelay={0}
-								leaveDelay={300}
-								arrow
-								placement="bottom"
-								title={<VaultBehaviorTooltip vault={vault} />}
-								// prevents scrolling overflow off the sett list
-								PopperProps={{
-									disablePortal: true,
-								}}
-								// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
-								id={`${vault.name} vault behavior`}
-							>
-								<Typography variant="caption" className={classes.behavior}>
-									{vault.behavior}
-								</Typography>
-							</Tooltip>
-						)}
+						<Grid item container xs>
+							{!!Badge && (
+								<Grid item xs="auto" container justifyContent="flex-end">
+									{Badge}
+								</Grid>
+							)}
+							{vault.behavior !== VaultBehavior.None && (
+								<Tooltip
+									enterTouchDelay={0}
+									enterDelay={0}
+									leaveDelay={300}
+									arrow
+									placement="bottom"
+									title={<VaultBehaviorTooltip vault={vault} />}
+									// prevents scrolling overflow off the sett list
+									PopperProps={{
+										disablePortal: true,
+									}}
+									// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
+									id={`${vault.name} vault behavior`}
+								>
+									<Typography variant="caption" className={classes.behavior}>
+										{vault.behavior}
+									</Typography>
+								</Tooltip>
+							)}
+						</Grid>
 					</Grid>
 					<Grid item container xs>
 						<Grid item container spacing={4} xs={12}>
