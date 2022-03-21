@@ -5,7 +5,7 @@ import { getTokenIconPath } from '../../utils/componentHelpers';
 
 const logoWidth = 32;
 const overlapGapPercentage = 0.3; // we want the tokens to be overlapping by 30% of their width
-const spacingGap = -(logoWidth * overlapGapPercentage);
+const spacingGap = logoWidth * overlapGapPercentage;
 
 const useStyles = makeStyles({
 	root: {
@@ -22,7 +22,7 @@ function getLogoStyles(index: number, totalLogos: number) {
 			maxWidth: logoWidth * 2,
 			zIndex: totalLogos - index,
 			// we move the logos to the left except from the first logo
-			marginRight: index === 0 ? 0 : spacingGap,
+			marginRight: index === 0 ? 0 : -spacingGap,
 		},
 	})().position;
 }
