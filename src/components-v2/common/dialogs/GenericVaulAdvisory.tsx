@@ -49,7 +49,7 @@ const GenericVaultAdvisory = ({ children, accept }: Props): JSX.Element => {
 				size="large"
 				onClick={handleAccept}
 				variant="contained"
-				color="secondary"
+				color="primary"
 				disabled={!read}
 				fullWidth
 			>
