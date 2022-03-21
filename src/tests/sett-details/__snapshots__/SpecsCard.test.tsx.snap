@@ -99,7 +99,7 @@ exports[`Specs Section displays sett information 1`] = `
                 <img
                   alt="Curve.fi renBTC/wBTC/sBTC icon"
                   class="makeStyles-tokenImage-207"
-                  src="/assets/icons/curve-renbtc-wbtc-sbtc.png"
+                  src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
                 />
               </div>
               <p

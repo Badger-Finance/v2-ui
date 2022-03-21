@@ -8,11 +8,15 @@ exports[`Description displays sett description 1`] = `
     <div
       class="MuiGrid-root-7 makeStyles-logoContainer-6 MuiGrid-item-9"
     >
-      <img
-        alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-        class="makeStyles-settLogo-5"
-        src="/assets/icons/bsbtccrv-ethereum.svg"
-      />
+      <div
+        class="makeStyles-root-110"
+      >
+        <img
+          alt="curve-renBTC-wBTC-sBTC logo"
+          class="makeStyles-position-111"
+          src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+        />
+      </div>
     </div>
     <div
       class="MuiGrid-root-7 makeStyles-namesContainer-2 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-direction-xs-column-11 MuiGrid-justify-content-xs-center-25"
@@ -21,7 +25,7 @@ exports[`Description displays sett description 1`] = `
         class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-align-items-xs-center-16"
       >
         <p
-          class="MuiTypography-root-110 makeStyles-settName-3 MuiTypography-body1-112"
+          class="MuiTypography-root-112 makeStyles-settName-3 MuiTypography-body1-114"
         >
           Convex
            - 
@@ -32,7 +36,7 @@ exports[`Description displays sett description 1`] = `
         class="MuiGrid-root-7 MuiGrid-item-9"
       >
         <p
-          class="MuiTypography-root-110 makeStyles-vaultName-4 MuiTypography-body1-112 MuiTypography-colorTextSecondary-136"
+          class="MuiTypography-root-112 makeStyles-vaultName-4 MuiTypography-body1-114 MuiTypography-colorTextSecondary-138"
         >
           sBTCCRV
         </p>
