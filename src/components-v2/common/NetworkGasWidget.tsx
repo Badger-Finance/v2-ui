@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Button, Popper, ClickAwayListener } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
@@ -23,19 +23,20 @@ const useStyles = makeStyles({
 
 const NetworkGasWidget = (): JSX.Element => {
 	const classes = useStyles();
-	const { network: networkStore } = useContext(StoreContext);
+	const {
+		network: networkStore,
+		uiState: { areNetworkOptionsOpen, openNetworkOptions, closeNetworkOptions },
+	} = useContext(StoreContext);
 	const ref = useRef<HTMLButtonElement | null>(null);
-	const [open, setOpen] = useState(false);
-
 	return (
-		<ClickAwayListener onClickAway={() => setOpen(false)}>
+		<ClickAwayListener onClickAway={closeNetworkOptions}>
 			<div>
 				<Button
 					ref={ref}
 					className={classes.networkButton}
 					variant="outlined"
 					color="primary"
-					onClick={() => setOpen(true)}
+					onClick={openNetworkOptions}
 					aria-label="open network selector"
 				>
 					<img
@@ -45,13 +46,13 @@ const NetworkGasWidget = (): JSX.Element => {
 					/>
 				</Button>
 				<Popper
-					open={open}
+					open={areNetworkOptionsOpen}
 					className={classes.popover}
-					onMouseLeave={() => setOpen(false)}
+					onMouseLeave={closeNetworkOptions}
 					anchorEl={ref.current}
 					placement="bottom-end"
 				>
-					<NetworkOptions onSelect={() => setOpen(false)} />
+					<NetworkOptions onSelect={closeNetworkOptions} />
 				</Popper>
 			</div>
 		</ClickAwayListener>
