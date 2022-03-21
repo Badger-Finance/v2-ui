@@ -17,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoContainer: {
 		display: 'flex',
-		width: 32,
-		height: 32,
 		marginRight: theme.spacing(1),
 	},
 }));
