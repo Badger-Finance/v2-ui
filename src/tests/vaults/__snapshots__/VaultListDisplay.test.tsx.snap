@@ -226,13 +226,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Convex
                - 
               Curve.fi renBTC/wBTC/sBTC
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -370,13 +370,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Badger
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -508,13 +508,13 @@ exports[`VaultListDisplay can apply protocol filters 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Digg
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -1106,13 +1106,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Convex
                - 
               Curve.fi renBTC/wBTC/sBTC
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -1250,13 +1250,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Badger
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -1388,13 +1388,13 @@ exports[`VaultListDisplay can change currency 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Digg
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -1720,13 +1720,13 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Badger
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -1858,13 +1858,13 @@ exports[`VaultListDisplay can clear dust from portfolio 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Digg
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -2183,13 +2183,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Convex
                - 
               Curve.fi renBTC/wBTC/sBTC
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -2327,13 +2327,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Badger
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -2465,13 +2465,13 @@ exports[`VaultListDisplay can clear filters 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Digg
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -3073,13 +3073,13 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Digg
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
@@ -3217,13 +3217,13 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <div
             class="MuiGrid-root-14 MuiGrid-container-15 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-5-81 MuiGrid-grid-lg-4-94"
           >
-            <p
-              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-body1-119"
+            <h6
+              class="MuiTypography-root-117 makeStyles-vaultName-243 MuiTypography-subtitle1-128"
             >
               Badger
                - 
               Badger
-            </p>
+            </h6>
           </div>
           <div
             class="MuiGrid-root-14 MuiGrid-item-16 MuiGrid-grid-xs-12-60 MuiGrid-grid-md-true-76"
