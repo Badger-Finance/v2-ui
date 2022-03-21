@@ -175,9 +175,6 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 			? Math.max(0, vaultBoost - (showAPR ? vault.minApr : vault.minApy))
 			: null;
 
-	const multiplier =
-		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
-
 	const depositBalanceDisplay = depositBalance.tokenBalance.gt(0)
 		? depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency)
 		: `${currencyConfiguration[vaults.vaultsFilters.currency].prefix}-`;
@@ -259,7 +256,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 										{vaultName}
 									</Grid>
 									<Grid item xs>
-										<VaultItemApr vault={vault} multiplier={multiplier} boost={vaultBoost} />
+										<VaultItemApr vault={vault} boost={vaultBoost} />
 									</Grid>
 								</Grid>
 								<Grid item container spacing={2}>
@@ -387,7 +384,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								{vaultName}
 							</Grid>
 							<Grid item xs={12} md>
-								<VaultItemApr vault={vault} multiplier={multiplier} boost={vaultBoost} />
+								<VaultItemApr vault={vault} boost={vaultBoost} />
 							</Grid>
 							<Grid item xs={12} md className={classes.tvl}>
 								<CurrencyDisplay
