@@ -15,14 +15,14 @@ const useStyles = makeStyles({
 	},
 });
 
-function getLogoStyles(index: number, totalLogos: number) {
+function getLogoStyles(logoPosition: number, totalAmountOfLogos: number) {
 	return makeStyles({
 		position: {
 			// allow each logo file to have the width of up to three times the expected size
 			maxWidth: logoWidth * 2,
-			zIndex: totalLogos - index,
+			zIndex: totalAmountOfLogos - logoPosition,
 			// we move the logos to the left except from the first logo
-			marginRight: index === 0 ? 0 : -spacingGap,
+			marginRight: logoPosition === 0 ? 0 : -spacingGap,
 		},
 	})().position;
 }
