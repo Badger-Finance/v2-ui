@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Vault } from '@badger-dao/sdk';
 import { getTokenIconPath } from '../../utils/componentHelpers';
@@ -33,6 +33,12 @@ interface Props {
 
 const VaultLogo = ({ tokens }: Props): JSX.Element => {
 	const classes = useStyles();
+
+	const handleError = ({ currentTarget }: SyntheticEvent<HTMLImageElement>) => {
+		currentTarget.src = '/assets/icons/token-logo-fallback.svg';
+		currentTarget.onerror = null;
+	};
+
 	return (
 		<div className={classes.root}>
 			{tokens.map((token, index, totalTokens) => (
@@ -41,6 +47,7 @@ const VaultLogo = ({ tokens }: Props): JSX.Element => {
 					src={getTokenIconPath(token)}
 					className={getLogoStyles(index, totalTokens.length)}
 					alt={`${token.symbol} logo`}
+					onError={handleError}
 				/>
 			))}
 		</div>
