@@ -55,7 +55,7 @@ exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advi
     </label>
     <button
       aria-label="Deposit"
-      class="MuiButtonBase-root-28 MuiButton-root-72 MuiButton-contained-80 WithStyles(ForwardRef(Button))-root-70 WithStyles(ForwardRef(Button))-root-71 MuiButton-containedSecondary-82 MuiButton-containedSizeLarge-92 MuiButton-sizeLarge-94 MuiButton-disabled-85 MuiButton-fullWidth-95 MuiButtonBase-disabled-29"
+      class="MuiButtonBase-root-28 MuiButton-root-72 MuiButton-contained-80 WithStyles(ForwardRef(Button))-root-70 WithStyles(ForwardRef(Button))-root-71 MuiButton-containedPrimary-81 MuiButton-containedSizeLarge-92 MuiButton-sizeLarge-94 MuiButton-disabled-85 MuiButton-fullWidth-95 MuiButtonBase-disabled-29"
       disabled=""
       tabindex="-1"
       type="button"
@@ -140,7 +140,7 @@ exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advi
     </label>
     <button
       aria-label="Deposit"
-      class="MuiButtonBase-root-65 MuiButton-root-79 MuiButton-contained-87 WithStyles(ForwardRef(Button))-root-77 WithStyles(ForwardRef(Button))-root-78 MuiButton-containedSecondary-89 MuiButton-containedSizeLarge-99 MuiButton-sizeLarge-101 MuiButton-disabled-92 MuiButton-fullWidth-102 MuiButtonBase-disabled-66"
+      class="MuiButtonBase-root-65 MuiButton-root-79 MuiButton-contained-87 WithStyles(ForwardRef(Button))-root-77 WithStyles(ForwardRef(Button))-root-78 MuiButton-containedPrimary-88 MuiButton-containedSizeLarge-99 MuiButton-sizeLarge-101 MuiButton-disabled-92 MuiButton-fullWidth-102 MuiButtonBase-disabled-66"
       disabled=""
       tabindex="-1"
       type="button"
@@ -237,7 +237,7 @@ exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advi
     </label>
     <button
       aria-label="Deposit"
-      class="MuiButtonBase-root-65 MuiButton-root-79 MuiButton-contained-87 WithStyles(ForwardRef(Button))-root-77 WithStyles(ForwardRef(Button))-root-78 MuiButton-containedSecondary-89 MuiButton-containedSizeLarge-99 MuiButton-sizeLarge-101 MuiButton-disabled-92 MuiButton-fullWidth-102 MuiButtonBase-disabled-66"
+      class="MuiButtonBase-root-65 MuiButton-root-79 MuiButton-contained-87 WithStyles(ForwardRef(Button))-root-77 WithStyles(ForwardRef(Button))-root-78 MuiButton-containedPrimary-88 MuiButton-containedSizeLarge-99 MuiButton-sizeLarge-101 MuiButton-disabled-92 MuiButton-fullWidth-102 MuiButtonBase-disabled-66"
       disabled=""
       tabindex="-1"
       type="button"
