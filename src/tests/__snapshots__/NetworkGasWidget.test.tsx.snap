@@ -7,25 +7,27 @@ exports[`NetworkGasWidget displays network options 1`] = `
   
   
   <div>
-    <button
-      aria-label="open network selector"
-      class="MuiButtonBase-root-33 MuiButton-root-4 MuiButton-outlined-9 makeStyles-networkButton-1 MuiButton-outlinedPrimary-10"
-      tabindex="0"
-      type="button"
-    >
-      <span
-        class="MuiButton-label-5"
+    <div>
+      <button
+        aria-label="open network selector"
+        class="MuiButtonBase-root-33 MuiButton-root-4 MuiButton-outlined-9 makeStyles-networkButton-1 MuiButton-outlinedPrimary-10"
+        tabindex="0"
+        type="button"
       >
-        <img
-          alt="selected network icon"
-          class="makeStyles-selectedNetworkIcon-2"
-          src="/assets/icons/ethereum-network.svg"
+        <span
+          class="MuiButton-label-5"
+        >
+          <img
+            alt="selected network icon"
+            class="makeStyles-selectedNetworkIcon-2"
+            src="/assets/icons/ethereum-network.svg"
+          />
+        </span>
+        <span
+          class="MuiTouchRipple-root-36"
         />
-      </span>
-      <span
-        class="MuiTouchRipple-root-36"
-      />
-    </button>
+      </button>
+    </div>
   </div>
   <div
     class="makeStyles-popover-3"
@@ -35,6 +37,7 @@ exports[`NetworkGasWidget displays network options 1`] = `
   >
     <nav
       class="MuiList-root-50 makeStyles-root-49 makeStyles-root-47 MuiList-subheader-53"
+      role="presentation"
     >
       <li
         class="MuiListSubheader-root-56 makeStyles-root-54 MuiListSubheader-sticky-61 makeStyles-sticky-55 MuiListSubheader-gutters-59"

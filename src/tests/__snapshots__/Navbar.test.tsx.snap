@@ -324,25 +324,27 @@ exports[`Navbar Renders correctly 1`] = `
               <div
                 class="MuiGrid-root-17 MuiGrid-item-19"
               >
-                <button
-                  aria-label="open network selector"
-                  class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-label-211"
+                <div>
+                  <button
+                    aria-label="open network selector"
+                    class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
+                    tabindex="0"
+                    type="button"
                   >
-                    <img
-                      alt="selected network icon"
-                      class="makeStyles-selectedNetworkIcon-257"
-                      src="/assets/icons/ethereum-network.svg"
+                    <span
+                      class="MuiButton-label-211"
+                    >
+                      <img
+                        alt="selected network icon"
+                        class="makeStyles-selectedNetworkIcon-257"
+                        src="/assets/icons/ethereum-network.svg"
+                      />
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-263"
                     />
-                  </span>
-                  <span
-                    class="MuiTouchRipple-root-263"
-                  />
-                </button>
+                  </button>
+                </div>
               </div>
               <div
                 class="MuiGrid-root-17 MuiGrid-item-19"
@@ -414,25 +416,27 @@ exports[`Navbar Renders mobile version correctly 1`] = `
           <div
             class="MuiGrid-root-17 MuiGrid-item-19"
           >
-            <button
-              aria-label="open network selector"
-              class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiButton-label-211"
+            <div>
+              <button
+                aria-label="open network selector"
+                class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
+                tabindex="0"
+                type="button"
               >
-                <img
-                  alt="selected network icon"
-                  class="makeStyles-selectedNetworkIcon-257"
-                  src="/assets/icons/ethereum-network.svg"
+                <span
+                  class="MuiButton-label-211"
+                >
+                  <img
+                    alt="selected network icon"
+                    class="makeStyles-selectedNetworkIcon-257"
+                    src="/assets/icons/ethereum-network.svg"
+                  />
+                </span>
+                <span
+                  class="MuiTouchRipple-root-291"
                 />
-              </span>
-              <span
-                class="MuiTouchRipple-root-291"
-              />
-            </button>
+              </button>
+            </div>
           </div>
           <div
             class="MuiGrid-root-17 MuiGrid-item-19"
@@ -670,25 +674,27 @@ exports[`Navbar Renders tablet version correctly 1`] = `
           <div
             class="MuiGrid-root-17 MuiGrid-item-19"
           >
-            <button
-              aria-label="open network selector"
-              class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiButton-label-211"
+            <div>
+              <button
+                aria-label="open network selector"
+                class="MuiButtonBase-root-199 MuiButton-root-210 MuiButton-outlined-215 makeStyles-networkButton-256 MuiButton-outlinedPrimary-216"
+                tabindex="0"
+                type="button"
               >
-                <img
-                  alt="selected network icon"
-                  class="makeStyles-selectedNetworkIcon-257"
-                  src="/assets/icons/ethereum-network.svg"
+                <span
+                  class="MuiButton-label-211"
+                >
+                  <img
+                    alt="selected network icon"
+                    class="makeStyles-selectedNetworkIcon-257"
+                    src="/assets/icons/ethereum-network.svg"
+                  />
+                </span>
+                <span
+                  class="MuiTouchRipple-root-291"
                 />
-              </span>
-              <span
-                class="MuiTouchRipple-root-291"
-              />
-            </button>
+              </button>
+            </div>
           </div>
           <div
             class="MuiGrid-root-17 MuiGrid-item-19"
