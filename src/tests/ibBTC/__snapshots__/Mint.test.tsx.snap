@@ -76,7 +76,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
                 class="makeStyles-tokenContainer-202"
               >
                 <img
-                  alt="bcrvRenBTC icon"
+                  alt="bcrvRenBTC logo"
                   class="makeStyles-tokenIcon-196"
                   src="/assets/icons/bcrvrenbtc.svg"
                 />
@@ -168,7 +168,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
           class="makeStyles-tokenContainer-202"
         >
           <img
-            alt="ibBTC icon"
+            alt="ibBTC logo"
             class="makeStyles-tokenIcon-196"
             src="/assets/icons/ibbtc.svg"
           />
@@ -365,7 +365,7 @@ exports[`ibBTC Mint can change token 1`] = `
                 class="makeStyles-tokenContainer-202"
               >
                 <img
-                  alt="renBTC icon"
+                  alt="renBTC logo"
                   class="makeStyles-tokenIcon-196"
                   src="/assets/icons/renbtc.svg"
                 />
@@ -614,7 +614,7 @@ exports[`ibBTC Mint can change token 1`] = `
           class="makeStyles-tokenContainer-202"
         >
           <img
-            alt="ibBTC icon"
+            alt="ibBTC logo"
             class="makeStyles-tokenIcon-196"
             src="/assets/icons/ibbtc.svg"
           />
@@ -811,7 +811,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
                 class="makeStyles-tokenContainer-202"
               >
                 <img
-                  alt="bcrvRenBTC icon"
+                  alt="bcrvRenBTC logo"
                   class="makeStyles-tokenIcon-196"
                   src="/assets/icons/bcrvrenbtc.svg"
                 />
@@ -903,7 +903,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           class="makeStyles-tokenContainer-202"
         >
           <img
-            alt="ibBTC icon"
+            alt="ibBTC logo"
             class="makeStyles-tokenIcon-196"
             src="/assets/icons/ibbtc.svg"
           />

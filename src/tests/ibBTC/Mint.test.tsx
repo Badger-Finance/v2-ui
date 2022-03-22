@@ -115,7 +115,7 @@ describe('ibBTC Mint', () => {
 		fireEvent.click(screen.getByRole('button', { name: 'token options' }));
 
 		const newTokenOption = within(screen.getByRole('list', { name: 'token options list' })).getByAltText(
-			`${store.ibBTCStore.mintOptions[1].token.symbol} icon`,
+			`${store.ibBTCStore.mintOptions[1].token.symbol} logo`,
 		);
 
 		fireEvent.click(newTokenOption);
