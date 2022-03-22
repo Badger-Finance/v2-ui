@@ -26,7 +26,12 @@ interface Props {
 const NetworkOptions = ({ onSelect }: Props): JSX.Element => {
 	const classes = useStyles();
 	return (
-		<Menu disablePadding className={classes.root} subheader={<MenuSubheader>NETWORK</MenuSubheader>}>
+		<Menu
+			role="presentation"
+			disablePadding
+			className={classes.root}
+			subheader={<MenuSubheader>NETWORK</MenuSubheader>}
+		>
 			{supportedNetworks.map((network) => (
 				<NetworkOption key={network.symbol} network={network} onSelect={onSelect} />
 			))}

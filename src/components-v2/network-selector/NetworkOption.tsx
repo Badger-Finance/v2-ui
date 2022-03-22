@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 234,
 	},
 	popper: {
-		zIndex: 2,
+		zIndex: 120,
 	},
 	gasButton: {
 		marginRight: -12,
