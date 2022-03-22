@@ -78,7 +78,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
                 <img
                   alt="bcrvRenBTC icon"
                   class="makeStyles-tokenIcon-196"
-                  src="/assets/icons/bcrvrenbtc.png"
+                  src="/assets/icons/bcrvrenbtc.svg"
                 />
                 <div
                   class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -170,7 +170,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
           <img
             alt="ibBTC icon"
             class="makeStyles-tokenIcon-196"
-            src="/assets/icons/ibbtc.png"
+            src="/assets/icons/ibbtc.svg"
           />
           <div
             class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -367,7 +367,7 @@ exports[`ibBTC Mint can change token 1`] = `
                 <img
                   alt="renBTC icon"
                   class="makeStyles-tokenIcon-196"
-                  src="/assets/icons/renbtc.png"
+                  src="/assets/icons/renbtc.svg"
                 />
                 <div
                   class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -616,7 +616,7 @@ exports[`ibBTC Mint can change token 1`] = `
           <img
             alt="ibBTC icon"
             class="makeStyles-tokenIcon-196"
-            src="/assets/icons/ibbtc.png"
+            src="/assets/icons/ibbtc.svg"
           />
           <div
             class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -813,7 +813,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
                 <img
                   alt="bcrvRenBTC icon"
                   class="makeStyles-tokenIcon-196"
-                  src="/assets/icons/bcrvrenbtc.png"
+                  src="/assets/icons/bcrvrenbtc.svg"
                 />
                 <div
                   class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -905,7 +905,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           <img
             alt="ibBTC icon"
             class="makeStyles-tokenIcon-196"
-            src="/assets/icons/ibbtc.png"
+            src="/assets/icons/ibbtc.svg"
           />
           <div
             class="MuiTypography-root-109 MuiTypography-body1-111"

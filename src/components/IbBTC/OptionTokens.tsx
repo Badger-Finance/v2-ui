@@ -5,6 +5,7 @@ import { Typography, Button, Popper, Paper, List, ListItem } from '@material-ui/
 import { ArrowDropDown } from '@material-ui/icons';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { Token } from '@badger-dao/sdk';
+import { getTokenIconPath } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	noUnderline: {
@@ -108,11 +109,7 @@ export const OptionToken = ({ token }: TokenProps): JSX.Element => {
 	const classes = useStyles();
 	return (
 		<div className={classes.tokenContainer}>
-			<img
-				className={classes.tokenIcon}
-				src={`/assets/icons/${symbol.toLowerCase()}.png`}
-				alt={`${symbol} icon`}
-			/>
+			<img className={classes.tokenIcon} src={getTokenIconPath(token)} alt={`${symbol} icon`} />
 			<Typography variant="body1" component="div">
 				{symbol}
 			</Typography>
