@@ -246,13 +246,13 @@ exports[`Landing Renders correctly 1`] = `
             <div
               class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
             >
-              <p
-                class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+              <h6
+                class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
               >
                 Convex
                  - 
                 Curve.fi renBTC/wBTC/sBTC
-              </p>
+              </h6>
             </div>
             <div
               class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
@@ -388,13 +388,13 @@ exports[`Landing Renders correctly 1`] = `
             <div
               class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
             >
-              <p
-                class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+              <h6
+                class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
               >
                 Badger
                  - 
                 Badger
-              </p>
+              </h6>
             </div>
             <div
               class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
@@ -524,13 +524,13 @@ exports[`Landing Renders correctly 1`] = `
             <div
               class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
             >
-              <p
-                class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+              <h6
+                class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
               >
                 Badger
                  - 
                 Digg
-              </p>
+              </h6>
             </div>
             <div
               class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
@@ -796,13 +796,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
                   >
                     Convex
                      - 
                     Curve.fi renBTC/wBTC/sBTC
-                  </p>
+                  </h6>
                 </div>
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
@@ -970,13 +970,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
                   >
                     Badger
                      - 
                     Badger
-                  </p>
+                  </h6>
                 </div>
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
@@ -1138,13 +1138,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
                   >
                     Badger
                      - 
                     Digg
-                  </p>
+                  </h6>
                 </div>
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
@@ -1429,13 +1429,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
                   >
                     Convex
                      - 
                     Curve.fi renBTC/wBTC/sBTC
-                  </p>
+                  </h6>
                 </div>
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
@@ -1603,13 +1603,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
                   >
                     Badger
                      - 
                     Badger
-                  </p>
+                  </h6>
                 </div>
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
@@ -1771,13 +1771,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-body1-121"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-258 MuiTypography-subtitle1-130"
                   >
                     Badger
                      - 
                     Digg
-                  </p>
+                  </h6>
                 </div>
                 <div
                   class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"

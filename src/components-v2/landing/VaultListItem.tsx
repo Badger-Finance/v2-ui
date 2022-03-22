@@ -195,7 +195,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		vault.boost.enabled && vault.maxApr ? `🚀 Boosted (max. ${vault.maxApr.toFixed(2)}%)` : 'Non-boosted';
 
 	const vaultName = (
-		<Typography className={classes.vaultName}>
+		<Typography variant="subtitle1" className={classes.vaultName}>
 			{vault.protocol} - {vault.name}
 		</Typography>
 	);
