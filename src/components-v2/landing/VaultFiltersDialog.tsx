@@ -21,7 +21,6 @@ import {
 import { StoreContext } from '../../mobx/store-context';
 import CloseIcon from '@material-ui/icons/Close';
 import { Currency } from '../../config/enums/currency.enum';
-import clsx from 'clsx';
 import { limitVaultType, useFormatExampleList } from '../../utils/componentHelpers';
 import { Protocol, VaultState, VaultType } from '@badger-dao/sdk';
 
@@ -115,9 +114,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	formControlLabelText: {
 		fontWeight: 400,
-	},
-	checkboxLabel: {
-		marginLeft: theme.spacing(1),
 	},
 	checkboxLabelRoot: {
 		display: 'flex',
@@ -320,8 +316,10 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 									].map((protocol, index) => (
 										<Grid item xs={6} sm={4} key={`${protocol}_${index}`}>
 											<FormControlLabel
+												color="primary"
 												control={
 													<Checkbox
+														size="medium"
 														checked={protocols.includes(protocol)}
 														onChange={() => handleProtocolChange(protocol)}
 														name={protocol}
@@ -330,10 +328,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 												label={
 													<Typography
 														variant="body1"
-														className={clsx(
-															classes.formControlLabelText,
-															classes.checkboxLabel,
-														)}
+														className={classes.formControlLabelText}
 													>
 														{protocol}
 													</Typography>
@@ -353,10 +348,12 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 						<Grid container className={classes.tokenSelection} spacing={2}>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									color="primary"
 									aria-label="BadgerDAO Tokens"
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											size="medium"
 											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Native)}
 											onChange={() => handleTypeChange(VaultType.Native)}
@@ -364,7 +361,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 										/>
 									}
 									label={
-										<div className={classes.checkboxLabel}>
+										<div>
 											<Typography variant="body1" className={classes.formControlLabelText}>
 												BadgerDAO Tokens
 											</Typography>
@@ -377,10 +374,12 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									color="primary"
 									aria-label="Boosted Tokens"
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											size="medium"
 											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Boosted)}
 											onChange={() => handleTypeChange(VaultType.Boosted)}
@@ -388,7 +387,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 										/>
 									}
 									label={
-										<div className={classes.checkboxLabel}>
+										<div>
 											<Typography variant="body1" className={classes.formControlLabelText}>
 												Boosted Tokens
 											</Typography>
@@ -403,10 +402,12 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<FormControlLabel
+									color="primary"
 									aria-label="Non-Boosted Tokens"
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											size="medium"
 											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Standard)}
 											onChange={() => handleTypeChange(VaultType.Standard)}
@@ -414,7 +415,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 										/>
 									}
 									label={
-										<div className={classes.checkboxLabel}>
+										<div>
 											<Typography variant="body1" className={classes.formControlLabelText}>
 												Non-Boosted Tokens
 											</Typography>
