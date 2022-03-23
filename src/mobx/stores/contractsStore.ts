@@ -10,8 +10,9 @@ import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { BouncerType, GasSpeed, Vault, Token } from '@badger-dao/sdk';
+import { BouncerType, GasSpeed, VaultDTO, Token } from '@badger-dao/sdk';
 
+// TODO: did we lose some functionality here?
 type ProgressTracker = Record<string, boolean>;
 
 class ContractsStore {
@@ -33,7 +34,7 @@ class ContractsStore {
 	/* Contract Interaction Methods */
 
 	deposit = async (
-		vault: Vault,
+		vault: VaultDTO,
 		badgerVault: BadgerVault,
 		userBalance: TokenBalance,
 		depositAmount: TokenBalance,
@@ -61,7 +62,7 @@ class ContractsStore {
 	};
 
 	withdraw = async (
-		vault: Vault,
+		vault: VaultDTO,
 		badgerVault: BadgerVault,
 		userBalance: TokenBalance,
 		withdrawAmount: TokenBalance,
@@ -110,7 +111,7 @@ class ContractsStore {
 		return new TokenBalance(token, new BigNumber(allowance), new BigNumber(0));
 	};
 
-	depositVault = action(async (vault: Vault, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
+	depositVault = action(async (vault: VaultDTO, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		const { bouncerProof } = this.store.user;
 		const { onboard } = this.store;
@@ -161,7 +162,7 @@ class ContractsStore {
 		);
 	});
 
-	withdrawVault = action(async (vault: Vault, badgerVault: BadgerVault, amount: TokenBalance): Promise<void> => {
+	withdrawVault = action(async (vault: VaultDTO, badgerVault: BadgerVault, amount: TokenBalance): Promise<void> => {
 		const { onboard } = this.store;
 		const { queueNotification } = this.store.uiState;
 

@@ -88,7 +88,7 @@ export const PoolBalance = observer(() => {
 		);
 	}
 
-	if (loadingPoolBalance || !poolBalance || !vaults.settMap) {
+	if (loadingPoolBalance || !poolBalance || !vaults.vaultMap) {
 		return (
 			<Container>
 				<Grid item xs={12}>
@@ -110,7 +110,7 @@ export const PoolBalance = observer(() => {
 		);
 	}
 
-	const diggMultiplier = vaults.settMap[sett_system.vaults['native.digg']].pricePerFullShare;
+	const diggMultiplier = vaults.vaultMap[sett_system.vaults['native.digg']].pricePerFullShare;
 	const poolBalanceDiggs = poolBalance.multipliedBy(diggMultiplier);
 	return (
 		<Container>

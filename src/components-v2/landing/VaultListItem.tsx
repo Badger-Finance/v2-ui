@@ -6,12 +6,12 @@ import BigNumber from 'bignumber.js';
 import { inCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { VaultActionButtons } from '../common/VaultActionButtons';
-import { VaultItemApr } from './VaultItemApr';
+import VaultItemApr from './VaultItemApr';
 import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
 import { VaultDeposit, VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
-import { Vault, VaultBehavior, VaultState } from '@badger-dao/sdk';
+import { VaultDTO, VaultBehavior } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
@@ -149,7 +149,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface VaultListItemProps {
-	vault: Vault;
+	vault: VaultDTO;
 	depositBalance: TokenBalance;
 	// this will probably never be used except for special cases such as the ibBTC zap deposit workflow
 	CustomDepositModal?: (props: VaultModalProps) => JSX.Element;
@@ -174,9 +174,6 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		vaultBoost && vault.minApy && vault.minApr
 			? Math.max(0, vaultBoost - (showAPR ? vault.minApr : vault.minApy))
 			: null;
-
-	const multiplier =
-		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
 
 	const depositBalanceDisplay = depositBalance.tokenBalance.gt(0)
 		? depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency)
@@ -259,7 +256,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 										{vaultName}
 									</Grid>
 									<Grid item xs>
-										<VaultItemApr vault={vault} multiplier={multiplier} boost={vaultBoost} />
+										<VaultItemApr vault={vault} boost={vaultBoost} />
 									</Grid>
 								</Grid>
 								<Grid item container spacing={2}>
@@ -387,7 +384,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								{vaultName}
 							</Grid>
 							<Grid item xs={12} md>
-								<VaultItemApr vault={vault} multiplier={multiplier} boost={vaultBoost} />
+								<VaultItemApr vault={vault} boost={vaultBoost} />
 							</Grid>
 							<Grid item xs={12} md className={classes.tvl}>
 								<CurrencyDisplay

@@ -6,7 +6,7 @@ import { BadgerVault } from '../../../mobx/model/vaults/badger-vault';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import DepositInfo from './DepositInfo';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	badgerVault: BadgerVault;
 }
 

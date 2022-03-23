@@ -1,7 +1,6 @@
 import { RouterStore } from 'mobx-router';
 import UiStateStore from './stores/uiStore';
 import ContractsStore from './stores/contractsStore';
-import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
@@ -34,7 +33,6 @@ export class RootStore {
 	public network: NetworkStore;
 	public uiState: UiStateStore;
 	public contracts: ContractsStore;
-	public airdrops: AirdropStore;
 	public rebase: RebaseStore;
 	public onboard: OnboardStore;
 	public rewards: RewardsStore;
@@ -63,7 +61,6 @@ export class RootStore {
 		this.network = new NetworkStore(this);
 		this.prices = new PricesStore(this);
 		this.contracts = new ContractsStore(this);
-		this.airdrops = new AirdropStore(this);
 		this.rebase = new RebaseStore(this);
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiStateStore(this);
@@ -124,8 +121,6 @@ export class RootStore {
 			];
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
-				updateActions.push(this.airdrops.fetchAirdrops());
-
 				// handle per page reloads, when init route is skipped
 				if (this.router.currentPath === routes.IbBTC.path) {
 					updateActions.push(this.ibBTCStore.init());

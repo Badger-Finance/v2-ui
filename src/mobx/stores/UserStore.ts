@@ -12,7 +12,7 @@ import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { defaultVaultBalance } from 'components-v2/vault-detail/utils';
-import { Account, BouncerType, MerkleProof, Network, Vault, VaultData } from '@badger-dao/sdk';
+import { Account, BouncerType, MerkleProof, Network, VaultDTO, VaultData } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
 import { Multicall } from 'ethereum-multicall';
 import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
@@ -20,7 +20,6 @@ import { getChainMulticallContract, parseCallReturnContext } from '../utils/mult
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 import { createMulticallRequest } from '../../web3/config/config-utils';
 import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
-import { DEBUG } from '../../config/environment';
 import { ethers } from 'ethers';
 
 export default class UserStore {
@@ -53,7 +52,7 @@ export default class UserStore {
 
 	/* Read Variables */
 
-	onGuestList(vault: Vault): boolean {
+	onGuestList(vault: VaultDTO): boolean {
 		// allow users who are not connected to nicely view setts
 		if (!this.store.onboard.isActive()) {
 			return true;
@@ -82,15 +81,15 @@ export default class UserStore {
 	}
 
 	get initialized(): boolean {
-		const { settMap } = this.store.vaults;
+		const { vaultMap } = this.store.vaults;
 
 		// no data available
-		if (!settMap) {
+		if (!vaultMap) {
 			return false;
 		}
 
 		// no products configured
-		if (Object.keys(settMap).length === 0) {
+		if (Object.keys(vaultMap).length === 0) {
 			return true;
 		}
 
@@ -109,7 +108,7 @@ export default class UserStore {
 		}
 	}
 
-	getVaultBalance(vault: Vault): VaultData {
+	getVaultBalance(vault: VaultDTO): VaultData {
 		const currentVaultBalance = this.getTokenBalance(vault.vaultToken);
 		let settBalance = this.accountDetails?.data[vault.vaultToken];
 
@@ -192,7 +191,7 @@ export default class UserStore {
 		 * will trigger balance display updates
 		 */
 		const queryAddress = addressOverride ?? address;
-		if (!queryAddress || !vaults.initialized || this.loadingBalances || !wallet?.provider || !vaults.settMap) {
+		if (!queryAddress || !vaults.initialized || this.loadingBalances || !wallet?.provider || !vaults.vaultMap) {
 			return;
 		}
 
@@ -212,7 +211,7 @@ export default class UserStore {
 		try {
 			const multicallContractAddress = getChainMulticallContract(network.symbol);
 			const multicallRequests = network.getBalancesRequests(
-				vaults.settMap,
+				vaults.vaultMap,
 				vaults.getTokenConfigs(),
 				queryAddress,
 			);

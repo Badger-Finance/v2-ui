@@ -83,7 +83,7 @@ export const IbBTC = observer(() => {
 									<span>
 										Wrap your ibBTC to deposit into Curve. Read our{' '}
 										<Link
-											href="https://docs.badger.com/badger-finance/user-guides/ibbtc-sbtc-curve-lp"
+											href="https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/ibbtc-sbtc-curve-lp"
 											className={classes.wrapGuideLink}
 										>
 											ibBTC User Guide

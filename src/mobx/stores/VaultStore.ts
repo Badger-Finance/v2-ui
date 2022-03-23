@@ -8,7 +8,7 @@ import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-ca
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { VaultMap } from '../model/vaults/vault-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
-import { Currency, Network, ProtocolSummary, TokenConfiguration, Vault, VaultState } from '@badger-dao/sdk';
+import { Currency, Network, ProtocolSummary, TokenConfiguration, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
 import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import { Currency as UiCurrency } from '../../config/enums/currency.enum';
@@ -28,7 +28,7 @@ export default class VaultStore {
 	// loading: undefined, error: null, present: object
 	private vaultDefinitionsCache: VaultsDefinitionCache;
 	private tokenCache: TokenCache;
-	private settCache: VaultCache;
+	private vaultCache: VaultCache;
 	private slugCache: VaultSlugCache;
 	private protocolSummaryCache: ProtocolSummaryCache;
 	public protocolTokens: Set<string>;
@@ -44,7 +44,7 @@ export default class VaultStore {
 			vaultDefinitionsCache: undefined,
 			tokenCache: undefined,
 			protocolSummaryCache: undefined,
-			settCache: undefined,
+			vaultCache: undefined,
 			priceCache: undefined,
 			initialized: false,
 			availableBalances: this.availableBalances,
@@ -54,7 +54,7 @@ export default class VaultStore {
 
 		this.vaultDefinitionsCache = {};
 		this.tokenCache = {};
-		this.settCache = {};
+		this.vaultCache = {};
 		this.slugCache = {};
 		this.protocolSummaryCache = {};
 		this.protocolTokens = new Set();
@@ -93,8 +93,8 @@ export default class VaultStore {
 		return count;
 	}
 
-	get settMap(): VaultMap | undefined | null {
-		return this.settCache[this.store.network.network.symbol];
+	get vaultMap(): VaultMap | undefined | null {
+		return this.vaultCache[this.store.network.network.symbol];
 	}
 
 	get protocolSummary(): ProtocolSummary | undefined | null {
@@ -110,7 +110,7 @@ export default class VaultStore {
 		return this.vaultDefinitionsCache[currentNetwork.symbol];
 	}
 
-	getVaultDefinition(vault: Vault): BadgerVault | undefined | null {
+	getVaultDefinition(vault: VaultDTO): BadgerVault | undefined | null {
 		return this.vaultsDefinitions?.get(vault.vaultToken);
 	}
 
@@ -120,18 +120,18 @@ export default class VaultStore {
 		return this.slugCache[currentNetwork.symbol][address];
 	}
 
-	getVault(address: string): Vault | undefined {
-		if (!this.settMap) {
+	getVault(address: string): VaultDTO | undefined {
+		if (!this.vaultMap) {
 			return;
 		}
 
-		return this.settMap[Web3.utils.toChecksumAddress(address)];
+		return this.vaultMap[Web3.utils.toChecksumAddress(address)];
 	}
 
-	getVaultBySlug(slug: string): Vault | undefined | null {
+	getVaultBySlug(slug: string): VaultDTO | undefined | null {
 		const { network: currentNetwork } = this.store.network;
 
-		if (!this.settMap) {
+		if (!this.vaultMap) {
 			return undefined;
 		}
 
@@ -154,7 +154,7 @@ export default class VaultStore {
 		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
 	}
 
-	getVaultOrder(): Vault[] | undefined | null {
+	getVaultOrder(): VaultDTO[] | undefined | null {
 		const {
 			user,
 			prices: { exchangeRates },
@@ -270,7 +270,7 @@ export default class VaultStore {
 
 	getVaultMap(): VaultMap | undefined | null {
 		const { network } = this.store.network;
-		const setts = this.settCache[network.symbol];
+		const setts = this.vaultCache[network.symbol];
 		if (!setts) {
 			return setts;
 		}
@@ -333,35 +333,35 @@ export default class VaultStore {
 	});
 
 	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
-		let settList: Vault[] | null = null;
+		let vaultList: VaultDTO[] | null = null;
 
 		try {
-			settList = await this.store.sdk.api.loadVaults(Currency.ETH);
+			vaultList = await this.store.sdk.api.loadVaults(Currency.ETH);
 		} catch (error) {
 			console.error('There was an error fetching vaults from API: ', error);
 			if (FLAGS.SDK_INTEGRATION_ENABLED) {
 				const sdkVaults = await this.store.sdk.vaults.loadVaults();
-				settList = sdkVaults.map((sdkVault) => new RegistryVaultAdapter(sdkVault));
+				vaultList = sdkVaults.map((sdkVault) => new RegistryVaultAdapter(sdkVault));
 			}
 		}
 
-		if (!settList) {
-			this.settCache[chain] = null;
+		if (!vaultList) {
+			this.vaultCache[chain] = null;
 			return;
 		}
 
 		const badgerToken = this.store.network.network.deploy.token;
-		this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
+		this.protocolTokens = new Set(vaultList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
 
 		// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
 		if (badgerToken && !this.protocolTokens.has(badgerToken)) {
 			this.protocolTokens.add(badgerToken);
 		}
 
-		this.settCache[chain] = Object.fromEntries(settList.map((vault) => [vault.vaultToken, vault]));
+		this.vaultCache[chain] = Object.fromEntries(vaultList.map((vault) => [vault.vaultToken, vault]));
 		this.slugCache[chain] = {
 			...this.slugCache[chain],
-			...getVaultsSlugCache(settList),
+			...getVaultsSlugCache(vaultList),
 		};
 	});
 

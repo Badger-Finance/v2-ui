@@ -1,13 +1,13 @@
 import React from 'react';
-import { BouncerType, Protocol, Vault, VaultState, VaultType } from '@badger-dao/sdk';
+import { BouncerType, Protocol, VaultBehavior, VaultDTO, VaultState, VaultType, VaultVersion } from '@badger-dao/sdk';
 import { checkSnapshot } from '../utils/snapshots';
-import { VaultItemApr } from '../../components-v2/landing/VaultItemApr';
+import VaultItemApr from '../../components-v2/landing/VaultItemApr';
 import { customRender, fireEvent, screen } from '../Utils';
 import store from '../../mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
 import { SAMPLE_VAULT } from 'tests/utils/samples';
 
-const normalVault: Vault = {
+const normalVault: VaultDTO = {
 	available: 0,
 	name: 'Badger',
 	asset: 'Badger',
@@ -40,13 +40,6 @@ const normalVault: Vault = {
 			name: 'Vault Compounding',
 			apr: 8.174287821972374,
 			boostable: false,
-			harvestable: false,
-			performance: {
-				oneDay: 0,
-				threeDay: 2.5464786033167146e-7,
-				sevenDay: 3.344828765174996e-7,
-				thirtyDay: 8.174287821972374,
-			},
 			minApr: 8.174287821972374,
 			maxApr: 8.174287821972374,
 		},
@@ -56,13 +49,6 @@ const normalVault: Vault = {
 			name: 'Vault Compounding',
 			apr: 8.174287821972374,
 			boostable: false,
-			harvestable: false,
-			performance: {
-				oneDay: 0,
-				threeDay: 2.5464786033167146e-7,
-				sevenDay: 3.344828765174996e-7,
-				thirtyDay: 8.174287821972374,
-			},
 			minApr: 8.174287821972374,
 			maxApr: 8.174287821972374,
 		},
@@ -75,6 +61,18 @@ const normalVault: Vault = {
 		strategistFee: 0,
 	},
 	type: VaultType.Native,
+	version: VaultVersion.v1,
+	behavior: VaultBehavior.Compounder,
+	yieldProjection: {
+		yieldApr: 0,
+		yieldTokens: [],
+		yieldValue: 0,
+		harvestApr: 0,
+		harvestApy: 0,
+		harvestTokens: [],
+		harvestValue: 0,
+	},
+	lastHarvest: Date.now(),
 };
 
 describe('VaultItemApr', () => {
@@ -93,14 +91,14 @@ describe('VaultItemApr', () => {
 		const mockUserBoost = 10;
 
 		it('displays correct APR and boost information', () => {
-			checkSnapshot(<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} multiplier={sampleMultiplier} />);
+			checkSnapshot(<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} />);
 		});
 
 		it('displays APR breakdown on hover', async () => {
 			jest.useFakeTimers();
 			const { container } = customRender(
 				<StoreProvider value={store}>
-					<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} multiplier={sampleMultiplier} />
+					<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} />
 				</StoreProvider>,
 			);
 

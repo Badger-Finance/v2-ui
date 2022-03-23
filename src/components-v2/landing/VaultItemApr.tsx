@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Tooltip, Typography } from '@material-ui/core';
 import VaultItemRoiTooltip from './VaultItemRoiTooltip';
 import { makeStyles } from '@material-ui/core/styles';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { numberWithCommas } from 'mobx/utils/helpers';
+import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles({
 	apr: {
@@ -17,14 +19,16 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	boost: number | null;
 	isDisabled?: boolean;
-	multiplier?: number;
 }
 
-export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element => {
+const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
+	const { user } = useContext(StoreContext);
 	const classes = useStyles();
+	const multiplier =
+		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
 
 	if (!vault.apr) {
 		return (
@@ -50,8 +54,10 @@ export const VaultItemApr = ({ vault, boost, multiplier }: Props): JSX.Element =
 			id={`${vault.name} apr breakdown`}
 		>
 			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
-				{`${numberWithCommas((boost || vault.apr).toFixed(2))}%`}
+				{`${numberWithCommas((boost ?? vault.apr).toFixed(2))}%`}
 			</Typography>
 		</Tooltip>
 	);
 };
+
+export default observer(VaultItemApr);

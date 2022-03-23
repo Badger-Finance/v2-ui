@@ -4,7 +4,7 @@ import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import VaultLogo from '../../landing/VaultLogo';
 import { StoreContext } from '../../../mobx/store-context';
 
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	name: string;
 	balance: BigNumber.Value;
 	value: BigNumber.Value;

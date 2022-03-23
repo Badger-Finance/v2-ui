@@ -1,11 +1,10 @@
 import React from 'react';
-import { StrategyConfig } from '../../mobx/model/strategies/strategy-config';
 import { StrategyFee, userReadableFeeNames } from '../../mobx/model/system-config/stategy-fees';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 import { getStrategyFee } from 'mobx/utils/fees';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { FeeConfig } from 'mobx/model/fees/fee-config';
 
 const useStyles = makeStyles({
@@ -16,7 +15,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	fees: FeeConfig;
 	showEmpty?: boolean;
 }
@@ -27,7 +26,6 @@ export const StrategyFees = ({ vault, fees, showEmpty = false }: Props): JSX.Ele
 
 	const feeItems = feeKeys.map((key) => {
 		const fee = getStrategyFee(vault, key, fees);
-
 		if (!fee) {
 			return null;
 		}

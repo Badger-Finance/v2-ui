@@ -1,3 +1,3 @@
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
-export type VaultMap = { [contract: string]: Vault };
+export type VaultMap = { [contract: string]: VaultDTO };
