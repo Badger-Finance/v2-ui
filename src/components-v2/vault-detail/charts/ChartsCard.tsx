@@ -10,7 +10,7 @@ import { StoreContext } from '../../../mobx/store-context';
 import { VaultChart } from './VaultChart';
 import ChartContent from './ChartContent';
 import { BoostChart } from './BoostChart';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -48,7 +48,7 @@ const getYAxisAccessor = (mode: ChartMode) => {
 };
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 }
 
 export const ChartsCard = observer(({ vault }: Props): JSX.Element => {

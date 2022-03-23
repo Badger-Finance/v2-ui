@@ -2,7 +2,7 @@ import React from 'react';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { Breadcrumbs, Link, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from '../../mobx/store-context';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import clsx from 'clsx';
 import routes from '../../config/routes';
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 }
 
 export const Breadcrumb = ({ vault }: Props): JSX.Element => {

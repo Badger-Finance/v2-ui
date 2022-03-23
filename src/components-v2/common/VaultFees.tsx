@@ -5,12 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { StrategyFees } from './StrategyFees';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import { getStrategies } from 'config/system/strategies';
 import { StrategyFee } from 'mobx/model/system-config/stategy-fees';
 import { getVaultStrategyFee } from 'mobx/utils/fees';
-import { StrategyConfig } from 'mobx/model/strategies/strategy-config';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -38,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-	vault: Vault;
+	vault: VaultDTO;
 	onHelpClick?: () => void;
 	showNoFees?: boolean;
 }

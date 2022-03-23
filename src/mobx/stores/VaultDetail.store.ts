@@ -1,12 +1,12 @@
 import { RootStore } from '../RootStore';
 import { action, extendObservable, observe } from 'mobx';
 import { BalanceNamespace } from 'web3/config/namespaces';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
 export class VaultDetailStore {
 	private readonly store: RootStore;
 	private searchSlug: string | undefined;
-	private searchedVault: Vault | undefined | null;
+	private searchedVault: VaultDTO | undefined | null;
 
 	private comesFromPortfolioView = false;
 	private shouldShowDepositDialog = false;
@@ -36,7 +36,7 @@ export class VaultDetailStore {
 		return this.comesFromPortfolioView;
 	}
 
-	get vault(): Vault | undefined | null {
+	get vault(): VaultDTO | undefined | null {
 		return this.searchedVault;
 	}
 

@@ -1,6 +1,6 @@
 import {
 	RegistryVault,
-	Vault,
+	VaultDTO,
 	BoostConfig,
 	BouncerType,
 	Protocol,
@@ -10,35 +10,42 @@ import {
 	VaultStrategy,
 	VaultType,
 	VaultBehavior,
+	TokenValue,
+	VaultVersion,
 } from '@badger-dao/sdk';
+// TODO: sadge export
+import { VaultYieldProjection } from '@badger-dao/sdk/lib/api/interfaces/vault-yield-projection.interface';
 
-export class RegistryVaultAdapter implements Vault {
-	// eslint-disable-next-line no-restricted-globals
-	name: string;
-	value: number;
-	available: number;
-	balance: number;
-	asset: string;
-	vaultAsset: string;
-	boost: BoostConfig;
-	bouncer: BouncerType;
+export class RegistryVaultAdapter implements VaultDTO {
 	apr: number;
 	apy: number;
-	minApr?: number;
+	asset: string;
+	available: number;
+	balance: number;
+	behavior: VaultBehavior;
+	boost: BoostConfig;
+	bouncer: BouncerType;
+	lastHarvest: number;
 	maxApr?: number;
-	minApy?: number;
 	maxApy?: number;
+	minApr?: number;
+	minApy?: number;
+	// eslint-disable-next-line no-restricted-globals
+	name: string;
 	pricePerFullShare: number;
 	protocol: Protocol;
 	sources: ValueSource[];
 	sourcesApy: ValueSource[];
 	state: VaultState;
-	tokens: TokenBalance[];
-	underlyingToken: string;
-	vaultToken: string;
 	strategy: VaultStrategy;
+	tokens: TokenValue[];
 	type: VaultType;
-	behavior: VaultBehavior;
+	underlyingToken: string;
+	value: number;
+	vaultAsset: string;
+	vaultToken: string;
+	version: VaultVersion;
+	yieldProjection: VaultYieldProjection;
 
 	constructor(registryVault: RegistryVault) {
 		this.vaultToken = registryVault.address;
@@ -72,5 +79,16 @@ export class RegistryVaultAdapter implements Vault {
 			performanceFee: 0,
 		};
 		this.behavior = VaultBehavior.None;
+		this.version = VaultVersion.v1;
+		this.yieldProjection = {
+			yieldApr: 0,
+			yieldTokens: [],
+			yieldValue: 0,
+			harvestApr: 0,
+			harvestApy: 0,
+			harvestTokens: [],
+			harvestValue: 0,
+		};
+		this.lastHarvest = Date.now();
 	}
 }

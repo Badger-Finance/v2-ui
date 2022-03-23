@@ -1,8 +1,8 @@
-import { Vault, VaultBehavior } from '@badger-dao/sdk';
+import { VaultDTO, VaultBehavior } from '@badger-dao/sdk';
 import React from 'react';
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 }
 
 const VaultBehaviorTooltip = ({ vault }: Props): JSX.Element | null => {

@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { Tooltip, Typography } from '@material-ui/core';
 import VaultItemRoiTooltip from './VaultItemRoiTooltip';
 import { makeStyles } from '@material-ui/core/styles';
-import { Vault, VaultState } from '@badger-dao/sdk';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { numberWithCommas } from 'mobx/utils/helpers';
-import { observable } from 'mobx';
 import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles({
 	apr: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	boost: number | null;
 	isDisabled?: boolean;
 }
@@ -60,4 +60,4 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
 	);
 };
 
-export default observable(VaultItemApr);
+export default observer(VaultItemApr);

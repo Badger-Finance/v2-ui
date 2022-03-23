@@ -1,10 +1,10 @@
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	multiplier?: number;
 }
 

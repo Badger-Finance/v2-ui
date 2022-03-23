@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import TokenLogo from '../TokenLogo';
 
 const logoWidth = 32;
@@ -28,7 +28,7 @@ function getLogoStyles(logoPosition: number, totalAmountOfLogos: number) {
 }
 
 interface Props {
-	tokens: Vault['tokens'];
+	tokens: VaultDTO['tokens'];
 }
 
 const VaultLogo = ({ tokens }: Props): JSX.Element => {

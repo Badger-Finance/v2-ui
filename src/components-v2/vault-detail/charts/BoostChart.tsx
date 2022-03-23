@@ -5,7 +5,7 @@ import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipCont
 import { TooltipProps } from 'recharts';
 import { makeStyles } from '@material-ui/core';
 import { BOOST_LEVELS, MAX_BOOST_LEVEL } from 'config/system/boost-ranks';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	tooltipContainer: {
@@ -40,7 +40,7 @@ const BoostTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameTy
 };
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 }
 
 export const BoostChart = ({ vault }: Props): JSX.Element | null => {

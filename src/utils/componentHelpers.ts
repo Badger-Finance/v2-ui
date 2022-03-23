@@ -1,5 +1,5 @@
 import mainnetDeploy from '../config/deployments/mainnet.json';
-import { Token, Vault, VaultData, VaultState } from '@badger-dao/sdk';
+import { Token, VaultDTO, VaultData, VaultState } from '@badger-dao/sdk';
 import { Network } from '../mobx/model/network/network';
 import { MAX_BOOST_LEVEL } from '../config/system/boost-ranks';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
@@ -48,11 +48,11 @@ export const roundWithDecimals = (value: number, decimals: number): number => {
 
 export const formatStrategyFee = (fee: number): string => `${(fee / 100).toString()}%`;
 
-export const isVaultVaultIbbtc = (vault: Vault): boolean => {
+export const isVaultVaultIbbtc = (vault: VaultDTO): boolean => {
 	return vault.vaultToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
 };
 
-export function shouldDisplayEarnings(vault: Vault, data: VaultData): boolean {
+export function shouldDisplayEarnings(vault: VaultDTO, data: VaultData): boolean {
 	// possible to have negative earned value (digg) :sadge:
 	if (data.earnedValue <= 0) {
 		return false;
@@ -73,7 +73,7 @@ export const getFormattedNetworkName = (network: Network): string => {
 		.join(' ');
 };
 
-export function getUserVaultBoost(vault: Vault, boost: number, apr = false): number | null {
+export function getUserVaultBoost(vault: VaultDTO, boost: number, apr = false): number | null {
 	if (vault.state === VaultState.Deprecated || vault.sources.length === 0) {
 		return null;
 	}
@@ -88,15 +88,15 @@ export function getUserVaultBoost(vault: Vault, boost: number, apr = false): num
 		.reduce((total, apr) => total + apr, 0);
 }
 
-export const limitVaultType = (vaults: Vault[], type: VaultType, max = 3): Vault[] => {
+export const limitVaultType = (vaults: VaultDTO[], type: VaultType, max = 3): VaultDTO[] => {
 	return vaults
 		.sort((a, b) => b.value - a.value) // sort by TVL
 		.filter((vault) => vault.type === type)
 		.slice(0, max);
 };
 
-export function useFormatExampleList(userStore: UserStore): (vaults: Vault[]) => string {
-	return (vaults: Vault[]) =>
+export function useFormatExampleList(userStore: UserStore): (vaults: VaultDTO[]) => string {
+	return (vaults: VaultDTO[]) =>
 		vaults
 			.map((vault) => userStore.getTokenBalance(vault.underlyingToken).token.symbol)
 			.sort((a, b) => a.length - b.length) // sort with the shortest name

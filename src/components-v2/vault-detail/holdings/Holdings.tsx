@@ -9,7 +9,7 @@ import { BadgerVault } from '../../../mobx/model/vaults/badger-vault';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
-import { Vault, VaultData } from '@badger-dao/sdk';
+import { VaultDTO, VaultData } from '@badger-dao/sdk';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	badgerVault: BadgerVault;
 	tokenBalance: TokenBalance;
 	userData: VaultData;

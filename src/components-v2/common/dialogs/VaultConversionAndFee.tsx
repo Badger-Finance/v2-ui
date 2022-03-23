@@ -6,7 +6,7 @@ import { Divider, Grid, Typography } from '@material-ui/core';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
 import { StoreContext } from '../../../mobx/store-context';
 import { MAX_FEE } from 'config/constants';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { getStrategyFee } from '../../../mobx/utils/fees';
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	amount: BigNumber.Value;
 }
 

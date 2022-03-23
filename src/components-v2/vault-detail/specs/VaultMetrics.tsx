@@ -8,7 +8,7 @@ import { inCurrency, numberWithCommas } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import { Skeleton } from '@material-ui/lab';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 }
 
 const VaultMetrics = observer(({ vault }: Props): JSX.Element => {

@@ -11,7 +11,7 @@ import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, Vau
 import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { VaultConversionAndFee } from './VaultConversionAndFee';
 import { makeStyles } from '@material-ui/core/styles';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import VaultAdvisory from './VaultAdvisory';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export interface VaultModalProps {
 	open?: boolean;
-	vault: Vault;
+	vault: VaultDTO;
 	badgerVault: BadgerVault;
 	onClose: () => void;
 }
