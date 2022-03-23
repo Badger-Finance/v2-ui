@@ -19,6 +19,7 @@ class UiStateStore {
 	public gasPrice: GasSpeed;
 	public txStatus?: string;
 	private showNotification: boolean;
+	private showNetworkOptions: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -28,6 +29,7 @@ class UiStateStore {
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		this.showNotification = this.notificationClosingThreshold < 3;
 		this.showWalletDrawer = false;
+		this.showNetworkOptions = false;
 		this.rewardsDialogOpen = false;
 		const { network } = store.network;
 
@@ -41,11 +43,16 @@ class UiStateStore {
 			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
 			showWalletDrawer: this.showWalletDrawer,
+			showNetworkOptions: this.showNetworkOptions,
 		});
 
 		if (APP_NEWS_STORAGE_HASH) {
 			window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
 		}
+	}
+
+	get areNetworkOptionsOpen() {
+		return this.showNetworkOptions;
 	}
 
 	get notificationClosingThreshold(): number {
@@ -111,6 +118,14 @@ class UiStateStore {
 
 	closeSidebar = action(() => {
 		this.sidebarOpen = false;
+	});
+
+	openNetworkOptions = action(() => {
+		this.showNetworkOptions = true;
+	});
+
+	closeNetworkOptions = action(() => {
+		this.showNetworkOptions = false;
 	});
 
 	toggleWalletDrawer = action(() => {
