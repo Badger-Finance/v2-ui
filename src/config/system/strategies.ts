@@ -172,8 +172,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxd',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxd',
 				},
 				[fantomDeploy.sett_system.vaults['native.oxsolid']]: {
 					address: fantomDeploy.sett_system.strategies['native.oxsolid'],
@@ -182,8 +181,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					userGuide:
-						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxsolid',
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxsolid',
 				},
 			};
 		case Network.Avalanche:
