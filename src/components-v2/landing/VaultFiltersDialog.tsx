@@ -319,6 +319,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 												color="primary"
 												control={
 													<Checkbox
+														color="primary"
 														size="medium"
 														checked={protocols.includes(protocol)}
 														onChange={() => handleProtocolChange(protocol)}
@@ -353,6 +354,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											color="primary"
 											size="medium"
 											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Native)}
@@ -379,6 +381,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											color="primary"
 											size="medium"
 											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Boosted)}
@@ -407,6 +410,7 @@ const VaultFiltersDialog = ({ open, onClose }: Props): JSX.Element => {
 									classes={{ root: classes.checkboxLabelRoot }}
 									control={
 										<Checkbox
+											color="primary"
 											size="medium"
 											classes={{ root: classes.checkboxRoot }}
 											checked={types.includes(VaultType.Standard)}

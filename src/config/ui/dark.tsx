@@ -1,17 +1,6 @@
-import React from 'react';
 import { createTheme } from '@material-ui/core';
 
-const theme = createTheme({
-	props: {
-		MuiRadio: {
-			checkedIcon: <img src="/assets/icons/checked-radio-control.svg" alt="option" />,
-			icon: <img src="/assets/icons/non-checked-radio-control.svg" alt="option" />,
-		},
-		MuiCheckbox: {
-			checkedIcon: <img src="/assets/icons/checked-checkbox.svg" alt="checked checkbox" />,
-			icon: <img src="/assets/icons/non-checked-checkbox.svg" alt="checkbox" />,
-		},
-	},
+export const darkTheme = createTheme({
 	breakpoints: {
 		values: {
 			xs: 0,
@@ -204,29 +193,15 @@ const theme = createTheme({
 		},
 		MuiCheckbox: {
 			root: {
+				color: '#FFFFFFDE',
 				'& .MuiSvgIcon-root:not(.MuiSvgIcon-fontSizeSmall)': {
 					width: 24,
 					height: 24,
-				},
-				'&:not($checked)': {
-					'& .MuiSvgIcon-root': {
-						color: '#FFFFFFDE',
-					},
 				},
 				'&.Mui-disabled': {
 					'& .MuiSvgIcon-root': {
 						color: '#FFFFFF4D',
 					},
-				},
-			},
-		},
-		MuiFormControlLabel: {
-			root: {
-				'& .MuiFormControlLabel-label.Mui-disabled': {
-					color: '#FFFFFF4D',
-				},
-				'& .MuiIconButton-root': {
-					padding: 12,
 				},
 			},
 		},
@@ -243,5 +218,3 @@ const theme = createTheme({
 		},
 	},
 });
-
-export const darkTheme = createTheme(theme);
