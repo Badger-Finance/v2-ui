@@ -123,9 +123,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
                   class="makeStyles-tokenNameAndIcon-216"
                 >
                   <img
-                    alt="Badger icon"
+                    alt="Badger logo"
                     class="makeStyles-icon-218"
-                    src="/assets/icons/badger.png"
+                    src="/assets/icons/badger.svg"
                   />
                   <p
                     class="MuiTypography-root-160 makeStyles-tokenName-217 MuiTypography-body1-162 MuiTypography-displayInline-188"
@@ -161,9 +161,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
                   class="makeStyles-tokenNameAndIcon-216"
                 >
                   <img
-                    alt="Digg icon"
+                    alt="DIGG logo"
                     class="makeStyles-icon-218"
-                    src="/assets/icons/digg.png"
+                    src="/assets/icons/digg.svg"
                   />
                   <p
                     class="MuiTypography-root-160 makeStyles-tokenName-217 MuiTypography-body1-162 MuiTypography-displayInline-188"
@@ -199,9 +199,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
                   class="makeStyles-tokenNameAndIcon-216"
                 >
                   <img
-                    alt="remDigg icon"
+                    alt="DIGG logo"
                     class="makeStyles-icon-218"
-                    src="/assets/icons/digg.png"
+                    src="/assets/icons/digg.svg"
                   />
                   <p
                     class="MuiTypography-root-160 makeStyles-tokenName-217 MuiTypography-body1-162 MuiTypography-displayInline-188"

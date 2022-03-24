@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { StoreContext } from '../../mobx/store-context';
+import TokenLogo from '../../components-v2/TokenLogo';
 import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,16 +39,14 @@ interface Props {
 const WalletTokenBalance = ({ balance }: Props): JSX.Element => {
 	const { uiState } = useContext(StoreContext);
 	const classes = useStyles();
+	// small hack to allow rem tokens to share icons with their badger counterparts
+	const token = { ...balance.token };
+	token.symbol = balance.token.symbol.replace('rem', '');
 	return (
 		<Grid container className={classes.tokenBalance}>
 			<Grid item container justifyContent="space-between" alignItems="center">
 				<div className={classes.tokenNameAndIcon}>
-					<img
-						className={classes.icon}
-						// small hack to allow rem tokens to share icons with their badger counterparts
-						src={`/assets/icons/${balance.token.symbol.replace('rem', '').toLowerCase().trim()}.png`}
-						alt={`${balance.token.name} icon`}
-					/>
+					<TokenLogo className={classes.icon} token={token} />
 					<Typography variant="body1" display="inline" className={classes.tokenName}>
 						{balance.token.symbol}
 					</Typography>
