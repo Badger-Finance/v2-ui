@@ -6,13 +6,13 @@ import BigNumber from 'bignumber.js';
 import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
-import { APPROVALS_VULNERABILITIES_SUBGRAPH, EXPLOIT_HACKER_ADDRESS, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
+import { ONE_MIN_MS } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { defaultVaultBalance } from 'components-v2/vault-detail/utils';
-import { Account, BouncerType, MerkleProof, Network, Vault, VaultData } from '@badger-dao/sdk';
+import { Account, BouncerType, MerkleProof, Network, VaultDTO, VaultData } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
 import { Multicall } from 'ethereum-multicall';
 import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
@@ -20,10 +20,7 @@ import { getChainMulticallContract, parseCallReturnContext } from '../utils/mult
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 import { createMulticallRequest } from '../../web3/config/config-utils';
 import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
-import { GraphQLClient } from 'graphql-request';
-import { getSdk } from '../../graphql/generated/badger';
-import { ExploitApproval } from '../model/account/exploit-approval';
-import { DEBUG } from '../../config/environment';
+import { ethers } from 'ethers';
 
 export default class UserStore {
 	private store: RootStore;
@@ -37,7 +34,6 @@ export default class UserStore {
 	public settBalances: TokenBalances = {};
 	public vaultCaps: VaultCaps = {};
 	public loadingBalances: boolean;
-	public approvalVulnerabilities?: ExploitApproval[];
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -51,13 +47,12 @@ export default class UserStore {
 			settBalances: this.settBalances,
 			vaultCaps: this.vaultCaps,
 			loadingBalances: this.loadingBalances,
-			approvalVulnerabilities: this.approvalVulnerabilities,
 		});
 	}
 
 	/* Read Variables */
 
-	onGuestList(vault: Vault): boolean {
+	onGuestList(vault: VaultDTO): boolean {
 		// allow users who are not connected to nicely view setts
 		if (!this.store.onboard.isActive()) {
 			return true;
@@ -86,15 +81,15 @@ export default class UserStore {
 	}
 
 	get initialized(): boolean {
-		const { settMap } = this.store.vaults;
+		const { vaultMap } = this.store.vaults;
 
 		// no data available
-		if (!settMap) {
+		if (!vaultMap) {
 			return false;
 		}
 
 		// no products configured
-		if (Object.keys(settMap).length === 0) {
+		if (Object.keys(vaultMap).length === 0) {
 			return true;
 		}
 
@@ -113,7 +108,7 @@ export default class UserStore {
 		}
 	}
 
-	getVaultBalance(vault: Vault): VaultData {
+	getVaultBalance(vault: VaultDTO): VaultData {
 		const currentVaultBalance = this.getTokenBalance(vault.vaultToken);
 		let settBalance = this.accountDetails?.data[vault.vaultToken];
 
@@ -185,29 +180,6 @@ export default class UserStore {
 		}
 	});
 
-	checkApprovalVulnerabilities = action(async (address: string) => {
-		const client = new GraphQLClient(APPROVALS_VULNERABILITIES_SUBGRAPH);
-		const sdk = getSdk(client);
-
-		const { user: userInformation } = await sdk.User({
-			id: address.toLowerCase(),
-		});
-
-		if (!userInformation) {
-			return;
-		}
-
-		const stillAtRisk: ExploitApproval[] = [];
-
-		for (const approval of userInformation.approvals) {
-			if (approval.spender.id === EXPLOIT_HACKER_ADDRESS.toLowerCase() && Number(approval.amount) > 0) {
-				stillAtRisk.push(approval);
-			}
-		}
-
-		this.approvalVulnerabilities = stillAtRisk;
-	});
-
 	updateBalances = action(async (addressOverride?: string, cached?: boolean): Promise<void> => {
 		const { address, wallet } = this.store.onboard;
 		const { network } = this.store.network;
@@ -219,7 +191,7 @@ export default class UserStore {
 		 * will trigger balance display updates
 		 */
 		const queryAddress = addressOverride ?? address;
-		if (!queryAddress || !vaults.initialized || this.loadingBalances || !wallet?.provider || !vaults.settMap) {
+		if (!queryAddress || !vaults.initialized || this.loadingBalances || !wallet?.provider || !vaults.vaultMap) {
 			return;
 		}
 
@@ -239,7 +211,7 @@ export default class UserStore {
 		try {
 			const multicallContractAddress = getChainMulticallContract(network.symbol);
 			const multicallRequests = network.getBalancesRequests(
-				vaults.settMap,
+				vaults.vaultMap,
 				vaults.getTokenConfigs(),
 				queryAddress,
 			);
@@ -397,7 +369,7 @@ export default class UserStore {
 				}
 
 				const guestList = vault.guestList[0][0];
-				if (guestList === ZERO_ADDR) {
+				if (guestList === ethers.constants.AddressZero) {
 					return null;
 				}
 

@@ -4,17 +4,17 @@ import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import BigNumber from 'bignumber.js';
-import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
+import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
 import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { ClaimMap } from 'components-v2/landing/RewardsWidget';
 import { BadgerTree } from '../model/rewards/badger-tree';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from '../../config/constants';
 import { GasSpeed, Network } from '@badger-dao/sdk';
+import { ClaimMap } from '../model/rewards/claim-map';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.
@@ -61,6 +61,10 @@ class RewardsStore {
 			loadingTreeData: this.loadingTreeData,
 			loadingRewards: this.loadingRewards,
 		});
+	}
+
+	get claimableRewards(): BigNumber {
+		return this.badgerTree.claims.reduce((total, reward) => total.plus(reward.value), new BigNumber(0));
 	}
 
 	get isLoading(): boolean {

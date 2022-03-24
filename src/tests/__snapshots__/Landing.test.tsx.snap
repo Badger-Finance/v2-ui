@@ -3,27 +3,27 @@
 exports[`Landing Renders correctly 1`] = `
 <div>
   <div
-    class="MuiContainer-root-21 WithStyles(ForwardRef(Container))-root-20 MuiContainer-maxWidthLg-27"
+    class="MuiContainer-root-5 WithStyles(ForwardRef(Container))-root-4 MuiContainer-maxWidthLg-11"
   >
     <div
-      class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-justify-content-xs-center-47"
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-justify-content-xs-center-31"
     >
       <div
-        class="MuiGrid-root-29 WithStyles(ForwardRef(Grid))-root-132 WithStyles(ForwardRef(Grid))-root-133 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-12-75"
+        class="MuiGrid-root-13 WithStyles(ForwardRef(Grid))-root-116 WithStyles(ForwardRef(Grid))-root-117 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-12-59"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-10-73 MuiGrid-grid-md-6-97"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-10-57 MuiGrid-grid-md-6-81"
         >
           <div
-            class="makeStyles-headerContainer-134"
+            class="makeStyles-headerContainer-118"
           >
             <h6
-              class="MuiTypography-root-135 MuiTypography-h6-145 MuiTypography-colorTextPrimary-160"
+              class="MuiTypography-root-119 MuiTypography-h6-129 MuiTypography-colorTextPrimary-144"
             >
               Test Bitcoin Strategies
             </h6>
             <p
-              class="MuiTypography-root-135 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
+              class="MuiTypography-root-119 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
             >
               Snapshots are great. Landing looks good.
             </p>
@@ -31,253 +31,257 @@ exports[`Landing Renders correctly 1`] = `
         </div>
       </div>
     </div>
-    <li
-      class="MuiListSubheader-root-168 makeStyles-subHeader-167 MuiListSubheader-sticky-173"
+    <div
+      class="MuiGrid-root-13 makeStyles-root-157 MuiGrid-container-14 MuiGrid-item-15"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-root-181 MuiGrid-container-30 MuiGrid-item-31"
+        class="MuiGrid-root-13 makeStyles-titlesContainer-158 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-10-85 MuiGrid-grid-lg-true-89"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-titlesContainer-182 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-10-101 MuiGrid-grid-lg-true-105"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+            class="MuiGrid-root-13 makeStyles-title-150 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
           >
-            <div
-              class="MuiGrid-root-29 makeStyles-title-174 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-4-109"
+            <p
+              class="MuiTypography-root-119 makeStyles-title-150 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
             >
-              <p
-                class="MuiTypography-root-135 makeStyles-title-174 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
-              >
-                Vaults
-              </p>
-              <img
-                alt="List description"
-                class="makeStyles-sortInfoIcon-176"
-                color="primary"
-                src="/assets/icons/vault-sort-info.svg"
-                title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-              />
-            </div>
-            <div
-              class="MuiGrid-root-29 makeStyles-title-174 makeStyles-columnTitle-179 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
-            >
-              <p
-                class="MuiTypography-root-135 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
-              >
-                APY
-              </p>
-              <img
-                alt="What is APR?"
-                class="makeStyles-sortInfoIcon-176"
-                color="primary"
-                src="/assets/icons/vault-sort-info.svg"
-                title="An annual percentage yield (APY), is the yearly rate earned by depositing in each vault."
-              />
-              <button
-                aria-label="sort descending by APR"
-                class="MuiButtonBase-root-206 MuiIconButton-root-197 makeStyles-sortIcon-175 makeStyles-nonSetSort-177"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="MuiIconButton-label-205"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-209 MuiSvgIcon-colorPrimary-210"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                    />
-                  </svg>
-                </span>
-                <span
-                  class="MuiTouchRipple-root-386"
-                />
-              </button>
-            </div>
-            <div
-              class="MuiGrid-root-29 makeStyles-title-174 makeStyles-columnTitle-179 makeStyles-tvlColumn-180 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
-            >
-              <p
-                class="MuiTypography-root-135 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
-              >
-                TVL
-              </p>
-              <img
-                alt="What is TVL?"
-                class="makeStyles-sortInfoIcon-176"
-                color="primary"
-                src="/assets/icons/vault-sort-info.svg"
-                title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-              />
-              <button
-                aria-label="sort descending by TVL"
-                class="MuiButtonBase-root-206 MuiIconButton-root-197 makeStyles-sortIcon-175 makeStyles-nonSetSort-177"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="MuiIconButton-label-205"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-209 MuiSvgIcon-colorPrimary-210"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                    />
-                  </svg>
-                </span>
-                <span
-                  class="MuiTouchRipple-root-386"
-                />
-              </button>
-            </div>
-            <div
-              class="MuiGrid-root-29 makeStyles-title-174 makeStyles-columnTitle-179 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
-            >
-              <p
-                class="MuiTypography-root-135 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
-              >
-                MY DEPOSITS
-              </p>
-              <img
-                alt="What represent My Deposits?"
-                class="makeStyles-sortInfoIcon-176"
-                color="primary"
-                src="/assets/icons/vault-sort-info.svg"
-                title="Represents the dollar value of all assets you deposited in each vault"
-              />
-              <button
-                aria-label="sort descending by balance"
-                class="MuiButtonBase-root-206 MuiIconButton-root-197 makeStyles-sortIcon-175 makeStyles-nonSetSort-177"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="MuiIconButton-label-205"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-209 MuiSvgIcon-colorPrimary-210"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                    />
-                  </svg>
-                </span>
-                <span
-                  class="MuiTouchRipple-root-386"
-                />
-              </button>
-            </div>
+              Vaults
+            </p>
+            <img
+              alt="List description"
+              class="makeStyles-sortInfoIcon-152"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
+            />
           </div>
-        </div>
-        <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-justify-content-xs-flex-end-48 MuiGrid-grid-md-true-91"
-        >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38 MuiGrid-justify-content-xs-flex-end-48"
+            class="MuiGrid-root-13 makeStyles-title-150 makeStyles-columnTitle-155 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
           >
+            <p
+              class="MuiTypography-root-119 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
+            >
+              APY
+            </p>
+            <img
+              alt="What is APR?"
+              class="makeStyles-sortInfoIcon-152"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="An annual percentage yield (APY), is the yearly rate earned by depositing in each vault."
+            />
             <button
-              aria-label="Open Vaults Filters"
-              class="MuiButtonBase-root-206 MuiIconButton-root-197 makeStyles-filterButton-227"
+              aria-label="sort descending by APR"
+              class="MuiButtonBase-root-182 MuiIconButton-root-173 makeStyles-sortIcon-151 makeStyles-nonSetSort-153"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiIconButton-label-205"
+                class="MuiIconButton-label-181"
               >
-                <img
-                  alt="vault filters"
-                  src="/assets/icons/vault-filters.svg"
-                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-185 MuiSvgIcon-colorPrimary-186"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-386"
+                class="MuiTouchRipple-root-361"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-13 makeStyles-title-150 makeStyles-columnTitle-155 makeStyles-tvlColumn-156 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
+          >
+            <p
+              class="MuiTypography-root-119 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
+            >
+              TVL
+            </p>
+            <img
+              alt="What is TVL?"
+              class="makeStyles-sortInfoIcon-152"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
+            />
+            <button
+              aria-label="sort descending by TVL"
+              class="MuiButtonBase-root-182 MuiIconButton-root-173 makeStyles-sortIcon-151 makeStyles-nonSetSort-153"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-181"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-185 MuiSvgIcon-colorPrimary-186"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-361"
+              />
+            </button>
+          </div>
+          <div
+            class="MuiGrid-root-13 makeStyles-title-150 makeStyles-columnTitle-155 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
+          >
+            <p
+              class="MuiTypography-root-119 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
+            >
+              MY DEPOSITS
+            </p>
+            <img
+              alt="What represent My Deposits?"
+              class="makeStyles-sortInfoIcon-152"
+              color="primary"
+              src="/assets/icons/vault-sort-info.svg"
+              title="Represents the dollar value of all assets you deposited in each vault"
+            />
+            <button
+              aria-label="sort descending by balance"
+              class="MuiButtonBase-root-182 MuiIconButton-root-173 makeStyles-sortIcon-151 makeStyles-nonSetSort-153"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-181"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-185 MuiSvgIcon-colorPrimary-186"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-361"
               />
             </button>
           </div>
         </div>
       </div>
-    </li>
-    <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
-    >
       <div
-        class="MuiGrid-root-29 makeStyles-clickableSection-265 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-10-101 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-md-true-75"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-iconBadgeContainer-280 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-justify-content-xs-center-47 MuiGrid-grid-xs-auto-62"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32"
         >
-          <div
-            class="MuiGrid-root-29 makeStyles-iconContainer-284 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+          <button
+            aria-label="Open Vaults Filters"
+            class="MuiButtonBase-root-182 MuiIconButton-root-173 makeStyles-filterButton-203"
+            tabindex="0"
+            type="button"
           >
-            <img
-              alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-              class="makeStyles-symbol-278"
-              src="/assets/icons/bsbtccrv-ethereum.svg"
+            <span
+              class="MuiIconButton-label-181"
+            >
+              <img
+                alt="vault filters"
+                src="/assets/icons/vault-filters.svg"
+              />
+            </span>
+            <span
+              class="MuiTouchRipple-root-361"
             />
-          </div>
-          <span
-            class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
-          >
-            Ecosystem Helper
-          </span>
+          </button>
         </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-root-237 makeStyles-enabledVault-238 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-clickableSection-240 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-10-85 MuiGrid-grid-lg-true-89"
+      >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+          class="MuiGrid-root-13 makeStyles-iconBadgeContainer-255 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-justify-content-xs-center-31 MuiGrid-grid-xs-auto-46"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-4-55 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+            class="MuiGrid-root-13 makeStyles-iconContainer-259 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-4-109"
+              class="makeStyles-root-291"
             >
-              <p
-                class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+              <img
+                alt="curve-renBTC-wBTC-sBTC logo"
+                class="makeStyles-position-292"
+                src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
+          >
+            <span
+              class="MuiTypography-root-119 makeStyles-behavior-243 MuiTypography-caption-122"
+            >
+              Ecosystem Helper
+            </span>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-4-39 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
+          >
+            <div
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
+            >
+              <h6
+                class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
               >
                 Convex
                  - 
                 Curve.fi renBTC/wBTC/sBTC
-              </p>
+              </h6>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
               >
                 0.25%
               </p>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-tvl-269 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 makeStyles-tvl-244 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-326"
+                class="MuiBox-root-297 MuiBox-root-298"
               >
                 <p
-                  class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
+                  class="MuiTypography-root-119 makeStyles-itemText-242 MuiTypography-body1-121"
                 />
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-329"
+                class="MuiBox-root-297 MuiBox-root-302"
               >
                 <p
-                  class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
+                  class="MuiTypography-root-119 makeStyles-itemText-242 MuiTypography-body1-121"
                 >
                   $-
                 </p>
@@ -285,56 +289,56 @@ exports[`Landing Renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-4-55 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-4-39 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-4-109"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
               >
                 Non-boosted
               </p>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-8-113"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-8-97"
             />
           </div>
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-266 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+        class="MuiGrid-root-13 makeStyles-nonClickableSection-241 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>
@@ -344,74 +348,82 @@ exports[`Landing Renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-root-237 makeStyles-enabledVault-238 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-clickableSection-265 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-10-101 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-13 makeStyles-clickableSection-240 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-10-85 MuiGrid-grid-lg-true-89"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-iconBadgeContainer-280 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-justify-content-xs-center-47 MuiGrid-grid-xs-auto-62"
+          class="MuiGrid-root-13 makeStyles-iconBadgeContainer-255 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-justify-content-xs-center-31 MuiGrid-grid-xs-auto-46"
         >
           <div
-            class="MuiGrid-root-29 makeStyles-iconContainer-284 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
-          >
-            <img
-              alt="Badger Badger Vault Symbol"
-              class="makeStyles-symbol-278"
-              src="/assets/icons/bbadger-ethereum.svg"
-            />
-          </div>
-          <span
-            class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
-          >
-            DCA
-          </span>
-        </div>
-        <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
-        >
-          <div
-            class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-4-55 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+            class="MuiGrid-root-13 makeStyles-iconContainer-259 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-4-109"
+              class="makeStyles-root-291"
             >
-              <p
-                class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+              <img
+                alt="BADGER logo"
+                class="makeStyles-position-347"
+                src="/assets/icons/badger.svg"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
+          >
+            <span
+              class="MuiTypography-root-119 makeStyles-behavior-243 MuiTypography-caption-122"
+            >
+              DCA
+            </span>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-4-39 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
+          >
+            <div
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
+            >
+              <h6
+                class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
               >
                 Badger
                  - 
                 Badger
-              </p>
+              </h6>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
               >
                 8.17%
               </p>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-tvl-269 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 makeStyles-tvl-244 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-376"
+                class="MuiBox-root-297 MuiBox-root-350"
               >
                 <p
-                  class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
+                  class="MuiTypography-root-119 makeStyles-itemText-242 MuiTypography-body1-121"
                 />
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-379"
+                class="MuiBox-root-297 MuiBox-root-353"
               >
                 <p
-                  class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
+                  class="MuiTypography-root-119 makeStyles-itemText-242 MuiTypography-body1-121"
                 >
                   $-
                 </p>
@@ -419,56 +431,56 @@ exports[`Landing Renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-4-55 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-4-39 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-4-109"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
               >
                 Non-boosted
               </p>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-8-113"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-8-97"
             />
           </div>
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-266 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+        class="MuiGrid-root-13 makeStyles-nonClickableSection-241 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>
@@ -478,69 +490,76 @@ exports[`Landing Renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-root-262 makeStyles-enabledVault-263 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-root-237 makeStyles-enabledVault-238 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-clickableSection-265 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-10-101 MuiGrid-grid-lg-true-105"
+        class="MuiGrid-root-13 makeStyles-clickableSection-240 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-10-85 MuiGrid-grid-lg-true-89"
       >
         <div
-          class="MuiGrid-root-29 makeStyles-iconBadgeContainer-280 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-justify-content-xs-center-47 MuiGrid-grid-xs-auto-62"
+          class="MuiGrid-root-13 makeStyles-iconBadgeContainer-255 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-justify-content-xs-center-31 MuiGrid-grid-xs-auto-46"
         >
           <div
-            class="MuiGrid-root-29 makeStyles-iconContainer-284 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
-          >
-            <img
-              alt="Badger Digg Vault Symbol"
-              class="makeStyles-symbol-278"
-              src="/assets/icons/bdigg-ethereum.svg"
-            />
-          </div>
-        </div>
-        <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
-        >
-          <div
-            class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-4-55 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+            class="MuiGrid-root-13 makeStyles-iconContainer-259 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-4-109"
+              class="makeStyles-root-291"
             >
-              <p
-                class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+              <img
+                alt="DIGG logo"
+                class="makeStyles-position-354"
+                src="/assets/icons/digg.svg"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
+          />
+        </div>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-4-39 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
+          >
+            <div
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
+            >
+              <h6
+                class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
               >
                 Badger
                  - 
                 Digg
-              </p>
+              </h6>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
               >
                 8.17%
               </p>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-tvl-269 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 makeStyles-tvl-244 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-382"
+                class="MuiBox-root-297 MuiBox-root-357"
               >
                 <p
-                  class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
+                  class="MuiTypography-root-119 makeStyles-itemText-242 MuiTypography-body1-121"
                 />
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
             >
               <div
-                class="MuiBox-root-325 MuiBox-root-385"
+                class="MuiBox-root-297 MuiBox-root-360"
               >
                 <p
-                  class="MuiTypography-root-135 makeStyles-itemText-267 MuiTypography-body1-137"
+                  class="MuiTypography-root-119 makeStyles-itemText-242 MuiTypography-body1-121"
                 >
                   $-
                 </p>
@@ -548,56 +567,56 @@ exports[`Landing Renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-4-55 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+            class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-4-39 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-4-109"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-4-93"
             >
               <p
-                class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
               >
                 Non-boosted
               </p>
             </div>
             <div
-              class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-5-96 MuiGrid-grid-lg-8-113"
+              class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-5-80 MuiGrid-grid-lg-8-97"
             />
           </div>
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-nonClickableSection-266 MuiGrid-item-31 MuiGrid-grid-xs-12-75 MuiGrid-grid-md-true-91"
+        class="MuiGrid-root-13 makeStyles-nonClickableSection-241 MuiGrid-item-15 MuiGrid-grid-xs-12-59 MuiGrid-grid-md-true-75"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>
@@ -613,71 +632,27 @@ exports[`Landing Renders correctly 1`] = `
 exports[`Landing Renders mobile version correctly 1`] = `
 <div>
   <div
-    class="makeStyles-badgerMobileOverview-15"
+    class="MuiContainer-root-5 WithStyles(ForwardRef(Container))-root-4 MuiContainer-maxWidthLg-11"
   >
     <div
-      class="MuiContainer-root-21 WithStyles(ForwardRef(Container))-root-20 MuiContainer-maxWidthLg-27"
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-justify-content-xs-center-31"
     >
       <div
-        class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-1-52 MuiGrid-align-items-xs-center-38"
+        class="MuiGrid-root-13 WithStyles(ForwardRef(Grid))-root-116 WithStyles(ForwardRef(Grid))-root-117 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-12-59"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-6-69"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-10-57 MuiGrid-grid-md-6-81"
         >
-          <p
-            class="MuiTypography-root-135 makeStyles-badgerOverviewValueTitle-17 MuiTypography-body2-136"
-          >
-            Ethereum TVL:
-          </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-388"
+            class="makeStyles-headerContainer-118"
           >
             <h6
-              class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-subtitle2-147"
-            />
-          </div>
-        </div>
-        <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-6-69"
-        >
-          <p
-            class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
-          >
-            Badger Price:
-          </p>
-          <div
-            class="MuiBox-root-325 MuiBox-root-391"
-          >
-            <p
-              class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="MuiContainer-root-21 WithStyles(ForwardRef(Container))-root-20 MuiContainer-maxWidthLg-27"
-  >
-    <div
-      class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-justify-content-xs-center-47"
-    >
-      <div
-        class="MuiGrid-root-29 WithStyles(ForwardRef(Grid))-root-132 WithStyles(ForwardRef(Grid))-root-133 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-12-75"
-      >
-        <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-10-73 MuiGrid-grid-md-6-97"
-        >
-          <div
-            class="makeStyles-headerContainer-134"
-          >
-            <h6
-              class="MuiTypography-root-135 MuiTypography-h6-145 MuiTypography-colorTextPrimary-160"
+              class="MuiTypography-root-119 MuiTypography-h6-129 MuiTypography-colorTextPrimary-144"
             >
               Test Bitcoin Strategies
             </h6>
             <p
-              class="MuiTypography-root-135 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
+              class="MuiTypography-root-119 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
             >
               Snapshots are great. Landing looks good.
             </p>
@@ -686,38 +661,38 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root-29 MuiGrid-container-30"
+      class="MuiGrid-root-13 MuiGrid-container-14"
     >
       <div
-        class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-10-73"
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-10-57"
       >
         <p
-          class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 makeStyles-badgerOverviewValueTitle-17 MuiTypography-body2-136"
+          class="MuiTypography-root-119 makeStyles-badgerOverviewValueText-2 makeStyles-badgerOverviewValueTitle-1 MuiTypography-body2-120"
         >
           My Assets:
         </p>
         <div
-          class="MuiBox-root-325 MuiBox-root-394"
+          class="MuiBox-root-297 MuiBox-root-363"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
+            class="MuiTypography-root-119 makeStyles-badgerOverviewValueText-2 MuiTypography-body2-120"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-filterWidgetContainer-19 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-2-65"
+        class="MuiGrid-root-13 makeStyles-filterWidgetContainer-3 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-2-49"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38 MuiGrid-justify-content-xs-flex-end-48"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32"
         >
           <button
             aria-label="Open Vaults Filters"
-            class="MuiButtonBase-root-206 MuiIconButton-root-197 makeStyles-filterButton-227"
+            class="MuiButtonBase-root-182 MuiIconButton-root-173 makeStyles-filterButton-203"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiIconButton-label-205"
+              class="MuiIconButton-label-181"
             >
               <img
                 alt="vault filters"
@@ -725,87 +700,87 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-420"
+              class="MuiTouchRipple-root-392"
             />
           </button>
         </div>
       </div>
     </div>
-    <li
-      class="MuiListSubheader-root-168 makeStyles-subHeader-167 MuiListSubheader-sticky-173"
-    >
-      <div
-        class="MuiGrid-root-29 makeStyles-mobileContainer-183 MuiGrid-container-30 MuiGrid-justify-content-xs-space-between-49"
-      >
-        <div
-          class="MuiGrid-root-29 makeStyles-mobileColumn-184 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-6-69"
-        >
-          <p
-            class="MuiTypography-root-135 makeStyles-title-174 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161 MuiTypography-displayInline-163"
-          >
-            Vaults
-          </p>
-          <img
-            alt="List description"
-            class="makeStyles-sortInfoIcon-176"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-          />
-        </div>
-        <div
-          class="MuiGrid-root-29 makeStyles-mobileColumn-184 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-justify-content-xs-flex-end-48 MuiGrid-grid-xs-6-69"
-        >
-          <p
-            class="MuiTypography-root-135 makeStyles-title-174 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
-          >
-            APR
-          </p>
-          <img
-            alt="What is APR?"
-            class="makeStyles-sortInfoIcon-176"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-          />
-        </div>
-      </div>
-    </li>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiGrid-root-13 makeStyles-mobileContainer-159 MuiGrid-container-14 MuiGrid-justify-content-xs-space-between-33"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
+        class="MuiGrid-root-13 makeStyles-mobileColumn-160 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-6-53"
+      >
+        <p
+          class="MuiTypography-root-119 makeStyles-title-150 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145 MuiTypography-displayInline-147"
+        >
+          Vaults
+        </p>
+        <img
+          alt="List description"
+          class="makeStyles-sortInfoIcon-152"
+          color="primary"
+          src="/assets/icons/vault-sort-info.svg"
+          title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
+        />
+      </div>
+      <div
+        class="MuiGrid-root-13 makeStyles-mobileColumn-160 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-6-53"
+      >
+        <p
+          class="MuiTypography-root-119 makeStyles-title-150 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
+        >
+          APR
+        </p>
+        <img
+          alt="What is APR?"
+          class="makeStyles-sortInfoIcon-152"
+          color="primary"
+          src="/assets/icons/vault-sort-info.svg"
+          title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
+        />
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-mobileContainer-252 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-nameAndAprMobile-250 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30"
+            class="MuiGrid-root-13 MuiGrid-container-14"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-grid-xs-auto-46"
               >
-                <img
-                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-                  class="makeStyles-symbol-278"
-                  src="/assets/icons/bsbtccrv-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-291"
+                >
+                  <img
+                    alt="curve-renBTC-wBTC-sBTC logo"
+                    class="makeStyles-position-364"
+                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                  />
+                </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-grid-xs-7-54"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 />
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 >
                   <span
-                    class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
+                    class="MuiTypography-root-119 makeStyles-behavior-243 MuiTypography-caption-122"
                   >
                     Ecosystem Helper
                   </span>
@@ -813,40 +788,40 @@ exports[`Landing Renders mobile version correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-vaultNameMobile-283 MuiGrid-container-30 MuiGrid-direction-xs-column-33"
+              class="MuiGrid-root-13 makeStyles-vaultNameMobile-258 MuiGrid-container-14 MuiGrid-direction-xs-column-17"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
                   >
                     Convex
                      - 
                     Curve.fi renBTC/wBTC/sBTC
-                  </p>
+                  </h6>
                 </div>
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
                   >
                     0.25%
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                    class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
                   >
                     Non-boosted
                   </p>
@@ -857,40 +832,40 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-amountsSection-248 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-6-69"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-6-53"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-404"
+            class="MuiBox-root-297 MuiBox-root-374"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             />
           </div>
         </div>
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-407"
+            class="MuiBox-root-297 MuiBox-root-377"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             >
               $-
             </p>
@@ -898,41 +873,41 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-actionButtonsMobile-249 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>
@@ -942,40 +917,44 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-mobileContainer-252 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
+        class="MuiGrid-root-13 makeStyles-nameAndAprMobile-250 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30"
+            class="MuiGrid-root-13 MuiGrid-container-14"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-grid-xs-auto-46"
               >
-                <img
-                  alt="Badger Badger Vault Symbol"
-                  class="makeStyles-symbol-278"
-                  src="/assets/icons/bbadger-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-291"
+                >
+                  <img
+                    alt="BADGER logo"
+                    class="makeStyles-position-378"
+                    src="/assets/icons/badger.svg"
+                  />
+                </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-grid-xs-7-54"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 />
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 >
                   <span
-                    class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
+                    class="MuiTypography-root-119 makeStyles-behavior-243 MuiTypography-caption-122"
                   >
                     DCA
                   </span>
@@ -983,40 +962,40 @@ exports[`Landing Renders mobile version correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-vaultNameMobile-283 MuiGrid-container-30 MuiGrid-direction-xs-column-33"
+              class="MuiGrid-root-13 makeStyles-vaultNameMobile-258 MuiGrid-container-14 MuiGrid-direction-xs-column-17"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
                   >
                     Badger
                      - 
                     Badger
-                  </p>
+                  </h6>
                 </div>
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
                   >
                     8.17%
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                    class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
                   >
                     Non-boosted
                   </p>
@@ -1027,40 +1006,40 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-amountsSection-248 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-6-69"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-6-53"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-410"
+            class="MuiBox-root-297 MuiBox-root-381"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             />
           </div>
         </div>
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-413"
+            class="MuiBox-root-297 MuiBox-root-384"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             >
               $-
             </p>
@@ -1068,41 +1047,41 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-actionButtonsMobile-249 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>
@@ -1112,75 +1091,79 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-mobileContainer-252 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
+        class="MuiGrid-root-13 makeStyles-nameAndAprMobile-250 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30"
+            class="MuiGrid-root-13 MuiGrid-container-14"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-grid-xs-auto-46"
               >
-                <img
-                  alt="Badger Digg Vault Symbol"
-                  class="makeStyles-symbol-278"
-                  src="/assets/icons/bdigg-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-291"
+                >
+                  <img
+                    alt="DIGG logo"
+                    class="makeStyles-position-385"
+                    src="/assets/icons/digg.svg"
+                  />
+                </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-grid-xs-7-54"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 />
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 />
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-vaultNameMobile-283 MuiGrid-container-30 MuiGrid-direction-xs-column-33"
+              class="MuiGrid-root-13 makeStyles-vaultNameMobile-258 MuiGrid-container-14 MuiGrid-direction-xs-column-17"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
                   >
                     Badger
                      - 
                     Digg
-                  </p>
+                  </h6>
                 </div>
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
                   >
                     8.17%
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                    class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
                   >
                     Non-boosted
                   </p>
@@ -1191,40 +1174,40 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-amountsSection-248 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-6-69"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-6-53"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-416"
+            class="MuiBox-root-297 MuiBox-root-388"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             />
           </div>
         </div>
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-419"
+            class="MuiBox-root-297 MuiBox-root-391"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             >
               $-
             </p>
@@ -1232,41 +1215,41 @@ exports[`Landing Renders mobile version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-actionButtonsMobile-249 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>
@@ -1282,71 +1265,27 @@ exports[`Landing Renders mobile version correctly 1`] = `
 exports[`Landing Renders tablet version correctly 1`] = `
 <div>
   <div
-    class="makeStyles-badgerMobileOverview-15"
+    class="MuiContainer-root-5 WithStyles(ForwardRef(Container))-root-4 MuiContainer-maxWidthLg-11"
   >
     <div
-      class="MuiContainer-root-21 WithStyles(ForwardRef(Container))-root-20 MuiContainer-maxWidthLg-27"
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-justify-content-xs-center-31"
     >
       <div
-        class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-1-52 MuiGrid-align-items-xs-center-38"
+        class="MuiGrid-root-13 WithStyles(ForwardRef(Grid))-root-116 WithStyles(ForwardRef(Grid))-root-117 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-12-59"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-6-69"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-10-57 MuiGrid-grid-md-6-81"
         >
-          <p
-            class="MuiTypography-root-135 makeStyles-badgerOverviewValueTitle-17 MuiTypography-body2-136"
-          >
-            Ethereum TVL:
-          </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-388"
+            class="makeStyles-headerContainer-118"
           >
             <h6
-              class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-subtitle2-147"
-            />
-          </div>
-        </div>
-        <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-6-69"
-        >
-          <p
-            class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
-          >
-            Badger Price:
-          </p>
-          <div
-            class="MuiBox-root-325 MuiBox-root-391"
-          >
-            <p
-              class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="MuiContainer-root-21 WithStyles(ForwardRef(Container))-root-20 MuiContainer-maxWidthLg-27"
-  >
-    <div
-      class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-justify-content-xs-center-47"
-    >
-      <div
-        class="MuiGrid-root-29 WithStyles(ForwardRef(Grid))-root-132 WithStyles(ForwardRef(Grid))-root-133 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-12-75"
-      >
-        <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-10-73 MuiGrid-grid-md-6-97"
-        >
-          <div
-            class="makeStyles-headerContainer-134"
-          >
-            <h6
-              class="MuiTypography-root-135 MuiTypography-h6-145 MuiTypography-colorTextPrimary-160"
+              class="MuiTypography-root-119 MuiTypography-h6-129 MuiTypography-colorTextPrimary-144"
             >
               Test Bitcoin Strategies
             </h6>
             <p
-              class="MuiTypography-root-135 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
+              class="MuiTypography-root-119 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
             >
               Snapshots are great. Landing looks good.
             </p>
@@ -1355,38 +1294,38 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root-29 MuiGrid-container-30"
+      class="MuiGrid-root-13 MuiGrid-container-14"
     >
       <div
-        class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-10-73"
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-10-57"
       >
         <p
-          class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 makeStyles-badgerOverviewValueTitle-17 MuiTypography-body2-136"
+          class="MuiTypography-root-119 makeStyles-badgerOverviewValueText-2 makeStyles-badgerOverviewValueTitle-1 MuiTypography-body2-120"
         >
           My Assets:
         </p>
         <div
-          class="MuiBox-root-325 MuiBox-root-394"
+          class="MuiBox-root-297 MuiBox-root-363"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-badgerOverviewValueText-18 MuiTypography-body2-136"
+            class="MuiTypography-root-119 makeStyles-badgerOverviewValueText-2 MuiTypography-body2-120"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root-29 makeStyles-filterWidgetContainer-19 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-grid-xs-2-65"
+        class="MuiGrid-root-13 makeStyles-filterWidgetContainer-3 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-2-49"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38 MuiGrid-justify-content-xs-flex-end-48"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32"
         >
           <button
             aria-label="Open Vaults Filters"
-            class="MuiButtonBase-root-206 MuiIconButton-root-197 makeStyles-filterButton-227"
+            class="MuiButtonBase-root-182 MuiIconButton-root-173 makeStyles-filterButton-203"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiIconButton-label-205"
+              class="MuiIconButton-label-181"
             >
               <img
                 alt="vault filters"
@@ -1394,87 +1333,87 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-420"
+              class="MuiTouchRipple-root-392"
             />
           </button>
         </div>
       </div>
     </div>
-    <li
-      class="MuiListSubheader-root-168 makeStyles-subHeader-167 MuiListSubheader-sticky-173"
-    >
-      <div
-        class="MuiGrid-root-29 makeStyles-mobileContainer-183 MuiGrid-container-30 MuiGrid-justify-content-xs-space-between-49"
-      >
-        <div
-          class="MuiGrid-root-29 makeStyles-mobileColumn-184 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-grid-xs-6-69"
-        >
-          <p
-            class="MuiTypography-root-135 makeStyles-title-174 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161 MuiTypography-displayInline-163"
-          >
-            Vaults
-          </p>
-          <img
-            alt="List description"
-            class="makeStyles-sortInfoIcon-176"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-          />
-        </div>
-        <div
-          class="MuiGrid-root-29 makeStyles-mobileColumn-184 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-align-items-xs-center-38 MuiGrid-justify-content-xs-flex-end-48 MuiGrid-grid-xs-6-69"
-        >
-          <p
-            class="MuiTypography-root-135 makeStyles-title-174 MuiTypography-body2-136 MuiTypography-colorTextSecondary-161"
-          >
-            APR
-          </p>
-          <img
-            alt="What is APR?"
-            class="makeStyles-sortInfoIcon-176"
-            color="primary"
-            src="/assets/icons/vault-sort-info.svg"
-            title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-          />
-        </div>
-      </div>
-    </li>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiGrid-root-13 makeStyles-mobileContainer-159 MuiGrid-container-14 MuiGrid-justify-content-xs-space-between-33"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
+        class="MuiGrid-root-13 makeStyles-mobileColumn-160 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-6-53"
+      >
+        <p
+          class="MuiTypography-root-119 makeStyles-title-150 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145 MuiTypography-displayInline-147"
+        >
+          Vaults
+        </p>
+        <img
+          alt="List description"
+          class="makeStyles-sortInfoIcon-152"
+          color="primary"
+          src="/assets/icons/vault-sort-info.svg"
+          title="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
+        />
+      </div>
+      <div
+        class="MuiGrid-root-13 makeStyles-mobileColumn-160 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-6-53"
+      >
+        <p
+          class="MuiTypography-root-119 makeStyles-title-150 MuiTypography-body2-120 MuiTypography-colorTextSecondary-145"
+        >
+          APR
+        </p>
+        <img
+          alt="What is APR?"
+          class="makeStyles-sortInfoIcon-152"
+          color="primary"
+          src="/assets/icons/vault-sort-info.svg"
+          title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
+        />
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-mobileContainer-252 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-nameAndAprMobile-250 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30"
+            class="MuiGrid-root-13 MuiGrid-container-14"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-grid-xs-auto-46"
               >
-                <img
-                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-                  class="makeStyles-symbol-278"
-                  src="/assets/icons/bsbtccrv-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-291"
+                >
+                  <img
+                    alt="curve-renBTC-wBTC-sBTC logo"
+                    class="makeStyles-position-364"
+                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                  />
+                </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-grid-xs-7-54"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 />
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 >
                   <span
-                    class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
+                    class="MuiTypography-root-119 makeStyles-behavior-243 MuiTypography-caption-122"
                   >
                     Ecosystem Helper
                   </span>
@@ -1482,40 +1421,40 @@ exports[`Landing Renders tablet version correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-vaultNameMobile-283 MuiGrid-container-30 MuiGrid-direction-xs-column-33"
+              class="MuiGrid-root-13 makeStyles-vaultNameMobile-258 MuiGrid-container-14 MuiGrid-direction-xs-column-17"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
                   >
                     Convex
                      - 
                     Curve.fi renBTC/wBTC/sBTC
-                  </p>
+                  </h6>
                 </div>
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
                   >
                     0.25%
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                    class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
                   >
                     Non-boosted
                   </p>
@@ -1526,40 +1465,40 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-amountsSection-248 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-6-69"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-6-53"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-404"
+            class="MuiBox-root-297 MuiBox-root-374"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             />
           </div>
         </div>
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-407"
+            class="MuiBox-root-297 MuiBox-root-377"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             >
               $-
             </p>
@@ -1567,41 +1506,41 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-actionButtonsMobile-249 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>
@@ -1611,40 +1550,44 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-mobileContainer-252 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
+        class="MuiGrid-root-13 makeStyles-nameAndAprMobile-250 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30"
+            class="MuiGrid-root-13 MuiGrid-container-14"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-grid-xs-auto-46"
               >
-                <img
-                  alt="Badger Badger Vault Symbol"
-                  class="makeStyles-symbol-278"
-                  src="/assets/icons/bbadger-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-291"
+                >
+                  <img
+                    alt="BADGER logo"
+                    class="makeStyles-position-378"
+                    src="/assets/icons/badger.svg"
+                  />
+                </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-grid-xs-7-54"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 />
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 >
                   <span
-                    class="MuiTypography-root-135 makeStyles-behavior-268 MuiTypography-caption-138"
+                    class="MuiTypography-root-119 makeStyles-behavior-243 MuiTypography-caption-122"
                   >
                     DCA
                   </span>
@@ -1652,40 +1595,40 @@ exports[`Landing Renders tablet version correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-vaultNameMobile-283 MuiGrid-container-30 MuiGrid-direction-xs-column-33"
+              class="MuiGrid-root-13 makeStyles-vaultNameMobile-258 MuiGrid-container-14 MuiGrid-direction-xs-column-17"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
                   >
                     Badger
                      - 
                     Badger
-                  </p>
+                  </h6>
                 </div>
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
                   >
                     8.17%
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                    class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
                   >
                     Non-boosted
                   </p>
@@ -1696,40 +1639,40 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-amountsSection-248 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-6-69"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-6-53"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-410"
+            class="MuiBox-root-297 MuiBox-root-381"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             />
           </div>
         </div>
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-413"
+            class="MuiBox-root-297 MuiBox-root-384"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             >
               $-
             </p>
@@ -1737,41 +1680,41 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-actionButtonsMobile-249 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>
@@ -1781,75 +1724,79 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-293 MuiCard-root-292 MuiGrid-root-29 makeStyles-mobileContainer-277 MuiGrid-container-30 MuiPaper-elevation1-297 MuiPaper-rounded-294"
+      class="MuiPaper-root-263 MuiCard-root-262 MuiGrid-root-13 makeStyles-mobileContainer-252 MuiGrid-container-14 MuiPaper-elevation1-267 MuiPaper-rounded-264"
     >
       <div
-        class="MuiGrid-root-29 makeStyles-nameAndAprMobile-275 MuiGrid-container-30 MuiGrid-spacing-xs-2-53"
+        class="MuiGrid-root-13 makeStyles-nameAndAprMobile-250 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-12-75"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-12-59"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-container-30"
+            class="MuiGrid-root-13 MuiGrid-container-14"
           >
             <div
-              class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-align-items-xs-center-38"
+              class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-align-items-xs-center-22"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-grid-xs-5-68 MuiGrid-grid-sm-12-89"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-grid-xs-auto-46"
               >
-                <img
-                  alt="Badger Digg Vault Symbol"
-                  class="makeStyles-symbol-278"
-                  src="/assets/icons/bdigg-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-291"
+                >
+                  <img
+                    alt="DIGG logo"
+                    class="makeStyles-position-385"
+                    src="/assets/icons/digg.svg"
+                  />
+                </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-item-31 MuiGrid-direction-xs-column-33 MuiGrid-grid-xs-7-70"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-direction-xs-column-17 MuiGrid-grid-xs-7-54"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 />
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31"
+                  class="MuiGrid-root-13 MuiGrid-item-15"
                 />
               </div>
             </div>
             <div
-              class="MuiGrid-root-29 makeStyles-vaultNameMobile-283 MuiGrid-container-30 MuiGrid-direction-xs-column-33"
+              class="MuiGrid-root-13 makeStyles-vaultNameMobile-258 MuiGrid-container-14 MuiGrid-direction-xs-column-17"
             >
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
-                  <p
-                    class="MuiTypography-root-135 makeStyles-vaultName-282 MuiTypography-body1-137"
+                  <h6
+                    class="MuiTypography-root-119 makeStyles-vaultName-257 MuiTypography-subtitle1-130"
                   >
                     Badger
                      - 
                     Digg
-                  </p>
+                  </h6>
                 </div>
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-apr-321 MuiTypography-body1-137 MuiTypography-colorTextPrimary-160"
+                    class="MuiTypography-root-119 makeStyles-apr-293 MuiTypography-body1-121 MuiTypography-colorTextPrimary-144"
                   >
                     8.17%
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-item-31"
+                class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
               >
                 <div
-                  class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-7-70"
+                  class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-7-54"
                 >
                   <p
-                    class="MuiTypography-root-135 makeStyles-thinFont-281 MuiTypography-body1-137 MuiTypography-colorTextSecondary-161"
+                    class="MuiTypography-root-119 makeStyles-thinFont-256 MuiTypography-body1-121 MuiTypography-colorTextSecondary-145"
                   >
                     Non-boosted
                   </p>
@@ -1860,40 +1807,40 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-amountsSection-273 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-amountsSection-248 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-6-69"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-6-53"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             TVL: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-416"
+            class="MuiBox-root-297 MuiBox-root-388"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             />
           </div>
         </div>
         <div
-          class="MuiGrid-root-29 MuiGrid-item-31 MuiGrid-grid-xs-true-63"
+          class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
         >
           <p
-            class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137 MuiTypography-displayInline-163"
+            class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121 MuiTypography-displayInline-147"
           >
             My Deposits: 
           </p>
           <div
-            class="MuiBox-root-325 MuiBox-root-419"
+            class="MuiBox-root-297 MuiBox-root-391"
           >
             <p
-              class="MuiTypography-root-135 makeStyles-amountsMobile-276 MuiTypography-body1-137"
+              class="MuiTypography-root-119 makeStyles-amountsMobile-251 MuiTypography-body1-121"
             >
               $-
             </p>
@@ -1901,41 +1848,41 @@ exports[`Landing Renders tablet version correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root-395 makeStyles-divider-272"
+        class="MuiDivider-root-365 makeStyles-divider-247"
       />
       <div
-        class="MuiGrid-root-29 makeStyles-actionButtonsMobile-274 MuiGrid-container-30"
+        class="MuiGrid-root-13 makeStyles-actionButtonsMobile-249 MuiGrid-container-14"
       >
         <div
-          class="MuiGrid-root-29 MuiGrid-container-30 MuiGrid-spacing-xs-2-53 MuiGrid-justify-content-xs-center-47"
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-justify-content-xs-center-31"
         >
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-outlined-338 makeStyles-button-330 MuiButton-outlinedPrimary-339 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-outlined-311 makeStyles-button-303 MuiButton-outlinedPrimary-312 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Deposit
               </span>
             </button>
           </div>
           <div
-            class="MuiGrid-root-29 MuiGrid-item-31"
+            class="MuiGrid-root-13 MuiGrid-item-15"
           >
             <button
-              class="MuiButtonBase-root-206 MuiButton-root-333 MuiButton-contained-341 makeStyles-button-330 MuiButton-containedPrimary-342 MuiButton-disabled-346 WithStyles(ForwardRef(Button))-disabled-332 MuiButtonBase-disabled-207"
+              class="MuiButtonBase-root-182 MuiButton-root-306 MuiButton-contained-314 makeStyles-button-303 MuiButton-containedPrimary-315 MuiButton-disabled-319 WithStyles(ForwardRef(Button))-disabled-305 MuiButtonBase-disabled-183"
               disabled=""
               tabindex="-1"
               type="button"
             >
               <span
-                class="MuiButton-label-334"
+                class="MuiButton-label-307"
               >
                 Withdraw
               </span>

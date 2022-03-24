@@ -16,7 +16,7 @@ import { DepositFeesInformation } from '../DepositFeesInformation';
 import { VaultFees } from '../VaultFees';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import VaultAdvisory from './VaultAdvisory';
-import { Vault, VaultState } from '@badger-dao/sdk';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 export interface VaultModalProps {
 	open?: boolean;
-	vault: Vault;
+	vault: VaultDTO;
 	badgerVault: BadgerVault;
 	onClose: () => void;
 }
@@ -52,8 +52,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 	const store = useContext(StoreContext);
 	const { contracts, user, onboard } = store;
 
-	const shouldCheckAdvisory =
-		badgerVault.depositAdvisory || vault.state === VaultState.Guarded || vault.state === VaultState.Experimental;
+	const shouldCheckAdvisory = badgerVault.depositAdvisory || vault.state === VaultState.Experimental;
 	const [accepted, setAccepted] = useState(!shouldCheckAdvisory);
 	const [showFees, setShowFees] = useState(false);
 	const [amount, setAmount] = useState('');

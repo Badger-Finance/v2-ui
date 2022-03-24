@@ -1,7 +1,0 @@
-fragment Token on Token {
-  id
-  name
-  symbol
-  decimals
-  totalSupply
-}

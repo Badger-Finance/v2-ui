@@ -1,7 +1,6 @@
 import { TransactionData } from 'bnc-notify';
 import { Currency } from 'config/enums/currency.enum';
 import rpc from 'config/rpc.config';
-import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
 import Web3 from 'web3';
 import { createBalancesRequest } from 'web3/config/config-utils';
@@ -10,7 +9,6 @@ import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
 import { NotifyLink } from '../system-config/notifyLink';
 import { BadgerVault } from '../vaults/badger-vault';
-import { AirdropNetworkConfig } from './airdrop-network-config';
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
 import { Network as ChainNetwork, VaultState, TokenConfiguration } from '@badger-dao/sdk';
 import { ContractCallContext } from 'ethereum-multicall';
@@ -30,7 +28,6 @@ export abstract class Network {
 	readonly deploy: DeployConfig;
 	readonly vaults: BadgerVault[];
 	readonly strategies: StrategyNetworkConfig;
-	readonly airdrops: AirdropNetworkConfig[];
 	// TODO: stop gap implementation for API messaging system - remove once available
 	readonly notification?: string;
 	readonly notificationLink?: string;
@@ -57,7 +54,6 @@ export abstract class Network {
 		this.deploy = deploy;
 		this.vaults = this.checksumVaults(setts);
 		this.strategies = getStrategies(symbol);
-		this.airdrops = getAirdrops(symbol);
 		this.notification = notification;
 		this.notificationLink = notificationLink;
 		Network.register(this);

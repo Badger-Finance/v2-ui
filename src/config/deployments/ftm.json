@@ -2,6 +2,8 @@
 	"token": "0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9",
 	"tokens": {
 		"badger": "0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9",
+		"oxsolid": "0xda0053f0befcbcac208a3f867bb243716734d809",
+		"oxd": "0xc5a9848b9d145965d821aaec8fa32aaee026492d",
 		"solidly.boo-xboo": "0x5804f6c40f44cf7593f73cf3aa16f7037213a623",
 		"solidly.wbtc-renbtc": "0x6058345A4D8B89Ddac7042Be08091F91a404B80b",
 		"solidly.wftm-sex": "0xFCEC86aF8774d69e2e4412B8De3f4aBf1f671ecC",
@@ -32,7 +34,9 @@
 			"native.wftm-scream-eco": "0x77e803F7d0B6d85731F68CfE1f1CA4c48de105F4",
 			"native.wftm-renbtc-eco": "0x609A51e13fd0896c0c02f0B642756533b29f36Ab",
 			"native.wftm-tomb-eco": "0x3f96f8cA67AcDE9041AD62125C5a4D062b07872c",
-			"native.geist-g3crv": "0x02330E37fcc7C27eB4632b3E31b951fDE5126c48"
+			"native.geist-g3crv": "0x02330E37fcc7C27eB4632b3E31b951fDE5126c48",
+			"native.oxd": "0xFf811afF09bf6E6380d266B0e419Ba892721ef0f",
+			"native.oxsolid": "0x1751A6092AAa8325a190de959C0fD79247B35F70"
 		},
 		"strategies": {
 			"native.wbtc-renbtc": "0x711555f2b421da9a86a18dc163d04699310fe297",
@@ -49,7 +53,9 @@
 			"native.wftm-scream-eco": "0x560A990090eE872c85Df8641e90A1DC66E9D0988",
 			"native.wftm-renbtc-eco": "0xdD2f894375CdC8E4E574F0ccB9B65D617CEafee5",
 			"native.wftm-tomb-eco": "0x7EC44d9143c4A38908E5be4f7c6331f5805715D2",
-			"native.geist-g3crv": "0x24766758465f8d27395EBa4A8bD016cbC3C3978B"
+			"native.geist-g3crv": "0x24766758465f8d27395EBa4A8bD016cbC3C3978B",
+			"native.oxd": "0x0000000000000000000000000000000000000000",
+			"native.oxsolid": "0x0000000000000000000000000000000000000000"
 		}
 	},
 	"badgerTree": "0x89122c767a5f543e663db536b603123225bc3823"

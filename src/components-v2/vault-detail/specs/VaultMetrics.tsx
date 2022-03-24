@@ -4,11 +4,11 @@ import { StyledDivider } from '../styled';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
-import { inCurrency } from '../../../mobx/utils/helpers';
+import { inCurrency, numberWithCommas } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import { Skeleton } from '@material-ui/lab';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 }
 
 const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
@@ -104,7 +104,7 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 				{vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && shownBalance && (
 					<div className={classes.submetric}>
 						<Typography variant="body1" className={classes.submetricValue}>
-							{shownBalance?.balanceDisplay(5)}
+							{numberWithCommas(shownBalance.balanceDisplay(5))}
 							{/* TODO: replace w/ api values once available */}
 							{/* vault.available.toFixed(4) */}
 						</Typography>

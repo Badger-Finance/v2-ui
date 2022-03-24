@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
-		background: theme.palette.secondary.main,
+		background: '#121212',
 	},
 	darkActions: {
-		background: theme.palette.secondary.main,
+		background: '#121212',
 	},
 	claim: {
 		display: 'flex',
@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
 const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
-		vaults: { settMap },
+		vaults: { vaultMap },
 		uiState: { currency },
 		rebase: { rebase },
 		onboard,
@@ -136,7 +136,7 @@ const Info = observer(() => {
 		return <NoWallet message="Connect wallet to see DIGG rebase statistics." />;
 	}
 
-	if (!rebase || !settMap) {
+	if (!rebase || !vaultMap) {
 		return <Loader message="Loading DIGG data..." />;
 	}
 
@@ -163,7 +163,7 @@ const Info = observer(() => {
 	const rebaseStyle = { color: pickRebaseOption('#5efc82', 'red', 'inherit') };
 	const sign = pickRebaseOption('+', '');
 	const rebaseDisplay = `${sign}${rebasePercent.toFixed(6)}%`;
-	const ppfs = settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].pricePerFullShare;
+	const ppfs = vaultMap[ETH_DEPLOY.sett_system.vaults['native.digg']].pricePerFullShare;
 
 	const invalidTwap = (
 		<div className={classes.twapTooltip}>

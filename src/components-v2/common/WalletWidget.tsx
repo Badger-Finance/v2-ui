@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import useENS from 'hooks/useEns';
@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	walletButtonLabel: {
 		textTransform: 'none',
-		fontWeight: 500,
 	},
 }));
 
@@ -29,7 +28,6 @@ const WalletWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { onboard, uiState } = store;
-	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
 	async function connect(): Promise<void> {
 		if (onboard.isActive()) {
@@ -50,8 +48,8 @@ const WalletWidget = observer(() => {
 	return (
 		<Button
 			disableElevation
-			color={isMobile ? 'primary' : 'default'}
-			variant={isMobile ? 'text' : 'outlined'}
+			color="primary"
+			variant={onboard.isActive() ? 'outlined' : 'contained'}
 			onClick={connect}
 			classes={{ label: classes.walletButtonLabel }}
 		>

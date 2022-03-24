@@ -5,6 +5,7 @@ import clsx from 'clsx';
 
 import { VaultTokenBalance } from '../../../mobx/model/vaults/vault-token-balance';
 import { numberWithCommas } from '../../../mobx/utils/helpers';
+import TokenLogo from '../../TokenLogo';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -20,14 +21,9 @@ const useStyles = makeStyles((theme) => ({
 	tokenName: {
 		marginLeft: theme.spacing(1),
 	},
-	tokenImageContainer: {
+	tokenImage: {
 		width: 16,
 		height: 16,
-		display: 'inline',
-		alignItems: 'center',
-	},
-	tokenImage: {
-		width: '100%',
 	},
 }));
 
@@ -37,18 +33,13 @@ interface Props {
 
 export const VaultToken = ({ token }: Props): JSX.Element => {
 	const classes = useStyles();
-
-	const iconName = token.symbol.toLowerCase().trim();
-	const icon = `/assets/icons/${iconName}.png`;
 	const decimalsAmount = token.balance > 1 ? 0 : 4;
 	const balanceDisplay = token.balance.toFixed(decimalsAmount);
 
 	return (
 		<Grid className={classes.tokenSpec} container justifyContent="space-between">
 			<Box display="flex" alignItems="center">
-				<div className={classes.tokenImageContainer}>
-					<img className={classes.tokenImage} src={icon} alt={`${token.name} icon`} />
-				</div>
+				<TokenLogo className={classes.tokenImage} token={token} />
 				<Typography
 					display="inline"
 					color="textSecondary"

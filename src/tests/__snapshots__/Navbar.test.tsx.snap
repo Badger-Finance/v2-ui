@@ -1,0 +1,882 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar Renders correctly 1`] = `
+<div>
+  <div
+    class="makeStyles-root-1"
+  >
+    <div
+      class="MuiContainer-root-7 WithStyles(ForwardRef(Container))-root-6 MuiContainer-maxWidthLg-13"
+    >
+      <div
+        class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-align-items-xs-center-26 MuiGrid-justify-content-xs-space-between-37"
+      >
+        <div
+          class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-align-items-xs-center-26 MuiGrid-grid-xs-9-60 MuiGrid-grid-md-8-87 MuiGrid-grid-lg-9-102"
+        >
+          <div
+            class="MuiGrid-root-17 makeStyles-badgerIconContainer-15 MuiGrid-item-19"
+          >
+            <img
+              alt="Badger Logo"
+              class="makeStyles-badgerIcon-16"
+              src="/assets/icons/badger_head.svg"
+            />
+          </div>
+          <div
+            class="MuiGrid-root-17 MuiGrid-item-19 MuiGrid-grid-xs-true-51"
+          >
+            <div
+              class="MuiGrid-root-17 makeStyles-root-120 MuiGrid-container-18"
+              id="here-ref"
+            >
+              <div
+                class="MuiGrid-root-17 MuiGrid-item-19"
+              >
+                <span
+                  class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+                >
+                  BADGER Price:  
+                </span>
+                <div
+                  class="MuiBox-root-157 MuiBox-root-158"
+                >
+                  <span
+                    class="MuiTypography-root-125 makeStyles-helperText-124"
+                  >
+                    $346,976.00
+                  </span>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-17 MuiGrid-item-19"
+              >
+                <span
+                  class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+                >
+                  Cycle: 
+                  ...
+                    
+                  (latest 0h 0m)
+                </span>
+              </div>
+              <div
+                class="MuiGrid-root-17 MuiGrid-item-19"
+              >
+                <span
+                  class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+                >
+                  Ethereum
+                   TVL:  
+                </span>
+                <div
+                  class="MuiBox-root-157 MuiBox-root-161"
+                >
+                  <span
+                    class="MuiTypography-root-125 makeStyles-helperText-124"
+                  >
+                    $4,337,200,000
+                  </span>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-17 makeStyles-assets-122 MuiGrid-item-19"
+              >
+                <span
+                  class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+                >
+                  My Assets:  
+                </span>
+                <div
+                  class="MuiBox-root-157 MuiBox-root-164"
+                >
+                  <span
+                    class="MuiTypography-root-125 makeStyles-helperText-124"
+                  >
+                    $4,337,200.00
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-justify-content-xs-flex-end-36 MuiGrid-grid-xs-true-51"
+        >
+          <div
+            class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-align-items-xs-center-26 MuiGrid-justify-content-xs-flex-end-36"
+          >
+            <div
+              class="MuiGrid-root-17 makeStyles-iconContainer-166 MuiGrid-item-19"
+            >
+              <img
+                alt="Discord Icon"
+                class="makeStyles-socialIcon-165"
+                src="/assets/icons/discord.svg"
+              />
+            </div>
+            <div
+              class="MuiGrid-root-17 makeStyles-iconContainer-166 makeStyles-twitter-167 MuiGrid-item-19"
+            >
+              <img
+                alt="Twitter Icon"
+                class="makeStyles-socialIcon-165"
+                src="/assets/icons/twitter.svg"
+              />
+            </div>
+            <div
+              class="MuiGrid-root-17 MuiGrid-item-19"
+            >
+              <span
+                class="MuiTypography-root-125 makeStyles-helperText-124"
+              >
+                <a
+                  class="MuiTypography-root-125 MuiLink-root-169 MuiLink-underlineHover-171 MuiTypography-colorInherit-147"
+                  href="https://docs.badger.com/"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  DOCS
+                </a>
+              </span>
+            </div>
+            <div
+              class="MuiGrid-root-17 makeStyles-governance-168 MuiGrid-item-19"
+            >
+              <span
+                class="MuiTypography-root-125 makeStyles-helperText-124"
+              >
+                <a
+                  class="MuiTypography-root-125 MuiLink-root-169 MuiLink-underlineHover-171 MuiTypography-colorInherit-147"
+                  href="https://snapshot.org/#/badgerdao.eth"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  GOVERNANCE
+                </a>
+              </span>
+            </div>
+            <div
+              class="MuiGrid-root-17 MuiGrid-item-19"
+            >
+              <span
+                class="MuiTypography-root-125 makeStyles-helperText-124"
+              >
+                <a
+                  class="MuiTypography-root-125 MuiLink-root-169 MuiLink-underlineHover-171 MuiTypography-colorInherit-147"
+                  href="https://forum.badger.finance"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  FORUM
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="makeStyles-actions-2"
+      >
+        <div
+          class="MuiGrid-root-17 MuiGrid-container-18"
+        >
+          <div
+            class="MuiGrid-root-17 MuiGrid-item-19 MuiGrid-grid-xs-auto-50"
+          >
+            <div
+              class="MuiTabs-root-177"
+            >
+              <div
+                class="MuiTabs-scroller-182 MuiTabs-fixed-183"
+                style="overflow: hidden;"
+              >
+                <div
+                  class="MuiTabs-flexContainer-179"
+                  role="tablist"
+                >
+                  <button
+                    aria-selected="true"
+                    class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191 MuiTab-selected-193"
+                    role="tab"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiTab-wrapper-197"
+                    >
+                      VAULTS
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-262"
+                    />
+                  </button>
+                  <button
+                    aria-selected="false"
+                    class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191"
+                    role="tab"
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <span
+                      class="MuiTab-wrapper-197"
+                    >
+                      DIGG
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-262"
+                    />
+                  </button>
+                  <button
+                    aria-selected="false"
+                    class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191"
+                    role="tab"
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <span
+                      class="MuiTab-wrapper-197"
+                    >
+                      BOOST
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-262"
+                    />
+                  </button>
+                  <button
+                    aria-selected="false"
+                    class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191"
+                    role="tab"
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <span
+                      class="MuiTab-wrapper-197"
+                    >
+                      IBBTC
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-262"
+                    />
+                  </button>
+                </div>
+                <span
+                  class="PrivateTabIndicator-root-201 PrivateTabIndicator-colorPrimary-202 MuiTabs-indicator-187 makeStyles-indicator-176"
+                  style="left: 0px; width: 0px;"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-grid-xs-true-51"
+          >
+            <div
+              class="MuiGrid-root-17 makeStyles-root-205 MuiGrid-container-18 MuiGrid-justify-content-xs-flex-end-36"
+            >
+              <div
+                class="MuiGrid-root-17 MuiGrid-item-19"
+              >
+                <button
+                  class="MuiButtonBase-root-198 MuiButton-root-209 MuiButton-outlined-214 makeStyles-button-206 makeStyles-loadingRewardsButton-208 MuiButton-outlinedPrimary-215"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-210"
+                  >
+                    <div
+                      class="makeStyles-loaderContainer-238 makeStyles-customSizing-240"
+                    >
+                      <div
+                        class="MuiCircularProgress-root-241 MuiCircularProgress-colorPrimary-245 MuiCircularProgress-indeterminate-243"
+                        role="progressbar"
+                        style="width: 15px; height: 15px;"
+                      >
+                        <svg
+                          class="MuiCircularProgress-svg-247"
+                          viewBox="22 22 44 44"
+                        >
+                          <circle
+                            class="MuiCircularProgress-circle-248 MuiCircularProgress-circleIndeterminate-250"
+                            cx="44"
+                            cy="44"
+                            fill="none"
+                            r="20.2"
+                            stroke-width="3.6"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-262"
+                  />
+                </button>
+              </div>
+              <div
+                class="MuiGrid-root-17 MuiGrid-item-19"
+              >
+                <div>
+                  <button
+                    aria-label="open network selector"
+                    class="MuiButtonBase-root-198 MuiButton-root-209 MuiButton-outlined-214 makeStyles-networkButton-255 MuiButton-outlinedPrimary-215"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiButton-label-210"
+                    >
+                      <img
+                        alt="selected network icon"
+                        class="makeStyles-selectedNetworkIcon-256"
+                        src="/assets/icons/ethereum-network.svg"
+                      />
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-262"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-17 MuiGrid-item-19"
+              >
+                <button
+                  class="MuiButtonBase-root-198 MuiButton-root-209 MuiButton-outlined-214 MuiButton-outlinedPrimary-215 MuiButton-disableElevation-220"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-210 makeStyles-walletButtonLabel-261"
+                  >
+                    0x1..a1a
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-262"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Navbar Renders mobile version correctly 1`] = `
+<div>
+  <div
+    class="makeStyles-root-1"
+  >
+    <div
+      class="makeStyles-mobileRow-3"
+    >
+      <div
+        class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-justify-content-xs-space-between-37"
+      >
+        <div
+          class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-align-items-xs-center-26 MuiGrid-grid-xs-true-51"
+        >
+          <button
+            class="MuiButtonBase-root-198 MuiIconButton-root-265 makeStyles-menuIcon-262"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label-273"
+            >
+              <img
+                alt="open menu"
+                src="/assets/icons/mobile-drawer-icon.svg"
+              />
+            </span>
+            <span
+              class="MuiTouchRipple-root-290"
+            />
+          </button>
+          <img
+            alt="Badger Logo"
+            class="makeStyles-badgerIcon-263"
+            src="/assets/icons/badger_head.svg"
+          />
+        </div>
+        <div
+          class="MuiGrid-root-17 makeStyles-buttons-264 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
+        >
+          <div
+            class="MuiGrid-root-17 MuiGrid-item-19"
+          >
+            <div>
+              <button
+                aria-label="open network selector"
+                class="MuiButtonBase-root-198 MuiButton-root-209 MuiButton-outlined-214 makeStyles-networkButton-255 MuiButton-outlinedPrimary-215"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label-210"
+                >
+                  <img
+                    alt="selected network icon"
+                    class="makeStyles-selectedNetworkIcon-256"
+                    src="/assets/icons/ethereum-network.svg"
+                  />
+                </span>
+                <span
+                  class="MuiTouchRipple-root-290"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-17 MuiGrid-item-19"
+          >
+            <button
+              class="MuiButtonBase-root-198 MuiButton-root-209 MuiButton-outlined-214 MuiButton-outlinedPrimary-215 MuiButton-disableElevation-220"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label-210 makeStyles-walletButtonLabel-261"
+              >
+                0x1..a1a
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="MuiDivider-root-274"
+    />
+    <div
+      class="makeStyles-mobileRow-3 makeStyles-mobileStats-4"
+    >
+      <div
+        class="MuiGrid-root-17 makeStyles-root-120 MuiGrid-container-18"
+        id="here-ref"
+      >
+        <div
+          class="MuiGrid-root-17 MuiGrid-item-19"
+        >
+          <span
+            class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+          >
+            BADGER Price:  
+          </span>
+          <div
+            class="MuiBox-root-157 MuiBox-root-283"
+          >
+            <span
+              class="MuiTypography-root-125 makeStyles-helperText-124"
+            >
+              $346,976.00
+            </span>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-17 MuiGrid-item-19"
+        >
+          <span
+            class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+          >
+            Cycle: 
+            ...
+              
+            (latest 0h 0m)
+          </span>
+        </div>
+        <div
+          class="MuiGrid-root-17 MuiGrid-item-19"
+        >
+          <span
+            class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+          >
+            Ethereum
+             TVL:  
+          </span>
+          <div
+            class="MuiBox-root-157 MuiBox-root-286"
+          >
+            <span
+              class="MuiTypography-root-125 makeStyles-helperText-124"
+            >
+              $4,337,200,000
+            </span>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-17 makeStyles-assets-122 MuiGrid-item-19"
+        >
+          <span
+            class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+          >
+            My Assets:  
+          </span>
+          <div
+            class="MuiBox-root-157 MuiBox-root-289"
+          >
+            <span
+              class="MuiTypography-root-125 makeStyles-helperText-124"
+            >
+              $4,337,200.00
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="MuiDivider-root-274"
+    />
+    <div
+      class="makeStyles-mobileTabs-5"
+    >
+      <div
+        class="MuiTabs-root-177"
+      >
+        <div
+          class="MuiTabs-scroller-182 MuiTabs-fixed-183"
+          style="overflow: hidden;"
+        >
+          <div
+            class="MuiTabs-flexContainer-179"
+            role="tablist"
+          >
+            <button
+              aria-selected="true"
+              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191 MuiTab-selected-193 MuiTab-fullWidth-195"
+              role="tab"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper-197"
+              >
+                VAULTS
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+            <button
+              aria-selected="false"
+              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191 MuiTab-fullWidth-195"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper-197"
+              >
+                DIGG
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+            <button
+              aria-selected="false"
+              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191 MuiTab-fullWidth-195"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper-197"
+              >
+                BOOST
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+            <button
+              aria-selected="false"
+              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191 MuiTab-fullWidth-195"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper-197"
+              >
+                IBBTC
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+          </div>
+          <span
+            class="PrivateTabIndicator-root-201 PrivateTabIndicator-colorPrimary-202 MuiTabs-indicator-187 makeStyles-indicator-176"
+            style="left: 0px; width: 0px;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Navbar Renders tablet version correctly 1`] = `
+<div>
+  <div
+    class="makeStyles-root-1"
+  >
+    <div
+      class="makeStyles-mobileRow-3"
+    >
+      <div
+        class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-justify-content-xs-space-between-37"
+      >
+        <div
+          class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-align-items-xs-center-26 MuiGrid-grid-xs-true-51"
+        >
+          <button
+            class="MuiButtonBase-root-198 MuiIconButton-root-265 makeStyles-menuIcon-262"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label-273"
+            >
+              <img
+                alt="open menu"
+                src="/assets/icons/mobile-drawer-icon.svg"
+              />
+            </span>
+            <span
+              class="MuiTouchRipple-root-290"
+            />
+          </button>
+          <img
+            alt="Badger Logo"
+            class="makeStyles-badgerIcon-263"
+            src="/assets/icons/badger_head.svg"
+          />
+        </div>
+        <div
+          class="MuiGrid-root-17 makeStyles-buttons-264 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
+        >
+          <div
+            class="MuiGrid-root-17 MuiGrid-item-19"
+          >
+            <div>
+              <button
+                aria-label="open network selector"
+                class="MuiButtonBase-root-198 MuiButton-root-209 MuiButton-outlined-214 makeStyles-networkButton-255 MuiButton-outlinedPrimary-215"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label-210"
+                >
+                  <img
+                    alt="selected network icon"
+                    class="makeStyles-selectedNetworkIcon-256"
+                    src="/assets/icons/ethereum-network.svg"
+                  />
+                </span>
+                <span
+                  class="MuiTouchRipple-root-290"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-17 MuiGrid-item-19"
+          >
+            <button
+              class="MuiButtonBase-root-198 MuiButton-root-209 MuiButton-outlined-214 MuiButton-outlinedPrimary-215 MuiButton-disableElevation-220"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label-210 makeStyles-walletButtonLabel-261"
+              >
+                0x1..a1a
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="MuiDivider-root-274"
+    />
+    <div
+      class="makeStyles-mobileRow-3 makeStyles-mobileStats-4"
+    >
+      <div
+        class="MuiGrid-root-17 makeStyles-root-120 MuiGrid-container-18"
+        id="here-ref"
+      >
+        <div
+          class="MuiGrid-root-17 MuiGrid-item-19"
+        >
+          <span
+            class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+          >
+            BADGER Price:  
+          </span>
+          <div
+            class="MuiBox-root-157 MuiBox-root-283"
+          >
+            <span
+              class="MuiTypography-root-125 makeStyles-helperText-124"
+            >
+              $346,976.00
+            </span>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-17 MuiGrid-item-19"
+        >
+          <span
+            class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+          >
+            Cycle: 
+            ...
+              
+            (latest 0h 0m)
+          </span>
+        </div>
+        <div
+          class="MuiGrid-root-17 MuiGrid-item-19"
+        >
+          <span
+            class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+          >
+            Ethereum
+             TVL:  
+          </span>
+          <div
+            class="MuiBox-root-157 MuiBox-root-286"
+          >
+            <span
+              class="MuiTypography-root-125 makeStyles-helperText-124"
+            >
+              $4,337,200,000
+            </span>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-17 makeStyles-assets-122 MuiGrid-item-19"
+        >
+          <span
+            class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
+          >
+            My Assets:  
+          </span>
+          <div
+            class="MuiBox-root-157 MuiBox-root-289"
+          >
+            <span
+              class="MuiTypography-root-125 makeStyles-helperText-124"
+            >
+              $4,337,200.00
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="MuiDivider-root-274"
+    />
+    <div
+      class="makeStyles-mobileTabs-5"
+    >
+      <div
+        class="MuiTabs-root-177"
+      >
+        <div
+          class="MuiTabs-scroller-182 MuiTabs-fixed-183"
+          style="overflow: hidden;"
+        >
+          <div
+            class="MuiTabs-flexContainer-179"
+            role="tablist"
+          >
+            <button
+              aria-selected="true"
+              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191 MuiTab-selected-193"
+              role="tab"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper-197"
+              >
+                VAULTS
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+            <button
+              aria-selected="false"
+              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper-197"
+              >
+                DIGG
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+            <button
+              aria-selected="false"
+              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper-197"
+              >
+                BOOST
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+            <button
+              aria-selected="false"
+              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper-197"
+              >
+                IBBTC
+              </span>
+              <span
+                class="MuiTouchRipple-root-290"
+              />
+            </button>
+          </div>
+          <span
+            class="PrivateTabIndicator-root-201 PrivateTabIndicator-colorPrimary-202 MuiTabs-indicator-187 makeStyles-indicator-176"
+            style="left: 0px; width: 0px;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

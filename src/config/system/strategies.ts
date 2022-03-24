@@ -165,6 +165,24 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					userGuide:
 						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-geist-g3crv-lp',
 				},
+				[fantomDeploy.sett_system.vaults['native.oxd']]: {
+					address: fantomDeploy.sett_system.strategies['native.oxd'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.strategistPerformance]: new BigNumber(0),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxd',
+				},
+				[fantomDeploy.sett_system.vaults['native.oxsolid']]: {
+					address: fantomDeploy.sett_system.strategies['native.oxsolid'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.strategistPerformance]: new BigNumber(0),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxsolid',
+				},
 			};
 		case Network.Avalanche:
 			return {
@@ -689,6 +707,18 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					depositLink: 'https://curve.fi/factory/60/deposit',
 					userGuide:
 						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/ibbtc-sbtc-curve-lp',
+				},
+				[ethDeploy.sett_system.vaults['native.badgerCrv']]: {
+					address: ethDeploy.sett_system.strategies['native.badgerCrv'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(50),
+					},
+					// TODO: update strategy link
+					// strategyLink: 'https://badger.wiki/strategies#82d72e94cb3b49f0836d8197ad13bc36',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-badger-wbtc',
+					depositLink: 'https://curve.fi/factory-crypto/4/deposit',
 				},
 			};
 	}

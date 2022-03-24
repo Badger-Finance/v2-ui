@@ -1,4 +1,4 @@
-import { Vault, VaultData } from '@badger-dao/sdk';
+import { VaultDTO, VaultData } from '@badger-dao/sdk';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { ChartMode } from '../../mobx/model/vaults/vault-charts';
@@ -29,7 +29,7 @@ export const calculateDifferenceInHoursFromCycle = (cycle: Date): number => {
 	return Math.abs(dayjs(cycle).diff(dayjs(), 'hours'));
 };
 
-export function defaultVaultBalance(vault: Vault): VaultData {
+export function defaultVaultBalance(vault: VaultDTO): VaultData {
 	return {
 		address: vault.vaultToken,
 		name: vault.name,

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 const useStyles = makeStyles({
 	button: {
 		'&:hover': {
-			background: 'rgba(255, 255, 255, 0.15)',
+			background: '#545454',
 		},
 		'&:disabled': {
 			color: 'rgba(255, 255, 255, 0.15)',
@@ -18,10 +18,11 @@ interface CustomMenuItemProps extends ListItemProps {
 	button?: any;
 }
 
-const MenuItem = (props: CustomMenuItemProps): JSX.Element => {
+const MenuItem = React.forwardRef<HTMLLIElement, CustomMenuItemProps>((props, ref) => {
 	const classes = useStyles();
 	return (
 		<ListItem
+			ref={ref}
 			{...props}
 			classes={{
 				...(props.classes ?? {}),
@@ -31,6 +32,6 @@ const MenuItem = (props: CustomMenuItemProps): JSX.Element => {
 			{props.children}
 		</ListItem>
 	);
-};
+});
 
 export default MenuItem;

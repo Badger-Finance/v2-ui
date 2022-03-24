@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.4 70.4"><defs><style>.cls-1{fill:#87888c;}</style></defs><title>renBTC</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="All"><g id="Artboard"><path id="Fill-1-Copy-3-Copy" class="cls-1" d="M42.66,30.12c-1.08,4.36-7.81,2.14-10,1.6L34.6,24c2.18.54,9.2,1.56,8.06,6.11M41.47,42.56c-1.19,4.8-9.27,2.2-11.89,1.55l2.12-8.5c2.62.65,11,2,9.77,7m8.82-12.37C51,25.5,47.43,23,42.55,21.3L44.13,15l-3.86-1-1.54,6.17c-1-.25-2.06-.49-3.09-.72l1.55-6.22-3.86-1-1.59,6.34c-.84-.19-1.66-.38-2.46-.58v0L24,16.68l-1,4.12s2.86.66,2.8.7a2.05,2.05,0,0,1,1.8,2.25L25.73,31a2.16,2.16,0,0,1,.4.12l-.41-.1L23.2,41.13a1.41,1.41,0,0,1-1.77.92c0,.05-2.81-.71-2.81-.71L16.7,45.77l5,1.25c.94.23,1.85.48,2.75.71l-1.59,6.42,3.85,1,1.59-6.35c1,.28,2.05.54,3.07.8l-1.57,6.32,3.86,1,1.6-6.41c6.58,1.25,11.54.75,13.62-5.21,1.68-4.79-.08-7.56-3.55-9.36,2.53-.59,4.43-2.25,4.93-5.67m20.11,5A35.2,35.2,0,1,1,35.2,0,35.2,35.2,0,0,1,70.4,35.2"/></g></g></g></g></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <circle cx="16" cy="16" r="16" fill="url(#paint0_radial_3092_165621)"/>
+    <mask id="mask0_3092_165621" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="5" y="5" width="22" height="22">
+        <circle cx="16" cy="16" r="11" fill="#C4C4C4"/>
+    </mask>
+    <g mask="url(#mask0_3092_165621)">
+        <rect width="32" height="32" rx="16" fill="url(#pattern0)"/>
+    </g>
+    <defs>
+        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+            <use xlink:href="#image0_3092_165621" transform="scale(0.015625)"/>
+        </pattern>
+        <radialGradient id="paint0_radial_3092_165621" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(16 16) rotate(90) scale(53)">
+            <stop stop-color="#050505"/>
+            <stop offset="0.265625" stop-color="#343434"/>
+            <stop offset="0.458333" stop-color="#E6E6E6" stop-opacity="0"/>
+        </radialGradient>
+        <image id="image0_3092_165621" width="64" height="64" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAATlBMVEXzqQEKCw4ICQsVFhobHCANDhIYGR0TFBgPEBQFBQcfHyI8PD1DQ0TtpQIzMzK8hwtCNxyEYRLGjQlqVy6UcSB7XyBeSRjbmwdVSjCwgBOqmEdNAAADtklEQVRYw32Y2ZajMAxEFUKTsBizQ/7/R8eb7JIxo9MP6enUtVQ2RhpqU1QmXi7+OL4m4i9//o/mWyAioUfxV8YTgmB1B0DxJwRCIqESAJa/WP65RUwjEEIWJKqX8neMxAACZAD6KLe6JkSEQB1cBSV9WD7ImzwEgsuIAKHntesUEhFziICYf1wdxF1iOAQSLCDWz8sHeSciMDiJRKBYQNJH+XTs87wfU2SkJJjQUjTA6/3yVjwvikKoZZ4iIiNQQW++emjKQh83gtsKyvR+9ZvcISaH8IRvIDDAGfAO6c+KiqFmQfBFUErgHRL40WNoJqQiKCQQ9eNC/4lljISQAvkEkgH/1RuCd5KLCIBoQNdl9i1TbojOUiAswPiXLbiNo1LHfMI/zYKQAC6BCZZzorVfTd3CF2V2E3x0gOCAKECN47otfb/R1vfquQjyFvoEDuG3jb7ftc1CxMEpBABXIB08f2vvwkLOJx8BYB3IHFz7YRgMYujHXRQxQQ0e8HaAfAtWo99+22Ug4yQ3AgFpD8QZUqRsAqYqtZk8xis/TTdA1ymnCz/ma0Y/uE+GMIxnJJPygDcCChZYmff/Z61YglqagICjZIH7tFszVXEjEbDzEv6rylYwXPu2ud0QZ2FOJwEAs7CQ9ODD7qMBnYiHbXgAsAV2E23Ic/CQAZegpAXL6ghcmDelCJAmulOwRA/HH5ZXMNEQYBvVSbrnU0CndWJPm1jcxnCQFN8jl7UuOH9aJ3EXSgfJAOolVnnZB3noV229V6sFbOkckq478TB98ofp3K/wKI/XdY3u41LeBHyc0QRzHVzhNvD6XV5qhfvAEjT4ZK/DLdwpxgEF50j7m/3DgHil1biRavTX4W/b902TfBLwTnxlKXAS7i6+XYfuRqs7TgAB3oV03PTVK5eFeECUcIDfC5CCfKDOC94IXMRcd/huI/lurbNX8ymecHe51NmrrZIpdHjxFF+uNb7fHUC+3p9ez0ro4fVeZYTaNxjpuVCQ0K+DAkKDwYBEaJ5bHO4WU4NS+TYvI3CTJdIwTVamB8CL27RAaLDN86dYH01oeEFvxNTKRjF0mk0jGk09Tw02u9DrUlsm2KVSq9uwXLbbvlduodn9cq+fevxG/Jq367d2/2FcwIFBTBw4cCRCRDSobt53PQPa28iEExNPTZ9PQS+HrtvUlc9tcmyrYOxrs7mvMDdGudDLyfUZkUbXOPxW2ejbQhn3yVmsjvps+Mbh/T55BzXKEVClMsR/APzd1XHyNvEPjplV/f/Xx6QAAAAASUVORK5CYII="/>
+    </defs>
+</svg>

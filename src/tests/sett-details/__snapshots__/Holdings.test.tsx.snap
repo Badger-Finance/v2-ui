@@ -55,11 +55,15 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
               <div
                 class="makeStyles-logoContainer-139"
               >
-                <img
-                  alt="Total Deposited holdings"
-                  class="makeStyles-logo-140"
-                  src="/assets/icons/bsbtccrv-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-201"
+                >
+                  <img
+                    alt="curve-renBTC-wBTC-sBTC logo"
+                    class="makeStyles-position-202"
+                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                  />
+                </div>
               </div>
               <div>
                 <h5
@@ -99,16 +103,20 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
             class="MuiGrid-root-3 makeStyles-amountsContainer-141 MuiGrid-container-4"
           >
             <div
-              class="MuiBox-root-199 MuiBox-root-201 makeStyles-amountText-142"
+              class="MuiBox-root-199 MuiBox-root-203 makeStyles-amountText-142"
             >
               <div
                 class="makeStyles-logoContainer-139"
               >
-                <img
-                  alt="Total Earned holdings"
-                  class="makeStyles-logo-140"
-                  src="/assets/icons/bsbtccrv-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-201"
+                >
+                  <img
+                    alt="curve-renBTC-wBTC-sBTC logo"
+                    class="makeStyles-position-204"
+                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                  />
+                </div>
               </div>
               <div>
                 <h5
@@ -186,11 +194,15 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
               <div
                 class="makeStyles-logoContainer-139"
               >
-                <img
-                  alt="Total Deposited holdings"
-                  class="makeStyles-logo-140"
-                  src="/assets/icons/bsbtccrv-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-201"
+                >
+                  <img
+                    alt="curve-renBTC-wBTC-sBTC logo"
+                    class="makeStyles-position-202"
+                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                  />
+                </div>
               </div>
               <div>
                 <h5
@@ -230,16 +242,20 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
             class="MuiGrid-root-3 makeStyles-amountsContainer-141 MuiGrid-container-4"
           >
             <div
-              class="MuiBox-root-199 MuiBox-root-201 makeStyles-amountText-142"
+              class="MuiBox-root-199 MuiBox-root-203 makeStyles-amountText-142"
             >
               <div
                 class="makeStyles-logoContainer-139"
               >
-                <img
-                  alt="Total Earned holdings"
-                  class="makeStyles-logo-140"
-                  src="/assets/icons/bsbtccrv-ethereum.svg"
-                />
+                <div
+                  class="makeStyles-root-201"
+                >
+                  <img
+                    alt="curve-renBTC-wBTC-sBTC logo"
+                    class="makeStyles-position-204"
+                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                  />
+                </div>
               </div>
               <div>
                 <h5

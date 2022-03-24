@@ -4,7 +4,6 @@ import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { StoreContext } from '../../mobx/store-context';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
 import {
-	Avatar,
 	Box,
 	Button,
 	Dialog,
@@ -37,6 +36,7 @@ import { ReportProblem } from '@material-ui/icons';
 import { BalanceNamespace } from '../../web3/config/namespaces';
 import clsx from 'clsx';
 import { StrategyFees } from '../common/StrategyFees';
+import VaultLogo from '../landing/VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -324,12 +324,12 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 					</Grid>
 				) : (
 					<Grid container direction="column">
-						<Grid item>
-							<Avatar
-								className={classes.avatar}
-								src="/assets/icons/bcrvibbtc.png"
-								alt="ibbtc curve lp vault"
-							/>
+						<Grid item container>
+							{lpVault && (
+								<Box marginRight={2}>
+									<VaultLogo tokens={lpVault.tokens} />
+								</Box>
+							)}
 							<Box display="inline-block">
 								<Typography variant="body1">RenBTC / wBTC/ ibBTC LP</Typography>
 								<Typography variant="body1">Convex</Typography>

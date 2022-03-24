@@ -4,13 +4,13 @@ import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
 import { customRender, screen, fireEvent } from '../Utils';
 import { Redeem } from '../../components/IbBTC/Redeem';
-import Header from '../../components/Header';
-import { Snackbar } from '../../components/Snackbar';
+import { SnackbarProvider } from '../../components/Snackbar';
 import IbBTCStore from '../../mobx/stores/ibBTCStore';
 import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { TransactionRequestResult } from '../../mobx/utils/web3';
+import SnackbarManager from '../../components-v2/common/SnackbarManager';
 
 describe('ibBTC Redeem', () => {
 	beforeEach(() => {
@@ -111,10 +111,11 @@ describe('ibBTC Redeem', () => {
 
 			customRender(
 				<StoreProvider value={store}>
-					<Snackbar>
-						<Header />
-						<Redeem />
-					</Snackbar>
+					<SnackbarProvider>
+						<SnackbarManager>
+							<Redeem />
+						</SnackbarManager>
+					</SnackbarProvider>
 				</StoreProvider>,
 			);
 

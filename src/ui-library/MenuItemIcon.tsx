@@ -4,7 +4,6 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles({
 	root: {
-		marginRight: 36,
 		minWidth: 0,
 	},
 });
