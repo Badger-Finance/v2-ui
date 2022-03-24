@@ -18,7 +18,8 @@ const useStyles = makeStyles({
 function getLogoStyles(logoPosition: number, totalAmountOfLogos: number) {
 	return makeStyles({
 		position: {
-			width: logoWidth,
+			// allow each logo file to have the width of up to two times the expected size
+			maxWidth: logoWidth * 2,
 			zIndex: totalAmountOfLogos - logoPosition,
 			// we move the logos to the left except from the first logo
 			marginRight: logoPosition === 0 ? 0 : -spacingGap,
