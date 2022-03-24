@@ -176,6 +176,26 @@ export const ftmVaults: BadgerVault[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['oxd'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.oxd'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['oxsolid'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.oxsolid'],
+			decimals: 18,
+		},
+	},
 ];
 
 const ftmTokens = ftmVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]);
