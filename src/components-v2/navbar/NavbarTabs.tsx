@@ -27,7 +27,8 @@ export const NavbarTabs = observer((): JSX.Element => {
 	return (
 		<Tabs
 			variant={isMobile ? 'fullWidth' : undefined}
-			textColor="secondary"
+			textColor="primary"
+			indicatorColor="primary"
 			value={router.currentPath}
 			classes={{ indicator: classes.indicator }}
 		>

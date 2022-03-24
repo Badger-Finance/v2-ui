@@ -6,19 +6,20 @@ import BigNumber from 'bignumber.js';
 import { inCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { VaultActionButtons } from '../common/VaultActionButtons';
-import { VaultItemApr } from './VaultItemApr';
+import VaultItemApr from './VaultItemApr';
 import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
 import { VaultDeposit, VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
-import { Vault, VaultBehavior, VaultState } from '@badger-dao/sdk';
+import { VaultDTO, VaultBehavior } from '@badger-dao/sdk';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { currencyConfiguration } from '../../config/currency.config';
 import { INFORMATION_SECTION_MAX_WIDTH } from './VaultListHeader';
-import { getUserVaultBoost, getVaultIconPath } from '../../utils/componentHelpers';
+import { getUserVaultBoost } from '../../utils/componentHelpers';
 import VaultBadge from './VaultBadge';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import VaultBehaviorTooltip from './VaultBehaviorTooltip';
+import VaultLogo from './VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -60,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
 	behavior: {
 		color: '#FFB84D',
 		width: '90px',
-		marginBottom: theme.spacing(-3),
-		paddingLeft: theme.spacing(0.5),
+		display: 'flex',
+		justifyContent: 'flex-end',
 	},
 	tvl: {
 		[theme.breakpoints.down('md')]: {
@@ -109,8 +110,15 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(-1),
 	},
 	iconBadgeContainer: {
-		width: 80,
+		width: 110,
 		alignSelf: 'stretch',
+		[theme.breakpoints.up('lg')]: {
+			width: 106,
+			margin: -4,
+			'& > *': {
+				padding: 2,
+			},
+		},
 	},
 	thinFont: {
 		fontSize: 14,
@@ -141,7 +149,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface VaultListItemProps {
-	vault: Vault;
+	vault: VaultDTO;
 	depositBalance: TokenBalance;
 	// this will probably never be used except for special cases such as the ibBTC zap deposit workflow
 	CustomDepositModal?: (props: VaultModalProps) => JSX.Element;
@@ -167,9 +175,6 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 			? Math.max(0, vaultBoost - (showAPR ? vault.minApr : vault.minApy))
 			: null;
 
-	const multiplier =
-		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
-
 	const depositBalanceDisplay = depositBalance.tokenBalance.gt(0)
 		? depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency)
 		: `${currencyConfiguration[vaults.vaultsFilters.currency].prefix}-`;
@@ -187,7 +192,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 		vault.boost.enabled && vault.maxApr ? `🚀 Boosted (max. ${vault.maxApr.toFixed(2)}%)` : 'Non-boosted';
 
 	const vaultName = (
-		<Typography className={classes.vaultName}>
+		<Typography variant="subtitle1" className={classes.vaultName}>
 			{vault.protocol} - {vault.name}
 		</Typography>
 	);
@@ -216,12 +221,8 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 					<Grid item xs={12}>
 						<Grid container>
 							<Grid container alignItems="center">
-								<Grid xs={5} sm={12}>
-									<img
-										alt={`Badger ${vault.name} Vault Symbol`}
-										className={classes.symbol}
-										src={getVaultIconPath(vault, network.network)}
-									/>
+								<Grid container xs="auto">
+									<VaultLogo tokens={vault.tokens} />
 								</Grid>
 								<Grid item container direction="column" xs={7}>
 									<Grid item>{Badge}</Grid>
@@ -255,7 +256,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 										{vaultName}
 									</Grid>
 									<Grid item xs>
-										<VaultItemApr vault={vault} multiplier={multiplier} boost={vaultBoost} />
+										<VaultItemApr vault={vault} boost={vaultBoost} />
 									</Grid>
 								</Grid>
 								<Grid item container spacing={2}>
@@ -347,37 +348,35 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 						className={classes.iconBadgeContainer}
 					>
 						<Grid item xs className={classes.iconContainer}>
-							<img
-								alt={`Badger ${vault.name} Vault Symbol`}
-								className={clsx(classes.symbol, !!Badge && classes.symbolWithBadge)}
-								src={getVaultIconPath(vault, network.network)}
-							/>
+							<VaultLogo tokens={vault.tokens} />
 						</Grid>
-						{!!Badge && (
-							<Grid item xs="auto" container justifyContent="flex-end">
-								{Badge}
-							</Grid>
-						)}
-						{vault.behavior !== VaultBehavior.None && (
-							<Tooltip
-								enterTouchDelay={0}
-								enterDelay={0}
-								leaveDelay={300}
-								arrow
-								placement="bottom"
-								title={<VaultBehaviorTooltip vault={vault} />}
-								// prevents scrolling overflow off the sett list
-								PopperProps={{
-									disablePortal: true,
-								}}
-								// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
-								id={`${vault.name} vault behavior`}
-							>
-								<Typography variant="caption" className={classes.behavior}>
-									{vault.behavior}
-								</Typography>
-							</Tooltip>
-						)}
+						<Grid item container xs>
+							{!!Badge && (
+								<Grid item xs="auto" container justifyContent="flex-end">
+									{Badge}
+								</Grid>
+							)}
+							{vault.behavior !== VaultBehavior.None && (
+								<Tooltip
+									enterTouchDelay={0}
+									enterDelay={0}
+									leaveDelay={300}
+									arrow
+									placement="bottom"
+									title={<VaultBehaviorTooltip vault={vault} />}
+									// prevents scrolling overflow off the sett list
+									PopperProps={{
+										disablePortal: true,
+									}}
+									// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
+									id={`${vault.name} vault behavior`}
+								>
+									<Typography variant="caption" className={classes.behavior}>
+										{vault.behavior}
+									</Typography>
+								</Tooltip>
+							)}
+						</Grid>
 					</Grid>
 					<Grid item container xs>
 						<Grid item container spacing={4} xs={12}>
@@ -385,7 +384,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 								{vaultName}
 							</Grid>
 							<Grid item xs={12} md>
-								<VaultItemApr vault={vault} multiplier={multiplier} boost={vaultBoost} />
+								<VaultItemApr vault={vault} boost={vaultBoost} />
 							</Grid>
 							<Grid item xs={12} md className={classes.tvl}>
 								<CurrencyDisplay

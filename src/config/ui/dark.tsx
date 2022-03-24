@@ -1,17 +1,6 @@
-import React from 'react';
 import { createTheme } from '@material-ui/core';
 
-const theme = createTheme({
-	props: {
-		MuiCheckbox: {
-			checkedIcon: <img src="/assets/icons/checked-checkbox.svg" alt="checked checkbox" />,
-			icon: <img src="/assets/icons/non-checked-checkbox.svg" alt="checkbox" />,
-		},
-		MuiRadio: {
-			checkedIcon: <img src="/assets/icons/checked-radio-control.svg" alt="option" />,
-			icon: <img src="/assets/icons/non-checked-radio-control.svg" alt="option" />,
-		},
-	},
+export const darkTheme = createTheme({
 	breakpoints: {
 		values: {
 			xs: 0,
@@ -23,10 +12,14 @@ const theme = createTheme({
 	},
 	palette: {
 		type: 'dark',
-		primary: { main: '#FFB84D' },
-		secondary: { main: '#91CDFF' },
+		primary: {
+			main: '#FFB84D',
+		},
+		secondary: {
+			main: '#91CDFF',
+		},
 		background: {
-			default: '#181818',
+			default: '#121212',
 			paper: '#2b2b2b',
 		},
 		success: {
@@ -45,6 +38,12 @@ const theme = createTheme({
 			contrastText: '#181818',
 			main: '#F2A52B',
 		},
+		text: {
+			primary: '#e6e6e6',
+			secondary: '#FFFFFF99',
+			disabled: '#FFFFFF61',
+		},
+		divider: '#FFFFFF1F',
 	},
 	typography: {
 		fontFamily: "'Satoshi', 'IBM Plex Sans', sans-serif",
@@ -96,9 +95,6 @@ const theme = createTheme({
 			},
 		},
 		MuiDrawer: {
-			paper: {
-				background: '#121212',
-			},
 			paperAnchorDockedLeft: {
 				borderRight: 0,
 			},
@@ -114,6 +110,7 @@ const theme = createTheme({
 				padding: '8px 20px',
 			},
 			outlined: {
+				border: '1px solid #FFFFFF6B',
 				padding: '8px 20px',
 			},
 			text: {
@@ -175,23 +172,35 @@ const theme = createTheme({
 				backgroundColor: 'rgba(18, 18, 18, 0.7)',
 			},
 		},
-		MuiCheckbox: {
-			root: { marginLeft: 2 },
-			colorPrimary: {
-				'&$checked': {
-					color: '#04BF00',
-					'&:hover': {
-						backgroundColor: 'rgba(4, 191, 0, 0.08)',
+		MuiRadio: {
+			root: {
+				color: '#FFFFFFB2',
+				padding: 11,
+				'& .MuiSvgIcon-root:not(.MuiSvgIcon-fontSizeSmall)': {
+					width: 20,
+					height: 20,
+				},
+				'& .MuiSvgIcon-root.MuiSvgIcon-fontSizeSmall': {
+					width: 16.67,
+					height: 16.67,
+				},
+				'&.Mui-disabled': {
+					'& .MuiSvgIcon-root, +.MuiFormControlLabel-label.Mui-disabled': {
+						color: '#FFFFFF80',
 					},
 				},
 			},
 		},
-		MuiRadio: {
-			colorPrimary: {
-				'&$checked': {
-					color: '#04BF00',
-					'&:hover': {
-						backgroundColor: 'rgba(4, 191, 0, 0.08)',
+		MuiCheckbox: {
+			root: {
+				color: '#FFFFFFDE',
+				'& .MuiSvgIcon-root:not(.MuiSvgIcon-fontSizeSmall)': {
+					width: 24,
+					height: 24,
+				},
+				'&.Mui-disabled': {
+					'& .MuiSvgIcon-root': {
+						color: '#FFFFFF4D',
 					},
 				},
 			},
@@ -202,7 +211,10 @@ const theme = createTheme({
 				fontWeight: 500,
 			},
 		},
+		MuiOutlinedInput: {
+			notchedOutline: {
+				borderColor: '#FFFFFF6B',
+			},
+		},
 	},
 });
-
-export const darkTheme = createTheme(theme);

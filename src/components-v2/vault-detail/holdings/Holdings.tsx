@@ -9,8 +9,8 @@ import { BadgerVault } from '../../../mobx/model/vaults/badger-vault';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
-import { Vault, VaultData } from '@badger-dao/sdk';
-import { getVaultIconPath, shouldDisplayEarnings } from 'utils/componentHelpers';
+import { VaultDTO, VaultData } from '@badger-dao/sdk';
+import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {
@@ -25,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	badgerVault: BadgerVault;
 	tokenBalance: TokenBalance;
 	userData: VaultData;
 }
 
 export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }: Props): JSX.Element | null => {
-	const { vaults, user, network } = React.useContext(StoreContext);
+	const { user } = React.useContext(StoreContext);
 	const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 	const classes = useStyles();
 	const canDeposit = user.onGuestList(vault);
@@ -46,10 +46,6 @@ export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }
 	}
 
 	const { earnedBalance, earnedValue, balance, value } = userData;
-	const logo = getVaultIconPath(vault, network.network);
-
-	const depositToken = vaults.getToken(vault.underlyingToken);
-	const decimals = depositToken?.decimals || 18;
 
 	return (
 		<Grid container>
@@ -59,23 +55,16 @@ export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }
 			<Grid container spacing={1} alignItems="center">
 				<Grid item xs={12} sm>
 					<HoldingItem
+						vault={vault}
 						name="Total Deposited"
-						logo={logo}
 						balance={balance}
 						value={value}
-						decimals={decimals}
 						helpIcon={<TokenDistributionIcon settBalance={userData} />}
 					/>
 				</Grid>
 				{shouldDisplayEarnings(vault, userData) && (
 					<Grid item xs={12} sm>
-						<HoldingItem
-							name="Total Earned"
-							logo={logo}
-							balance={earnedBalance}
-							value={earnedValue}
-							decimals={decimals}
-						/>
+						<HoldingItem vault={vault} name="Total Earned" balance={earnedBalance} value={earnedValue} />
 					</Grid>
 				)}
 				{isMediumSizeScreen && (

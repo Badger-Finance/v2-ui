@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import slugify from 'slugify';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { TEN, ZERO } from '../../config/constants';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import store from 'mobx/RootStore';
@@ -297,7 +297,7 @@ export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => v
 	}
 };
 
-export function getVaultsSlugCache(vaults: Vault[]): Record<string, string> {
+export function getVaultsSlugCache(vaults: VaultDTO[]): Record<string, string> {
 	const occurrences: Record<string, number> = {};
 	return Object.fromEntries(
 		vaults.map((vault) => {

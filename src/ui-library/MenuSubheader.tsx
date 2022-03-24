@@ -7,7 +7,6 @@ const useStyles = makeStyles({
 		color: 'rgba(255, 255, 255, 0.6)',
 		fontSize: 14,
 		fontWeight: 400,
-		lineHeight: '54px',
 	},
 	sticky: {
 		backgroundColor: '#3a3a3a',

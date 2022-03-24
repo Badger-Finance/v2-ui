@@ -8,7 +8,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { NewVaultWarning } from './NewVaultWarning';
 import { BalanceNamespace } from 'web3/config/namespaces';
-import { Vault, VaultState } from '@badger-dao/sdk';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	badgerVault: BadgerVault;
 }
 

@@ -1,7 +1,6 @@
 import { RouterStore } from 'mobx-router';
 import UiStateStore from './stores/uiStore';
 import ContractsStore from './stores/contractsStore';
-import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
@@ -26,6 +25,7 @@ import routes from 'config/routes';
 import BondStore from './stores/BondStore';
 import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
+import { GovernancePortalStore } from './stores/GovernancePortalStore';
 
 export class RootStore {
 	public sdk: BadgerSDK;
@@ -33,7 +33,6 @@ export class RootStore {
 	public network: NetworkStore;
 	public uiState: UiStateStore;
 	public contracts: ContractsStore;
-	public airdrops: AirdropStore;
 	public rebase: RebaseStore;
 	public onboard: OnboardStore;
 	public rewards: RewardsStore;
@@ -47,6 +46,7 @@ export class RootStore {
 	public lockedCvxDelegation: LockedCvxDelegationStore;
 	public gasPrices: GasPricesStore;
 	public bondStore: BondStore;
+	public governancePortal: GovernancePortalStore;
 
 	constructor() {
 		// this is passed as a dummy rpc - it will never be used unless required by an rpc wallet, e.g.: wallet connect
@@ -61,7 +61,6 @@ export class RootStore {
 		this.network = new NetworkStore(this);
 		this.prices = new PricesStore(this);
 		this.contracts = new ContractsStore(this);
-		this.airdrops = new AirdropStore(this);
 		this.rebase = new RebaseStore(this);
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiStateStore(this);
@@ -74,6 +73,7 @@ export class RootStore {
 		this.gasPrices = new GasPricesStore(this);
 		this.ibBTCStore = new IbBTCStore(this);
 		this.bondStore = new BondStore(this);
+		this.governancePortal = new GovernancePortalStore(this);
 	}
 
 	async updateNetwork(network: number): Promise<void> {
@@ -121,8 +121,6 @@ export class RootStore {
 			];
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
-				updateActions.push(this.airdrops.fetchAirdrops());
-
 				// handle per page reloads, when init route is skipped
 				if (this.router.currentPath === routes.IbBTC.path) {
 					updateActions.push(this.ibBTCStore.init());

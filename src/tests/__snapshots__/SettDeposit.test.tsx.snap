@@ -36,7 +36,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
         role="dialog"
       >
         <div
-          class="MuiDialogTitle-root-356 makeStyles-root-352"
+          class="MuiDialogTitle-root-358 makeStyles-root-354"
         >
           <h2
             class="MuiTypography-root-56 MuiTypography-h6-66"
@@ -45,19 +45,23 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
               class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95"
             >
               <div
-                class="MuiGrid-root-86 makeStyles-logoContainer-355 MuiGrid-item-88"
+                class="MuiGrid-root-86 makeStyles-logoContainer-357 MuiGrid-item-88"
               >
-                <img
-                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-                  class="makeStyles-settLogo-354"
-                  src="/assets/icons/bsbtccrv.png"
-                />
+                <div
+                  class="makeStyles-root-359"
+                >
+                  <img
+                    alt="curve-renBTC-wBTC-sBTC logo"
+                    class="makeStyles-position-360"
+                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                  />
+                </div>
               </div>
               <div
                 class="MuiGrid-root-86 MuiGrid-item-88"
               >
                 <p
-                  class="MuiTypography-root-56 makeStyles-mode-353 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
+                  class="MuiTypography-root-56 makeStyles-mode-355 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
                 >
                   Deposit
                 </p>
@@ -71,7 +75,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
           </h2>
         </div>
         <div
-          class="MuiDialogContent-root-357 makeStyles-content-1 MuiDialogContent-dividers-358"
+          class="MuiDialogContent-root-361 makeStyles-content-1 MuiDialogContent-dividers-362"
         >
           <div
             class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95"
@@ -86,89 +90,89 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
               </p>
             </div>
             <div
-              class="MuiGrid-root-86 WithStyles(ForwardRef(Grid))-root-359 WithStyles(ForwardRef(Grid))-root-360 MuiGrid-item-88 MuiGrid-grid-xs-12-132 MuiGrid-grid-sm-6-140"
+              class="MuiGrid-root-86 WithStyles(ForwardRef(Grid))-root-363 WithStyles(ForwardRef(Grid))-root-364 MuiGrid-item-88 MuiGrid-grid-xs-12-132 MuiGrid-grid-sm-6-140"
             >
               <div
-                class="MuiButtonGroup-root-361"
+                class="MuiButtonGroup-root-365"
                 role="group"
               >
                 <button
                   aria-label="25%"
-                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-367 MuiButtonGroup-groupedHorizontal-368 MuiButtonGroup-groupedOutlined-375 MuiButtonGroup-groupedOutlinedHorizontal-376 MuiButtonGroup-groupedOutlined-375 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-outlined-224 MuiButtonGroup-grouped-371 MuiButtonGroup-groupedHorizontal-372 MuiButtonGroup-groupedOutlined-379 MuiButtonGroup-groupedOutlinedHorizontal-380 MuiButtonGroup-groupedOutlined-379 MuiButton-outlinedSizeSmall-236 MuiButton-sizeSmall-240"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-218"
+                    class="MuiButton-label-220"
                   >
                     25
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-448"
+                    class="MuiTouchRipple-root-452"
                   />
                 </button>
                 <button
                   aria-label="50%"
-                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-367 MuiButtonGroup-groupedHorizontal-368 MuiButtonGroup-groupedOutlined-375 MuiButtonGroup-groupedOutlinedHorizontal-376 MuiButtonGroup-groupedOutlined-375 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-outlined-224 MuiButtonGroup-grouped-371 MuiButtonGroup-groupedHorizontal-372 MuiButtonGroup-groupedOutlined-379 MuiButtonGroup-groupedOutlinedHorizontal-380 MuiButtonGroup-groupedOutlined-379 MuiButton-outlinedSizeSmall-236 MuiButton-sizeSmall-240"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-218"
+                    class="MuiButton-label-220"
                   >
                     50
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-448"
+                    class="MuiTouchRipple-root-452"
                   />
                 </button>
                 <button
                   aria-label="75%"
-                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-367 MuiButtonGroup-groupedHorizontal-368 MuiButtonGroup-groupedOutlined-375 MuiButtonGroup-groupedOutlinedHorizontal-376 MuiButtonGroup-groupedOutlined-375 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-outlined-224 MuiButtonGroup-grouped-371 MuiButtonGroup-groupedHorizontal-372 MuiButtonGroup-groupedOutlined-379 MuiButtonGroup-groupedOutlinedHorizontal-380 MuiButtonGroup-groupedOutlined-379 MuiButton-outlinedSizeSmall-236 MuiButton-sizeSmall-240"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-218"
+                    class="MuiButton-label-220"
                   >
                     75
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-448"
+                    class="MuiTouchRipple-root-452"
                   />
                 </button>
                 <button
                   aria-label="100%"
-                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-367 MuiButtonGroup-groupedHorizontal-368 MuiButtonGroup-groupedOutlined-375 MuiButtonGroup-groupedOutlinedHorizontal-376 MuiButtonGroup-groupedOutlined-375 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-outlined-224 MuiButtonGroup-grouped-371 MuiButtonGroup-groupedHorizontal-372 MuiButtonGroup-groupedOutlined-379 MuiButtonGroup-groupedOutlinedHorizontal-380 MuiButtonGroup-groupedOutlined-379 MuiButton-outlinedSizeSmall-236 MuiButton-sizeSmall-240"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-218"
+                    class="MuiButton-label-220"
                   >
                     100
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-448"
+                    class="MuiTouchRipple-root-452"
                   />
                 </button>
               </div>
             </div>
           </div>
           <div
-            class="MuiFormControl-root-388 MuiTextField-root-387 WithStyles(ForwardRef(TextField))-root-385 WithStyles(ForwardRef(TextField))-root-386 MuiFormControl-fullWidth-391"
+            class="MuiFormControl-root-392 MuiTextField-root-391 WithStyles(ForwardRef(TextField))-root-389 WithStyles(ForwardRef(TextField))-root-390 MuiFormControl-fullWidth-395"
           >
             <div
-              class="MuiInputBase-root-407 MuiOutlinedInput-root-392 MuiInputBase-fullWidth-417 MuiInputBase-formControl-408"
+              class="MuiInputBase-root-411 MuiOutlinedInput-root-396 MuiInputBase-fullWidth-421 MuiInputBase-formControl-412"
             >
               <input
                 aria-invalid="false"
                 autocomplete="off"
-                class="MuiInputBase-input-418 MuiOutlinedInput-input-402"
+                class="MuiInputBase-input-422 MuiOutlinedInput-input-406"
                 inputmode="decimal"
                 maxlength="79"
                 minlength="1"
@@ -181,11 +185,11 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-425 MuiOutlinedInput-notchedOutline-401"
+                class="PrivateNotchedOutline-root-429 MuiOutlinedInput-notchedOutline-405"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-426"
+                  class="PrivateNotchedOutline-legend-430"
                   style="width: 0.01px;"
                 >
                   <span>
@@ -199,7 +203,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
             class="makeStyles-fees-3"
           >
             <div
-              class="makeStyles-titleContainer-431"
+              class="makeStyles-titleContainer-435"
             >
               <p
                 class="MuiTypography-root-56 MuiTypography-body1-58"
@@ -209,7 +213,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
               <svg
                 aria-hidden="true"
                 aria-label="see fees descriptions"
-                class="MuiSvgIcon-root-309 makeStyles-helpIcon-433 MuiSvgIcon-colorPrimary-310"
+                class="MuiSvgIcon-root-311 makeStyles-helpIcon-437 MuiSvgIcon-colorPrimary-312"
                 focusable="false"
                 title="Click to see full description"
                 viewBox="0 0 24 24"
@@ -220,7 +224,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
               </svg>
             </div>
             <hr
-              class="MuiDivider-root-318 makeStyles-divider-430"
+              class="MuiDivider-root-320 makeStyles-divider-434"
             />
             <div
               class="MuiGrid-root-86 MuiGrid-container-87"
@@ -229,7 +233,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
                 class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
-                  class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                  class="MuiTypography-root-56 makeStyles-specName-449 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
                 >
                   Performance Fee
                 </p>
@@ -243,7 +247,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
                 class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
-                  class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                  class="MuiTypography-root-56 makeStyles-specName-449 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
                 >
                   Strategist Performance Fee
                 </p>
@@ -257,7 +261,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
                 class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
-                  class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                  class="MuiTypography-root-56 makeStyles-specName-449 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
                 >
                   Withdraw Fee
                 </p>
@@ -271,13 +275,13 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
           </div>
           <button
             aria-label="Deposit"
-            class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-contained-225 WithStyles(ForwardRef(Button))-root-446 WithStyles(ForwardRef(Button))-root-447 MuiButton-containedPrimary-226 MuiButton-containedSizeLarge-237 MuiButton-sizeLarge-239 MuiButton-disabled-230 MuiButton-fullWidth-240 MuiButtonBase-disabled-247"
+            class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-contained-227 WithStyles(ForwardRef(Button))-root-450 WithStyles(ForwardRef(Button))-root-451 MuiButton-containedPrimary-228 MuiButton-containedSizeLarge-239 MuiButton-sizeLarge-241 MuiButton-disabled-232 MuiButton-fullWidth-242 MuiButtonBase-disabled-249"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-218"
+              class="MuiButton-label-220"
             >
               Deposit
             </span>
@@ -329,27 +333,27 @@ exports[`Vault Deposit can see full fees descriptions 1`] = `
         role="dialog"
       >
         <div
-          class="MuiGrid-root-86 makeStyles-root-338 MuiGrid-container-87"
+          class="MuiGrid-root-86 makeStyles-root-340 MuiGrid-container-87"
         >
           <div
             class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95 MuiGrid-justify-content-xs-space-between-106"
           >
             <p
-              class="MuiTypography-root-56 makeStyles-title-339 MuiTypography-body1-58 MuiTypography-displayInline-84"
+              class="MuiTypography-root-56 makeStyles-title-341 MuiTypography-body1-58 MuiTypography-displayInline-84"
             >
               Fee Information
             </p>
             <button
-              class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-text-219 makeStyles-backButton-4 MuiButton-textPrimary-220"
+              class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-text-221 makeStyles-backButton-4 MuiButton-textPrimary-222"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-label-218"
+                class="MuiButton-label-220"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root-309 makeStyles-arrowIcon-5"
+                  class="MuiSvgIcon-root-311 makeStyles-arrowIcon-5"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -360,12 +364,12 @@ exports[`Vault Deposit can see full fees descriptions 1`] = `
                 Back
               </span>
               <span
-                class="MuiTouchRipple-root-342"
+                class="MuiTouchRipple-root-344"
               />
             </button>
           </div>
           <div
-            class="makeStyles-content-340"
+            class="makeStyles-content-342"
           >
             <p
               class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
@@ -373,7 +377,7 @@ exports[`Vault Deposit can see full fees descriptions 1`] = `
               Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO treasury, or shared with the strategist who wrote the vault strategy.
             </p>
             <hr
-              class="MuiDivider-root-318 makeStyles-divider-341"
+              class="MuiDivider-root-320 makeStyles-divider-343"
             />
             <div>
               <p
@@ -451,11 +455,15 @@ exports[`Vault Deposit displays sett information 1`] = `
               <div
                 class="MuiGrid-root-86 makeStyles-logoContainer-54 MuiGrid-item-88"
               >
-                <img
-                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-                  class="makeStyles-settLogo-53"
-                  src="/assets/icons/bsbtccrv.png"
-                />
+                <div
+                  class="makeStyles-root-189"
+                >
+                  <img
+                    alt="curve-renBTC-wBTC-sBTC logo"
+                    class="makeStyles-position-190"
+                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                  />
+                </div>
               </div>
               <div
                 class="MuiGrid-root-86 MuiGrid-item-88"
@@ -475,7 +483,7 @@ exports[`Vault Deposit displays sett information 1`] = `
           </h2>
         </div>
         <div
-          class="MuiDialogContent-root-189 makeStyles-content-1 MuiDialogContent-dividers-190"
+          class="MuiDialogContent-root-191 makeStyles-content-1 MuiDialogContent-dividers-192"
         >
           <div
             class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95"
@@ -490,89 +498,89 @@ exports[`Vault Deposit displays sett information 1`] = `
               </p>
             </div>
             <div
-              class="MuiGrid-root-86 WithStyles(ForwardRef(Grid))-root-191 WithStyles(ForwardRef(Grid))-root-192 MuiGrid-item-88 MuiGrid-grid-xs-12-132 MuiGrid-grid-sm-6-140"
+              class="MuiGrid-root-86 WithStyles(ForwardRef(Grid))-root-193 WithStyles(ForwardRef(Grid))-root-194 MuiGrid-item-88 MuiGrid-grid-xs-12-132 MuiGrid-grid-sm-6-140"
             >
               <div
-                class="MuiButtonGroup-root-193"
+                class="MuiButtonGroup-root-195"
                 role="group"
               >
                 <button
                   aria-label="25%"
-                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-outlined-224 MuiButtonGroup-grouped-201 MuiButtonGroup-groupedHorizontal-202 MuiButtonGroup-groupedOutlined-209 MuiButtonGroup-groupedOutlinedHorizontal-210 MuiButtonGroup-groupedOutlined-209 MuiButton-outlinedSizeSmall-236 MuiButton-sizeSmall-240"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-218"
+                    class="MuiButton-label-220"
                   >
                     25
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-328"
+                    class="MuiTouchRipple-root-330"
                   />
                 </button>
                 <button
                   aria-label="50%"
-                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-outlined-224 MuiButtonGroup-grouped-201 MuiButtonGroup-groupedHorizontal-202 MuiButtonGroup-groupedOutlined-209 MuiButtonGroup-groupedOutlinedHorizontal-210 MuiButtonGroup-groupedOutlined-209 MuiButton-outlinedSizeSmall-236 MuiButton-sizeSmall-240"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-218"
+                    class="MuiButton-label-220"
                   >
                     50
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-328"
+                    class="MuiTouchRipple-root-330"
                   />
                 </button>
                 <button
                   aria-label="75%"
-                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-outlined-224 MuiButtonGroup-grouped-201 MuiButtonGroup-groupedHorizontal-202 MuiButtonGroup-groupedOutlined-209 MuiButtonGroup-groupedOutlinedHorizontal-210 MuiButtonGroup-groupedOutlined-209 MuiButton-outlinedSizeSmall-236 MuiButton-sizeSmall-240"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-218"
+                    class="MuiButton-label-220"
                   >
                     75
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-328"
+                    class="MuiTouchRipple-root-330"
                   />
                 </button>
                 <button
                   aria-label="100%"
-                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-outlined-224 MuiButtonGroup-grouped-201 MuiButtonGroup-groupedHorizontal-202 MuiButtonGroup-groupedOutlined-209 MuiButtonGroup-groupedOutlinedHorizontal-210 MuiButtonGroup-groupedOutlined-209 MuiButton-outlinedSizeSmall-236 MuiButton-sizeSmall-240"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-218"
+                    class="MuiButton-label-220"
                   >
                     100
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-328"
+                    class="MuiTouchRipple-root-330"
                   />
                 </button>
               </div>
             </div>
           </div>
           <div
-            class="MuiFormControl-root-252 MuiTextField-root-251 WithStyles(ForwardRef(TextField))-root-249 WithStyles(ForwardRef(TextField))-root-250 MuiFormControl-fullWidth-255"
+            class="MuiFormControl-root-254 MuiTextField-root-253 WithStyles(ForwardRef(TextField))-root-251 WithStyles(ForwardRef(TextField))-root-252 MuiFormControl-fullWidth-257"
           >
             <div
-              class="MuiInputBase-root-271 MuiOutlinedInput-root-256 MuiInputBase-fullWidth-281 MuiInputBase-formControl-272"
+              class="MuiInputBase-root-273 MuiOutlinedInput-root-258 MuiInputBase-fullWidth-283 MuiInputBase-formControl-274"
             >
               <input
                 aria-invalid="false"
                 autocomplete="off"
-                class="MuiInputBase-input-282 MuiOutlinedInput-input-266"
+                class="MuiInputBase-input-284 MuiOutlinedInput-input-268"
                 inputmode="decimal"
                 maxlength="79"
                 minlength="1"
@@ -585,11 +593,11 @@ exports[`Vault Deposit displays sett information 1`] = `
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-289 MuiOutlinedInput-notchedOutline-265"
+                class="PrivateNotchedOutline-root-291 MuiOutlinedInput-notchedOutline-267"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-290"
+                  class="PrivateNotchedOutline-legend-292"
                   style="width: 0.01px;"
                 >
                   <span>
@@ -603,7 +611,7 @@ exports[`Vault Deposit displays sett information 1`] = `
             class="makeStyles-fees-3"
           >
             <div
-              class="makeStyles-titleContainer-295"
+              class="makeStyles-titleContainer-297"
             >
               <p
                 class="MuiTypography-root-56 MuiTypography-body1-58"
@@ -613,7 +621,7 @@ exports[`Vault Deposit displays sett information 1`] = `
               <svg
                 aria-hidden="true"
                 aria-label="see fees descriptions"
-                class="MuiSvgIcon-root-309 makeStyles-helpIcon-297 MuiSvgIcon-colorPrimary-310"
+                class="MuiSvgIcon-root-311 makeStyles-helpIcon-299 MuiSvgIcon-colorPrimary-312"
                 focusable="false"
                 title="Click to see full description"
                 viewBox="0 0 24 24"
@@ -624,7 +632,7 @@ exports[`Vault Deposit displays sett information 1`] = `
               </svg>
             </div>
             <hr
-              class="MuiDivider-root-318 makeStyles-divider-294"
+              class="MuiDivider-root-320 makeStyles-divider-296"
             />
             <div
               class="MuiGrid-root-86 MuiGrid-container-87"
@@ -633,7 +641,7 @@ exports[`Vault Deposit displays sett information 1`] = `
                 class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
-                  class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                  class="MuiTypography-root-56 makeStyles-specName-327 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
                 >
                   Performance Fee
                 </p>
@@ -647,7 +655,7 @@ exports[`Vault Deposit displays sett information 1`] = `
                 class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
-                  class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                  class="MuiTypography-root-56 makeStyles-specName-327 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
                 >
                   Strategist Performance Fee
                 </p>
@@ -661,7 +669,7 @@ exports[`Vault Deposit displays sett information 1`] = `
                 class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-content-xs-space-between-106"
               >
                 <p
-                  class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                  class="MuiTypography-root-56 makeStyles-specName-327 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
                 >
                   Withdraw Fee
                 </p>
@@ -675,13 +683,13 @@ exports[`Vault Deposit displays sett information 1`] = `
           </div>
           <button
             aria-label="Deposit"
-            class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-contained-225 WithStyles(ForwardRef(Button))-root-326 WithStyles(ForwardRef(Button))-root-327 MuiButton-containedPrimary-226 MuiButton-containedSizeLarge-237 MuiButton-sizeLarge-239 MuiButton-disabled-230 MuiButton-fullWidth-240 MuiButtonBase-disabled-247"
+            class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-contained-227 WithStyles(ForwardRef(Button))-root-328 WithStyles(ForwardRef(Button))-root-329 MuiButton-containedPrimary-228 MuiButton-containedSizeLarge-239 MuiButton-sizeLarge-241 MuiButton-disabled-232 MuiButton-fullWidth-242 MuiButtonBase-disabled-249"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-218"
+              class="MuiButton-label-220"
             >
               Deposit
             </span>

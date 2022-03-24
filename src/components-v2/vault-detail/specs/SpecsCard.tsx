@@ -8,7 +8,7 @@ import VaultDetailLinks from './VaultDetailLinks';
 import { Fees } from './Fees';
 import { CardContainer } from '../styled';
 import VaultMetrics from './VaultMetrics';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	badgerVault: BadgerVault;
 }
 

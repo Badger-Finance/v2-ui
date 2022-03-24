@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### 2.15.1 - 03/21/2022
+
+-   various ux improvements + enhancements
+-   add flagged governance timelock
+
 ### 2.15.0 - 03/04/2022
 
 -   support apy + apr vault performance displays

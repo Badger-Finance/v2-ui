@@ -85,6 +85,7 @@ export const NavbarStats = observer((): JSX.Element => {
 		}
 	};
 
+	// track scrolling activity to display right arrow icon on mobile if there is content to be scrolled
 	useEffect(() => {
 		const ref = barRef.current;
 
@@ -123,7 +124,7 @@ export const NavbarStats = observer((): JSX.Element => {
 			<Grid container className={classes.root} ref={barRef} id="here-ref">
 				<Grid item>
 					<Typography variant="helperText" display="inline">
-						Badger Price: &nbsp;
+						BADGER Price: &nbsp;
 					</Typography>
 					{badgerPrice ? (
 						<CurrencyDisplay

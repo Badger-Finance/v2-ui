@@ -389,6 +389,16 @@ const ethVaultDefinitions: BadgerVault[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.badger'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.badgerCrv'],
+			decimals: 18,
+		},
+	},
 ];
 
 export const ethVaults = toVaultConfig(ethVaultDefinitions);

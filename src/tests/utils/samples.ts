@@ -1,7 +1,7 @@
 import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import { BouncerType, Protocol, Vault, VaultBehavior, VaultData, VaultState, VaultType } from '@badger-dao/sdk';
+import { BouncerType, Protocol, VaultDTO, VaultBehavior, VaultData, VaultState, VaultType, VaultVersion } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
 import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 
@@ -27,7 +27,7 @@ export const SAMPLE_BADGER_SETT: BadgerVault = {
 	},
 };
 
-export const SAMPLE_VAULT: Vault = {
+export const SAMPLE_VAULT: VaultDTO = {
 	type: VaultType.Standard,
 	asset: 'sBTCCRV',
 	vaultAsset: 'bsBTCCRV',
@@ -96,6 +96,17 @@ export const SAMPLE_VAULT: Vault = {
 	underlyingToken: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 	value: 135697015.0445408,
 	vaultToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
+	version: VaultVersion.v1,
+	yieldProjection: {
+		yieldApr: 0,
+		yieldTokens: [],
+		yieldValue: 0,
+		harvestApr: 0,
+		harvestApy: 0,
+		harvestTokens: [],
+		harvestValue: 0,
+	},
+	lastHarvest: Date.now(),
 };
 
 export const SAMPLE_VAULT_BALANCE: VaultData = {
@@ -174,9 +185,20 @@ export const SAMPLE_TOKEN_BALANCE = new TokenBalance(
 	new BigNumber(135697015.0445408),
 );
 
-export const SAMPLE_VAULTS: Vault[] = [
+export const SAMPLE_VAULTS: VaultDTO[] = [
 	SAMPLE_VAULT,
 	{
+		version: VaultVersion.v1,
+		yieldProjection: {
+			yieldApr: 0,
+			yieldTokens: [],
+			yieldValue: 0,
+			harvestApr: 0,
+			harvestApy: 0,
+			harvestTokens: [],
+			harvestValue: 0,
+		},
+		lastHarvest: Date.now(),
 		name: 'Badger',
 		asset: 'Badger',
 		vaultAsset: 'bBadger',
@@ -233,6 +255,17 @@ export const SAMPLE_VAULTS: Vault[] = [
 		type: VaultType.Native,
 	},
 	{
+		version: VaultVersion.v1,
+		yieldProjection: {
+			yieldApr: 0,
+			yieldTokens: [],
+			yieldValue: 0,
+			harvestApr: 0,
+			harvestApy: 0,
+			harvestTokens: [],
+			harvestValue: 0,
+		},
+		lastHarvest: Date.now(),
 		name: 'Digg',
 		asset: 'DIGG',
 		vaultAsset: 'bDIGG',

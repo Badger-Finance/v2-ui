@@ -3,7 +3,7 @@
 exports[`VaultTag "deprecated" Vaults 1`] = `
 <div>
   <div
-    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-deprecatedTag-4 MuiChip-sizeSmall-8"
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-obsoleteTag-4 MuiChip-sizeSmall-8"
   >
     <span
       class="MuiChip-label-29 MuiChip-labelSmall-30"
@@ -22,7 +22,7 @@ exports[`VaultTag "experimental" Vaults 1`] = `
     <span
       class="MuiChip-label-29 MuiChip-labelSmall-30"
     >
-      Trial Run
+      Experimental
     </span>
   </div>
 </div>

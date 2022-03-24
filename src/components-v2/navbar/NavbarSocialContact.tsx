@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Link, makeStyles } from '@material-ui/core';
 import { Typography } from 'ui-library/Typography';
 import clsx from 'clsx';
+import { FLAGS } from '../../config/environment';
 
 const useStyles = makeStyles(() => ({
 	socialIcon: {
@@ -13,13 +14,10 @@ const useStyles = makeStyles(() => ({
 		display: 'flex',
 	},
 	twitter: {
-		margin: '0px 8px',
+		margin: '0px 16px 0px 8px',
 	},
 	governance: {
 		margin: '0px 18px',
-	},
-	telegram: {
-		marginRight: '16px',
 	},
 }));
 
@@ -43,24 +41,21 @@ export const NavbarSocialContact = (): JSX.Element => {
 					src="/assets/icons/twitter.svg"
 				/>
 			</Grid>
-			<Grid item className={clsx(classes.iconContainer, classes.telegram)}>
-				<img
-					onClick={() => window.open('https://t.me/badger_dao', '_blank')}
-					className={classes.socialIcon}
-					alt="Telegram Icon"
-					src="/assets/icons/telegram.svg"
-				/>
-			</Grid>
 			<Grid item>
 				<Typography variant="helperText">
 					<Link color="inherit" href="https://docs.badger.com/" target="_blank" rel="noopener">
-						WIKI
+						DOCS
 					</Link>
 				</Typography>
 			</Grid>
 			<Grid item className={classes.governance}>
 				<Typography variant="helperText">
-					<Link color="inherit" href="https://snapshot.page/#/badgerdao.eth" target="_blank" rel="noopener">
+					<Link
+						color="inherit"
+						href={FLAGS.GOVERNANCE_TIMELOCK ? '/governance' : 'https://snapshot.org/#/badgerdao.eth'}
+						target={FLAGS.GOVERNANCE_TIMELOCK ? undefined : '_blank'}
+						rel="noopener"
+					>
 						GOVERNANCE
 					</Link>
 				</Typography>

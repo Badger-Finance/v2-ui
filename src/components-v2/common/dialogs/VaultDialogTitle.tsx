@@ -1,7 +1,8 @@
 import React from 'react';
 import { DialogTitle, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
+import VaultLogo from '../../landing/VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -16,14 +17,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoContainer: {
 		display: 'flex',
-		width: 32,
-		height: 32,
 		marginRight: theme.spacing(1),
 	},
 }));
 
 interface Props {
-	vault: Vault;
+	vault: VaultDTO;
 	mode: string;
 }
 
@@ -34,11 +33,7 @@ export const VaultDialogTitle = ({ vault, mode }: Props): JSX.Element => {
 		<DialogTitle className={classes.root}>
 			<Grid container alignItems="center">
 				<Grid item className={classes.logoContainer}>
-					<img
-						className={classes.settLogo}
-						src={`/assets/icons/${vault.vaultAsset.toLowerCase()}.png`}
-						alt={`Badger ${vault.name} Vault Symbol`}
-					/>
+					<VaultLogo tokens={vault.tokens} />
 				</Grid>
 				<Grid item>
 					<Typography className={classes.mode} color="textSecondary">

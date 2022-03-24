@@ -4,13 +4,13 @@ import { VaultChartData, VaultChartTimeframe } from '../model/vaults/vault-chart
 import { RootStore } from '../RootStore';
 import { VaultSnapshotGranularity } from '../model/vaults/vault-snapshot';
 import { fetchVaultChartInformation } from '../utils/apiV2';
-import { Vault } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 
 dayjs.extend(utc);
 
 type VaultChartInformation = VaultChartData[] | null;
 type ChartCacheByPeriod = Map<VaultChartTimeframe, VaultChartInformation>;
-type VaultCache = Map<Vault['underlyingToken'], ChartCacheByPeriod>;
+type VaultCache = Map<VaultDTO['underlyingToken'], ChartCacheByPeriod>;
 
 export class VaultChartsStore {
 	private readonly store: RootStore;
@@ -25,7 +25,7 @@ export class VaultChartsStore {
 	 * @param vault
 	 * @param timeframe
 	 */
-	async search(vault: Vault, timeframe: VaultChartTimeframe): Promise<VaultChartInformation> {
+	async search(vault: VaultDTO, timeframe: VaultChartTimeframe): Promise<VaultChartInformation> {
 		const vaultCache = this.cache.get(vault.underlyingToken);
 
 		if (!vaultCache) {
@@ -48,7 +48,7 @@ export class VaultChartsStore {
 		return timeFrameCache;
 	}
 
-	private async fetchVaultChart(vault: Vault, timeframe: VaultChartTimeframe) {
+	private async fetchVaultChart(vault: VaultDTO, timeframe: VaultChartTimeframe) {
 		const { network } = this.store.network;
 
 		const daysFromTimeFrame = {
