@@ -698,7 +698,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					},
 					// TODO: update strategy link
 					// strategyLink: 'https://badger.wiki/strategies#82d72e94cb3b49f0836d8197ad13bc36',
-					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-badger-wbtc',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-badger-wbtc',
 					depositLink: 'https://curve.fi/factory-crypto/4/deposit',
 				},
 			};

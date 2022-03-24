@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### 2.15.2 - 03/21/2022
+
+-   vaults 1.5 api support
+
 ### 2.15.1 - 03/21/2022
 
 -   various ux improvements + enhancements
