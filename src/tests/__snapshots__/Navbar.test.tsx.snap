@@ -148,8 +148,9 @@ exports[`Navbar Renders correctly 1`] = `
               >
                 <a
                   class="MuiTypography-root-125 MuiLink-root-169 MuiLink-underlineHover-171 MuiTypography-colorInherit-147"
-                  href="/governance"
+                  href="https://snapshot.org/#/badgerdao.eth"
                   rel="noopener"
+                  target="_blank"
                 >
                   GOVERNANCE
                 </a>
