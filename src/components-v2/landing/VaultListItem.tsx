@@ -221,7 +221,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 					<Grid item xs={12}>
 						<Grid container>
 							<Grid container alignItems="center">
-								<Grid xs="auto">
+								<Grid container xs="auto">
 									<VaultLogo tokens={vault.tokens} />
 								</Grid>
 								<Grid item container direction="column" xs={7}>
