@@ -104,7 +104,6 @@ export function useFormatExampleList(userStore: UserStore): (vaults: VaultDTO[])
 }
 
 export function getTokenIconPath(token: Token): string {
-	const symbolParts = token.symbol.split('/');
-	const fileName = symbolParts[symbolParts.length - 1];
+	const fileName = token.symbol.replaceAll('/', '-');
 	return `/assets/icons/${fileName.toLowerCase()}.svg`;
 }

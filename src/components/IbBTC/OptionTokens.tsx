@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	tokenIcon: {
 		height: '25px',
-		width: '25px',
 		marginRight: theme.spacing(1),
 	},
 	tokenLabel: {
