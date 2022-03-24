@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Link, makeStyles } from '@material-ui/core';
 import { Typography } from 'ui-library/Typography';
 import clsx from 'clsx';
+import { FLAGS } from '../../config/environment';
 
 const useStyles = makeStyles(() => ({
 	socialIcon: {
@@ -49,7 +50,12 @@ export const NavbarSocialContact = (): JSX.Element => {
 			</Grid>
 			<Grid item className={classes.governance}>
 				<Typography variant="helperText">
-					<Link color="inherit" href="/governance" rel="noopener">
+					<Link
+						color="inherit"
+						href={FLAGS.GOVERNANCE_TIMELOCK ? '/governance' : 'https://snapshot.org/#/badgerdao.eth'}
+						target={FLAGS.GOVERNANCE_TIMELOCK ? undefined : '_blank'}
+						rel="noopener"
+					>
 						GOVERNANCE
 					</Link>
 				</Typography>
