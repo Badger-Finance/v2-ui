@@ -1,13 +1,6 @@
-import React from 'react';
 import { createTheme } from '@material-ui/core';
 
-const theme = createTheme({
-	props: {
-		MuiRadio: {
-			checkedIcon: <img src="/assets/icons/checked-radio-control.svg" alt="option" />,
-			icon: <img src="/assets/icons/non-checked-radio-control.svg" alt="option" />,
-		},
-	},
+export const darkTheme = createTheme({
 	breakpoints: {
 		values: {
 			xs: 0,
@@ -180,40 +173,35 @@ const theme = createTheme({
 			},
 		},
 		MuiRadio: {
-			colorPrimary: {
-				'&$checked': {
-					color: '#04BF00',
-					'&:hover': {
-						backgroundColor: 'rgba(4, 191, 0, 0.08)',
+			root: {
+				color: '#FFFFFFB2',
+				padding: 11,
+				'& .MuiSvgIcon-root:not(.MuiSvgIcon-fontSizeSmall)': {
+					width: 20,
+					height: 20,
+				},
+				'& .MuiSvgIcon-root.MuiSvgIcon-fontSizeSmall': {
+					width: 16.67,
+					height: 16.67,
+				},
+				'&.Mui-disabled': {
+					'& .MuiSvgIcon-root, +.MuiFormControlLabel-label.Mui-disabled': {
+						color: '#FFFFFF80',
 					},
 				},
 			},
 		},
 		MuiCheckbox: {
 			root: {
+				color: '#FFFFFFDE',
 				'& .MuiSvgIcon-root:not(.MuiSvgIcon-fontSizeSmall)': {
 					width: 24,
 					height: 24,
-				},
-				'&:not($checked)': {
-					'& .MuiSvgIcon-root': {
-						color: '#FFFFFFDE',
-					},
 				},
 				'&.Mui-disabled': {
 					'& .MuiSvgIcon-root': {
 						color: '#FFFFFF4D',
 					},
-				},
-			},
-		},
-		MuiFormControlLabel: {
-			root: {
-				'& .MuiFormControlLabel-label.Mui-disabled': {
-					color: '#FFFFFF4D',
-				},
-				'& .MuiIconButton-root': {
-					padding: 12,
 				},
 			},
 		},
@@ -230,5 +218,3 @@ const theme = createTheme({
 		},
 	},
 });
-
-export const darkTheme = createTheme(theme);
