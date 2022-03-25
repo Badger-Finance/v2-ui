@@ -165,23 +165,14 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					userGuide:
 						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-geist-g3crv-lp',
 				},
-				[fantomDeploy.sett_system.vaults['native.oxd']]: {
-					address: fantomDeploy.sett_system.strategies['native.oxd'],
+				[fantomDeploy.sett_system.vaults['native.veoxd']]: {
+					address: fantomDeploy.sett_system.strategies['native.veoxd'],
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxd',
-				},
-				[fantomDeploy.sett_system.vaults['native.oxsolid']]: {
-					address: fantomDeploy.sett_system.strategies['native.oxsolid'],
-					fees: {
-						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.strategistPerformance]: new BigNumber(0),
-						[StrategyFee.withdraw]: new BigNumber(10),
-					},
-					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxsolid',
 				},
 			};
 		case Network.Avalanche:
