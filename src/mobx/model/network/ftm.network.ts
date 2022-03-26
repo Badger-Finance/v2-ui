@@ -7,6 +7,7 @@ import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/ftm.json';
 import { Currency } from 'config/enums/currency.enum';
 import { Network } from '@badger-dao/sdk';
+import { AdvisoryType } from '../vaults/advisory-type';
 
 export class Fantom extends NetworkModel {
 	constructor() {
@@ -185,6 +186,7 @@ export const ftmVaults: BadgerVault[] = [
 			address: FTM_DEPLOY.sett_system.vaults['native.veoxd'],
 			decimals: 18,
 		},
+		depositAdvisory: AdvisoryType.ConvexLock,
 	},
 ];
 
