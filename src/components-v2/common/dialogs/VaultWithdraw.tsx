@@ -87,7 +87,7 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 		return (
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 				<VaultDialogTitle vault={vault} mode="Withdraw" />
-				<VaultAdvisory accept={() => setAccepted(true)} type={badgerVault.withdrawAdvisory} />
+				<VaultAdvisory vault={vault} accept={() => setAccepted(true)} type={badgerVault.withdrawAdvisory} />
 			</Dialog>
 		);
 	}
