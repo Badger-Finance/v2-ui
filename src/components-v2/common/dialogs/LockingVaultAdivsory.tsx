@@ -8,10 +8,10 @@ interface LockingVaultAdvisoryProps extends VaultAdvisoryBaseProps {
 }
 
 const LockingVaultAdvisory = ({ vault, accept }: LockingVaultAdvisoryProps): JSX.Element => {
-	const depositToken = vault.underlyingToken;
+	const depositMessage = `This vault locks ${vault.asset} in a staking contract that is 16 weeks long.`;
 	return (
 		<GenericVaultAdvisory accept={accept}>
-			<p>This vault locks {depositToken} in a staking contract that is 16 weeks long.</p>
+			<p>{depositMessage}</p>
 			<p>
 				The Total Withdrawable Amount in the vault may be lower than your balance depending on what is currently
 				available and will fluctuate with deposits and withdraws from the vault as well as locks and unlocks
