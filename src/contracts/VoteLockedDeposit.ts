@@ -15,7 +15,7 @@ import type { FunctionFragment, Result } from '@ethersproject/abi';
 import type { Listener, Provider } from '@ethersproject/providers';
 import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from './common';
 
-export declare namespace CvxLocker {
+export declare namespace BalanceLocker {
 	export type LockedBalanceStruct = {
 		amount: BigNumberish;
 		boosted: BigNumberish;
@@ -42,13 +42,19 @@ export interface VoteLockedDepositInterface extends utils.Interface {
 	): FunctionFragment;
 
 	encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
+
 	encodeFunctionData(functionFragment: 'lockedBalanceOf', values: [string]): string;
+
 	encodeFunctionData(functionFragment: 'lockedBalances', values: [string]): string;
+
 	encodeFunctionData(functionFragment: 'lockedSupply', values?: undefined): string;
 
 	decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
+
 	decodeFunctionResult(functionFragment: 'lockedBalanceOf', data: BytesLike): Result;
+
 	decodeFunctionResult(functionFragment: 'lockedBalances', data: BytesLike): Result;
+
 	decodeFunctionResult(functionFragment: 'lockedSupply', data: BytesLike): Result;
 
 	events: {};
@@ -56,7 +62,9 @@ export interface VoteLockedDepositInterface extends utils.Interface {
 
 export interface VoteLockedDeposit extends BaseContract {
 	connect(signerOrProvider: Signer | Provider | string): this;
+
 	attach(addressOrName: string): this;
+
 	deployed(): Promise<this>;
 
 	interface: VoteLockedDepositInterface;
@@ -68,9 +76,13 @@ export interface VoteLockedDeposit extends BaseContract {
 	): Promise<Array<TEvent>>;
 
 	listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
+
 	listeners(eventName?: string): Array<Listener>;
+
 	removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
+
 	removeAllListeners(eventName?: string): this;
+
 	off: OnEvent<this>;
 	on: OnEvent<this>;
 	once: OnEvent<this>;
@@ -85,11 +97,11 @@ export interface VoteLockedDeposit extends BaseContract {
 			_user: string,
 			overrides?: CallOverrides,
 		): Promise<
-			[BigNumber, BigNumber, BigNumber, CvxLocker.LockedBalanceStructOutput[]] & {
+			[BigNumber, BigNumber, BigNumber, BalanceLocker.LockedBalanceStructOutput[]] & {
 				total: BigNumber;
 				unlockable: BigNumber;
 				locked: BigNumber;
-				lockData: CvxLocker.LockedBalanceStructOutput[];
+				lockData: BalanceLocker.LockedBalanceStructOutput[];
 			}
 		>;
 
@@ -104,11 +116,11 @@ export interface VoteLockedDeposit extends BaseContract {
 		_user: string,
 		overrides?: CallOverrides,
 	): Promise<
-		[BigNumber, BigNumber, BigNumber, CvxLocker.LockedBalanceStructOutput[]] & {
+		[BigNumber, BigNumber, BigNumber, BalanceLocker.LockedBalanceStructOutput[]] & {
 			total: BigNumber;
 			unlockable: BigNumber;
 			locked: BigNumber;
-			lockData: CvxLocker.LockedBalanceStructOutput[];
+			lockData: BalanceLocker.LockedBalanceStructOutput[];
 		}
 	>;
 
@@ -123,11 +135,11 @@ export interface VoteLockedDeposit extends BaseContract {
 			_user: string,
 			overrides?: CallOverrides,
 		): Promise<
-			[BigNumber, BigNumber, BigNumber, CvxLocker.LockedBalanceStructOutput[]] & {
+			[BigNumber, BigNumber, BigNumber, BalanceLocker.LockedBalanceStructOutput[]] & {
 				total: BigNumber;
 				unlockable: BigNumber;
 				locked: BigNumber;
-				lockData: CvxLocker.LockedBalanceStructOutput[];
+				lockData: BalanceLocker.LockedBalanceStructOutput[];
 			}
 		>;
 
