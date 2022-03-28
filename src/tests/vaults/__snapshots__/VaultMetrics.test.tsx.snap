@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VaultMetrics displays withdrawable tokens 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-10 makeStyles-root-1 MuiGrid-container-11"
+  >
+    <h6
+      class="MuiTypography-root-113 makeStyles-title-7 MuiTypography-h6-123"
+    >
+      Vault Details
+    </h6>
+    <hr
+      class="MuiDivider-root-145 WithStyles(ForwardRef(Divider))-root-143 WithStyles(ForwardRef(Divider))-root-144"
+    />
+    <p
+      class="MuiTypography-root-113 makeStyles-amount-2 MuiTypography-body1-115"
+    >
+      <span
+        class="MuiSkeleton-root-152 MuiSkeleton-text-153 MuiSkeleton-pulse-156"
+        style="width: 209px; height: 37px;"
+      />
+    </p>
+    <p
+      class="MuiTypography-root-113 MuiTypography-body2-114"
+    >
+      Assets Deposited
+    </p>
+    <div
+      class="makeStyles-showMoreContainer-8"
+    >
+      <div
+        class="makeStyles-showMore-9"
+      >
+        Hide
+      </div>
+    </div>
+    <div
+      class="MuiCollapse-root-163 MuiCollapse-entered-164"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper-166"
+      >
+        <div
+          class="MuiCollapse-wrapperInner-167"
+        >
+          <div
+            class="makeStyles-submetric-4"
+          >
+            <p
+              class="MuiTypography-root-113 makeStyles-submetricValue-5 MuiTypography-body1-115"
+            >
+              1.0082
+            </p>
+            <span
+              class="MuiTypography-root-113 makeStyles-submetricType-6 MuiTypography-caption-116"
+            >
+              tokens per share
+            </span>
+          </div>
+          <div
+            class="makeStyles-submetric-4"
+          >
+            <p
+              class="MuiTypography-root-113 makeStyles-submetricValue-5 MuiTypography-body1-115"
+            >
+              100.00000
+            </p>
+            <span
+              class="MuiTypography-root-113 makeStyles-submetricType-6 MuiTypography-caption-116"
+            >
+              tokens withdrawable
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`VaultMetrics renders correctly 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-10 makeStyles-root-1 MuiGrid-container-11"
+  >
+    <h6
+      class="MuiTypography-root-113 makeStyles-title-7 MuiTypography-h6-123"
+    >
+      Vault Details
+    </h6>
+    <hr
+      class="MuiDivider-root-145 WithStyles(ForwardRef(Divider))-root-143 WithStyles(ForwardRef(Divider))-root-144"
+    />
+    <p
+      class="MuiTypography-root-113 makeStyles-amount-2 MuiTypography-body1-115"
+    >
+      <span
+        class="MuiSkeleton-root-152 MuiSkeleton-text-153 MuiSkeleton-pulse-156"
+        style="width: 209px; height: 37px;"
+      />
+    </p>
+    <p
+      class="MuiTypography-root-113 MuiTypography-body2-114"
+    >
+      Assets Deposited
+    </p>
+    <div
+      class="makeStyles-showMoreContainer-8"
+    >
+      <div
+        class="makeStyles-showMore-9"
+      >
+        Hide
+      </div>
+    </div>
+    <div
+      class="MuiCollapse-root-163 MuiCollapse-entered-164"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper-166"
+      >
+        <div
+          class="MuiCollapse-wrapperInner-167"
+        >
+          <div
+            class="makeStyles-submetric-4"
+          >
+            <p
+              class="MuiTypography-root-113 makeStyles-submetricValue-5 MuiTypography-body1-115"
+            >
+              1.0082
+            </p>
+            <span
+              class="MuiTypography-root-113 makeStyles-submetricType-6 MuiTypography-caption-116"
+            >
+              tokens per share
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

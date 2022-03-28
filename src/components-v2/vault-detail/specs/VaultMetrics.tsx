@@ -7,7 +7,6 @@ import { StoreContext } from '../../../mobx/store-context';
 import { inCurrency, numberWithCommas } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import { Skeleton } from '@material-ui/lab';
-import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +58,7 @@ interface Props {
 }
 
 const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
-	const { uiState, lockedCvxDelegation } = React.useContext(StoreContext);
+	const { uiState, lockedDeposits } = React.useContext(StoreContext);
 	const classes = useStyles();
 
 	const currencyValue = inCurrency(new BigNumber(vault.value), uiState.currency);
@@ -74,7 +73,7 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 
 	const [showMore, setShowMore] = useState(true);
 	const expandText = showMore ? 'Hide' : 'Show More';
-	const shownBalance = lockedCvxDelegation.totalCVXWithdrawable;
+	const shownBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
 
 	return (
 		<Grid container className={classes.root}>
@@ -101,7 +100,7 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 						tokens per share
 					</Typography>
 				</div>
-				{vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && shownBalance && (
+				{shownBalance && (
 					<div className={classes.submetric}>
 						<Typography variant="body1" className={classes.submetricValue}>
 							{numberWithCommas(shownBalance.balanceDisplay(5))}
