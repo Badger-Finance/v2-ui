@@ -17,9 +17,7 @@ const LockingVaultAdvisory = ({
 }: LockingVaultAdvisoryProps): JSX.Element => {
 	return (
 		<GenericVaultAdvisory accept={accept}>
-			<p>
-				This vault locks {vault.asset} in a staking contract that is {lockingWeeks} weeks long.
-			</p>
+			<p>{`The vault ${vault.asset} is currently locked for ${lockingWeeks} weeks.`}</p>
 			<p>
 				The Total Withdrawable Amount in the vault may be lower than your balance depending on what is currently
 				available and will fluctuate with deposits and withdraws from the vault as well as locks and unlocks
