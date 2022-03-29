@@ -79,7 +79,7 @@ exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advi
       class="makeStyles-childContainer-2"
     >
       <p>
-        The vault sBTCCRV is currently locked for 16 weeks.
+        This vault locks sBTCCRV in a staking contract that is 16 weeks long.
       </p>
       <p>
         The Total Withdrawable Amount in the vault may be lower than your balance depending on what is currently available and will fluctuate with deposits and withdraws from the vault as well as locks and unlocks from the contract.

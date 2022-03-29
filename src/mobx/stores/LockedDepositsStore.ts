@@ -48,27 +48,30 @@ class LockedDepositsStore {
 		strategyAddress,
 	}: LockedContractInfo): Promise<[string, TokenBalance][]> => {
 		const {
-			onboard: { wallet },
+			onboard: { ethersWeb3Provider },
 		} = this.store;
 
-		if (!wallet?.provider) {
+		if (!ethersWeb3Provider) {
 			return [];
 		}
 
-		const provider = new ethers.providers.Web3Provider(wallet.provider, 'any');
 		const token = this.store.vaults.getToken(underlyingTokenAddress);
-		const voteLockedDepositContract = VoteLockedDeposit__factory.connect(lockingContractAddress, provider);
-		const tokenContract = ERC20__factory.connect(underlyingTokenAddress, provider);
+		const tokenContract = ERC20__factory.connect(underlyingTokenAddress, ethersWeb3Provider);
+		const voteLockedDepositContract = VoteLockedDeposit__factory.connect(
+			lockingContractAddress,
+			ethersWeb3Provider,
+		);
 
-		const [vaultBalance, strategyBalance, totalCVXBalanceStrategy, lockedCVXBalanceStrategy] = await Promise.all([
-			await tokenContract.balanceOf(vaultAddress),
-			await tokenContract.balanceOf(strategyAddress),
-			await voteLockedDepositContract.lockedBalanceOf(vaultAddress),
-			await voteLockedDepositContract.balanceOf(vaultAddress),
-		]);
+		const [vaultBalance, strategyBalance, totalTokenBalanceStrategy, lockedTokenBalanceStrategy] =
+			await Promise.all([
+				await tokenContract.balanceOf(vaultAddress),
+				await tokenContract.balanceOf(strategyAddress),
+				await voteLockedDepositContract.lockedBalanceOf(vaultAddress),
+				await voteLockedDepositContract.balanceOf(vaultAddress),
+			]);
 
 		const balance = new BigNumber(
-			vaultBalance.add(strategyBalance).add(totalCVXBalanceStrategy).add(lockedCVXBalanceStrategy)._hex,
+			vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy)._hex,
 		);
 
 		return [[ethers.utils.getAddress(underlyingTokenAddress), new TokenBalance(token, balance, balance)]];
