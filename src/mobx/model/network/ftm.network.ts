@@ -176,6 +176,7 @@ export const ftmVaults: BadgerVault[] = [
 			address: FTM_DEPLOY.sett_system.vaults['native.geist-g3crv'],
 			decimals: 18,
 		},
+		depositAdvisory: AdvisoryType.OxDAOLock,
 	},
 	{
 		depositToken: {

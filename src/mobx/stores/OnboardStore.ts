@@ -10,6 +10,7 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
 import { getOnboardWallets, isRpcWallet, isSupportedNetwork, onboardWalletCheck } from 'config/wallets';
 import rpc from 'config/rpc.config';
+import { ethers } from 'ethers';
 
 const WALLET_STORAGE_KEY = 'selectedWallet';
 
@@ -38,6 +39,18 @@ export class OnboardStore {
 			address: undefined,
 		});
 		this.connect(true);
+	}
+
+	/**
+	 * creates a new multichain compatible web3 provider for ethers
+	 * @see https://github.com/ethers-io/ethers.js/issues/1107
+	 */
+	get ethersWeb3Provider(): Web3Provider | null {
+		if (!this.wallet) {
+			return null;
+		}
+
+		return new ethers.providers.Web3Provider(this.wallet.provider, 'any');
 	}
 
 	isActive(): boolean {
