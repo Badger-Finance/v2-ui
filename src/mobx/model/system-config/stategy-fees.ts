@@ -6,6 +6,7 @@ export enum StrategyFee {
 	yearnManagement = 'yearnManagement',
 	harvestPerformance = 'harvestPerformance',
 	harvestStrategistPerformance = 'harvestStrategistPerformance',
+	aumFee = 'managementFee',
 }
 
 export const userReadableFeeNames: Record<StrategyFee, string> = {
@@ -16,4 +17,5 @@ export const userReadableFeeNames: Record<StrategyFee, string> = {
 	[StrategyFee.yearnManagement]: 'Yearn Management Fee',
 	[StrategyFee.harvestPerformance]: 'Harvest Performance Fee',
 	[StrategyFee.harvestStrategistPerformance]: 'Harvest Strategist Performance Fee',
+	[StrategyFee.aumFee]: 'Management Fee',
 };

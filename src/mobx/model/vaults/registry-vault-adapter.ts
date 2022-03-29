@@ -77,6 +77,7 @@ export class RegistryVaultAdapter implements VaultDTO {
 			strategistFee: 0,
 			address: '',
 			performanceFee: 0,
+			aumFee: 0,
 		};
 		this.behavior = VaultBehavior.None;
 		this.version = VaultVersion.v1;

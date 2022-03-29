@@ -58,6 +58,7 @@ export const SAMPLE_VAULT: VaultDTO = {
 		withdrawFee: 50,
 		performanceFee: 20,
 		strategistFee: 10,
+		aumFee: 0,
 	},
 	behavior: VaultBehavior.EcosystemHelper,
 	sources: [
@@ -260,6 +261,7 @@ export const SAMPLE_VAULTS: VaultDTO[] = [
 			withdrawFee: 0,
 			performanceFee: 0,
 			strategistFee: 0,
+			aumFee: 0,
 		},
 		type: VaultType.Native,
 	},
@@ -327,6 +329,7 @@ export const SAMPLE_VAULTS: VaultDTO[] = [
 			withdrawFee: 0,
 			performanceFee: 0,
 			strategistFee: 0,
+			aumFee: 0,
 		},
 		type: VaultType.Standard,
 	},

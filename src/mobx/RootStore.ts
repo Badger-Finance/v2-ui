@@ -26,6 +26,7 @@ import BondStore from './stores/BondStore';
 import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
 import { GovernancePortalStore } from './stores/GovernancePortalStore';
+import LockedDepositsStore from './stores/LockedDepositsStore';
 
 export class RootStore {
 	public sdk: BadgerSDK;
@@ -47,6 +48,7 @@ export class RootStore {
 	public gasPrices: GasPricesStore;
 	public bondStore: BondStore;
 	public governancePortal: GovernancePortalStore;
+	public lockedDeposits: LockedDepositsStore;
 
 	constructor() {
 		// this is passed as a dummy rpc - it will never be used unless required by an rpc wallet, e.g.: wallet connect
@@ -74,6 +76,7 @@ export class RootStore {
 		this.ibBTCStore = new IbBTCStore(this);
 		this.bondStore = new BondStore(this);
 		this.governancePortal = new GovernancePortalStore(this);
+		this.lockedDeposits = new LockedDepositsStore(this);
 	}
 
 	async updateNetwork(network: number): Promise<void> {
@@ -117,7 +120,7 @@ export class RootStore {
 			const updateActions = [
 				this.user.loadAccountDetails(address),
 				this.user.loadClaimProof(address, config.network),
-				this.lockedCvxDelegation.loadTotalCVXWithdrawable(),
+				this.lockedDeposits.loadLockedBalances(),
 			];
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {

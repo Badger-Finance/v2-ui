@@ -56,5 +56,6 @@
 			"native.veoxd": "0x0c7E0807011A218d0F1A156D3965875ff233933E"
 		}
 	},
-	"badgerTree": "0x89122c767a5f543e663db536b603123225bc3823"
+	"badgerTree": "0x89122c767a5f543e663db536b603123225bc3823",
+	"veoxdLocker": "0xda00527edaabce6f97d89adb10395f719e5559b9"
 }

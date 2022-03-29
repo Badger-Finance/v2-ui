@@ -171,6 +171,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
+						[StrategyFee.aumFee]: new BigNumber(200),
 					},
 					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-oxd',
 				},
