@@ -1,7 +1,6 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTO, VaultStrategy } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { FeeConfig } from 'mobx/model/fees/fee-config';
-import { VaultStrategy } from 'mobx/model/vaults/vault-strategy';
 import { StrategyFee } from '../model/system-config/stategy-fees';
 
 export function getStrategyFee(vault: VaultDTO, fee: StrategyFee, defaultFeeConfig?: FeeConfig): number {
@@ -54,6 +53,8 @@ export function getVaultStrategyFee(strategy: VaultStrategy, fee: StrategyFee): 
 			return strategy.performanceFee;
 		case StrategyFee.strategistPerformance:
 			return strategy.strategistFee;
+		case StrategyFee.aumFee:
+			return strategy.aumFee;
 		default:
 			return;
 	}
