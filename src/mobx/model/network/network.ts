@@ -91,7 +91,9 @@ export abstract class Network {
 	getBalancesRequests(vaults: VaultMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
 		let tokenAddresses = Object.values(vaults).map((vault) => vault.underlyingToken);
 		const vaultAddresses = Object.values(vaults).map((vault) => vault.vaultToken);
-		const generalVaultAddresses = vaultAddresses.filter((vault) => vaults[vault].state === VaultState.Open || vaults[vault].state === VaultState.New);
+		const generalVaultAddresses = vaultAddresses.filter(
+			(vault) => vaults[vault].state === VaultState.Open || vaults[vault].state === VaultState.New,
+		);
 		const guardedVaultAddresses = vaultAddresses.filter(
 			(vault) => vaults[vault].state === VaultState.Guarded || vaults[vault].state === VaultState.Experimental,
 		);
