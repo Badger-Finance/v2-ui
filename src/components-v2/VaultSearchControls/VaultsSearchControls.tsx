@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const VaultsSearchControls = () => {
 	const {
-		vaults: { vaultsFiltersV2, vaultsFilters, setVaultsFilter, networkHasBoostVaults },
+		vaults: { vaultsFiltersV2, setVaultsFilter, networkHasBoostVaults },
 	} = useContext(StoreContext);
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const classes = useStyles();
@@ -66,7 +66,7 @@ const VaultsSearchControls = () => {
 					/>
 					<PortfolioDustControl
 						className={classes.checkbox}
-						checked={vaultsFilters.hidePortfolioDust}
+						checked={!!vaultsFiltersV2?.hidePortfolioDust}
 						onChange={(checked) => setVaultsFilter('hidePortfolioDust', checked)}
 					/>
 					{networkHasBoostVaults && (
