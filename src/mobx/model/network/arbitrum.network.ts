@@ -8,7 +8,6 @@ import deploy from '../../../config/deployments/arbitrum.json';
 import { Currency } from 'config/enums/currency.enum';
 import { Network } from '@badger-dao/sdk';
 
-// TODO: Add Arbitrum gas estimation + link
 export class Arbitrum extends NetworkModel {
 	constructor() {
 		super(
@@ -21,19 +20,6 @@ export class Arbitrum extends NetworkModel {
 			ARBITRUM_DEPLOY,
 			arbitrumVaults,
 		);
-	}
-
-	get settOrder(): string[] {
-		return [
-			this.deploy.sett_system.vaults['native.tricrypto'],
-			this.deploy.sett_system.vaults['native.crvWbtcRen'],
-			this.deploy.sett_system.vaults['native.swaprWethIbbtc'],
-			this.deploy.sett_system.vaults['native.swaprWethBadger'],
-			this.deploy.sett_system.vaults['native.swaprWethWbtc'],
-			this.deploy.sett_system.vaults['native.swaprWethSwapr'],
-			this.deploy.sett_system.vaults['native.sushiWethWbtc'],
-			this.deploy.sett_system.vaults['native.sushiWethSushi'],
-		];
 	}
 }
 

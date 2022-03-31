@@ -59,6 +59,7 @@ const normalVault: VaultDTO = {
 		withdrawFee: 0,
 		performanceFee: 0,
 		strategistFee: 0,
+		aumFee: 0,
 	},
 	type: VaultType.Native,
 	version: VaultVersion.v1,
@@ -78,7 +79,7 @@ const normalVault: VaultDTO = {
 describe('VaultItemApr', () => {
 	describe('No APR Vaults', () => {
 		it('renders zero APR', () => {
-			checkSnapshot(<VaultItemApr boost={null} vault={{ ...normalVault, apr: 0 }} />);
+			checkSnapshot(<VaultItemApr boost={0} vault={{ ...normalVault, apr: 0 }} />);
 		});
 	});
 
@@ -104,26 +105,6 @@ describe('VaultItemApr', () => {
 
 			fireEvent.mouseOver(screen.getByText(`${mockUserBoost.toFixed(2)}%`));
 			await screen.findByText(SAMPLE_VAULT.sourcesApy[0].name, { exact: false });
-			jest.runAllTimers();
-			expect(container).toMatchSnapshot();
-		});
-	});
-
-	describe('Non-Boosted Vaults', () => {
-		it('displays correct APR and boost information', () => {
-			checkSnapshot(<VaultItemApr boost={null} vault={normalVault} />);
-		});
-
-		it('displays APR breakdown on hover', async () => {
-			jest.useFakeTimers();
-			const { container } = customRender(
-				<StoreProvider value={store}>
-					<VaultItemApr boost={null} vault={normalVault} />
-				</StoreProvider>,
-			);
-
-			fireEvent.mouseOver(screen.getByText(`${normalVault.apr.toFixed(2)}%`));
-			await screen.findByText(normalVault.sources[0].name, { exact: false });
 			jest.runAllTimers();
 			expect(container).toMatchSnapshot();
 		});

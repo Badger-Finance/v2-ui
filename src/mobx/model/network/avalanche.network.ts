@@ -21,10 +21,6 @@ export class Avalanche extends NetworkModel {
 			avaxVaults,
 		);
 	}
-
-	get settOrder(): string[] {
-		return [this.deploy.sett_system.vaults['BWBTC']];
-	}
 }
 
 export const AVAX_DEPLOY: Deploy = deploy;

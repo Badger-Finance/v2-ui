@@ -172,7 +172,10 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	};
 
 	const badgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === vault.vaultToken);
-	const vaultBoost = user.accountDetails?.boost ? getUserVaultBoost(vault, user.accountDetails.boost, showAPR) : null;
+	let vaultBoost = showAPR ? vault.apr : vault.apy;
+	if (user.accountDetails?.boost) {
+		vaultBoost = getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
+	}
 	const boostContribution =
 		vaultBoost && vault.minApy && vault.minApr
 			? Math.max(0, vaultBoost - (showAPR ? vault.minApr : vault.minApy))
