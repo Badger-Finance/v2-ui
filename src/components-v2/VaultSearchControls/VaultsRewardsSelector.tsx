@@ -33,6 +33,7 @@ const VaultsRewardsSelector = ({ rewards = [], onChange }: Props): JSX.Element =
 			value={rewards}
 			defaultValue=""
 			onChange={handleChange}
+			id="rewards-selector-id"
 			label="Rewards"
 			color="primary"
 			className={classes.formControl}
@@ -40,6 +41,7 @@ const VaultsRewardsSelector = ({ rewards = [], onChange }: Props): JSX.Element =
 				multiple: true,
 				renderValue: (selected) => <SelectControlsChips selected={selected as string[]} />,
 			}}
+			inputProps={{ 'data-testid': 'rewards-selector-input' }}
 		>
 			<MenuItem disabled value="">
 				<em>Rewards</em>

@@ -42,6 +42,7 @@ const VaultStatusSelector = ({ statuses = [], onChange }: Props): JSX.Element =>
 				multiple: true,
 				renderValue: (selected) => <SelectControlsChips selected={selected as string[]} />,
 			}}
+			inputProps={{ 'data-testid': 'status-selector-input' }}
 		>
 			<MenuItem disabled value="">
 				<em>Status</em>

@@ -23,12 +23,14 @@ const VaultsCurrencyControl = ({ currency, onCurrencyChange, ...muiProps }: Prop
 	return (
 		<ButtonGroup {...muiProps} aria-label="currency selector">
 			<Button
+				aria-selected={currency === Currency.USD}
 				className={clsx(currency === Currency.USD && classes.selected, classes.button)}
 				onClick={() => onCurrencyChange(Currency.USD)}
 			>
 				USD
 			</Button>
 			<Button
+				aria-selected={currency === Currency.BTC}
 				className={clsx(currency === Currency.BTC && classes.selected, classes.button)}
 				onClick={() => onCurrencyChange(Currency.BTC)}
 			>

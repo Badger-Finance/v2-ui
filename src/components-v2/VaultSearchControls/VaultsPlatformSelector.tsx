@@ -47,6 +47,7 @@ const VaultsPlatformSelector = ({ platforms = [], onChange }: Props): JSX.Elemen
 				multiple: true,
 				renderValue: (selected) => <SelectControlsChips selected={selected as string[]} />,
 			}}
+			inputProps={{ 'data-testid': 'platform-selector-input' }}
 		>
 			<MenuItem disabled value="">
 				<em>Platform</em>

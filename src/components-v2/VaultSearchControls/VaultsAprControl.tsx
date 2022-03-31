@@ -22,12 +22,17 @@ const VaultsAprControl = ({ showAPR, onShowAPRChange, ...muiProps }: Props): JSX
 	return (
 		<ButtonGroup {...muiProps} aria-label="apy apr selector">
 			<Button
+				aria-selected={!showAPR}
 				className={clsx(!showAPR && classes.selected, classes.button)}
 				onClick={() => onShowAPRChange(false)}
 			>
 				APY
 			</Button>
-			<Button className={clsx(showAPR && classes.selected, classes.button)} onClick={() => onShowAPRChange(true)}>
+			<Button
+				aria-selected={showAPR}
+				className={clsx(showAPR && classes.selected, classes.button)}
+				onClick={() => onShowAPRChange(true)}
+			>
 				APR
 			</Button>
 		</ButtonGroup>
