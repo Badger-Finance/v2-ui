@@ -84,20 +84,18 @@ const VaultFiltersDialogV2 = () => {
 	};
 
 	const handleSave = () => {
-		if (vaults.vaultsFiltersV2) {
-			vaults.vaultsFiltersV2 = {
-				...vaults.vaultsFiltersV2,
-				statuses: statuses,
-				onlyDeposits,
-				showAPR,
-				currency,
-				protocols: platforms,
-				behaviors: rewards,
-				search: search,
-				onlyBoostedVaults: boostedVaults,
-				hidePortfolioDust: hideDust,
-			};
-		}
+		vaults.vaultsFiltersV2 = {
+			...vaults.vaultsFiltersV2,
+			statuses: statuses,
+			onlyDeposits,
+			showAPR,
+			currency,
+			protocols: platforms,
+			behaviors: rewards,
+			search: search,
+			onlyBoostedVaults: boostedVaults,
+			hidePortfolioDust: hideDust,
+		};
 		handleClose();
 	};
 
@@ -114,9 +112,7 @@ const VaultFiltersDialogV2 = () => {
 	};
 
 	useEffect(() => {
-		if (vaultsFiltersV2) {
-			syncPersistedFiltersValues();
-		}
+		syncPersistedFiltersValues();
 	}, [vaultsFiltersV2]);
 
 	return (
