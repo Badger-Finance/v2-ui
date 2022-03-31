@@ -8,9 +8,17 @@ import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-ca
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { VaultMap } from '../model/vaults/vault-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
-import { Currency, Network, ProtocolSummary, TokenConfiguration, VaultDTO, VaultState } from '@badger-dao/sdk';
+import {
+	Currency,
+	Network,
+	Protocol,
+	ProtocolSummary,
+	TokenConfiguration,
+	VaultDTO,
+	VaultState,
+} from '@badger-dao/sdk';
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
-import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
+import { VaultsFilters, VaultsFiltersV2, VaultSortOrder } from '../model/ui/vaults-filters';
 import { Currency as UiCurrency } from '../../config/enums/currency.enum';
 import BigNumber from 'bignumber.js';
 import { ContractCallReturnContext } from 'ethereum-multicall';
@@ -36,6 +44,7 @@ export default class VaultStore {
 	public initialized: boolean;
 	public showVaultFilters: boolean;
 	public vaultsFilters: VaultsFilters;
+	public vaultsFiltersV2?: VaultsFiltersV2;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -50,6 +59,7 @@ export default class VaultStore {
 			availableBalances: this.availableBalances,
 			vaultsFilters: {},
 			showVaultFilters: false,
+			vaultsFiltersV2: this.vaultsFiltersV2,
 		});
 
 		this.vaultDefinitionsCache = {};
@@ -67,6 +77,16 @@ export default class VaultStore {
 			protocols: [],
 			types: [],
 		};
+
+		if (FLAGS.VAULT_FILTERS_V2) {
+			this.vaultsFiltersV2 = {
+				hidePortfolioDust: false,
+				showAPR: false,
+				currency: store.uiState.currency,
+				onlyDeposits: false,
+				onlyBoostedVaults: false,
+			};
+		}
 
 		this.refresh();
 	}
@@ -108,6 +128,28 @@ export default class VaultStore {
 	get vaultsDefinitions(): VaultsDefinitions | undefined | null {
 		const { network: currentNetwork } = this.store.network;
 		return this.vaultDefinitionsCache[currentNetwork.symbol];
+	}
+
+	get vaultsProtocols(): Protocol[] {
+		if (!this.vaultMap) {
+			return [];
+		}
+
+		return [
+			...new Set(
+				Object.values(this.vaultMap)
+					.filter((v) => v.state !== VaultState.Deprecated)
+					.map((vault) => vault.protocol),
+			),
+		];
+	}
+
+	get networkHasBoostVaults(): boolean {
+		if (!this.vaultMap) {
+			return false;
+		}
+
+		return Object.values(this.vaultMap).some((vault) => vault.boost.enabled);
 	}
 
 	getVaultDefinition(vault: VaultDTO): BadgerVault | undefined | null {
@@ -155,12 +197,6 @@ export default class VaultStore {
 	}
 
 	getVaultOrder(): VaultDTO[] | undefined | null {
-		const {
-			user,
-			network,
-			prices: { exchangeRates },
-		} = this.store;
-
 		const vaultMap = this.getVaultMap();
 
 		if (vaultMap === undefined || this.vaultsDefinitions === undefined) {
@@ -176,104 +212,8 @@ export default class VaultStore {
 			return vault ? [vault] : [];
 		});
 
-		if (this.vaultsFilters.hidePortfolioDust) {
-			if (exchangeRates) {
-				vaults = vaults.filter((vault) => {
-					const userBalance = user.getTokenBalance(vault.vaultToken).value;
-
-					// only evaluate vaults with deposited balance
-					if (userBalance.isZero()) {
-						return true;
-					}
-
-					// balance bigger than $1
-					return userBalance.multipliedBy(exchangeRates.usd).gt(1);
-				});
-			} else {
-				console.error('Portfolio dust filtering was skipped because the exchanges rates are not available');
-			}
-		}
-
-		if (this.vaultsFilters.protocols.length > 0) {
-			vaults = vaults.filter((vault) => this.vaultsFilters.protocols.includes(vault.protocol));
-		}
-
-		if (this.vaultsFilters.types.length > 0) {
-			vaults = vaults.filter((vault) => this.vaultsFilters.types.includes(vault.type));
-		}
-
-		switch (this.vaultsFilters.sortOrder) {
-			case VaultSortOrder.APR_ASC:
-				vaults = vaults.sort((a, b) => a.apr - b.apr);
-				break;
-			case VaultSortOrder.APR_DESC:
-				vaults = vaults.sort((a, b) => b.apr - a.apr);
-				break;
-			case VaultSortOrder.TVL_ASC:
-				vaults = vaults.sort((a, b) => a.value - b.value);
-				break;
-			case VaultSortOrder.TVL_DESC:
-				vaults = vaults.sort((a, b) => b.value - a.value);
-				break;
-			case VaultSortOrder.BALANCE_ASC:
-				vaults = vaults = vaults.sort((a, b) => {
-					const balanceB = user.getTokenBalance(b.vaultToken).value;
-					const balanceA = user.getTokenBalance(a.vaultToken).value;
-					return balanceA.minus(balanceB).toNumber();
-				});
-				break;
-			case VaultSortOrder.BALANCE_DESC:
-				vaults = vaults = vaults.sort((a, b) => {
-					const balanceB = user.getTokenBalance(b.vaultToken).value;
-					const balanceA = user.getTokenBalance(a.vaultToken).value;
-					return balanceB.minus(balanceA).toNumber();
-				});
-				break;
-			default:
-				const featuredVaultRank = Object.fromEntries(network.network.settOrder.map((v, i) => [v, i + 1]));
-				// default sorting uses the following criteria:
-				// 1 - balance deposited in vault
-				// 2 - vault's underlying token balance
-				// 3 - feature vaults
-				// 4 - new vaults
-				// 5 - boosted vaults
-				vaults = vaults = vaults.sort((a, b) => {
-					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
-					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
-
-					if (!vaultTokenBalanceA.isZero() || !vaultTokenBalanceB.isZero()) {
-						return vaultTokenBalanceB.minus(vaultTokenBalanceA).toNumber();
-					}
-
-					const depositTokenBalanceB = user.getTokenBalance(b.underlyingToken).value;
-					const depositTokenBalanceA = user.getTokenBalance(a.underlyingToken).value;
-
-					if (!depositTokenBalanceB.lte(1) || !depositTokenBalanceA.lte(1)) {
-						return depositTokenBalanceB.minus(depositTokenBalanceA).toNumber();
-					}
-
-					const rankA = featuredVaultRank[a.vaultToken];
-					const rankB = featuredVaultRank[b.vaultToken];
-					if (rankA || rankB) {
-						return (rankA ?? Number.MAX_SAFE_INTEGER) - (rankB ?? Number.MAX_SAFE_INTEGER);
-					}
-
-					if (b.state === VaultState.New || a.state === VaultState.New) {
-						const isVaultBNew = b.state === VaultState.New;
-						const isVaultANew = a.state === VaultState.New;
-						return Number(isVaultBNew) - Number(isVaultANew);
-					}
-
-					if (b.boost.enabled || a.boost.enabled) {
-						return Number(b.boost.enabled) - Number(a.boost.enabled);
-					}
-
-					// leave default order
-					return 0;
-				});
-				break;
-		}
-
+		vaults = this.applyFilters(vaults);
+		vaults = this.applySorting(vaults);
 		return vaults;
 	}
 
@@ -470,4 +410,163 @@ export default class VaultStore {
 			};
 		}
 	});
+
+	setVaultsFilter = action(<T extends keyof VaultsFiltersV2>(filter: T, value: VaultsFiltersV2[T]) => {
+		if (this.vaultsFiltersV2) {
+			this.vaultsFiltersV2[filter] = value;
+		}
+	});
+
+	private applyFilters(vaults: VaultDTO[]): VaultDTO[] {
+		const {
+			user,
+			prices: { exchangeRates },
+		} = this.store;
+
+		if (this.vaultsFilters.hidePortfolioDust || this.vaultsFiltersV2?.hidePortfolioDust) {
+			if (exchangeRates) {
+				vaults = vaults.filter((vault) => {
+					const userBalance = user.getTokenBalance(vault.vaultToken).value;
+
+					// only evaluate vaults with deposited balance
+					if (userBalance.isZero()) {
+						return true;
+					}
+
+					// balance bigger than $1
+					return userBalance.multipliedBy(exchangeRates.usd).gt(1);
+				});
+			} else {
+				console.error('Portfolio dust filtering was skipped because the exchanges rates are not available');
+			}
+		}
+
+		if (this.vaultsFiltersV2) {
+			const { protocol, search, status, behavior, onlyBoostedVaults, onlyDeposits } = this.vaultsFiltersV2;
+
+			if (onlyDeposits) {
+				vaults = vaults.filter((vault) => user.getTokenBalance(vault.vaultToken).value.gt(0));
+			}
+
+			if (onlyBoostedVaults) {
+				vaults = vaults.filter((vault) => vault.boost.enabled && !!vault.maxApr);
+			}
+
+			if (status) {
+				vaults = vaults.filter((vault) => vault.state === status);
+			}
+
+			if (protocol) {
+				vaults = vaults.filter((vault) => vault.protocol === protocol);
+			}
+
+			if (behavior) {
+				vaults = vaults.filter((vault) => vault.behavior === behavior);
+			}
+
+			if (search) {
+				vaults = vaults.filter(
+					(vault) =>
+						vault.name.toLowerCase().includes(search.toLowerCase()) ||
+						vault.vaultAsset.toLowerCase().includes(search.toLowerCase()) ||
+						vault.protocol.toLowerCase().includes(search.toLowerCase()) ||
+						vault.behavior.toLowerCase().includes(search.toLowerCase()) ||
+						vault.state.toLowerCase().includes(search.toLowerCase()) ||
+						vault.tokens.some(
+							(token) =>
+								token.name.toLowerCase().includes(search.toLowerCase()) ||
+								token.symbol.toLowerCase().includes(search.toLowerCase()),
+						),
+				);
+			}
+		} else {
+			if (this.vaultsFilters.protocols.length > 0) {
+				vaults = vaults.filter((vault) => this.vaultsFilters.protocols.includes(vault.protocol));
+			}
+
+			if (this.vaultsFilters.types.length > 0) {
+				vaults = vaults.filter((vault) => this.vaultsFilters.types.includes(vault.type));
+			}
+		}
+
+		return vaults;
+	}
+
+	private applySorting(vaults: VaultDTO[]): VaultDTO[] {
+		const { user, network } = this.store;
+
+		switch (this.vaultsFilters.sortOrder) {
+			case VaultSortOrder.APR_ASC:
+				vaults = vaults.sort((a, b) => a.apr - b.apr);
+				break;
+			case VaultSortOrder.APR_DESC:
+				vaults = vaults.sort((a, b) => b.apr - a.apr);
+				break;
+			case VaultSortOrder.TVL_ASC:
+				vaults = vaults.sort((a, b) => a.value - b.value);
+				break;
+			case VaultSortOrder.TVL_DESC:
+				vaults = vaults.sort((a, b) => b.value - a.value);
+				break;
+			case VaultSortOrder.BALANCE_ASC:
+				vaults = vaults = vaults.sort((a, b) => {
+					const balanceB = user.getTokenBalance(b.vaultToken).value;
+					const balanceA = user.getTokenBalance(a.vaultToken).value;
+					return balanceA.minus(balanceB).toNumber();
+				});
+				break;
+			case VaultSortOrder.BALANCE_DESC:
+				vaults = vaults = vaults.sort((a, b) => {
+					const balanceB = user.getTokenBalance(b.vaultToken).value;
+					const balanceA = user.getTokenBalance(a.vaultToken).value;
+					return balanceB.minus(balanceA).toNumber();
+				});
+				break;
+			default:
+				const featuredVaultRank = Object.fromEntries(network.network.settOrder.map((v, i) => [v, i + 1]));
+				// default sorting uses the following criteria:
+				// 1 - balance deposited in vault
+				// 2 - vault's underlying token balance
+				// 3 - feature vaults
+				// 4 - new vaults
+				// 5 - boosted vaults
+				vaults = vaults = vaults.sort((a, b) => {
+					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
+					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
+
+					if (!vaultTokenBalanceA.isZero() || !vaultTokenBalanceB.isZero()) {
+						return vaultTokenBalanceB.minus(vaultTokenBalanceA).toNumber();
+					}
+
+					const depositTokenBalanceB = user.getTokenBalance(b.underlyingToken).value;
+					const depositTokenBalanceA = user.getTokenBalance(a.underlyingToken).value;
+
+					if (!depositTokenBalanceB.lte(1) || !depositTokenBalanceA.lte(1)) {
+						return depositTokenBalanceB.minus(depositTokenBalanceA).toNumber();
+					}
+
+					const rankA = featuredVaultRank[a.vaultToken];
+					const rankB = featuredVaultRank[b.vaultToken];
+					if (rankA || rankB) {
+						return (rankA ?? Number.MAX_SAFE_INTEGER) - (rankB ?? Number.MAX_SAFE_INTEGER);
+					}
+
+					if (b.state === VaultState.New || a.state === VaultState.New) {
+						const isVaultBNew = b.state === VaultState.New;
+						const isVaultANew = a.state === VaultState.New;
+						return Number(isVaultBNew) - Number(isVaultANew);
+					}
+
+					if (b.boost.enabled || a.boost.enabled) {
+						return Number(b.boost.enabled) - Number(a.boost.enabled);
+					}
+
+					// leave default order
+					return 0;
+				});
+				break;
+		}
+
+		return vaults;
+	}
 }
