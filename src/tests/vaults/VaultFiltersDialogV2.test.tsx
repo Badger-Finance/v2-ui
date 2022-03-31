@@ -9,11 +9,13 @@ import { Protocol, VaultBehavior, VaultState } from '@badger-dao/sdk';
 import { within } from '@testing-library/react';
 import { config } from 'react-transition-group';
 import UserEvent from '@testing-library/user-event';
+import * as ENVIRONMENT from '../../config/environment';
 
 describe('VaultFiltersDialogV2', () => {
 	beforeEach(() => {
 		jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
 		jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
+		ENVIRONMENT.FLAGS.VAULT_FILTERS_V2 = true;
 		store.vaults.showVaultFilters = true;
 		config.disabled = true;
 	});
