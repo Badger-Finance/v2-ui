@@ -73,9 +73,9 @@ export const getFormattedNetworkName = (network: Network): string => {
 		.join(' ');
 };
 
-export function getUserVaultBoost(vault: VaultDTO, boost: number, apr = false): number | null {
+export function getUserVaultBoost(vault: VaultDTO, boost: number, apr = false): number {
 	if (vault.state === VaultState.Deprecated || vault.sources.length === 0) {
-		return null;
+		return 0;
 	}
 
 	return (apr ? vault.sources : vault.sourcesApy)
