@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import {
@@ -11,6 +11,7 @@ import {
 	IconButton,
 	makeStyles,
 	Typography,
+	useTheme,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import OnlyDepositsControl from './OnlyDepositsControl';
@@ -54,19 +55,33 @@ const useStyles = makeStyles(() => ({
 const VaultFiltersDialogV2 = () => {
 	const { uiState, vaults } = useContext(StoreContext);
 	const classes = useStyles();
-	const { vaultsFiltersV2, vaultsFilters, networkHasBoostVaults } = vaults;
+	const { vaultsFiltersV2, networkHasBoostVaults } = vaults;
+	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 	const [onlyDeposits, setOnlyDeposits] = useState(!!vaultsFiltersV2?.onlyDeposits);
 	const [showAPR, setShowAPR] = useState(!!vaultsFiltersV2?.showAPR);
 	const [boostedVaults, setBoostedVaults] = useState(!!vaultsFiltersV2?.onlyBoostedVaults);
-	const [hideDust, setHideDust] = useState(vaultsFilters.hidePortfolioDust);
+	const [hideDust, setHideDust] = useState(!!vaultsFiltersV2?.hidePortfolioDust);
 	const [status, setStatus] = useState(vaultsFiltersV2?.status);
 	const [platform, setPlatform] = useState(vaultsFiltersV2?.protocol);
 	const [reward, setReward] = useState(vaultsFiltersV2?.behavior);
 	const [search, setSearch] = useState(vaultsFiltersV2?.search);
 	const [currency, setCurrency] = useState(vaultsFiltersV2?.currency ?? Currency.USD);
 
+	const syncPersistedFiltersValues = () => {
+		setOnlyDeposits(!!vaultsFiltersV2?.onlyDeposits);
+		setShowAPR(!!vaultsFiltersV2?.showAPR);
+		setBoostedVaults(!!vaultsFiltersV2?.onlyBoostedVaults);
+		setHideDust(!!vaultsFiltersV2?.hidePortfolioDust);
+		setStatus(vaultsFiltersV2?.status);
+		setPlatform(vaultsFiltersV2?.protocol);
+		setReward(vaultsFiltersV2?.behavior);
+		setSearch(vaultsFiltersV2?.search);
+		setCurrency(vaults.vaultsFiltersV2?.currency ?? uiState.currency);
+	};
+
 	const handleClose = () => {
 		vaults.showVaultFilters = false;
+		setTimeout(syncPersistedFiltersValues, closeDialogTransitionDuration);
 	};
 
 	const handleSave = () => {
@@ -91,12 +106,19 @@ const VaultFiltersDialogV2 = () => {
 		setOnlyDeposits(false);
 		setShowAPR(false);
 		setBoostedVaults(false);
+		setHideDust(false);
 		setCurrency(vaultsFiltersV2?.currency ?? uiState.currency);
 		setStatus(undefined);
 		setPlatform(undefined);
 		setReward(undefined);
 		setSearch('');
 	};
+
+	useEffect(() => {
+		if (vaultsFiltersV2) {
+			syncPersistedFiltersValues();
+		}
+	}, [vaultsFiltersV2]);
 
 	return (
 		<Dialog open={FLAGS.VAULT_FILTERS_V2 && vaults.showVaultFilters} onClose={handleClose} maxWidth="sm" fullWidth>
