@@ -24,7 +24,7 @@ export class Fantom extends NetworkModel {
 	}
 
 	get settOrder(): string[] {
-		return [this.deploy.sett_system.vaults['native.veoxd']];
+		return [this.deploy.sett_system.vaults['native.veoxd'], this.deploy.sett_system.vaults['native.bveoxd-oxd'], this.deploy.sett_system.vaults['native.oxsolid']];
 	}
 }
 
@@ -192,6 +192,26 @@ export const ftmVaults: BadgerVault[] = [
 			decimals: 18,
 		},
 		depositAdvisory: AdvisoryType.ConvexLock,
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.bveoxd-oxd'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.bveoxd-oxd'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['oxsolid'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.oxsolid'],
+			decimals: 18,
+		},
 	},
 ];
 
