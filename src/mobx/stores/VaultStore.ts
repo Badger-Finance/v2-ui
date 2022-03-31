@@ -157,6 +157,7 @@ export default class VaultStore {
 	getVaultOrder(): VaultDTO[] | undefined | null {
 		const {
 			user,
+			network,
 			prices: { exchangeRates },
 		} = this.store;
 
@@ -229,11 +230,13 @@ export default class VaultStore {
 				});
 				break;
 			default:
+				const featuredVaultRank = Object.fromEntries(network.network.settOrder.map((v, i) => [v, i + 1]));
 				// default sorting uses the following criteria:
 				// 1 - balance deposited in vault
 				// 2 - vault's underlying token balance
-				// 3 - new vaults
-				// 4 - boosted vaults
+				// 3 - feature vaults
+				// 4 - new vaults
+				// 5 - boosted vaults
 				vaults = vaults = vaults.sort((a, b) => {
 					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
 					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
@@ -245,8 +248,14 @@ export default class VaultStore {
 					const depositTokenBalanceB = user.getTokenBalance(b.underlyingToken).value;
 					const depositTokenBalanceA = user.getTokenBalance(a.underlyingToken).value;
 
-					if (!depositTokenBalanceB.isZero() || !depositTokenBalanceA.isZero()) {
+					if (!depositTokenBalanceB.lte(1) || !depositTokenBalanceA.lte(1)) {
 						return depositTokenBalanceB.minus(depositTokenBalanceA).toNumber();
+					}
+
+					const rankA = featuredVaultRank[a.vaultToken];
+					const rankB = featuredVaultRank[b.vaultToken];
+					if (rankA || rankB) {
+						return (rankA ?? Number.MAX_SAFE_INTEGER) - (rankB ?? Number.MAX_SAFE_INTEGER);
 					}
 
 					if (b.state === VaultState.New || a.state === VaultState.New) {

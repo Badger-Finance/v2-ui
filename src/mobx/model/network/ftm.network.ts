@@ -22,6 +22,12 @@ export class Fantom extends NetworkModel {
 			ftmVaults,
 		);
 	}
+
+	get settOrder(): string[] {
+		return [
+			this.deploy.sett_system.vaults['native.veoxd'],
+		];
+	}
 }
 
 export const FTM_DEPLOY: Deploy = deploy;
