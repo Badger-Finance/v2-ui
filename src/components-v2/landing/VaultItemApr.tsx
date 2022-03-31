@@ -54,7 +54,7 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
 			id={`${vault.name} apr breakdown`}
 		>
 			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
-				{`${numberWithCommas((boost).toFixed(2))}%`}
+				{`${numberWithCommas(boost.toFixed(2))}%`}
 			</Typography>
 		</Tooltip>
 	);
