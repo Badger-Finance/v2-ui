@@ -364,6 +364,15 @@ export default class VaultStore {
 		this.availableBalances[key] = new TokenBalance(settToken, balance, tokenPrice);
 	});
 
+	setVaultsFilter = action(<T extends keyof VaultsFiltersV2>(filter: T, value: VaultsFiltersV2[T]) => {
+		if (this.vaultsFiltersV2) {
+			this.vaultsFiltersV2 = {
+				...this.vaultsFiltersV2,
+				[filter]: value,
+			};
+		}
+	});
+
 	clearFilters = action(() => {
 		this.vaultsFilters = {
 			hidePortfolioDust: this.vaultsFilters.hidePortfolioDust,
@@ -408,12 +417,6 @@ export default class VaultStore {
 				...this.vaultDefinitionsCache,
 				[currentNetwork.symbol]: new Map([...this.vaultsDefinitions, ...sdkVaultsMap]),
 			};
-		}
-	});
-
-	setVaultsFilter = action(<T extends keyof VaultsFiltersV2>(filter: T, value: VaultsFiltersV2[T]) => {
-		if (this.vaultsFiltersV2) {
-			this.vaultsFiltersV2[filter] = value;
 		}
 	});
 
