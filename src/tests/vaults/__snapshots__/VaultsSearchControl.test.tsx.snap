@@ -1,0 +1,1236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VaultSearchControl desktop renders correctly 1`] = `
+<div>
+  <div
+    class="MuiPaper-root-5 makeStyles-paper-4 MuiPaper-elevation1-9 MuiPaper-rounded-6"
+  >
+    <div
+      class="MuiGrid-root-33 makeStyles-firstRow-1 MuiGrid-container-34 MuiGrid-align-items-xs-center-42 MuiGrid-justify-content-xs-space-between-53"
+    >
+      <div>
+        <label
+          class="MuiFormControlLabel-root-136 makeStyles-checkbox-2"
+        >
+          <span
+            aria-disabled="false"
+            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+          >
+            <span
+              class="MuiIconButton-label-160"
+            >
+              <input
+                class="PrivateSwitchBase-input-151"
+                data-indeterminate="false"
+                type="checkbox"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-164"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-376"
+            />
+          </span>
+          <span
+            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+          >
+            <p
+              class="MuiTypography-root-173 MuiTypography-body2-174"
+            >
+              Only show deposits
+            </p>
+          </span>
+        </label>
+        <label
+          class="MuiFormControlLabel-root-136 makeStyles-checkbox-2"
+        >
+          <span
+            aria-disabled="false"
+            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+          >
+            <span
+              class="MuiIconButton-label-160"
+            >
+              <input
+                class="PrivateSwitchBase-input-151"
+                data-indeterminate="false"
+                type="checkbox"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-164"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-376"
+            />
+          </span>
+          <span
+            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+          >
+            <p
+              class="MuiTypography-root-173 MuiTypography-body2-174"
+            >
+              Hide dust
+            </p>
+          </span>
+        </label>
+        <label
+          class="MuiFormControlLabel-root-136 makeStyles-label-203"
+        >
+          <span
+            aria-disabled="false"
+            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+          >
+            <span
+              class="MuiIconButton-label-160"
+            >
+              <input
+                class="PrivateSwitchBase-input-151"
+                data-indeterminate="false"
+                type="checkbox"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-164"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-376"
+            />
+          </span>
+          <span
+            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+          >
+            <p
+              class="MuiTypography-root-173 MuiTypography-body2-174"
+            >
+              🚀 Boosted Vaults
+            </p>
+          </span>
+        </label>
+      </div>
+      <div>
+        <div
+          aria-label="apy apr selector"
+          class="MuiButtonGroup-root-206 makeStyles-apr-3"
+          role="group"
+        >
+          <button
+            aria-selected="true"
+            class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-212 MuiButtonGroup-groupedHorizontal-213 MuiButtonGroup-groupedOutlined-220 MuiButtonGroup-groupedOutlinedHorizontal-221 MuiButtonGroup-groupedOutlined-220 makeStyles-selected-204 makeStyles-button-205"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-231"
+            >
+              APY
+            </span>
+            <span
+              class="MuiTouchRipple-root-376"
+            />
+          </button>
+          <button
+            aria-selected="false"
+            class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-212 MuiButtonGroup-groupedHorizontal-213 MuiButtonGroup-groupedOutlined-220 MuiButtonGroup-groupedOutlinedHorizontal-221 MuiButtonGroup-groupedOutlined-220 makeStyles-button-205"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-231"
+            >
+              APR
+            </span>
+            <span
+              class="MuiTouchRipple-root-376"
+            />
+          </button>
+        </div>
+        <div
+          aria-label="currency selector"
+          class="MuiButtonGroup-root-206"
+          role="group"
+        >
+          <button
+            aria-selected="true"
+            class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-212 MuiButtonGroup-groupedHorizontal-213 MuiButtonGroup-groupedOutlined-220 MuiButtonGroup-groupedOutlinedHorizontal-221 MuiButtonGroup-groupedOutlined-220 makeStyles-selected-259 makeStyles-button-260"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-231"
+            >
+              USD
+            </span>
+            <span
+              class="MuiTouchRipple-root-376"
+            />
+          </button>
+          <button
+            aria-selected="false"
+            class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-212 MuiButtonGroup-groupedHorizontal-213 MuiButtonGroup-groupedOutlined-220 MuiButtonGroup-groupedOutlinedHorizontal-221 MuiButtonGroup-groupedOutlined-220 makeStyles-button-260"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-231"
+            >
+              BTC
+            </span>
+            <span
+              class="MuiTouchRipple-root-376"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-33 makeStyles-root-261 MuiGrid-container-34"
+    >
+      <div
+        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
+      >
+        <div
+          class="MuiFormControl-root-265 MuiTextField-root-264 makeStyles-formControl-262"
+        >
+          <label
+            class="MuiFormLabel-root-281 MuiInputLabel-root-269 MuiInputLabel-formControl-275 MuiInputLabel-animated-278 MuiInputLabel-marginDense-276 MuiInputLabel-outlined-280"
+            data-shrink="false"
+            for="status-selector-id"
+            id="status-selector-id-label"
+          >
+            Status
+          </label>
+          <div
+            class="MuiInputBase-root-315 MuiOutlinedInput-root-300 MuiInputBase-formControl-316 MuiInputBase-marginDense-322 MuiOutlinedInput-marginDense-307"
+          >
+            <div
+              aria-haspopup="listbox"
+              aria-labelledby="status-selector-id-label status-selector-id"
+              class="MuiSelect-root-289 MuiSelect-select-290 MuiSelect-selectMenu-293 MuiSelect-outlined-292 MuiInputBase-input-326 MuiOutlinedInput-input-310 MuiInputBase-inputMarginDense-327 MuiOutlinedInput-inputMarginDense-311"
+              id="status-selector-id"
+              role="button"
+              tabindex="0"
+            >
+              <span>
+                ​
+              </span>
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput-299"
+              data-testid="status-selector-input"
+              name="Status"
+              tabindex="-1"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-164 MuiSelect-icon-295 MuiSelect-iconOutlined-298"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-337 MuiOutlinedInput-notchedOutline-309"
+            >
+              <legend
+                class="PrivateNotchedOutline-legendLabelled-339"
+              >
+                <span>
+                  Status
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
+      >
+        <div
+          class="MuiFormControl-root-265 MuiTextField-root-264 makeStyles-formControl-341"
+        >
+          <label
+            class="MuiFormLabel-root-281 MuiInputLabel-root-269 MuiInputLabel-formControl-275 MuiInputLabel-animated-278 MuiInputLabel-marginDense-276 MuiInputLabel-outlined-280"
+            data-shrink="false"
+            for="platform-selector-id"
+            id="platform-selector-id-label"
+          >
+            Platform
+          </label>
+          <div
+            class="MuiInputBase-root-315 MuiOutlinedInput-root-300 MuiInputBase-formControl-316 MuiInputBase-marginDense-322 MuiOutlinedInput-marginDense-307"
+          >
+            <div
+              aria-haspopup="listbox"
+              aria-labelledby="platform-selector-id-label platform-selector-id"
+              class="MuiSelect-root-289 MuiSelect-select-290 MuiSelect-selectMenu-293 MuiSelect-outlined-292 MuiInputBase-input-326 MuiOutlinedInput-input-310 MuiInputBase-inputMarginDense-327 MuiOutlinedInput-inputMarginDense-311"
+              id="platform-selector-id"
+              role="button"
+              tabindex="0"
+            >
+              <span>
+                ​
+              </span>
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput-299"
+              data-testid="platform-selector-input"
+              name="Platform"
+              tabindex="-1"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-164 MuiSelect-icon-295 MuiSelect-iconOutlined-298"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-337 MuiOutlinedInput-notchedOutline-309"
+            >
+              <legend
+                class="PrivateNotchedOutline-legendLabelled-339"
+              >
+                <span>
+                  Platform
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
+      >
+        <div
+          class="MuiFormControl-root-265 MuiTextField-root-264 makeStyles-formControl-343"
+        >
+          <label
+            class="MuiFormLabel-root-281 MuiInputLabel-root-269 MuiInputLabel-formControl-275 MuiInputLabel-animated-278 MuiInputLabel-marginDense-276 MuiInputLabel-outlined-280"
+            data-shrink="false"
+            for="rewards-selector-id"
+            id="rewards-selector-id-label"
+          >
+            Rewards
+          </label>
+          <div
+            class="MuiInputBase-root-315 MuiOutlinedInput-root-300 MuiInputBase-formControl-316 MuiInputBase-marginDense-322 MuiOutlinedInput-marginDense-307"
+          >
+            <div
+              aria-haspopup="listbox"
+              aria-labelledby="rewards-selector-id-label rewards-selector-id"
+              class="MuiSelect-root-289 MuiSelect-select-290 MuiSelect-selectMenu-293 MuiSelect-outlined-292 MuiInputBase-input-326 MuiOutlinedInput-input-310 MuiInputBase-inputMarginDense-327 MuiOutlinedInput-inputMarginDense-311"
+              id="rewards-selector-id"
+              role="button"
+              tabindex="0"
+            >
+              <span>
+                ​
+              </span>
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput-299"
+              data-testid="rewards-selector-input"
+              tabindex="-1"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-164 MuiSelect-icon-295 MuiSelect-iconOutlined-298"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-337 MuiOutlinedInput-notchedOutline-309"
+            >
+              <legend
+                class="PrivateNotchedOutline-legendLabelled-339"
+              >
+                <span>
+                  Rewards
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67 MuiGrid-grid-md-true-95 MuiGrid-grid-lg-6-115"
+      >
+        <div
+          class="MuiFormControl-root-265 MuiTextField-root-264 makeStyles-root-345"
+        >
+          <div
+            class="MuiInputBase-root-315 MuiOutlinedInput-root-300 MuiInputBase-formControl-316 MuiInputBase-adornedEnd-320 MuiOutlinedInput-adornedEnd-305 MuiInputBase-marginDense-322 MuiOutlinedInput-marginDense-307"
+          >
+            <input
+              aria-invalid="false"
+              aria-label="Vault Search"
+              class="MuiInputBase-input-326 MuiOutlinedInput-input-310 MuiInputBase-inputAdornedEnd-331 MuiOutlinedInput-inputAdornedEnd-314 MuiInputBase-inputMarginDense-327 MuiOutlinedInput-inputMarginDense-311"
+              placeholder="Search by vault name, token, rewards..."
+              type="text"
+              value=""
+            />
+            <div
+              class="MuiInputAdornment-root-347 MuiInputAdornment-positionEnd-350 MuiInputAdornment-marginDense-353"
+            >
+              <button
+                aria-label="search"
+                class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-icon-346 MuiIconButton-sizeSmall-159"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label-160"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root-164"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root-376"
+                />
+              </button>
+            </div>
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-337 MuiOutlinedInput-notchedOutline-309"
+              style="padding-left: 8px;"
+            >
+              <legend
+                class="PrivateNotchedOutline-legend-338"
+                style="width: 0.01px;"
+              >
+                <span>
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`VaultSearchControl mobile opens filter dialog 1`] = `
+<body
+  style="padding-right: 0px; overflow: hidden;"
+>
+   
+   
+  
+  
+  <div
+    aria-hidden="true"
+  >
+    <div
+      class="MuiPaper-root-5 makeStyles-paper-4 MuiPaper-elevation1-9 MuiPaper-rounded-6"
+    >
+      <div
+        class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-content-xs-space-between-53"
+      >
+        <label
+          class="MuiFormControlLabel-root-136"
+        >
+          <span
+            aria-disabled="false"
+            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+          >
+            <span
+              class="MuiIconButton-label-160"
+            >
+              <input
+                class="PrivateSwitchBase-input-151"
+                data-indeterminate="false"
+                type="checkbox"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-164"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-378"
+            />
+          </span>
+          <span
+            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+          >
+            <p
+              class="MuiTypography-root-173 MuiTypography-body2-174"
+            >
+              Only show deposits
+            </p>
+          </span>
+        </label>
+        <button
+          class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 makeStyles-button-376"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label-231 makeStyles-buttonLabel-377"
+          >
+            <p
+              class="MuiTypography-root-173 MuiTypography-body2-174 MuiTypography-displayInline-201"
+            >
+              Filters
+            </p>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-164"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root-378"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiDialog-root-361"
+    role="presentation"
+    style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiBackdrop-root-388"
+      style="opacity: 1;"
+    />
+    <div
+      data-test="sentinelStart"
+      tabindex="0"
+    />
+    <div
+      class="MuiDialog-container-364 MuiDialog-scrollPaper-362"
+      role="none presentation"
+      style="opacity: 1;"
+      tabindex="-1"
+    >
+      <div
+        class="MuiPaper-root-5 MuiDialog-paper-365 MuiDialog-paperScrollPaper-366 MuiDialog-paperWidthSm-370 MuiDialog-paperFullWidth-374 MuiPaper-elevation24-32 MuiPaper-rounded-6"
+        role="dialog"
+      >
+        <div
+          class="MuiDialogTitle-root-390 makeStyles-title-354"
+        >
+          <div
+            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-align-items-xs-center-42 MuiGrid-justify-content-xs-space-between-53"
+          >
+            <h5
+              class="MuiTypography-root-173 MuiTypography-h5-182 MuiTypography-displayInline-201"
+            >
+              Filter & Search
+            </h5>
+            <button
+              aria-label="close vault filters"
+              class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-closeButton-356"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-160"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-164"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-378"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="MuiDialogContent-root-391 makeStyles-content-355"
+        >
+          <hr
+            class="MuiDivider-root-393 makeStyles-topDivider-359"
+          />
+          <div
+            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-direction-xs-column-37"
+          >
+            <div
+              class="MuiGrid-root-33 MuiGrid-item-35"
+            >
+              <label
+                class="MuiFormControlLabel-root-136"
+              >
+                <span
+                  aria-disabled="false"
+                  class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+                >
+                  <span
+                    class="MuiIconButton-label-160"
+                  >
+                    <input
+                      class="PrivateSwitchBase-input-151"
+                      data-indeterminate="false"
+                      type="checkbox"
+                      value=""
+                    />
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root-164"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-378"
+                  />
+                </span>
+                <span
+                  class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+                >
+                  <p
+                    class="MuiTypography-root-173 MuiTypography-body2-174"
+                  >
+                    Only show deposits
+                  </p>
+                </span>
+              </label>
+            </div>
+            <div
+              class="MuiGrid-root-33 MuiGrid-item-35"
+            >
+              <label
+                class="MuiFormControlLabel-root-136"
+              >
+                <span
+                  aria-disabled="false"
+                  class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+                >
+                  <span
+                    class="MuiIconButton-label-160"
+                  >
+                    <input
+                      class="PrivateSwitchBase-input-151"
+                      data-indeterminate="false"
+                      type="checkbox"
+                      value=""
+                    />
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root-164"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-378"
+                  />
+                </span>
+                <span
+                  class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+                >
+                  <p
+                    class="MuiTypography-root-173 MuiTypography-body2-174"
+                  >
+                    Hide dust
+                  </p>
+                </span>
+              </label>
+            </div>
+            <div
+              class="MuiGrid-root-33 MuiGrid-item-35"
+            >
+              <label
+                class="MuiFormControlLabel-root-136 makeStyles-label-400"
+              >
+                <span
+                  aria-disabled="false"
+                  class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+                >
+                  <span
+                    class="MuiIconButton-label-160"
+                  >
+                    <input
+                      class="PrivateSwitchBase-input-151"
+                      data-indeterminate="false"
+                      type="checkbox"
+                      value=""
+                    />
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root-164"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-378"
+                  />
+                </span>
+                <span
+                  class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+                >
+                  <p
+                    class="MuiTypography-root-173 MuiTypography-body2-174"
+                  >
+                    🚀 Boosted Vaults
+                  </p>
+                </span>
+              </label>
+            </div>
+          </div>
+          <hr
+            class="MuiDivider-root-393 makeStyles-divider-358"
+          />
+          <div
+            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-direction-xs-column-37"
+          >
+            <div
+              class="MuiGrid-root-33 makeStyles-select-357 MuiGrid-item-35"
+            >
+              <div
+                class="MuiFormControl-root-404 MuiTextField-root-403 makeStyles-formControl-401"
+              >
+                <label
+                  class="MuiFormLabel-root-420 MuiInputLabel-root-408 MuiInputLabel-formControl-414 MuiInputLabel-animated-417 MuiInputLabel-marginDense-415 MuiInputLabel-outlined-419"
+                  data-shrink="false"
+                  for="status-selector-id"
+                  id="status-selector-id-label"
+                >
+                  Status
+                </label>
+                <div
+                  class="MuiInputBase-root-454 MuiOutlinedInput-root-439 MuiInputBase-formControl-455 MuiInputBase-marginDense-461 MuiOutlinedInput-marginDense-446"
+                >
+                  <div
+                    aria-haspopup="listbox"
+                    aria-labelledby="status-selector-id-label status-selector-id"
+                    class="MuiSelect-root-428 MuiSelect-select-429 MuiSelect-selectMenu-432 MuiSelect-outlined-431 MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
+                    id="status-selector-id"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <span>
+                      ​
+                    </span>
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    class="MuiSelect-nativeInput-438"
+                    data-testid="status-selector-input"
+                    name="Status"
+                    tabindex="-1"
+                    value=""
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root-164 MuiSelect-icon-434 MuiSelect-iconOutlined-437"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="PrivateNotchedOutline-root-476 MuiOutlinedInput-notchedOutline-448"
+                  >
+                    <legend
+                      class="PrivateNotchedOutline-legendLabelled-478"
+                    >
+                      <span>
+                        Status
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-33 makeStyles-select-357 MuiGrid-item-35"
+            >
+              <div
+                class="MuiFormControl-root-404 MuiTextField-root-403 makeStyles-formControl-480"
+              >
+                <label
+                  class="MuiFormLabel-root-420 MuiInputLabel-root-408 MuiInputLabel-formControl-414 MuiInputLabel-animated-417 MuiInputLabel-marginDense-415 MuiInputLabel-outlined-419"
+                  data-shrink="false"
+                  for="platform-selector-id"
+                  id="platform-selector-id-label"
+                >
+                  Platform
+                </label>
+                <div
+                  class="MuiInputBase-root-454 MuiOutlinedInput-root-439 MuiInputBase-formControl-455 MuiInputBase-marginDense-461 MuiOutlinedInput-marginDense-446"
+                >
+                  <div
+                    aria-haspopup="listbox"
+                    aria-labelledby="platform-selector-id-label platform-selector-id"
+                    class="MuiSelect-root-428 MuiSelect-select-429 MuiSelect-selectMenu-432 MuiSelect-outlined-431 MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
+                    id="platform-selector-id"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <span>
+                      ​
+                    </span>
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    class="MuiSelect-nativeInput-438"
+                    data-testid="platform-selector-input"
+                    name="Platform"
+                    tabindex="-1"
+                    value=""
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root-164 MuiSelect-icon-434 MuiSelect-iconOutlined-437"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="PrivateNotchedOutline-root-476 MuiOutlinedInput-notchedOutline-448"
+                  >
+                    <legend
+                      class="PrivateNotchedOutline-legendLabelled-478"
+                    >
+                      <span>
+                        Platform
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-33 makeStyles-select-357 MuiGrid-item-35"
+            >
+              <div
+                class="MuiFormControl-root-404 MuiTextField-root-403 makeStyles-formControl-482"
+              >
+                <label
+                  class="MuiFormLabel-root-420 MuiInputLabel-root-408 MuiInputLabel-formControl-414 MuiInputLabel-animated-417 MuiInputLabel-marginDense-415 MuiInputLabel-outlined-419"
+                  data-shrink="false"
+                  for="rewards-selector-id"
+                  id="rewards-selector-id-label"
+                >
+                  Rewards
+                </label>
+                <div
+                  class="MuiInputBase-root-454 MuiOutlinedInput-root-439 MuiInputBase-formControl-455 MuiInputBase-marginDense-461 MuiOutlinedInput-marginDense-446"
+                >
+                  <div
+                    aria-haspopup="listbox"
+                    aria-labelledby="rewards-selector-id-label rewards-selector-id"
+                    class="MuiSelect-root-428 MuiSelect-select-429 MuiSelect-selectMenu-432 MuiSelect-outlined-431 MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
+                    id="rewards-selector-id"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <span>
+                      ​
+                    </span>
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    class="MuiSelect-nativeInput-438"
+                    data-testid="rewards-selector-input"
+                    tabindex="-1"
+                    value=""
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root-164 MuiSelect-icon-434 MuiSelect-iconOutlined-437"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="PrivateNotchedOutline-root-476 MuiOutlinedInput-notchedOutline-448"
+                  >
+                    <legend
+                      class="PrivateNotchedOutline-legendLabelled-478"
+                    >
+                      <span>
+                        Rewards
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-33 MuiGrid-item-35"
+            >
+              <div
+                class="MuiFormControl-root-404 MuiTextField-root-403 makeStyles-root-484"
+              >
+                <div
+                  class="MuiInputBase-root-454 MuiOutlinedInput-root-439 MuiInputBase-formControl-455 MuiInputBase-adornedEnd-459 MuiOutlinedInput-adornedEnd-444 MuiInputBase-marginDense-461 MuiOutlinedInput-marginDense-446"
+                >
+                  <input
+                    aria-invalid="false"
+                    aria-label="Vault Search"
+                    class="MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputAdornedEnd-470 MuiOutlinedInput-inputAdornedEnd-453 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
+                    placeholder="Search by vault name, token, rewards..."
+                    type="text"
+                    value=""
+                  />
+                  <div
+                    class="MuiInputAdornment-root-486 MuiInputAdornment-positionEnd-489 MuiInputAdornment-marginDense-492"
+                  >
+                    <button
+                      aria-label="search"
+                      class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-icon-485 MuiIconButton-sizeSmall-159"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiIconButton-label-160"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root-164"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="MuiTouchRipple-root-378"
+                      />
+                    </button>
+                  </div>
+                  <fieldset
+                    aria-hidden="true"
+                    class="PrivateNotchedOutline-root-476 MuiOutlinedInput-notchedOutline-448"
+                    style="padding-left: 8px;"
+                  >
+                    <legend
+                      class="PrivateNotchedOutline-legend-477"
+                      style="width: 0.01px;"
+                    >
+                      <span>
+                        ​
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr
+            class="MuiDivider-root-393 makeStyles-divider-358"
+          />
+          <div
+            class="MuiGrid-root-33 MuiGrid-container-34"
+          >
+            <div
+              class="MuiGrid-root-33 makeStyles-apr-360 MuiGrid-item-35"
+            >
+              <div
+                aria-label="apy apr selector"
+                class="MuiButtonGroup-root-495"
+                role="group"
+              >
+                <button
+                  aria-selected="true"
+                  class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-501 MuiButtonGroup-groupedHorizontal-502 MuiButtonGroup-groupedOutlined-509 MuiButtonGroup-groupedOutlinedHorizontal-510 MuiButtonGroup-groupedOutlined-509 makeStyles-selected-493 makeStyles-button-494"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-231"
+                  >
+                    APY
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-378"
+                  />
+                </button>
+                <button
+                  aria-selected="false"
+                  class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-501 MuiButtonGroup-groupedHorizontal-502 MuiButtonGroup-groupedOutlined-509 MuiButtonGroup-groupedOutlinedHorizontal-510 MuiButtonGroup-groupedOutlined-509 makeStyles-button-494"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-231"
+                  >
+                    APR
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-378"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-33 MuiGrid-item-35"
+            >
+              <div
+                aria-label="currency selector"
+                class="MuiButtonGroup-root-495"
+                role="group"
+              >
+                <button
+                  aria-selected="true"
+                  class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-501 MuiButtonGroup-groupedHorizontal-502 MuiButtonGroup-groupedOutlined-509 MuiButtonGroup-groupedOutlinedHorizontal-510 MuiButtonGroup-groupedOutlined-509 makeStyles-selected-519 makeStyles-button-520"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-231"
+                  >
+                    USD
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-378"
+                  />
+                </button>
+                <button
+                  aria-selected="false"
+                  class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-501 MuiButtonGroup-groupedHorizontal-502 MuiButtonGroup-groupedOutlined-509 MuiButtonGroup-groupedOutlinedHorizontal-510 MuiButtonGroup-groupedOutlined-509 makeStyles-button-520"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-231"
+                  >
+                    BTC
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-378"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr
+            class="MuiDivider-root-393 makeStyles-divider-358"
+          />
+          <div
+            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-spacing-xs-2-57 MuiGrid-justify-content-xs-flex-end-52"
+          >
+            <div
+              class="MuiGrid-root-33 MuiGrid-item-35"
+            >
+              <button
+                class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 MuiButton-textPrimary-233"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label-231"
+                >
+                  Clear All
+                </span>
+                <span
+                  class="MuiTouchRipple-root-378"
+                />
+              </button>
+            </div>
+            <div
+              class="MuiGrid-root-33 MuiGrid-item-35"
+            >
+              <button
+                class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-contained-238 MuiButton-containedPrimary-239"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label-231"
+                >
+                  Apply Filters
+                </span>
+                <span
+                  class="MuiTouchRipple-root-378"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-test="sentinelEnd"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;
+
+exports[`VaultSearchControl mobile renders correctly 1`] = `
+<div>
+  <div
+    class="MuiPaper-root-5 makeStyles-paper-4 MuiPaper-elevation1-9 MuiPaper-rounded-6"
+  >
+    <div
+      class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-content-xs-space-between-53"
+    >
+      <label
+        class="MuiFormControlLabel-root-136"
+      >
+        <span
+          aria-disabled="false"
+          class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+        >
+          <span
+            class="MuiIconButton-label-160"
+          >
+            <input
+              class="PrivateSwitchBase-input-151"
+              data-indeterminate="false"
+              type="checkbox"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-164"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root-378"
+          />
+        </span>
+        <span
+          class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+        >
+          <p
+            class="MuiTypography-root-173 MuiTypography-body2-174"
+          >
+            Only show deposits
+          </p>
+        </span>
+      </label>
+      <button
+        class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 makeStyles-button-376"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label-231 makeStyles-buttonLabel-377"
+        >
+          <p
+            class="MuiTypography-root-173 MuiTypography-body2-174 MuiTypography-displayInline-201"
+          >
+            Filters
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-164"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root-378"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
