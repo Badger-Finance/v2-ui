@@ -36,20 +36,20 @@ const VaultSearchInputsRow = (): JSX.Element => {
 		<Grid container className={classes.root}>
 			<Grid item xs>
 				<VaultStatusSelector
-					status={vaultsFiltersV2.status}
-					onChange={(status) => setVaultsFilter('status', status)}
+					statuses={vaultsFiltersV2.statuses}
+					onChange={(statuses) => setVaultsFilter('statuses', statuses)}
 				/>
 			</Grid>
 			<Grid item xs>
 				<VaultPlatformSelector
-					platform={vaultsFiltersV2.protocol}
-					onChange={(platform) => setVaultsFilter('protocol', platform)}
+					platforms={vaultsFiltersV2.protocols}
+					onChange={(platforms) => setVaultsFilter('protocols', platforms)}
 				/>
 			</Grid>
 			<Grid item xs>
 				<VaultsRewardsSelector
-					reward={vaultsFiltersV2.behavior}
-					onChange={(behavior) => setVaultsFilter('behavior', behavior)}
+					rewards={vaultsFiltersV2.behaviors}
+					onChange={(behaviors) => setVaultsFilter('behaviors', behaviors)}
 				/>
 			</Grid>
 			<Grid item xs md lg={6}>

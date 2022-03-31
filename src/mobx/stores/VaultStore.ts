@@ -442,7 +442,7 @@ export default class VaultStore {
 		}
 
 		if (FLAGS.VAULT_FILTERS_V2) {
-			const { protocol, search, status, behavior, onlyBoostedVaults, onlyDeposits } = this.vaultsFiltersV2;
+			const { protocols, search, statuses, behaviors, onlyBoostedVaults, onlyDeposits } = this.vaultsFiltersV2;
 
 			if (onlyDeposits) {
 				vaults = vaults.filter((vault) => user.getTokenBalance(vault.vaultToken).value.gt(0));
@@ -452,16 +452,16 @@ export default class VaultStore {
 				vaults = vaults.filter((vault) => vault.boost.enabled && !!vault.maxApr);
 			}
 
-			if (status) {
-				vaults = vaults.filter((vault) => vault.state === status);
+			if (statuses && statuses.length > 0) {
+				vaults = vaults.filter((vault) => statuses.includes(vault.state));
 			}
 
-			if (protocol) {
-				vaults = vaults.filter((vault) => vault.protocol === protocol);
+			if (protocols && protocols.length > 0) {
+				vaults = vaults.filter((vault) => protocols.includes(vault.protocol));
 			}
 
-			if (behavior) {
-				vaults = vaults.filter((vault) => vault.behavior === behavior);
+			if (behaviors && behaviors.length > 0) {
+				vaults = vaults.filter((vault) => behaviors.includes(vault.behavior));
 			}
 
 			if (search) {

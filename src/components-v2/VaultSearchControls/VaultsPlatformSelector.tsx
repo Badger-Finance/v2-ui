@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { makeStyles, MenuItem, TextField } from '@material-ui/core';
 import { Protocol } from '@badger-dao/sdk';
+import SelectControlsChips from './SelectControlsChips';
 
 const useStyles = makeStyles({
 	formControl: {
@@ -15,18 +16,18 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	platform?: Protocol;
-	onChange: (platform: Protocol) => void;
+	platforms?: Protocol[];
+	onChange: (platforms: Protocol[]) => void;
 }
 
-const VaultsPlatformSelector = ({ platform, onChange }: Props): JSX.Element => {
+const VaultsPlatformSelector = ({ platforms = [], onChange }: Props): JSX.Element => {
 	const {
 		vaults: { vaultsProtocols },
 	} = useContext(StoreContext);
 	const classes = useStyles();
 
 	const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-		onChange(event.target.value as Protocol);
+		onChange(event.target.value as Protocol[]);
 	};
 
 	return (
@@ -34,14 +35,20 @@ const VaultsPlatformSelector = ({ platform, onChange }: Props): JSX.Element => {
 			select
 			variant="outlined"
 			size="small"
-			value={platform ?? ''}
+			value={platforms}
 			defaultValue=""
 			onChange={handleChange}
 			label="Platform"
+			id="platform-selector-id"
+			name="Platform"
 			color="primary"
 			className={classes.formControl}
+			SelectProps={{
+				multiple: true,
+				renderValue: (selected) => <SelectControlsChips selected={selected as string[]} />,
+			}}
 		>
-			<MenuItem value="">
+			<MenuItem disabled value="">
 				<em>Platform</em>
 			</MenuItem>
 			{vaultsProtocols.map((protocol: Protocol) => (

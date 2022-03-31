@@ -60,9 +60,9 @@ const VaultFiltersDialogV2 = () => {
 	const [showAPR, setShowAPR] = useState(vaultsFiltersV2.showAPR);
 	const [boostedVaults, setBoostedVaults] = useState(vaultsFiltersV2.onlyBoostedVaults);
 	const [hideDust, setHideDust] = useState(vaultsFiltersV2.hidePortfolioDust);
-	const [status, setStatus] = useState(vaultsFiltersV2.status);
-	const [platform, setPlatform] = useState(vaultsFiltersV2.protocol);
-	const [reward, setReward] = useState(vaultsFiltersV2.behavior);
+	const [statuses, setStatuses] = useState(vaultsFiltersV2.statuses);
+	const [platforms, setPlatforms] = useState(vaultsFiltersV2.protocols);
+	const [rewards, setRewards] = useState(vaultsFiltersV2.behaviors);
 	const [search, setSearch] = useState(vaultsFiltersV2.search);
 	const [currency, setCurrency] = useState(vaultsFiltersV2.currency);
 
@@ -71,9 +71,9 @@ const VaultFiltersDialogV2 = () => {
 		setShowAPR(vaultsFiltersV2.showAPR);
 		setBoostedVaults(vaultsFiltersV2.onlyBoostedVaults);
 		setHideDust(vaultsFiltersV2.hidePortfolioDust);
-		setStatus(vaultsFiltersV2.status);
-		setPlatform(vaultsFiltersV2.protocol);
-		setReward(vaultsFiltersV2.behavior);
+		setStatuses(vaultsFiltersV2.statuses);
+		setPlatforms(vaultsFiltersV2.protocols);
+		setRewards(vaultsFiltersV2.behaviors);
 		setSearch(vaultsFiltersV2.search);
 		setCurrency(vaults.vaultsFiltersV2.currency ?? uiState.currency);
 	};
@@ -87,12 +87,12 @@ const VaultFiltersDialogV2 = () => {
 		if (vaults.vaultsFiltersV2) {
 			vaults.vaultsFiltersV2 = {
 				...vaults.vaultsFiltersV2,
-				status,
+				statuses: statuses,
 				onlyDeposits,
 				showAPR,
 				currency,
-				protocol: platform,
-				behavior: reward,
+				protocols: platforms,
+				behaviors: rewards,
 				search: search,
 				onlyBoostedVaults: boostedVaults,
 				hidePortfolioDust: hideDust,
@@ -107,9 +107,9 @@ const VaultFiltersDialogV2 = () => {
 		setBoostedVaults(false);
 		setHideDust(false);
 		setCurrency(vaultsFiltersV2.currency);
-		setStatus(undefined);
-		setPlatform(undefined);
-		setReward(undefined);
+		setStatuses(undefined);
+		setPlatforms(undefined);
+		setRewards(undefined);
 		setSearch('');
 	};
 
@@ -152,13 +152,13 @@ const VaultFiltersDialogV2 = () => {
 				<Divider className={classes.divider} />
 				<Grid container direction="column">
 					<Grid item className={classes.select}>
-						<VaultStatusSelector status={status} onChange={(status) => setStatus(status)} />
+						<VaultStatusSelector statuses={statuses} onChange={(status) => setStatuses(status)} />
 					</Grid>
 					<Grid item className={classes.select}>
-						<VaultsPlatformSelector platform={platform} onChange={(platform) => setPlatform(platform)} />
+						<VaultsPlatformSelector platforms={platforms} onChange={(platform) => setPlatforms(platform)} />
 					</Grid>
 					<Grid item className={classes.select}>
-						<VaultsRewardsSelector reward={reward} onChange={(rewards) => setReward(rewards)} />
+						<VaultsRewardsSelector rewards={rewards} onChange={(rewards) => setRewards(rewards)} />
 					</Grid>
 					<Grid item>
 						<VaultSearchBar search={search} onChange={(change) => setSearch(change)} onSearch={() => {}} />

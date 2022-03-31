@@ -26,9 +26,9 @@ export interface VaultsFiltersV2 {
 	currency: Currency;
 	onlyDeposits: boolean;
 	onlyBoostedVaults: boolean;
-	protocol?: Protocol;
-	type?: VaultType;
-	status?: VaultState;
-	behavior?: VaultBehavior;
+	protocols?: Protocol[];
+	types?: VaultType[];
+	statuses?: VaultState[];
+	behaviors?: VaultBehavior[];
 	search?: string;
 }

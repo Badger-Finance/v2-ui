@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles, MenuItem, TextField } from '@material-ui/core';
 import { VaultBehavior } from '@badger-dao/sdk';
+import SelectControlsChips from './SelectControlsChips';
 
 const useStyles = makeStyles({
 	formControl: {
@@ -13,15 +14,15 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	reward?: VaultBehavior;
-	onChange: (vaultBehavior: VaultBehavior) => void;
+	rewards?: VaultBehavior[];
+	onChange: (vaultBehaviors: VaultBehavior[]) => void;
 }
 
-const VaultsRewardsSelector = ({ reward, onChange }: Props): JSX.Element => {
+const VaultsRewardsSelector = ({ rewards = [], onChange }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-		onChange(event.target.value as VaultBehavior);
+		onChange(event.target.value as VaultBehavior[]);
 	};
 
 	return (
@@ -29,14 +30,18 @@ const VaultsRewardsSelector = ({ reward, onChange }: Props): JSX.Element => {
 			select
 			size="small"
 			variant="outlined"
-			value={reward ?? ''}
+			value={rewards}
 			defaultValue=""
 			onChange={handleChange}
 			label="Rewards"
 			color="primary"
 			className={classes.formControl}
+			SelectProps={{
+				multiple: true,
+				renderValue: (selected) => <SelectControlsChips selected={selected as string[]} />,
+			}}
 		>
-			<MenuItem value="">
+			<MenuItem disabled value="">
 				<em>Rewards</em>
 			</MenuItem>
 			{Object.values(VaultBehavior).map((status) => (
