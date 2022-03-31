@@ -29,13 +29,14 @@ const VaultsRewardsSelector = ({ reward, onChange }: Props): JSX.Element => {
 			select
 			size="small"
 			variant="outlined"
-			value={reward}
+			value={reward ?? ''}
+			defaultValue=""
 			onChange={handleChange}
 			label="Rewards"
 			color="primary"
 			className={classes.formControl}
 		>
-			<MenuItem value={undefined}>
+			<MenuItem value="">
 				<em>Rewards</em>
 			</MenuItem>
 			{Object.values(VaultBehavior).map((status) => (

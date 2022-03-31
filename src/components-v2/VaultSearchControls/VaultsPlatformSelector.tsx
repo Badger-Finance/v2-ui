@@ -34,13 +34,14 @@ const VaultsPlatformSelector = ({ platform, onChange }: Props): JSX.Element => {
 			select
 			variant="outlined"
 			size="small"
-			value={platform}
+			value={platform ?? ''}
+			defaultValue=""
 			onChange={handleChange}
 			label="Platform"
 			color="primary"
 			className={classes.formControl}
 		>
-			<MenuItem value={undefined}>
+			<MenuItem value="">
 				<em>Platform</em>
 			</MenuItem>
 			{vaultsProtocols.map((protocol: Protocol) => (

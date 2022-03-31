@@ -30,13 +30,14 @@ const VaultStatusSelector = ({ status, onChange }: Props): JSX.Element => {
 			size="small"
 			variant="outlined"
 			id="demo-simple-select-outlined"
-			value={status}
+			value={status ?? ''}
+			defaultValue=""
 			onChange={handleChange}
 			label="Status"
 			color="primary"
 			className={classes.formControl}
 		>
-			<MenuItem value={undefined}>
+			<MenuItem value="">
 				<em>Status</em>
 			</MenuItem>
 			{Object.values(VaultState)
