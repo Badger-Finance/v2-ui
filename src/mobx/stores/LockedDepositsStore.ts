@@ -32,11 +32,12 @@ class LockedDepositsStore {
 			onboard: { wallet },
 		} = this.store;
 
-		if (!wallet?.provider) {
+		const tokens = NETWORKS_LOCKED_DEPOSITS_CONFIG[network.id];
+
+		if (!wallet?.provider || !tokens) {
 			return;
 		}
 
-		const tokens = NETWORKS_LOCKED_DEPOSITS_CONFIG[network.id];
 		const balances = await Promise.all(tokens.map(this.getLockedDepositBalance));
 		this.networksLockedDeposits.set(network.id, new Map(balances.flat()));
 	}
