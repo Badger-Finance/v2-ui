@@ -76,7 +76,7 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 	const { vaults } = useContext(StoreContext);
 	const { sortOrder } = vaults.vaultsFilters;
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-	const { showAPR } = vaults.vaultsFilters;
+	const showAPR = vaults.vaultsFiltersV2 ? vaults.vaultsFiltersV2.showAPR : vaults.vaultsFilters.showAPR;
 
 	const handleSortByApr = (): void => {
 		let toggledOrder: VaultSortOrder | undefined;

@@ -23,7 +23,6 @@ import VaultsRewardsSelector from './VaultsRewardsSelector';
 import VaultSearchBar from './VaultSearchBar';
 import VaultsAprControl from './VaultsAprControl';
 import VaultsCurrencyControl from './VaultsCurrencyControl';
-import { Currency } from '../../config/enums/currency.enum';
 import { FLAGS } from '../../config/environment';
 
 const useStyles = makeStyles(() => ({
@@ -57,26 +56,26 @@ const VaultFiltersDialogV2 = () => {
 	const classes = useStyles();
 	const { vaultsFiltersV2, networkHasBoostVaults } = vaults;
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
-	const [onlyDeposits, setOnlyDeposits] = useState(!!vaultsFiltersV2?.onlyDeposits);
-	const [showAPR, setShowAPR] = useState(!!vaultsFiltersV2?.showAPR);
-	const [boostedVaults, setBoostedVaults] = useState(!!vaultsFiltersV2?.onlyBoostedVaults);
-	const [hideDust, setHideDust] = useState(!!vaultsFiltersV2?.hidePortfolioDust);
-	const [status, setStatus] = useState(vaultsFiltersV2?.status);
-	const [platform, setPlatform] = useState(vaultsFiltersV2?.protocol);
-	const [reward, setReward] = useState(vaultsFiltersV2?.behavior);
-	const [search, setSearch] = useState(vaultsFiltersV2?.search);
-	const [currency, setCurrency] = useState(vaultsFiltersV2?.currency ?? Currency.USD);
+	const [onlyDeposits, setOnlyDeposits] = useState(vaultsFiltersV2.onlyDeposits);
+	const [showAPR, setShowAPR] = useState(vaultsFiltersV2.showAPR);
+	const [boostedVaults, setBoostedVaults] = useState(vaultsFiltersV2.onlyBoostedVaults);
+	const [hideDust, setHideDust] = useState(vaultsFiltersV2.hidePortfolioDust);
+	const [status, setStatus] = useState(vaultsFiltersV2.status);
+	const [platform, setPlatform] = useState(vaultsFiltersV2.protocol);
+	const [reward, setReward] = useState(vaultsFiltersV2.behavior);
+	const [search, setSearch] = useState(vaultsFiltersV2.search);
+	const [currency, setCurrency] = useState(vaultsFiltersV2.currency);
 
 	const syncPersistedFiltersValues = () => {
-		setOnlyDeposits(!!vaultsFiltersV2?.onlyDeposits);
-		setShowAPR(!!vaultsFiltersV2?.showAPR);
-		setBoostedVaults(!!vaultsFiltersV2?.onlyBoostedVaults);
-		setHideDust(!!vaultsFiltersV2?.hidePortfolioDust);
-		setStatus(vaultsFiltersV2?.status);
-		setPlatform(vaultsFiltersV2?.protocol);
-		setReward(vaultsFiltersV2?.behavior);
-		setSearch(vaultsFiltersV2?.search);
-		setCurrency(vaults.vaultsFiltersV2?.currency ?? uiState.currency);
+		setOnlyDeposits(vaultsFiltersV2.onlyDeposits);
+		setShowAPR(vaultsFiltersV2.showAPR);
+		setBoostedVaults(vaultsFiltersV2.onlyBoostedVaults);
+		setHideDust(vaultsFiltersV2.hidePortfolioDust);
+		setStatus(vaultsFiltersV2.status);
+		setPlatform(vaultsFiltersV2.protocol);
+		setReward(vaultsFiltersV2.behavior);
+		setSearch(vaultsFiltersV2.search);
+		setCurrency(vaults.vaultsFiltersV2.currency ?? uiState.currency);
 	};
 
 	const handleClose = () => {
@@ -107,7 +106,7 @@ const VaultFiltersDialogV2 = () => {
 		setShowAPR(false);
 		setBoostedVaults(false);
 		setHideDust(false);
-		setCurrency(vaultsFiltersV2?.currency ?? uiState.currency);
+		setCurrency(vaultsFiltersV2.currency);
 		setStatus(undefined);
 		setPlatform(undefined);
 		setReward(undefined);

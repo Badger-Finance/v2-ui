@@ -45,7 +45,7 @@ const VaultsSearchControls = () => {
 			<Paper className={classes.paper}>
 				<Grid container justifyContent="space-between">
 					<OnlyDepositsControl
-						checked={!!vaultsFiltersV2?.onlyDeposits}
+						checked={vaultsFiltersV2.onlyDeposits}
 						onChange={(checked) => setVaultsFilter('onlyDeposits', checked)}
 					/>
 					<MobileFiltersButton />
@@ -61,17 +61,17 @@ const VaultsSearchControls = () => {
 				<div>
 					<OnlyDepositsControl
 						className={classes.checkbox}
-						checked={!!vaultsFiltersV2?.onlyDeposits}
+						checked={vaultsFiltersV2.onlyDeposits}
 						onChange={(checked) => setVaultsFilter('onlyDeposits', checked)}
 					/>
 					<PortfolioDustControl
 						className={classes.checkbox}
-						checked={!!vaultsFiltersV2?.hidePortfolioDust}
+						checked={vaultsFiltersV2.hidePortfolioDust}
 						onChange={(checked) => setVaultsFilter('hidePortfolioDust', checked)}
 					/>
 					{networkHasBoostVaults && (
 						<BoostedVaultsControl
-							checked={!!vaultsFiltersV2?.onlyBoostedVaults}
+							checked={vaultsFiltersV2.onlyBoostedVaults}
 							onChange={(checked) => setVaultsFilter('onlyBoostedVaults', checked)}
 						/>
 					)}
@@ -79,11 +79,11 @@ const VaultsSearchControls = () => {
 				<div>
 					<VaultsAprControl
 						className={classes.apr}
-						showAPR={!!vaultsFiltersV2?.showAPR}
+						showAPR={vaultsFiltersV2.showAPR}
 						onShowAPRChange={(checked) => setVaultsFilter('showAPR', checked)}
 					/>
 					<VaultsCurrencyControl
-						currency={vaultsFiltersV2?.currency ?? Currency.USD}
+						currency={vaultsFiltersV2.currency ?? Currency.USD}
 						onCurrencyChange={(change) => setVaultsFilter('currency', change)}
 					/>
 				</div>

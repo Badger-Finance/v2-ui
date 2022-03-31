@@ -44,7 +44,7 @@ export default class VaultStore {
 	public initialized: boolean;
 	public showVaultFilters: boolean;
 	public vaultsFilters: VaultsFilters;
-	public vaultsFiltersV2?: VaultsFiltersV2;
+	public vaultsFiltersV2: VaultsFiltersV2;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -59,7 +59,7 @@ export default class VaultStore {
 			availableBalances: this.availableBalances,
 			vaultsFilters: {},
 			showVaultFilters: false,
-			vaultsFiltersV2: this.vaultsFiltersV2,
+			vaultsFiltersV2: {},
 		});
 
 		this.vaultDefinitionsCache = {};
@@ -77,16 +77,13 @@ export default class VaultStore {
 			protocols: [],
 			types: [],
 		};
-
-		if (FLAGS.VAULT_FILTERS_V2) {
-			this.vaultsFiltersV2 = {
-				hidePortfolioDust: false,
-				showAPR: false,
-				currency: store.uiState.currency,
-				onlyDeposits: false,
-				onlyBoostedVaults: false,
-			};
-		}
+		this.vaultsFiltersV2 = {
+			hidePortfolioDust: false,
+			showAPR: false,
+			currency: store.uiState.currency,
+			onlyDeposits: false,
+			onlyBoostedVaults: false,
+		};
 
 		this.refresh();
 	}
@@ -426,7 +423,7 @@ export default class VaultStore {
 			prices: { exchangeRates },
 		} = this.store;
 
-		if (this.vaultsFilters.hidePortfolioDust || this.vaultsFiltersV2?.hidePortfolioDust) {
+		if (this.vaultsFilters.hidePortfolioDust || this.vaultsFiltersV2.hidePortfolioDust) {
 			if (exchangeRates) {
 				vaults = vaults.filter((vault) => {
 					const userBalance = user.getTokenBalance(vault.vaultToken).value;
@@ -444,7 +441,7 @@ export default class VaultStore {
 			}
 		}
 
-		if (this.vaultsFiltersV2) {
+		if (FLAGS.VAULT_FILTERS_V2) {
 			const { protocol, search, status, behavior, onlyBoostedVaults, onlyDeposits } = this.vaultsFiltersV2;
 
 			if (onlyDeposits) {

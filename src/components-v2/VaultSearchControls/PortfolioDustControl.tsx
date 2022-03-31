@@ -11,7 +11,7 @@ const PortfolioDustControl = ({ checked, onChange, ...muiProps }: CheckboxContro
 		<FormControlLabel
 			{...muiProps}
 			control={<Checkbox checked={checked} color="primary" onChange={handleDustChange} />}
-			label={<Typography variant="body2">Show dust</Typography>}
+			label={<Typography variant="body2">Hide dust</Typography>}
 		/>
 	);
 };
