@@ -24,39 +24,14 @@ export class Ethereum extends NetworkModel {
 			ethVaultDefinitions,
 		);
 	}
+
 	get settOrder(): string[] {
 		return [
-			this.deploy.sett_system.vaults['native.ibbtcCrv'],
-			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.icvx'],
-			this.deploy.sett_system.vaults['native.mim-3crv'],
-			this.deploy.sett_system.vaults['native.frax-3crv'],
-			this.deploy.sett_system.vaults['native.digg'],
-			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
-			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
-			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
-			this.deploy.sett_system.vaults['native.imBtc'],
-			this.deploy.sett_system.vaults['native.fPmBtcHBtc'],
+			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.cvxCrv'],
-			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
-			this.deploy.sett_system.vaults['native.sbtcCrv'],
-			this.deploy.sett_system.vaults['native.renCrv'],
-			this.deploy.sett_system.vaults['native.tbtcCrv'],
-			this.deploy.sett_system.vaults['native.hbtcCrv'],
-			this.deploy.sett_system.vaults['native.pbtcCrv'],
-			this.deploy.sett_system.vaults['native.obtcCrv'],
-			this.deploy.sett_system.vaults['native.bbtcCrv'],
-			this.deploy.sett_system.vaults['native.cvx'],
-			this.deploy.sett_system.vaults['yearn.wBtc'],
-			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
-			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
-			this.deploy.sett_system.vaults['native.badger'],
-			this.deploy.sett_system.vaults['native.rembadger'],
-			this.deploy.sett_system.vaults['harvest.renCrv'],
-			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
-			this.deploy.sett_system.vaults['native.tricryptoCrv'],
-			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
-			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
+			this.deploy.sett_system.vaults['native.ibbtcCrv'],
+			this.deploy.sett_system.vaults['native.badgerCrv'],
 		];
 	}
 }

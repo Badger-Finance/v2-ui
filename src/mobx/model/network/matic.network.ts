@@ -21,15 +21,6 @@ export class Polygon extends NetworkModel {
 			maticVaults,
 		);
 	}
-
-	get settOrder(): string[] {
-		return [
-			this.deploy.sett_system.vaults['BSLP-IBBTC-WBTC'],
-			this.deploy.sett_system.vaults['BQLP-WBTC-USDC'],
-			this.deploy.sett_system.vaults['BATRICRYPTO'],
-			this.deploy.sett_system.vaults['BCRV-WBTC-RENBTC'],
-		];
-	}
 }
 
 export const MATIC_DEPLOY: Deploy = deploy;
