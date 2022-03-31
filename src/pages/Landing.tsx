@@ -10,6 +10,8 @@ import { inCurrency } from '../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import VaultListDisplay from '../components-v2/landing/VaultListDisplay';
 import clsx from 'clsx';
+import { FLAGS } from '../config/environment';
+import VaultsSearchControls from '../components-v2/VaultSearchControls';
 
 const useStyles = makeStyles((theme) => ({
 	badgerOverviewValueTitle: {
@@ -65,14 +67,14 @@ const Landing = observer((props: LandingProps) => {
 					<Grid item xs={10} md={6}>
 						<PageHeader title={title} subtitle={subtitle} />
 					</Grid>
-					{isTablet && (
+					{isTablet && !FLAGS.VAULT_FILTERS_V2 && (
 						<Grid item container alignItems="center" justifyContent="flex-end" md>
 							{userAssets}
 						</Grid>
 					)}
 				</PageHeaderContainer>
 			</Grid>
-			{isMobile && (
+			{isMobile && !FLAGS.VAULT_FILTERS_V2 && (
 				<Grid container>
 					<Grid item container xs={10} alignItems="center">
 						{userAssets}
@@ -82,6 +84,7 @@ const Landing = observer((props: LandingProps) => {
 					</Grid>
 				</Grid>
 			)}
+			{FLAGS.VAULT_FILTERS_V2 && <VaultsSearchControls />}
 			<VaultListDisplay />
 		</LayoutContainer>
 	);
