@@ -24,7 +24,11 @@ export class Fantom extends NetworkModel {
 	}
 
 	get settOrder(): string[] {
-		return [this.deploy.sett_system.vaults['native.veoxd'], this.deploy.sett_system.vaults['native.bveoxd-oxd'], this.deploy.sett_system.vaults['native.oxsolid']];
+		return [
+			this.deploy.sett_system.vaults['native.veoxd'],
+			this.deploy.sett_system.vaults['native.bveoxd-oxd'],
+			this.deploy.sett_system.vaults['native.oxsolid'],
+		];
 	}
 }
 
