@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import {
@@ -66,7 +66,7 @@ const VaultFiltersDialogV2 = () => {
 	const [search, setSearch] = useState(vaultsFiltersV2.search);
 	const [currency, setCurrency] = useState(vaultsFiltersV2.currency);
 
-	const syncPersistedFiltersValues = () => {
+	const syncPersistedFiltersValues = useCallback(() => {
 		setOnlyDeposits(vaultsFiltersV2.onlyDeposits);
 		setShowAPR(vaultsFiltersV2.showAPR);
 		setBoostedVaults(vaultsFiltersV2.onlyBoostedVaults);
@@ -76,7 +76,7 @@ const VaultFiltersDialogV2 = () => {
 		setRewards(vaultsFiltersV2.behaviors);
 		setSearch(vaultsFiltersV2.search);
 		setCurrency(vaults.vaultsFiltersV2.currency ?? uiState.currency);
-	};
+	}, [vaultsFiltersV2, uiState.currency]);
 
 	const handleClose = () => {
 		vaults.showVaultFilters = false;
@@ -113,7 +113,7 @@ const VaultFiltersDialogV2 = () => {
 
 	useEffect(() => {
 		syncPersistedFiltersValues();
-	}, [vaultsFiltersV2]);
+	}, [vaultsFiltersV2, syncPersistedFiltersValues]);
 
 	return (
 		<Dialog open={FLAGS.VAULT_FILTERS_V2 && vaults.showVaultFilters} onClose={handleClose} maxWidth="sm" fullWidth>
