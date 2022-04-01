@@ -31,6 +31,7 @@ const useStyles = makeStyles(() => ({
 	},
 	content: {
 		padding: '0px 37px 20px 37px',
+		overflowX: 'hidden',
 	},
 	closeButton: {
 		marginRight: -12,
