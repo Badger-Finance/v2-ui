@@ -52,7 +52,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const VaultFiltersDialogV2 = () => {
-	const { uiState, vaults } = useContext(StoreContext);
+	const { vaults } = useContext(StoreContext);
 	const classes = useStyles();
 	const { vaultsFiltersV2, networkHasBoostVaults } = vaults;
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
@@ -75,8 +75,8 @@ const VaultFiltersDialogV2 = () => {
 		setPlatforms(vaultsFiltersV2.protocols);
 		setRewards(vaultsFiltersV2.behaviors);
 		setSearch(vaultsFiltersV2.search);
-		setCurrency(vaults.vaultsFiltersV2.currency ?? uiState.currency);
-	}, [vaultsFiltersV2, uiState.currency]);
+		setCurrency(vaultsFiltersV2.currency);
+	}, [vaultsFiltersV2]);
 
 	const handleClose = () => {
 		vaults.showVaultFilters = false;
