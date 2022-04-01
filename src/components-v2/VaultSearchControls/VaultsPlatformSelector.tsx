@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { makeStyles, MenuItem, TextField } from '@material-ui/core';
+import { Checkbox, ListItemText, makeStyles, MenuItem, TextField } from '@material-ui/core';
 import { Protocol } from '@badger-dao/sdk';
-import SelectControlsChips from './SelectControlsChips';
 
 const useStyles = makeStyles({
 	formControl: {
@@ -45,7 +44,7 @@ const VaultsPlatformSelector = ({ platforms = [], onChange }: Props): JSX.Elemen
 			className={classes.formControl}
 			SelectProps={{
 				multiple: true,
-				renderValue: (selected) => <SelectControlsChips selected={selected as string[]} />,
+				renderValue: (selected) => (selected as string[]).join(', '),
 			}}
 			inputProps={{ 'data-testid': 'platform-selector-input' }}
 		>
@@ -54,7 +53,8 @@ const VaultsPlatformSelector = ({ platforms = [], onChange }: Props): JSX.Elemen
 			</MenuItem>
 			{vaultsProtocols.map((protocol: Protocol) => (
 				<MenuItem className={classes.capitalized} key={protocol} value={protocol}>
-					{protocol}
+					<Checkbox color="primary" checked={platforms.indexOf(protocol) > -1} />
+					<ListItemText primary={protocol} />
 				</MenuItem>
 			))}
 		</TextField>

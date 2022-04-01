@@ -1,7 +1,6 @@
 import React from 'react';
-import { makeStyles, MenuItem, TextField } from '@material-ui/core';
+import { Checkbox, ListItemText, makeStyles, MenuItem, TextField } from '@material-ui/core';
 import { VaultState } from '@badger-dao/sdk';
-import SelectControlsChips from './SelectControlsChips';
 
 const useStyles = makeStyles({
 	formControl: {
@@ -40,7 +39,7 @@ const VaultStatusSelector = ({ statuses = [], onChange }: Props): JSX.Element =>
 			className={classes.formControl}
 			SelectProps={{
 				multiple: true,
-				renderValue: (selected) => <SelectControlsChips selected={selected as string[]} />,
+				renderValue: (selected) => (selected as string[]).join(', '),
 			}}
 			inputProps={{ 'data-testid': 'status-selector-input' }}
 		>
@@ -51,7 +50,8 @@ const VaultStatusSelector = ({ statuses = [], onChange }: Props): JSX.Element =>
 				.filter((status) => status !== VaultState.Deprecated)
 				.map((status) => (
 					<MenuItem className={classes.capitalized} key={status} value={status}>
-						{status}
+						<Checkbox color="primary" checked={statuses.indexOf(status) > -1} />
+						<ListItemText primary={status} />
 					</MenuItem>
 				))}
 		</TextField>

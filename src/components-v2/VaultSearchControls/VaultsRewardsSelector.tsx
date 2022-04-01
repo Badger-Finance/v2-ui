@@ -1,7 +1,6 @@
 import React from 'react';
-import { makeStyles, MenuItem, TextField } from '@material-ui/core';
+import { Checkbox, ListItemText, makeStyles, MenuItem, TextField } from '@material-ui/core';
 import { VaultBehavior } from '@badger-dao/sdk';
-import SelectControlsChips from './SelectControlsChips';
 
 const useStyles = makeStyles({
 	formControl: {
@@ -39,16 +38,17 @@ const VaultsRewardsSelector = ({ rewards = [], onChange }: Props): JSX.Element =
 			className={classes.formControl}
 			SelectProps={{
 				multiple: true,
-				renderValue: (selected) => <SelectControlsChips selected={selected as string[]} />,
+				renderValue: (selected) => (selected as string[]).join(', '),
 			}}
 			inputProps={{ 'data-testid': 'rewards-selector-input' }}
 		>
 			<MenuItem disabled value="">
 				<em>Rewards</em>
 			</MenuItem>
-			{Object.values(VaultBehavior).map((status) => (
-				<MenuItem className={classes.capitalized} key={status} value={status}>
-					{status}
+			{Object.values(VaultBehavior).map((reward) => (
+				<MenuItem className={classes.capitalized} key={reward} value={reward}>
+					<Checkbox color="primary" checked={rewards.indexOf(reward) > -1} />
+					<ListItemText primary={reward} />
 				</MenuItem>
 			))}
 		</TextField>
