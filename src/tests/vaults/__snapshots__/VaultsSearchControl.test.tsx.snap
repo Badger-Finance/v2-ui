@@ -478,25 +478,70 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
       class="MuiPaper-root-5 makeStyles-paper-4 MuiPaper-elevation1-9 MuiPaper-rounded-6"
     >
       <div
-        class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-content-xs-space-between-53"
+        class="MuiGrid-root-33 MuiGrid-container-34"
       >
-        <label
-          class="MuiFormControlLabel-root-136"
+        <div
+          class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
         >
-          <span
-            aria-disabled="false"
-            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
+          <label
+            class="MuiFormControlLabel-root-136"
           >
             <span
-              class="MuiIconButton-label-160"
+              aria-disabled="false"
+              class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
             >
-              <input
-                checked=""
-                class="PrivateSwitchBase-input-151"
-                data-indeterminate="false"
-                type="checkbox"
-                value=""
+              <span
+                class="MuiIconButton-label-160"
+              >
+                <input
+                  checked=""
+                  class="PrivateSwitchBase-input-151"
+                  data-indeterminate="false"
+                  type="checkbox"
+                  value=""
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-164"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-410"
               />
+            </span>
+            <span
+              class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+            >
+              <p
+                class="MuiTypography-root-173 MuiTypography-body2-174"
+              >
+                Only show deposits
+              </p>
+            </span>
+          </label>
+        </div>
+        <div
+          class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-item-35 MuiGrid-justify-content-xs-flex-end-52 MuiGrid-grid-xs-true-67"
+        >
+          <button
+            class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 makeStyles-button-408"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-231 makeStyles-buttonLabel-409"
+            >
+              <p
+                class="MuiTypography-root-173 MuiTypography-body2-174 MuiTypography-displayInline-201"
+              >
+                Filters
+              </p>
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root-164"
@@ -504,52 +549,15 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"
                 />
               </svg>
             </span>
             <span
               class="MuiTouchRipple-root-410"
             />
-          </span>
-          <span
-            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
-          >
-            <p
-              class="MuiTypography-root-173 MuiTypography-body2-174"
-            >
-              Only show deposits
-            </p>
-          </span>
-        </label>
-        <button
-          class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 makeStyles-button-408"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiButton-label-231 makeStyles-buttonLabel-409"
-          >
-            <p
-              class="MuiTypography-root-173 MuiTypography-body2-174 MuiTypography-displayInline-201"
-            >
-              Filters
-            </p>
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root-164"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"
-              />
-            </svg>
-          </span>
-          <span
-            class="MuiTouchRipple-root-410"
-          />
-        </button>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1220,25 +1228,70 @@ exports[`VaultSearchControl mobile renders correctly 1`] = `
     class="MuiPaper-root-5 makeStyles-paper-4 MuiPaper-elevation1-9 MuiPaper-rounded-6"
   >
     <div
-      class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-content-xs-space-between-53"
+      class="MuiGrid-root-33 MuiGrid-container-34"
     >
-      <label
-        class="MuiFormControlLabel-root-136"
+      <div
+        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
       >
-        <span
-          aria-disabled="false"
-          class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
+        <label
+          class="MuiFormControlLabel-root-136"
         >
           <span
-            class="MuiIconButton-label-160"
+            aria-disabled="false"
+            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
           >
-            <input
-              checked=""
-              class="PrivateSwitchBase-input-151"
-              data-indeterminate="false"
-              type="checkbox"
-              value=""
+            <span
+              class="MuiIconButton-label-160"
+            >
+              <input
+                checked=""
+                class="PrivateSwitchBase-input-151"
+                data-indeterminate="false"
+                type="checkbox"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-164"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-410"
             />
+          </span>
+          <span
+            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+          >
+            <p
+              class="MuiTypography-root-173 MuiTypography-body2-174"
+            >
+              Only show deposits
+            </p>
+          </span>
+        </label>
+      </div>
+      <div
+        class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-item-35 MuiGrid-justify-content-xs-flex-end-52 MuiGrid-grid-xs-true-67"
+      >
+        <button
+          class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 makeStyles-button-408"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label-231 makeStyles-buttonLabel-409"
+          >
+            <p
+              class="MuiTypography-root-173 MuiTypography-body2-174 MuiTypography-displayInline-201"
+            >
+              Filters
+            </p>
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root-164"
@@ -1246,52 +1299,15 @@ exports[`VaultSearchControl mobile renders correctly 1`] = `
               viewBox="0 0 24 24"
             >
               <path
-                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"
               />
             </svg>
           </span>
           <span
             class="MuiTouchRipple-root-410"
           />
-        </span>
-        <span
-          class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
-        >
-          <p
-            class="MuiTypography-root-173 MuiTypography-body2-174"
-          >
-            Only show deposits
-          </p>
-        </span>
-      </label>
-      <button
-        class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 makeStyles-button-408"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiButton-label-231 makeStyles-buttonLabel-409"
-        >
-          <p
-            class="MuiTypography-root-173 MuiTypography-body2-174 MuiTypography-displayInline-201"
-          >
-            Filters
-          </p>
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root-164"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"
-            />
-          </svg>
-        </span>
-        <span
-          class="MuiTouchRipple-root-410"
-        />
-      </button>
+        </button>
+      </div>
     </div>
   </div>
 </div>

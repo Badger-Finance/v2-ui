@@ -43,12 +43,16 @@ const VaultsSearchControls = () => {
 	if (isMobile) {
 		return (
 			<Paper className={classes.paper}>
-				<Grid container justifyContent="space-between">
-					<OnlyDepositsControl
-						checked={vaultsFiltersV2.onlyDeposits}
-						onChange={(checked) => setVaultsFilter('onlyDeposits', checked)}
-					/>
-					<MobileFiltersButton />
+				<Grid container>
+					<Grid item xs>
+						<OnlyDepositsControl
+							checked={vaultsFiltersV2.onlyDeposits}
+							onChange={(checked) => setVaultsFilter('onlyDeposits', checked)}
+						/>
+					</Grid>
+					<Grid item container xs justifyContent="flex-end">
+						<MobileFiltersButton />
+					</Grid>
 				</Grid>
 				<VaultFiltersDialogV2 />
 			</Paper>
