@@ -27,10 +27,7 @@ export const getOnboardWallets = (config: NetworkConfig): WalletProviderInfo[] =
 	const networkRPC = rpc[config.network];
 	switch (config.network) {
 		case Network.BinanceSmartChain:
-			return [
-				{ walletName: 'metamask', preferred: true },
-				{ walletName: 'tally', preferred: true },
-			];
+			return [{ walletName: 'metamask', preferred: true }];
 		default:
 			return [
 				{ walletName: 'metamask', preferred: true },
