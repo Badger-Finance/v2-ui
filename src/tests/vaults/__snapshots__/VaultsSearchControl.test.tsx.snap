@@ -458,6 +458,24 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
           </div>
         </div>
       </div>
+      <div
+        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-auto-66"
+      >
+        <button
+          class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 MuiButton-textPrimary-233 MuiButton-fullWidth-253"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label-231"
+          >
+            CLEAR ALL
+          </span>
+          <span
+            class="MuiTouchRipple-root-376"
+          />
+        </button>
+      </div>
     </div>
   </div>
 </div>

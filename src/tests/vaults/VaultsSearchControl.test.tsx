@@ -10,6 +10,7 @@ import { within } from '@testing-library/react';
 import { Protocol, VaultBehavior, VaultState } from '@badger-dao/sdk';
 import { config } from 'react-transition-group';
 import * as ENVIRONMENT from '../../config/environment';
+import { action } from 'mobx';
 
 describe('VaultSearchControl', () => {
 	beforeEach(() => {
@@ -149,6 +150,18 @@ describe('VaultSearchControl', () => {
 			const btcButton = screen.getByRole('button', { name: 'BTC' });
 			fireEvent.click(btcButton);
 			expect(btcButton).toHaveAttribute('aria-selected', 'true');
+		});
+
+		it('can clear filters', () => {
+			const clear = jest.fn();
+			store.vaults.clearFilters = action(clear);
+			customRender(
+				<StoreProvider value={store}>
+					<VaultsSearchControls />
+				</StoreProvider>,
+			);
+			fireEvent.click(screen.getByRole('button', { name: /Clear All/i }));
+			expect(clear).toHaveBeenCalledTimes(1);
 		});
 	});
 

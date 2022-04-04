@@ -378,6 +378,21 @@ export default class VaultStore {
 			protocols: [],
 			types: [],
 		};
+
+		if (FLAGS.VAULT_FILTERS_V2) {
+			this.vaultsFiltersV2 = {
+				hidePortfolioDust: false,
+				showAPR: false,
+				currency: this.store.uiState.currency,
+				onlyDeposits: false,
+				onlyBoostedVaults: false,
+				protocols: undefined,
+				types: undefined,
+				search: undefined,
+				statuses: undefined,
+				behaviors: undefined,
+			};
+		}
 	});
 
 	/**

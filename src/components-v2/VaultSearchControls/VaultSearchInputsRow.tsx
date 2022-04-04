@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Button, Grid, makeStyles } from '@material-ui/core';
 import VaultStatusSelector from './VaultStatusSelector';
 import VaultPlatformSelector from './VaultsPlatformSelector';
 import VaultsRewardsSelector from './VaultsRewardsSelector';
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 
 const VaultSearchInputsRow = (): JSX.Element => {
 	const {
-		vaults: { vaultsFiltersV2, setVaultsFilter },
+		vaults: { vaultsFiltersV2, setVaultsFilter, clearFilters },
 	} = useContext(StoreContext);
 	const classes = useStyles();
 	const [search, setSearch] = useState(vaultsFiltersV2.search);
@@ -54,6 +54,11 @@ const VaultSearchInputsRow = (): JSX.Element => {
 			</Grid>
 			<Grid item xs md lg={6}>
 				<VaultSearchBar search={search} onChange={(change) => setSearch(change)} onSearch={handleSearch} />
+			</Grid>
+			<Grid item xs="auto">
+				<Button fullWidth color="primary" variant="text" onClick={clearFilters}>
+					CLEAR ALL
+				</Button>
 			</Grid>
 		</Grid>
 	);
