@@ -212,8 +212,18 @@ export const darkTheme = createTheme({
 			},
 		},
 		MuiOutlinedInput: {
-			notchedOutline: {
-				borderColor: '#FFFFFF6B',
+			root: {
+				'& .MuiSelect-iconOutlined': {
+					color: '#FFFFFF99',
+				},
+				'& $notchedOutline': {
+					borderColor: '#FFFFFF99',
+				},
+				'&$focused': {
+					'& .MuiSelect-iconOutlined': {
+						color: '#FFB84D',
+					},
+				},
 			},
 		},
 	},
