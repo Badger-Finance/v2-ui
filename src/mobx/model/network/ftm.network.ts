@@ -28,6 +28,8 @@ export class Fantom extends NetworkModel {
 			this.deploy.sett_system.vaults['native.veoxd'],
 			this.deploy.sett_system.vaults['native.bveoxd-oxd'],
 			this.deploy.sett_system.vaults['native.oxsolid'],
+			// oxd vaults need to be up top or tritium will come a' knocking
+			this.deploy.sett_system.vaults['native.usdc-dei'],
 		];
 	}
 }
@@ -214,6 +216,16 @@ export const ftmVaults: BadgerVault[] = [
 		},
 		vaultToken: {
 			address: FTM_DEPLOY.sett_system.vaults['native.oxsolid'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: FTM_DEPLOY.tokens['solidly.usdc-dei'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: FTM_DEPLOY.sett_system.vaults['native.usdc-dei'],
 			decimals: 18,
 		},
 	},
