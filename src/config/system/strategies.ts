@@ -200,7 +200,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-usdc-dei-ecosystem',
+					userGuide:
+						'https://docs.badger.com/badger-finance/setts/sett-user-guides-fantom/fantom-usdc-dei-ecosystem',
 				},
 			};
 		case Network.Avalanche:
