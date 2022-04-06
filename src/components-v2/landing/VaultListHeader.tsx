@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { VaultSortOrder } from '../../mobx/model/ui/vaults-filters';
 import VaultListFiltersWidget from '../common/VaultListFiltersWidget';
+import { FLAGS } from '../../config/environment';
 
 export const INFORMATION_SECTION_MAX_WIDTH = '75%';
 
@@ -76,7 +77,7 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 	const { vaults } = useContext(StoreContext);
 	const { sortOrder } = vaults.vaultsFilters;
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-	const { showAPR } = vaults.vaultsFilters;
+	const showAPR = vaults.vaultsFiltersV2 ? vaults.vaultsFiltersV2.showAPR : vaults.vaultsFilters.showAPR;
 
 	const handleSortByApr = (): void => {
 		let toggledOrder: VaultSortOrder | undefined;
@@ -379,9 +380,11 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 						</Grid>
 					</Grid>
 				</Grid>
-				<Grid item container md justifyContent="flex-end">
-					<VaultListFiltersWidget />
-				</Grid>
+				{!FLAGS.VAULT_FILTERS_V2 && (
+					<Grid item container md justifyContent="flex-end">
+						<VaultListFiltersWidget />
+					</Grid>
+				)}
 			</Grid>
 		</>
 	);

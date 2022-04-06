@@ -31,6 +31,7 @@ export const getOnboardWallets = (config: NetworkConfig): WalletProviderInfo[] =
 		default:
 			return [
 				{ walletName: 'metamask', preferred: true },
+				{ walletName: 'tally', preferred: true },
 				{ walletName: 'coinbase', preferred: true },
 				{
 					walletName: 'ledger',

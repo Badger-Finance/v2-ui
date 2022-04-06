@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import VaultFiltersDialog from '../landing/VaultFiltersDialog';
+import { FLAGS } from '../../config/environment';
 
 const useStyles = makeStyles((theme) => ({
 	paperSm: {
@@ -68,7 +69,7 @@ const VaultListFiltersWidget = (): JSX.Element => {
 					<Typography className={classes.filtersCount}>({vaults.vaultsFiltersCount})</Typography>
 				)}
 			</Grid>
-			<VaultFiltersDialog open={vaults.showVaultFilters} onClose={toggleShowDialog} />
+			<VaultFiltersDialog open={!FLAGS.VAULT_FILTERS_V2 && vaults.showVaultFilters} onClose={toggleShowDialog} />
 		</>
 	);
 };
