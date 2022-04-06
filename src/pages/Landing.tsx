@@ -1,28 +1,20 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-import PageHeader from '../components-v2/common/PageHeader';
 import { observer } from 'mobx-react-lite';
-import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
+import { LayoutContainer } from '../components-v2/common/Containers';
 import VaultListDisplay from '../components-v2/landing/VaultListDisplay';
 import VaultsSearchControls from '../components-v2/VaultSearchControls';
+import { makeStyles } from '@material-ui/core/styles';
 
-interface LandingProps {
-	title: string;
-	subtitle?: string | React.ReactNode;
-}
+const useStyles = makeStyles({
+	root: {
+		marginTop: 48,
+	},
+});
 
-const Landing = observer((props: LandingProps) => {
-	const { title, subtitle } = props;
-
+const Landing = observer(() => {
+	const classes = useStyles();
 	return (
-		<LayoutContainer>
-			<Grid container justifyContent="center">
-				<PageHeaderContainer item container xs={12} alignItems="center">
-					<Grid item xs={10} md={6}>
-						<PageHeader title={title} subtitle={subtitle} />
-					</Grid>
-				</PageHeaderContainer>
-			</Grid>
+		<LayoutContainer className={classes.root}>
 			<VaultsSearchControls />
 			<VaultListDisplay />
 		</LayoutContainer>

@@ -988,7 +988,7 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                     class="MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputAdornedEnd-470 MuiOutlinedInput-inputAdornedEnd-453 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
                     placeholder="Search by vault name, token, rewards..."
                     type="text"
-                    value=""
+                    value="bitcoin convex"
                   />
                   <div
                     class="MuiInputAdornment-root-486 MuiInputAdornment-positionEnd-489 MuiInputAdornment-marginDense-492"
