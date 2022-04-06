@@ -157,7 +157,7 @@ const VaultFiltersDialog = () => {
 						<VaultsRewardsSelector rewards={rewards} onChange={(rewards) => setRewards(rewards)} />
 					</Grid>
 					<Grid item>
-						<VaultSearchBar search={search} onChange={(change) => setSearch(change)} onSearch={() => {}} />
+						<VaultSearchBar search={search} onChange={(change) => setSearch(change)} />
 					</Grid>
 				</Grid>
 				<Divider className={classes.divider} />
