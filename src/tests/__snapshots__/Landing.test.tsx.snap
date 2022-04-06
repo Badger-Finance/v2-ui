@@ -1186,8 +1186,17 @@ exports[`Landing Renders mobile version correctly 1`] = `
       <div
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12"
       >
+        <div
+          class="makeStyles-root-409"
+        >
+          <img
+            alt="curve-renBTC-wBTC-sBTC logo"
+            class="makeStyles-position-501"
+            src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+          />
+        </div>
         <h6
-          class="MuiTypography-root-116 MuiTypography-subtitle1-127"
+          class="MuiTypography-root-116 makeStyles-name-500 MuiTypography-subtitle1-127 MuiTypography-displayInline-144"
         >
           Curve.fi renBTC/wBTC/sBTC
         </h6>
@@ -1204,7 +1213,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-500"
+            class="MuiBox-root-414 MuiBox-root-502"
           >
             <p
               class="MuiTypography-root-116 makeStyles-apr-411 MuiTypography-body1-118 MuiTypography-colorTextPrimary-141 MuiTypography-displayInline-144"
@@ -1226,7 +1235,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-503"
+            class="MuiBox-root-414 MuiBox-root-505"
           >
             <p
               class="MuiTypography-root-116 MuiTypography-body1-118"
@@ -1277,8 +1286,17 @@ exports[`Landing Renders mobile version correctly 1`] = `
       <div
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12"
       >
+        <div
+          class="makeStyles-root-409"
+        >
+          <img
+            alt="BADGER logo"
+            class="makeStyles-position-506"
+            src="/assets/icons/badger.svg"
+          />
+        </div>
         <h6
-          class="MuiTypography-root-116 MuiTypography-subtitle1-127"
+          class="MuiTypography-root-116 makeStyles-name-500 MuiTypography-subtitle1-127 MuiTypography-displayInline-144"
         >
           Badger
         </h6>
@@ -1295,7 +1313,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-504"
+            class="MuiBox-root-414 MuiBox-root-507"
           >
             <p
               class="MuiTypography-root-116 makeStyles-apr-411 MuiTypography-body1-118 MuiTypography-colorTextPrimary-141 MuiTypography-displayInline-144"
@@ -1317,7 +1335,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-507"
+            class="MuiBox-root-414 MuiBox-root-510"
           >
             <p
               class="MuiTypography-root-116 MuiTypography-body1-118"
@@ -1368,8 +1386,17 @@ exports[`Landing Renders mobile version correctly 1`] = `
       <div
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12"
       >
+        <div
+          class="makeStyles-root-409"
+        >
+          <img
+            alt="DIGG logo"
+            class="makeStyles-position-511"
+            src="/assets/icons/digg.svg"
+          />
+        </div>
         <h6
-          class="MuiTypography-root-116 MuiTypography-subtitle1-127"
+          class="MuiTypography-root-116 makeStyles-name-500 MuiTypography-subtitle1-127 MuiTypography-displayInline-144"
         >
           Digg
         </h6>
@@ -1386,7 +1413,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-508"
+            class="MuiBox-root-414 MuiBox-root-512"
           >
             <p
               class="MuiTypography-root-116 makeStyles-apr-411 MuiTypography-body1-118 MuiTypography-colorTextPrimary-141 MuiTypography-displayInline-144"
@@ -1408,7 +1435,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-511"
+            class="MuiBox-root-414 MuiBox-root-515"
           >
             <p
               class="MuiTypography-root-116 MuiTypography-body1-118"
@@ -1689,8 +1716,17 @@ exports[`Landing Renders tablet version correctly 1`] = `
       <div
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12"
       >
+        <div
+          class="makeStyles-root-409"
+        >
+          <img
+            alt="curve-renBTC-wBTC-sBTC logo"
+            class="makeStyles-position-501"
+            src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+          />
+        </div>
         <h6
-          class="MuiTypography-root-116 MuiTypography-subtitle1-127"
+          class="MuiTypography-root-116 makeStyles-name-500 MuiTypography-subtitle1-127 MuiTypography-displayInline-144"
         >
           Curve.fi renBTC/wBTC/sBTC
         </h6>
@@ -1707,7 +1743,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-500"
+            class="MuiBox-root-414 MuiBox-root-502"
           >
             <p
               class="MuiTypography-root-116 makeStyles-apr-411 MuiTypography-body1-118 MuiTypography-colorTextPrimary-141 MuiTypography-displayInline-144"
@@ -1729,7 +1765,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-503"
+            class="MuiBox-root-414 MuiBox-root-505"
           >
             <p
               class="MuiTypography-root-116 MuiTypography-body1-118"
@@ -1780,8 +1816,17 @@ exports[`Landing Renders tablet version correctly 1`] = `
       <div
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12"
       >
+        <div
+          class="makeStyles-root-409"
+        >
+          <img
+            alt="BADGER logo"
+            class="makeStyles-position-506"
+            src="/assets/icons/badger.svg"
+          />
+        </div>
         <h6
-          class="MuiTypography-root-116 MuiTypography-subtitle1-127"
+          class="MuiTypography-root-116 makeStyles-name-500 MuiTypography-subtitle1-127 MuiTypography-displayInline-144"
         >
           Badger
         </h6>
@@ -1798,7 +1843,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-504"
+            class="MuiBox-root-414 MuiBox-root-507"
           >
             <p
               class="MuiTypography-root-116 makeStyles-apr-411 MuiTypography-body1-118 MuiTypography-colorTextPrimary-141 MuiTypography-displayInline-144"
@@ -1820,7 +1865,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-507"
+            class="MuiBox-root-414 MuiBox-root-510"
           >
             <p
               class="MuiTypography-root-116 MuiTypography-body1-118"
@@ -1871,8 +1916,17 @@ exports[`Landing Renders tablet version correctly 1`] = `
       <div
         class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12"
       >
+        <div
+          class="makeStyles-root-409"
+        >
+          <img
+            alt="DIGG logo"
+            class="makeStyles-position-511"
+            src="/assets/icons/digg.svg"
+          />
+        </div>
         <h6
-          class="MuiTypography-root-116 MuiTypography-subtitle1-127"
+          class="MuiTypography-root-116 makeStyles-name-500 MuiTypography-subtitle1-127 MuiTypography-displayInline-144"
         >
           Digg
         </h6>
@@ -1889,7 +1943,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-508"
+            class="MuiBox-root-414 MuiBox-root-512"
           >
             <p
               class="MuiTypography-root-116 makeStyles-apr-411 MuiTypography-body1-118 MuiTypography-colorTextPrimary-141 MuiTypography-displayInline-144"
@@ -1911,7 +1965,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-414 MuiBox-root-511"
+            class="MuiBox-root-414 MuiBox-root-515"
           >
             <p
               class="MuiTypography-root-116 MuiTypography-body1-118"

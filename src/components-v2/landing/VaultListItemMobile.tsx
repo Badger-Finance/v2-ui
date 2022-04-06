@@ -8,6 +8,7 @@ import { useVaultInformation } from '../../hooks/useVaultInformation';
 import routes from '../../config/routes';
 import { StoreContext } from '../../mobx/store-context';
 import VaultListItemTags from '../VaultListItemTags';
+import VaultLogo from './VaultLogo';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -16,6 +17,9 @@ const useStyles = makeStyles(() => ({
 	},
 	info: {
 		margin: '26px 0px',
+	},
+	name: {
+		marginLeft: 8,
 	},
 }));
 
@@ -37,7 +41,10 @@ const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
 	return (
 		<Grid container direction="column" component={Card} onClick={goToVaultDetail} className={classes.root}>
 			<Grid item container>
-				<Typography variant="subtitle1">{vault.name}</Typography>
+				<VaultLogo tokens={vault.tokens} />
+				<Typography variant="subtitle1" display="inline" className={classes.name}>
+					{vault.name}
+				</Typography>
 			</Grid>
 			<Grid item container className={classes.info}>
 				<Grid item xs container direction="column">
