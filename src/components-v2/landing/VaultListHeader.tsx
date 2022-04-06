@@ -1,24 +1,17 @@
 import React, { useContext } from 'react';
-import { Grid, IconButton, makeStyles, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import { Grid, IconButton, makeStyles, Paper, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { VaultSortOrder } from '../../mobx/model/ui/vaults-filters';
-import VaultListFiltersWidget from '../common/VaultListFiltersWidget';
-import { FLAGS } from '../../config/environment';
-
-export const INFORMATION_SECTION_MAX_WIDTH = '75%';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
 		display: 'flex',
-		textTransform: 'uppercase',
+		textTransform: 'capitalize',
 	},
 	sortIcon: {
-		padding: 0,
-		paddingLeft: 2,
+		padding: 4,
 	},
 	sortInfoIcon: {
 		marginLeft: 10,
@@ -38,46 +31,52 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	tvlColumn: {
-		[theme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('sm')]: {
 			display: 'none',
 		},
 	},
 	root: {
 		minHeight: 48,
+		padding: '10px 42px',
+		margin: '15px 0px',
 	},
 	titlesContainer: {
 		paddingLeft: theme.spacing(12),
-		[theme.breakpoints.up('lg')]: {
-			flexGrow: 0,
-			maxWidth: INFORMATION_SECTION_MAX_WIDTH,
-			flexBasis: INFORMATION_SECTION_MAX_WIDTH,
+	},
+	spacingItem: {
+		width: 106,
+		margin: -4,
+		[theme.breakpoints.down('md')]: {
+			display: 'none',
 		},
 	},
-	mobileContainer: {
-		paddingTop: theme.spacing(3),
-		paddingBottom: theme.spacing(2),
-	},
-	mobileColumn: {
-		minHeight: 37,
-	},
-	filtersCount: {
-		fontWeight: 700,
-		color: theme.palette.primary.main,
-		marginLeft: theme.spacing(1),
+	sortUp: {
+		rotate: '180deg',
 	},
 }));
 
-interface Props {
-	title: string;
-	helperText?: string;
-}
-
-const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => {
+const VaultListHeader = observer((): JSX.Element => {
 	const classes = useStyles();
 	const { vaults } = useContext(StoreContext);
 	const { sortOrder } = vaults.vaultsFilters;
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-	const showAPR = vaults.vaultsFiltersV2 ? vaults.vaultsFiltersV2.showAPR : vaults.vaultsFilters.showAPR;
+
+	const handleSortByName = (): void => {
+		let toggledOrder: VaultSortOrder | undefined;
+
+		switch (sortOrder) {
+			case VaultSortOrder.NAME_ASC:
+				toggledOrder = undefined;
+				break;
+			case VaultSortOrder.NAME_DESC:
+				toggledOrder = VaultSortOrder.NAME_ASC;
+				break;
+			default:
+				toggledOrder = VaultSortOrder.NAME_DESC;
+		}
+
+		vaults.vaultsFilters = { ...vaults.vaultsFilters, sortOrder: toggledOrder };
+	};
 
 	const handleSortByApr = (): void => {
 		let toggledOrder: VaultSortOrder | undefined;
@@ -130,54 +129,94 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 		vaults.vaultsFilters = { ...vaults.vaultsFilters, sortOrder: toggledOrder };
 	};
 
-	if (isMobile) {
-		return (
-			<Grid container justifyContent="space-between" className={classes.mobileContainer}>
-				<Grid item xs={6} container alignItems="center" className={classes.mobileColumn}>
-					<Typography className={classes.title} variant="body2" color="textSecondary" display="inline">
-						{title}
-					</Typography>
-					{helperText && (
-						<Tooltip title={helperText} placement="top" arrow color="primary">
-							<img
-								src="/assets/icons/vault-sort-info.svg"
-								className={classes.sortInfoIcon}
-								alt="List description"
-							/>
-						</Tooltip>
-					)}
-				</Grid>
-				<Grid
-					item
-					xs={6}
-					container
-					justifyContent="flex-end"
-					alignItems="center"
-					className={classes.mobileColumn}
-				>
+	return (
+		<Grid item container className={classes.root} component={Paper}>
+			<Grid container spacing={2}>
+				<Grid item xs="auto" className={classes.spacingItem} />
+				<Grid item xs lg={4} container alignItems="center" className={clsx(classes.title, classes.columnTitle)}>
 					<Typography
 						className={classes.title}
 						variant="body2"
 						color="textSecondary"
-						onClick={handleSortByApr}
+						onClick={isMobile ? handleSortByName : undefined}
 					>
-						APR
+						Vault
 					</Typography>
-					<Tooltip
-						title="An annual percentage rate (APR), is the yearly rate earned by staking in each vault."
-						placement="top"
-						arrow
-						color="primary"
-					>
-						<img
-							src="/assets/icons/vault-sort-info.svg"
-							className={classes.sortInfoIcon}
-							alt="What is APR?"
-						/>
-					</Tooltip>
+					{sortOrder !== VaultSortOrder.NAME_ASC && sortOrder !== VaultSortOrder.NAME_DESC && (
+						<IconButton
+							className={clsx(classes.sortIcon, classes.nonSetSort)}
+							onClick={handleSortByName}
+							aria-label="sort descending by name"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								alt="sort-icon"
+								className={classes.sortIcon}
+							/>
+						</IconButton>
+					)}
+					{sortOrder === VaultSortOrder.NAME_DESC && (
+						<IconButton
+							className={classes.sortIcon}
+							onClick={handleSortByName}
+							aria-label="sort ascending by name"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								alt="sort-icon"
+								className={classes.sortIcon}
+							/>
+						</IconButton>
+					)}
+					{sortOrder === VaultSortOrder.NAME_ASC && (
+						<IconButton
+							className={classes.sortIcon}
+							onClick={handleSortByName}
+							aria-label="reset sort by name"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								className={clsx(classes.sortUp, classes.sortIcon)}
+								alt="sort-icon"
+							/>
+						</IconButton>
+					)}
+				</Grid>
+				<Grid
+					item
+					container
+					xs
+					alignItems="center"
+					justifyContent={isMobile ? undefined : 'flex-end'}
+					className={clsx(classes.title, classes.columnTitle)}
+				>
+					<Typography variant="body2" color="textSecondary" onClick={isMobile ? handleSortByApr : undefined}>
+						{vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
+					</Typography>
+					{sortOrder !== VaultSortOrder.APR_ASC && sortOrder !== VaultSortOrder.APR_DESC && (
+						<IconButton
+							className={clsx(classes.sortIcon, classes.nonSetSort)}
+							onClick={handleSortByApr}
+							aria-label="sort descending by APR"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								alt="sort-icon"
+								className={classes.sortIcon}
+							/>
+						</IconButton>
+					)}
 					{sortOrder === VaultSortOrder.APR_DESC && (
-						<IconButton className={classes.sortIcon} onClick={handleSortByApr}>
-							<ArrowDownwardIcon aria-label="sort ascending by APR" color="primary" />
+						<IconButton
+							className={classes.sortIcon}
+							onClick={handleSortByApr}
+							aria-label="sort ascending by APR"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								alt="sort-icon"
+								className={classes.sortIcon}
+							/>
 						</IconButton>
 					)}
 					{sortOrder === VaultSortOrder.APR_ASC && (
@@ -186,207 +225,122 @@ const VaultListHeader = observer(({ title, helperText }: Props): JSX.Element => 
 							onClick={handleSortByApr}
 							aria-label="reset sort by APR"
 						>
-							<ArrowUpwardIcon color="primary" />
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								className={clsx(classes.sortUp, classes.sortIcon)}
+								alt="sort-icon"
+							/>
+						</IconButton>
+					)}
+				</Grid>
+				<Grid
+					item
+					container
+					xs
+					alignItems="center"
+					justifyContent={isMobile ? undefined : 'flex-end'}
+					className={clsx(classes.title, classes.columnTitle)}
+				>
+					<Typography
+						variant="body2"
+						color="textSecondary"
+						onClick={isMobile ? handleSortByBalance : undefined}
+					>
+						My Deposits
+					</Typography>
+					{sortOrder !== VaultSortOrder.BALANCE_ASC && sortOrder !== VaultSortOrder.BALANCE_DESC && (
+						<IconButton
+							className={clsx(classes.sortIcon, classes.nonSetSort)}
+							onClick={handleSortByBalance}
+							aria-label="sort descending by balance"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								alt="sort-icon"
+								className={classes.sortIcon}
+							/>
+						</IconButton>
+					)}
+					{sortOrder === VaultSortOrder.BALANCE_DESC && (
+						<IconButton
+							className={classes.sortIcon}
+							onClick={handleSortByBalance}
+							aria-label="sort ascending by balance"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								alt="sort-icon"
+								className={classes.sortIcon}
+							/>
+						</IconButton>
+					)}
+					{sortOrder === VaultSortOrder.BALANCE_ASC && (
+						<IconButton
+							className={classes.sortIcon}
+							onClick={handleSortByBalance}
+							aria-label="reset sort by balance"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								className={clsx(classes.sortUp, classes.sortIcon)}
+								alt="sort-icon"
+							/>
+						</IconButton>
+					)}
+				</Grid>
+				<Grid
+					item
+					container
+					xs
+					justifyContent={isMobile ? undefined : 'flex-end'}
+					alignItems="center"
+					className={clsx(classes.title, classes.columnTitle, classes.tvlColumn)}
+				>
+					<Typography variant="body2" color="textSecondary">
+						TVL
+					</Typography>
+					{sortOrder !== VaultSortOrder.TVL_ASC && sortOrder !== VaultSortOrder.TVL_DESC && (
+						<IconButton
+							className={clsx(classes.sortIcon, classes.nonSetSort)}
+							onClick={handleSortByTvl}
+							aria-label="sort descending by TVL"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								alt="sort-icon"
+								className={classes.sortIcon}
+							/>
+						</IconButton>
+					)}
+					{sortOrder === VaultSortOrder.TVL_DESC && (
+						<IconButton
+							className={classes.sortIcon}
+							onClick={handleSortByTvl}
+							aria-label="sort ascending by TVL"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								alt="sort-icon"
+								className={classes.sortIcon}
+							/>
+						</IconButton>
+					)}
+					{sortOrder === VaultSortOrder.TVL_ASC && (
+						<IconButton
+							className={classes.sortIcon}
+							onClick={handleSortByTvl}
+							aria-label="reset sort by TVL"
+						>
+							<img
+								src="/assets/icons/vaults-sort-icon.svg"
+								className={clsx(classes.sortUp, classes.sortIcon)}
+								alt="sort-icon"
+							/>
 						</IconButton>
 					)}
 				</Grid>
 			</Grid>
-		);
-	}
-
-	// leave 3 grid spaces for the action buttons section which has no column name
-	return (
-		<>
-			<Grid item container className={classes.root}>
-				<Grid
-					item
-					container
-					xs={12}
-					md={10}
-					lg
-					spacing={2}
-					alignItems="center"
-					className={classes.titlesContainer}
-				>
-					<Grid item xs container spacing={2}>
-						<Grid item xs={12} md={5} lg={4} container alignItems="center" className={clsx(classes.title)}>
-							<Typography className={classes.title} variant="body2" color="textSecondary">
-								{title}
-							</Typography>
-							{helperText && (
-								<Tooltip title={helperText} placement="top" arrow color="primary">
-									<img
-										src="/assets/icons/vault-sort-info.svg"
-										className={classes.sortInfoIcon}
-										alt="List description"
-									/>
-								</Tooltip>
-							)}
-						</Grid>
-						<Grid
-							item
-							container
-							xs={12}
-							md
-							alignItems="center"
-							className={clsx(classes.title, classes.columnTitle)}
-						>
-							<Typography variant="body2" color="textSecondary">
-								{showAPR ? 'APR' : 'APY'}
-							</Typography>
-							<Tooltip
-								title={`An annual percentage ${
-									showAPR ? 'rate (APR)' : 'yield (APY)'
-								}, is the yearly rate earned by depositing in each vault.`}
-								placement="top"
-								arrow
-								color="primary"
-							>
-								<img
-									src="/assets/icons/vault-sort-info.svg"
-									className={classes.sortInfoIcon}
-									alt="What is APR?"
-								/>
-							</Tooltip>
-							{sortOrder !== VaultSortOrder.APR_ASC && sortOrder !== VaultSortOrder.APR_DESC && (
-								<IconButton
-									className={clsx(classes.sortIcon, classes.nonSetSort)}
-									onClick={handleSortByApr}
-									aria-label="sort descending by APR"
-								>
-									<ArrowDownwardIcon color="primary" />
-								</IconButton>
-							)}
-							{sortOrder === VaultSortOrder.APR_DESC && (
-								<IconButton
-									className={classes.sortIcon}
-									onClick={handleSortByApr}
-									aria-label="sort ascending by APR"
-								>
-									<ArrowDownwardIcon color="primary" />
-								</IconButton>
-							)}
-							{sortOrder === VaultSortOrder.APR_ASC && (
-								<IconButton
-									className={classes.sortIcon}
-									onClick={handleSortByApr}
-									aria-label="reset sort by APR"
-								>
-									<ArrowUpwardIcon color="primary" />
-								</IconButton>
-							)}
-						</Grid>
-						<Grid
-							item
-							container
-							xs={12}
-							md
-							alignItems="center"
-							className={clsx(classes.title, classes.columnTitle, classes.tvlColumn)}
-						>
-							<Typography variant="body2" color="textSecondary">
-								TVL
-							</Typography>
-							<Tooltip
-								title="Total value locked (TVL) represents the dollar value of all the assets staked in each vault."
-								placement="top"
-								arrow
-								color="primary"
-							>
-								<img
-									src="/assets/icons/vault-sort-info.svg"
-									className={classes.sortInfoIcon}
-									alt="What is TVL?"
-								/>
-							</Tooltip>
-							{sortOrder !== VaultSortOrder.TVL_ASC && sortOrder !== VaultSortOrder.TVL_DESC && (
-								<IconButton
-									className={clsx(classes.sortIcon, classes.nonSetSort)}
-									onClick={handleSortByTvl}
-									aria-label="sort descending by TVL"
-								>
-									<ArrowDownwardIcon color="primary" />
-								</IconButton>
-							)}
-							{sortOrder === VaultSortOrder.TVL_DESC && (
-								<IconButton
-									className={classes.sortIcon}
-									onClick={handleSortByTvl}
-									aria-label="sort ascending by TVL"
-								>
-									<ArrowDownwardIcon color="primary" />
-								</IconButton>
-							)}
-							{sortOrder === VaultSortOrder.TVL_ASC && (
-								<IconButton
-									className={classes.sortIcon}
-									onClick={handleSortByTvl}
-									aria-label="reset sort by TVL"
-								>
-									<ArrowUpwardIcon color="primary" />
-								</IconButton>
-							)}
-						</Grid>
-						<Grid
-							item
-							container
-							xs={12}
-							md
-							alignItems="center"
-							className={clsx(classes.title, classes.columnTitle)}
-						>
-							<Typography variant="body2" color="textSecondary">
-								MY DEPOSITS
-							</Typography>
-							<Tooltip
-								title="Represents the dollar value of all assets you deposited in each vault"
-								placement="top"
-								arrow
-								color="primary"
-							>
-								<img
-									src="/assets/icons/vault-sort-info.svg"
-									className={classes.sortInfoIcon}
-									alt="What represent My Deposits?"
-								/>
-							</Tooltip>
-							{sortOrder !== VaultSortOrder.BALANCE_ASC && sortOrder !== VaultSortOrder.BALANCE_DESC && (
-								<IconButton
-									className={clsx(classes.sortIcon, classes.nonSetSort)}
-									onClick={handleSortByBalance}
-									aria-label="sort descending by balance"
-								>
-									<ArrowDownwardIcon color="primary" />
-								</IconButton>
-							)}
-							{sortOrder === VaultSortOrder.BALANCE_DESC && (
-								<IconButton
-									className={classes.sortIcon}
-									onClick={handleSortByBalance}
-									aria-label="sort ascending by balance"
-								>
-									<ArrowDownwardIcon color="primary" />
-								</IconButton>
-							)}
-							{sortOrder === VaultSortOrder.BALANCE_ASC && (
-								<IconButton
-									className={classes.sortIcon}
-									onClick={handleSortByBalance}
-									aria-label="reset sort by balance"
-								>
-									<ArrowUpwardIcon color="primary" />
-								</IconButton>
-							)}
-						</Grid>
-					</Grid>
-				</Grid>
-				{!FLAGS.VAULT_FILTERS_V2 && (
-					<Grid item container md justifyContent="flex-end">
-						<VaultListFiltersWidget />
-					</Grid>
-				)}
-			</Grid>
-		</>
+		</Grid>
 	);
 });
 

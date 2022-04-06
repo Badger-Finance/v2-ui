@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { VaultDTO } from '@badger-dao/sdk';
 import TokenLogo from '../TokenLogo';
+import clsx from 'clsx';
 
 const logoWidth = 32;
 const overlapGapPercentage = 0.3; // we want the tokens to be overlapping by 30% of their width
@@ -27,14 +28,14 @@ function getLogoStyles(logoPosition: number, totalAmountOfLogos: number) {
 	})().position;
 }
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
 	tokens: VaultDTO['tokens'];
 }
 
-const VaultLogo = ({ tokens }: Props): JSX.Element => {
+const VaultLogo = ({ tokens, className, ...props }: Props): JSX.Element => {
 	const classes = useStyles();
 	return (
-		<div className={classes.root}>
+		<div className={clsx(classes.root, className)} {...props}>
 			{tokens.map((token, index, totalTokens) => (
 				<TokenLogo
 					token={token}

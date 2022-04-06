@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
-import { Tooltip, Typography } from '@material-ui/core';
-import VaultItemRoiTooltip from './VaultItemRoiTooltip';
+import React, { MouseEvent, useState } from 'react';
+import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { numberWithCommas } from 'mobx/utils/helpers';
-import { StoreContext } from 'mobx/store-context';
-import { observer } from 'mobx-react-lite';
+import VaultApyInformation from '../VaultApyInformation';
 
 const useStyles = makeStyles({
 	apr: {
@@ -16,6 +14,9 @@ const useStyles = makeStyles({
 		fontWeight: 400,
 		cursor: 'default',
 	},
+	apyInfo: {
+		marginLeft: 5,
+	},
 });
 
 interface Props {
@@ -25,10 +26,17 @@ interface Props {
 }
 
 const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
-	const { user } = useContext(StoreContext);
 	const classes = useStyles();
-	const multiplier =
-		vault.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[vault.vaultToken] : undefined;
+	const [showApyInfo, setShowApyInfo] = useState(false);
+
+	const handleApyInfoClick = (event: MouseEvent<HTMLElement>) => {
+		event.stopPropagation();
+		setShowApyInfo(true);
+	};
+
+	const handleClose = () => {
+		setShowApyInfo(false);
+	};
 
 	if (!vault.apr) {
 		return (
@@ -39,25 +47,14 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
 	}
 
 	return (
-		<Tooltip
-			enterTouchDelay={0}
-			enterDelay={0}
-			leaveDelay={300}
-			arrow
-			placement="left"
-			title={<VaultItemRoiTooltip vault={vault} multiplier={multiplier} />}
-			// prevents scrolling overflow off the sett list
-			PopperProps={{
-				disablePortal: true,
-			}}
-			// needs to be set otherwise MUI will set a random one on every run causing snapshots to break
-			id={`${vault.name} apr breakdown`}
-		>
-			<Typography className={classes.apr} variant="body1" color={'textPrimary'}>
+		<Box display="flex" alignItems="center">
+			<Typography className={classes.apr} variant="body1" color={'textPrimary'} display="inline">
 				{`${numberWithCommas(boost.toFixed(2))}%`}
 			</Typography>
-		</Tooltip>
+			<img src="/assets/icons/apy-info.svg" className={classes.apyInfo} onClick={handleApyInfoClick} />
+			<VaultApyInformation open={showApyInfo} vault={vault} boost={boost} onClose={handleClose} />
+		</Box>
 	);
 };
 
-export default observer(VaultItemApr);
+export default VaultItemApr;
