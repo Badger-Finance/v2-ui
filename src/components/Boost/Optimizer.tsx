@@ -13,15 +13,11 @@ import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
-		width: '100%',
-		boxSizing: 'border-box',
 		padding: theme.spacing(3),
-		flexDirection: 'column',
-		[theme.breakpoints.up('md')]: {
-			height: '100%',
-		},
+		alignSelf: 'stretch',
 	},
 	divider: {
+		width: '100%',
 		[theme.breakpoints.down('sm')]: {
 			margin: theme.spacing(3, 0, 0, 1),
 		},
@@ -156,13 +152,13 @@ export const Optimizer = observer((): JSX.Element => {
 
 	return (
 		<Grid container spacing={2}>
-			<Grid item xs={12} lg>
-				<Grid container component={Paper} className={classes.calculatorContainer}>
+			<Grid container item xs={12} lg>
+				<Grid container direction="column" component={Paper} className={classes.calculatorContainer}>
 					<Grid item>
 						<OptimizerHeader multiplier={multiplier} onReset={handleReset} />
 					</Grid>
 					<Divider className={classes.divider} />
-					<Grid item container xs direction="column" justifyContent="center">
+					<Grid item>
 						<OptimizerBody
 							multiplier={multiplier}
 							native={native || ''}

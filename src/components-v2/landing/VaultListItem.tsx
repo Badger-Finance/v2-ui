@@ -20,6 +20,7 @@ import VaultBadge from './VaultBadge';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import VaultBehaviorTooltip from './VaultBehaviorTooltip';
 import VaultLogo from './VaultLogo';
+import { FLAGS } from '../../config/environment';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -165,7 +166,9 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 	const { user, network, router, onboard, vaults } = useContext(StoreContext);
 	const [openDepositDialog, setOpenDepositDialog] = useState(false);
 	const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
-	const { showAPR } = vaults.vaultsFilters;
+
+	const currency = FLAGS.VAULT_FILTERS_V2 ? vaults.vaultsFiltersV2.currency : vaults.vaultsFilters.currency;
+	const showAPR = FLAGS.VAULT_FILTERS_V2 ? vaults.vaultsFiltersV2.showAPR : vaults.vaultsFilters.showAPR;
 
 	const goToVaultDetail = async () => {
 		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
@@ -296,7 +299,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							className={classes.amountsMobile}
 						>{`TVL: `}</Typography>
 						<CurrencyDisplay
-							displayValue={inCurrency(new BigNumber(vault.value), vaults.vaultsFilters.currency, 0)}
+							displayValue={inCurrency(new BigNumber(vault.value), currency, 0)}
 							variant="body1"
 							justifyContent="flex-start"
 							TypographyProps={{ className: classes.amountsMobile }}
@@ -394,11 +397,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 							</Grid>
 							<Grid item xs={12} md className={classes.tvl}>
 								<CurrencyDisplay
-									displayValue={inCurrency(
-										new BigNumber(vault.value),
-										vaults.vaultsFilters.currency,
-										0,
-									)}
+									displayValue={inCurrency(new BigNumber(vault.value), currency, 0)}
 									variant="body1"
 									justifyContent="flex-start"
 									TypographyProps={{ className: classes.itemText }}
@@ -439,11 +438,7 @@ const VaultListItem = observer(({ vault, CustomDepositModal, depositBalance }: V
 										{'TVL: '}
 									</Typography>
 									<CurrencyDisplay
-										displayValue={inCurrency(
-											new BigNumber(vault.value),
-											vaults.vaultsFilters.currency,
-											0,
-										)}
+										displayValue={inCurrency(new BigNumber(vault.value), currency, 0)}
 										variant="body1"
 										justifyContent="flex-start"
 										TypographyProps={{ className: classes.thinFont, color: 'textSecondary' }}
