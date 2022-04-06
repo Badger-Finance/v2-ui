@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { makeStyles, Grid, Tooltip, Card, Typography, useTheme, useMediaQuery } from '@material-ui/core';
+import { Card, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 import { inCurrency } from 'mobx/utils/helpers';
@@ -76,7 +76,7 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
 		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
 	};
 
-	const listItem = (
+	return (
 		<Grid container direction="column" component={Card} className={classes.root} onClick={goToVaultDetail}>
 			<Grid item container spacing={2}>
 				{!isTablet && (
@@ -119,24 +119,5 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
 			</Grid>
 		</Grid>
 	);
-
-	const disallowDeposit = false;
-
-	if (disallowDeposit) {
-		return (
-			<Tooltip
-				enterTouchDelay={0}
-				enterDelay={0}
-				leaveDelay={300}
-				arrow
-				placement="top-end"
-				title="Your address is not included in the whitelist for this vault."
-			>
-				{listItem}
-			</Tooltip>
-		);
-	}
-
-	return listItem;
 });
 export default VaultListItem;
