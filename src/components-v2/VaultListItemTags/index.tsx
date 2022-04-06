@@ -1,60 +1,78 @@
-import React, { MouseEvent, useContext } from 'react';
+import React, { MouseEvent } from 'react';
 import { VaultBehavior, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Chip, Grid, GridProps, makeStyles, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	tag: {
 		backgroundColor: theme.palette.common.black,
 		color: theme.palette.primary.main,
 		textTransform: 'capitalize',
-		cursor: 'pointer',
 	},
 	label: {
 		marginRight: 5,
+	},
+	clickableTag: {
+		cursor: 'pointer',
+	},
+	clickableLabel: {
+		'&:hover': {
+			textDecoration: 'underline',
+		},
 	},
 }));
 
 interface Props extends GridProps {
 	vault: VaultDTO;
 	showLabels?: boolean;
+	onStatusClick?: (event: MouseEvent<HTMLElement>) => void;
+	onRewardsClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
-const VaultListItemTags = ({ vault, showLabels = false, ...gridProps }: Props): JSX.Element => {
-	const { vaults } = useContext(StoreContext);
+const VaultListItemTags = ({
+	vault,
+	showLabels = false,
+	onStatusClick,
+	onRewardsClick,
+	...gridProps
+}: Props): JSX.Element => {
 	const classes = useStyles();
-
-	const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
-		event.stopPropagation();
-		vaults.openStatusInformationPanel();
-	};
-
-	const handleRewardsClick = (event: MouseEvent<HTMLElement>) => {
-		event.stopPropagation();
-		vaults.openRewardsInformationPanel();
-	};
-
 	return (
 		<Grid container spacing={2} {...gridProps}>
 			{vault.state !== VaultState.Open && (
-				<Grid item xs="auto" onClick={handleStatusClick}>
+				<Grid item xs="auto" onClick={onStatusClick}>
 					{showLabels && (
-						<Typography display="inline" variant={'caption'} className={classes.label}>
+						<Typography
+							display="inline"
+							variant={'caption'}
+							className={clsx(classes.label, onStatusClick && classes.clickableLabel)}
+						>
 							Status:
 						</Typography>
 					)}
-					<Chip size="small" label={vault.state} className={classes.tag} />
+					<Chip
+						size="small"
+						label={vault.state}
+						className={clsx(classes.tag, onStatusClick && classes.clickableTag)}
+					/>
 				</Grid>
 			)}
 			{vault.behavior !== VaultBehavior.None && (
-				<Grid item xs="auto" onClick={handleRewardsClick}>
+				<Grid item xs="auto" onClick={onRewardsClick}>
 					{showLabels && (
-						<Typography display="inline" variant={'caption'} className={classes.label}>
+						<Typography
+							display="inline"
+							variant={'caption'}
+							className={clsx(classes.label, onRewardsClick && classes.clickableLabel)}
+						>
 							Rewards:
 						</Typography>
 					)}
-					<Chip size="small" label={vault.behavior} className={classes.tag} />
+					<Chip
+						size="small"
+						label={vault.behavior}
+						className={clsx(classes.tag, onRewardsClick && classes.clickableTag)}
+					/>
 				</Grid>
 			)}
 			<Grid item xs="auto">
@@ -79,4 +97,4 @@ const VaultListItemTags = ({ vault, showLabels = false, ...gridProps }: Props): 
 	);
 };
 
-export default observer(VaultListItemTags);
+export default VaultListItemTags;

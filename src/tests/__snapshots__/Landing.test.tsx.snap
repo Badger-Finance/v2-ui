@@ -40,7 +40,7 @@ exports[`Landing Renders correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-484"
+                class="MuiTouchRipple-root-486"
               />
             </span>
             <span
@@ -81,7 +81,7 @@ exports[`Landing Renders correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-484"
+                class="MuiTouchRipple-root-486"
               />
             </span>
             <span
@@ -113,7 +113,7 @@ exports[`Landing Renders correctly 1`] = `
                 APY
               </span>
               <span
-                class="MuiTouchRipple-root-484"
+                class="MuiTouchRipple-root-486"
               />
             </button>
             <button
@@ -128,7 +128,7 @@ exports[`Landing Renders correctly 1`] = `
                 APR
               </span>
               <span
-                class="MuiTouchRipple-root-484"
+                class="MuiTouchRipple-root-486"
               />
             </button>
           </div>
@@ -149,7 +149,7 @@ exports[`Landing Renders correctly 1`] = `
                 USD
               </span>
               <span
-                class="MuiTouchRipple-root-484"
+                class="MuiTouchRipple-root-486"
               />
             </button>
             <button
@@ -164,7 +164,7 @@ exports[`Landing Renders correctly 1`] = `
                 BTC
               </span>
               <span
-                class="MuiTouchRipple-root-484"
+                class="MuiTouchRipple-root-486"
               />
             </button>
           </div>
@@ -399,7 +399,7 @@ exports[`Landing Renders correctly 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-484"
+                    class="MuiTouchRipple-root-486"
                   />
                 </button>
               </div>
@@ -434,7 +434,7 @@ exports[`Landing Renders correctly 1`] = `
               CLEAR ALL
             </span>
             <span
-              class="MuiTouchRipple-root-484"
+              class="MuiTouchRipple-root-486"
             />
           </button>
         </div>
@@ -473,7 +473,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-484"
+              class="MuiTouchRipple-root-486"
             />
           </button>
         </div>
@@ -501,7 +501,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-484"
+              class="MuiTouchRipple-root-486"
             />
           </button>
         </div>
@@ -529,7 +529,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-484"
+              class="MuiTouchRipple-root-486"
             />
           </button>
         </div>
@@ -557,7 +557,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-484"
+              class="MuiTouchRipple-root-486"
             />
           </button>
         </div>
@@ -649,15 +649,15 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
             >
               <span
-                class="MuiTypography-root-183 makeStyles-label-429 MuiTypography-caption-186 MuiTypography-displayInline-211"
+                class="MuiTypography-root-183 makeStyles-label-429 makeStyles-clickableLabel-431 MuiTypography-caption-186 MuiTypography-displayInline-211"
               >
                 Rewards:
               </span>
               <div
-                class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+                class="MuiChip-root-432 makeStyles-tag-428 makeStyles-clickableTag-430 MuiChip-sizeSmall-433"
               >
                 <span
-                  class="MuiChip-label-452 MuiChip-labelSmall-453"
+                  class="MuiChip-label-454 MuiChip-labelSmall-455"
                 >
                   Ecosystem Helper
                 </span>
@@ -672,10 +672,10 @@ exports[`Landing Renders correctly 1`] = `
                 Platform:
               </span>
               <div
-                class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+                class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
               >
                 <span
-                  class="MuiChip-label-452 MuiChip-labelSmall-453"
+                  class="MuiChip-label-454 MuiChip-labelSmall-455"
                 >
                   Convex
                 </span>
@@ -699,7 +699,7 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="BADGER logo"
-              class="makeStyles-position-460"
+              class="makeStyles-position-462"
               src="/assets/icons/badger.svg"
             />
           </div>
@@ -717,7 +717,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-461"
+            class="MuiBox-root-412 MuiBox-root-463"
           >
             <p
               class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
@@ -734,7 +734,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-464"
+            class="MuiBox-root-412 MuiBox-root-466"
           >
             <p
               class="MuiTypography-root-183 makeStyles-itemText-399 MuiTypography-body1-185"
@@ -747,7 +747,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-467"
+            class="MuiBox-root-412 MuiBox-root-469"
           >
             <p
               class="MuiTypography-root-183 makeStyles-itemText-399 MuiTypography-body1-185"
@@ -771,15 +771,15 @@ exports[`Landing Renders correctly 1`] = `
               class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
             >
               <span
-                class="MuiTypography-root-183 makeStyles-label-429 MuiTypography-caption-186 MuiTypography-displayInline-211"
+                class="MuiTypography-root-183 makeStyles-label-429 makeStyles-clickableLabel-431 MuiTypography-caption-186 MuiTypography-displayInline-211"
               >
                 Rewards:
               </span>
               <div
-                class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+                class="MuiChip-root-432 makeStyles-tag-428 makeStyles-clickableTag-430 MuiChip-sizeSmall-433"
               >
                 <span
-                  class="MuiChip-label-452 MuiChip-labelSmall-453"
+                  class="MuiChip-label-454 MuiChip-labelSmall-455"
                 >
                   DCA
                 </span>
@@ -794,10 +794,10 @@ exports[`Landing Renders correctly 1`] = `
                 Platform:
               </span>
               <div
-                class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+                class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
               >
                 <span
-                  class="MuiChip-label-452 MuiChip-labelSmall-453"
+                  class="MuiChip-label-454 MuiChip-labelSmall-455"
                 >
                   Badger
                 </span>
@@ -821,7 +821,7 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="DIGG logo"
-              class="makeStyles-position-468"
+              class="makeStyles-position-470"
               src="/assets/icons/digg.svg"
             />
           </div>
@@ -839,7 +839,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-469"
+            class="MuiBox-root-412 MuiBox-root-471"
           >
             <p
               class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
@@ -856,7 +856,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-472"
+            class="MuiBox-root-412 MuiBox-root-474"
           >
             <p
               class="MuiTypography-root-183 makeStyles-itemText-399 MuiTypography-body1-185"
@@ -869,7 +869,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-475"
+            class="MuiBox-root-412 MuiBox-root-477"
           >
             <p
               class="MuiTypography-root-183 makeStyles-itemText-399 MuiTypography-body1-185"
@@ -898,10 +898,10 @@ exports[`Landing Renders correctly 1`] = `
                 Platform:
               </span>
               <div
-                class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+                class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
               >
                 <span
-                  class="MuiChip-label-452 MuiChip-labelSmall-453"
+                  class="MuiChip-label-454 MuiChip-labelSmall-455"
                 >
                   Badger
                 </span>
@@ -957,7 +957,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-486"
+                class="MuiTouchRipple-root-488"
               />
             </span>
             <span
@@ -975,12 +975,12 @@ exports[`Landing Renders mobile version correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <button
-            class="MuiButtonBase-root-171 MuiButton-root-239 MuiButton-text-241 makeStyles-button-484"
+            class="MuiButtonBase-root-171 MuiButton-root-239 MuiButton-text-241 makeStyles-button-486"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-240 makeStyles-buttonLabel-485"
+              class="MuiButton-label-240 makeStyles-buttonLabel-487"
             >
               <p
                 class="MuiTypography-root-183 MuiTypography-body2-184 MuiTypography-displayInline-211"
@@ -999,7 +999,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
@@ -1038,7 +1038,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
@@ -1066,7 +1066,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
@@ -1094,7 +1094,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
@@ -1122,14 +1122,14 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
       </div>
     </div>
     <div
-      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-496 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
+      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-498 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
     >
       <div
         class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45"
@@ -1139,18 +1139,18 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="curve-renBTC-wBTC-sBTC logo"
-            class="makeStyles-position-499"
+            class="makeStyles-position-501"
             src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-183 makeStyles-name-498 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
+          class="MuiTypography-root-183 makeStyles-name-500 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
         >
           Curve.fi renBTC/wBTC/sBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-43 makeStyles-info-497 MuiGrid-container-44 MuiGrid-item-45"
+        class="MuiGrid-root-43 makeStyles-info-499 MuiGrid-container-44 MuiGrid-item-45"
       >
         <div
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-direction-xs-column-47 MuiGrid-grid-xs-true-77"
@@ -1161,7 +1161,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-500"
+            class="MuiBox-root-412 MuiBox-root-502"
           >
             <p
               class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
@@ -1183,7 +1183,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-503"
+            class="MuiBox-root-412 MuiBox-root-505"
           >
             <p
               class="MuiTypography-root-183 MuiTypography-body1-185"
@@ -1203,10 +1203,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 makeStyles-clickableTag-430 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 Ecosystem Helper
               </span>
@@ -1216,10 +1216,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 Convex
               </span>
@@ -1229,7 +1229,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-496 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
+      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-498 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
     >
       <div
         class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45"
@@ -1239,18 +1239,18 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="BADGER logo"
-            class="makeStyles-position-504"
+            class="makeStyles-position-506"
             src="/assets/icons/badger.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-183 makeStyles-name-498 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
+          class="MuiTypography-root-183 makeStyles-name-500 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
         >
           Badger
         </h6>
       </div>
       <div
-        class="MuiGrid-root-43 makeStyles-info-497 MuiGrid-container-44 MuiGrid-item-45"
+        class="MuiGrid-root-43 makeStyles-info-499 MuiGrid-container-44 MuiGrid-item-45"
       >
         <div
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-direction-xs-column-47 MuiGrid-grid-xs-true-77"
@@ -1261,7 +1261,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-505"
+            class="MuiBox-root-412 MuiBox-root-507"
           >
             <p
               class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
@@ -1283,7 +1283,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-508"
+            class="MuiBox-root-412 MuiBox-root-510"
           >
             <p
               class="MuiTypography-root-183 MuiTypography-body1-185"
@@ -1303,10 +1303,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 makeStyles-clickableTag-430 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 DCA
               </span>
@@ -1316,10 +1316,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 Badger
               </span>
@@ -1329,7 +1329,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-496 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
+      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-498 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
     >
       <div
         class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45"
@@ -1339,18 +1339,18 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="DIGG logo"
-            class="makeStyles-position-509"
+            class="makeStyles-position-511"
             src="/assets/icons/digg.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-183 makeStyles-name-498 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
+          class="MuiTypography-root-183 makeStyles-name-500 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
         >
           Digg
         </h6>
       </div>
       <div
-        class="MuiGrid-root-43 makeStyles-info-497 MuiGrid-container-44 MuiGrid-item-45"
+        class="MuiGrid-root-43 makeStyles-info-499 MuiGrid-container-44 MuiGrid-item-45"
       >
         <div
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-direction-xs-column-47 MuiGrid-grid-xs-true-77"
@@ -1361,7 +1361,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-510"
+            class="MuiBox-root-412 MuiBox-root-512"
           >
             <p
               class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
@@ -1383,7 +1383,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-513"
+            class="MuiBox-root-412 MuiBox-root-515"
           >
             <p
               class="MuiTypography-root-183 MuiTypography-body1-185"
@@ -1403,10 +1403,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 Badger
               </span>
@@ -1461,7 +1461,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-486"
+                class="MuiTouchRipple-root-488"
               />
             </span>
             <span
@@ -1479,12 +1479,12 @@ exports[`Landing Renders tablet version correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <button
-            class="MuiButtonBase-root-171 MuiButton-root-239 MuiButton-text-241 makeStyles-button-484"
+            class="MuiButtonBase-root-171 MuiButton-root-239 MuiButton-text-241 makeStyles-button-486"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-240 makeStyles-buttonLabel-485"
+              class="MuiButton-label-240 makeStyles-buttonLabel-487"
             >
               <p
                 class="MuiTypography-root-183 MuiTypography-body2-184 MuiTypography-displayInline-211"
@@ -1503,7 +1503,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
@@ -1542,7 +1542,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
@@ -1570,7 +1570,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
@@ -1598,7 +1598,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
@@ -1626,14 +1626,14 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-486"
+              class="MuiTouchRipple-root-488"
             />
           </button>
         </div>
       </div>
     </div>
     <div
-      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-496 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
+      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-498 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
     >
       <div
         class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45"
@@ -1643,18 +1643,18 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="curve-renBTC-wBTC-sBTC logo"
-            class="makeStyles-position-499"
+            class="makeStyles-position-501"
             src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-183 makeStyles-name-498 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
+          class="MuiTypography-root-183 makeStyles-name-500 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
         >
           Curve.fi renBTC/wBTC/sBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-43 makeStyles-info-497 MuiGrid-container-44 MuiGrid-item-45"
+        class="MuiGrid-root-43 makeStyles-info-499 MuiGrid-container-44 MuiGrid-item-45"
       >
         <div
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-direction-xs-column-47 MuiGrid-grid-xs-true-77"
@@ -1665,7 +1665,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-500"
+            class="MuiBox-root-412 MuiBox-root-502"
           >
             <p
               class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
@@ -1687,7 +1687,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-503"
+            class="MuiBox-root-412 MuiBox-root-505"
           >
             <p
               class="MuiTypography-root-183 MuiTypography-body1-185"
@@ -1707,10 +1707,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 makeStyles-clickableTag-430 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 Ecosystem Helper
               </span>
@@ -1720,10 +1720,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 Convex
               </span>
@@ -1733,7 +1733,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-496 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
+      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-498 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
     >
       <div
         class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45"
@@ -1743,18 +1743,18 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="BADGER logo"
-            class="makeStyles-position-504"
+            class="makeStyles-position-506"
             src="/assets/icons/badger.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-183 makeStyles-name-498 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
+          class="MuiTypography-root-183 makeStyles-name-500 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
         >
           Badger
         </h6>
       </div>
       <div
-        class="MuiGrid-root-43 makeStyles-info-497 MuiGrid-container-44 MuiGrid-item-45"
+        class="MuiGrid-root-43 makeStyles-info-499 MuiGrid-container-44 MuiGrid-item-45"
       >
         <div
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-direction-xs-column-47 MuiGrid-grid-xs-true-77"
@@ -1765,7 +1765,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-505"
+            class="MuiBox-root-412 MuiBox-root-507"
           >
             <p
               class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
@@ -1787,7 +1787,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-508"
+            class="MuiBox-root-412 MuiBox-root-510"
           >
             <p
               class="MuiTypography-root-183 MuiTypography-body1-185"
@@ -1807,10 +1807,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 makeStyles-clickableTag-430 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 DCA
               </span>
@@ -1820,10 +1820,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 Badger
               </span>
@@ -1833,7 +1833,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-496 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
+      class="MuiPaper-root-15 MuiCard-root-406 MuiGrid-root-43 makeStyles-root-498 MuiGrid-container-44 MuiGrid-direction-xs-column-47 MuiPaper-elevation1-19 MuiPaper-rounded-16"
     >
       <div
         class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45"
@@ -1843,18 +1843,18 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="DIGG logo"
-            class="makeStyles-position-509"
+            class="makeStyles-position-511"
             src="/assets/icons/digg.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-183 makeStyles-name-498 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
+          class="MuiTypography-root-183 makeStyles-name-500 MuiTypography-subtitle1-194 MuiTypography-displayInline-211"
         >
           Digg
         </h6>
       </div>
       <div
-        class="MuiGrid-root-43 makeStyles-info-497 MuiGrid-container-44 MuiGrid-item-45"
+        class="MuiGrid-root-43 makeStyles-info-499 MuiGrid-container-44 MuiGrid-item-45"
       >
         <div
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-direction-xs-column-47 MuiGrid-grid-xs-true-77"
@@ -1865,7 +1865,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-510"
+            class="MuiBox-root-412 MuiBox-root-512"
           >
             <p
               class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
@@ -1887,7 +1887,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-513"
+            class="MuiBox-root-412 MuiBox-root-515"
           >
             <p
               class="MuiTypography-root-183 MuiTypography-body1-185"
@@ -1907,10 +1907,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-auto-76"
           >
             <div
-              class="MuiChip-root-430 makeStyles-tag-428 MuiChip-sizeSmall-431"
+              class="MuiChip-root-432 makeStyles-tag-428 MuiChip-sizeSmall-433"
             >
               <span
-                class="MuiChip-label-452 MuiChip-labelSmall-453"
+                class="MuiChip-label-454 MuiChip-labelSmall-455"
               >
                 Badger
               </span>

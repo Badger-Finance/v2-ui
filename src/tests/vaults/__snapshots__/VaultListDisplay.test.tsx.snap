@@ -343,7 +343,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-280"
+            class="MuiTouchRipple-root-282"
           />
         </button>
       </div>
@@ -371,7 +371,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-280"
+            class="MuiTouchRipple-root-282"
           />
         </button>
       </div>
@@ -399,7 +399,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-280"
+            class="MuiTouchRipple-root-282"
           />
         </button>
       </div>
@@ -427,7 +427,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-280"
+            class="MuiTouchRipple-root-282"
           />
         </button>
       </div>
@@ -526,10 +526,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
               Platform:
             </span>
             <div
-              class="MuiChip-root-234 makeStyles-tag-232 MuiChip-sizeSmall-235"
+              class="MuiChip-root-236 makeStyles-tag-232 MuiChip-sizeSmall-237"
             >
               <span
-                class="MuiChip-label-256 MuiChip-labelSmall-257"
+                class="MuiChip-label-258 MuiChip-labelSmall-259"
               >
                 Badger
               </span>
@@ -553,7 +553,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="BADGER logo"
-            class="makeStyles-position-264"
+            class="makeStyles-position-266"
             src="/assets/icons/badger.svg"
           />
         </div>
@@ -571,7 +571,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-201 MuiBox-root-265"
+          class="MuiBox-root-201 MuiBox-root-267"
         >
           <p
             class="MuiTypography-root-144 makeStyles-apr-198 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -588,7 +588,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-201 MuiBox-root-268"
+          class="MuiBox-root-201 MuiBox-root-270"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -601,7 +601,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-201 MuiBox-root-271"
+          class="MuiBox-root-201 MuiBox-root-273"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -627,15 +627,15 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
           >
             <span
-              class="MuiTypography-root-144 makeStyles-label-233 MuiTypography-caption-147 MuiTypography-displayInline-172"
+              class="MuiTypography-root-144 makeStyles-label-233 makeStyles-clickableLabel-235 MuiTypography-caption-147 MuiTypography-displayInline-172"
             >
               Rewards:
             </span>
             <div
-              class="MuiChip-root-234 makeStyles-tag-232 MuiChip-sizeSmall-235"
+              class="MuiChip-root-236 makeStyles-tag-232 makeStyles-clickableTag-234 MuiChip-sizeSmall-237"
             >
               <span
-                class="MuiChip-label-256 MuiChip-labelSmall-257"
+                class="MuiChip-label-258 MuiChip-labelSmall-259"
               >
                 DCA
               </span>
@@ -650,10 +650,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
               Platform:
             </span>
             <div
-              class="MuiChip-root-234 makeStyles-tag-232 MuiChip-sizeSmall-235"
+              class="MuiChip-root-236 makeStyles-tag-232 MuiChip-sizeSmall-237"
             >
               <span
-                class="MuiChip-label-256 MuiChip-labelSmall-257"
+                class="MuiChip-label-258 MuiChip-labelSmall-259"
               >
                 Badger
               </span>

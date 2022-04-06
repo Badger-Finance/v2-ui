@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { MouseEvent, useContext } from 'react';
 import { Card, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
@@ -80,6 +80,16 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
 		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
 	};
 
+	const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
+		event.stopPropagation();
+		vaults.openStatusInformationPanel();
+	};
+
+	const handleRewardsClick = (event: MouseEvent<HTMLElement>) => {
+		event.stopPropagation();
+		vaults.openRewardsInformationPanel();
+	};
+
 	return (
 		<Grid container direction="column" component={Card} className={classes.root} onClick={goToVaultDetail}>
 			<Grid item container spacing={2}>
@@ -118,7 +128,12 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
 					{isTablet && <VaultLogo tokens={vault.tokens} className={classes.tabletLogo} />}
 				</Grid>
 				<Grid item xs>
-					<VaultListItemTags vault={vault} showLabels />
+					<VaultListItemTags
+						vault={vault}
+						showLabels
+						onStatusClick={handleStatusClick}
+						onRewardsClick={handleRewardsClick}
+					/>
 				</Grid>
 			</Grid>
 		</Grid>

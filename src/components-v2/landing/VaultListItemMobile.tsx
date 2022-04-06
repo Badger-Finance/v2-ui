@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { MouseEvent, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import { VaultDTO } from '@badger-dao/sdk';
@@ -30,13 +30,21 @@ interface Props {
 const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
 	const { router, vaults } = useContext(StoreContext);
-	const vaultInformation = useVaultInformation(vault);
+	const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
 
 	const goToVaultDetail = async () => {
 		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
 	};
 
-	const { vaultBoost, depositBalanceDisplay } = vaultInformation;
+	const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
+		event.stopPropagation();
+		vaults.openStatusInformationPanel();
+	};
+
+	const handleRewardsClick = (event: MouseEvent<HTMLElement>) => {
+		event.stopPropagation();
+		vaults.openRewardsInformationPanel();
+	};
 
 	return (
 		<Grid container direction="column" component={Card} onClick={goToVaultDetail} className={classes.root}>
@@ -57,7 +65,12 @@ const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
 				</Grid>
 			</Grid>
 			<Grid item>
-				<VaultListItemTags vault={vault} spacing={1} />
+				<VaultListItemTags
+					vault={vault}
+					spacing={1}
+					onStatusClick={handleStatusClick}
+					onRewardsClick={handleRewardsClick}
+				/>
 			</Grid>
 		</Grid>
 	);
