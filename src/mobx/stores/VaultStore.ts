@@ -85,6 +85,40 @@ export default class VaultStore {
 		this.refresh();
 	}
 
+	get vaultsFiltersCount(): number {
+		let count = 0;
+
+		if (this.vaultsFilters.hidePortfolioDust) {
+			count++;
+		}
+
+		if (this.vaultsFilters.behaviors && this.vaultsFilters.behaviors.length > 0) {
+			count++;
+		}
+
+		if (this.vaultsFilters.protocols && this.vaultsFilters.protocols.length > 0) {
+			count++;
+		}
+
+		if (this.vaultsFilters.statuses && this.vaultsFilters.statuses.length > 0) {
+			count++;
+		}
+
+		if (this.vaultsFilters.search) {
+			count++;
+		}
+
+		if (this.vaultsFilters.onlyDeposits) {
+			count++;
+		}
+
+		if (this.vaultsFilters.onlyBoostedVaults) {
+			count++;
+		}
+
+		return count;
+	}
+
 	get vaultMap(): VaultMap | undefined | null {
 		return this.vaultCache[this.store.network.network.symbol];
 	}

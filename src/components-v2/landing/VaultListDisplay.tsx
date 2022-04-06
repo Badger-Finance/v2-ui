@@ -70,7 +70,7 @@ const VaultListDisplay = observer(() => {
 		return <VaultListItem vault={vault} key={vault.vaultToken} />;
 	});
 
-	if (settListItems.length === 0) {
+	if (settListItems.length === 0 && vaults.vaultsFiltersCount === 0) {
 		return <NoVaults network={network.name} />;
 	}
 
