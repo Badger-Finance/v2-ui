@@ -18,7 +18,11 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		marginBottom: theme.spacing(2),
 		padding: '20px 42px',
+		transition: '.2s background ease-out',
 		cursor: 'pointer',
+		'&:hover': {
+			background: '#3a3a3a',
+		},
 	},
 	enabledVault: {
 		transition: '.2s background ease-out',
