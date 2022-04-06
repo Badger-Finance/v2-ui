@@ -19,36 +19,36 @@ const useStyles = makeStyles({
 
 const VaultSearchInputsRow = (): JSX.Element => {
 	const {
-		vaults: { vaultsFiltersV2, setVaultsFilter, clearFilters },
+		vaults: { vaultsFilters, setVaultsFilter, clearFilters },
 	} = useContext(StoreContext);
 	const classes = useStyles();
-	const [search, setSearch] = useState(vaultsFiltersV2.search);
+	const [search, setSearch] = useState(vaultsFilters.search);
 
 	const handleSearch = () => {
 		setVaultsFilter('search', search);
 	};
 
 	useEffect(() => {
-		setSearch(vaultsFiltersV2.search);
-	}, [vaultsFiltersV2.search]);
+		setSearch(vaultsFilters.search);
+	}, [vaultsFilters.search]);
 
 	return (
 		<Grid container className={classes.root}>
 			<Grid item xs>
 				<VaultStatusSelector
-					statuses={vaultsFiltersV2.statuses}
+					statuses={vaultsFilters.statuses}
 					onChange={(statuses) => setVaultsFilter('statuses', statuses)}
 				/>
 			</Grid>
 			<Grid item xs>
 				<VaultPlatformSelector
-					platforms={vaultsFiltersV2.protocols}
+					platforms={vaultsFilters.protocols}
 					onChange={(platforms) => setVaultsFilter('protocols', platforms)}
 				/>
 			</Grid>
 			<Grid item xs>
 				<VaultsRewardsSelector
-					rewards={vaultsFiltersV2.behaviors}
+					rewards={vaultsFilters.behaviors}
 					onChange={(behaviors) => setVaultsFilter('behaviors', behaviors)}
 				/>
 			</Grid>
