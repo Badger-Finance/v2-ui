@@ -19,7 +19,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 const VaultLogo = ({ tokens, className, ...props }: Props): JSX.Element => {
 	const classes = useStyles();
 	return (
-		<div className={clsx(classes.root, className)} {...props}>
+		<div className={clsx(classes.root, className && className)} {...props}>
 			{tokens.map((token, index, totalTokens) => (
 				<ComposableTokenLogo
 					token={token}
