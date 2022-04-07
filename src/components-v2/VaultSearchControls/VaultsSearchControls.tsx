@@ -10,7 +10,7 @@ import BoostedVaultsControl from './BoostedVaultsControl';
 import VaultsAprControl from './VaultsAprControl';
 import VaultsCurrencyControl from './VaultsCurrencyControl';
 import { Currency } from '../../config/enums/currency.enum';
-import VaultFiltersDialogV2 from './VaultFiltersDialogV2';
+import VaultFiltersDialogV2 from './VaultFiltersDialog';
 
 const useStyles = makeStyles((theme) => ({
 	firstRow: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const VaultsSearchControls = () => {
 	const {
-		vaults: { vaultsFiltersV2, setVaultsFilter, networkHasBoostVaults },
+		vaults: { vaultsFilters, setVaultsFilter, networkHasBoostVaults },
 	} = useContext(StoreContext);
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const classes = useStyles();
@@ -46,7 +46,7 @@ const VaultsSearchControls = () => {
 				<Grid container>
 					<Grid item xs>
 						<OnlyDepositsControl
-							checked={vaultsFiltersV2.onlyDeposits}
+							checked={vaultsFilters.onlyDeposits}
 							onChange={(checked) => setVaultsFilter('onlyDeposits', checked)}
 						/>
 					</Grid>
@@ -65,17 +65,17 @@ const VaultsSearchControls = () => {
 				<div>
 					<OnlyDepositsControl
 						className={classes.checkbox}
-						checked={vaultsFiltersV2.onlyDeposits}
+						checked={vaultsFilters.onlyDeposits}
 						onChange={(checked) => setVaultsFilter('onlyDeposits', checked)}
 					/>
 					<PortfolioDustControl
 						className={classes.checkbox}
-						checked={vaultsFiltersV2.hidePortfolioDust}
+						checked={vaultsFilters.hidePortfolioDust}
 						onChange={(checked) => setVaultsFilter('hidePortfolioDust', checked)}
 					/>
 					{networkHasBoostVaults && (
 						<BoostedVaultsControl
-							checked={vaultsFiltersV2.onlyBoostedVaults}
+							checked={vaultsFilters.onlyBoostedVaults}
 							onChange={(checked) => setVaultsFilter('onlyBoostedVaults', checked)}
 						/>
 					)}
@@ -83,11 +83,11 @@ const VaultsSearchControls = () => {
 				<div>
 					<VaultsAprControl
 						className={classes.apr}
-						showAPR={vaultsFiltersV2.showAPR}
+						showAPR={vaultsFilters.showAPR}
 						onShowAPRChange={(checked) => setVaultsFilter('showAPR', checked)}
 					/>
 					<VaultsCurrencyControl
-						currency={vaultsFiltersV2.currency ?? Currency.USD}
+						currency={vaultsFilters.currency ?? Currency.USD}
 						onCurrencyChange={(change) => setVaultsFilter('currency', change)}
 					/>
 				</div>

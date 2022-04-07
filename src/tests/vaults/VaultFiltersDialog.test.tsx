@@ -1,7 +1,7 @@
 import React from 'react';
 import store from '../../mobx/RootStore';
 import { customRender, fireEvent, screen } from '../Utils';
-import VaultFiltersDialogV2 from '../../components-v2/VaultSearchControls/VaultFiltersDialogV2';
+import VaultFiltersDialogV2 from '../../components-v2/VaultSearchControls/VaultFiltersDialog';
 import { StoreProvider } from '../../mobx/store-context';
 import VaultStore from '../../mobx/stores/VaultStore';
 import '@testing-library/jest-dom/extend-expect';
@@ -9,13 +9,11 @@ import { Protocol, VaultBehavior, VaultState } from '@badger-dao/sdk';
 import { within } from '@testing-library/react';
 import { config } from 'react-transition-group';
 import UserEvent from '@testing-library/user-event';
-import * as ENVIRONMENT from '../../config/environment';
 
-describe('VaultFiltersDialogV2', () => {
+describe('VaultFiltersDialog', () => {
 	beforeEach(() => {
 		jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
 		jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
-		ENVIRONMENT.FLAGS.VAULT_FILTERS_V2 = true;
 		store.vaults.showVaultFilters = true;
 		config.disabled = true;
 	});
@@ -190,6 +188,6 @@ describe('VaultFiltersDialogV2', () => {
 		fireEvent.click(screen.getByRole('button', { name: 'BTC' }));
 		fireEvent.click(screen.getByRole('button', { name: 'Apply Filters' }));
 
-		expect(store.vaults.vaultsFiltersV2).toMatchSnapshot();
+		expect(store.vaults.vaultsFilters).toMatchSnapshot();
 	});
 });

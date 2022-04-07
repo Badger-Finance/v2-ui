@@ -8,20 +8,13 @@ export enum VaultSortOrder {
 	TVL_DESC = 'TVL_DESC',
 	BALANCE_ASC = 'BALANCE_ASC',
 	BALANCE_DESC = 'BALANCE_DESC',
+	NAME_ASC = 'NAME_ASC',
+	NAME_DESC = 'NAME_DESC',
 }
 
 export interface VaultsFilters {
 	hidePortfolioDust: boolean;
-	showAPR: boolean;
-	currency: Currency;
-	protocols: string[];
-	types: VaultType[];
 	sortOrder?: VaultSortOrder;
-}
-
-// this will replace the above once we fully migrate to the new mocks
-export interface VaultsFiltersV2 {
-	hidePortfolioDust: boolean;
 	showAPR: boolean;
 	currency: Currency;
 	onlyDeposits: boolean;

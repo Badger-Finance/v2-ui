@@ -51,16 +51,16 @@ describe('Landing', () => {
 	});
 
 	test('Renders correctly', async () => {
-		checkSnapshot(<Landing title="Test Bitcoin Strategies" subtitle="Snapshots are great. Landing looks good." />);
+		checkSnapshot(<Landing />);
 	});
 
 	test('Renders tablet version correctly', () => {
 		window.matchMedia = createMatchMedia(900);
-		checkSnapshot(<Landing title="Test Bitcoin Strategies" subtitle="Snapshots are great. Landing looks good." />);
+		checkSnapshot(<Landing />);
 	});
 
 	test('Renders mobile version correctly', () => {
 		window.matchMedia = createMatchMedia(480);
-		checkSnapshot(<Landing title="Test Bitcoin Strategies" subtitle="Snapshots are great. Landing looks good." />);
+		checkSnapshot(<Landing />);
 	});
 });

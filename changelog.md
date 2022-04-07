@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### 2.15.3 - 04/07/2022
+
+-   add vault filtering controls
+-   revamp vaults list styles
+-   add vault deprecation warnings
+
 ### 2.15.2 - 03/21/2022
 
 -   vaults 1.5 api support
