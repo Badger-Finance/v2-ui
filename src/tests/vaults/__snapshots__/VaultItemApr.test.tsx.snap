@@ -11,6 +11,7 @@ exports[`VaultItemApr Boosted Vaults displays correct APR and boost information 
       10.00%
     </p>
     <img
+      alt="apy info icon"
       class="makeStyles-apyInfo-3"
       src="/assets/icons/apy-info.svg"
     />

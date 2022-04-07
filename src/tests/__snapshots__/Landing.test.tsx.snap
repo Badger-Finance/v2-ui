@@ -603,6 +603,7 @@ exports[`Landing Renders correctly 1`] = `
               0.25%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />
@@ -725,6 +726,7 @@ exports[`Landing Renders correctly 1`] = `
               8.17%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />
@@ -847,6 +849,7 @@ exports[`Landing Renders correctly 1`] = `
               8.17%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />
@@ -1169,6 +1172,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               0.25%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />
@@ -1269,6 +1273,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               8.17%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />
@@ -1369,6 +1374,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               8.17%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />
@@ -1673,6 +1679,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               0.25%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />
@@ -1773,6 +1780,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               8.17%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />
@@ -1873,6 +1881,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               8.17%
             </p>
             <img
+              alt="apy info icon"
               class="makeStyles-apyInfo-411"
               src="/assets/icons/apy-info.svg"
             />

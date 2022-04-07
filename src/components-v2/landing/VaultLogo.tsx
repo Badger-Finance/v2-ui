@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { VaultDTO } from '@badger-dao/sdk';
 import clsx from 'clsx';
-import ComposableTokenLogo from '../ComposableTokenLogo/ComposableTokenLogo';
+import ComposableTokenLogo from '../ComposableTokenLogo';
 
 const useStyles = makeStyles({
 	root: {

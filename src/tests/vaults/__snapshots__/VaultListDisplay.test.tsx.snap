@@ -473,6 +473,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             8.17%
           </p>
           <img
+            alt="apy info icon"
             class="makeStyles-apyInfo-200"
             src="/assets/icons/apy-info.svg"
           />
@@ -579,6 +580,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             8.17%
           </p>
           <img
+            alt="apy info icon"
             class="makeStyles-apyInfo-200"
             src="/assets/icons/apy-info.svg"
           />
