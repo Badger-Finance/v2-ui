@@ -18,8 +18,7 @@ import {
 	VaultState,
 } from '@badger-dao/sdk';
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
-import { VaultsFilters, VaultsFiltersV2, VaultSortOrder } from '../model/ui/vaults-filters';
-import { Currency as UiCurrency } from '../../config/enums/currency.enum';
+import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import BigNumber from 'bignumber.js';
 import { ContractCallReturnContext } from 'ethereum-multicall';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
@@ -29,6 +28,7 @@ import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults
 import { FLAGS } from '../../config/environment';
 import { RegistryVaultAdapter } from '../model/vaults/registry-vault-adapter';
 import { BadgerVault } from '../model/vaults/badger-vault';
+import { getUserVaultBoost } from '../../utils/componentHelpers';
 
 export default class VaultStore {
 	private store!: RootStore;
@@ -43,8 +43,9 @@ export default class VaultStore {
 	public availableBalances: TokenBalances = {};
 	public initialized: boolean;
 	public showVaultFilters: boolean;
+	public showStatusInformationPanel: boolean;
+	public showRewardsInformationPanel: boolean;
 	public vaultsFilters: VaultsFilters;
-	public vaultsFiltersV2: VaultsFiltersV2;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -59,7 +60,8 @@ export default class VaultStore {
 			availableBalances: this.availableBalances,
 			vaultsFilters: {},
 			showVaultFilters: false,
-			vaultsFiltersV2: {},
+			showStatusInformationPanel: false,
+			showRewardsInformationPanel: false,
 		});
 
 		this.vaultDefinitionsCache = {};
@@ -70,14 +72,10 @@ export default class VaultStore {
 		this.protocolTokens = new Set();
 		this.initialized = false;
 		this.showVaultFilters = false;
+		this.showStatusInformationPanel = false;
+		this.showRewardsInformationPanel = false;
+
 		this.vaultsFilters = {
-			hidePortfolioDust: false,
-			showAPR: false,
-			currency: store.uiState.currency,
-			protocols: [],
-			types: [],
-		};
-		this.vaultsFiltersV2 = {
 			hidePortfolioDust: false,
 			showAPR: false,
 			currency: store.uiState.currency,
@@ -95,15 +93,27 @@ export default class VaultStore {
 			count++;
 		}
 
-		if (this.vaultsFilters.currency !== UiCurrency.USD) {
+		if (this.vaultsFilters.behaviors && this.vaultsFilters.behaviors.length > 0) {
 			count++;
 		}
 
-		if (this.vaultsFilters.protocols.length > 0) {
+		if (this.vaultsFilters.protocols && this.vaultsFilters.protocols.length > 0) {
 			count++;
 		}
 
-		if (this.vaultsFilters.types.length > 0) {
+		if (this.vaultsFilters.statuses && this.vaultsFilters.statuses.length > 0) {
+			count++;
+		}
+
+		if (this.vaultsFilters.search) {
+			count++;
+		}
+
+		if (this.vaultsFilters.onlyDeposits) {
+			count++;
+		}
+
+		if (this.vaultsFilters.onlyBoostedVaults) {
 			count++;
 		}
 
@@ -135,7 +145,7 @@ export default class VaultStore {
 		return [
 			...new Set(
 				Object.values(this.vaultMap)
-					.filter((v) => v.state !== VaultState.Deprecated)
+					.filter((v) => v.state !== VaultState.Discontinued)
 					.map((vault) => vault.protocol),
 			),
 		];
@@ -361,38 +371,42 @@ export default class VaultStore {
 		this.availableBalances[key] = new TokenBalance(settToken, balance, tokenPrice);
 	});
 
-	setVaultsFilter = action(<T extends keyof VaultsFiltersV2>(filter: T, value: VaultsFiltersV2[T]) => {
-		if (this.vaultsFiltersV2) {
-			this.vaultsFiltersV2 = {
-				...this.vaultsFiltersV2,
-				[filter]: value,
-			};
-		}
+	setVaultsFilter = action(<T extends keyof VaultsFilters>(filter: T, value: VaultsFilters[T]) => {
+		this.vaultsFilters = {
+			...this.vaultsFilters,
+			[filter]: value,
+		};
+	});
+
+	openStatusInformationPanel = action(() => {
+		this.showStatusInformationPanel = true;
+	});
+
+	closeStatusInformationPanel = action(() => {
+		this.showStatusInformationPanel = false;
+	});
+
+	openRewardsInformationPanel = action(() => {
+		this.showRewardsInformationPanel = true;
+	});
+
+	closeRewardsInformationPanel = action(() => {
+		this.showRewardsInformationPanel = false;
 	});
 
 	clearFilters = action(() => {
 		this.vaultsFilters = {
-			hidePortfolioDust: this.vaultsFilters.hidePortfolioDust,
-			showAPR: this.vaultsFilters.showAPR,
+			hidePortfolioDust: false,
+			showAPR: false,
 			currency: this.store.uiState.currency,
-			protocols: [],
-			types: [],
+			onlyDeposits: false,
+			onlyBoostedVaults: false,
+			protocols: undefined,
+			types: undefined,
+			search: undefined,
+			statuses: undefined,
+			behaviors: undefined,
 		};
-
-		if (FLAGS.VAULT_FILTERS_V2) {
-			this.vaultsFiltersV2 = {
-				hidePortfolioDust: false,
-				showAPR: false,
-				currency: this.store.uiState.currency,
-				onlyDeposits: false,
-				onlyBoostedVaults: false,
-				protocols: undefined,
-				types: undefined,
-				search: undefined,
-				statuses: undefined,
-				behaviors: undefined,
-			};
-		}
 	});
 
 	/**
@@ -438,7 +452,10 @@ export default class VaultStore {
 			prices: { exchangeRates },
 		} = this.store;
 
-		if (this.vaultsFilters.hidePortfolioDust || this.vaultsFiltersV2.hidePortfolioDust) {
+		const { protocols, search, statuses, behaviors, onlyBoostedVaults, onlyDeposits, hidePortfolioDust } =
+			this.vaultsFilters;
+
+		if (hidePortfolioDust) {
 			if (exchangeRates) {
 				vaults = vaults.filter((vault) => {
 					const userBalance = user.getTokenBalance(vault.vaultToken).value;
@@ -456,52 +473,40 @@ export default class VaultStore {
 			}
 		}
 
-		if (FLAGS.VAULT_FILTERS_V2) {
-			const { protocols, search, statuses, behaviors, onlyBoostedVaults, onlyDeposits } = this.vaultsFiltersV2;
+		if (onlyDeposits) {
+			vaults = vaults.filter((vault) => user.getTokenBalance(vault.vaultToken).value.gt(0));
+		}
 
-			if (onlyDeposits) {
-				vaults = vaults.filter((vault) => user.getTokenBalance(vault.vaultToken).value.gt(0));
-			}
+		if (onlyBoostedVaults) {
+			vaults = vaults.filter((vault) => vault.boost.enabled && !!vault.maxApr);
+		}
 
-			if (onlyBoostedVaults) {
-				vaults = vaults.filter((vault) => vault.boost.enabled && !!vault.maxApr);
-			}
+		if (statuses && statuses.length > 0) {
+			vaults = vaults.filter((vault) => statuses.includes(vault.state));
+		}
 
-			if (statuses && statuses.length > 0) {
-				vaults = vaults.filter((vault) => statuses.includes(vault.state));
-			}
+		if (protocols && protocols.length > 0) {
+			vaults = vaults.filter((vault) => protocols.includes(vault.protocol));
+		}
 
-			if (protocols && protocols.length > 0) {
-				vaults = vaults.filter((vault) => protocols.includes(vault.protocol));
-			}
+		if (behaviors && behaviors.length > 0) {
+			vaults = vaults.filter((vault) => behaviors.includes(vault.behavior));
+		}
 
-			if (behaviors && behaviors.length > 0) {
-				vaults = vaults.filter((vault) => behaviors.includes(vault.behavior));
-			}
-
-			if (search) {
-				vaults = vaults.filter(
-					(vault) =>
-						vault.name.toLowerCase().includes(search.toLowerCase()) ||
-						vault.vaultAsset.toLowerCase().includes(search.toLowerCase()) ||
-						vault.protocol.toLowerCase().includes(search.toLowerCase()) ||
-						vault.behavior.toLowerCase().includes(search.toLowerCase()) ||
-						vault.state.toLowerCase().includes(search.toLowerCase()) ||
-						vault.tokens.some(
-							(token) =>
-								token.name.toLowerCase().includes(search.toLowerCase()) ||
-								token.symbol.toLowerCase().includes(search.toLowerCase()),
-						),
-				);
-			}
-		} else {
-			if (this.vaultsFilters.protocols.length > 0) {
-				vaults = vaults.filter((vault) => this.vaultsFilters.protocols.includes(vault.protocol));
-			}
-
-			if (this.vaultsFilters.types.length > 0) {
-				vaults = vaults.filter((vault) => this.vaultsFilters.types.includes(vault.type));
-			}
+		if (search) {
+			vaults = vaults.filter(
+				(vault) =>
+					vault.name.toLowerCase().includes(search.toLowerCase()) ||
+					vault.vaultAsset.toLowerCase().includes(search.toLowerCase()) ||
+					vault.protocol.toLowerCase().includes(search.toLowerCase()) ||
+					vault.behavior.toLowerCase().includes(search.toLowerCase()) ||
+					vault.state.toLowerCase().includes(search.toLowerCase()) ||
+					vault.tokens.some(
+						(token) =>
+							token.name.toLowerCase().includes(search.toLowerCase()) ||
+							token.symbol.toLowerCase().includes(search.toLowerCase()),
+					),
+			);
 		}
 
 		return vaults;
@@ -511,11 +516,17 @@ export default class VaultStore {
 		const { user, network } = this.store;
 
 		switch (this.vaultsFilters.sortOrder) {
+			case VaultSortOrder.NAME_ASC:
+				vaults = vaults.sort((a, b) => a.name.localeCompare(b.name));
+				break;
+			case VaultSortOrder.NAME_DESC:
+				vaults = vaults.sort((a, b) => b.name.localeCompare(a.name));
+				break;
 			case VaultSortOrder.APR_ASC:
-				vaults = vaults.sort((a, b) => a.apr - b.apr);
+				vaults = vaults.sort((a, b) => this.getVaultYield(a) - this.getVaultYield(b));
 				break;
 			case VaultSortOrder.APR_DESC:
-				vaults = vaults.sort((a, b) => b.apr - a.apr);
+				vaults = vaults.sort((a, b) => this.getVaultYield(b) - this.getVaultYield(a));
 				break;
 			case VaultSortOrder.TVL_ASC:
 				vaults = vaults.sort((a, b) => a.value - b.value);
@@ -566,9 +577,9 @@ export default class VaultStore {
 						return (rankA ?? Number.MAX_SAFE_INTEGER) - (rankB ?? Number.MAX_SAFE_INTEGER);
 					}
 
-					if (b.state === VaultState.New || a.state === VaultState.New) {
-						const isVaultBNew = b.state === VaultState.New;
-						const isVaultANew = a.state === VaultState.New;
+					if (b.state === VaultState.Featured || a.state === VaultState.Featured) {
+						const isVaultBNew = b.state === VaultState.Featured;
+						const isVaultANew = a.state === VaultState.Featured;
 						return Number(isVaultBNew) - Number(isVaultANew);
 					}
 
@@ -583,5 +594,16 @@ export default class VaultStore {
 		}
 
 		return vaults;
+	}
+
+	private getVaultYield(vault: VaultDTO): number {
+		const { user } = this.store;
+		const { showAPR } = this.vaultsFilters;
+
+		if (!user.accountDetails) {
+			return showAPR ? vault.apr : vault.apy;
+		}
+
+		return getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
 	}
 }

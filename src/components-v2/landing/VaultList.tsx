@@ -1,20 +1,20 @@
 import React from 'react';
 import VaultListHeader from 'components-v2/landing/VaultListHeader';
 import EmptyVaultSearch from './EmptyVaultSearch';
+import VaultStatusInformationPanel from '../VaultStatusInformationPanel';
+import VaultRewardsInformationPanel from '../VaultRewardsInformationPanel';
 
 export interface VaultTableProps {
-	title: string;
 	settList: JSX.Element[];
 }
 
-const VaultList = ({ title, settList }: VaultTableProps): JSX.Element => {
+const VaultList = ({ settList }: VaultTableProps): JSX.Element => {
 	return (
 		<>
-			<VaultListHeader
-				title={title}
-				helperText="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-			/>
+			<VaultListHeader />
 			{settList.length > 0 ? settList : <EmptyVaultSearch />}
+			<VaultStatusInformationPanel />
+			<VaultRewardsInformationPanel />
 		</>
 	);
 };

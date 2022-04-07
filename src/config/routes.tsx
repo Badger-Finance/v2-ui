@@ -8,32 +8,12 @@ import { IbBTC } from 'components/IbBTC';
 import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
-import { Box, Link, Typography } from '@material-ui/core';
 import Governance from 'components/Governance';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
 		path: '/',
-		component: (
-			<Landing
-				title="Vaults"
-				subtitle={
-					<Box display="flex" alignItems="center">
-						<Typography variant="body2" color="textSecondary">
-							The best Bitcoin rewards in all of Defi. Stake now to earn automatically.{' '}
-							<Link
-								color="primary"
-								target="_blank"
-								href="https://badger.com/new-to-defi"
-								rel="noreferrer"
-							>
-								New to Defi?
-							</Link>
-						</Typography>
-					</Box>
-				}
-			/>
-		),
+		component: <Landing />,
 	}),
 	notFound: new Route<RootStore, QueryParams>({
 		path: '/not-found',
@@ -61,6 +41,12 @@ const routes = {
 		path: '/setts/:settName',
 		component: <VaultDetail />,
 		onEnter: (_route, params, store) => {
+			if (!params || !params.settName) {
+				return;
+			}
+			store.vaultDetail.setSearchSlug(params.settName as string);
+		},
+		onParamsChange: (_route, params, store) => {
 			if (!params || !params.settName) {
 				return;
 			}

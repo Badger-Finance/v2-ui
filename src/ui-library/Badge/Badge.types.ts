@@ -1,7 +1,7 @@
 export enum BadgeType {
-	NEW = 'new',
+	FEATURED = 'featured',
 	GUARDED = 'guarded',
-	OBSOLETE = 'obsolete',
+	DISCONTINUED = 'discontinued',
 	EXECUTED = 'executed',
 	EXPERIMENTAL = 'experimental',
 }

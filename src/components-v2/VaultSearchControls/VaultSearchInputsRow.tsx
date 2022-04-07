@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Button, Grid, makeStyles } from '@material-ui/core';
 import VaultStatusSelector from './VaultStatusSelector';
 import VaultPlatformSelector from './VaultsPlatformSelector';
@@ -19,41 +19,35 @@ const useStyles = makeStyles({
 
 const VaultSearchInputsRow = (): JSX.Element => {
 	const {
-		vaults: { vaultsFiltersV2, setVaultsFilter, clearFilters },
+		vaults: { vaultsFilters, setVaultsFilter, clearFilters },
 	} = useContext(StoreContext);
 	const classes = useStyles();
-	const [search, setSearch] = useState(vaultsFiltersV2.search);
-
-	const handleSearch = () => {
-		setVaultsFilter('search', search);
-	};
-
-	useEffect(() => {
-		setSearch(vaultsFiltersV2.search);
-	}, [vaultsFiltersV2.search]);
 
 	return (
 		<Grid container className={classes.root}>
 			<Grid item xs>
 				<VaultStatusSelector
-					statuses={vaultsFiltersV2.statuses}
+					statuses={vaultsFilters.statuses}
 					onChange={(statuses) => setVaultsFilter('statuses', statuses)}
 				/>
 			</Grid>
 			<Grid item xs>
 				<VaultPlatformSelector
-					platforms={vaultsFiltersV2.protocols}
+					platforms={vaultsFilters.protocols}
 					onChange={(platforms) => setVaultsFilter('protocols', platforms)}
 				/>
 			</Grid>
 			<Grid item xs>
 				<VaultsRewardsSelector
-					rewards={vaultsFiltersV2.behaviors}
+					rewards={vaultsFilters.behaviors}
 					onChange={(behaviors) => setVaultsFilter('behaviors', behaviors)}
 				/>
 			</Grid>
 			<Grid item xs md lg={6}>
-				<VaultSearchBar search={search} onChange={(change) => setSearch(change)} onSearch={handleSearch} />
+				<VaultSearchBar
+					search={vaultsFilters.search}
+					onChange={(change) => setVaultsFilter('search', change)}
+				/>
 			</Grid>
 			<Grid item xs="auto">
 				<Button fullWidth color="primary" variant="text" onClick={clearFilters}>

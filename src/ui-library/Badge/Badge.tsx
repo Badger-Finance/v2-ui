@@ -41,12 +41,12 @@ export function Badge({ type }: BadgeProps): JSX.Element | null {
 	const classes = useStyles();
 
 	switch (type) {
-		case BadgeType.NEW:
-			return <Chip label="New" className={clsx(classes.tag, classes.newTag)} size="small" />;
+		case BadgeType.FEATURED:
+			return <Chip label="Featured" className={clsx(classes.tag, classes.newTag)} size="small" />;
 		case BadgeType.GUARDED:
 			return <Chip className={clsx(classes.tag, classes.guardedTag)} size="small" label="Guarded" />;
-		case BadgeType.OBSOLETE:
-			return <Chip className={clsx(classes.tag, classes.obsoleteTag)} size="small" label="Obsolete" />;
+		case BadgeType.DISCONTINUED:
+			return <Chip className={clsx(classes.tag, classes.obsoleteTag)} size="small" label="Discontinued" />;
 		case BadgeType.EXECUTED:
 			return <Chip className={clsx(classes.tag, classes.executedTag)} size="small" label="Executed" />;
 		case BadgeType.EXPERIMENTAL:

@@ -2,6 +2,7 @@ import { RootStore } from '../RootStore';
 import { action, extendObservable, observe } from 'mobx';
 import { BalanceNamespace } from 'web3/config/namespaces';
 import { VaultDTO } from '@badger-dao/sdk';
+import { ETH_DEPLOY } from '../model/network/eth.network';
 
 export class VaultDetailStore {
 	private readonly store: RootStore;
@@ -74,7 +75,18 @@ export class VaultDetailStore {
 	}
 
 	get canUserDeposit(): boolean {
-		return this.store.onboard.isActive();
+		const isConnected = this.store.onboard.isActive();
+
+		if (!isConnected || !this.searchedVault) {
+			return false;
+		}
+
+		// rem badger does not support deposit
+		if (this.searchedVault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger']) {
+			return false;
+		}
+
+		return this.store.user.onGuestList(this.searchedVault);
 	}
 
 	toggleDepositDialog(): void {

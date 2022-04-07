@@ -1,4 +1,4 @@
-import { makeStyles, Typography } from '@material-ui/core';
+import { makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
@@ -8,10 +8,9 @@ import { BalanceNamespace } from 'web3/config/namespaces';
 import NoVaults from './NoVaults';
 import VaultListItem from './VaultListItem';
 import VaultList from './VaultList';
-import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
-import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
 import { VaultState } from '@badger-dao/sdk';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import VaultListItemMobile from './VaultListItemMobile';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -22,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
 
 const VaultListDisplay = observer(() => {
 	const classes = useStyles();
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const store = useContext(StoreContext);
 	const {
 		vaults,
 		network: { network },
 		user,
 	} = store;
-
 	const vaultOrder = vaults.getVaultOrder();
 
 	if (vaultOrder === undefined || vaults.vaultsDefinitions === undefined) {
@@ -60,25 +59,22 @@ const VaultListDisplay = observer(() => {
 		}
 
 		// Hide deprecated vaults that the user is not deposited into
-		if (vault.state === VaultState.Deprecated && hasNoBalance) {
+		if (vault.state === VaultState.Discontinued && hasNoBalance) {
 			return [];
 		}
 
-		return (
-			<VaultListItem
-				vault={vault}
-				key={vault.vaultToken}
-				depositBalance={depositBalance}
-				CustomDepositModal={isVaultVaultIbbtc(vault) ? IbbtcVaultDepositDialog : undefined}
-			/>
-		);
+		if (isMobile) {
+			return <VaultListItemMobile key={vault.vaultToken} vault={vault} />;
+		}
+
+		return <VaultListItem vault={vault} key={vault.vaultToken} />;
 	});
 
 	if (settListItems.length === 0 && vaults.vaultsFiltersCount === 0) {
 		return <NoVaults network={network.name} />;
 	}
 
-	return <VaultList title="Vaults" settList={settListItems} />;
+	return <VaultList settList={settListItems} />;
 });
 
 export default VaultListDisplay;
