@@ -16,7 +16,6 @@ import { numberWithCommas } from '../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
-import { toJS } from 'mobx';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
 
@@ -64,13 +63,8 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
 	const multiplier =
 		vault.state !== VaultState.Deprecated ? accountDetails?.multipliers[vault.vaultToken] : undefined;
 	const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
-
-	//make sure boost source it always the last one
-	const sortedSources = sources.sort((a) => (a.name === 'Boosted Badger Rewards' ? 1 : -1));
-
-	if (open) {
-		console.log(toJS(sources));
-	}
+	//make sure boost sources are always the last one
+	const sortedSources = sources.sort((source) => (source.boostable ? 1 : -1));
 
 	const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
 		event.stopPropagation();

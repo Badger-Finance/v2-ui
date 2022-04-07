@@ -33,7 +33,8 @@ const VaultApyBreakdownItem = ({ vault, source, multiplier }: Props): JSX.Elemen
 	const { vaults, user, router } = useContext(StoreContext);
 	const { boostContribution } = useVaultInformation(vault);
 
-	// this is a hack until we can differentiate the boost rewards from the api response
+	// this is only possible because we're currently distributing BADGER. If in the future we distribute other tokens,
+	// this will need to be updated to reflect that.
 	const isBoostBreakdown = source.name === 'Boosted Badger Rewards';
 	const sourceApr = source.boostable ? source.apr * multiplier : source.apr;
 	const maxReward = vaults.vaultsFilters.showAPR ? vault.maxApr : vault.maxApy;
