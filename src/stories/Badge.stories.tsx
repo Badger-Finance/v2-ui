@@ -21,9 +21,9 @@ Guarded.args = {
 	type: BadgeType.GUARDED,
 };
 
-export const Deprecating = Template.bind({});
+export const Discontinued = Template.bind({});
 
-Deprecating.args = {
+Discontinued.args = {
 	type: BadgeType.DISCONTINUED,
 };
 
