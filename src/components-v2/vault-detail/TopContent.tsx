@@ -1,11 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import { Breadcrumb } from './Breadcrumb';
 import { Description } from './description/Description';
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
-import { DEPRECATED_VAULT_WARNINGS_INFO } from '../../config/deprecated-vaults-warnings.config';
 import VaultDeprecationWarning from '../VaultDeprecationWarning';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,10 +33,10 @@ interface Props {
 	vault: VaultDTO;
 }
 
-export const TopContent = observer(({ vault }: Props): JSX.Element => {
-	const { network } = useContext(StoreContext);
+export const TopContent = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
-	const deprecatedWarnings = DEPRECATED_VAULT_WARNINGS_INFO[network.network.id][vault.vaultToken];
+
+	console.log(vault.vaultToken);
 
 	return (
 		<Grid container className={classes.root}>
@@ -53,12 +50,9 @@ export const TopContent = observer(({ vault }: Props): JSX.Element => {
 			</Grid>
 			{vault.state === VaultState.Deprecated && (
 				<Grid item container xs>
-					<VaultDeprecationWarning
-						migratingVault={deprecatedWarnings?.migratingVault}
-						link={deprecatedWarnings?.link}
-					/>
+					<VaultDeprecationWarning vault={vault} />
 				</Grid>
 			)}
 		</Grid>
 	);
-});
+};

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Divider, Grid, Link, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CallMadeIcon from '@material-ui/icons/CallMade';
+import { VaultDTO } from '@badger-dao/sdk';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../mobx/store-context';
+import routes from '../../config/routes';
+import { DEPRECATED_VAULTS_MIGRATIONS } from '../../config/deprecated-vaults-migrations.config';
 
 const useStyles = makeStyles({
 	root: {
@@ -12,23 +17,38 @@ const useStyles = makeStyles({
 	divider: {
 		margin: '4px 0',
 	},
+	link: {
+		display: 'flex',
+		alignItems: 'center',
+		cursor: 'pointer',
+		marginLeft: 4,
+	},
 });
 
 interface Props {
-	migratingVault?: string;
-	link?: string;
+	vault: VaultDTO;
 }
 
-const VaultDeprecationWarning = ({ link, migratingVault }: Props): JSX.Element => {
+const VaultDeprecationWarning = ({ vault }: Props): JSX.Element => {
+	const { vaults, network, router } = useContext(StoreContext);
 	const classes = useStyles();
+	const migratingVaultAddress = DEPRECATED_VAULTS_MIGRATIONS[network.network.id][vault.vaultToken];
+	const migratingVault = migratingVaultAddress ? vaults.getVault(migratingVaultAddress) : null;
+
+	const handleLinkClick = async () => {
+		if (migratingVault) {
+			await router.goTo(routes.settDetails, { settName: vaults.getSlug(migratingVault.vaultToken) });
+		}
+	};
+
 	return (
 		<Grid container direction="column" className={classes.root}>
-			<Grid item>
+			<Grid item container alignItems="center">
 				<Typography variant="h6" display="inline">
 					Vault Discontinued
 				</Typography>
-				{link && (
-					<Link color="textPrimary" href={link} rel="noreferrer" target="_blank">
+				{migratingVault && (
+					<Link color="textPrimary" className={classes.link} onClick={handleLinkClick}>
 						<CallMadeIcon />
 					</Link>
 				)}
@@ -38,7 +58,7 @@ const VaultDeprecationWarning = ({ link, migratingVault }: Props): JSX.Element =
 				<Typography variant="body2">
 					{migratingVault
 						? `This vault has been discontinued and will no longer receive rewards. Move your funds to the
-							${migratingVault} vault to continue earning with BadgerDAO.`
+							${migratingVault.name} vault to continue earning with BadgerDAO.`
 						: 'This vault has been discontinued and will no longer receive rewards.'}
 				</Typography>
 			</Grid>
@@ -46,4 +66,4 @@ const VaultDeprecationWarning = ({ link, migratingVault }: Props): JSX.Element =
 	);
 };
 
-export default VaultDeprecationWarning;
+export default observer(VaultDeprecationWarning);
