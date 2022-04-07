@@ -144,7 +144,7 @@ export default class VaultStore {
 		return [
 			...new Set(
 				Object.values(this.vaultMap)
-					.filter((v) => v.state !== VaultState.Deprecated)
+					.filter((v) => v.state !== VaultState.Discontinued)
 					.map((vault) => vault.protocol),
 			),
 		];
@@ -584,9 +584,9 @@ export default class VaultStore {
 						return (rankA ?? Number.MAX_SAFE_INTEGER) - (rankB ?? Number.MAX_SAFE_INTEGER);
 					}
 
-					if (b.state === VaultState.New || a.state === VaultState.New) {
-						const isVaultBNew = b.state === VaultState.New;
-						const isVaultANew = a.state === VaultState.New;
+					if (b.state === VaultState.Featured || a.state === VaultState.Featured) {
+						const isVaultBNew = b.state === VaultState.Featured;
+						const isVaultANew = a.state === VaultState.Featured;
 						return Number(isVaultBNew) - Number(isVaultANew);
 					}
 

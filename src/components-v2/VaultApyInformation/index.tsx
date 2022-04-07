@@ -61,7 +61,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
 	} = useContext(StoreContext);
 	const classes = useStyles();
 	const multiplier =
-		vault.state !== VaultState.Deprecated ? accountDetails?.multipliers[vault.vaultToken] : undefined;
+		vault.state !== VaultState.Discontinued ? accountDetails?.multipliers[vault.vaultToken] : undefined;
 	const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
 	//make sure boost sources are always the last one
 	const sortedSources = sources.sort((source) => (source.boostable ? 1 : -1));

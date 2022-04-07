@@ -48,7 +48,7 @@ export const TopContent = ({ vault }: Props): JSX.Element => {
 					<Description vault={vault} />
 				</Grid>
 			</Grid>
-			{vault.state === VaultState.Deprecated && (
+			{vault.state === VaultState.Discontinued && (
 				<Grid item container xs>
 					<VaultDeprecationWarning vault={vault} />
 				</Grid>

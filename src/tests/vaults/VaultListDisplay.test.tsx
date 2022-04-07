@@ -67,7 +67,7 @@ describe('VaultListDisplay', () => {
 
 	it('does not display deprecated vaults with no user balance', () => {
 		const vaults = [...SAMPLE_VAULTS].splice(0, 1);
-		vaults[0].state = VaultState.Deprecated;
+		vaults[0].state = VaultState.Discontinued;
 
 		mockVaultsInformation(vaults);
 

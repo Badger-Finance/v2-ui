@@ -92,13 +92,13 @@ export abstract class Network {
 		let tokenAddresses = Object.values(vaults).map((vault) => vault.underlyingToken);
 		const vaultAddresses = Object.values(vaults).map((vault) => vault.vaultToken);
 		const generalVaultAddresses = vaultAddresses.filter(
-			(vault) => vaults[vault].state === VaultState.Open || vaults[vault].state === VaultState.New,
+			(vault) => vaults[vault].state === VaultState.Open || vaults[vault].state === VaultState.Featured,
 		);
 		const guardedVaultAddresses = vaultAddresses.filter(
 			(vault) => vaults[vault].state === VaultState.Guarded || vaults[vault].state === VaultState.Experimental,
 		);
 		const deprecatedVaultAddresses = vaultAddresses.filter(
-			(vault) => vaults[vault].state === VaultState.Deprecated,
+			(vault) => vaults[vault].state === VaultState.Discontinued,
 		);
 		const allVaults = new Set([...generalVaultAddresses, ...guardedVaultAddresses, ...deprecatedVaultAddresses]);
 		for (const token of Object.keys(tokens).filter((t) => !tokenAddresses.includes(t))) {

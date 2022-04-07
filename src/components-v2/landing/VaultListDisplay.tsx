@@ -59,7 +59,7 @@ const VaultListDisplay = observer(() => {
 		}
 
 		// Hide deprecated vaults that the user is not deposited into
-		if (vault.state === VaultState.Deprecated && hasNoBalance) {
+		if (vault.state === VaultState.Discontinued && hasNoBalance) {
 			return [];
 		}
 
