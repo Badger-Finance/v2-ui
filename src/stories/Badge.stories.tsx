@@ -12,7 +12,7 @@ const Template: ComponentStory<typeof Badge> = (args) => <Badge {...args} />;
 export const New = Template.bind({});
 
 New.args = {
-	type: BadgeType.NEW,
+	type: BadgeType.FEATURED,
 };
 
 export const Guarded = Template.bind({});
@@ -21,10 +21,10 @@ Guarded.args = {
 	type: BadgeType.GUARDED,
 };
 
-export const Obsolete = Template.bind({});
+export const Deprecating = Template.bind({});
 
-Obsolete.args = {
-	type: BadgeType.OBSOLETE,
+Deprecating.args = {
+	type: BadgeType.DISCONTINUED,
 };
 
 export const Executed = Template.bind({});

@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Badge renders for type discontinued 1`] = `
+<div>
+  <div
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-obsoleteTag-4 MuiChip-sizeSmall-8"
+  >
+    <span
+      class="MuiChip-label-29 MuiChip-labelSmall-30"
+    >
+      Discontinued
+    </span>
+  </div>
+</div>
+`;
+
 exports[`Badge renders for type executed 1`] = `
 <div>
   <div
@@ -28,6 +42,20 @@ exports[`Badge renders for type experimental 1`] = `
 </div>
 `;
 
+exports[`Badge renders for type featured 1`] = `
+<div>
+  <div
+    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-newTag-2 MuiChip-sizeSmall-8"
+  >
+    <span
+      class="MuiChip-label-29 MuiChip-labelSmall-30"
+    >
+      Featured
+    </span>
+  </div>
+</div>
+`;
+
 exports[`Badge renders for type guarded 1`] = `
 <div>
   <div
@@ -37,34 +65,6 @@ exports[`Badge renders for type guarded 1`] = `
       class="MuiChip-label-29 MuiChip-labelSmall-30"
     >
       Guarded
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Badge renders for type new 1`] = `
-<div>
-  <div
-    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-newTag-2 MuiChip-sizeSmall-8"
-  >
-    <span
-      class="MuiChip-label-29 MuiChip-labelSmall-30"
-    >
-      New
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Badge renders for type obsolete 1`] = `
-<div>
-  <div
-    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-obsoleteTag-4 MuiChip-sizeSmall-8"
-  >
-    <span
-      class="MuiChip-label-29 MuiChip-labelSmall-30"
-    >
-      Obsolete
     </span>
   </div>
 </div>

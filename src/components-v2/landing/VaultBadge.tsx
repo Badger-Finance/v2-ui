@@ -9,13 +9,13 @@ interface VaultBadgeProps {
 const VaultBadge = ({ state }: VaultBadgeProps): JSX.Element | null => {
 	switch (state) {
 		case VaultState.Featured:
-			return <Badge type={BadgeType.NEW} />;
+			return <Badge type={BadgeType.FEATURED} />;
 		case VaultState.Experimental:
 			return <Badge type={BadgeType.EXPERIMENTAL} />;
 		case VaultState.Guarded:
 			return <Badge type={BadgeType.GUARDED} />;
 		case VaultState.Discontinued:
-			return <Badge type={BadgeType.OBSOLETE} />;
+			return <Badge type={BadgeType.DISCONTINUED} />;
 		default:
 			return null;
 	}
