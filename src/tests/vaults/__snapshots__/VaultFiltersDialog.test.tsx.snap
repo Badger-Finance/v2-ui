@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VaultFiltersDialogV2 can apply filters 1`] = `
+exports[`VaultFiltersDialog can apply filters 1`] = `
 Object {
   "behaviors": Array [
     "DCA",
@@ -23,7 +23,7 @@ Object {
 }
 `;
 
-exports[`VaultFiltersDialogV2 renders correctly 1`] = `
+exports[`VaultFiltersDialog renders correctly 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >

@@ -23,7 +23,6 @@ import VaultsRewardsSelector from './VaultsRewardsSelector';
 import VaultSearchBar from './VaultSearchBar';
 import VaultsAprControl from './VaultsAprControl';
 import VaultsCurrencyControl from './VaultsCurrencyControl';
-import { FLAGS } from '../../config/environment';
 
 const useStyles = makeStyles(() => ({
 	title: {
@@ -52,32 +51,32 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const VaultFiltersDialogV2 = () => {
+const VaultFiltersDialog = () => {
 	const { vaults } = useContext(StoreContext);
 	const classes = useStyles();
-	const { vaultsFiltersV2, networkHasBoostVaults } = vaults;
+	const { vaultsFilters, networkHasBoostVaults } = vaults;
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
-	const [onlyDeposits, setOnlyDeposits] = useState(vaultsFiltersV2.onlyDeposits);
-	const [showAPR, setShowAPR] = useState(vaultsFiltersV2.showAPR);
-	const [boostedVaults, setBoostedVaults] = useState(vaultsFiltersV2.onlyBoostedVaults);
-	const [hideDust, setHideDust] = useState(vaultsFiltersV2.hidePortfolioDust);
-	const [statuses, setStatuses] = useState(vaultsFiltersV2.statuses);
-	const [platforms, setPlatforms] = useState(vaultsFiltersV2.protocols);
-	const [rewards, setRewards] = useState(vaultsFiltersV2.behaviors);
-	const [search, setSearch] = useState(vaultsFiltersV2.search);
-	const [currency, setCurrency] = useState(vaultsFiltersV2.currency);
+	const [onlyDeposits, setOnlyDeposits] = useState(vaultsFilters.onlyDeposits);
+	const [showAPR, setShowAPR] = useState(vaultsFilters.showAPR);
+	const [boostedVaults, setBoostedVaults] = useState(vaultsFilters.onlyBoostedVaults);
+	const [hideDust, setHideDust] = useState(vaultsFilters.hidePortfolioDust);
+	const [statuses, setStatuses] = useState(vaultsFilters.statuses);
+	const [platforms, setPlatforms] = useState(vaultsFilters.protocols);
+	const [rewards, setRewards] = useState(vaultsFilters.behaviors);
+	const [search, setSearch] = useState(vaultsFilters.search);
+	const [currency, setCurrency] = useState(vaultsFilters.currency);
 
 	const syncPersistedFiltersValues = useCallback(() => {
-		setOnlyDeposits(vaultsFiltersV2.onlyDeposits);
-		setShowAPR(vaultsFiltersV2.showAPR);
-		setBoostedVaults(vaultsFiltersV2.onlyBoostedVaults);
-		setHideDust(vaultsFiltersV2.hidePortfolioDust);
-		setStatuses(vaultsFiltersV2.statuses);
-		setPlatforms(vaultsFiltersV2.protocols);
-		setRewards(vaultsFiltersV2.behaviors);
-		setSearch(vaultsFiltersV2.search);
-		setCurrency(vaultsFiltersV2.currency);
-	}, [vaultsFiltersV2]);
+		setOnlyDeposits(vaultsFilters.onlyDeposits);
+		setShowAPR(vaultsFilters.showAPR);
+		setBoostedVaults(vaultsFilters.onlyBoostedVaults);
+		setHideDust(vaultsFilters.hidePortfolioDust);
+		setStatuses(vaultsFilters.statuses);
+		setPlatforms(vaultsFilters.protocols);
+		setRewards(vaultsFilters.behaviors);
+		setSearch(vaultsFilters.search);
+		setCurrency(vaultsFilters.currency);
+	}, [vaultsFilters]);
 
 	const handleClose = () => {
 		vaults.showVaultFilters = false;
@@ -85,8 +84,8 @@ const VaultFiltersDialogV2 = () => {
 	};
 
 	const handleSave = () => {
-		vaults.vaultsFiltersV2 = {
-			...vaults.vaultsFiltersV2,
+		vaults.vaultsFilters = {
+			...vaults.vaultsFilters,
 			statuses: statuses,
 			onlyDeposits,
 			showAPR,
@@ -105,7 +104,7 @@ const VaultFiltersDialogV2 = () => {
 		setShowAPR(false);
 		setBoostedVaults(false);
 		setHideDust(false);
-		setCurrency(vaultsFiltersV2.currency);
+		setCurrency(vaultsFilters.currency);
 		setStatuses(undefined);
 		setPlatforms(undefined);
 		setRewards(undefined);
@@ -114,10 +113,10 @@ const VaultFiltersDialogV2 = () => {
 
 	useEffect(() => {
 		syncPersistedFiltersValues();
-	}, [vaultsFiltersV2, syncPersistedFiltersValues]);
+	}, [vaultsFilters, syncPersistedFiltersValues]);
 
 	return (
-		<Dialog open={FLAGS.VAULT_FILTERS_V2 && vaults.showVaultFilters} onClose={handleClose} maxWidth="sm" fullWidth>
+		<Dialog open={vaults.showVaultFilters} onClose={handleClose} maxWidth="sm" fullWidth>
 			<DialogTitle disableTypography className={classes.title}>
 				<Grid container justifyContent="space-between" alignItems="center">
 					<Typography variant="h5" display="inline">
@@ -158,7 +157,7 @@ const VaultFiltersDialogV2 = () => {
 						<VaultsRewardsSelector rewards={rewards} onChange={(rewards) => setRewards(rewards)} />
 					</Grid>
 					<Grid item>
-						<VaultSearchBar search={search} onChange={(change) => setSearch(change)} onSearch={() => {}} />
+						<VaultSearchBar search={search} onChange={(change) => setSearch(change)} />
 					</Grid>
 				</Grid>
 				<Divider className={classes.divider} />
@@ -191,4 +190,4 @@ const VaultFiltersDialogV2 = () => {
 	);
 };
 
-export default observer(VaultFiltersDialogV2);
+export default observer(VaultFiltersDialog);

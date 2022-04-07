@@ -2,9 +2,6 @@ import React from 'react';
 import { BouncerType, Protocol, VaultBehavior, VaultDTO, VaultState, VaultType, VaultVersion } from '@badger-dao/sdk';
 import { checkSnapshot } from '../utils/snapshots';
 import VaultItemApr from '../../components-v2/landing/VaultItemApr';
-import { customRender, fireEvent, screen } from '../Utils';
-import store from '../../mobx/RootStore';
-import { StoreProvider } from '../../mobx/store-context';
 import { SAMPLE_VAULT } from 'tests/utils/samples';
 
 const normalVault: VaultDTO = {
@@ -88,25 +85,10 @@ describe('VaultItemApr', () => {
 	});
 
 	describe('Boosted Vaults', () => {
-		const sampleMultiplier = 0.020652602960278606;
 		const mockUserBoost = 10;
 
 		it('displays correct APR and boost information', () => {
 			checkSnapshot(<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} />);
-		});
-
-		it('displays APR breakdown on hover', async () => {
-			jest.useFakeTimers();
-			const { container } = customRender(
-				<StoreProvider value={store}>
-					<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} />
-				</StoreProvider>,
-			);
-
-			fireEvent.mouseOver(screen.getByText(`${mockUserBoost.toFixed(2)}%`));
-			await screen.findByText(SAMPLE_VAULT.sourcesApy[0].name, { exact: false });
-			jest.runAllTimers();
-			expect(container).toMatchSnapshot();
 		});
 	});
 });

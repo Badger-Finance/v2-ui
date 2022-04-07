@@ -46,7 +46,7 @@ describe('Component Helpers', () => {
 
 	describe('getUserVaultBoost', () => {
 		test.each([
-			['with deprecated vault', 0, 0, { ...SAMPLE_VAULT, state: VaultState.Deprecated }],
+			['with deprecated vault', 0, 0, { ...SAMPLE_VAULT, state: VaultState.Discontinued }],
 			[
 				'with non deprecated vault',
 				0.029492343980964595,
