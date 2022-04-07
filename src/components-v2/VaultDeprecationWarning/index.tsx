@@ -13,6 +13,7 @@ const useStyles = makeStyles({
 		backgroundColor: '#FFB62B40',
 		borderRadius: 8,
 		padding: '10px 15px',
+		cursor: 'pointer',
 	},
 	divider: {
 		margin: '4px 0',
@@ -20,7 +21,6 @@ const useStyles = makeStyles({
 	link: {
 		display: 'flex',
 		alignItems: 'center',
-		cursor: 'pointer',
 		marginLeft: 4,
 	},
 });
@@ -42,13 +42,13 @@ const VaultDeprecationWarning = ({ vault }: Props): JSX.Element => {
 	};
 
 	return (
-		<Grid container direction="column" className={classes.root}>
+		<Grid container direction="column" className={classes.root} onClick={handleLinkClick}>
 			<Grid item container alignItems="center">
 				<Typography variant="h6" display="inline">
 					Vault Discontinued
 				</Typography>
 				{migratingVault && (
-					<Link color="textPrimary" className={classes.link} onClick={handleLinkClick}>
+					<Link color="textPrimary" className={classes.link}>
 						<CallMadeIcon />
 					</Link>
 				)}
