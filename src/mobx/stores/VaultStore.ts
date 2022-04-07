@@ -28,6 +28,7 @@ import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults
 import { FLAGS } from '../../config/environment';
 import { RegistryVaultAdapter } from '../model/vaults/registry-vault-adapter';
 import { BadgerVault } from '../model/vaults/badger-vault';
+import { getUserVaultBoost } from '../../utils/componentHelpers';
 
 export default class VaultStore {
 	private store!: RootStore;
@@ -522,18 +523,10 @@ export default class VaultStore {
 				vaults = vaults.sort((a, b) => b.name.localeCompare(a.name));
 				break;
 			case VaultSortOrder.APR_ASC:
-				if (this.vaultsFilters.showAPR) {
-					vaults = vaults.sort((a, b) => a.apr - b.apr);
-				} else {
-					vaults = vaults.sort((a, b) => a.apy - b.apy);
-				}
+				vaults = vaults.sort((a, b) => this.getVaultYield(a) - this.getVaultYield(b));
 				break;
 			case VaultSortOrder.APR_DESC:
-				if (this.vaultsFilters.showAPR) {
-					vaults = vaults.sort((a, b) => b.apr - a.apr);
-				} else {
-					vaults = vaults.sort((a, b) => b.apy - a.apy);
-				}
+				vaults = vaults.sort((a, b) => this.getVaultYield(b) - this.getVaultYield(a));
 				break;
 			case VaultSortOrder.TVL_ASC:
 				vaults = vaults.sort((a, b) => a.value - b.value);
@@ -601,5 +594,16 @@ export default class VaultStore {
 		}
 
 		return vaults;
+	}
+
+	private getVaultYield(vault: VaultDTO): number {
+		const { user } = this.store;
+		const { showAPR } = this.vaultsFilters;
+
+		if (!user.accountDetails) {
+			return showAPR ? vault.apr : vault.apy;
+		}
+
+		return getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
 	}
 }
