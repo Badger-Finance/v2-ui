@@ -300,11 +300,6 @@ export default class VaultStore {
 			}
 		}
 
-		console.log(
-			'vaultList',
-			vaultList?.map((v) => v.sources.map((s) => s.name)),
-		);
-
 		if (!vaultList) {
 			this.vaultCache[chain] = null;
 			return;
@@ -527,10 +522,18 @@ export default class VaultStore {
 				vaults = vaults.sort((a, b) => b.name.localeCompare(a.name));
 				break;
 			case VaultSortOrder.APR_ASC:
-				vaults = vaults.sort((a, b) => a.apr - b.apr);
+				if (this.vaultsFilters.showAPR) {
+					vaults = vaults.sort((a, b) => a.apr - b.apr);
+				} else {
+					vaults = vaults.sort((a, b) => a.apy - b.apy);
+				}
 				break;
 			case VaultSortOrder.APR_DESC:
-				vaults = vaults.sort((a, b) => b.apr - a.apr);
+				if (this.vaultsFilters.showAPR) {
+					vaults = vaults.sort((a, b) => b.apr - a.apr);
+				} else {
+					vaults = vaults.sort((a, b) => b.apy - a.apy);
+				}
 				break;
 			case VaultSortOrder.TVL_ASC:
 				vaults = vaults.sort((a, b) => a.value - b.value);
