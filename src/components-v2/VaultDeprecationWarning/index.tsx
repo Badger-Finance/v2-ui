@@ -6,7 +6,7 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
-import { DEPRECATED_VAULTS_MIGRATIONS } from '../../config/deprecated-vaults-migrations.config';
+import { DEPRECATED_VAULTS_MIGRATIONS_MAPPING } from '../../config/deprecated-vaults-migrations.config';
 
 const useStyles = makeStyles({
 	root: {
@@ -30,9 +30,13 @@ interface Props {
 }
 
 const VaultDeprecationWarning = ({ vault }: Props): JSX.Element => {
-	const { vaults, network, router } = useContext(StoreContext);
+	const {
+		vaults,
+		router,
+		network: { network },
+	} = useContext(StoreContext);
 	const classes = useStyles();
-	const migratingVaultAddress = DEPRECATED_VAULTS_MIGRATIONS[network.network.id][vault.vaultToken];
+	const migratingVaultAddress = DEPRECATED_VAULTS_MIGRATIONS_MAPPING.get(network.symbol)?.get(vault.vaultToken);
 	const migratingVault = migratingVaultAddress ? vaults.getVault(migratingVaultAddress) : null;
 
 	const handleLinkClick = async () => {
