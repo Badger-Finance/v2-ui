@@ -1,15 +1,14 @@
-import { Network } from '../mobx/model/network/network';
-import { NETWORK_IDS } from './constants';
 import { ETH_DEPLOY } from '../mobx/model/network/eth.network';
+import { Network } from '@badger-dao/sdk';
 
 type Config = {
-	[networkId: Network['id']]: Record<string, string>;
+	[k in Network]?: Record<string, string>;
 };
 
 const MAINNET_VAULTS = ETH_DEPLOY.sett_system.vaults;
 
-export const DEPRECATED_VAULTS_MIGRATIONS: Config = {
-	[NETWORK_IDS.ETH]: {
+const migratingConfig: Config = {
+	[Network.Ethereum]: {
 		[MAINNET_VAULTS['native.pbtcCrv']]: MAINNET_VAULTS['native.ibbtcCrv'],
 		[MAINNET_VAULTS['native.bbtcCrv']]: MAINNET_VAULTS['native.ibbtcCrv'],
 		[MAINNET_VAULTS['native.sbtcCrv']]: MAINNET_VAULTS['native.ibbtcCrv'],
@@ -27,3 +26,7 @@ export const DEPRECATED_VAULTS_MIGRATIONS: Config = {
 		[MAINNET_VAULTS['native.tricryptoCrv']]: MAINNET_VAULTS['native.tricryptoCrv2'],
 	},
 };
+
+export const DEPRECATED_VAULTS_MIGRATIONS_MAPPING = new Map(
+	Object.entries(migratingConfig).map(([networkId, vaults]) => [networkId, new Map(Object.entries(vaults))]),
+);
