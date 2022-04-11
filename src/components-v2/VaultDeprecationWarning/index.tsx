@@ -37,7 +37,7 @@ const VaultDeprecationWarning = ({ vault }: Props): JSX.Element => {
 
 	const handleLinkClick = async () => {
 		if (migratingVault) {
-			await router.goTo(routes.settDetails, { settName: vaults.getSlug(migratingVault.vaultToken) });
+			await router.goTo(routes.vaultDetail, { vaultName: vaults.getSlug(migratingVault.vaultToken) });
 		}
 	};
 

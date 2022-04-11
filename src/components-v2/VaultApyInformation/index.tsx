@@ -68,7 +68,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
 
 	const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
 		event.stopPropagation();
-		await router.goTo(routes.settDetails, { settName: vaults.getSlug(vault.vaultToken) });
+		await router.goTo(routes.vaultDetail, { vaultName: vaults.getSlug(vault.vaultToken) });
 	};
 
 	const handleClose = (event: MouseEvent<HTMLElement>) => {
