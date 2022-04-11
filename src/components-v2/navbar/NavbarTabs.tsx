@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles, Tab, Tabs, useMediaQuery, useTheme } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
@@ -16,35 +16,44 @@ const useStyles = makeStyles({
 	},
 });
 
+const getRootPath = (path: string) => '/' + path.split('/')[1];
+
+const routeTabMapping = new Map(
+	Object.entries({
+		[getRootPath(routes.home.path)]: 0,
+		[getRootPath(routes.vaultDetail.path)]: 0,
+		[getRootPath(routes.digg.path)]: 1,
+		[getRootPath(routes.boostOptimizer.path)]: 2,
+		[getRootPath(routes.IbBTC.path)]: 3,
+	}),
+);
+
 export const NavbarTabs = observer((): JSX.Element => {
 	const {
 		router,
 		network: { network },
 	} = useContext(StoreContext);
+	const [selectedTab, setSelectedTab] = useState(routeTabMapping.get(getRootPath(router.currentPath)) ?? 0);
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
 	const config = getNavbarConfig(network.symbol);
+
+	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+		setSelectedTab(newValue);
+	};
+
 	return (
 		<Tabs
 			variant={isMobile ? 'fullWidth' : undefined}
 			textColor="primary"
 			indicatorColor="primary"
-			value={router.currentPath}
+			value={selectedTab}
+			onChange={handleChange}
 			classes={{ indicator: classes.indicator }}
 		>
-			<Tab
-				classes={{ root: classes.tab }}
-				value={routes.home.path}
-				label="VAULTS"
-				onClick={() => router.goTo(routes.home)}
-			/>
+			<Tab classes={{ root: classes.tab }} label="VAULTS" onClick={() => router.goTo(routes.home)} />
 			{config.digg && (
-				<Tab
-					classes={{ root: classes.tab }}
-					value={routes.digg.path}
-					label="DIGG"
-					onClick={() => router.goTo(routes.digg)}
-				/>
+				<Tab classes={{ root: classes.tab }} label="DIGG" onClick={() => router.goTo(routes.digg)} />
 			)}
 			{config.boost && (
 				<Tab
@@ -55,12 +64,7 @@ export const NavbarTabs = observer((): JSX.Element => {
 				/>
 			)}
 			{config.ibBTC && (
-				<Tab
-					classes={{ root: classes.tab }}
-					value={routes.IbBTC.path}
-					label="IBBTC"
-					onClick={() => router.goTo(routes.IbBTC)}
-				/>
+				<Tab classes={{ root: classes.tab }} label="IBBTC" onClick={() => router.goTo(routes.IbBTC)} />
 			)}
 		</Tabs>
 	);
