@@ -11,8 +11,7 @@ import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
-import { defaultVaultBalance } from 'components-v2/vault-detail/utils';
-import { Account, BouncerType, MerkleProof, Network, VaultDTO, VaultData } from '@badger-dao/sdk';
+import { Account, BouncerType, MerkleProof, Network, VaultDTO } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
 import { Multicall } from 'ethereum-multicall';
 import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
@@ -106,27 +105,6 @@ export default class UserStore {
 			actions.push(user.loadAccountDetails(queryAddress));
 			await Promise.all(actions);
 		}
-	}
-
-	getVaultBalance(vault: VaultDTO): VaultData {
-		const currentVaultBalance = this.getTokenBalance(vault.vaultToken);
-		let settBalance = this.accountDetails?.data[vault.vaultToken];
-
-		/**
-		 * settBalance data is populated via events from TheGraph and it is possible for it to be behind / fail.
-		 * As such, the app also has internally the state of user deposits. Should a settBalance not be available
-		 * for a user - this is likely because they have *just* deposited and their deposit does not show in the
-		 * graph yet.
-		 *
-		 * This override simulates a zero earnings settBalance and providers the proper currently deposited
-		 * underlying token amount in the expected downstream object.
-		 */
-		if (!settBalance) {
-			settBalance = defaultVaultBalance(vault);
-			settBalance.balance = currentVaultBalance.balance.toNumber() * vault.pricePerFullShare;
-		}
-
-		return settBalance;
 	}
 
 	getBalance(namespace: BalanceNamespace, vault: BadgerVault): TokenBalance {
