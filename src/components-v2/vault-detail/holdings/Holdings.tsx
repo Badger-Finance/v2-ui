@@ -63,7 +63,7 @@ export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }
 						vault={vault}
 						name="Total Deposited"
 						balance={depositBalance.balanceDisplay()}
-						value={depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency) ?? '$0'}
+						value={depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency) ?? '0'}
 						helpIcon={<TokenDistributionIcon settBalance={userData} />}
 					/>
 				</Grid>
