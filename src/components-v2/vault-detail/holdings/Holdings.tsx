@@ -50,8 +50,6 @@ export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }
 	const { earnedBalance, earnedValue } = userData;
 	const decimals = depositBalance.token.decimals;
 
-	console.log(depositBalance.balance.toString(), depositBalance.price.toString());
-
 	return (
 		<Grid container>
 			<Grid container>
