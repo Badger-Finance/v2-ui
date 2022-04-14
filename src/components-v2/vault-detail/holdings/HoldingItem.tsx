@@ -1,12 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
-import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
-import { observer } from 'mobx-react-lite';
 import { VaultDTO } from '@badger-dao/sdk';
 import VaultLogo from '../../landing/VaultLogo';
-import { StoreContext } from '../../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	titleContainer: {
@@ -41,19 +37,13 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	vault: VaultDTO;
 	name: string;
-	balance: BigNumber.Value;
-	value: BigNumber.Value;
+	balance: string;
+	value: string;
 	helpIcon?: React.ReactNode;
 }
 
-const displayUsdBalance = (value: BigNumber.Value) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
-
-export const HoldingItem = observer(({ vault, name, balance, value, helpIcon }: Props): JSX.Element => {
-	const { vaults } = useContext(StoreContext);
+export const HoldingItem = ({ vault, name, balance, value, helpIcon }: Props): JSX.Element => {
 	const classes = useStyles();
-	const depositToken = vaults.getToken(vault.underlyingToken);
-	const decimals = depositToken?.decimals || 18;
-
 	return (
 		<Paper className={classes.cardContainer}>
 			<div className={classes.titleContainer}>
@@ -67,13 +57,13 @@ export const HoldingItem = observer(({ vault, name, balance, value, helpIcon }: 
 						<VaultLogo tokens={vault.tokens} />
 					</div>
 					<div>
-						<Typography variant="h5">{formatWithoutExtraZeros(balance, decimals)}</Typography>
+						<Typography variant="h5">{balance}</Typography>
 						<Typography variant="body2" color="textSecondary">
-							{displayUsdBalance(value)}
+							{value}
 						</Typography>
 					</div>
 				</Box>
 			</Grid>
 		</Paper>
 	);
-});
+};

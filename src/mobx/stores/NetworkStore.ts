@@ -44,6 +44,9 @@ export class NetworkStore {
 					],
 				});
 			} catch (err) {
+				if (err.code === 4001) {
+					throw new Error('User rejected request');
+				}
 				// This error code indicates that the chain has not been added to MetaMask.
 				if (err.code === 4902) {
 					try {
@@ -70,6 +73,7 @@ export class NetworkStore {
 								`${network.name} misconfigured, please update network configuartion parameters.`,
 							);
 						}
+						throw err;
 					}
 				}
 			}

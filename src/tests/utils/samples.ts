@@ -191,8 +191,8 @@ export const SAMPLE_TOKEN_BALANCE = new TokenBalance(
 		symbol: 'curve-renBTC-wBTC-sBTC',
 		decimals: 18,
 	},
-	new BigNumber(2580.4779797767615),
-	new BigNumber(135697015.0445408),
+	new BigNumber(1.999 * 1e18),
+	new BigNumber(13.16),
 );
 
 export const SAMPLE_VAULTS: VaultDTO[] = [

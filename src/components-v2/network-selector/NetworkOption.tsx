@@ -60,7 +60,11 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
 
 		if (shouldTriggerNetworkChange) {
 			const networkConfig = NetworkConfig.getConfig(network.symbol);
-			await networkStore.setNetwork(networkConfig.id);
+			try {
+				await networkStore.setNetwork(networkConfig.id);
+			} catch (e) {
+				console.error(e);
+			}
 		}
 
 		onSelect();

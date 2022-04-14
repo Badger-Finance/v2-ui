@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### 2.16.0 - 04/14/2022
+
+-   add url based routing and filtering
+-   fix misaligned user token display
+
 ### 2.15.3 - 04/07/2022
 
 -   add vault filtering controls
