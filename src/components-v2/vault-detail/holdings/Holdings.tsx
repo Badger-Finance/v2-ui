@@ -11,6 +11,7 @@ import { hasBalance } from '../utils';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
 import { VaultDTO, VaultData } from '@badger-dao/sdk';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
+import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {
@@ -32,7 +33,7 @@ interface Props {
 }
 
 export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }: Props): JSX.Element | null => {
-	const { user } = React.useContext(StoreContext);
+	const { user, vaults } = React.useContext(StoreContext);
 	const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 	const classes = useStyles();
 	const canDeposit = user.onGuestList(vault);
@@ -45,7 +46,9 @@ export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }
 		);
 	}
 
-	const { earnedBalance, earnedValue, balance, value } = userData;
+	const depositBalance = user.getTokenBalance(vault.vaultToken);
+	const { earnedBalance, earnedValue } = userData;
+	const decimals = depositBalance.token.decimals;
 
 	return (
 		<Grid container>
@@ -57,14 +60,19 @@ export const Holdings = observer(({ tokenBalance, userData, vault, badgerVault }
 					<HoldingItem
 						vault={vault}
 						name="Total Deposited"
-						balance={balance}
-						value={value}
+						balance={depositBalance.balanceDisplay()}
+						value={depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency) ?? '0'}
 						helpIcon={<TokenDistributionIcon settBalance={userData} />}
 					/>
 				</Grid>
 				{shouldDisplayEarnings(vault, userData) && (
 					<Grid item xs={12} sm>
-						<HoldingItem vault={vault} name="Total Earned" balance={earnedBalance} value={earnedValue} />
+						<HoldingItem
+							vault={vault}
+							name="Total Earned"
+							balance={formatWithoutExtraZeros(earnedBalance, decimals)}
+							value={`~$${numberWithCommas(formatWithoutExtraZeros(earnedValue, 2))}`}
+						/>
 					</Grid>
 				)}
 				{isMediumSizeScreen && (
