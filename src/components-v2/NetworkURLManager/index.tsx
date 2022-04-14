@@ -17,7 +17,7 @@ const NetworkURLManager: React.FC = ({ children }) => {
 		if (chainId !== previousChainId && onboard.isActive()) {
 			router.queryParams = { ...router.queryParams, chain: NETWORK_IDS_TO_NAMES[chainId as NETWORK_IDS] };
 		}
-	}, [previousChainId, router, onboard]);
+	}, [chainId, previousChainId, router, onboard]);
 
 	useEffect(() => {
 		const urlChainId = router.queryParams?.chain;
