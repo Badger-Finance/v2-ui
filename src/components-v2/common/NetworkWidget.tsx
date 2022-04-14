@@ -57,7 +57,11 @@ const NetworkWidget = observer(({ className }: Props) => {
 
 	const optionClicked = async (option: string) => {
 		const networkConfig = NetworkConfig.getConfig(option);
-		await network.setNetwork(networkConfig.id);
+		try {
+			await network.setNetwork(networkConfig.id);
+		} catch (e) {
+			console.error(e);
+		}
 		setAnchorEl(null);
 	};
 

@@ -85,7 +85,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
 			classes={{ paper: classes.root }}
 		>
 			<DialogTitle disableTypography className={classes.title}>
-				<Grid direction="column">
+				<Grid container direction="column">
 					<Grid item container justifyContent="space-between" alignItems="center">
 						<Grid item xs="auto">
 							<Typography variant="h5" display="inline">
@@ -119,15 +119,10 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
 					</Grid>
 					<Divider className={classes.divider} />
 					{sortedSources.map((source) => (
-						<>
-							<VaultApyBreakdownItem
-								key={source.name}
-								vault={vault}
-								source={source}
-								multiplier={multiplier ?? 1}
-							/>
+						<React.Fragment key={source.name}>
+							<VaultApyBreakdownItem vault={vault} source={source} multiplier={multiplier ?? 1} />
 							<Divider className={classes.divider} />
-						</>
+						</React.Fragment>
 					))}
 					<Grid item className={classes.button}>
 						<Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>

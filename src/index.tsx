@@ -12,6 +12,7 @@ import './assets/css/onboard-override.css';
 import './assets/css/body.css';
 import { darkTheme } from './config/ui/dark';
 import SnackbarManager from './components-v2/common/SnackbarManager';
+import NetworkURLManager from './components-v2/NetworkURLManager';
 
 startRouter(routes, store, {
 	html5history: true,
@@ -26,6 +27,7 @@ ReactDOM.render(
 	<StoreProvider value={store}>
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
+			<NetworkURLManager />
 			<SnackbarProvider>
 				<SnackbarManager>
 					<App />

@@ -31,7 +31,7 @@ const routes = {
 				search: (urlParams.get('search') as string) ?? undefined,
 				protocols: urlParams.getAll('protocols') as Protocol[],
 				types: urlParams.getAll('types') as VaultType[],
-				statuses: urlParams.getAll('statutes') as VaultState[],
+				statuses: urlParams.getAll('statuses') as VaultState[],
 				behaviors: urlParams.getAll('behaviors') as VaultBehavior[],
 			};
 		},
