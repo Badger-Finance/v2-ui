@@ -11,6 +11,8 @@ import MenuItemIcon from '../../ui-library/MenuItemIcon';
 import { Typography } from '../../ui-library/Typography';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { Currency } from '../../config/enums/currency.enum';
+import routes from 'config/routes';
+import { SITE_VERSION } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	drawerPaper: {
@@ -86,8 +88,8 @@ const Sidebar = observer(() => {
 					<MenuItem button onClick={() => window.open('https://docs.badger.com/')}>
 						Wiki
 					</MenuItem>
-					<MenuItem button>
-						<a href="/governance"> Governance</a>
+					<MenuItem button onClick={() => store.router.goTo(routes.governance)}>
+						Governance
 					</MenuItem>
 					<MenuItem button onClick={() => window.open('https://forum.badger.finance')}>
 						Forum
@@ -113,6 +115,7 @@ const Sidebar = observer(() => {
 						src="/assets/icons/telegram.svg"
 					/>
 				</div>
+				<span className={classes.socialsContainer}>{SITE_VERSION}</span>
 			</Drawer>
 		</Hidden>
 	);
