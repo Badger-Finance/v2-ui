@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`VaultTag "deprecated" Vaults 1`] = `<div />`;
+
 exports[`VaultTag "discontinued" Vaults 1`] = `
 <div>
   <div
@@ -55,5 +57,7 @@ exports[`VaultTag "guarded" Vaults 1`] = `
   </div>
 </div>
 `;
+
+exports[`VaultTag "new" Vaults 1`] = `<div />`;
 
 exports[`VaultTag "open" Vaults 1`] = `<div />`;
