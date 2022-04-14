@@ -77,7 +77,11 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
 	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 
 	const goToVaultDetail = async () => {
-		await router.goTo(routes.vaultDetail, { vaultName: vaults.getSlug(vault.vaultToken) });
+		await router.goTo(
+			routes.vaultDetail,
+			{ vaultName: vaults.getSlug(vault.vaultToken) },
+			{ chain: router.queryParams?.chain },
+		);
 	};
 
 	const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
