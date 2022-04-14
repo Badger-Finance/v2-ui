@@ -37,20 +37,20 @@ const routes = {
 		component: <CitadelEarlyBonding />,
 		onEnter: (_route, _params, store) => store.bondStore.updateBonds(),
 	}),
-	settDetails: new Route<RootStore, QueryParams>({
-		path: '/setts/:settName',
+	vaultDetail: new Route<RootStore, QueryParams>({
+		path: '/vault/:vaultName',
 		component: <VaultDetail />,
 		onEnter: (_route, params, store) => {
-			if (!params || !params.settName) {
+			if (!params || !params.vaultName) {
 				return;
 			}
-			store.vaultDetail.setSearchSlug(params.settName as string);
+			store.vaultDetail.setSearchSlug(params.vaultName as string);
 		},
 		onParamsChange: (_route, params, store) => {
-			if (!params || !params.settName) {
+			if (!params || !params.vaultName) {
 				return;
 			}
-			store.vaultDetail.setSearchSlug(params.settName as string);
+			store.vaultDetail.setSearchSlug(params.vaultName as string);
 		},
 		onExit: (_route, _params, store) => {
 			store.vaultDetail.reset();
