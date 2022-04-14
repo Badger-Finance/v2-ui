@@ -372,9 +372,16 @@ export default class VaultStore {
 	});
 
 	setVaultsFilter = action(<T extends keyof VaultsFilters>(filter: T, value: VaultsFilters[T]) => {
+		const { queryParams = {} } = this.store.router;
 		this.vaultsFilters = {
 			...this.vaultsFilters,
 			[filter]: value,
+		};
+		const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
+		const validParams = Object.entries(this.vaultsFilters).filter(([, value]) => !!value);
+		this.store.router.queryParams = {
+			...Object.fromEntries(nonFilterParams),
+			...Object.fromEntries(validParams),
 		};
 	});
 
@@ -395,6 +402,7 @@ export default class VaultStore {
 	});
 
 	clearFilters = action(() => {
+		const { queryParams = {} } = this.store.router;
 		this.vaultsFilters = {
 			hidePortfolioDust: false,
 			showAPR: false,
@@ -407,6 +415,8 @@ export default class VaultStore {
 			statuses: undefined,
 			behaviors: undefined,
 		};
+		const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
+		this.store.router.queryParams = { ...Object.fromEntries(nonFilterParams) };
 	});
 
 	/**
@@ -477,7 +487,7 @@ export default class VaultStore {
 			vaults = vaults.filter((vault) => user.getTokenBalance(vault.vaultToken).value.gt(0));
 		}
 
-		if (onlyBoostedVaults) {
+		if (onlyBoostedVaults && this.networkHasBoostVaults) {
 			vaults = vaults.filter((vault) => vault.boost.enabled && !!vault.maxApr);
 		}
 

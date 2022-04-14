@@ -61,6 +61,17 @@ export enum NETWORK_IDS {
 	FTM = 250,
 }
 
+export const NETWORK_IDS_TO_NAMES = {
+	[NETWORK_IDS.ETH]: Network.Ethereum,
+	[NETWORK_IDS.LOCAL]: Network.Local,
+	[NETWORK_IDS.BSC]: Network.BinanceSmartChain,
+	[NETWORK_IDS.MATIC]: Network.Polygon,
+	[NETWORK_IDS.XDAI]: Network.xDai,
+	[NETWORK_IDS.ARB]: Network.Arbitrum,
+	[NETWORK_IDS.AVAX]: Network.Avalanche,
+	[NETWORK_IDS.FTM]: Network.Fantom,
+};
+
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const ERC20 = importedErc20;
 export const ERC20_ABI = importedErc20.abi as AbiItem[];
