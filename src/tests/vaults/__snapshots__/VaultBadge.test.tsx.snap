@@ -2,20 +2,6 @@
 
 exports[`VaultTag "deprecated" Vaults 1`] = `<div />`;
 
-exports[`VaultTag "discontinued" Vaults 1`] = `
-<div>
-  <div
-    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-obsoleteTag-4 MuiChip-sizeSmall-8"
-  >
-    <span
-      class="MuiChip-label-29 MuiChip-labelSmall-30"
-    >
-      Discontinued
-    </span>
-  </div>
-</div>
-`;
-
 exports[`VaultTag "experimental" Vaults 1`] = `
 <div>
   <div
@@ -25,20 +11,6 @@ exports[`VaultTag "experimental" Vaults 1`] = `
       class="MuiChip-label-29 MuiChip-labelSmall-30"
     >
       Experimental
-    </span>
-  </div>
-</div>
-`;
-
-exports[`VaultTag "featured" Vaults 1`] = `
-<div>
-  <div
-    class="MuiChip-root-7 makeStyles-tag-1 makeStyles-newTag-2 MuiChip-sizeSmall-8"
-  >
-    <span
-      class="MuiChip-label-29 MuiChip-labelSmall-30"
-    >
-      Featured
     </span>
   </div>
 </div>
