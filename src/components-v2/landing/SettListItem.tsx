@@ -184,7 +184,7 @@ const SettListItem = observer(
 							<img
 								alt={`Badger ${sett.name} Vault Symbol`}
 								className={classes.symbol}
-								src={`/assets/icons/${sett.asset.toLowerCase()}.png`}
+								src={`/assets/icons/${sett.asset.replaceAll('/', '-').toLowerCase()}.png`}
 							/>
 						</Grid>
 						<Grid item>
@@ -222,7 +222,7 @@ const SettListItem = observer(
 								sett.tokens.map((tokenBalance: SettTokenBalance, index: number) => {
 									const iconName =
 										sett.tokens.length === 1
-											? `${sett.asset.toLowerCase()}`
+											? `${sett.asset.replaceAll('/', '-').toLowerCase()}`
 											: `${tokenBalance.symbol.toLowerCase()}-small`;
 									const icon = `/assets/icons/${iconName}.png`;
 									const displayDecimals = tokenBalance.balance > 1 ? 0 : 4;
