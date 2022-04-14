@@ -1,9 +1,9 @@
 import { SettSummary } from './sett-summary';
-import { SettState } from './sett-state';
 import { SettTokenBalance } from './sett-token-balance';
 import { SettValueSource } from './sett-value-source';
 import { BouncerType } from './bouncer-type';
 import { SettStrategy } from './sett-strategy';
+import { VaultState } from '@badger-dao/sdk';
 
 export interface Sett extends SettSummary {
 	name: string;
@@ -20,7 +20,7 @@ export interface Sett extends SettSummary {
 	maxApr?: number;
 	pricePerFullShare: number;
 	sources: SettValueSource[];
-	state: SettState;
+	state: VaultState;
 	tokens: SettTokenBalance[];
 	underlyingToken: string;
 	vaultToken: string;

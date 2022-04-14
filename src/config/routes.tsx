@@ -11,8 +11,8 @@ import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
-import { SettState } from '../mobx/model/setts/sett-state';
 import { NotFound } from '../components-v2/common/NotFound';
+import { VaultState } from '@badger-dao/sdk';
 
 const routes = {
 	locked: new Route<RootStore>({
@@ -25,7 +25,7 @@ const routes = {
 			<Landing
 				title="Sett Vaults"
 				subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
-				state={SettState.Deprecated}
+				state={VaultState.Discontinued}
 			/>
 		),
 	}),
@@ -39,7 +39,7 @@ const routes = {
 			<Landing
 				title="Guarded Vaults"
 				subtitle="New vaults to dip your toes in. Ape safe."
-				state={SettState.Open}
+				state={VaultState.Open}
 			/>
 		),
 	}),
@@ -49,7 +49,7 @@ const routes = {
 			<Landing
 				title="Experimental Vaults"
 				subtitle="Novel Bitcoin strategies. Bleeding edge innovation."
-				state={SettState.Experimental}
+				state={VaultState.Experimental}
 			/>
 		),
 	}),

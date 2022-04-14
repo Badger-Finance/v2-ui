@@ -1,8 +1,8 @@
 import * as api from '../../mobx/utils/apiV2';
 import BigNumber from 'bignumber.js';
-import { SettState } from '../../mobx/model/setts/sett-state';
 import { BouncerType } from 'mobx/model/setts/bouncer-type';
 import { TEST_ADDRESS } from './snapshots';
+import { VaultState } from '@badger-dao/sdk';
 
 export function mockApi(): void {
 	jest.spyOn(api, 'listSetts').mockReturnValue(
@@ -10,7 +10,7 @@ export function mockApi(): void {
 			{
 				asset: 'sBTCCRV',
 				vaultAsset: 'bsBTCCRV',
-				state: SettState.Open,
+				state: VaultState.Open,
 				apr: 0.123456789123454,
 				deprecated: false,
 				balance: 2580.4779797767615,

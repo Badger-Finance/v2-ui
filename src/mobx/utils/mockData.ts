@@ -1,6 +1,6 @@
-import { SettState } from '../model/setts/sett-state';
 import { Sett } from '../model/setts/sett';
 import { BouncerType } from 'mobx/model/setts/bouncer-type';
+import { VaultState } from '@badger-dao/sdk';
 
 export const testYearnVaultApiResponse: Sett = {
 	name: 'Test Yearn Vault',
@@ -48,5 +48,5 @@ export const testYearnVaultApiResponse: Sett = {
 			maxApr: 30.317345943834848,
 		},
 	],
-	state: SettState.Open,
+	state: VaultState.Open,
 };

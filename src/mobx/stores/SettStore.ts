@@ -8,11 +8,11 @@ import { TokenCache } from '../model/tokens/token-cache';
 import { SettCache } from '../model/setts/sett-cache';
 import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-cache';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
-import { SettState } from '../model/setts/sett-state';
 import { Sett } from '../model/setts/sett';
 import { SettMap } from '../model/setts/sett-map';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { NetworkStore } from './NetworkStore';
+import { VaultState } from '@badger-dao/sdk';
 
 export default class SettStore {
 	private store!: RootStore;
@@ -74,7 +74,7 @@ export default class SettStore {
 		return this.settMap[Web3.utils.toChecksumAddress(address)];
 	}
 
-	getSettMap(state: SettState): SettMap | undefined | null {
+	getSettMap(state: VaultState): SettMap | undefined | null {
 		const { network } = this.store.network;
 		const setts = this.settCache[network.symbol];
 		if (!setts) {

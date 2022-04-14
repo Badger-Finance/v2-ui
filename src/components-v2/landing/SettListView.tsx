@@ -3,12 +3,12 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import SettListDisplay from './SettListDisplay';
 import UserListDisplay from './UserListDisplay';
-import { SettState } from '../../mobx/model/setts/sett-state';
 import { Sett } from '../../mobx/model/setts/sett';
+import { VaultState } from '@badger-dao/sdk';
 
 export interface SettListViewProps {
 	onOpen: (sett: Sett) => void;
-	state: SettState;
+	state: VaultState;
 }
 
 const SettListView = observer((props: SettListViewProps) => {

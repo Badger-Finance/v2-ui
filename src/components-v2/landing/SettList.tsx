@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core';
 
 import SettDialog from 'components/Collection/Setts/SettDialog';
 import SettListView from './SettListView';
-import { SettState } from '../../mobx/model/setts/sett-state';
 import { Sett } from '../../mobx/model/setts/sett';
+import { VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	settListContainer: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface SettListProps {
-	state: SettState;
+	state: VaultState;
 }
 
 const SettList = observer((props: SettListProps) => {

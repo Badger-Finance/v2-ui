@@ -6,8 +6,8 @@ import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/RootStore';
 import BigNumber from 'bignumber.js';
 import { mockApi } from './utils/apiV2';
-import { SettState } from '../mobx/model/setts/sett-state';
 import { Ethereum } from 'mobx/model/network/eth.network';
+import { VaultState } from '@badger-dao/sdk';
 
 describe('Landing Page', () => {
 	beforeEach(() => {
@@ -29,7 +29,7 @@ describe('Landing Page', () => {
 				<Landing
 					title="Test Bitcoin Strategies"
 					subtitle="Snapshots are great. Landing looks good."
-					state={SettState.Open}
+					state={VaultState.Open}
 				/>
 			</StoreProvider>,
 		);
