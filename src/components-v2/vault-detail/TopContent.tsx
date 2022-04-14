@@ -35,9 +35,6 @@ interface Props {
 
 export const TopContent = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
-
-	console.log(vault.vaultToken);
-
 	return (
 		<Grid container className={classes.root}>
 			<Grid item container xs>

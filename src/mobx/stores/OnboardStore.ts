@@ -3,7 +3,7 @@ import { Initialization, API, Wallet } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import Onboard from 'bnc-onboard';
 import Notify, { InitOptions } from 'bnc-notify';
-import { BLOCKNATIVE_API_KEY, NETWORK_IDS } from 'config/constants';
+import { BLOCKNATIVE_API_KEY, NETWORK_IDS, NETWORK_IDS_TO_NAMES } from 'config/constants';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { action, extendObservable } from 'mobx';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
@@ -22,6 +22,7 @@ export class OnboardStore {
 	public notify: NotifyAPI;
 	public provider?: SDKProvider;
 	public address?: string;
+	public chainId?: number;
 
 	constructor(private store: RootStore, config: NetworkConfig) {
 		this.onSupportedNetwork = true;
@@ -37,6 +38,8 @@ export class OnboardStore {
 			onboard: this.onboard,
 			provider: undefined,
 			address: undefined,
+			wallet: this.wallet,
+			chainId: this.chainId,
 		});
 		this.connect(true);
 	}
@@ -88,8 +91,30 @@ export class OnboardStore {
 	}
 
 	addressListener = action(async (address: string): Promise<void> => {
+		const { router, network: networkStore } = this.store;
+		const chain = router.queryParams?.chain;
 		const shouldUpdate = this.address !== undefined && this.address !== address;
 		this.address = address;
+
+		if (chain && chain !== this.chainId) {
+			const fallBackParams = {
+				...router.queryParams,
+				chain: NETWORK_IDS_TO_NAMES[this.chainId as NETWORK_IDS],
+			};
+			try {
+				const networkConfig = NetworkConfig.getConfig(String(chain));
+				// purposely not awaiting this to not block the onboarding process
+				networkStore
+					.setNetwork(networkConfig.id)
+					.then()
+					.catch(() => {
+						router.queryParams = fallBackParams;
+					});
+			} catch (e) {
+				router.queryParams = fallBackParams;
+			}
+		}
+
 		if (shouldUpdate && this.wallet) {
 			await this.walletListener(this.wallet);
 			if (this.provider) {
@@ -104,6 +129,7 @@ export class OnboardStore {
 		}
 
 		if (isSupportedNetwork(network)) {
+			this.chainId = network;
 			this.onSupportedNetwork = true;
 			await this.store.updateNetwork(network);
 			if (this.provider) {
