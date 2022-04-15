@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { Container, makeStyles } from '@material-ui/core';
+import React, { useContext } from 'react';
+import { Button, Container, Grid, makeStyles } from '@material-ui/core';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
@@ -9,11 +9,10 @@ import { Loader } from '../../components/Loader';
 import { TopContent } from './TopContent';
 import { VaultDeposit } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
-import { NotFound } from '../common/NotFound';
 import { Footer } from './Footer';
-import routes from '../../config/routes';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
+import routes from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -27,26 +26,20 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		marginTop: theme.spacing(10),
 	},
+	notFoundImage: {
+		marginTop: theme.spacing(10),
+	},
 }));
 
 export const VaultDetail = observer((): JSX.Element => {
-	const {
-		vaultDetail,
-		network: { network },
-		router,
-		vaults,
-	} = useContext(StoreContext);
-
-	const initialNetwork = useRef(network);
+	const { vaultDetail, vaults, router } = useContext(StoreContext);
 	const classes = useStyles();
 	const { vault, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = vaultDetail;
 	const badgerVault = vault ? vaults.getVaultDefinition(vault) : undefined;
 
-	useEffect(() => {
-		if (network.symbol !== initialNetwork.current.symbol) {
-			router.goTo(routes.home);
-		}
-	}, [network, router]);
+	const goBackHome = () => {
+		router.goTo(routes.home, {}, { chain: router.queryParams?.chain });
+	};
 
 	if (isLoading) {
 		return (
@@ -59,7 +52,20 @@ export const VaultDetail = observer((): JSX.Element => {
 	}
 
 	if (isNotFound) {
-		return <NotFound />;
+		return (
+			<Container>
+				<Grid container direction="column" justify="center" alignItems="center">
+					<Grid item className={classes.notFoundImage}>
+						<img src="/assets/icons/not-found-404.png" alt="not-found" />
+					</Grid>
+					<Grid item>
+						<Button variant="outlined" color="primary" onClick={goBackHome}>
+							Go Back to All Vaults
+						</Button>
+					</Grid>
+				</Grid>
+			</Container>
+		);
 	}
 
 	const isIbbtc = vault ? isVaultVaultIbbtc(vault) : false;
