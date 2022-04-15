@@ -75,7 +75,7 @@ const NotificationSnackbar = forwardRef<HTMLDivElement, CustomContentProps>((pro
 						{notificationIcon && (
 							<img
 								className={classes.notificationIcon}
-								src={`assets/icons/${notificationIcon}`}
+								src={`/assets/icons/${notificationIcon}`}
 								alt="notification-icon"
 							/>
 						)}
