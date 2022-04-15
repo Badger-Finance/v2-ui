@@ -17,7 +17,7 @@ exports[`NotificationSnackbar displays correct notification for error type with 
           <img
             alt="notification-icon"
             class="makeStyles-notificationIcon-3"
-            src="assets/icons/notification-error-icon.svg"
+            src="/assets/icons/notification-error-icon.svg"
           />
           <p
             class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
@@ -74,7 +74,7 @@ exports[`NotificationSnackbar displays correct notification for success type wit
           <img
             alt="notification-icon"
             class="makeStyles-notificationIcon-3"
-            src="assets/icons/notification-success-icon.svg"
+            src="/assets/icons/notification-success-icon.svg"
           />
           <p
             class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
@@ -105,7 +105,7 @@ exports[`NotificationSnackbar displays correct notification for warning type wit
           <img
             alt="notification-icon"
             class="makeStyles-notificationIcon-3"
-            src="assets/icons/notification-warning-icon.svg"
+            src="/assets/icons/notification-warning-icon.svg"
           />
           <p
             class="MuiTypography-root-110 makeStyles-text-4 MuiTypography-body2-111"
