@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
-import { GasSpeed } from '@badger-dao/sdk';
+import React from 'react';
+import { GasPrices } from '@badger-dao/sdk';
 import { makeStyles, Paper } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
 import MenuItem from 'ui-library/MenuItem';
 import MenuItemText from 'ui-library/MenuItemText';
 import Menu from 'ui-library/Menu';
-import { StoreContext } from 'mobx/store-context';
-import { Network } from 'mobx/model/network/network';
+import { GasFees } from '@badger-dao/sdk/lib/api/interfaces/gas-fees.interface';
 
 const useStyles = makeStyles({
 	root: {
@@ -17,31 +15,16 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	network: Network;
-	onSelect: () => void;
+	gasOptions: GasPrices;
+	onSelect: (gas: number | GasFees) => void;
 }
 
-const GasOptions = ({ network, onSelect }: Props): JSX.Element | null => {
-	const {
-		gasPrices,
-		uiState: { setGasPrice },
-	} = useContext(StoreContext);
+const GasOptions = ({ gasOptions, onSelect }: Props): JSX.Element | null => {
 	const classes = useStyles();
-	const gasOptions = gasPrices.getGasPrices(network.symbol);
-
-	const handleSelection = (gasSpeed: GasSpeed) => {
-		setGasPrice(gasSpeed);
-		onSelect();
-	};
-
-	if (!gasPrices.initialized || !gasOptions) {
-		return null;
-	}
-
 	return (
 		<Paper>
 			<Menu className={classes.root}>
-				{Object.entries(gasOptions).map((price) => {
+				{Object.entries(gasOptions).map((price, index) => {
 					const [key, value] = price;
 					// Blocknative EIP-1559-compliant [Gas Estimator](https://www.blocknative.com/gas-estimator) currently
 					// uses the following simple heuristic to calculate the recommended Max Fee for any given Base Fee
@@ -49,7 +32,7 @@ const GasOptions = ({ network, onSelect }: Props): JSX.Element | null => {
 					// Max Fee = (2 * Base Fee) + Max Priority Fee
 					const displayValue = typeof value === 'number' ? value : value.maxFeePerGas / 2;
 					return (
-						<MenuItem key={`${network.id}_${key}`} button onClick={() => handleSelection(key as GasSpeed)}>
+						<MenuItem key={`${key}_${index}`} button onClick={() => onSelect(value)}>
 							<MenuItemText> {displayValue ? displayValue.toFixed(0) : 10}</MenuItemText>
 						</MenuItem>
 					);
@@ -59,4 +42,4 @@ const GasOptions = ({ network, onSelect }: Props): JSX.Element | null => {
 	);
 };
 
-export default observer(GasOptions);
+export default GasOptions;
