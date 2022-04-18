@@ -2,7 +2,6 @@ import { extendObservable, action } from 'mobx';
 import { RootStore } from '../RootStore';
 import { Currency } from 'config/enums/currency.enum';
 import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH, DEFAULT_CURRENCY } from 'config/constants';
-import { GasSpeed } from '@badger-dao/sdk';
 import { SnackbarNotificationProps } from '../model/ui/snackbar-notification-props';
 
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
@@ -16,7 +15,6 @@ class UiStateStore {
 	public sidebarOpen!: boolean;
 	public showUserBalances: boolean;
 	public notification?: SnackbarNotificationProps;
-	public gasPrice: GasSpeed;
 	public txStatus?: string;
 	private showNotification: boolean;
 	private showNetworkOptions: boolean;
@@ -25,7 +23,7 @@ class UiStateStore {
 		this.store = store;
 		const storedBalanceDisplay = window.localStorage.getItem(SHOW_USER_BALANCE_KEY);
 		this.showUserBalances = storedBalanceDisplay === 'true';
-		this.gasPrice = GasSpeed.Rapid;
+
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		this.showNotification = this.notificationClosingThreshold < 3;
 		this.showWalletDrawer = false;
@@ -93,12 +91,6 @@ class UiStateStore {
 	// TODO: this does nothing?
 	setTxStatus = action((status?: string) => {
 		this.txStatus = status;
-	});
-
-	setGasPrice = action((gasPrice: GasSpeed) => {
-		this.gasPrice = gasPrice;
-		const { network } = this.store.network;
-		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
 
 	setShowUserBalances = action((shouldShowUserBalance: boolean) => {

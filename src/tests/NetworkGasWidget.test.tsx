@@ -61,7 +61,7 @@ describe('NetworkGasWidget', () => {
 	describe('in desktop mode', () => {
 		it('can select gas options', () => {
 			const mockSetGasPrice = jest.fn();
-			store.uiState.setGasPrice = action(mockSetGasPrice);
+			store.network.setGasPrice = action(mockSetGasPrice);
 
 			customRender(
 				<StoreProvider value={store}>
@@ -72,14 +72,14 @@ describe('NetworkGasWidget', () => {
 			fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
 			fireEvent.mouseOver(screen.getByText(defaultNetwork.name));
 			fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
-			expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, 'rapid');
+			expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
 		});
 	});
 
 	describe('in mobile mode', () => {
 		it('can select gas options', () => {
 			const mockSetGasPrice = jest.fn();
-			store.uiState.setGasPrice = action(mockSetGasPrice);
+			store.network.setGasPrice = action(mockSetGasPrice);
 			window.matchMedia = createMatchMedia(480);
 
 			customRender(
@@ -89,9 +89,9 @@ describe('NetworkGasWidget', () => {
 			);
 
 			fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
-			fireEvent.click(screen.getByRole('button', { name: 'show gas options' }));
+			fireEvent.click(screen.getAllByRole('button', { name: 'show gas options' })[0]);
 			fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
-			expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, 'rapid');
+			expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
 		});
 	});
 });
