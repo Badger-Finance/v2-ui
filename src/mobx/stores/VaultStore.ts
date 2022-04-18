@@ -39,7 +39,7 @@ export default class VaultStore {
 	private vaultCache: VaultCache;
 	private slugCache: VaultSlugCache;
 	private protocolSummaryCache: ProtocolSummaryCache;
-	public protocolTokens: Set<string>;
+	public protocolTokensCache: Record<string, Set<string>>;
 	public availableBalances: TokenBalances = {};
 	public initialized: boolean;
 	public showVaultFilters: boolean;
@@ -69,7 +69,7 @@ export default class VaultStore {
 		this.vaultCache = {};
 		this.slugCache = {};
 		this.protocolSummaryCache = {};
-		this.protocolTokens = new Set();
+		this.protocolTokensCache = {};
 		this.initialized = false;
 		this.showVaultFilters = false;
 		this.showStatusInformationPanel = false;
@@ -149,6 +149,10 @@ export default class VaultStore {
 					.map((vault) => vault.protocol),
 			),
 		];
+	}
+
+	get protocolTokens(): Set<string> | undefined {
+		return this.protocolTokensCache[this.store.network.network.symbol];
 	}
 
 	get networkHasBoostVaults(): boolean {
@@ -307,13 +311,14 @@ export default class VaultStore {
 		}
 
 		const badgerToken = this.store.network.network.deploy.token;
-		this.protocolTokens = new Set(vaultList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
+		const protocolTokens = new Set(vaultList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
 
 		// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
-		if (badgerToken && !this.protocolTokens.has(badgerToken)) {
-			this.protocolTokens.add(badgerToken);
+		if (badgerToken && !protocolTokens.has(badgerToken)) {
+			protocolTokens.add(badgerToken);
 		}
 
+		this.protocolTokensCache[chain] = protocolTokens;
 		this.vaultCache[chain] = Object.fromEntries(vaultList.map((vault) => [vault.vaultToken, vault]));
 		this.slugCache[chain] = {
 			...this.slugCache[chain],
