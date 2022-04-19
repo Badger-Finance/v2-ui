@@ -243,5 +243,25 @@ export const darkTheme = createTheme({
 				maxWidth: 538,
 			},
 		},
+		MuiSwitch: {
+			switchBase: {
+				color: '#e0e0e0',
+				'&$disabled': {
+					color: '#757575',
+					'& +$track': {
+						opacity: 1,
+						backgroundColor: '#FFFFFF1F',
+					},
+				},
+			},
+			colorSecondary: {
+				'&$disabled': {
+					'& +$track': {
+						opacity: 1,
+						backgroundColor: '#FFFFFF1F',
+					},
+				},
+			},
+		},
 	},
 });
