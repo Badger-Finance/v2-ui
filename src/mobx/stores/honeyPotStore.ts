@@ -127,9 +127,9 @@ export class HoneyPotStore {
 
 	redeemNFT = action(async (tokenId: string, amount: number) => {
 		try {
-			const { queueNotification, gasPrice } = this.store.uiState;
+			const { queueNotification } = this.store.uiState;
 			const { address, wallet } = this.store.onboard;
-			const { gasPrices, network } = this.store.network;
+			const { network, gasSpeed } = this.store.network;
 			if (!address || !wallet || network.id !== NETWORK_IDS.ETH) return;
 
 			this.nftBeingRedeemed.push(tokenId);
@@ -142,8 +142,7 @@ export class HoneyPotStore {
 
 			queueNotification(`Sign the transaction to redeem your NFT`, 'info');
 
-			const price = gasPrices ? gasPrices[gasPrice] : 0;
-			const options = await getSendOptions(redeem, address, price);
+			const options = await getSendOptions(redeem, address, gasSpeed);
 			await sendContractMethod(this.store, redeem, options, `Redemption submitted.`, `NFT Redeemed.`);
 			this.fetchPoolBalance();
 			this.fetchNFTS();

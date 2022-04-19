@@ -10,7 +10,7 @@ import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { BouncerType, GasSpeed, VaultDTO, Token } from '@badger-dao/sdk';
+import { BouncerType, VaultDTO, Token } from '@badger-dao/sdk';
 
 // TODO: did we lose some functionality here?
 type ProgressTracker = Record<string, boolean>;
@@ -189,13 +189,12 @@ class ContractsStore {
 	getMethodSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
 		const {
 			onboard,
-			network: { gasPrices },
+			network: { gasSpeed },
 		} = this.store;
 		if (!onboard.address) {
 			throw Error('Sending tx without a connected account');
 		}
-		const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
-		return await getSendOptions(method, onboard.address, price);
+		return await getSendOptions(method, onboard.address, gasSpeed);
 	};
 }
 

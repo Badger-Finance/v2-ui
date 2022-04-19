@@ -1,4 +1,4 @@
-import { GasPrices } from '@badger-dao/sdk';
+import { GasPrices, GasFees, GasSpeed } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
@@ -11,16 +11,32 @@ export class NetworkStore {
 	private store: RootStore;
 	public network: Network;
 	public gasPrices: GasPrices | null;
+	private txGasPrice?: GasFees | number;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.network = defaultNetwork;
 		this.gasPrices = { rapid: 35, fast: 30, standard: 25, slow: 20 };
+		this.txGasPrice = this.parseCachedGasPrice();
 
 		extendObservable(this, {
 			network: this.network,
 			gasPrices: this.gasPrices,
 		});
+	}
+
+	get gasSpeed(): GasFees | number {
+		const fallBackGasPrice = this.gasPrices ? this.gasPrices[GasSpeed.Fast] : 0;
+		return this.txGasPrice ?? fallBackGasPrice;
+	}
+
+	setGasPrice(gasPrice: GasFees | number) {
+		this.txGasPrice = gasPrice;
+		if (typeof gasPrice === 'number') {
+			window.localStorage.setItem(`${this.network.name}-selectedGasPrice`, gasPrice.toString());
+		} else {
+			window.localStorage.setItem(`${this.network.name}-selectedGasPrice`, JSON.stringify(gasPrice));
+		}
 	}
 
 	setNetwork = action(async (id: number) => {
@@ -89,4 +105,32 @@ export class NetworkStore {
 	updateGasPrices = action(async () => {
 		this.gasPrices = await this.store.sdk.api.loadGasPrices();
 	});
+
+	private parseCachedGasPrice(): GasFees | number | undefined {
+		const cachedGasPrices = window.localStorage.getItem(`${this.network.name}-selectedGasPrice`);
+
+		if (!cachedGasPrices) {
+			return undefined;
+		}
+
+		try {
+			const parsedGasPrices = JSON.parse(cachedGasPrices);
+
+			if (typeof parsedGasPrices === 'number') {
+				return parsedGasPrices;
+			}
+
+			if (
+				parsedGasPrices['maxFeePerGas'] === undefined ||
+				parsedGasPrices['maxPriorityFeePerGas'] === undefined
+			) {
+				return undefined;
+			}
+
+			return parsedGasPrices;
+		} catch (e) {
+			console.error('Error parsing cached gas price', e);
+			return undefined;
+		}
+	}
 }
