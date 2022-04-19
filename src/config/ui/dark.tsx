@@ -226,5 +226,22 @@ export const darkTheme = createTheme({
 				},
 			},
 		},
+		MuiDialog: {
+			paperWidthXs: {
+				maxWidth: 343,
+			},
+			paperWidthSm: {
+				maxWidth: 381,
+			},
+			paperWidthMd: {
+				maxWidth: 458,
+			},
+			paperWidthLg: {
+				maxWidth: 474,
+			},
+			paperWidthXl: {
+				maxWidth: 538,
+			},
+		},
 	},
 });
