@@ -219,9 +219,16 @@ export const darkTheme = createTheme({
 				'& $notchedOutline': {
 					borderColor: '#FFFFFF99',
 				},
-				'&$focused': {
+				'&$focused:not($error)': {
 					'& .MuiSelect-iconOutlined': {
 						color: '#FFB84D',
+					},
+				},
+			},
+			colorSecondary: {
+				'&$focused:not($error)': {
+					'& .MuiSelect-iconOutlined': {
+						color: '#91CDFF',
 					},
 				},
 			},
@@ -260,6 +267,60 @@ export const darkTheme = createTheme({
 						opacity: 1,
 						backgroundColor: '#FFFFFF1F',
 					},
+				},
+			},
+		},
+		MuiSelect: {
+			outlined: {
+				paddingTop: 16,
+				paddingBottom: 16,
+			},
+			iconOutlined: {
+				right: 13,
+			},
+		},
+		MuiFormHelperText: {
+			root: {
+				fontSize: 12,
+				marginLeft: 0,
+			},
+			contained: {
+				marginLeft: 0,
+			},
+		},
+		MuiFilledInput: {
+			root: {
+				backgroundColor: '#FFFFFF26',
+				borderRadius: 8,
+				border: '1px solid #FFFFFF26',
+				'&$focused': {
+					border: '1px solid #FFB84D',
+					'&$error': {
+						border: '1px solid #F4442E',
+					},
+					'&:not($error)': {
+						'& .MuiSelect-iconFilled': {
+							color: '#FFB84D',
+						},
+					},
+				},
+			},
+			colorSecondary: {
+				'&$focused': {
+					border: '1px solid #91CDFF',
+					'&:not($error)': {
+						'& .MuiSelect-iconFilled': {
+							color: '#91CDFF',
+						},
+					},
+				},
+			},
+			underline: {
+				'&::before': {
+					content: 'none',
+				},
+				'&::after': {
+					content: 'none',
 				},
 			},
 		},
