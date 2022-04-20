@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, ListItemText, makeStyles, MenuItem, TextField } from '@material-ui/core';
+import { Checkbox, FormControl, InputLabel, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { VaultBehavior } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
@@ -25,33 +25,29 @@ const VaultsRewardsSelector = ({ rewards = [], onChange }: Props): JSX.Element =
 	};
 
 	return (
-		<TextField
-			select
-			size="small"
-			variant="outlined"
-			value={rewards}
-			defaultValue=""
-			onChange={handleChange}
-			id="rewards-selector-id"
-			label="Rewards"
-			color="primary"
-			className={classes.formControl}
-			SelectProps={{
-				multiple: true,
-				renderValue: (selected) => (selected as string[]).join(', '),
-			}}
-			inputProps={{ 'data-testid': 'rewards-selector-input' }}
-		>
-			<MenuItem disabled value="">
-				<em>Rewards</em>
-			</MenuItem>
-			{Object.values(VaultBehavior).map((reward) => (
-				<MenuItem className={classes.capitalized} key={reward} value={reward}>
-					<Checkbox color="primary" checked={rewards.indexOf(reward) > -1} />
-					<ListItemText primary={reward} />
+		<FormControl variant="outlined" className={classes.formControl} color="primary">
+			<InputLabel id="rewards-selector-id-label">Rewards</InputLabel>
+			<Select
+				multiple
+				labelId="rewards-selector-id-label"
+				id="rewards-selector"
+				value={rewards}
+				onChange={handleChange}
+				label="Rewards"
+				inputProps={{ 'data-testid': 'rewards-selector-input' }}
+				renderValue={(selected) => (selected as string[]).join(',  ')}
+			>
+				<MenuItem disabled value="">
+					<em>Rewards</em>
 				</MenuItem>
-			))}
-		</TextField>
+				{Object.values(VaultBehavior).map((reward) => (
+					<MenuItem className={classes.capitalized} key={reward} value={reward}>
+						<Checkbox color="primary" checked={rewards.indexOf(reward) > -1} />
+						<ListItemText primary={reward} />
+					</MenuItem>
+				))}
+			</Select>
+		</FormControl>
 	);
 };
 

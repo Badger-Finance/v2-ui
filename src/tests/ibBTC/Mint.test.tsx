@@ -112,13 +112,13 @@ describe('ibBTC Mint', () => {
 			</StoreProvider>,
 		);
 
-		fireEvent.click(screen.getByRole('button', { name: 'token options' }));
+		fireEvent.mouseDown(screen.getByRole('button', { name: store.ibBTCStore.mintOptions[0].token.symbol }));
 
-		const newTokenOption = within(screen.getByRole('list', { name: 'token options list' })).getByAltText(
-			`${store.ibBTCStore.mintOptions[1].token.symbol} logo`,
+		fireEvent.click(
+			within(screen.getByRole('listbox')).getByRole('option', {
+				name: store.ibBTCStore.mintOptions[1].token.symbol,
+			}),
 		);
-
-		fireEvent.click(newTokenOption);
 
 		jest.runAllTimers();
 

@@ -232,6 +232,9 @@ export const darkTheme = createTheme({
 					},
 				},
 			},
+			input: {
+				padding: '16px 14px',
+			},
 		},
 		MuiDialog: {
 			paperWidthXs: {
@@ -322,6 +325,11 @@ export const darkTheme = createTheme({
 				'&::after': {
 					content: 'none',
 				},
+			},
+		},
+		MuiInputLabel: {
+			outlined: {
+				transform: 'translate(14px, 17.5px) scale(1)',
 			},
 		},
 	},
