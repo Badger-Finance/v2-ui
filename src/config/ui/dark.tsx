@@ -123,8 +123,8 @@ export const darkTheme = createTheme({
 			},
 			label: {
 				textTransform: 'uppercase',
-				fontSize: 15,
-				fontWeight: 500,
+				fontSize: 14,
+				fontWeight: 700,
 			},
 			containedPrimary: {
 				'&:hover': {
@@ -149,21 +149,20 @@ export const darkTheme = createTheme({
 				},
 			},
 			sizeSmall: {
+				padding: '7px 20px',
 				'& .MuiButton-label': {
 					fontSize: 13,
-					fontWeight: 500,
+				},
+			},
+			textSizeSmall: {
+				padding: '7px 20px',
+				'& .MuiButton-label': {
+					fontSize: 13,
 				},
 			},
 			sizeLarge: {
 				'& .MuiButton-label': {
-					fontSize: 14,
-					fontWeight: 700,
-				},
-			},
-			fullWidth: {
-				'& .MuiButton-label': {
-					fontSize: 14,
-					fontWeight: 700,
+					fontSize: 15,
 				},
 			},
 		},
