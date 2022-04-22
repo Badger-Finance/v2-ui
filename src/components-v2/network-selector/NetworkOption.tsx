@@ -1,4 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
+import { GasFees } from '@badger-dao/sdk';
 import MenuItemIcon from '../../ui-library/MenuItemIcon';
 import { getNetworkIconPath } from '../../utils/network-icon';
 import MenuItemText from '../../ui-library/MenuItemText';
@@ -43,19 +44,18 @@ interface Props {
 }
 
 const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
-	const { network: networkStore } = useContext(StoreContext);
+	const { network: networkStore, gasPrices } = useContext(StoreContext);
 	const [open, setOpen] = useState(false);
 	const classes = useStyles();
 	const ref = useRef<HTMLImageElement | null>(null);
-	const isMobile = useMediaQuery(useTheme().breakpoints.down('md'));
-
-	const isCurrentNetwork = networkStore.network.symbol === network.symbol;
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const gasOptions = gasPrices.getGasPrices(network.symbol);
 
 	const toggleOpen = () => {
 		setOpen(!open);
 	};
 
-	const handleClick = async () => {
+	const handleNetworkSelection = async () => {
 		const shouldTriggerNetworkChange = networkStore.network.symbol !== network.symbol;
 
 		if (shouldTriggerNetworkChange) {
@@ -70,19 +70,24 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
 		onSelect();
 	};
 
+	const handleGasSelection = async (gas: number | GasFees) => {
+		networkStore.setGasPrice(gas);
+		await handleNetworkSelection();
+	};
+
 	return (
 		<MenuItem
 			// in desktop the whole section can be clickable because the gas options are revealed on hover but in mobile
 			// there is no hover, that's why we constrain the clickable section to only the network icon and name
 			// the arrow icon is used to reveal the gas options
 			button={!isMobile}
-			onClick={!isMobile ? handleClick : undefined}
+			onClick={!isMobile ? handleNetworkSelection : undefined}
 			onMouseEnter={!isMobile ? toggleOpen : undefined}
 			onMouseLeave={!isMobile ? toggleOpen : undefined}
 			className={clsx(open && classes.hoveredButton)}
 		>
 			<Grid container>
-				<Grid item xs container alignItems="center" onClick={isMobile ? handleClick : undefined}>
+				<Grid item xs container alignItems="center" onClick={isMobile ? handleNetworkSelection : undefined}>
 					<MenuItemIcon>
 						<img
 							className={classes.networkListIcon}
@@ -92,7 +97,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
 					</MenuItemIcon>
 					<MenuItemText>{network.name}</MenuItemText>
 				</Grid>
-				{isCurrentNetwork && (
+				{gasOptions && (
 					<Grid item xs="auto">
 						<IconButton
 							className={classes.gasButton}
@@ -124,7 +129,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
 								},
 							}}
 						>
-							<GasOptions network={network} onSelect={onSelect} />
+							<GasOptions gasOptions={gasOptions} onSelect={handleGasSelection} />
 						</Popper>
 					</Grid>
 				)}

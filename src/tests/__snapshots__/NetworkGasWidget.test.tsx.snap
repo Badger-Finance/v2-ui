@@ -133,6 +133,28 @@ exports[`NetworkGasWidget displays network options 1`] = `
               </span>
             </div>
           </div>
+          <div
+            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
+          >
+            <button
+              aria-label="show gas options"
+              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-230"
+              >
+                <img
+                  alt="display gas options icon"
+                  src="/assets/icons/network-selector-arrow.svg"
+                />
+              </span>
+              <span
+                class="MuiTouchRipple-root-36"
+              />
+            </button>
+          </div>
         </div>
         <span
           class="MuiTouchRipple-root-36"
@@ -168,6 +190,28 @@ exports[`NetworkGasWidget displays network options 1`] = `
                 Polygon
               </span>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
+          >
+            <button
+              aria-label="show gas options"
+              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-230"
+              >
+                <img
+                  alt="display gas options icon"
+                  src="/assets/icons/network-selector-arrow.svg"
+                />
+              </span>
+              <span
+                class="MuiTouchRipple-root-36"
+              />
+            </button>
           </div>
         </div>
         <span
@@ -205,6 +249,28 @@ exports[`NetworkGasWidget displays network options 1`] = `
               </span>
             </div>
           </div>
+          <div
+            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
+          >
+            <button
+              aria-label="show gas options"
+              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-230"
+              >
+                <img
+                  alt="display gas options icon"
+                  src="/assets/icons/network-selector-arrow.svg"
+                />
+              </span>
+              <span
+                class="MuiTouchRipple-root-36"
+              />
+            </button>
+          </div>
         </div>
         <span
           class="MuiTouchRipple-root-36"
@@ -241,6 +307,28 @@ exports[`NetworkGasWidget displays network options 1`] = `
               </span>
             </div>
           </div>
+          <div
+            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
+          >
+            <button
+              aria-label="show gas options"
+              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-230"
+              >
+                <img
+                  alt="display gas options icon"
+                  src="/assets/icons/network-selector-arrow.svg"
+                />
+              </span>
+              <span
+                class="MuiTouchRipple-root-36"
+              />
+            </button>
+          </div>
         </div>
         <span
           class="MuiTouchRipple-root-36"
@@ -276,6 +364,28 @@ exports[`NetworkGasWidget displays network options 1`] = `
                 Fantom
               </span>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
+          >
+            <button
+              aria-label="show gas options"
+              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-230"
+              >
+                <img
+                  alt="display gas options icon"
+                  src="/assets/icons/network-selector-arrow.svg"
+                />
+              </span>
+              <span
+                class="MuiTouchRipple-root-36"
+              />
+            </button>
           </div>
         </div>
         <span

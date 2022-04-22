@@ -391,10 +391,8 @@ class IbBTCStore {
 		if (!address) {
 			return TransactionRequestResult.Rejected;
 		}
-		const { gasPrice } = this.store.uiState;
-		const { gasPrices } = this.store.network;
-		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		const options = await getSendOptions(method, address, price);
+		const { gasSpeed } = this.store.network;
+		const options = await getSendOptions(method, address, gasSpeed);
 		return sendContractMethod(this.store, method, options, infoMessage, successMessage);
 	}
 

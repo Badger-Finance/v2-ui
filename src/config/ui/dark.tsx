@@ -226,5 +226,42 @@ export const darkTheme = createTheme({
 				},
 			},
 		},
+		MuiDialog: {
+			paperWidthXs: {
+				maxWidth: 343,
+			},
+			paperWidthSm: {
+				maxWidth: 381,
+			},
+			paperWidthMd: {
+				maxWidth: 458,
+			},
+			paperWidthLg: {
+				maxWidth: 474,
+			},
+			paperWidthXl: {
+				maxWidth: 538,
+			},
+		},
+		MuiSwitch: {
+			switchBase: {
+				color: '#e0e0e0',
+				'&$disabled': {
+					color: '#757575',
+					'& +$track': {
+						opacity: 1,
+						backgroundColor: '#FFFFFF1F',
+					},
+				},
+			},
+			colorSecondary: {
+				'&$disabled': {
+					'& +$track': {
+						opacity: 1,
+						backgroundColor: '#FFFFFF1F',
+					},
+				},
+			},
+		},
 	},
 });
