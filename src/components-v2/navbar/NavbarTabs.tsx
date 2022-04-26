@@ -22,8 +22,8 @@ const routeTabMapping = new Map(
 	Object.entries({
 		[getRootPath(routes.home.path)]: 0,
 		[getRootPath(routes.vaultDetail.path)]: 0,
-		[getRootPath(routes.digg.path)]: 1,
-		[getRootPath(routes.boostOptimizer.path)]: 2,
+		[getRootPath(routes.boostOptimizer.path)]: 1,
+		[getRootPath(routes.digg.path)]: 2,
 		[getRootPath(routes.IbBTC.path)]: 3,
 	}),
 );
@@ -52,9 +52,6 @@ export const NavbarTabs = observer((): JSX.Element => {
 			classes={{ indicator: classes.indicator }}
 		>
 			<Tab classes={{ root: classes.tab }} label="VAULTS" onClick={() => router.goTo(routes.home)} />
-			{config.digg && (
-				<Tab classes={{ root: classes.tab }} label="DIGG" onClick={() => router.goTo(routes.digg)} />
-			)}
 			{config.boost && (
 				<Tab
 					classes={{ root: classes.tab }}
@@ -62,6 +59,9 @@ export const NavbarTabs = observer((): JSX.Element => {
 					label="BOOST"
 					onClick={() => router.goTo(routes.boostOptimizer)}
 				/>
+			)}
+			{config.digg && (
+				<Tab classes={{ root: classes.tab }} label="DIGG" onClick={() => router.goTo(routes.digg)} />
 			)}
 			{config.ibBTC && (
 				<Tab classes={{ root: classes.tab }} label="IBBTC" onClick={() => router.goTo(routes.IbBTC)} />
