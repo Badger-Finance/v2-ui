@@ -1,3 +1,4 @@
+import React from 'react';
 import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { useState, useContext, useEffect } from 'react';

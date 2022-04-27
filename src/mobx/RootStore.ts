@@ -125,11 +125,11 @@ export class RootStore {
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
 				// handle per page reloads, when init route is skipped
-				if (this.router.currentPath === routes.IbBTC.path) {
+				if (this.router.currentRoute?.path === routes.IbBTC.path) {
 					updateActions.push(this.ibBTCStore.init());
 				}
 
-				if (this.router.currentPath === routes.citadel.path) {
+				if (this.router.currentRoute?.path === routes.citadel.path) {
 					updateActions.push(this.bondStore.updateBonds());
 				}
 			}

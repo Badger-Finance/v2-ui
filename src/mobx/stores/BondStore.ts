@@ -1,13 +1,14 @@
 import { extendObservable } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
 import { DEBUG } from '../../config/environment';
-import BadgerSDK from '@badger-dao/sdk';
-import { allBonds, Beneficiary, CitadelBond } from 'pages/CitadelEarlyBonding/bonds.config';
-import { CitadelSale__factory, ERC20__factory } from 'contracts';
+import { Beneficiary, BondType, CitadelBond, IBond } from 'pages/CitadelEarlyBonding/bonds.config';
+import { CitadelSale__factory, CitadelSaleGuestList__factory, ERC20__factory } from 'contracts';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import BigNumber from 'bignumber.js';
 import { BigNumber as BigNumberEthers, ethers } from 'ethers';
+import { NETWORK_IDS } from '../../config/constants';
+import { LOCAL_DEPLOY } from '../model/network/local.network';
 
 interface CitadelBondInfo {
 	tokenRatio: number;
@@ -18,16 +19,56 @@ interface CitadelBondInfo {
 	purchasedBondsValue: BigNumber;
 }
 
+function resolveBondAddress(address?: string): string {
+	return address ? address : ethers.constants.AddressZero;
+}
+
 /**
  * TODO: Clean up general ethers contract call support
  */
 export class BondStore {
 	public bonds: CitadelBond[];
+	private guestLists = new Map<string, boolean>();
+
 	constructor(private store: RootStore) {
 		this.bonds = [];
 		extendObservable(this, {
 			bonds: this.bonds,
 		});
+	}
+
+	get allBonds(): IBond[] {
+		const { network } = this.store.network;
+
+		if (network.id === NETWORK_IDS.LOCAL) {
+			return [
+				{
+					bondType: BondType.Reserve,
+					bondAddress: resolveBondAddress(LOCAL_DEPLOY.citadel?.testSale),
+				},
+				{
+					bondType: BondType.Reserve,
+					bondAddress: resolveBondAddress(LOCAL_DEPLOY.citadel?.testSale2),
+				},
+			];
+		}
+
+		return [
+			{ bondType: BondType.Reserve, bondAddress: resolveBondAddress(ETH_DEPLOY.citadel?.wbtcSale) },
+			{ bondType: BondType.Reserve, bondAddress: resolveBondAddress(ETH_DEPLOY.citadel?.cvxSale) },
+			{
+				bondType: BondType.Liquidity,
+				bondAddress: resolveBondAddress(ETH_DEPLOY.citadel?.bveCVXSale),
+			},
+			{
+				bondType: BondType.Reserve,
+				bondAddress: resolveBondAddress(ETH_DEPLOY.citadel?.bcrvibBTCSale),
+			},
+		];
+	}
+
+	isWhitelisted(address: string): boolean {
+		return this.guestLists.get(ethers.utils.getAddress(address)) ?? true;
 	}
 
 	async updateBonds() {
@@ -39,20 +80,40 @@ export class BondStore {
 
 		const loadedBonds: CitadelBond[] = [];
 		await Promise.all(
-			allBonds.map(async (b) => {
+			this.allBonds.map(async (b) => {
 				try {
 					const contract = CitadelSale__factory.connect(b.bondAddress, provider.getSigner());
-					const [token, ended, finalized, price, userPurchased, totalPurchased, totalSold, claimed] =
-						await Promise.all([
-							contract.tokenIn(),
-							contract.saleEnded(),
-							contract.finalized(),
-							contract.tokenOutPrice(),
-							contract.boughtAmounts(address),
-							contract.totalTokenIn(),
-							contract.totalTokenOutBought(),
-							contract.hasClaimed(address),
-						]);
+					const [
+						token,
+						ended,
+						finalized,
+						price,
+						userPurchased,
+						totalPurchased,
+						totalSold,
+						claimed,
+						guestList,
+					] = await Promise.all([
+						contract.tokenIn(),
+						contract.saleEnded(),
+						contract.finalized(),
+						contract.tokenOutPrice(),
+						contract.boughtAmounts(address),
+						contract.totalTokenIn(),
+						contract.totalTokenOutBought(),
+						contract.hasClaimed(address),
+						contract.guestlist(),
+					]);
+
+					if (guestList !== ethers.constants.AddressZero) {
+						const guestListContract = CitadelSaleGuestList__factory.connect(
+							guestList,
+							provider.getSigner(),
+						);
+						const isWhitelisted = await guestListContract.guests(address);
+						this.guestLists.set(ethers.utils.getAddress(b.bondAddress), isWhitelisted);
+					}
+
 					const bondToken = await sdk.tokens.loadToken(token);
 					const bond = {
 						address: token,
