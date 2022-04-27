@@ -107,12 +107,11 @@ const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX
 	const cannotClaim = status === SaleStatus.Closed && (claimed || purchasedTokens === 0);
 
 	const handleBonding = () => {
-		if (!bondStore.isWhitelisted(bond.bondAddress)) {
-			uiState.queueError('You are not whitelisted to bond this token');
-			return;
-		}
-
 		if (status === SaleStatus.Open) {
+			if (!bondStore.isWhitelisted(bond.bondAddress)) {
+				uiState.queueError('You are not whitelisted to bond this token');
+				return;
+			}
 			select(bond);
 		}
 	};
