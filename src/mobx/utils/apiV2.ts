@@ -2,6 +2,7 @@ import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { VaultChartFetchParams, VaultSnapshot, VaultSnapshotGranularity } from '../model/vaults/vault-snapshot';
 import { DEBUG } from 'config/environment';
 import { Network } from '@badger-dao/sdk';
+import { CitadelMerkleClaim } from '../stores/BondStore';
 
 export const getApi = (): string => {
 	if (DEBUG) {
@@ -20,6 +21,11 @@ const getVaultChartInformationEndpoint = `${BADGER_API}/charts`;
 export const fetchClaimProof = async (address: string, chain = Network.Ethereum): Promise<RewardMerkleClaim | null> => {
 	const fetchChain = chain === Network.Local ? Network.Ethereum : chain;
 	return fetchData(() => fetch(`${getClaimProofEndpoint}/${address}?chain=${fetchChain}`));
+};
+
+//TODO: replace with sdk integration
+export const fetchCitadelMerkleProof = async (address: string): Promise<CitadelMerkleClaim | null> => {
+	return fetchData<CitadelMerkleClaim>(() => fetch(`${BADGER_API}/proofs/citadel/${address}`));
 };
 
 export const fetchVaultChartInformation = async ({

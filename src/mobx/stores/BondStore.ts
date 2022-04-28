@@ -9,6 +9,14 @@ import BigNumber from 'bignumber.js';
 import { BigNumber as BigNumberEthers, ethers } from 'ethers';
 import { NETWORK_IDS } from '../../config/constants';
 import { LOCAL_DEPLOY } from '../model/network/local.network';
+import { fetchCitadelMerkleProof } from '../utils/apiV2';
+
+export interface CitadelMerkleClaim {
+	account: string;
+	protocols: string[];
+	proof: string[];
+	node: string;
+}
 
 interface CitadelBondInfo {
 	tokenRatio: number;
@@ -28,6 +36,7 @@ function resolveBondAddress(address?: string): string {
  */
 export class BondStore {
 	public bonds: CitadelBond[];
+	private merkleProof?: CitadelMerkleClaim | null;
 	private guestLists = new Map<string, boolean>();
 
 	constructor(private store: RootStore) {
@@ -73,8 +82,8 @@ export class BondStore {
 
 	async updateBonds() {
 		const { onboard, sdk } = this.store;
-		const { provider, address } = onboard;
-		if (!provider || !address) {
+		const { ethersWeb3Provider, address } = onboard;
+		if (!ethersWeb3Provider || !address) {
 			return;
 		}
 
@@ -82,7 +91,7 @@ export class BondStore {
 		await Promise.all(
 			this.allBonds.map(async (b) => {
 				try {
-					const contract = CitadelSale__factory.connect(b.bondAddress, provider.getSigner());
+					const contract = CitadelSale__factory.connect(b.bondAddress, ethersWeb3Provider.getSigner());
 					const [
 						token,
 						ended,
@@ -106,12 +115,17 @@ export class BondStore {
 					]);
 
 					if (guestList !== ethers.constants.AddressZero) {
-						const guestListContract = CitadelSaleGuestList__factory.connect(
-							guestList,
-							provider.getSigner(),
-						);
-						const isWhitelisted = await guestListContract.guests(address);
-						this.guestLists.set(ethers.utils.getAddress(b.bondAddress), isWhitelisted);
+						const merkleProof = await this.getMerkleProof();
+						if (merkleProof) {
+							const guestListContract = CitadelSaleGuestList__factory.connect(
+								guestList,
+								ethersWeb3Provider.getSigner(),
+							);
+							const isWhitelisted = await guestListContract.authorized(address, merkleProof.proof);
+							this.guestLists.set(ethers.utils.getAddress(b.bondAddress), isWhitelisted);
+						} else {
+							this.guestLists.set(ethers.utils.getAddress(b.bondAddress), false);
+						}
 					}
 
 					const bondToken = await sdk.tokens.loadToken(token);
@@ -143,13 +157,13 @@ export class BondStore {
 
 	async bond(bond: CitadelBond, amount: TokenBalance, beneficiary: Beneficiary): Promise<void> {
 		const { onboard } = this.store;
-		const { provider, address } = onboard;
-		if (!provider || !address) {
+		const { ethersWeb3Provider, address } = onboard;
+		if (!ethersWeb3Provider || !address) {
 			return;
 		}
 		console.log(`Triggered a bonding event for ${bond.address} (${amount.balanceDisplay()})`);
 		const beneficiaryId = 0; // TODO: look up from some set table
-		const sale = CitadelSale__factory.connect(bond.bondAddress, provider.getSigner());
+		const sale = CitadelSale__factory.connect(bond.bondAddress, ethersWeb3Provider.getSigner());
 		if (!sale) {
 			if (DEBUG) {
 				throw Error('Sale contract not defined for bond');
@@ -158,7 +172,7 @@ export class BondStore {
 		}
 		const bondProof: string[] = []; // look up proof from user store account details
 		try {
-			const bondingToken = ERC20__factory.connect(bond.address, provider.getSigner());
+			const bondingToken = ERC20__factory.connect(bond.address, ethersWeb3Provider.getSigner());
 			const allowance = await bondingToken.allowance(address, bond.bondAddress);
 			// console.log({ allowance: allowance.toString(), amount: amount.tokenBalance.toString() })
 			if (allowance.lt(amount.tokenBalance.toString())) {
@@ -176,12 +190,12 @@ export class BondStore {
 
 	async claim(bond: CitadelBond): Promise<void> {
 		const { onboard } = this.store;
-		const { provider, address } = onboard;
-		if (!provider || !address) {
+		const { ethersWeb3Provider, address } = onboard;
+		if (!ethersWeb3Provider || !address) {
 			return;
 		}
 		console.log(`Triggered a claim event for ${bond.address}`);
-		const sale = CitadelSale__factory.connect(bond.bondAddress, provider.getSigner());
+		const sale = CitadelSale__factory.connect(bond.bondAddress, ethersWeb3Provider.getSigner());
 		if (!sale) {
 			if (DEBUG) {
 				throw Error('Sale contract not defined for bond');
@@ -225,6 +239,21 @@ export class BondStore {
 			purchasedBonds,
 			purchasedBondsValue,
 		};
+	}
+
+	private async getMerkleProof(): Promise<CitadelMerkleClaim | null> {
+		const { address } = this.store.onboard;
+
+		if (!address) {
+			return null;
+		}
+
+		if (this.merkleProof !== undefined) {
+			return this.merkleProof;
+		}
+
+		this.merkleProof = await fetchCitadelMerkleProof(address);
+		return this.merkleProof;
 	}
 }
 
