@@ -246,7 +246,9 @@ export class BondStore {
 		}
 
 		try {
-			this.merkleProof = await this.store.sdk.api.loadCitadelMerkleProof(address);
+			const merkleProof = await this.store.sdk.api.loadCitadelMerkleProof(address);
+			// method will return an empty object on 404
+			this.merkleProof = Object.keys(merkleProof).length > 0 ? merkleProof : null;
 		} catch (err) {
 			console.error(err);
 			this.merkleProof = null;
