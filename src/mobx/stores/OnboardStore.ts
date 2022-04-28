@@ -4,10 +4,9 @@ import { API as NotifyAPI } from 'bnc-notify';
 import Onboard from 'bnc-onboard';
 import Notify, { InitOptions } from 'bnc-notify';
 import { BLOCKNATIVE_API_KEY, NETWORK_IDS, NETWORK_IDS_TO_NAMES } from 'config/constants';
-import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { action, extendObservable } from 'mobx';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
-import { SDKProvider } from '@badger-dao/sdk';
+import { SDKProvider, getNetworkConfig, NetworkConfig } from '@badger-dao/sdk';
 import { getOnboardWallets, isRpcWallet, isSupportedNetwork, onboardWalletCheck } from 'config/wallets';
 import rpc from 'config/rpc.config';
 import { ethers } from 'ethers';
@@ -30,7 +29,7 @@ export class OnboardStore {
 		this.onboard = Onboard(this.getInitialization(config));
 		const notifyOptions: InitOptions = {
 			dappId: BLOCKNATIVE_API_KEY,
-			networkId: config.id,
+			networkId: config.chainId,
 		};
 		this.notify = Notify(notifyOptions);
 		extendObservable(this, {
@@ -102,10 +101,10 @@ export class OnboardStore {
 				chain: NETWORK_IDS_TO_NAMES[this.chainId as NETWORK_IDS],
 			};
 			try {
-				const networkConfig = NetworkConfig.getConfig(String(chain));
+				const networkConfig = getNetworkConfig(String(chain));
 				// purposely not awaiting this to not block the onboarding process
 				networkStore
-					.setNetwork(networkConfig.id)
+					.setNetwork(networkConfig.chainId)
 					.then()
 					.catch(() => {
 						router.queryParams = fallBackParams;
@@ -158,11 +157,11 @@ export class OnboardStore {
 	private getProvider(provider: any, wallet: string | null): SDKProvider {
 		let library;
 		const targetChain = provider.chainId ? parseInt(provider.chainId, 16) : NETWORK_IDS.ETH;
-		const config = NetworkConfig.getConfig(targetChain);
+		const config = getNetworkConfig(targetChain);
 		if (isRpcWallet(wallet)) {
-			library = new JsonRpcProvider(rpc[config.network], config.id);
+			library = new JsonRpcProvider(rpc[config.network], config.chainId);
 		} else {
-			library = new Web3Provider(provider, config.id);
+			library = new Web3Provider(provider, config.chainId);
 		}
 		library.pollingInterval = 15000;
 		this.config = config;
@@ -173,7 +172,7 @@ export class OnboardStore {
 		this.config = config;
 		return {
 			dappId: BLOCKNATIVE_API_KEY,
-			networkId: config.id,
+			networkId: config.chainId,
 			blockPollingInterval: 15000,
 			darkMode: true,
 			subscriptions: {

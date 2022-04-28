@@ -1,4 +1,4 @@
-import { Network, NetworkConfig } from '@badger-dao/sdk';
+import { Network, NetworkConfig, getNetworkConfig } from '@badger-dao/sdk';
 import { StateAndHelpers, WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
 import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_IDS, RPC_WALLETS } from './constants';
 import { supportedNetworks } from './networks.config';
@@ -84,8 +84,8 @@ export function isSupportedNetwork(chainId?: number): boolean {
 	}
 	try {
 		// verify sdk support for given chain
-		const config = NetworkConfig.getConfig(chainId);
-		return new Set(supportedNetworks.map((network) => network.id)).has(config.id);
+		const config = getNetworkConfig(chainId);
+		return new Set(supportedNetworks.map((network) => network.id)).has(config.chainId);
 	} catch {
 		return false;
 	}

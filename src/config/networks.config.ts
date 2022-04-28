@@ -6,7 +6,6 @@ import { Fantom } from 'mobx/model/network/ftm.network';
 import { Local } from 'mobx/model/network/local.network';
 import { Polygon } from 'mobx/model/network/matic.network';
 import { Network } from 'mobx/model/network/network';
-import { xDai } from 'mobx/model/network/xdai.network';
 import { DEBUG, FLAGS } from './environment';
 
 export const supportedNetworks: Network[] = [
@@ -16,7 +15,6 @@ export const supportedNetworks: Network[] = [
 	new BinanceSmartChain(),
 	new Arbitrum(),
 	...(FLAGS.AVAX ? [new Avalanche()] : []),
-	...(FLAGS.XDAI ? [new xDai()] : []),
 	new Fantom(),
 ];
 export const defaultNetwork = supportedNetworks[0];

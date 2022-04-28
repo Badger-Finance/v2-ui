@@ -14,11 +14,10 @@ import { NetworkStore } from './stores/NetworkStore';
 import { VaultDetailStore } from './stores/VaultDetail.store';
 import { VaultChartsStore } from './stores/VaultChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerSDK, SDKProvider } from '@badger-dao/sdk';
+import { BadgerSDK, SDKProvider, getNetworkConfig } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
-import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
@@ -57,7 +56,7 @@ export class RootStore {
 			provider: rpc[defaultNetwork.symbol],
 			baseURL: BADGER_API,
 		});
-		const config = NetworkConfig.getConfig(defaultNetwork.id);
+		const config = getNetworkConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
 		this.onboard = new OnboardStore(this, config);
 		this.network = new NetworkStore(this);
@@ -115,7 +114,7 @@ export class RootStore {
 		}
 
 		if (signer && address) {
-			const config = NetworkConfig.getConfig(network.id);
+			const config = getNetworkConfig(network.id);
 
 			const updateActions = [
 				this.user.loadAccountDetails(address),
