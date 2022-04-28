@@ -237,11 +237,11 @@ export class BondStore {
 		return guestListContract.authorized(guestList, merkleProof.proof);
 	}
 
-	private async getMerkleProof(): Promise<CitadelMerkleClaim | null> {
+	private async getMerkleProof(): Promise<CitadelMerkleClaim | null | undefined> {
 		const { address } = this.store.onboard;
 
 		if (!address) {
-			return null;
+			return;
 		}
 
 		if (this.merkleProof !== undefined) {
@@ -254,7 +254,6 @@ export class BondStore {
 			this.merkleProof = Object.keys(merkleProof).length > 0 ? merkleProof : null;
 		} catch (err) {
 			console.error(err);
-			this.merkleProof = null;
 		}
 
 		return this.merkleProof;
