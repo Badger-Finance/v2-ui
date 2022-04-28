@@ -12,4 +12,4 @@ exports[`Multicall utils getChainMulticallContract multicall contract for "fanto
 
 exports[`Multicall utils getChainMulticallContract multicall contract for "polygon" 1`] = `"0x275617327c958bD06b5D6b871E7f491D76113dd8"`;
 
-exports[`Multicall utils getChainMulticallContract multicall contract for "xdai" 1`] = `"0x2325b72990D81892E0e09cdE5C80DD221F147F8B"`;
+exports[`Multicall utils getChainMulticallContract multicall contract for undefined 1`] = `undefined`;
