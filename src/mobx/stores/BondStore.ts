@@ -108,17 +108,8 @@ export class BondStore {
 					]);
 
 					if (guestList !== ethers.constants.AddressZero) {
-						const merkleProof = await this.getMerkleProof();
-						if (merkleProof) {
-							const guestListContract = CitadelSaleGuestList__factory.connect(
-								guestList,
-								ethersWeb3Provider.getSigner(),
-							);
-							const isWhitelisted = await guestListContract.authorized(address, merkleProof.proof);
-							this.guestLists.set(ethers.utils.getAddress(b.bondAddress), isWhitelisted);
-						} else {
-							this.guestLists.set(ethers.utils.getAddress(b.bondAddress), false);
-						}
+						const isWhitelisted = await this.checkWhitelist(guestList);
+						this.guestLists.set(ethers.utils.getAddress(b.bondAddress), isWhitelisted);
 					}
 
 					const bondToken = await sdk.tokens.loadToken(token);
@@ -232,6 +223,18 @@ export class BondStore {
 			purchasedBonds,
 			purchasedBondsValue,
 		};
+	}
+
+	private async checkWhitelist(guestList: string): Promise<boolean> {
+		const { ethersWeb3Provider } = this.store.onboard;
+		const merkleProof = await this.getMerkleProof();
+
+		if (!merkleProof || !ethersWeb3Provider) {
+			return false;
+		}
+
+		const guestListContract = CitadelSaleGuestList__factory.connect(guestList, ethersWeb3Provider.getSigner());
+		return guestListContract.authorized(guestList, merkleProof.proof);
 	}
 
 	private async getMerkleProof(): Promise<CitadelMerkleClaim | null> {
