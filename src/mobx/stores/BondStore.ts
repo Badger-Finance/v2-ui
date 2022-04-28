@@ -9,14 +9,7 @@ import BigNumber from 'bignumber.js';
 import { BigNumber as BigNumberEthers, ethers } from 'ethers';
 import { NETWORK_IDS } from '../../config/constants';
 import { LOCAL_DEPLOY } from '../model/network/local.network';
-import { fetchCitadelMerkleProof } from '../utils/apiV2';
-
-export interface CitadelMerkleClaim {
-	account: string;
-	protocols: string[];
-	proof: string[];
-	node: string;
-}
+import { CitadelMerkleClaim } from '@badger-dao/sdk';
 
 interface CitadelBondInfo {
 	tokenRatio: number;
@@ -252,7 +245,13 @@ export class BondStore {
 			return this.merkleProof;
 		}
 
-		this.merkleProof = await fetchCitadelMerkleProof(address);
+		try {
+			this.merkleProof = await this.store.sdk.api.loadCitadelMerkleProof(address);
+		} catch (err) {
+			console.error(err);
+			this.merkleProof = null;
+		}
+
 		return this.merkleProof;
 	}
 }
