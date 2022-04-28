@@ -1,3 +1,4 @@
+import React from 'react';
 import { Typography, makeStyles, Card, Paper, Button, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
@@ -9,6 +10,7 @@ import { inCurrency } from 'mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import { Currency } from 'config/enums/currency.enum';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import TokenLogo from '../../components-v2/TokenLogo';
 
 const useStyles = makeStyles((theme) => ({
 	cardSplash: {
@@ -19,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	bondIcon: {
 		marginRight: theme.spacing(2),
+		width: 24,
+		height: 24,
 	},
 	bondTitle: {
 		display: 'flex',
@@ -85,7 +89,7 @@ interface BondOfferingProps {
 }
 
 const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX.Element => {
-	const { prices, user, bondStore } = useContext(StoreContext);
+	const { prices, user, bondStore, uiState } = useContext(StoreContext);
 	const { purchasedTokens, purchasedTokensValue, purchasedBonds, purchasedBondsValue } = bondStore.getBondInfo(bond);
 	const { bondToken, claimed } = bond;
 
@@ -102,19 +106,23 @@ const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX
 	const cannotBond = status === SaleStatus.Open && bondTokenBalance.tokenBalance.eq(0);
 	const cannotClaim = status === SaleStatus.Closed && (claimed || purchasedTokens === 0);
 
+	const handleBonding = () => {
+		if (status === SaleStatus.Open) {
+			if (!bondStore.isWhitelisted(bond.bondAddress)) {
+				uiState.queueError('You are not whitelisted to bond this token');
+				return;
+			}
+			select(bond);
+		}
+	};
+
 	// TODO: Add loading of user data (beneficiary whitelist) for distabled check
 	return (
 		<Card component={Paper}>
 			<img className={classes.cardSplash} src={`/assets/img/bond-${tokenName}.png`} alt={`${bondToken.name}`} />
 			<div className={classes.bondContent}>
 				<div className={classes.bondTitle}>
-					<img
-						src={`/assets/icons/${tokenName}.png`}
-						className={classes.bondIcon}
-						alt={`${bondToken.name}`}
-						width={23}
-						height={23}
-					/>
+					<TokenLogo token={bondToken} className={classes.bondIcon} />
 					<Typography variant="body1">{bondToken.name} Bond</Typography>
 					<div className={classes.bondStatus}>
 						<Typography variant="caption" className={clsx(classes.bondStatusIcon, bondStatusIconClass)}>
@@ -142,12 +150,7 @@ const BondOffering = observer(({ bond, select, status }: BondOfferingProps): JSX
 					</Grid>
 				</div>
 				<Button
-					onClick={() => {
-						if (status === SaleStatus.Open) {
-							select(bond);
-						} else if (status === SaleStatus.Closed) {
-						}
-					}}
+					onClick={handleBonding}
 					variant="contained"
 					color="primary"
 					className={classes.bondButton}

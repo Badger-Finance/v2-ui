@@ -1,3 +1,4 @@
+import React from 'react';
 import {
 	Modal,
 	Paper,
@@ -20,6 +21,7 @@ import BondInput from './BondInput';
 import BondPricing, { EarlyBondMetric } from './BondPricing';
 import { Beneficiary, CitadelBond } from './bonds.config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import TokenLogo from '../../components-v2/TokenLogo';
 
 const useStyles = makeStyles((theme) => ({
 	modalContainer: {
@@ -91,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
 	grayText: {
 		color: '#C3C3C3',
 	},
+	logo: {
+		width: 35,
+		height: 35,
+	},
 }));
 
 interface BondModalProps {
@@ -122,7 +128,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 
 	return (
 		<Modal
-			open={bond !== null}
+			open={!!bond}
 			onClose={() => {
 				setBeneficiary('');
 				clear();
@@ -137,12 +143,7 @@ const BondModal = observer(({ bond, qualifications, clear }: BondModalProps): JS
 		>
 			<Paper className={classes.bondingPaper}>
 				<div className={classes.bondHeader}>
-					<img
-						src={`/assets/icons/${bondToken.symbol.toLowerCase()}.png`}
-						alt={`${tokenName}`}
-						width={35}
-						height={35}
-					/>
+					<TokenLogo token={bondToken} className={classes.logo} />
 					<img src={`/assets/icons/citadel.svg`} className={classes.citadelIcon} alt="Citadel" />
 					<div>
 						<Typography className={classes.grayText} variant="caption" align="left">

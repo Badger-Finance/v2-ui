@@ -1,4 +1,4 @@
-import { Network, NetworkConfig } from '@badger-dao/sdk';
+import { Network, getNetworkConfig } from '@badger-dao/sdk';
 import { FLAGS } from 'config/environment';
 import { isSupportedNetwork } from 'config/wallets';
 import { NavbarConfig } from './interfaces/navbar-config.interface';
@@ -60,21 +60,13 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		boost: false,
 		auction: false,
 	},
-	[Network.xDai]: {
-		cycle: false,
-		digg: false,
-		ibBTC: false,
-		bridge: false,
-		boost: false,
-		auction: false,
-	},
 };
 
 export function getNavbarConfig(network?: Network): NavbarConfig {
 	let chain = Network.Ethereum;
 	try {
-		const config = NetworkConfig.getConfig(network ?? chain);
-		if (isSupportedNetwork(config.id)) {
+		const config = getNetworkConfig(network ?? chain);
+		if (isSupportedNetwork(config.chainId)) {
 			return navbarConfig[config.network];
 		}
 	} catch {} // ignore network not found error - defaults to ethereum

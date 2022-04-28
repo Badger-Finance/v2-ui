@@ -5,9 +5,8 @@ import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@
 import { StoreContext } from 'mobx/store-context';
 import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
-import { Network as ChainNetworkSymbol } from '@badger-dao/sdk';
+import { Network as ChainNetworkSymbol, getNetworkConfig } from '@badger-dao/sdk';
 import clsx from 'clsx';
-import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -32,7 +31,6 @@ const networkAbbreviationBySymbol: Record<ChainNetworkSymbol, string> = {
 	[ChainNetworkSymbol.BinanceSmartChain]: 'BSC',
 	[ChainNetworkSymbol.Arbitrum]: 'ARBITRUM',
 	[ChainNetworkSymbol.Polygon]: 'MATIC',
-	[ChainNetworkSymbol.xDai]: 'XDAI',
 	[ChainNetworkSymbol.Avalanche]: 'AVALANCHE',
 	[ChainNetworkSymbol.Fantom]: 'FANTOM',
 };
@@ -56,9 +54,9 @@ const NetworkWidget = observer(({ className }: Props) => {
 	};
 
 	const optionClicked = async (option: string) => {
-		const networkConfig = NetworkConfig.getConfig(option);
+		const networkConfig = getNetworkConfig(option);
 		try {
-			await network.setNetwork(networkConfig.id);
+			await network.setNetwork(networkConfig.chainId);
 		} catch (e) {
 			console.error(e);
 		}

@@ -8,7 +8,7 @@ import { Network } from '../../mobx/model/network/network';
 import { Grid, IconButton, Popper, useMediaQuery, useTheme } from '@material-ui/core';
 import GasOptions from './GasOptions';
 import { observer } from 'mobx-react-lite';
-import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
+import { getNetworkConfig } from '@badger-dao/sdk';
 import { StoreContext } from '../../mobx/store-context';
 import MenuItem from 'ui-library/MenuItem';
 import clsx from 'clsx';
@@ -59,9 +59,9 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
 		const shouldTriggerNetworkChange = networkStore.network.symbol !== network.symbol;
 
 		if (shouldTriggerNetworkChange) {
-			const networkConfig = NetworkConfig.getConfig(network.symbol);
+			const networkConfig = getNetworkConfig(network.symbol);
 			try {
-				await networkStore.setNetwork(networkConfig.id);
+				await networkStore.setNetwork(networkConfig.chainId);
 			} catch (e) {
 				console.error(e);
 			}
