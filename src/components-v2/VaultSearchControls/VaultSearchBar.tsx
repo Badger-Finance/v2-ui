@@ -31,7 +31,6 @@ const VaultSearchBar = ({ search = '', onChange }: Props): JSX.Element => {
 				),
 			}}
 			inputProps={{ 'aria-label': 'Vault Search' }}
-			size="small"
 			variant="outlined"
 			className={classes.root}
 			value={search}

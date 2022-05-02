@@ -215,24 +215,23 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
         class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
       >
         <div
-          class="MuiFormControl-root-265 MuiTextField-root-264 makeStyles-formControl-262"
+          class="MuiFormControl-root-264 makeStyles-formControl-262"
         >
           <label
-            class="MuiFormLabel-root-281 MuiInputLabel-root-269 MuiInputLabel-formControl-275 MuiInputLabel-animated-278 MuiInputLabel-marginDense-276 MuiInputLabel-outlined-280"
+            class="MuiFormLabel-root-280 MuiInputLabel-root-268 MuiInputLabel-formControl-274 MuiInputLabel-animated-277 MuiInputLabel-outlined-279"
             data-shrink="false"
-            for="status-selector-id"
             id="status-selector-id-label"
           >
             Status
           </label>
           <div
-            class="MuiInputBase-root-315 MuiOutlinedInput-root-300 MuiInputBase-formControl-316 MuiInputBase-marginDense-322 MuiOutlinedInput-marginDense-307"
+            class="MuiInputBase-root-314 MuiOutlinedInput-root-299 MuiInputBase-formControl-315"
           >
             <div
               aria-haspopup="listbox"
-              aria-labelledby="status-selector-id-label status-selector-id"
-              class="MuiSelect-root-289 MuiSelect-select-290 MuiSelect-selectMenu-293 MuiSelect-outlined-292 MuiInputBase-input-326 MuiOutlinedInput-input-310 MuiInputBase-inputMarginDense-327 MuiOutlinedInput-inputMarginDense-311"
-              id="status-selector-id"
+              aria-labelledby="status-selector-id-label status-selector"
+              class="MuiSelect-root-288 MuiSelect-select-289 MuiSelect-selectMenu-292 MuiSelect-outlined-291 MuiInputBase-input-325 MuiOutlinedInput-input-309"
+              id="status-selector"
               role="button"
               tabindex="0"
             >
@@ -242,15 +241,14 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </div>
             <input
               aria-hidden="true"
-              class="MuiSelect-nativeInput-299"
+              class="MuiSelect-nativeInput-298"
               data-testid="status-selector-input"
-              name="Status"
               tabindex="-1"
               value=""
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-164 MuiSelect-icon-295 MuiSelect-iconOutlined-298"
+              class="MuiSvgIcon-root-164 MuiSelect-icon-294 MuiSelect-iconOutlined-297"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -260,10 +258,10 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-337 MuiOutlinedInput-notchedOutline-309"
+              class="PrivateNotchedOutline-root-336 MuiOutlinedInput-notchedOutline-308"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-339"
+                class="PrivateNotchedOutline-legendLabelled-338"
               >
                 <span>
                   Status
@@ -277,24 +275,23 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
         class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
       >
         <div
-          class="MuiFormControl-root-265 MuiTextField-root-264 makeStyles-formControl-341"
+          class="MuiFormControl-root-264 makeStyles-formControl-340"
         >
           <label
-            class="MuiFormLabel-root-281 MuiInputLabel-root-269 MuiInputLabel-formControl-275 MuiInputLabel-animated-278 MuiInputLabel-marginDense-276 MuiInputLabel-outlined-280"
+            class="MuiFormLabel-root-280 MuiInputLabel-root-268 MuiInputLabel-formControl-274 MuiInputLabel-animated-277 MuiInputLabel-outlined-279"
             data-shrink="false"
-            for="platform-selector-id"
             id="platform-selector-id-label"
           >
             Platform
           </label>
           <div
-            class="MuiInputBase-root-315 MuiOutlinedInput-root-300 MuiInputBase-formControl-316 MuiInputBase-marginDense-322 MuiOutlinedInput-marginDense-307"
+            class="MuiInputBase-root-314 MuiOutlinedInput-root-299 MuiInputBase-formControl-315"
           >
             <div
               aria-haspopup="listbox"
-              aria-labelledby="platform-selector-id-label platform-selector-id"
-              class="MuiSelect-root-289 MuiSelect-select-290 MuiSelect-selectMenu-293 MuiSelect-outlined-292 MuiInputBase-input-326 MuiOutlinedInput-input-310 MuiInputBase-inputMarginDense-327 MuiOutlinedInput-inputMarginDense-311"
-              id="platform-selector-id"
+              aria-labelledby="platform-selector-id-label platform-selector"
+              class="MuiSelect-root-288 MuiSelect-select-289 MuiSelect-selectMenu-292 MuiSelect-outlined-291 MuiInputBase-input-325 MuiOutlinedInput-input-309"
+              id="platform-selector"
               role="button"
               tabindex="0"
             >
@@ -304,15 +301,14 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </div>
             <input
               aria-hidden="true"
-              class="MuiSelect-nativeInput-299"
+              class="MuiSelect-nativeInput-298"
               data-testid="platform-selector-input"
-              name="Platform"
               tabindex="-1"
               value=""
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-164 MuiSelect-icon-295 MuiSelect-iconOutlined-298"
+              class="MuiSvgIcon-root-164 MuiSelect-icon-294 MuiSelect-iconOutlined-297"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -322,10 +318,10 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-337 MuiOutlinedInput-notchedOutline-309"
+              class="PrivateNotchedOutline-root-336 MuiOutlinedInput-notchedOutline-308"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-339"
+                class="PrivateNotchedOutline-legendLabelled-338"
               >
                 <span>
                   Platform
@@ -339,24 +335,23 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
         class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
       >
         <div
-          class="MuiFormControl-root-265 MuiTextField-root-264 makeStyles-formControl-343"
+          class="MuiFormControl-root-264 makeStyles-formControl-342"
         >
           <label
-            class="MuiFormLabel-root-281 MuiInputLabel-root-269 MuiInputLabel-formControl-275 MuiInputLabel-animated-278 MuiInputLabel-marginDense-276 MuiInputLabel-outlined-280"
+            class="MuiFormLabel-root-280 MuiInputLabel-root-268 MuiInputLabel-formControl-274 MuiInputLabel-animated-277 MuiInputLabel-outlined-279"
             data-shrink="false"
-            for="rewards-selector-id"
             id="rewards-selector-id-label"
           >
             Rewards
           </label>
           <div
-            class="MuiInputBase-root-315 MuiOutlinedInput-root-300 MuiInputBase-formControl-316 MuiInputBase-marginDense-322 MuiOutlinedInput-marginDense-307"
+            class="MuiInputBase-root-314 MuiOutlinedInput-root-299 MuiInputBase-formControl-315"
           >
             <div
               aria-haspopup="listbox"
-              aria-labelledby="rewards-selector-id-label rewards-selector-id"
-              class="MuiSelect-root-289 MuiSelect-select-290 MuiSelect-selectMenu-293 MuiSelect-outlined-292 MuiInputBase-input-326 MuiOutlinedInput-input-310 MuiInputBase-inputMarginDense-327 MuiOutlinedInput-inputMarginDense-311"
-              id="rewards-selector-id"
+              aria-labelledby="rewards-selector-id-label rewards-selector"
+              class="MuiSelect-root-288 MuiSelect-select-289 MuiSelect-selectMenu-292 MuiSelect-outlined-291 MuiInputBase-input-325 MuiOutlinedInput-input-309"
+              id="rewards-selector"
               role="button"
               tabindex="0"
             >
@@ -366,14 +361,14 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </div>
             <input
               aria-hidden="true"
-              class="MuiSelect-nativeInput-299"
+              class="MuiSelect-nativeInput-298"
               data-testid="rewards-selector-input"
               tabindex="-1"
               value=""
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-164 MuiSelect-icon-295 MuiSelect-iconOutlined-298"
+              class="MuiSvgIcon-root-164 MuiSelect-icon-294 MuiSelect-iconOutlined-297"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -383,10 +378,10 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-337 MuiOutlinedInput-notchedOutline-309"
+              class="PrivateNotchedOutline-root-336 MuiOutlinedInput-notchedOutline-308"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-339"
+                class="PrivateNotchedOutline-legendLabelled-338"
               >
                 <span>
                   Rewards
@@ -400,25 +395,25 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
         class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67 MuiGrid-grid-md-true-95 MuiGrid-grid-lg-6-115"
       >
         <div
-          class="MuiFormControl-root-265 MuiTextField-root-264 makeStyles-root-345"
+          class="MuiFormControl-root-264 MuiTextField-root-346 makeStyles-root-344"
         >
           <div
-            class="MuiInputBase-root-315 MuiOutlinedInput-root-300 MuiInputBase-formControl-316 MuiInputBase-adornedEnd-320 MuiOutlinedInput-adornedEnd-305 MuiInputBase-marginDense-322 MuiOutlinedInput-marginDense-307"
+            class="MuiInputBase-root-314 MuiOutlinedInput-root-299 MuiInputBase-formControl-315 MuiInputBase-adornedEnd-319 MuiOutlinedInput-adornedEnd-304"
           >
             <input
               aria-invalid="false"
               aria-label="Vault Search"
-              class="MuiInputBase-input-326 MuiOutlinedInput-input-310 MuiInputBase-inputAdornedEnd-331 MuiOutlinedInput-inputAdornedEnd-314 MuiInputBase-inputMarginDense-327 MuiOutlinedInput-inputMarginDense-311"
+              class="MuiInputBase-input-325 MuiOutlinedInput-input-309 MuiInputBase-inputAdornedEnd-330 MuiOutlinedInput-inputAdornedEnd-313"
               placeholder="Search by vault name, token, rewards..."
               type="text"
               value=""
             />
             <div
-              class="MuiInputAdornment-root-347 MuiInputAdornment-positionEnd-350 MuiInputAdornment-marginDense-353"
+              class="MuiInputAdornment-root-347 MuiInputAdornment-positionEnd-350"
             >
               <button
                 aria-label="search"
-                class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-icon-346 MuiIconButton-sizeSmall-159"
+                class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-icon-345 MuiIconButton-sizeSmall-159"
                 tabindex="0"
                 type="button"
               >
@@ -443,11 +438,11 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </div>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-337 MuiOutlinedInput-notchedOutline-309"
+              class="PrivateNotchedOutline-root-336 MuiOutlinedInput-notchedOutline-308"
               style="padding-left: 8px;"
             >
               <legend
-                class="PrivateNotchedOutline-legend-338"
+                class="PrivateNotchedOutline-legend-337"
                 style="width: 0.01px;"
               >
                 <span>
@@ -798,40 +793,38 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               class="MuiGrid-root-33 makeStyles-select-357 MuiGrid-item-35"
             >
               <div
-                class="MuiFormControl-root-404 MuiTextField-root-403 makeStyles-formControl-401"
+                class="MuiFormControl-root-403 makeStyles-formControl-401"
               >
                 <label
-                  class="MuiFormLabel-root-420 MuiInputLabel-root-408 MuiInputLabel-formControl-414 MuiInputLabel-animated-417 MuiInputLabel-shrink-416 MuiInputLabel-marginDense-415 MuiInputLabel-outlined-419 MuiFormLabel-filled-425"
+                  class="MuiFormLabel-root-419 MuiInputLabel-root-407 MuiInputLabel-formControl-413 MuiInputLabel-animated-416 MuiInputLabel-shrink-415 MuiInputLabel-outlined-418 MuiFormLabel-filled-424"
                   data-shrink="true"
-                  for="status-selector-id"
                   id="status-selector-id-label"
                 >
                   Status
                 </label>
                 <div
-                  class="MuiInputBase-root-454 MuiOutlinedInput-root-439 MuiInputBase-formControl-455 MuiInputBase-marginDense-461 MuiOutlinedInput-marginDense-446"
+                  class="MuiInputBase-root-453 MuiOutlinedInput-root-438 MuiInputBase-formControl-454"
                 >
                   <div
                     aria-haspopup="listbox"
-                    aria-labelledby="status-selector-id-label status-selector-id"
-                    class="MuiSelect-root-428 MuiSelect-select-429 MuiSelect-selectMenu-432 MuiSelect-outlined-431 MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
-                    id="status-selector-id"
+                    aria-labelledby="status-selector-id-label status-selector"
+                    class="MuiSelect-root-427 MuiSelect-select-428 MuiSelect-selectMenu-431 MuiSelect-outlined-430 MuiInputBase-input-464 MuiOutlinedInput-input-448"
+                    id="status-selector"
                     role="button"
                     tabindex="0"
                   >
-                    guarded, experimental
+                    guarded,  experimental
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-438"
+                    class="MuiSelect-nativeInput-437"
                     data-testid="status-selector-input"
-                    name="Status"
                     tabindex="-1"
                     value="guarded,experimental"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-164 MuiSelect-icon-434 MuiSelect-iconOutlined-437"
+                    class="MuiSvgIcon-root-164 MuiSelect-icon-433 MuiSelect-iconOutlined-436"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -841,10 +834,10 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-476 MuiOutlinedInput-notchedOutline-448"
+                    class="PrivateNotchedOutline-root-475 MuiOutlinedInput-notchedOutline-447"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-478 PrivateNotchedOutline-legendNotched-479"
+                      class="PrivateNotchedOutline-legendLabelled-477 PrivateNotchedOutline-legendNotched-478"
                     >
                       <span>
                         Status
@@ -858,40 +851,38 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               class="MuiGrid-root-33 makeStyles-select-357 MuiGrid-item-35"
             >
               <div
-                class="MuiFormControl-root-404 MuiTextField-root-403 makeStyles-formControl-480"
+                class="MuiFormControl-root-403 makeStyles-formControl-479"
               >
                 <label
-                  class="MuiFormLabel-root-420 MuiInputLabel-root-408 MuiInputLabel-formControl-414 MuiInputLabel-animated-417 MuiInputLabel-shrink-416 MuiInputLabel-marginDense-415 MuiInputLabel-outlined-419 MuiFormLabel-filled-425"
+                  class="MuiFormLabel-root-419 MuiInputLabel-root-407 MuiInputLabel-formControl-413 MuiInputLabel-animated-416 MuiInputLabel-shrink-415 MuiInputLabel-outlined-418 MuiFormLabel-filled-424"
                   data-shrink="true"
-                  for="platform-selector-id"
                   id="platform-selector-id-label"
                 >
                   Platform
                 </label>
                 <div
-                  class="MuiInputBase-root-454 MuiOutlinedInput-root-439 MuiInputBase-formControl-455 MuiInputBase-marginDense-461 MuiOutlinedInput-marginDense-446"
+                  class="MuiInputBase-root-453 MuiOutlinedInput-root-438 MuiInputBase-formControl-454"
                 >
                   <div
                     aria-haspopup="listbox"
-                    aria-labelledby="platform-selector-id-label platform-selector-id"
-                    class="MuiSelect-root-428 MuiSelect-select-429 MuiSelect-selectMenu-432 MuiSelect-outlined-431 MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
-                    id="platform-selector-id"
+                    aria-labelledby="platform-selector-id-label platform-selector"
+                    class="MuiSelect-root-427 MuiSelect-select-428 MuiSelect-selectMenu-431 MuiSelect-outlined-430 MuiInputBase-input-464 MuiOutlinedInput-input-448"
+                    id="platform-selector"
                     role="button"
                     tabindex="0"
                   >
-                    Convex, Curve
+                    Convex,  Curve
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-438"
+                    class="MuiSelect-nativeInput-437"
                     data-testid="platform-selector-input"
-                    name="Platform"
                     tabindex="-1"
                     value="Convex,Curve"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-164 MuiSelect-icon-434 MuiSelect-iconOutlined-437"
+                    class="MuiSvgIcon-root-164 MuiSelect-icon-433 MuiSelect-iconOutlined-436"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -901,10 +892,10 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-476 MuiOutlinedInput-notchedOutline-448"
+                    class="PrivateNotchedOutline-root-475 MuiOutlinedInput-notchedOutline-447"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-478 PrivateNotchedOutline-legendNotched-479"
+                      class="PrivateNotchedOutline-legendLabelled-477 PrivateNotchedOutline-legendNotched-478"
                     >
                       <span>
                         Platform
@@ -918,39 +909,38 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               class="MuiGrid-root-33 makeStyles-select-357 MuiGrid-item-35"
             >
               <div
-                class="MuiFormControl-root-404 MuiTextField-root-403 makeStyles-formControl-482"
+                class="MuiFormControl-root-403 makeStyles-formControl-481"
               >
                 <label
-                  class="MuiFormLabel-root-420 MuiInputLabel-root-408 MuiInputLabel-formControl-414 MuiInputLabel-animated-417 MuiInputLabel-shrink-416 MuiInputLabel-marginDense-415 MuiInputLabel-outlined-419 MuiFormLabel-filled-425"
+                  class="MuiFormLabel-root-419 MuiInputLabel-root-407 MuiInputLabel-formControl-413 MuiInputLabel-animated-416 MuiInputLabel-shrink-415 MuiInputLabel-outlined-418 MuiFormLabel-filled-424"
                   data-shrink="true"
-                  for="rewards-selector-id"
                   id="rewards-selector-id-label"
                 >
                   Rewards
                 </label>
                 <div
-                  class="MuiInputBase-root-454 MuiOutlinedInput-root-439 MuiInputBase-formControl-455 MuiInputBase-marginDense-461 MuiOutlinedInput-marginDense-446"
+                  class="MuiInputBase-root-453 MuiOutlinedInput-root-438 MuiInputBase-formControl-454"
                 >
                   <div
                     aria-haspopup="listbox"
-                    aria-labelledby="rewards-selector-id-label rewards-selector-id"
-                    class="MuiSelect-root-428 MuiSelect-select-429 MuiSelect-selectMenu-432 MuiSelect-outlined-431 MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
-                    id="rewards-selector-id"
+                    aria-labelledby="rewards-selector-id-label rewards-selector"
+                    class="MuiSelect-root-427 MuiSelect-select-428 MuiSelect-selectMenu-431 MuiSelect-outlined-430 MuiInputBase-input-464 MuiOutlinedInput-input-448"
+                    id="rewards-selector"
                     role="button"
                     tabindex="0"
                   >
-                    DCA, Compounder
+                    DCA,  Compounder
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-438"
+                    class="MuiSelect-nativeInput-437"
                     data-testid="rewards-selector-input"
                     tabindex="-1"
                     value="DCA,Compounder"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-164 MuiSelect-icon-434 MuiSelect-iconOutlined-437"
+                    class="MuiSvgIcon-root-164 MuiSelect-icon-433 MuiSelect-iconOutlined-436"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -960,10 +950,10 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-476 MuiOutlinedInput-notchedOutline-448"
+                    class="PrivateNotchedOutline-root-475 MuiOutlinedInput-notchedOutline-447"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-478 PrivateNotchedOutline-legendNotched-479"
+                      class="PrivateNotchedOutline-legendLabelled-477 PrivateNotchedOutline-legendNotched-478"
                     >
                       <span>
                         Rewards
@@ -977,25 +967,25 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               class="MuiGrid-root-33 MuiGrid-item-35"
             >
               <div
-                class="MuiFormControl-root-404 MuiTextField-root-403 makeStyles-root-484"
+                class="MuiFormControl-root-403 MuiTextField-root-485 makeStyles-root-483"
               >
                 <div
-                  class="MuiInputBase-root-454 MuiOutlinedInput-root-439 MuiInputBase-formControl-455 MuiInputBase-adornedEnd-459 MuiOutlinedInput-adornedEnd-444 MuiInputBase-marginDense-461 MuiOutlinedInput-marginDense-446"
+                  class="MuiInputBase-root-453 MuiOutlinedInput-root-438 MuiInputBase-formControl-454 MuiInputBase-adornedEnd-458 MuiOutlinedInput-adornedEnd-443"
                 >
                   <input
                     aria-invalid="false"
                     aria-label="Vault Search"
-                    class="MuiInputBase-input-465 MuiOutlinedInput-input-449 MuiInputBase-inputAdornedEnd-470 MuiOutlinedInput-inputAdornedEnd-453 MuiInputBase-inputMarginDense-466 MuiOutlinedInput-inputMarginDense-450"
+                    class="MuiInputBase-input-464 MuiOutlinedInput-input-448 MuiInputBase-inputAdornedEnd-469 MuiOutlinedInput-inputAdornedEnd-452"
                     placeholder="Search by vault name, token, rewards..."
                     type="text"
                     value="bitcoin convex"
                   />
                   <div
-                    class="MuiInputAdornment-root-486 MuiInputAdornment-positionEnd-489 MuiInputAdornment-marginDense-492"
+                    class="MuiInputAdornment-root-486 MuiInputAdornment-positionEnd-489"
                   >
                     <button
                       aria-label="search"
-                      class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-icon-485 MuiIconButton-sizeSmall-159"
+                      class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-icon-484 MuiIconButton-sizeSmall-159"
                       tabindex="0"
                       type="button"
                     >
@@ -1020,11 +1010,11 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </div>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-476 MuiOutlinedInput-notchedOutline-448"
+                    class="PrivateNotchedOutline-root-475 MuiOutlinedInput-notchedOutline-447"
                     style="padding-left: 8px;"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legend-477"
+                      class="PrivateNotchedOutline-legend-476"
                       style="width: 0.01px;"
                     >
                       <span>
