@@ -105,6 +105,10 @@ export default class VaultStore {
 			count++;
 		}
 
+		if (this.vaultsFilters.types && this.vaultsFilters.types.length > 0) {
+			count++;
+		}
+
 		if (this.vaultsFilters.search) {
 			count++;
 		}
@@ -382,12 +386,7 @@ export default class VaultStore {
 			...this.vaultsFilters,
 			[filter]: value,
 		};
-		const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
-		const validParams = Object.entries(this.vaultsFilters).filter(([, value]) => !!value);
-		this.store.router.queryParams = {
-			...Object.fromEntries(nonFilterParams),
-			...Object.fromEntries(validParams),
-		};
+		this.store.router.queryParams = this.mergeQueryParamsWithFilters(queryParams);
 	});
 
 	openStatusInformationPanel = action(() => {
@@ -405,6 +404,20 @@ export default class VaultStore {
 	closeRewardsInformationPanel = action(() => {
 		this.showRewardsInformationPanel = false;
 	});
+
+	/**
+	 * It takes a queryParams object and returns a new object with the same properties, except that any properties that are
+	 * also in the vaultsFilters object are replaced with the value of the vaultsFilters object
+	 * @param queryParams - Record<string, any>
+	 */
+	mergeQueryParamsWithFilters(queryParams: Record<string, any>): Record<string, any> {
+		const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
+		const validParams = Object.entries(this.vaultsFilters).filter(([, value]) => !!value);
+		return {
+			...Object.fromEntries(nonFilterParams),
+			...Object.fromEntries(validParams),
+		};
+	}
 
 	clearFilters = action(() => {
 		const { queryParams = {} } = this.store.router;

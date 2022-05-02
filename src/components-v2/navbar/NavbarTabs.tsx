@@ -4,6 +4,8 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
 import { getNavbarConfig } from '../../config/navbar.config';
+import { QueryParams, Route } from 'mobx-router';
+import { RootStore } from '../../mobx/RootStore';
 
 const useStyles = makeStyles({
 	tab: {
@@ -31,12 +33,25 @@ const routeTabMapping = new Map(
 export const NavbarTabs = observer((): JSX.Element => {
 	const {
 		router,
+		vaults,
 		network: { network },
 	} = useContext(StoreContext);
 	const [selectedTab, setSelectedTab] = useState(routeTabMapping.get(getRootPath(router.currentPath)) ?? 0);
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
 	const config = getNavbarConfig(network.symbol);
+
+	const goToTab = (route: Route<RootStore, QueryParams>) => {
+		let queryParams: Record<string, any> = {
+			chain: router.queryParams?.chain,
+		};
+
+		if (route.path === routes.home.path && vaults.vaultsFiltersCount > 0) {
+			queryParams = vaults.mergeQueryParamsWithFilters(queryParams);
+		}
+
+		router.goTo(route, {}, queryParams);
+	};
 
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
 		setSelectedTab(newValue);
@@ -51,20 +66,18 @@ export const NavbarTabs = observer((): JSX.Element => {
 			onChange={handleChange}
 			classes={{ indicator: classes.indicator }}
 		>
-			<Tab classes={{ root: classes.tab }} label="VAULTS" onClick={() => router.goTo(routes.home)} />
+			<Tab classes={{ root: classes.tab }} label="VAULTS" onClick={() => goToTab(routes.home)} />
 			{config.boost && (
 				<Tab
 					classes={{ root: classes.tab }}
 					value={routes.boostOptimizer.path}
 					label="BOOST"
-					onClick={() => router.goTo(routes.boostOptimizer)}
+					onClick={() => goToTab(routes.boostOptimizer)}
 				/>
 			)}
-			{config.digg && (
-				<Tab classes={{ root: classes.tab }} label="DIGG" onClick={() => router.goTo(routes.digg)} />
-			)}
+			{config.digg && <Tab classes={{ root: classes.tab }} label="DIGG" onClick={() => goToTab(routes.digg)} />}
 			{config.ibBTC && (
-				<Tab classes={{ root: classes.tab }} label="IBBTC" onClick={() => router.goTo(routes.IbBTC)} />
+				<Tab classes={{ root: classes.tab }} label="IBBTC" onClick={() => goToTab(routes.IbBTC)} />
 			)}
 		</Tabs>
 	);

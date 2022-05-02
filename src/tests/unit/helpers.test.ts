@@ -1,4 +1,10 @@
-import { formatTokens, inCurrency, numberWithCommas, toFixedDecimals } from '../../mobx/utils/helpers';
+import {
+	formatTokens,
+	inCurrency,
+	numberWithCommas,
+	parseQueryMultipleParams,
+	toFixedDecimals,
+} from '../../mobx/utils/helpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
 import store from 'mobx/RootStore';
@@ -81,6 +87,20 @@ describe('helpers', () => {
 			[new BigNumber(0), 5, '0.00000'],
 		])('toFixedDecimals(%f, %i) returns %s', (value, decimals, expected) => {
 			expect(toFixedDecimals(value, decimals)).toBe(expected);
+		});
+	});
+
+	describe('parseQueryMultipleParams', () => {
+		test.each([
+			[undefined, undefined],
+			['', undefined],
+			['value', ['value']],
+			[
+				['value1', 'value2'],
+				['value1', 'value2'],
+			],
+		])('parseQueryMultipleParams(%s) returns %s', (query, expected) => {
+			expect(parseQueryMultipleParams(query)).toEqual(expected);
 		});
 	});
 });

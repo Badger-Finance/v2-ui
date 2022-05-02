@@ -177,24 +177,23 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiFormControl-root-274 MuiTextField-root-273 makeStyles-formControl-271"
+            class="MuiFormControl-root-273 makeStyles-formControl-271"
           >
             <label
-              class="MuiFormLabel-root-290 MuiInputLabel-root-278 MuiInputLabel-formControl-284 MuiInputLabel-animated-287 MuiInputLabel-marginDense-285 MuiInputLabel-outlined-289"
+              class="MuiFormLabel-root-289 MuiInputLabel-root-277 MuiInputLabel-formControl-283 MuiInputLabel-animated-286 MuiInputLabel-outlined-288"
               data-shrink="false"
-              for="status-selector-id"
               id="status-selector-id-label"
             >
               Status
             </label>
             <div
-              class="MuiInputBase-root-324 MuiOutlinedInput-root-309 MuiInputBase-formControl-325 MuiInputBase-marginDense-331 MuiOutlinedInput-marginDense-316"
+              class="MuiInputBase-root-323 MuiOutlinedInput-root-308 MuiInputBase-formControl-324"
             >
               <div
                 aria-haspopup="listbox"
-                aria-labelledby="status-selector-id-label status-selector-id"
-                class="MuiSelect-root-298 MuiSelect-select-299 MuiSelect-selectMenu-302 MuiSelect-outlined-301 MuiInputBase-input-335 MuiOutlinedInput-input-319 MuiInputBase-inputMarginDense-336 MuiOutlinedInput-inputMarginDense-320"
-                id="status-selector-id"
+                aria-labelledby="status-selector-id-label status-selector"
+                class="MuiSelect-root-297 MuiSelect-select-298 MuiSelect-selectMenu-301 MuiSelect-outlined-300 MuiInputBase-input-334 MuiOutlinedInput-input-318"
+                id="status-selector"
                 role="button"
                 tabindex="0"
               >
@@ -204,15 +203,14 @@ exports[`Landing Renders correctly 1`] = `
               </div>
               <input
                 aria-hidden="true"
-                class="MuiSelect-nativeInput-308"
+                class="MuiSelect-nativeInput-307"
                 data-testid="status-selector-input"
-                name="Status"
                 tabindex="-1"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-174 MuiSelect-icon-304 MuiSelect-iconOutlined-307"
+                class="MuiSvgIcon-root-174 MuiSelect-icon-303 MuiSelect-iconOutlined-306"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -222,10 +220,10 @@ exports[`Landing Renders correctly 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-346 MuiOutlinedInput-notchedOutline-318"
+                class="PrivateNotchedOutline-root-345 MuiOutlinedInput-notchedOutline-317"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-348"
+                  class="PrivateNotchedOutline-legendLabelled-347"
                 >
                   <span>
                     Status
@@ -239,24 +237,23 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiFormControl-root-274 MuiTextField-root-273 makeStyles-formControl-350"
+            class="MuiFormControl-root-273 makeStyles-formControl-349"
           >
             <label
-              class="MuiFormLabel-root-290 MuiInputLabel-root-278 MuiInputLabel-formControl-284 MuiInputLabel-animated-287 MuiInputLabel-marginDense-285 MuiInputLabel-outlined-289"
+              class="MuiFormLabel-root-289 MuiInputLabel-root-277 MuiInputLabel-formControl-283 MuiInputLabel-animated-286 MuiInputLabel-outlined-288"
               data-shrink="false"
-              for="platform-selector-id"
               id="platform-selector-id-label"
             >
               Platform
             </label>
             <div
-              class="MuiInputBase-root-324 MuiOutlinedInput-root-309 MuiInputBase-formControl-325 MuiInputBase-marginDense-331 MuiOutlinedInput-marginDense-316"
+              class="MuiInputBase-root-323 MuiOutlinedInput-root-308 MuiInputBase-formControl-324"
             >
               <div
                 aria-haspopup="listbox"
-                aria-labelledby="platform-selector-id-label platform-selector-id"
-                class="MuiSelect-root-298 MuiSelect-select-299 MuiSelect-selectMenu-302 MuiSelect-outlined-301 MuiInputBase-input-335 MuiOutlinedInput-input-319 MuiInputBase-inputMarginDense-336 MuiOutlinedInput-inputMarginDense-320"
-                id="platform-selector-id"
+                aria-labelledby="platform-selector-id-label platform-selector"
+                class="MuiSelect-root-297 MuiSelect-select-298 MuiSelect-selectMenu-301 MuiSelect-outlined-300 MuiInputBase-input-334 MuiOutlinedInput-input-318"
+                id="platform-selector"
                 role="button"
                 tabindex="0"
               >
@@ -266,15 +263,14 @@ exports[`Landing Renders correctly 1`] = `
               </div>
               <input
                 aria-hidden="true"
-                class="MuiSelect-nativeInput-308"
+                class="MuiSelect-nativeInput-307"
                 data-testid="platform-selector-input"
-                name="Platform"
                 tabindex="-1"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-174 MuiSelect-icon-304 MuiSelect-iconOutlined-307"
+                class="MuiSvgIcon-root-174 MuiSelect-icon-303 MuiSelect-iconOutlined-306"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -284,10 +280,10 @@ exports[`Landing Renders correctly 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-346 MuiOutlinedInput-notchedOutline-318"
+                class="PrivateNotchedOutline-root-345 MuiOutlinedInput-notchedOutline-317"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-348"
+                  class="PrivateNotchedOutline-legendLabelled-347"
                 >
                   <span>
                     Platform
@@ -301,24 +297,23 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiFormControl-root-274 MuiTextField-root-273 makeStyles-formControl-352"
+            class="MuiFormControl-root-273 makeStyles-formControl-351"
           >
             <label
-              class="MuiFormLabel-root-290 MuiInputLabel-root-278 MuiInputLabel-formControl-284 MuiInputLabel-animated-287 MuiInputLabel-marginDense-285 MuiInputLabel-outlined-289"
+              class="MuiFormLabel-root-289 MuiInputLabel-root-277 MuiInputLabel-formControl-283 MuiInputLabel-animated-286 MuiInputLabel-outlined-288"
               data-shrink="false"
-              for="rewards-selector-id"
               id="rewards-selector-id-label"
             >
               Rewards
             </label>
             <div
-              class="MuiInputBase-root-324 MuiOutlinedInput-root-309 MuiInputBase-formControl-325 MuiInputBase-marginDense-331 MuiOutlinedInput-marginDense-316"
+              class="MuiInputBase-root-323 MuiOutlinedInput-root-308 MuiInputBase-formControl-324"
             >
               <div
                 aria-haspopup="listbox"
-                aria-labelledby="rewards-selector-id-label rewards-selector-id"
-                class="MuiSelect-root-298 MuiSelect-select-299 MuiSelect-selectMenu-302 MuiSelect-outlined-301 MuiInputBase-input-335 MuiOutlinedInput-input-319 MuiInputBase-inputMarginDense-336 MuiOutlinedInput-inputMarginDense-320"
-                id="rewards-selector-id"
+                aria-labelledby="rewards-selector-id-label rewards-selector"
+                class="MuiSelect-root-297 MuiSelect-select-298 MuiSelect-selectMenu-301 MuiSelect-outlined-300 MuiInputBase-input-334 MuiOutlinedInput-input-318"
+                id="rewards-selector"
                 role="button"
                 tabindex="0"
               >
@@ -328,14 +323,14 @@ exports[`Landing Renders correctly 1`] = `
               </div>
               <input
                 aria-hidden="true"
-                class="MuiSelect-nativeInput-308"
+                class="MuiSelect-nativeInput-307"
                 data-testid="rewards-selector-input"
                 tabindex="-1"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-174 MuiSelect-icon-304 MuiSelect-iconOutlined-307"
+                class="MuiSvgIcon-root-174 MuiSelect-icon-303 MuiSelect-iconOutlined-306"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -345,10 +340,10 @@ exports[`Landing Renders correctly 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-346 MuiOutlinedInput-notchedOutline-318"
+                class="PrivateNotchedOutline-root-345 MuiOutlinedInput-notchedOutline-317"
               >
                 <legend
-                  class="PrivateNotchedOutline-legendLabelled-348"
+                  class="PrivateNotchedOutline-legendLabelled-347"
                 >
                   <span>
                     Rewards
@@ -362,25 +357,25 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-item-45 MuiGrid-grid-xs-true-77 MuiGrid-grid-md-true-105 MuiGrid-grid-lg-6-125"
         >
           <div
-            class="MuiFormControl-root-274 MuiTextField-root-273 makeStyles-root-354"
+            class="MuiFormControl-root-273 MuiTextField-root-355 makeStyles-root-353"
           >
             <div
-              class="MuiInputBase-root-324 MuiOutlinedInput-root-309 MuiInputBase-formControl-325 MuiInputBase-adornedEnd-329 MuiOutlinedInput-adornedEnd-314 MuiInputBase-marginDense-331 MuiOutlinedInput-marginDense-316"
+              class="MuiInputBase-root-323 MuiOutlinedInput-root-308 MuiInputBase-formControl-324 MuiInputBase-adornedEnd-328 MuiOutlinedInput-adornedEnd-313"
             >
               <input
                 aria-invalid="false"
                 aria-label="Vault Search"
-                class="MuiInputBase-input-335 MuiOutlinedInput-input-319 MuiInputBase-inputAdornedEnd-340 MuiOutlinedInput-inputAdornedEnd-323 MuiInputBase-inputMarginDense-336 MuiOutlinedInput-inputMarginDense-320"
+                class="MuiInputBase-input-334 MuiOutlinedInput-input-318 MuiInputBase-inputAdornedEnd-339 MuiOutlinedInput-inputAdornedEnd-322"
                 placeholder="Search by vault name, token, rewards..."
                 type="text"
                 value=""
               />
               <div
-                class="MuiInputAdornment-root-356 MuiInputAdornment-positionEnd-359 MuiInputAdornment-marginDense-362"
+                class="MuiInputAdornment-root-356 MuiInputAdornment-positionEnd-359"
               >
                 <button
                   aria-label="search"
-                  class="MuiButtonBase-root-171 MuiIconButton-root-162 makeStyles-icon-355 MuiIconButton-sizeSmall-169"
+                  class="MuiButtonBase-root-171 MuiIconButton-root-162 makeStyles-icon-354 MuiIconButton-sizeSmall-169"
                   tabindex="0"
                   type="button"
                 >
@@ -405,11 +400,11 @@ exports[`Landing Renders correctly 1`] = `
               </div>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-346 MuiOutlinedInput-notchedOutline-318"
+                class="PrivateNotchedOutline-root-345 MuiOutlinedInput-notchedOutline-317"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-347"
+                  class="PrivateNotchedOutline-legend-346"
                   style="width: 0.01px;"
                 >
                   <span>
