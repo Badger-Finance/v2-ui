@@ -10,6 +10,7 @@ import { NotFound } from '../components-v2/common/NotFound';
 import Governance from 'components/Governance';
 import { Currency, Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
+import { parseQueryMultipleParams } from '../mobx/utils/helpers';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -24,10 +25,10 @@ const routes = {
 				currency: (queryParams['currency'] as Currency) ?? store.uiState.currency,
 				sortOrder: (queryParams['sortOrder'] as VaultSortOrder) ?? undefined,
 				search: (queryParams['search'] as string) ?? undefined,
-				protocols: queryParams['protocols'] as Protocol[],
-				types: queryParams['types'] as VaultType[],
-				statuses: queryParams['statuses'] as VaultState[],
-				behaviors: queryParams['behaviors'] as VaultBehavior[],
+				protocols: parseQueryMultipleParams<Protocol>(queryParams['protocols']),
+				types: parseQueryMultipleParams<VaultType>(queryParams['types']),
+				statuses: parseQueryMultipleParams<VaultState>(queryParams['statuses']),
+				behaviors: parseQueryMultipleParams<VaultBehavior>(queryParams['behaviors']),
 			};
 		},
 	}),
