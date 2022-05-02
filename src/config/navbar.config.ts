@@ -1,5 +1,4 @@
-import { Network, NetworkConfig } from '@badger-dao/sdk';
-import { FLAGS } from 'config/environment';
+import { Network, getNetworkConfig } from '@badger-dao/sdk';
 import { isSupportedNetwork } from 'config/wallets';
 import { NavbarConfig } from './interfaces/navbar-config.interface';
 
@@ -10,7 +9,6 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		ibBTC: true,
 		bridge: false,
 		boost: true,
-		auction: true,
 	},
 	[Network.Ethereum]: {
 		cycle: true,
@@ -18,7 +16,6 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		ibBTC: true,
 		bridge: false,
 		boost: true,
-		auction: FLAGS.CITADEL_SALE,
 	},
 	[Network.Arbitrum]: {
 		cycle: true,
@@ -26,7 +23,6 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: true,
-		auction: false,
 	},
 	[Network.Avalanche]: {
 		cycle: false,
@@ -34,7 +30,6 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		auction: false,
 	},
 	[Network.BinanceSmartChain]: {
 		cycle: false,
@@ -42,7 +37,6 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		auction: false,
 	},
 	[Network.Polygon]: {
 		cycle: true,
@@ -50,7 +44,6 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		auction: false,
 	},
 	[Network.Fantom]: {
 		cycle: false,
@@ -58,23 +51,14 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		ibBTC: false,
 		bridge: false,
 		boost: false,
-		auction: false,
-	},
-	[Network.xDai]: {
-		cycle: false,
-		digg: false,
-		ibBTC: false,
-		bridge: false,
-		boost: false,
-		auction: false,
 	},
 };
 
 export function getNavbarConfig(network?: Network): NavbarConfig {
 	let chain = Network.Ethereum;
 	try {
-		const config = NetworkConfig.getConfig(network ?? chain);
-		if (isSupportedNetwork(config.id)) {
+		const config = getNetworkConfig(network ?? chain);
+		if (isSupportedNetwork(config.chainId)) {
 			return navbarConfig[config.network];
 		}
 	} catch {} // ignore network not found error - defaults to ethereum

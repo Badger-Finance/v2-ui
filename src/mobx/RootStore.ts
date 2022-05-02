@@ -14,15 +14,13 @@ import { NetworkStore } from './stores/NetworkStore';
 import { VaultDetailStore } from './stores/VaultDetail.store';
 import { VaultChartsStore } from './stores/VaultChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerSDK, SDKProvider } from '@badger-dao/sdk';
+import { BadgerSDK, SDKProvider, getNetworkConfig } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
-import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
-import BondStore from './stores/BondStore';
 import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
 import { GovernancePortalStore } from './stores/GovernancePortalStore';
@@ -46,7 +44,6 @@ export class RootStore {
 	public vaultCharts: VaultChartsStore;
 	public lockedCvxDelegation: LockedCvxDelegationStore;
 	public gasPrices: GasPricesStore;
-	public bondStore: BondStore;
 	public governancePortal: GovernancePortalStore;
 	public lockedDeposits: LockedDepositsStore;
 
@@ -57,7 +54,7 @@ export class RootStore {
 			provider: rpc[defaultNetwork.symbol],
 			baseURL: BADGER_API,
 		});
-		const config = NetworkConfig.getConfig(defaultNetwork.id);
+		const config = getNetworkConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
 		this.onboard = new OnboardStore(this, config);
 		this.network = new NetworkStore(this);
@@ -74,7 +71,6 @@ export class RootStore {
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
 		this.gasPrices = new GasPricesStore(this);
 		this.ibBTCStore = new IbBTCStore(this);
-		this.bondStore = new BondStore(this);
 		this.governancePortal = new GovernancePortalStore(this);
 		this.lockedDeposits = new LockedDepositsStore(this);
 	}
@@ -115,7 +111,7 @@ export class RootStore {
 		}
 
 		if (signer && address) {
-			const config = NetworkConfig.getConfig(network.id);
+			const config = getNetworkConfig(network.id);
 
 			const updateActions = [
 				this.user.loadAccountDetails(address),
@@ -125,12 +121,8 @@ export class RootStore {
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
 				// handle per page reloads, when init route is skipped
-				if (this.router.currentPath === routes.IbBTC.path) {
+				if (this.router.currentRoute?.path === routes.IbBTC.path) {
 					updateActions.push(this.ibBTCStore.init());
-				}
-
-				if (this.router.currentPath === routes.citadel.path) {
-					updateActions.push(this.bondStore.updateBonds());
 				}
 			}
 

@@ -250,24 +250,23 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
               class="MuiGrid-root-54 makeStyles-select-4 MuiGrid-item-56"
             >
               <div
-                class="MuiFormControl-root-237 MuiTextField-root-236 makeStyles-formControl-234"
+                class="MuiFormControl-root-236 makeStyles-formControl-234"
               >
                 <label
-                  class="MuiFormLabel-root-253 MuiInputLabel-root-241 MuiInputLabel-formControl-247 MuiInputLabel-animated-250 MuiInputLabel-marginDense-248 MuiInputLabel-outlined-252"
+                  class="MuiFormLabel-root-252 MuiInputLabel-root-240 MuiInputLabel-formControl-246 MuiInputLabel-animated-249 MuiInputLabel-outlined-251"
                   data-shrink="false"
-                  for="status-selector-id"
                   id="status-selector-id-label"
                 >
                   Status
                 </label>
                 <div
-                  class="MuiInputBase-root-287 MuiOutlinedInput-root-272 MuiInputBase-formControl-288 MuiInputBase-marginDense-294 MuiOutlinedInput-marginDense-279"
+                  class="MuiInputBase-root-286 MuiOutlinedInput-root-271 MuiInputBase-formControl-287"
                 >
                   <div
                     aria-haspopup="listbox"
-                    aria-labelledby="status-selector-id-label status-selector-id"
-                    class="MuiSelect-root-261 MuiSelect-select-262 MuiSelect-selectMenu-265 MuiSelect-outlined-264 MuiInputBase-input-298 MuiOutlinedInput-input-282 MuiInputBase-inputMarginDense-299 MuiOutlinedInput-inputMarginDense-283"
-                    id="status-selector-id"
+                    aria-labelledby="status-selector-id-label status-selector"
+                    class="MuiSelect-root-260 MuiSelect-select-261 MuiSelect-selectMenu-264 MuiSelect-outlined-263 MuiInputBase-input-297 MuiOutlinedInput-input-281"
+                    id="status-selector"
                     role="button"
                     tabindex="0"
                   >
@@ -277,15 +276,14 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-271"
+                    class="MuiSelect-nativeInput-270"
                     data-testid="status-selector-input"
-                    name="Status"
                     tabindex="-1"
                     value=""
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-199 MuiSelect-icon-267 MuiSelect-iconOutlined-270"
+                    class="MuiSvgIcon-root-199 MuiSelect-icon-266 MuiSelect-iconOutlined-269"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -295,10 +293,10 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-309 MuiOutlinedInput-notchedOutline-281"
+                    class="PrivateNotchedOutline-root-308 MuiOutlinedInput-notchedOutline-280"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-311"
+                      class="PrivateNotchedOutline-legendLabelled-310"
                     >
                       <span>
                         Status
@@ -312,24 +310,23 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
               class="MuiGrid-root-54 makeStyles-select-4 MuiGrid-item-56"
             >
               <div
-                class="MuiFormControl-root-237 MuiTextField-root-236 makeStyles-formControl-313"
+                class="MuiFormControl-root-236 makeStyles-formControl-312"
               >
                 <label
-                  class="MuiFormLabel-root-253 MuiInputLabel-root-241 MuiInputLabel-formControl-247 MuiInputLabel-animated-250 MuiInputLabel-marginDense-248 MuiInputLabel-outlined-252"
+                  class="MuiFormLabel-root-252 MuiInputLabel-root-240 MuiInputLabel-formControl-246 MuiInputLabel-animated-249 MuiInputLabel-outlined-251"
                   data-shrink="false"
-                  for="platform-selector-id"
                   id="platform-selector-id-label"
                 >
                   Platform
                 </label>
                 <div
-                  class="MuiInputBase-root-287 MuiOutlinedInput-root-272 MuiInputBase-formControl-288 MuiInputBase-marginDense-294 MuiOutlinedInput-marginDense-279"
+                  class="MuiInputBase-root-286 MuiOutlinedInput-root-271 MuiInputBase-formControl-287"
                 >
                   <div
                     aria-haspopup="listbox"
-                    aria-labelledby="platform-selector-id-label platform-selector-id"
-                    class="MuiSelect-root-261 MuiSelect-select-262 MuiSelect-selectMenu-265 MuiSelect-outlined-264 MuiInputBase-input-298 MuiOutlinedInput-input-282 MuiInputBase-inputMarginDense-299 MuiOutlinedInput-inputMarginDense-283"
-                    id="platform-selector-id"
+                    aria-labelledby="platform-selector-id-label platform-selector"
+                    class="MuiSelect-root-260 MuiSelect-select-261 MuiSelect-selectMenu-264 MuiSelect-outlined-263 MuiInputBase-input-297 MuiOutlinedInput-input-281"
+                    id="platform-selector"
                     role="button"
                     tabindex="0"
                   >
@@ -339,15 +336,14 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-271"
+                    class="MuiSelect-nativeInput-270"
                     data-testid="platform-selector-input"
-                    name="Platform"
                     tabindex="-1"
                     value=""
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-199 MuiSelect-icon-267 MuiSelect-iconOutlined-270"
+                    class="MuiSvgIcon-root-199 MuiSelect-icon-266 MuiSelect-iconOutlined-269"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -357,10 +353,10 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-309 MuiOutlinedInput-notchedOutline-281"
+                    class="PrivateNotchedOutline-root-308 MuiOutlinedInput-notchedOutline-280"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-311"
+                      class="PrivateNotchedOutline-legendLabelled-310"
                     >
                       <span>
                         Platform
@@ -374,24 +370,23 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
               class="MuiGrid-root-54 makeStyles-select-4 MuiGrid-item-56"
             >
               <div
-                class="MuiFormControl-root-237 MuiTextField-root-236 makeStyles-formControl-315"
+                class="MuiFormControl-root-236 makeStyles-formControl-314"
               >
                 <label
-                  class="MuiFormLabel-root-253 MuiInputLabel-root-241 MuiInputLabel-formControl-247 MuiInputLabel-animated-250 MuiInputLabel-marginDense-248 MuiInputLabel-outlined-252"
+                  class="MuiFormLabel-root-252 MuiInputLabel-root-240 MuiInputLabel-formControl-246 MuiInputLabel-animated-249 MuiInputLabel-outlined-251"
                   data-shrink="false"
-                  for="rewards-selector-id"
                   id="rewards-selector-id-label"
                 >
                   Rewards
                 </label>
                 <div
-                  class="MuiInputBase-root-287 MuiOutlinedInput-root-272 MuiInputBase-formControl-288 MuiInputBase-marginDense-294 MuiOutlinedInput-marginDense-279"
+                  class="MuiInputBase-root-286 MuiOutlinedInput-root-271 MuiInputBase-formControl-287"
                 >
                   <div
                     aria-haspopup="listbox"
-                    aria-labelledby="rewards-selector-id-label rewards-selector-id"
-                    class="MuiSelect-root-261 MuiSelect-select-262 MuiSelect-selectMenu-265 MuiSelect-outlined-264 MuiInputBase-input-298 MuiOutlinedInput-input-282 MuiInputBase-inputMarginDense-299 MuiOutlinedInput-inputMarginDense-283"
-                    id="rewards-selector-id"
+                    aria-labelledby="rewards-selector-id-label rewards-selector"
+                    class="MuiSelect-root-260 MuiSelect-select-261 MuiSelect-selectMenu-264 MuiSelect-outlined-263 MuiInputBase-input-297 MuiOutlinedInput-input-281"
+                    id="rewards-selector"
                     role="button"
                     tabindex="0"
                   >
@@ -401,14 +396,14 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-271"
+                    class="MuiSelect-nativeInput-270"
                     data-testid="rewards-selector-input"
                     tabindex="-1"
                     value=""
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-199 MuiSelect-icon-267 MuiSelect-iconOutlined-270"
+                    class="MuiSvgIcon-root-199 MuiSelect-icon-266 MuiSelect-iconOutlined-269"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -418,10 +413,10 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-309 MuiOutlinedInput-notchedOutline-281"
+                    class="PrivateNotchedOutline-root-308 MuiOutlinedInput-notchedOutline-280"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-311"
+                      class="PrivateNotchedOutline-legendLabelled-310"
                     >
                       <span>
                         Rewards
@@ -435,25 +430,25 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
               class="MuiGrid-root-54 MuiGrid-item-56"
             >
               <div
-                class="MuiFormControl-root-237 MuiTextField-root-236 makeStyles-root-317"
+                class="MuiFormControl-root-236 MuiTextField-root-318 makeStyles-root-316"
               >
                 <div
-                  class="MuiInputBase-root-287 MuiOutlinedInput-root-272 MuiInputBase-formControl-288 MuiInputBase-adornedEnd-292 MuiOutlinedInput-adornedEnd-277 MuiInputBase-marginDense-294 MuiOutlinedInput-marginDense-279"
+                  class="MuiInputBase-root-286 MuiOutlinedInput-root-271 MuiInputBase-formControl-287 MuiInputBase-adornedEnd-291 MuiOutlinedInput-adornedEnd-276"
                 >
                   <input
                     aria-invalid="false"
                     aria-label="Vault Search"
-                    class="MuiInputBase-input-298 MuiOutlinedInput-input-282 MuiInputBase-inputAdornedEnd-303 MuiOutlinedInput-inputAdornedEnd-286 MuiInputBase-inputMarginDense-299 MuiOutlinedInput-inputMarginDense-283"
+                    class="MuiInputBase-input-297 MuiOutlinedInput-input-281 MuiInputBase-inputAdornedEnd-302 MuiOutlinedInput-inputAdornedEnd-285"
                     placeholder="Search by vault name, token, rewards..."
                     type="text"
                     value=""
                   />
                   <div
-                    class="MuiInputAdornment-root-319 MuiInputAdornment-positionEnd-322 MuiInputAdornment-marginDense-325"
+                    class="MuiInputAdornment-root-319 MuiInputAdornment-positionEnd-322"
                   >
                     <button
                       aria-label="search"
-                      class="MuiButtonBase-root-196 MuiIconButton-root-187 makeStyles-icon-318 MuiIconButton-sizeSmall-194"
+                      class="MuiButtonBase-root-196 MuiIconButton-root-187 makeStyles-icon-317 MuiIconButton-sizeSmall-194"
                       tabindex="0"
                       type="button"
                     >
@@ -478,11 +473,11 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   </div>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-309 MuiOutlinedInput-notchedOutline-281"
+                    class="PrivateNotchedOutline-root-308 MuiOutlinedInput-notchedOutline-280"
                     style="padding-left: 8px;"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legend-310"
+                      class="PrivateNotchedOutline-legend-309"
                       style="width: 0.01px;"
                     >
                       <span>

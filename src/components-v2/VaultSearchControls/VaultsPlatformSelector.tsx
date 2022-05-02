@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { Checkbox, ListItemText, makeStyles, MenuItem, TextField } from '@material-ui/core';
+import { Checkbox, FormControl, InputLabel, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { Protocol } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
@@ -30,34 +30,29 @@ const VaultsPlatformSelector = ({ platforms = [], onChange }: Props): JSX.Elemen
 	};
 
 	return (
-		<TextField
-			select
-			variant="outlined"
-			size="small"
-			value={platforms}
-			defaultValue=""
-			onChange={handleChange}
-			label="Platform"
-			id="platform-selector-id"
-			name="Platform"
-			color="primary"
-			className={classes.formControl}
-			SelectProps={{
-				multiple: true,
-				renderValue: (selected) => (selected as string[]).join(', '),
-			}}
-			inputProps={{ 'data-testid': 'platform-selector-input' }}
-		>
-			<MenuItem disabled value="">
-				<em>Platform</em>
-			</MenuItem>
-			{vaultsProtocols.map((protocol: Protocol) => (
-				<MenuItem className={classes.capitalized} key={protocol} value={protocol}>
-					<Checkbox color="primary" checked={platforms.indexOf(protocol) > -1} />
-					<ListItemText primary={protocol} />
+		<FormControl variant="outlined" className={classes.formControl} color="primary">
+			<InputLabel id="platform-selector-id-label">Platform</InputLabel>
+			<Select
+				multiple
+				labelId="platform-selector-id-label"
+				id="platform-selector"
+				value={platforms}
+				onChange={handleChange}
+				label="Platform"
+				inputProps={{ 'data-testid': 'platform-selector-input' }}
+				renderValue={(selected) => (selected as string[]).join(',  ')}
+			>
+				<MenuItem disabled value="">
+					<em>Platform</em>
 				</MenuItem>
-			))}
-		</TextField>
+				{vaultsProtocols.map((protocol: Protocol) => (
+					<MenuItem className={classes.capitalized} key={protocol} value={protocol}>
+						<Checkbox color="primary" checked={platforms.indexOf(protocol) > -1} />
+						<ListItemText primary={protocol} />
+					</MenuItem>
+				))}
+			</Select>
+		</FormControl>
 	);
 };
 

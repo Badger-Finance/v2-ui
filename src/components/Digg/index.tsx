@@ -10,7 +10,7 @@ import { Network } from '@badger-dao/sdk';
 const useStyles = makeStyles((theme) => ({
 	diggContainer: {
 		marginTop: theme.spacing(2),
-	}
+	},
 }));
 
 export const Digg = observer(() => {
