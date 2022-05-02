@@ -17,19 +17,21 @@ const routes = {
 		path: '/',
 		component: <Landing />,
 		onEnter: (route, params, store, queryParams: Record<string, any>) => {
-			store.vaults.vaultsFilters = {
-				hidePortfolioDust: Boolean(queryParams['hidePortfolioDust']),
-				showAPR: Boolean(queryParams['showAPR']),
-				onlyDeposits: Boolean(queryParams['onlyDeposits']),
-				onlyBoostedVaults: Boolean(queryParams['onlyBoostedVaults']),
-				currency: (queryParams['currency'] as Currency) ?? store.uiState.currency,
-				sortOrder: (queryParams['sortOrder'] as VaultSortOrder) ?? undefined,
-				search: (queryParams['search'] as string) ?? undefined,
-				protocols: parseQueryMultipleParams<Protocol>(queryParams['protocols']),
-				types: parseQueryMultipleParams<VaultType>(queryParams['types']),
-				statuses: parseQueryMultipleParams<VaultState>(queryParams['statuses']),
-				behaviors: parseQueryMultipleParams<VaultBehavior>(queryParams['behaviors']),
-			};
+			if (queryParams) {
+				store.vaults.vaultsFilters = {
+					hidePortfolioDust: Boolean(queryParams['hidePortfolioDust']),
+					showAPR: Boolean(queryParams['showAPR']),
+					onlyDeposits: Boolean(queryParams['onlyDeposits']),
+					onlyBoostedVaults: Boolean(queryParams['onlyBoostedVaults']),
+					currency: (queryParams['currency'] as Currency) ?? store.uiState.currency,
+					sortOrder: (queryParams['sortOrder'] as VaultSortOrder) ?? undefined,
+					search: (queryParams['search'] as string) ?? undefined,
+					protocols: parseQueryMultipleParams<Protocol>(queryParams['protocols']),
+					types: parseQueryMultipleParams<VaultType>(queryParams['types']),
+					statuses: parseQueryMultipleParams<VaultState>(queryParams['statuses']),
+					behaviors: parseQueryMultipleParams<VaultBehavior>(queryParams['behaviors']),
+				};
+			}
 		},
 	}),
 	notFound: new Route<RootStore, QueryParams>({
