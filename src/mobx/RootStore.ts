@@ -21,7 +21,6 @@ import { OnboardStore } from './stores/OnboardStore';
 import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
 import routes from 'config/routes';
-import BondStore from './stores/BondStore';
 import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
 import { GovernancePortalStore } from './stores/GovernancePortalStore';
@@ -45,7 +44,6 @@ export class RootStore {
 	public vaultCharts: VaultChartsStore;
 	public lockedCvxDelegation: LockedCvxDelegationStore;
 	public gasPrices: GasPricesStore;
-	public bondStore: BondStore;
 	public governancePortal: GovernancePortalStore;
 	public lockedDeposits: LockedDepositsStore;
 
@@ -73,7 +71,6 @@ export class RootStore {
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
 		this.gasPrices = new GasPricesStore(this);
 		this.ibBTCStore = new IbBTCStore(this);
-		this.bondStore = new BondStore(this);
 		this.governancePortal = new GovernancePortalStore(this);
 		this.lockedDeposits = new LockedDepositsStore(this);
 	}
@@ -126,10 +123,6 @@ export class RootStore {
 				// handle per page reloads, when init route is skipped
 				if (this.router.currentRoute?.path === routes.IbBTC.path) {
 					updateActions.push(this.ibBTCStore.init());
-				}
-
-				if (this.router.currentRoute?.path === routes.citadel.path) {
-					updateActions.push(this.bondStore.updateBonds());
 				}
 			}
 

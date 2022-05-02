@@ -5,7 +5,6 @@ import { RootStore } from '../mobx/RootStore';
 import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
 import { IbBTC } from 'components/IbBTC';
-import CitadelEarlyBonding from 'pages/CitadelEarlyBonding';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
 import Governance from 'components/Governance';
@@ -52,11 +51,6 @@ const routes = {
 		path: '/ibBTC',
 		component: <IbBTC />,
 		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
-	}),
-	citadel: new Route<RootStore, QueryParams>({
-		path: '/citadel',
-		component: <CitadelEarlyBonding />,
-		onEnter: (_route, _params, store) => store.bondStore.updateBonds(),
 	}),
 	vaultDetail: new Route<RootStore, QueryParams>({
 		path: '/vault/:vaultName',
