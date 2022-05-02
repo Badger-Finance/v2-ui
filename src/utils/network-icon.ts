@@ -6,7 +6,6 @@ const networkIcons: Record<Network, string> = {
 	[Network.BinanceSmartChain]: 'bsc-network.svg',
 	[Network.Arbitrum]: 'arbitrum-network.svg',
 	[Network.Polygon]: 'matic-network.svg',
-	[Network.xDai]: 'xdai-network.svg',
 	[Network.Avalanche]: 'avalanche-network.svg',
 	[Network.Fantom]: 'fantom-network.svg',
 };
