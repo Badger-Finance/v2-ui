@@ -595,7 +595,7 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
       tabindex="-1"
     >
       <div
-        class="MuiPaper-root-5 MuiDialog-paper-365 MuiDialog-paperScrollPaper-366 MuiDialog-paperWidthSm-370 MuiDialog-paperFullWidth-374 MuiPaper-elevation24-32 MuiPaper-rounded-6"
+        class="MuiPaper-root-5 MuiDialog-paper-365 MuiDialog-paperScrollPaper-366 MuiDialog-paperWidthXl-373 MuiDialog-paperFullWidth-374 MuiPaper-elevation24-32 MuiPaper-rounded-6"
         role="dialog"
       >
         <div

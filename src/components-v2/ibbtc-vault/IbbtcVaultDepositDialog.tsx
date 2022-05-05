@@ -303,7 +303,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	}, [user, vaults, network.network.vaults]);
 
 	return (
-		<Dialog open={open} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
+		<Dialog open={open} fullWidth maxWidth="xl" classes={{ paperWidthXl: classes.root }}>
 			<DialogTitle className={classes.title}>
 				Deposit Tokens
 				<IconButton className={classes.closeButton} onClick={handleClosing}>
