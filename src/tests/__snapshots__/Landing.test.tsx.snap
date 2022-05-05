@@ -590,10 +590,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-413"
+            class="MuiBox-root-412 MuiBox-root-413 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               0.25%
             </p>
@@ -713,10 +713,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-463"
+            class="MuiBox-root-412 MuiBox-root-463 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               8.17%
             </p>
@@ -836,10 +836,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-43 MuiGrid-container-44 MuiGrid-item-45 MuiGrid-justify-content-xs-flex-end-62 MuiGrid-grid-xs-true-77"
         >
           <div
-            class="MuiBox-root-412 MuiBox-root-471"
+            class="MuiBox-root-412 MuiBox-root-471 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               8.17%
             </p>
@@ -1159,10 +1159,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-502"
+            class="MuiBox-root-412 MuiBox-root-502 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               0.25%
             </p>
@@ -1260,10 +1260,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-507"
+            class="MuiBox-root-412 MuiBox-root-507 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               8.17%
             </p>
@@ -1361,10 +1361,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-512"
+            class="MuiBox-root-412 MuiBox-root-512 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               8.17%
             </p>
@@ -1666,10 +1666,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-502"
+            class="MuiBox-root-412 MuiBox-root-502 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               0.25%
             </p>
@@ -1767,10 +1767,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-507"
+            class="MuiBox-root-412 MuiBox-root-507 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               8.17%
             </p>
@@ -1868,10 +1868,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-412 MuiBox-root-512"
+            class="MuiBox-root-412 MuiBox-root-512 makeStyles-root-409"
           >
             <p
-              class="MuiTypography-root-183 makeStyles-apr-409 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
+              class="MuiTypography-root-183 MuiTypography-body1-185 MuiTypography-colorTextPrimary-208 MuiTypography-displayInline-211"
             >
               8.17%
             </p>
