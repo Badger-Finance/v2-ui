@@ -12,10 +12,10 @@ import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
 
 const useStyles = makeStyles(() =>
 	createStyles({
-		bigDialog: {
+		xlDialog: {
 			maxWidth: 810,
 		},
-		smallDialog: {
+		bigDialog: {
 			maxWidth: 672,
 		},
 	}),
@@ -60,10 +60,10 @@ const RewardsDialog = (): JSX.Element => {
 		return (
 			<Dialog
 				fullWidth
-				maxWidth="sm"
+				maxWidth="xl"
 				aria-labelledby="user-guide"
 				aria-describedby="Rewards User Guide"
-				classes={{ paperWidthSm: classes.smallDialog }}
+				classes={{ paperWidthXl: classes.bigDialog }}
 				open={uiState.rewardsDialogOpen}
 				onClose={() => uiState.toggleRewardsDialog()}
 			>
@@ -76,10 +76,10 @@ const RewardsDialog = (): JSX.Element => {
 		return (
 			<Dialog
 				fullWidth
-				maxWidth="sm"
+				maxWidth="xl"
 				aria-labelledby="claimed-rewards"
 				aria-describedby="Claimed Rewards Overview"
-				classes={{ paperWidthSm: classes.smallDialog }}
+				classes={{ paperWidthXl: classes.bigDialog }}
 				open={uiState.rewardsDialogOpen}
 				onClose={() => uiState.toggleRewardsDialog()}
 			>
@@ -95,10 +95,10 @@ const RewardsDialog = (): JSX.Element => {
 	return (
 		<Dialog
 			fullWidth
-			maxWidth="sm"
+			maxWidth="xl"
 			aria-labelledby="claim-modal"
 			aria-describedby="Claim your rewards"
-			classes={{ paperWidthSm: hasRewards ? classes.bigDialog : classes.smallDialog }}
+			classes={{ paperWidthXl: hasRewards ? classes.xlDialog : classes.bigDialog }}
 			open={uiState.rewardsDialogOpen}
 			onClose={() => uiState.toggleRewardsDialog()}
 		>
