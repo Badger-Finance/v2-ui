@@ -65,10 +65,10 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
 	return (
 		<Dialog
 			fullWidth
-			maxWidth="sm"
+			maxWidth="xl"
 			aria-describedby="Claim your rewards"
 			aria-labelledby="claim-modal"
-			classes={{ paperWidthSm: classes.noRewardsDialog }}
+			classes={{ paperWidthXl: classes.noRewardsDialog }}
 			open={open}
 			onClose={onClose}
 		>

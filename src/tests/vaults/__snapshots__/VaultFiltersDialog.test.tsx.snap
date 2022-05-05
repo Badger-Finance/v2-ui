@@ -55,7 +55,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
       tabindex="-1"
     >
       <div
-        class="MuiPaper-root-25 MuiDialog-paper-12 MuiDialog-paperScrollPaper-13 MuiDialog-paperWidthSm-17 MuiDialog-paperFullWidth-21 MuiPaper-elevation24-52 MuiPaper-rounded-26"
+        class="MuiPaper-root-25 MuiDialog-paper-12 MuiDialog-paperScrollPaper-13 MuiDialog-paperWidthXl-20 MuiDialog-paperFullWidth-21 MuiPaper-elevation24-52 MuiPaper-rounded-26"
         role="dialog"
       >
         <div

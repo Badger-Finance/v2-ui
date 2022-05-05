@@ -15,7 +15,7 @@ export const Fees = ({ vault }: Props): JSX.Element => {
 
 	return (
 		<>
-			<Dialog open={openFeesDialog} onClose={toggleDialog} fullWidth maxWidth="sm">
+			<Dialog open={openFeesDialog} onClose={toggleDialog} fullWidth maxWidth="xl">
 				<DepositFeesInformation
 					closeIcon={
 						<IconButton onClick={toggleDialog}>

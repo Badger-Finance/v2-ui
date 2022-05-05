@@ -90,7 +90,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 			advisory = AdvisoryType.Chadger;
 		}
 		return (
-			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+			<Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
 				<VaultDialogTitle vault={vault} mode="Deposit" />
 				<VaultAdvisory vault={vault} accept={() => setAccepted(true)} type={advisory} />
 			</Dialog>
@@ -99,7 +99,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 
 	if (showFees) {
 		return (
-			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+			<Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
 				<DepositFeesInformation
 					closeIcon={
 						<Button color="primary" onClick={() => setShowFees(false)} className={classes.backButton}>
@@ -113,7 +113,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 	}
 
 	return (
-		<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+		<Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
 			<VaultDialogTitle vault={vault} mode="Deposit" />
 			<DialogContent dividers className={classes.content}>
 				{vault.state === VaultState.Guarded && (

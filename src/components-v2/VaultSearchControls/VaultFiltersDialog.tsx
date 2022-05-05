@@ -116,7 +116,7 @@ const VaultFiltersDialog = () => {
 	}, [vaultsFilters, syncPersistedFiltersValues]);
 
 	return (
-		<Dialog open={vaults.showVaultFilters} onClose={handleClose} maxWidth="sm" fullWidth>
+		<Dialog open={vaults.showVaultFilters} onClose={handleClose} maxWidth="xl" fullWidth>
 			<DialogTitle disableTypography className={classes.title}>
 				<Grid container justifyContent="space-between" alignItems="center">
 					<Typography variant="h5" display="inline">

@@ -34,7 +34,7 @@ exports[`Rewards Dialog when there are no rewards displays no rewards dialog 1`]
       <div
         aria-describedby="Claim your rewards"
         aria-labelledby="claim-modal"
-        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthSm-12 makeStyles-smallDialog-2 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
+        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthXl-15 makeStyles-bigDialog-2 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
         role="dialog"
       >
         <div
@@ -215,7 +215,7 @@ exports[`Rewards Dialog when there are rewards can display user guide 1`] = `
       <div
         aria-describedby="Rewards User Guide"
         aria-labelledby="user-guide"
-        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthSm-12 makeStyles-smallDialog-2 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
+        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthXl-15 makeStyles-bigDialog-2 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
         role="dialog"
       >
         <div
@@ -523,7 +523,7 @@ exports[`Rewards Dialog when there are rewards can go back from user guide 1`] =
       <div
         aria-describedby="Claim your rewards"
         aria-labelledby="claim-modal"
-        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthSm-12 makeStyles-bigDialog-1 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
+        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthXl-15 makeStyles-xlDialog-1 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
         role="dialog"
       >
         <div
@@ -934,7 +934,7 @@ exports[`Rewards Dialog when there are rewards displays claim options 1`] = `
       <div
         aria-describedby="Claim your rewards"
         aria-labelledby="claim-modal"
-        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthSm-12 makeStyles-bigDialog-1 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
+        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthXl-15 makeStyles-xlDialog-1 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
         role="dialog"
       >
         <div
@@ -1351,7 +1351,7 @@ exports[`Rewards Dialog when there are rewards displays success dialog 1`] = `
       <div
         aria-describedby="Claimed Rewards Overview"
         aria-labelledby="claimed-rewards"
-        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthSm-12 makeStyles-smallDialog-2 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
+        class="MuiPaper-root-20 MuiDialog-paper-7 MuiDialog-paperScrollPaper-8 MuiDialog-paperWidthXl-15 makeStyles-bigDialog-2 MuiDialog-paperFullWidth-16 MuiPaper-elevation24-47 MuiPaper-rounded-21"
         role="dialog"
       >
         <div

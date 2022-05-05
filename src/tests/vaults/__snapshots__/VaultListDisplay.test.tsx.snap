@@ -465,10 +465,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-201 MuiBox-root-202"
+          class="MuiBox-root-201 MuiBox-root-202 makeStyles-root-198"
         >
           <p
-            class="MuiTypography-root-144 makeStyles-apr-198 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
           >
             8.17%
           </p>
@@ -572,10 +572,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-201 MuiBox-root-267"
+          class="MuiBox-root-201 MuiBox-root-267 makeStyles-root-198"
         >
           <p
-            class="MuiTypography-root-144 makeStyles-apr-198 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
           >
             8.17%
           </p>

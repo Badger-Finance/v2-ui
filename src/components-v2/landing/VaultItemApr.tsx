@@ -6,13 +6,12 @@ import { numberWithCommas } from 'mobx/utils/helpers';
 import VaultApyInformation from '../VaultApyInformation';
 
 const useStyles = makeStyles({
+	root: {
+		cursor: 'pointer',
+	},
 	apr: {
 		cursor: 'default',
 		fontSize: 16,
-	},
-	boost: {
-		fontWeight: 400,
-		cursor: 'default',
 	},
 	apyInfo: {
 		marginLeft: 5,
@@ -47,16 +46,11 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
 	}
 
 	return (
-		<Box display="flex" alignItems="center">
-			<Typography className={classes.apr} variant="body1" color={'textPrimary'} display="inline">
+		<Box display="flex" alignItems="center" onClick={handleApyInfoClick} className={classes.root}>
+			<Typography variant="body1" color={'textPrimary'} display="inline">
 				{`${numberWithCommas(boost.toFixed(2))}%`}
 			</Typography>
-			<img
-				src="/assets/icons/apy-info.svg"
-				className={classes.apyInfo}
-				onClick={handleApyInfoClick}
-				alt="apy info icon"
-			/>
+			<img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
 			<VaultApyInformation open={showApyInfo} vault={vault} boost={boost} onClose={handleClose} />
 		</Box>
 	);
