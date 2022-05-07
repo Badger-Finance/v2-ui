@@ -2,13 +2,9 @@ import React from 'react';
 import { Button, Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles, styled } from '@material-ui/core/styles';
-import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
-
 import { getColorFromComparison } from './utils';
-import { isValidMultiplier } from '../../utils/boost-ranks';
-import { StoreContext } from '../../mobx/store-context';
-import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
+import { calculateUserBoost, isValidStakeRatio } from '../../utils/boost-ranks';
 
 const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 	marginLeft: theme.spacing(1),
@@ -17,7 +13,7 @@ const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 
 const useMultiplierStyles = (currentMultiplier: number, accountMultiplier = 0) => {
 	return makeStyles((theme) => {
-		if (!isValidMultiplier(currentMultiplier) || !isValidMultiplier(accountMultiplier)) {
+		if (!isValidStakeRatio(currentMultiplier) || !isValidStakeRatio(accountMultiplier)) {
 			return {
 				fontColor: {
 					color: theme.palette.text.primary,
@@ -63,22 +59,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	multiplier: number;
+	stakeRatio: number;
 	onReset: () => void;
 }
 
-export const OptimizerHeader = observer(({ multiplier, onReset }: Props): JSX.Element => {
-	const {
-		user: { accountDetails },
-	} = React.useContext(StoreContext);
-
+export const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-	const accountMultiplier = accountDetails ? accountDetails.boost : MIN_BOOST_LEVEL.multiplier;
-	const boostClasses = useMultiplierStyles(multiplier, accountMultiplier)();
-
+	const userBoost = calculateUserBoost(stakeRatio);
+	const boostClasses = useMultiplierStyles(stakeRatio, userBoost)();
 	return (
 		<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
 			<Grid item className={classes.boostSectionContainer}>
@@ -86,7 +76,7 @@ export const OptimizerHeader = observer(({ multiplier, onReset }: Props): JSX.El
 					Boost:
 				</Typography>
 				<Typography display="inline" className={clsx(classes.boostValue, boostClasses.fontColor)}>
-					{`${multiplier}x`}
+					{`${userBoost}x`}
 				</Typography>
 				<Tooltip
 					enterTouchDelay={0}
@@ -107,4 +97,4 @@ export const OptimizerHeader = observer(({ multiplier, onReset }: Props): JSX.El
 			</Grid>
 		</Grid>
 	);
-});
+};

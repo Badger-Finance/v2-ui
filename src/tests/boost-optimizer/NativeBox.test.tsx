@@ -15,7 +15,7 @@ describe('Native Box', () => {
 			<StoreProvider value={store}>
 				<NativeBox
 					isLoading={false}
-					currentMultiplier={1000}
+					currentStakeRatio={1000}
 					nativeBalance={'0'}
 					nonNativeBalance={'0'}
 					onChange={jest.fn()}
@@ -45,7 +45,7 @@ describe('Native Box', () => {
 			<StoreProvider value={store}>
 				<NativeBox
 					isLoading={true}
-					currentMultiplier={1000}
+					currentStakeRatio={1000}
 					nativeBalance={'0'}
 					nonNativeBalance={'0'}
 					onChange={jest.fn()}
