@@ -29,7 +29,9 @@ export const calculateNativeToMatchRank = (native: number, nonNative: number, de
 		return 0;
 	}
 
-	return nonNative * (desiredRankStakeRatio - currentStakeRatio);
+	// buffer to prevent users from being leveled down due to price changes
+	const safeLevelingBuffer = desiredRankStakeRatio - currentStakeRatio / 2;
+	return nonNative * (desiredRankStakeRatio - currentStakeRatio) + safeLevelingBuffer;
 };
 
 /**

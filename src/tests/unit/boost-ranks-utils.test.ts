@@ -13,9 +13,9 @@ import { BadgerType } from '@badger-dao/sdk';
 describe('Boost Ranks Utils', () => {
 	describe('calculateNativeToMatchRank', () => {
 		const inputTable = [
-			[10, 1000, BadgerType.Hero, 1240, BADGER_TYPE_BOOSTS.hero],
-			[900, 1000, BadgerType.Frenzy, 2100, BADGER_TYPE_BOOSTS.frenzy],
-			[900, 1000, BadgerType.Hero, 350, BADGER_TYPE_BOOSTS.hero],
+			[10, 1000, BadgerType.Hero, 1241.245, BADGER_TYPE_BOOSTS.hero],
+			[900, 1000, BadgerType.Frenzy, 2102.55, BADGER_TYPE_BOOSTS.frenzy],
+			[900, 1000, BadgerType.Hero, 350.8, BADGER_TYPE_BOOSTS.hero],
 			[900, 1000, BadgerType.Basic, 0, BADGER_TYPE_BOOSTS.basic],
 		];
 		test.each(inputTable)(
@@ -94,8 +94,10 @@ describe('Boost Ranks Utils', () => {
 				desiredRank as BoostRank,
 			);
 			const addedNative = nativeRequired + (native as number);
-			const userBoost = calculateUserBoost(addedNative / (nonNative as number));
-			expect(calculateUserBoost((desiredRank as BoostRank).stakeRatioBoundary)).toEqual(userBoost);
+			const stakeRatio = addedNative / (nonNative as number);
+			expect(getHighestRankFromStakeRatio(stakeRatio).stakeRatioBoundary).toEqual(
+				(desiredRank as BoostRank).stakeRatioBoundary,
+			);
 		});
 	});
 
