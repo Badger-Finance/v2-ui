@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { getColorFromComparison } from './utils';
-import { percentageBetweenRange } from '../../utils/componentHelpers';
+import { percentageBetweenRange, roundWithPrecision } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles(() => ({
 	rankBar: {
@@ -36,8 +36,8 @@ const useProgressStyles = (
 		const lessCaseColor = isStillOwned ? theme.palette.primary.main : theme.palette.error.main;
 
 		const differenceColor = getColorFromComparison({
-			toCompareValue: currentStakeRatio,
-			toBeComparedValue: accountStakeRatio,
+			toCompareValue: roundWithPrecision(currentStakeRatio, 4),
+			toBeComparedValue: roundWithPrecision(accountStakeRatio, 4),
 			defaultColor: theme.palette.primary.main,
 			greaterCaseColor,
 			lessCaseColor,
