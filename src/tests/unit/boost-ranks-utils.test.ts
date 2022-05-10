@@ -1,115 +1,116 @@
-import { BOOST_LEVELS, BOOST_RANKS, MAX_BOOST_LEVEL, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 import {
-	calculateMultiplier,
-	calculateNativeToMatchMultiplier,
-	getNextBoostLevel,
-	rankAndLevelNumbersFromSpec,
-	isValidMultiplier,
-	rankAndLevelFromMultiplier,
-	rankAndLevelFromStakeRatio,
-	sanitizeMultiplierValue,
+	isValidStakeRatio,
+	clampStakeRatio,
+	calculateNativeToMatchRank,
+	calculateUserBoost,
+	getNextBoostRank,
+	getHighestRankFromStakeRatio,
 } from '../../utils/boost-ranks';
+import { BADGER_TYPE_BOOSTS, MAX_BOOST_RANK } from '../../config/system/boost-ranks';
+import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
+import { BadgerType } from '@badger-dao/sdk';
 
 describe('Boost Ranks Utils', () => {
-	describe('rankAndLevelFromMultiplier', () => {
-		const inputTable = BOOST_LEVELS.map((level) => [level.multiplier, level.multiplier]);
-		test.each(inputTable)('rankAndLevelFromMultiplier(%f) returns %f', (levelMultiplier, returnLevelMultiplier) => {
-			const { 1: levelFromMultiplier } = rankAndLevelFromMultiplier(levelMultiplier);
-			expect(levelFromMultiplier.multiplier).toEqual(returnLevelMultiplier);
-		});
-	});
-
-	describe('rankAndLevelFromStakeRatio', () => {
-		const inputTable = BOOST_LEVELS.map((level) => [level.stakeRatioBoundary, level.stakeRatioBoundary]);
-		test.each(inputTable)('rankAndLevelFromStakeRatio(%f) returns %f', (stakeRatio, returnStakeRatio) => {
-			const { 1: levelFromStakeRatio } = rankAndLevelFromStakeRatio(stakeRatio);
-			expect(levelFromStakeRatio.stakeRatioBoundary).toEqual(returnStakeRatio);
-		});
-	});
-
-	describe('getNextBoostLevel', () => {
-		const inputTable = BOOST_LEVELS.map((level, index, levels) => [level, levels[index + 1]]);
-		test.each(inputTable)('getNextBoostLevel(%p) returns %p', (currentLevel, nextLevel) => {
-			expect(getNextBoostLevel(currentLevel)).toEqual(nextLevel);
-		});
-	});
-
-	describe('isValidMultiplier', () => {
+	describe('calculateNativeToMatchRank', () => {
 		const inputTable = [
-			[1, true],
-			[100, true],
-			[800, true],
-			[-1, false],
-			[Infinity, false],
+			[10, 1000, BadgerType.Hero, 1241.245, BADGER_TYPE_BOOSTS.hero],
+			[900, 1000, BadgerType.Frenzy, 2102.55, BADGER_TYPE_BOOSTS.frenzy],
+			[900, 1000, BadgerType.Hero, 350.8, BADGER_TYPE_BOOSTS.hero],
+			[900, 1000, BadgerType.Basic, 0, BADGER_TYPE_BOOSTS.basic],
 		];
-		test.each(inputTable)('isValidMultiplier(%p) returns %p', (multiplier: any, result) => {
-			expect(isValidMultiplier(multiplier)).toEqual(result);
+		test.each(inputTable)(
+			'calculateNativeToMatchRank(%p, %p, %p) returns %p',
+			(native: any, nonNative, _name, needed, targetRank) => {
+				expect(
+					calculateNativeToMatchRank(native as number, nonNative as number, targetRank as BoostRank),
+				).toEqual(needed);
+			},
+		);
+	});
+
+	describe('clampStakeRatio', () => {
+		const inputTable = [
+			[-1, 0],
+			[Infinity, MAX_BOOST_RANK.stakeRatioBoundary],
+		];
+		test.each(inputTable)('clampStakeRatio(%p) returns %p', (multiplier, result) => {
+			expect(clampStakeRatio(multiplier)).toEqual(result);
 		});
 	});
 
-	describe('sanitizeMultiplierValue', () => {
+	describe('getHighestRankFromStakeRatio', () => {
 		const inputTable = [
-			[-1, MIN_BOOST_LEVEL.multiplier],
-			[200, 200],
-			[800, 800],
-			[331.12, 331.12],
-			[2100, MAX_BOOST_LEVEL.multiplier],
-			[Infinity, MAX_BOOST_LEVEL.multiplier],
+			[0, BadgerType.Basic, BADGER_TYPE_BOOSTS.basic],
+			[0.23, BadgerType.Basic, BADGER_TYPE_BOOSTS.basic],
+			[0.75, BadgerType.Neo, BADGER_TYPE_BOOSTS.neo],
+			[1.25, BadgerType.Hero, BADGER_TYPE_BOOSTS.hero],
+			[2.3, BadgerType.Hyper, BADGER_TYPE_BOOSTS.hyper],
+			[3, BadgerType.Frenzy, BADGER_TYPE_BOOSTS.frenzy],
+			[1_000_000, BadgerType.Frenzy, BADGER_TYPE_BOOSTS.frenzy],
 		];
-		test.each(inputTable)('sanitizeMultiplierValue(%p) returns %p', (multiplier, result) => {
-			expect(sanitizeMultiplierValue(multiplier)).toEqual(result);
+		test.each(inputTable)('getHighestRankFromStakeRatio(%p) returns %p', (stakeRatio, _badgerType, result) => {
+			expect(getHighestRankFromStakeRatio(stakeRatio as number)).toEqual(result);
 		});
 	});
 
-	describe('calculateMultiplier', () => {
+	describe('getNextBoostRank', () => {
 		const inputTable = [
-			[1, 1000, 2],
-			[3, 1000, 5],
-			[5, 1000, 10],
-			[10, 1000, 20],
-			[100, 1000, 200],
-			[200, 1000, 400],
-			[300, 1000, 600],
-			[712.12, 1000, 1400],
-			[712312, 1000, 2000],
+			[BadgerType.Basic, BadgerType.Neo, BADGER_TYPE_BOOSTS.basic, BADGER_TYPE_BOOSTS.neo],
+			[BadgerType.Neo, BadgerType.Hero, BADGER_TYPE_BOOSTS.neo, BADGER_TYPE_BOOSTS.hero],
+			[BadgerType.Hero, BadgerType.Hyper, BADGER_TYPE_BOOSTS.hero, BADGER_TYPE_BOOSTS.hyper],
+			[BadgerType.Hyper, BadgerType.Basic, BADGER_TYPE_BOOSTS.hyper, BADGER_TYPE_BOOSTS.frenzy],
+			[BadgerType.Hyper, BadgerType.Hyper, BADGER_TYPE_BOOSTS.frenzy, BADGER_TYPE_BOOSTS.frenzy],
 		];
-		test.each(inputTable)('calculateMultiplier(%p, %p) returns %p', (native, nonNative, result) => {
-			expect(calculateMultiplier(native, nonNative)).toEqual(result);
+		test.each(inputTable)('getNextBoostRank(of:%s) returns %p', (_name, _toName, fromRank, toRank) => {
+			expect(getNextBoostRank(fromRank as BoostRank)).toEqual(toRank);
+		});
+	});
+
+	describe('calculateUserBoost', () => {
+		const inputTable = [
+			[0, 0],
+			[1, 2000],
+			[1.5, 2500],
+			[2, 2750],
+			[2.5, 2875],
+			[3, 3000],
+		];
+		test.each(inputTable)('calculateUserBoost(stakeRatio:%p) returns %p', (stakeRatio, userBoost) => {
+			expect(calculateUserBoost(stakeRatio)).toEqual(userBoost);
 		});
 	});
 
 	describe('calculateNativeToMatchBoost', () => {
 		const inputTable = [
-			[1, 1000, 2000, 2000],
-			[3, 1000, 600, 600],
-			[5, 1000, 1000, 1000],
-			[0, 1231212, 1600, 1600],
+			[1, 1000, BADGER_TYPE_BOOSTS.hyper],
+			[3, 1000, BADGER_TYPE_BOOSTS.neo],
+			[5, 1000, BADGER_TYPE_BOOSTS.hero],
+			[0, 1231212, BADGER_TYPE_BOOSTS.frenzy],
 		];
-		test.each(inputTable)(
-			'calculateNativeToMatchBoost(%p, %p, %p) returns %p',
-			(native, nonNative, desiredMultiplier) => {
-				const nativeRequired = calculateNativeToMatchMultiplier(native, nonNative, desiredMultiplier);
-				const addedNative = nativeRequired + native;
-				const multiplierWithAddedNative = calculateMultiplier(addedNative, nonNative);
-				expect(multiplierWithAddedNative).toEqual(desiredMultiplier);
-			},
-		);
+		test.each(inputTable)('calculateNativeToMatchRank(%p, %p, %p) returns %p', (native, nonNative, desiredRank) => {
+			const nativeRequired = calculateNativeToMatchRank(
+				native as number,
+				nonNative as number,
+				desiredRank as BoostRank,
+			);
+			const addedNative = nativeRequired + (native as number);
+			const stakeRatio = addedNative / (nonNative as number);
+			expect(getHighestRankFromStakeRatio(stakeRatio).stakeRatioBoundary).toEqual(
+				(desiredRank as BoostRank).stakeRatioBoundary,
+			);
+		});
 	});
 
-	describe('getRankAndLevelInformationFromStat', () => {
-		const stakeRadioTable = BOOST_RANKS.map((rank, rankIndex) => {
-			return rank.levels.map((level, levelIndex) => [level.stakeRatioBoundary, 'stake', [rankIndex, levelIndex]]);
-		}).flat();
-
-		const multiplierTable = BOOST_RANKS.map((rank, rankIndex) => {
-			return rank.levels.map((level, levelIndex) => [level.multiplier, 'multiplier', [rankIndex, levelIndex]]);
-		}).flat();
-
-		test.each([...stakeRadioTable, ...multiplierTable])(
-			'getRankAndLevelInformationFromStat(%f, %s) returns %p',
-			(spec: any, criteria: any, result) => {
-				expect(rankAndLevelNumbersFromSpec(spec, criteria)).toEqual(result);
-			},
-		);
+	describe('isValidStakeRatio', () => {
+		const inputTable = [
+			[0, true],
+			[1, true],
+			[2.1212, true],
+			[-1, false],
+			[Infinity, false],
+		];
+		test.each(inputTable)('isValidStakeRatio(%p) returns %p', (multiplier: any, result) => {
+			expect(isValidStakeRatio(multiplier)).toEqual(result);
+		});
 	});
 });

@@ -4,8 +4,9 @@ import BaseAreaChart from './BaseAreaChart';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { TooltipProps } from 'recharts';
 import { makeStyles } from '@material-ui/core';
-import { BOOST_LEVELS, MAX_BOOST_LEVEL } from 'config/system/boost-ranks';
 import { VaultDTO } from '@badger-dao/sdk';
+import { BOOST_RANKS, MAX_BOOST_RANK } from '../../../config/system/boost-ranks';
+import { calculateUserBoost } from '../../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	tooltipContainer: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 // hard coded expected badger boost values
 // note: this is a bandaid over exposing the true multiplier values
 // TODO: expose multiplier chart data once multichain boost is sorted
-const boostCheckpoints = BOOST_LEVELS.flatMap((level) => level.multiplier);
+const boostCheckpoints = BOOST_RANKS.flatMap((rank) => calculateUserBoost(rank.stakeRatioBoundary));
 
 const yScaleFormatter = format('^.2%');
 
@@ -57,7 +58,7 @@ export const BoostChart = ({ vault }: Props): JSX.Element | null => {
 	const baseApr = apr - boostableApr;
 	const aprRange = maxApr - minApr;
 	const boostData = boostCheckpoints.map((checkpoint) => {
-		const rangeScalar = checkpoint / MAX_BOOST_LEVEL.multiplier;
+		const rangeScalar = checkpoint / calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
 		return {
 			x: checkpoint,
 			y: (baseApr + rangeScalar * aprRange) / 100,

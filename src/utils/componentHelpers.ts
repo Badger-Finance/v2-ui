@@ -1,9 +1,10 @@
 import mainnetDeploy from '../config/deployments/mainnet.json';
 import { Token, VaultDTO, VaultData, VaultState } from '@badger-dao/sdk';
 import { Network } from '../mobx/model/network/network';
-import { MAX_BOOST_LEVEL } from '../config/system/boost-ranks';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
 import UserStore from '../mobx/stores/UserStore';
+import { MAX_BOOST_RANK } from '../config/system/boost-ranks';
+import { calculateUserBoost } from './boost-ranks';
 
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
@@ -41,8 +42,8 @@ export const percentageBetweenRange = (point: number, upperLimit: number, lowerL
 	return ((point - lowerLimit) / (upperLimit - lowerLimit)) * 100;
 };
 
-export const roundWithDecimals = (value: number, decimals: number): number => {
-	const decimalsCriteria = Math.pow(10, decimals);
+export const roundWithPrecision = (value: number, precision: number): number => {
+	const decimalsCriteria = Math.pow(10, precision);
 	return Math.round((value + Number.EPSILON) * decimalsCriteria) / decimalsCriteria;
 };
 
@@ -78,12 +79,14 @@ export function getUserVaultBoost(vault: VaultDTO, boost: number, apr = false): 
 		return 0;
 	}
 
+	const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
+
 	return (apr ? vault.sources : vault.sourcesApy)
 		.map((source) => {
 			if (!source.boostable) {
 				return source.apr;
 			}
-			return source.minApr + (boost / MAX_BOOST_LEVEL.multiplier) * (source.maxApr - source.minApr);
+			return source.minApr + (boost / maxBoost) * (source.maxApr - source.minApr);
 		})
 		.reduce((total, apr) => total + apr, 0);
 }

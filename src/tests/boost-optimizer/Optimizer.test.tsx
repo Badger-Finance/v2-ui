@@ -42,8 +42,8 @@ describe('Boost Optimizer', () => {
 			rank: 0,
 		};
 
-		jest.spyOn(rankUtils, 'calculateMultiplier').mockReturnValue(10);
-		jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockReturnValue(100);
+		jest.spyOn(rankUtils, 'calculateUserBoost').mockReturnValue(1);
+		jest.spyOn(rankUtils, 'calculateNativeToMatchRank').mockReturnValue(100);
 	});
 
 	it('displays correct information', () => {
@@ -122,7 +122,7 @@ describe('Boost Optimizer', () => {
 	});
 
 	it('shows empty non native message', () => {
-		jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockReturnValue(0);
+		jest.spyOn(rankUtils, 'calculateNativeToMatchRank').mockReturnValue(0);
 
 		const { container } = customRender(
 			<StoreProvider value={store}>
@@ -140,7 +140,7 @@ describe('Boost Optimizer', () => {
 	it('supports no wallet mode', () => {
 		store.onboard.address = '';
 		store.user.accountDetails = null;
-		jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockReturnValue(0);
+		jest.spyOn(rankUtils, 'calculateNativeToMatchRank').mockReturnValue(0);
 
 		const { container } = customRender(
 			<StoreProvider value={store}>

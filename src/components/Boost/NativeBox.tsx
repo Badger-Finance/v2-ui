@@ -9,10 +9,11 @@ import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/help
 import { useAssetInputStyles } from './utils';
 import { StoreContext } from '../../mobx/store-context';
 import {
-	calculateNativeToMatchMultiplier,
-	isValidMultiplier,
-	getNextBoostLevel,
-	rankAndLevelFromMultiplier,
+	calculateNativeToMatchRank,
+	calculateUserBoost,
+	getHighestRankFromStakeRatio,
+	getNextBoostRank,
+	isValidStakeRatio,
 } from '../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	isLoading: boolean;
-	currentMultiplier: number;
+	currentStakeRatio: number;
 	nativeBalance: string;
 	nonNativeBalance: string;
 	nativeToAdd?: string;
@@ -73,7 +74,7 @@ export const NativeBox = observer((props: Props) => {
 
 	const {
 		nativeToAdd,
-		currentMultiplier,
+		currentStakeRatio,
 		nativeBalance,
 		nonNativeBalance,
 		isLoading,
@@ -90,25 +91,26 @@ export const NativeBox = observer((props: Props) => {
 	const nativeAssetClasses = useAssetInputStyles(nativeBalance, nativeHoldings)();
 
 	const isValidNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
-	const showNativeToAdd = isValidNativeToAdd && isValidMultiplier(currentMultiplier);
+	const showNativeToAdd = isValidNativeToAdd && isValidStakeRatio(currentStakeRatio);
 
-	const { 1: currentBoostLevel } = rankAndLevelFromMultiplier(currentMultiplier);
-	const nextBoostLevel = getNextBoostLevel(currentBoostLevel);
+	const currentRank = getHighestRankFromStakeRatio(currentStakeRatio);
+	const nextBoostLevel = getNextBoostRank(currentRank);
 
 	let nextStepText;
 	let amountToReachNextLevel = 0;
 	let shouldShowAmountToReachNextLevel = false;
 
 	if (nextBoostLevel) {
-		amountToReachNextLevel = calculateNativeToMatchMultiplier(
+		amountToReachNextLevel = calculateNativeToMatchRank(
 			Number(nativeBalance),
 			Number(nonNativeBalance),
-			nextBoostLevel.multiplier,
+			nextBoostLevel,
 		);
 
+		const nextUserBoost = calculateUserBoost(nextBoostLevel.stakeRatioBoundary);
 		const native = Number(nativeBalance);
 		shouldShowAmountToReachNextLevel = native !== 0 && amountToReachNextLevel > 0;
-		nextStepText = `${nextBoostLevel.multiplier}x`;
+		nextStepText = `${nextUserBoost}x`;
 	}
 
 	const handleNextLevelAmountClick = () => {
