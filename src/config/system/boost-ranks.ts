@@ -40,3 +40,5 @@ export const BADGER_TYPE_BOOSTS: Record<BadgerType, BoostRank> = {
 	[BadgerType.Hyper]: BOOST_RANKS[3],
 	[BadgerType.Frenzy]: BOOST_RANKS[4],
 };
+
+export const MAX_BOOST = 3000;

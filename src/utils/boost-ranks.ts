@@ -79,3 +79,19 @@ export const calculateUserBoost = (stakeRatio: number): number => {
 
 	return Math.min(2750 + Math.floor((stakeRatio - 2) * 250), 3000);
 };
+
+export function calculateUserStakeRatio(boost: number): number {
+	if (boost === 1) {
+		return 0;
+	}
+	if (boost > 1 && boost <= 2000) {
+		return boost / 2000;
+	}
+	if (boost > 2000 && boost <= 2500) {
+		return boost / (2500 / 1.5);
+	}
+	if (boost > 2500 && boost <= 2750) {
+		return boost / (2750 / 2);
+	}
+	return boost / (3000 / 3);
+}
