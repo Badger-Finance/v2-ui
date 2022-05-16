@@ -80,6 +80,9 @@ export const calculateUserBoost = (stakeRatio: number): number => {
 	return Math.min(2750 + Math.floor((stakeRatio - 2) * 250), 3000);
 };
 
+/**
+ * This is a magic function derived from reversing the function above.
+ */
 export function calculateUserStakeRatio(boost: number): number {
 	if (boost === 1) {
 		return 0;

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const boostCheckpoints = Array.from(Array(61)).map((_, i) => (i * 50));
+const boostCheckpoints = Array.from(Array(61)).map((_, i) => i * 50);
 
 const yScaleFormatter = format('^.2%');
 
