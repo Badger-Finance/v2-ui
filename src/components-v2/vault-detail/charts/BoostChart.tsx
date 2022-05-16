@@ -21,7 +21,7 @@ const boostCheckpoints = Array.from(Array(61)).map((_, i) => i * 50);
 
 const yScaleFormatter = format('^.2%');
 // short visual trick to just show 1 as min boost instead of 0 graph wise - there is no impact
-const xScaleFormatter = (value: number): string => value === 0 ? '1' : value.toString();
+const xScaleFormatter = (value: number): string => (value === 0 ? '1' : value.toString());
 
 const BoostTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
 	const classes = useStyles();
@@ -29,7 +29,7 @@ const BoostTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) =>
 		return null;
 	}
 	const { x, y } = payload[0].payload;
-	let xValue = x === 0 ? 1 : x;
+	const xValue = x === 0 ? 1 : x;
 
 	const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
 	return (

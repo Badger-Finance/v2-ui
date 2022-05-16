@@ -62,7 +62,7 @@ export const getNextBoostRank = (currentRank: BoostRank): BoostRank | undefined 
 // implementation of the boost rank system: https://github.com/Badger-Finance/badger-rewards/blob/main/rewards/boost/calc_boost.py#L56
 export const calculateUserBoost = (stakeRatio: number): number => {
 	if (stakeRatio === 0) {
-		return 0;
+		return 1;
 	}
 
 	if (stakeRatio <= 1) {
