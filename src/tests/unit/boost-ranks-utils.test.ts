@@ -68,7 +68,7 @@ describe('Boost Ranks Utils', () => {
 
 	describe('calculateUserBoost', () => {
 		const inputTable = [
-			[0, 0],
+			[0, 1],
 			[1, 2000],
 			[1.5, 2500],
 			[2, 2750],
