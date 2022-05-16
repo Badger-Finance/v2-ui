@@ -5,9 +5,10 @@ import { observer } from 'mobx-react-lite';
 import { calculateUserBoost, getHighestRankFromStakeRatio } from '../../utils/boost-ranks';
 import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
-import { MIN_BOOST_RANK } from '../../config/system/boost-ranks';
+import { MIN_BOOST, MIN_BOOST_RANK } from '../../config/system/boost-ranks';
 import { StakeInformationHeader } from './StakeInformationHeader';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
+import { isValidCalculatedValue } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -46,8 +47,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const isValidCalculatedValue = (value: number) => isFinite(value) && !isNaN(value);
-
 interface Props {
 	native?: string;
 	nonNative?: string;
@@ -76,8 +75,8 @@ export const StakeInformation = observer(({ native, nonNative, onRankClick }: Pr
 	const accountStakeRatio = isValidAccountRatio ? calculatedAccountRatio : MIN_BOOST_RANK.stakeRatioBoundary;
 
 	const currentRank = getHighestRankFromStakeRatio(stakeRatio);
-	const userBoost = isValidStakeRatio ? calculateUserBoost(calculatedStakeRatio) : 0;
-	const accountBoost = isValidAccountRatio ? calculateUserBoost(calculatedAccountRatio) : 0;
+	const userBoost = isValidStakeRatio ? calculateUserBoost(calculatedStakeRatio) : MIN_BOOST;
+	const accountBoost = isValidAccountRatio ? calculateUserBoost(calculatedAccountRatio) : MIN_BOOST;
 
 	return (
 		<Grid container component={Paper} className={classes.root}>

@@ -1,5 +1,6 @@
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { BadgerType } from '@badger-dao/sdk';
+import { calculateUserBoost } from '../../utils/boost-ranks';
 
 export const BOOST_RANKS: BoostRank[] = [
 	{
@@ -30,8 +31,9 @@ export const BOOST_RANKS: BoostRank[] = [
 ];
 
 export const MIN_BOOST_RANK = BOOST_RANKS[0];
-
+export const MIN_BOOST = calculateUserBoost(MIN_BOOST_RANK.stakeRatioBoundary);
 export const MAX_BOOST_RANK = BOOST_RANKS[BOOST_RANKS.length - 1];
+export const MAX_BOOST = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
 
 export const BADGER_TYPE_BOOSTS: Record<BadgerType, BoostRank> = {
 	[BadgerType.Basic]: BOOST_RANKS[0],
@@ -40,5 +42,3 @@ export const BADGER_TYPE_BOOSTS: Record<BadgerType, BoostRank> = {
 	[BadgerType.Hyper]: BOOST_RANKS[3],
 	[BadgerType.Frenzy]: BOOST_RANKS[4],
 };
-
-export const MAX_BOOST = 3000;

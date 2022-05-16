@@ -6,10 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getColorFromComparison } from './utils';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { Skeleton } from '@material-ui/lab';
+import { isValidCalculatedValue } from '../../utils/componentHelpers';
 
 const useComparedValuesStyles = (currentRatio: number, accountRatio: number) => {
 	return makeStyles((theme) => {
-		if (isNaN(currentRatio) || isNaN(accountRatio)) {
+		if (!isValidCalculatedValue(currentRatio) || !isValidCalculatedValue(accountRatio)) {
 			return {
 				fontColor: {
 					color: theme.palette.text.primary,
