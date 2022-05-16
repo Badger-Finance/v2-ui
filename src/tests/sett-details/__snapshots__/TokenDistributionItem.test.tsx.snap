@@ -48,15 +48,11 @@ exports[`Token Distribution Icon displays sett token distribution information on
             <div
               class="makeStyles-tokenNameContainer-158"
             >
-              <div
+              <img
+                alt="renBTC logo"
                 class="makeStyles-tokenIconContainer-160"
-              >
-                <img
-                  alt="token distribution item"
-                  class="makeStyles-icon-161"
-                  src="/assets/icons/renbtc.png"
-                />
-              </div>
+                src="/assets/icons/renbtc.svg"
+              />
               <p
                 class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
               >
@@ -75,15 +71,11 @@ exports[`Token Distribution Icon displays sett token distribution information on
             <div
               class="makeStyles-tokenNameContainer-158"
             >
-              <div
+              <img
+                alt="WBTC logo"
                 class="makeStyles-tokenIconContainer-160"
-              >
-                <img
-                  alt="token distribution item"
-                  class="makeStyles-icon-161"
-                  src="/assets/icons/wbtc.png"
-                />
-              </div>
+                src="/assets/icons/wbtc.svg"
+              />
               <p
                 class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
               >
@@ -102,15 +94,11 @@ exports[`Token Distribution Icon displays sett token distribution information on
             <div
               class="makeStyles-tokenNameContainer-158"
             >
-              <div
+              <img
+                alt="sBTC logo"
                 class="makeStyles-tokenIconContainer-160"
-              >
-                <img
-                  alt="token distribution item"
-                  class="makeStyles-icon-161"
-                  src="/assets/icons/sbtc.png"
-                />
-              </div>
+                src="/assets/icons/sbtc.svg"
+              />
               <p
                 class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
               >

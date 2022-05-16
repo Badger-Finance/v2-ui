@@ -3,6 +3,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultTokenBalance } from '../../../mobx/model/vaults/vault-token-balance';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
+import TokenLogo from '../../TokenLogo';
 
 const useStyles = makeStyles((theme) => ({
 	tokenNameContainer: {
@@ -34,17 +35,12 @@ interface Props {
 
 export const TokenDistributionItem = ({ tokenBalance }: Props): JSX.Element => {
 	const classes = useStyles();
-
-	const iconName = tokenBalance.symbol.toLowerCase().trim();
-	const icon = `/assets/icons/${iconName}.png`;
 	const displayAmount = numberWithCommas(formatWithoutExtraZeros(tokenBalance.balance, 2));
 
 	return (
 		<Grid container alignItems="center" justifyContent="space-between">
 			<div className={classes.tokenNameContainer}>
-				<div className={classes.tokenIconContainer}>
-					<img src={icon} className={classes.icon} alt="token distribution item" />
-				</div>
+				<TokenLogo className={classes.tokenIconContainer} token={tokenBalance} />
 				<Typography display="inline" variant="body1" className={classes.tokenInfo}>
 					{tokenBalance.symbol}
 				</Typography>

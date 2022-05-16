@@ -17,41 +17,25 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	currentMultiplier: number;
-	accountMultiplier: number;
+	currentStakeRatio: number;
+	accountStakeRatio: number;
 	rank: BoostRank;
-	rankIndex: number;
-	isOwned?: boolean;
-	hasBeenReached?: boolean;
-	onRankClick: (boost: number) => void;
+	onRankClick: (rank: BoostRank) => void;
 }
 
-export const RankItem = ({
-	accountMultiplier,
-	currentMultiplier,
-	onRankClick,
-	rank,
-	rankIndex,
-	hasBeenReached = false,
-	isOwned = false,
-}: Props): JSX.Element => {
+export const RankItem = ({ accountStakeRatio, currentStakeRatio, onRankClick, rank }: Props): JSX.Element => {
+	const rankStartBoundary = rank.stakeRatioBoundary;
+	const isOwned = accountStakeRatio > rankStartBoundary;
+	const hasBeenReached = currentStakeRatio >= rankStartBoundary;
 	const classes = useStyles();
-
-	const progressBar = rank.levels.map((level, levelsIndex, index) => (
-		<RankProgressBarSlice
-			key={`${level.stakeRatioBoundary}_${level.multiplier}_${index}`}
-			accountMultiplier={accountMultiplier}
-			currentMultiplier={currentMultiplier}
-			currentBoostLevel={level}
-			rank={rank}
-			isMainSlice={levelsIndex === 0}
-		/>
-	));
-
 	return (
 		<Grid container alignItems="flex-end">
 			<Grid item className={classes.root}>
-				{progressBar}
+				<RankProgressBarSlice
+					accountStakeRatio={accountStakeRatio}
+					currentStakeRatio={currentStakeRatio}
+					rank={rank}
+				/>
 			</Grid>
 			<Tooltip
 				enterTouchDelay={0}
@@ -62,14 +46,12 @@ export const RankItem = ({
 				disableTouchListener={hasBeenReached}
 				placement="left"
 				color="primary"
-				key={`${rank.name}_${rankIndex}`}
+				key={`${rank.name}_${rank.signatureColor}`}
 			>
 				<Grid item xs>
 					<ButtonBase
 						className={classes.buttonBase}
-						onClick={() => {
-							onRankClick(rank.levels[0].multiplier);
-						}}
+						onClick={() => onRankClick(rank)}
 						aria-label={`${rank.name} Rank`}
 					>
 						<RankLevel

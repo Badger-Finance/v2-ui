@@ -2,7 +2,7 @@ import {
 	getFormattedNetworkName,
 	getUserVaultBoost,
 	restrictToRange,
-	roundWithDecimals,
+	roundWithPrecision,
 } from '../../utils/componentHelpers';
 import { Ethereum } from '../../mobx/model/network/eth.network';
 import { BinanceSmartChain } from '../../mobx/model/network/bsc.network';
@@ -29,7 +29,7 @@ describe('Component Helpers', () => {
 			[100.123121, 2, 100.12],
 			[81.6712, 3, 81.671],
 		])('roundWithDecimals(%f,%f,%f) returns %f', (num, decimals, roundedValue) => {
-			expect(roundWithDecimals(num, decimals)).toEqual(roundedValue);
+			expect(roundWithPrecision(num, decimals)).toEqual(roundedValue);
 		});
 	});
 
@@ -49,8 +49,8 @@ describe('Component Helpers', () => {
 			['with deprecated vault', 0, 0, { ...SAMPLE_VAULT, state: VaultState.Discontinued }],
 			[
 				'with non deprecated vault',
-				0.029492343980964595,
-				9.990709795536123,
+				0.0294,
+				9.99045,
 				{
 					...SAMPLE_VAULT,
 					sources: [
@@ -172,7 +172,7 @@ describe('Component Helpers', () => {
 				},
 			],
 		])('getUserVaultBoost(%s, %d) returns %p', (_testCaseName, boost, calculatedBoost, vault) => {
-			expect(getUserVaultBoost(vault, boost)).toEqual(calculatedBoost);
+			expect(getUserVaultBoost(vault, boost).toFixed(5)).toEqual(calculatedBoost.toFixed(5));
 		});
 	});
 });
