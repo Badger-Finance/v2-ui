@@ -1,5 +1,5 @@
 import { BoostRank } from '../mobx/model/boost/leaderboard-rank';
-import { BOOST_RANKS, MAX_BOOST_RANK, MIN_BOOST_RANK } from '../config/system/boost-ranks';
+import { BOOST_RANKS, MAX_BOOST_RANK, MIN_BOOST, MIN_BOOST_RANK } from '../config/system/boost-ranks';
 import { restrictToRange } from './componentHelpers';
 
 /**
@@ -62,7 +62,7 @@ export const getNextBoostRank = (currentRank: BoostRank): BoostRank | undefined 
 // implementation of the boost rank system: https://github.com/Badger-Finance/badger-rewards/blob/main/rewards/boost/calc_boost.py#L56
 export const calculateUserBoost = (stakeRatio: number): number => {
 	if (stakeRatio === 0) {
-		return 1;
+		return MIN_BOOST;
 	}
 
 	if (stakeRatio <= 1) {
