@@ -110,3 +110,5 @@ export function getTokenIconPath(token: Token): string {
 	const fileName = token.symbol.replaceAll('/', '-');
 	return `/assets/icons/${fileName.toLowerCase()}.svg`;
 }
+
+export const isValidCalculatedValue = (value: number) => isFinite(value) && !isNaN(value);

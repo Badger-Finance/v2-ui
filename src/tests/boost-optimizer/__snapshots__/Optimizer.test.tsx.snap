@@ -1116,7 +1116,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                 <p
                   class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-328 MuiTypography-body1-145"
                 >
-                  0
+                  1
                   x
                 </p>
               </div>
@@ -2576,7 +2576,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                 <p
                   class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-383 MuiTypography-body1-145"
                 >
-                  0
+                  1
                   x
                 </p>
               </div>
@@ -3303,7 +3303,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                 <p
                   class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-328 MuiTypography-body1-145"
                 >
-                  0
+                  1
                   x
                 </p>
               </div>
@@ -4022,7 +4022,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                 <p
                   class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-383 MuiTypography-body1-145"
                 >
-                  0
+                  1
                   x
                 </p>
               </div>
@@ -4732,7 +4732,7 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                 <p
                   class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-328 MuiTypography-body1-145"
                 >
-                  0
+                  1
                   x
                 </p>
               </div>

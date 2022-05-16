@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { getColorFromComparison } from './utils';
-import { calculateUserBoost, isValidStakeRatio } from '../../utils/boost-ranks';
+import { calculateUserBoost } from '../../utils/boost-ranks';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../mobx/store-context';
+import { isValidCalculatedValue, roundWithPrecision } from '../../utils/componentHelpers';
 
 const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 	marginLeft: theme.spacing(1),
 	color: 'rgba(255, 255, 255, 0.3)',
 }));
 
-const useMultiplierStyles = (currentMultiplier: number, accountMultiplier = 0) => {
+const useStakeRatioClasses = (currentStakeRatio: number, accountStakeRatio = 0) => {
 	return makeStyles((theme) => {
-		if (!isValidStakeRatio(currentMultiplier) || !isValidStakeRatio(accountMultiplier)) {
+		if (!isValidCalculatedValue(currentStakeRatio) || !isValidCalculatedValue(accountStakeRatio)) {
 			return {
 				fontColor: {
 					color: theme.palette.text.primary,
@@ -24,8 +27,8 @@ const useMultiplierStyles = (currentMultiplier: number, accountMultiplier = 0) =
 		return {
 			fontColor: {
 				color: getColorFromComparison({
-					toCompareValue: currentMultiplier,
-					toBeComparedValue: accountMultiplier,
+					toCompareValue: roundWithPrecision(currentStakeRatio, 4),
+					toBeComparedValue: roundWithPrecision(accountStakeRatio, 4),
 					greaterCaseColor: '#74D189',
 					lessCaseColor: theme.palette.error.main,
 					defaultColor: theme.palette.text.primary,
@@ -63,12 +66,16 @@ interface Props {
 	onReset: () => void;
 }
 
-export const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => {
+const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => {
+	const {
+		user: { accountDetails },
+	} = useContext(StoreContext);
 	const classes = useStyles();
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-	const userBoost = calculateUserBoost(stakeRatio);
-	const boostClasses = useMultiplierStyles(stakeRatio, userBoost)();
+	const accountStakeRatio = accountDetails ? accountDetails.nativeBalance / accountDetails.nonNativeBalance : 0;
+	const boostClasses = useStakeRatioClasses(stakeRatio, accountStakeRatio)();
+	const currentBoost = calculateUserBoost(stakeRatio);
 	return (
 		<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
 			<Grid item className={classes.boostSectionContainer}>
@@ -76,7 +83,7 @@ export const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => 
 					Boost:
 				</Typography>
 				<Typography display="inline" className={clsx(classes.boostValue, boostClasses.fontColor)}>
-					{`${userBoost}x`}
+					{`${currentBoost}x`}
 				</Typography>
 				<Tooltip
 					enterTouchDelay={0}
@@ -98,3 +105,5 @@ export const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => 
 		</Grid>
 	);
 };
+
+export default observer(OptimizerHeader);

@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { OptimizerBody } from './OptimizerBody';
 import { StoreContext } from '../../mobx/store-context';
 import { StakeInformation } from './StakeInformation';
-import { OptimizerHeader } from './OptimizerHeader';
+import OptimizerHeader from './OptimizerHeader';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { calculateNativeToMatchRank } from '../../utils/boost-ranks';
