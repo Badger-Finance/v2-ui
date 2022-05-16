@@ -14,7 +14,7 @@ const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 	color: 'rgba(255, 255, 255, 0.3)',
 }));
 
-const useMultiplierStyles = (currentStakeRatio: number, accountStakeRatio = 0) => {
+const useStakeRatioClasses = (currentStakeRatio: number, accountStakeRatio = 0) => {
 	return makeStyles((theme) => {
 		if (!isValidCalculatedValue(currentStakeRatio) || !isValidCalculatedValue(accountStakeRatio)) {
 			return {
@@ -74,7 +74,7 @@ const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => {
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 	const accountStakeRatio = accountDetails ? accountDetails.nativeBalance / accountDetails.nonNativeBalance : 0;
-	const boostClasses = useMultiplierStyles(stakeRatio, accountStakeRatio)();
+	const boostClasses = useStakeRatioClasses(stakeRatio, accountStakeRatio)();
 	const currentBoost = calculateUserBoost(stakeRatio);
 	return (
 		<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
