@@ -91,10 +91,10 @@ export function calculateUserStakeRatio(boost: number): number {
 		return boost / 2000;
 	}
 	if (boost > 2000 && boost <= 2500) {
-		return boost / (2500 / 1.5);
+		return (boost - 2000) / 1000 + 1;
 	}
 	if (boost > 2500 && boost <= 2750) {
-		return boost / (2750 / 2);
+		return (boost - 2500) / 500 + 1.5;
 	}
-	return boost / (3000 / 3);
+	return (boost - 2750) / 250 + 2;
 }

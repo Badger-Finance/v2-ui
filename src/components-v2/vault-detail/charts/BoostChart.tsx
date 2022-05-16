@@ -5,8 +5,8 @@ import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipCont
 import { TooltipProps } from 'recharts';
 import { makeStyles } from '@material-ui/core';
 import { VaultDTO } from '@badger-dao/sdk';
-import { BOOST_RANKS, MAX_BOOST, MAX_BOOST_RANK } from '../../../config/system/boost-ranks';
-import { calculateUserBoost, calculateUserStakeRatio } from '../../../utils/boost-ranks';
+import { MAX_BOOST } from '../../../config/system/boost-ranks';
+import { calculateUserStakeRatio } from '../../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	tooltipContainer: {
@@ -20,18 +20,21 @@ const useStyles = makeStyles((theme) => ({
 const boostCheckpoints = Array.from(Array(61)).map((_, i) => i * 50);
 
 const yScaleFormatter = format('^.2%');
+// short visual trick to just show 1 as min boost instead of 0 graph wise - there is no impact
+const xScaleFormatter = (value: number): string => value === 0 ? '1' : value.toString();
 
-const BoostTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
+const BoostTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
 	const classes = useStyles();
 	if (!active || !payload || payload.length === 0) {
 		return null;
 	}
 	const { x, y } = payload[0].payload;
+	let xValue = x === 0 ? 1 : x;
 
-	const stakeRatio = `${(calculateUserStakeRatio(x) * 100).toFixed(2)}%`;
+	const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
 	return (
 		<div className={classes.tooltipContainer}>
-			<span>Badger Boost: {label}</span>
+			<span>Badger Boost: {xValue}</span>
 			<span>Stake Ratio: {stakeRatio}</span>
 			<span>Boosted APR: {yScaleFormatter(y)}</span>
 		</div>
@@ -67,6 +70,7 @@ export const BoostChart = ({ vault }: Props): JSX.Element | null => {
 		<BaseAreaChart
 			title={'Badger Boost APR'}
 			data={boostData}
+			xFormatter={xScaleFormatter}
 			yFormatter={yScaleFormatter}
 			width="99%" // needs to be 99% see https://github.com/recharts/recharts/issues/172#issuecomment-307858843
 			customTooltip={<BoostTooltip />}
