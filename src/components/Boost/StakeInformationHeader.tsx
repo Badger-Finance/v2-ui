@@ -6,10 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getColorFromComparison } from './utils';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { Skeleton } from '@material-ui/lab';
+import { isValidCalculatedValue } from '../../utils/componentHelpers';
 
 const useComparedValuesStyles = (currentRatio: number, accountRatio: number) => {
 	return makeStyles((theme) => {
-		if (isNaN(currentRatio) || isNaN(accountRatio)) {
+		if (!isValidCalculatedValue(currentRatio) || !isValidCalculatedValue(accountRatio)) {
 			return {
 				fontColor: {
 					color: theme.palette.text.primary,
@@ -63,29 +64,25 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	currentRank: BoostRank;
+	userBoost: number;
 	stakeRatio: number;
 	accountStakeRatio: number;
-	multiplier: number;
-	accountMultiplier: number;
+	accountBoost: number;
 	isLoading?: boolean;
 }
 
 export const StakeInformationHeader = ({
+	accountBoost,
+	userBoost,
 	currentRank,
 	stakeRatio,
-	multiplier,
-	accountMultiplier,
 	accountStakeRatio,
 	isLoading = false,
 }: Props): JSX.Element => {
 	const classes = useStyles();
-
 	const stakeRatioClasses = useComparedValuesStyles(stakeRatio, accountStakeRatio)();
-	const multiplierClasses = useComparedValuesStyles(multiplier, accountMultiplier)();
-
-	const stakeRatioInformation = `${Number(stakeRatio.toFixed(2))}%`;
-	const multiplierInformation = `${multiplier}x`;
-
+	const userBoostClasses = useComparedValuesStyles(userBoost, accountBoost)();
+	const stakeRatioInformation = `${Number((stakeRatio * 100).toFixed(2))}%`;
 	return (
 		<Grid container>
 			<Grid container alignItems="center">
@@ -116,15 +113,15 @@ export const StakeInformationHeader = ({
 				<Grid container item xs={6}>
 					<Grid item xs={12}>
 						<Typography variant="subtitle2" color="textSecondary">
-							Multiplier:
+							Boost:
 						</Typography>
 					</Grid>
 					<Grid item xs={12} className={classes.informationValueContainer}>
 						{isLoading ? (
 							<Skeleton variant="text" width={30} height={24} />
 						) : (
-							<Typography className={clsx(classes.informationValue, multiplierClasses.fontColor)}>
-								{multiplierInformation}
+							<Typography className={clsx(classes.informationValue, userBoostClasses.fontColor)}>
+								{userBoost}x
 							</Typography>
 						)}
 					</Grid>

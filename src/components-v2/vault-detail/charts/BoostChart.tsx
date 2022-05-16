@@ -4,8 +4,9 @@ import BaseAreaChart from './BaseAreaChart';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { TooltipProps } from 'recharts';
 import { makeStyles } from '@material-ui/core';
-import { BOOST_LEVELS, MAX_BOOST_LEVEL } from 'config/system/boost-ranks';
 import { VaultDTO } from '@badger-dao/sdk';
+import { MAX_BOOST } from '../../../config/system/boost-ranks';
+import { calculateUserStakeRatio } from '../../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	tooltipContainer: {
@@ -16,23 +17,24 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-// hard coded expected badger boost values
-// note: this is a bandaid over exposing the true multiplier values
-// TODO: expose multiplier chart data once multichain boost is sorted
-const boostCheckpoints = BOOST_LEVELS.flatMap((level) => level.multiplier);
+const boostCheckpoints = Array.from(Array(61)).map((_, i) => i * 50);
 
 const yScaleFormatter = format('^.2%');
+// short visual trick to just show 1 as min boost instead of 0 graph wise - there is no impact
+const xScaleFormatter = (value: number): string => (value === 0 ? '1' : value.toString());
 
-const BoostTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
+const BoostTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
 	const classes = useStyles();
 	if (!active || !payload || payload.length === 0) {
 		return null;
 	}
 	const { x, y } = payload[0].payload;
-	const stakeRatio = `${(x / 20).toFixed(2)}%`;
+	const xValue = x === 0 ? 1 : x;
+
+	const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
 	return (
 		<div className={classes.tooltipContainer}>
-			<span>Badger Boost: {label}</span>
+			<span>Badger Boost: {xValue}</span>
 			<span>Stake Ratio: {stakeRatio}</span>
 			<span>Boosted APR: {yScaleFormatter(y)}</span>
 		</div>
@@ -57,7 +59,7 @@ export const BoostChart = ({ vault }: Props): JSX.Element | null => {
 	const baseApr = apr - boostableApr;
 	const aprRange = maxApr - minApr;
 	const boostData = boostCheckpoints.map((checkpoint) => {
-		const rangeScalar = checkpoint / MAX_BOOST_LEVEL.multiplier;
+		const rangeScalar = checkpoint / MAX_BOOST;
 		return {
 			x: checkpoint,
 			y: (baseApr + rangeScalar * aprRange) / 100,
@@ -68,6 +70,7 @@ export const BoostChart = ({ vault }: Props): JSX.Element | null => {
 		<BaseAreaChart
 			title={'Badger Boost APR'}
 			data={boostData}
+			xFormatter={xScaleFormatter}
 			yFormatter={yScaleFormatter}
 			width="99%" // needs to be 99% see https://github.com/recharts/recharts/issues/172#issuecomment-307858843
 			customTooltip={<BoostTooltip />}

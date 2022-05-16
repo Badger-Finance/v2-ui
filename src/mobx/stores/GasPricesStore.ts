@@ -1,4 +1,4 @@
-import { BadgerAPI, Network, GasPrices } from '@badger-dao/sdk';
+import { Network, GasPrices } from '@badger-dao/sdk';
 import { GasPricesSummary } from '../model/network/gas-prices-summary';
 import { supportedNetworks } from '../../config/networks.config';
 import { computed, extendObservable } from 'mobx';

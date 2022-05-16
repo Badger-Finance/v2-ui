@@ -1,9 +1,9 @@
 import React from 'react';
-import { BOOST_LEVELS } from '../../config/system/boost-ranks';
 import { RankProgressBar } from './RankProgressBar';
 import { RankConnector } from './RankConnector';
-import { BoostRank, BoostRankLevel } from '../../mobx/model/boost/leaderboard-rank';
+import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { makeStyles } from '@material-ui/core/styles';
+import { getNextBoostRank } from '../../utils/boost-ranks';
 
 const useStyles = makeStyles({
 	progressContainer: {
@@ -19,36 +19,23 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	accountMultiplier: number;
-	currentBoostLevel: BoostRankLevel;
-	currentMultiplier: number;
 	rank: BoostRank;
-	isMainSlice?: boolean;
+	currentStakeRatio: number;
+	accountStakeRatio: number;
 }
 
-export const RankProgressBarSlice = ({
-	accountMultiplier,
-	currentBoostLevel,
-	currentMultiplier,
-	rank,
-	isMainSlice = false,
-}: Props): JSX.Element => {
+export const RankProgressBarSlice = ({ rank, currentStakeRatio, accountStakeRatio }: Props): JSX.Element => {
 	const classes = useStyles();
-
-	const currentBoostLevelIndex = BOOST_LEVELS.findIndex((level) => level.multiplier === currentBoostLevel.multiplier);
-	const nextLevel = BOOST_LEVELS[currentBoostLevelIndex + 1];
-	const levelRangeStart = currentBoostLevel.multiplier;
-	const levelRangeEnd = nextLevel ? nextLevel.multiplier : currentBoostLevel.multiplier;
-
+	const nextLevel = getNextBoostRank(rank) || rank;
 	return (
 		<div className={classes.progressEntry}>
 			<RankProgressBar
-				multiplier={currentMultiplier}
-				accountMultiplier={accountMultiplier}
-				rangeStart={levelRangeStart}
-				rangeEnd={levelRangeEnd}
+				currentStakeRatio={currentStakeRatio}
+				accountStakeRatio={accountStakeRatio}
+				rangeStart={rank.stakeRatioBoundary}
+				rangeEnd={nextLevel.stakeRatioBoundary}
 			/>
-			<RankConnector signatureColor={rank.signatureColor} isMain={isMainSlice} />
+			<RankConnector signatureColor={rank.signatureColor} />
 		</div>
 	);
 };

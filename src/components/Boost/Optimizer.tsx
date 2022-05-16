@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,10 +6,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { OptimizerBody } from './OptimizerBody';
 import { StoreContext } from '../../mobx/store-context';
 import { StakeInformation } from './StakeInformation';
-import { OptimizerHeader } from './OptimizerHeader';
+import OptimizerHeader from './OptimizerHeader';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
-import { calculateMultiplier, calculateNativeToMatchMultiplier } from '../../utils/boost-ranks';
-import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
+import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
+import { calculateNativeToMatchRank } from '../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
@@ -51,7 +51,7 @@ export const Optimizer = observer((): JSX.Element => {
 	} = useContext(StoreContext);
 
 	const classes = useStyles();
-	const [multiplier, setMultiplier] = useState(MIN_BOOST_LEVEL.multiplier);
+	const [stakeRatio, setStakeRatio] = useState(0);
 	const [native, setNative] = useState('0');
 	const [nonNative, setNonNative] = useState('0');
 	const [nativeToAdd, setNativeToAdd] = useState<string>();
@@ -61,35 +61,21 @@ export const Optimizer = observer((): JSX.Element => {
 		setNative('0');
 		setNonNative('0');
 		setNativeToAdd(undefined);
-		setMultiplier(MIN_BOOST_LEVEL.multiplier);
+		setStakeRatio(0);
 		return;
 	};
 
-	const setNativeToMatchMultiplier = useCallback(
-		(targetBoost: number) => {
-			const numericNative = Number(native);
-			const numericNonNative = Number(nonNative);
-
-			if (isNaN(numericNative) || isNaN(numericNonNative)) {
-				return;
-			}
-
-			const nativeToAdd = calculateNativeToMatchMultiplier(numericNative, numericNonNative, targetBoost);
-			setNativeToAdd(nativeToAdd.toString());
-		},
-		[native, nonNative],
-	);
-
-	const updateMultiplier = (newNative: string, newNonNative: string) => {
+	const updateCalculation = (newNative: string, newNonNative: string) => {
 		const numberNewNative = Number(newNative);
 		const numericNewNonNative = Number(newNonNative);
 
 		if (isNaN(numberNewNative) || isNaN(numericNewNonNative) || numericNewNonNative === 0) {
-			setMultiplier(MIN_BOOST_LEVEL.multiplier);
+			setStakeRatio(0);
 			return;
 		}
 
-		setMultiplier(calculateMultiplier(numberNewNative, numericNewNonNative));
+		const stakeRatio = numberNewNative / numericNewNonNative;
+		setStakeRatio(stakeRatio);
 	};
 
 	const handleReset = () => {
@@ -98,21 +84,29 @@ export const Optimizer = observer((): JSX.Element => {
 			return;
 		}
 
-		const { nativeBalance, nonNativeBalance, boost } = accountDetails;
+		const { nativeBalance, nonNativeBalance } = accountDetails;
+		const stakeRatio = nativeBalance / nonNativeBalance;
 
 		setNativeToAdd(undefined);
 		setNative(formatWithoutExtraZeros(nativeBalance, 4));
 		setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
-		setMultiplier(boost);
+		setStakeRatio(stakeRatio);
 	};
 
-	const handleRankClick = (rankBoost: number) => {
+	const handleRankClick = (targetRank: BoostRank) => {
 		if (!nonNative || Number(nonNative) === 0) {
 			setShowBouncingMessage(true);
 			return;
 		}
 
-		setNativeToMatchMultiplier(rankBoost);
+		const numericNative = Number(native);
+		const numericNonNative = Number(nonNative);
+
+		if (isNaN(numericNative) || isNaN(numericNonNative)) {
+			return;
+		}
+
+		setNativeToAdd(calculateNativeToMatchRank(numericNative, numericNonNative, targetRank).toString());
 	};
 
 	const handleNativeChange = (change: string) => {
@@ -120,7 +114,7 @@ export const Optimizer = observer((): JSX.Element => {
 		setNativeToAdd(undefined);
 
 		if (nonNative) {
-			updateMultiplier(change, nonNative);
+			updateCalculation(change, nonNative);
 		}
 	};
 
@@ -129,7 +123,7 @@ export const Optimizer = observer((): JSX.Element => {
 		setNativeToAdd(undefined);
 
 		if (native) {
-			updateMultiplier(native, change);
+			updateCalculation(native, change);
 		}
 	};
 
@@ -143,11 +137,12 @@ export const Optimizer = observer((): JSX.Element => {
 
 		if (!accountDetails) return;
 
-		const { nativeBalance, nonNativeBalance, boost } = accountDetails;
+		const { nativeBalance, nonNativeBalance } = accountDetails;
+		const stakeRatio = nativeBalance / nonNativeBalance;
 
 		setNative(formatWithoutExtraZeros(nativeBalance, 4));
 		setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
-		setMultiplier(boost);
+		setStakeRatio(stakeRatio);
 	}, [accountDetails, onboard, onboard.address]);
 
 	return (
@@ -155,12 +150,12 @@ export const Optimizer = observer((): JSX.Element => {
 			<Grid container item xs={12} lg>
 				<Grid container direction="column" component={Paper} className={classes.calculatorContainer}>
 					<Grid item>
-						<OptimizerHeader multiplier={multiplier} onReset={handleReset} />
+						<OptimizerHeader stakeRatio={stakeRatio} onReset={handleReset} />
 					</Grid>
 					<Divider className={classes.divider} />
 					<Grid item>
 						<OptimizerBody
-							multiplier={multiplier}
+							stakeRatio={stakeRatio}
 							native={native || ''}
 							nonNative={nonNative || ''}
 							nativeToAdd={nativeToAdd}

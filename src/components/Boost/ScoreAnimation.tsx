@@ -2,8 +2,8 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { percentageBetweenRange } from '../../utils/componentHelpers';
-import { MAX_BOOST_LEVEL, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
-import { rankAndLevelFromMultiplier } from '../../utils/boost-ranks';
+import { MAX_BOOST_RANK, MIN_BOOST_RANK } from '../../config/system/boost-ranks';
+import { getHighestRankFromStakeRatio } from '../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -65,16 +65,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type BoostBadgeProps = {
-	multiplier: number;
+	stakeRatio: number;
 };
 
-const useAnimatedStyles = (multiplier: number) => {
-	const firstMultiplier = MIN_BOOST_LEVEL.multiplier;
-	const lastMultiplier = MAX_BOOST_LEVEL.multiplier;
-	const score = percentageBetweenRange(multiplier, lastMultiplier, firstMultiplier);
+const useAnimatedStyles = (stakeRatio: number) => {
+	const firstMultiplier = MIN_BOOST_RANK.stakeRatioBoundary;
+	const lastMultiplier = MAX_BOOST_RANK.stakeRatioBoundary;
+	const score = percentageBetweenRange(stakeRatio, lastMultiplier, firstMultiplier);
 
 	const scale = 0.75 + score / 40;
-	const [rank] = rankAndLevelFromMultiplier(multiplier);
+	const rank = getHighestRankFromStakeRatio(stakeRatio);
 
 	return makeStyles(() => ({
 		container: {
@@ -93,12 +93,10 @@ const useAnimatedStyles = (multiplier: number) => {
 	}));
 };
 
-export const BoostBadgerAnimation = ({ multiplier }: BoostBadgeProps): JSX.Element => {
+export const BoostBadgerAnimation = ({ stakeRatio }: BoostBadgeProps): JSX.Element => {
 	const classes = useStyles();
-	const animatedClasses = useAnimatedStyles(multiplier)();
-
+	const animatedClasses = useAnimatedStyles(stakeRatio)();
 	const eyesImage = <img src={'assets/badger-eyes.png'} alt="Badger Eyes" className={classes.boostEyeStar} />;
-
 	return (
 		<Box className={[classes.root, animatedClasses.container].join(' ')}>
 			<div className={[classes.boostEye, classes.boostLeft, animatedClasses.eyes].join(' ')}>{eyesImage}</div>

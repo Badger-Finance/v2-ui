@@ -8,7 +8,7 @@ import { Skeleton } from '@material-ui/lab';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import { NativeBox } from './NativeBox';
 import { NonNativeBox } from './NonNativeBox';
-import { sanitizeMultiplierValue } from '../../utils/boost-ranks';
+import { clampStakeRatio } from '../../utils/boost-ranks';
 
 const BoostLoader = withStyles((theme) => ({
 	root: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type OptimizerBodyProps = {
-	multiplier: number;
+	stakeRatio: number;
 	native: string;
 	nativeToAdd?: string;
 	nonNative: string;
@@ -51,7 +51,7 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 	} = React.useContext(StoreContext);
 
 	const {
-		multiplier,
+		stakeRatio,
 		native,
 		nonNative,
 		nativeToAdd,
@@ -67,7 +67,7 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 
 	const isLoading = onboard.isActive() && accountDetails === undefined;
-	const sanitizedMultiplier = sanitizeMultiplierValue(Number(multiplier));
+	const clampedStakeRatio = clampStakeRatio(Number(stakeRatio));
 
 	const handleApplyRemaining = (amountToAdd: string) => {
 		const increasedNative = Number(native) + Number(amountToAdd);
@@ -76,7 +76,7 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 			return;
 		}
 
-		onNativeChange(increasedNative.toString());
+		onNativeChange(Math.floor(increasedNative).toString());
 	};
 
 	const handleApplyNextLevelAmount = (amountToReachNextLevel: number) => {
@@ -96,7 +96,7 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 			return;
 		}
 
-		onNativeChange(increasedNative.toString());
+		onNativeChange(Math.floor(increasedNative).toString());
 	};
 
 	const handleReduceNative = () => {
@@ -107,7 +107,7 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 		}
 
 		const sanitizedReducedNative = Math.max(reducedNative, 0);
-		onNativeChange(sanitizedReducedNative.toString());
+		onNativeChange(Math.floor(sanitizedReducedNative).toString());
 	};
 
 	const handleIncreaseNonNative = () => {
@@ -117,7 +117,7 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 			return;
 		}
 
-		onNonNativeChange(increaseNonNative.toString());
+		onNonNativeChange(Math.floor(increaseNonNative).toString());
 	};
 
 	const handleReduceNonNative = () => {
@@ -128,18 +128,18 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 		}
 
 		const sanitizedReducedNonNative = Math.max(reducedNonNative, 0);
-		onNonNativeChange(sanitizedReducedNonNative.toString());
+		onNonNativeChange(Math.floor(sanitizedReducedNonNative).toString());
 	};
 
 	const badgerScoreContent = isLoading ? (
 		<BoostLoader variant="rect" />
 	) : (
-		<BoostBadgerAnimation multiplier={sanitizedMultiplier} />
+		<BoostBadgerAnimation stakeRatio={clampedStakeRatio} />
 	);
 
 	const nativeBox = (
 		<NativeBox
-			currentMultiplier={multiplier}
+			currentStakeRatio={stakeRatio}
 			nativeBalance={native}
 			nonNativeBalance={nonNative}
 			isLoading={isLoading}

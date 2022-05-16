@@ -129,7 +129,7 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE = 'Badger Vaults are now on Fantom!';
+export const APP_NEWS_MESSAGE = 'Please confirm the URL is "https://app.badger.com/" before interacting with the site';
 // Text & URL should be defined or explicitly undefined.
 export const APP_NEWS_URL_TEXT = undefined;
 export const APP_NEWS_URL = undefined;

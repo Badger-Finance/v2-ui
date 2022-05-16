@@ -2,12 +2,13 @@ import React from 'react';
 import { Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
-import { rankAndLevelFromStakeRatio } from '../../utils/boost-ranks';
+import { calculateUserBoost, getHighestRankFromStakeRatio } from '../../utils/boost-ranks';
 import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
-import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
+import { MIN_BOOST, MIN_BOOST_RANK } from '../../config/system/boost-ranks';
 import { StakeInformationHeader } from './StakeInformationHeader';
-import { roundWithDecimals } from '../../utils/componentHelpers';
+import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
+import { isValidCalculatedValue } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -46,18 +47,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const isValidCalculatedValue = (value: number) => isFinite(value) && !isNaN(value);
-const roundValue = (value: number | string | undefined) => roundWithDecimals(Number(value), 4);
-
 interface Props {
 	native?: string;
 	nonNative?: string;
-	onRankClick: (boost: number) => void;
+	onRankClick: (rank: BoostRank) => void;
 }
 
 export const StakeInformation = observer(({ native, nonNative, onRankClick }: Props): JSX.Element => {
 	const {
-		router,
 		user: { accountDetails },
 		onboard,
 	} = React.useContext(StoreContext);
@@ -68,35 +65,35 @@ export const StakeInformation = observer(({ native, nonNative, onRankClick }: Pr
 	const accountNative = accountDetails?.nativeBalance;
 	const accountNonNative = accountDetails?.nonNativeBalance;
 
-	// round both values to make sure there is no difference caused by decimals
-	const calculatedStakeRatio = (roundValue(native) / roundValue(nonNative)) * 100;
-	const calculatedAccountRatio = (roundValue(accountNative) / roundValue(accountNonNative)) * 100;
+	const calculatedStakeRatio = Number(native) / Number(nonNative);
+	const calculatedAccountRatio = Number(accountNative) / Number(accountNonNative);
 
 	const isValidStakeRatio = isValidCalculatedValue(calculatedStakeRatio);
 	const isValidAccountRatio = isValidCalculatedValue(calculatedAccountRatio);
 
-	const stakeRatio = isValidStakeRatio ? calculatedStakeRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
-	const accountStakeRatio = isValidAccountRatio ? calculatedAccountRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
+	const stakeRatio = isValidStakeRatio ? calculatedStakeRatio : MIN_BOOST_RANK.stakeRatioBoundary;
+	const accountStakeRatio = isValidAccountRatio ? calculatedAccountRatio : MIN_BOOST_RANK.stakeRatioBoundary;
 
-	const [currentRank, currentLevel] = rankAndLevelFromStakeRatio(stakeRatio);
-	const { 1: accountLevel } = rankAndLevelFromStakeRatio(accountStakeRatio);
+	const currentRank = getHighestRankFromStakeRatio(stakeRatio);
+	const userBoost = isValidStakeRatio ? calculateUserBoost(calculatedStakeRatio) : MIN_BOOST;
+	const accountBoost = isValidAccountRatio ? calculateUserBoost(calculatedAccountRatio) : MIN_BOOST;
 
 	return (
 		<Grid container component={Paper} className={classes.root}>
 			<StakeInformationHeader
+				accountBoost={accountBoost}
+				userBoost={userBoost}
 				isLoading={isLoading}
 				currentRank={currentRank}
 				stakeRatio={stakeRatio}
 				accountStakeRatio={accountStakeRatio}
-				multiplier={currentLevel.multiplier}
-				accountMultiplier={accountLevel.multiplier}
 			/>
 			<Divider className={classes.divider} />
 			<Grid container>
 				<Grid item xs>
 					<RankList
-						currentMultiplier={currentLevel.multiplier}
-						accountMultiplier={accountLevel.multiplier}
+						currentStakeRatio={stakeRatio}
+						accountStakeRatio={accountStakeRatio}
 						onRankClick={onRankClick}
 					/>
 				</Grid>
