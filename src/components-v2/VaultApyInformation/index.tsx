@@ -54,14 +54,8 @@ interface Props {
 }
 
 const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Element => {
-	const {
-		vaults,
-		user: { accountDetails },
-		router,
-	} = useContext(StoreContext);
+	const { vaults, router } = useContext(StoreContext);
 	const classes = useStyles();
-	const multiplier =
-		vault.state !== VaultState.Discontinued ? accountDetails?.multipliers[vault.vaultToken] : undefined;
 	const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
 	//make sure boost sources are always the last one
 	const sortedSources = sources.sort((source) => (source.boostable ? 1 : -1));
@@ -120,7 +114,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
 					<Divider className={classes.divider} />
 					{sortedSources.map((source) => (
 						<React.Fragment key={source.name}>
-							<VaultApyBreakdownItem vault={vault} source={source} multiplier={multiplier ?? 1} />
+							<VaultApyBreakdownItem vault={vault} source={source} />
 							<Divider className={classes.divider} />
 						</React.Fragment>
 					))}

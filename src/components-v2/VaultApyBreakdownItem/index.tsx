@@ -6,6 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
 import routes from '../../config/routes';
+import { calculateUserBoost } from 'utils/boost-ranks';
+import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
 
 const useStyles = makeStyles({
 	apyBreakdownIcon: {
@@ -25,32 +27,33 @@ const useStyles = makeStyles({
 interface Props {
 	vault: VaultDTO;
 	source: ValueSource;
-	multiplier: number;
 }
 
-const VaultApyBreakdownItem = ({ vault, source, multiplier }: Props): JSX.Element => {
+const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
 	const classes = useStyles();
-	const { vaults, user, router } = useContext(StoreContext);
+	const { user, router } = useContext(StoreContext);
 	const { boostContribution } = useVaultInformation(vault);
 
 	// this is only possible because we're currently distributing BADGER. If in the future we distribute other tokens,
 	// this will need to be updated to reflect that.
 	const isBoostBreakdown = source.name === 'Boosted Badger Rewards';
-	const sourceApr = source.boostable ? source.apr * multiplier : source.apr;
-	const maxReward = vaults.vaultsFilters.showAPR ? vault.maxApr : vault.maxApy;
-	const boostMultiplier = user.accountDetails?.boost;
+	const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
+	const boostMultiplier = user.accountDetails?.boost ?? 1;
+	const sourceApr = source.boostable
+		? source.minApr + (source.maxApr - source.minApr) * (boostMultiplier / maxBoost)
+		: source.apr;
 
 	const handleGoToCalculator = async () => {
 		await router.goTo(routes.boostOptimizer);
 	};
 
-	if (isBoostBreakdown && vault.boost.enabled && maxReward) {
+	if (isBoostBreakdown && vault.boost.enabled) {
 		return (
 			<Grid item container direction="column">
 				<Grid item container justifyContent="space-between">
 					<Grid item>
 						<Typography variant="body2" display="inline" color="textSecondary">
-							{`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(maxReward.toFixed(2))}%)`}
+							{`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr.toFixed(2))}%)`}
 						</Typography>
 					</Grid>
 					<Grid item>
