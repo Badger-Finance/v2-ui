@@ -153,8 +153,11 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 		async (balances: TokenBalance[]): Promise<BigNumber[]> => {
 			const web3 = new Web3(onboard.wallet?.provider);
 			const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], mainnetDeploy.ibbtcVaultZap);
+			const validBalances = balances.map((balance) =>
+				balance.tokenBalance.isNaN() ? TokenBalance.fromBalance(balance, '0') : balance,
+			);
 
-			const depositAmounts = balances.map((balance) => toHex(balance.tokenBalance));
+			const depositAmounts = validBalances.map((balance) => toHex(balance.tokenBalance));
 
 			const [calculatedMint, expectedAmount] = await Promise.all([
 				new BigNumber(await ibbtcVaultPeak.methods.calcMint(depositAmounts, false).call()),
