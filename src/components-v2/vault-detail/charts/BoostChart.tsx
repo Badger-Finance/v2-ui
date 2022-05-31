@@ -28,27 +28,27 @@ const xScaleFormatter = (value: number): string => (value === 0 ? '1' : value.to
 
 const BoostTooltip = observer(({ active, payload }: TooltipProps<ValueType, NameType>) => {
   const {
-    vaults: { vaultsFilters },
-  } = useContext(StoreContext);
-  const classes = useStyles();
+		vaults: { vaultsFilters },
+	} = useContext(StoreContext);
+	const classes = useStyles();
 
-  if (!active || !payload || payload.length === 0) {
-    return null;
-  }
-  const { x, y } = payload[0].payload;
-  const xValue = x === 0 ? 1 : x;
-  const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
+	if (!active || !payload || payload.length === 0) {
+		return null;
+	}
+	const { x, y } = payload[0].payload;
+	const xValue = x === 0 ? 1 : x;
+	const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
 
-  const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
-  return (
-    <div className={classes.tooltipContainer}>
-      <span>Badger Boost: {xValue}</span>
-      <span>Stake Ratio: {stakeRatio}</span>
-      <span>
-        Boosted {mode}: {yScaleFormatter(y)}
-      </span>
-    </div>
-  );
+	const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
+	return (
+		<div className={classes.tooltipContainer}>
+			<span>Badger Boost: {xValue}</span>
+			<span>Stake Ratio: {stakeRatio}</span>
+			<span>
+				Boosted {mode}: {yScaleFormatter(y)}
+			</span>
+		</div>
+	);
 });
 
 interface Props {
