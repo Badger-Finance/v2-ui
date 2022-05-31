@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { format } from 'd3-format';
 import BaseAreaChart from './BaseAreaChart';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core';
 import { VaultDTO } from '@badger-dao/sdk';
 import { MAX_BOOST } from '../../../config/system/boost-ranks';
 import { calculateUserStakeRatio } from '../../../utils/boost-ranks';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	tooltipContainer: {
@@ -45,14 +47,21 @@ interface Props {
 	vault: VaultDTO;
 }
 
-export const BoostChart = ({ vault }: Props): JSX.Element | null => {
-	const { sources, apr, minApr, maxApr } = vault;
+export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
+	const {
+		vaults: { vaultsFilters },
+	} = useContext(StoreContext);
+
+	const { sources, apr, minApr, maxApr, sourcesApy } = vault;
 
 	if (!minApr || !maxApr) {
 		return null;
 	}
 
-	const boostableApr = sources
+	const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
+	const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
+
+	const boostableApr = boostSources
 		.filter((s) => s.boostable)
 		.map((s) => s.apr)
 		.reduce((total, apr) => (total += apr), 0);
@@ -68,13 +77,13 @@ export const BoostChart = ({ vault }: Props): JSX.Element | null => {
 
 	return (
 		<BaseAreaChart
-			title={'Badger Boost APR'}
+			title={`Badger Boost ${mode}`}
 			data={boostData}
 			xFormatter={xScaleFormatter}
 			yFormatter={yScaleFormatter}
 			width="99%" // needs to be 99% see https://github.com/recharts/recharts/issues/172#issuecomment-307858843
 			customTooltip={<BoostTooltip />}
-			references={[{ value: apr / 100, label: `Baseline APR (${apr.toFixed(2)}%)` }]}
+			references={[{ value: apr / 100, label: `Baseline ${mode} (${apr.toFixed(2)}%)` }]}
 		/>
 	);
-};
+});

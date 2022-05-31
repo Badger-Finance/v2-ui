@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { ChartTimeframeControls } from './ChartTimeframeControls';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChartModeTitles } from '../utils';
 import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	titleText: {
@@ -26,7 +28,11 @@ interface Props {
 	onTimeframeChange: (timeframe: VaultChartTimeframe) => void;
 }
 
-export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX.Element => {
+export const ChartsHeader = observer(({ mode, timeframe, onTimeframeChange }: Props): JSX.Element => {
+	const {
+		vaults: { vaultsFilters },
+	} = useContext(StoreContext);
+
 	const classes = useStyles();
 
 	let description;
@@ -41,7 +47,8 @@ export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX
 			description = 'Total assets under management';
 			break;
 		default:
-			description = 'Sett Boost APR breakdown';
+			const boostMode = vaultsFilters.showAPR ? 'APR' : 'APY';
+			description = `Vault Boost ${boostMode} breakdown`;
 	}
 
 	return (
@@ -59,4 +66,4 @@ export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX
 			)}
 		</Grid>
 	);
-};
+});
