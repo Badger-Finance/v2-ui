@@ -59,12 +59,13 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
 		vaults: { vaultsFilters },
 	} = useContext(StoreContext);
 
-	const { sources, apr, minApr, maxApr, sourcesApy } = vault;
+	const { sources, apr, minApr, maxApr, maxApy, minApy, sourcesApy } = vault;
 
-	if (!minApr || !maxApr) {
+	if (!minApr || !maxApr || !maxApy || !minApy) {
 		return null;
 	}
 
+	const range = vaultsFilters.showAPR ? maxApr - minApr : maxApy - minApy;
 	const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
 	const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
 
@@ -73,12 +74,11 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
 		.map((s) => s.apr)
 		.reduce((total, apr) => (total += apr), 0);
 	const baseApr = apr - boostableApr;
-	const aprRange = maxApr - minApr;
 	const boostData = boostCheckpoints.map((checkpoint) => {
 		const rangeScalar = checkpoint / MAX_BOOST;
 		return {
 			x: checkpoint,
-			y: (baseApr + rangeScalar * aprRange) / 100,
+			y: (baseApr + rangeScalar * range) / 100,
 		};
 	});
 
