@@ -31,7 +31,6 @@ import { sendContractMethod } from '../../mobx/utils/web3';
 import { VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { Loader } from '../../components/Loader';
 import SlippageMessage from './SlippageMessage';
-import { debounce } from '../../utils/componentHelpers';
 import { ReportProblem } from '@material-ui/icons';
 import { BalanceNamespace } from '../../web3/config/namespaces';
 import clsx from 'clsx';
@@ -192,38 +191,35 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 		setExpectedSlippage(calculatedSlippage);
 	};
 
-	const handleDepositBalanceChange = useCallback(
-		debounce(200, async (tokenBalance: TokenBalance, index: number) => {
-			const balances = [...multiTokenDepositBalances];
-			balances[index] = tokenBalance;
+	const handleDepositBalanceChange = async (tokenBalance: TokenBalance, index: number) => {
+		const balances = [...multiTokenDepositBalances];
+		balances[index] = tokenBalance;
+		const totalDeposit = balances.reduce((total, balance) => total.plus(balance.tokenBalance), new BigNumber(0));
 
-			const totalDeposit = balances.reduce(
-				(total, balance) => total.plus(balance.tokenBalance),
-				new BigNumber(0),
-			);
-
-			if (totalDeposit.isZero()) {
-				resetCalculatedInformation();
-				return;
-			}
-
-			const [calculatedMint, expectedAmount] = await getCalculations(balances);
-			// formula is: slippage = [(expectedAmount - calculatedMint) * 100] / expectedAmount
-			const calculatedSlippage = expectedAmount.minus(calculatedMint).multipliedBy(100).dividedBy(expectedAmount);
-			const minOut = expectedAmount.multipliedBy(1 - slippage / 100);
-
-			if (userLpTokenBalance) {
-				setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
-				setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint));
-			}
-
-			// this will protect users from submitting tx that will be reverted because of slippage
-			setSlippageRevertProtected(calculatedMint.isLessThan(minOut));
-			setExpectedSlippage(calculatedSlippage);
+		if (totalDeposit.isZero()) {
 			setMultiTokenDepositBalances(balances);
-		}),
-		[getCalculations, resetCalculatedInformation, userLpTokenBalance, multiTokenDepositBalances, slippage],
-	);
+			setSlippageRevertProtected(false);
+			setExpectedSlippage(undefined);
+			setExpectedPoolTokens(undefined);
+			setMinPoolTokens(undefined);
+			return;
+		}
+
+		const [calculatedMint, expectedAmount] = await getCalculations(balances);
+		// formula: slippage = [(expectedAmount - calculatedMint) * 100] / expectedAmount
+		const calculatedSlippage = expectedAmount.minus(calculatedMint).multipliedBy(100).dividedBy(expectedAmount);
+		const minOut = expectedAmount.multipliedBy(1 - slippage / 100);
+
+		if (userLpTokenBalance) {
+			setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
+			setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint));
+		}
+
+		// this will protect users from submitting tx that will be reverted because of slippage
+		setSlippageRevertProtected(calculatedMint.isLessThan(minOut));
+		setExpectedSlippage(calculatedSlippage);
+		setMultiTokenDepositBalances(balances);
+	};
 
 	const handleLpTokenDeposit = async () => {
 		if (!lpTokenDepositBalance || !userLpTokenBalance || !lpVault || !lpBadgerVault) {
