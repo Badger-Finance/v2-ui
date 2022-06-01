@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Box, ButtonBase, Divider, Grid, TextField, Typography } from '@material-ui/core';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { useNumericInput } from '../../utils/useNumericInput';
@@ -37,7 +37,8 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 
 	const handleInputChange = (amount: string) => {
 		setInputValue(amount);
-		onChange(TokenBalance.fromBalance(tokenBalance, amount || '0'));
+		const inputBalance = TokenBalance.fromBalance(tokenBalance, amount || '0');
+		onChange(inputBalance.tokenBalance.isNaN() ? TokenBalance.fromBalance(tokenBalance, '0') : inputBalance);
 	};
 
 	const handleApplyPercentage = (percentage: number) => {
