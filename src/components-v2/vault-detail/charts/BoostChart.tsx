@@ -68,6 +68,7 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
   }
 
   const base = vaultsFilters.showAPR ? apr : apy;
+	const base = vaultsFilters.showAPR ? apr : apy;
   const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
   const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
 
@@ -76,9 +77,9 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
     .map((s) => s.apr)
     .reduce((total, apr) => total + apr, 0);
 
-  const baseApr = base - boostableApr;
+	const baseApr = base - boostableApr;
 
-  const boostableMinApr = boostSources
+	const boostableMinApr = boostSources
     .filter((s) => s.boostable)
     .map((s) => s.minApr)
     .reduce((total, apr) => total + apr, 0);
