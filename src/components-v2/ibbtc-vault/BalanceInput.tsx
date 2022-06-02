@@ -24,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
 	balances: {
 		marginTop: theme.spacing(1),
 	},
+	percentageButton: {
+		padding: '0px 16px',
+	},
+	divider: {
+		margin: 0,
+	},
 }));
 
 const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
@@ -52,10 +58,16 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 		<Box className={classes.percentagesContainer}>
 			{[25, 50, 75, 100].map((percentage, index, total) => (
 				<Fragment key={`${percentage}%_${index}`}>
-					<ButtonBase onClick={() => handleApplyPercentage(percentage)}>
+					<ButtonBase
+						focusRipple
+						className={classes.percentageButton}
+						onClick={() => handleApplyPercentage(percentage)}
+					>
 						<Typography variant="caption">{`${percentage}%`}</Typography>
 					</ButtonBase>
-					{index !== total.length - 1 && <Divider orientation="vertical" variant="middle" flexItem />}
+					{index !== total.length - 1 && (
+						<Divider className={classes.divider} orientation="vertical" variant="middle" flexItem />
+					)}
 				</Fragment>
 			))}
 		</Box>
