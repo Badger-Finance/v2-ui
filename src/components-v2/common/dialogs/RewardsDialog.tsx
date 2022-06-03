@@ -9,6 +9,7 @@ import UserGuideContent from '../../rewards/UserGuideContent';
 import ClaimedRewardsContent from '../../rewards/ClaimedRewardsContent';
 import ClaimRewardsContent from '../../rewards/ClaimRewardsContent';
 import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
+import InvalidCycleDialog from './InvalidCycleDialog';
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -26,17 +27,28 @@ const RewardsDialog = (): JSX.Element => {
 	const classes = useStyles();
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
+	const [showInvalidCycle, setShowInvalidCycle] = useState(false);
 	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
 	const [claimedRewards, setClaimedRewards] = useState<TokenBalance[]>();
 	const [guideMode, setGuideMode] = useState(false);
 	const hasRewards = Object.keys(claimableRewards).length > 0;
 
 	const handleClaim = async (claims: ClaimMap) => {
-		const txResult = await rewards.claimGeysers(claims);
-
-		if (txResult === TransactionRequestResult.Success) {
-			setClaimedRewards(Object.values(claims));
-			await rewards.loadTreeData();
+		try {
+			const txResult = await rewards.claimGeysers(claims);
+			if (txResult === TransactionRequestResult.Success) {
+				setClaimedRewards(Object.values(claims));
+				await rewards.loadTreeData();
+			}
+		} catch (error) {
+			console.error(error);
+			if (String(error).includes('execution reverted: Invalid cycle')) {
+				rewards.reportInvalidCycle();
+				uiState.toggleRewardsDialog();
+				setTimeout(() => {
+					setShowInvalidCycle(true);
+				}, closeDialogTransitionDuration);
+			}
 		}
 	};
 
@@ -93,22 +105,25 @@ const RewardsDialog = (): JSX.Element => {
 	}
 
 	return (
-		<Dialog
-			fullWidth
-			maxWidth="xl"
-			aria-labelledby="claim-modal"
-			aria-describedby="Claim your rewards"
-			classes={{ paperWidthXl: hasRewards ? classes.xlDialog : classes.bigDialog }}
-			open={uiState.rewardsDialogOpen}
-			onClose={() => uiState.toggleRewardsDialog()}
-		>
-			<ClaimRewardsContent
-				claimableRewards={claimableRewards}
+		<>
+			<Dialog
+				fullWidth
+				maxWidth="xl"
+				aria-labelledby="claim-modal"
+				aria-describedby="Claim your rewards"
+				classes={{ paperWidthXl: hasRewards ? classes.xlDialog : classes.bigDialog }}
+				open={uiState.rewardsDialogOpen}
 				onClose={() => uiState.toggleRewardsDialog()}
-				onClaim={handleClaim}
-				onGuideModeSelection={() => setGuideMode(true)}
-			/>
-		</Dialog>
+			>
+				<ClaimRewardsContent
+					claimableRewards={claimableRewards}
+					onClose={() => uiState.toggleRewardsDialog()}
+					onClaim={handleClaim}
+					onGuideModeSelection={() => setGuideMode(true)}
+				/>
+			</Dialog>
+			<InvalidCycleDialog open={showInvalidCycle} onClose={() => setShowInvalidCycle(false)} />
+		</>
 	);
 };
 

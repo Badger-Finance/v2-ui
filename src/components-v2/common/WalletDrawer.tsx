@@ -12,6 +12,7 @@ import BigNumber from 'bignumber.js';
 import WalletTokenBalance from './WalletTokenBalance';
 import clsx from 'clsx';
 import WalletLiquidityPoolLinks from './WalletLiquidityPoolLinks';
+import CopyToClipboardIcon from './CopyToClipboardIcon';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -69,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	address: {
 		textTransform: 'uppercase',
+	},
+	copyToClipboard: {
+		color: theme.palette.secondary.main,
 	},
 }));
 
@@ -136,7 +140,7 @@ const WalletDrawer = (): JSX.Element | null => {
 							aria-label="copy wallet address"
 							className={classes.copyWalletButton}
 						>
-							<img src="/assets/icons/copy-wallet-address.svg" alt="copy wallet address icon" />
+							<CopyToClipboardIcon className={classes.copyToClipboard} />
 						</IconButton>
 					</Grid>
 					<Grid item>

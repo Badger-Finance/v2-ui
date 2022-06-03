@@ -207,6 +207,29 @@ describe('Rewards Dialog', () => {
 			expect(claimSpy).toHaveBeenNthCalledWith(1, expectedParameters);
 		});
 
+		it('displays invalid cycle dialog if claim geysers fails with invalid cycle error', async () => {
+			jest.useFakeTimers();
+			const reportSpy = jest.fn();
+
+			store.rewards.reportInvalidCycle = reportSpy;
+			store.rewards.claimGeysers = action(
+				jest.fn().mockImplementation(() => {
+					throw new Error('execution reverted: Invalid cycle');
+				}),
+			);
+
+			customRender(
+				<StoreProvider value={store}>
+					<RewardsDialog />
+				</StoreProvider>,
+			);
+
+			fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
+			await screen.findByText('Invalid Cycle Detected');
+			expect(reportSpy).toHaveBeenCalled();
+			jest.useRealTimers();
+		});
+
 		it('displays success dialog', async () => {
 			store.rewards.claimGeysers = action(jest.fn().mockReturnValue(TransactionRequestResult.Success));
 
