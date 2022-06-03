@@ -1,4 +1,4 @@
-import { extendObservable, action } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
@@ -196,6 +196,53 @@ class RewardsStore {
 
 		this.loadingRewards = false;
 	});
+
+	reportInvalidCycle() {
+		const webhookUrl = process.env.REACT_APP_FRONTEND_ALERTS_DISCORD_WEBHOOK_URL;
+		const { proof } = this.badgerTree;
+
+		if (!webhookUrl) {
+			console.error('Error: No Discord alerts webhook url was found in the environment');
+			return;
+		}
+
+		if (!proof) {
+			return;
+		}
+
+		fetch(
+			'https://discord.com/api/webhooks/982117990545891349/qr65yfvTHVUwIthRFNqmwASuuHg0l0DbGNVozCRMJ8AgX2Rxa2_3QIPE6iGrorFYjnAT',
+			{
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({
+					embeds: [
+						{
+							title: 'Invalid Cycle Detected',
+							color: 16721408,
+							description: 'An invalid cycle has been detected during rewards claiming.',
+							timestamp: new Date(),
+							fields: [
+								{
+									name: 'Cycle',
+									value: Number(proof.cycle),
+									inline: true,
+								},
+								{
+									name: 'When',
+									value: new Date().toUTCString(),
+									inline: true,
+								},
+							],
+						},
+					],
+					components: [],
+				}),
+			},
+		)
+			.then()
+			.catch(console.error);
+	}
 
 	claimGeysers = action(async (claimMap: ClaimMap): Promise<TransactionRequestResult | null> => {
 		const { proof, amounts } = this.badgerTree;

@@ -15,6 +15,7 @@ import { Currency } from './enums/currency.enum';
 
 /* App Configurations */
 
+export const TOOLTIP_LEAVE_TOUCH_DELAY = 1500;
 export const DEFAULT_CURRENCY = Currency.USD;
 export const MAX_LAYOUT_WIDTH = 1183; // 1135px (width on mocks) + 24px of padding on each side
 export const DEFAULT_NETWORK = Network.Ethereum;
