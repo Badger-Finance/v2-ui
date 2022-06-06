@@ -43,7 +43,7 @@ const BridgeList = () => {
 					<Paper className={classes.guideContainer}>
 						<List>
 							<Grid container spacing={1}>
-								<Grid item xs={12} md={9} lg={7}>
+								<Grid item xs={3} md={2}>
 									<Link
 										target="_blank"
 										rel="noopener noreferrer"
@@ -51,17 +51,26 @@ const BridgeList = () => {
 										color="primary"
 										className={classes.bridgeLink}
 									>
-										ZeroDAO
+										zeroBRIDGE
 									</Link>
 								</Grid>
-								<Grid item xs={12} md={9} lg={7} className={classes.bridgeDescription}>
-									ZeroDAO is a p2p network built on top of renVM which enables improved UX and
-									transaction speeds when bridging assets
+								<Grid item xs={9} md={10} className={classes.bridgeDescription}>
+									Crosschain exchange built on top of renVM and zeroP2P enabling gasless bridging to
+									and from many other assets. More information available at{' '}
+									<Link
+										target="_blank"
+										rel="noopener noreferrer"
+										href="https://zerodao.com/"
+										color="primary"
+										className={classes.bridgeLink}
+									>
+										zerodao.com
+									</Link>
 								</Grid>
 							</Grid>
 
 							<Grid container spacing={1}>
-								<Grid item xs={12} md={9} lg={7}>
+								<Grid item xs={3} md={2}>
 									<Link
 										target="_blank"
 										rel="noopener noreferrer"
@@ -72,7 +81,7 @@ const BridgeList = () => {
 										Ren Bridge
 									</Link>
 								</Grid>
-								<Grid item xs={12} md={9} lg={7}>
+								<Grid item xs={9} md={10}>
 									Ren Bridge is a simple bridge for moving renBTC to and from the BTC blockchain.
 								</Grid>
 							</Grid>
