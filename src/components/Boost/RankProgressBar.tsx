@@ -43,11 +43,21 @@ const useProgressStyles = (
 			lessCaseColor,
 		});
 
+		// we want to differentiate the percentage of the bar that the user owns, f.e: if the user owns 50% of the bar
+		// we show a gradient from the start of the bar to the 50% point
+		const isOwnedBetweenRange = accountStakeRatio > rangeStart && accountStakeRatio < rangeEnd;
+		const percentageOwned = percentageBetweenRange(accountStakeRatio, rangeEnd, rangeStart);
+		const gradient = `linear-gradient(to top, ${theme.palette.primary.main} ${percentageOwned}%, ${differenceColor} ${percentageOwned}%)`;
+
+		// there's no point in showing the progress bar if the user doesn't own any of it
+		const isValidForGradient = isOwnedBetweenRange && currentStakeRatio > accountStakeRatio;
+		const backgroundColor = isValidForGradient ? gradient : differenceColor;
+
 		return {
 			progressBar: {
 				position: 'absolute',
 				bottom: 0,
-				background: differenceColor,
+				background: backgroundColor,
 				width: 4,
 				height: `${sanitizedBarHeight}%`,
 			},
