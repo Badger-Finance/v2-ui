@@ -4,3 +4,4 @@
 export { CitadelSale__factory } from './CitadelSale__factory';
 export { ERC20__factory } from './ERC20__factory';
 export { VoteLockedDeposit__factory } from './VoteLockedDeposit__factory';
+export { YearnVault__factory } from './YearnVault__factory';

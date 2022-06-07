@@ -1,8 +1,9 @@
-import { Network, NetworkConfig, getNetworkConfig } from '@badger-dao/sdk';
+import { getNetworkConfig, Network, NetworkConfig } from '@badger-dao/sdk';
 import { StateAndHelpers, WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
-import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_IDS, RPC_WALLETS } from './constants';
+import { APP_NAME, CONTACT_EMAIL, NETWORK_IDS, PORTIS_APP_ID, RPC_WALLETS } from './constants';
 import { supportedNetworks } from './networks.config';
 import rpc from './rpc.config';
+import WalletConnectProvider from '@walletconnect/web3-provider';
 
 export interface WalletProviderInfo {
 	walletName: string;
@@ -97,3 +98,15 @@ export const onboardWalletCheck = [
 	{ checkName: 'accounts' },
 	{ checkName: 'connect' },
 ];
+
+export function getWeb3ModalProviders(config: NetworkConfig) {
+	const networkRPC = rpc[config.network];
+	return {
+		walletconnect: {
+			package: WalletConnectProvider,
+			options: {
+				infuraId: networkRPC,
+			},
+		},
+	};
+}

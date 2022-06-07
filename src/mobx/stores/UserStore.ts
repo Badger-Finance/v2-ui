@@ -144,6 +144,7 @@ export default class UserStore {
 	loadClaimProof = action(async (address: string, chain = Network.Ethereum): Promise<void> => {
 		const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
 		if (proof) {
+			console.log('proof', proof);
 			this.claimProof = proof;
 			await this.store.rewards.fetchVaultRewards();
 		} else {

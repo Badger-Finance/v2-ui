@@ -1,5 +1,4 @@
-import { extendObservable, action } from 'mobx';
-import Web3 from 'web3';
+import { action, extendObservable } from 'mobx';
 import { RootStore } from '../RootStore';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
@@ -29,14 +28,14 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { wallet } = this.store.onboard;
+		const { wallet } = this.store;
 		const { network } = this.store.network;
 
-		if (!wallet?.provider) {
+		if (!wallet.Web3Provider) {
 			return;
 		}
 
-		rebaseLog = await getRebaseLogs(wallet.provider, network);
+		rebaseLog = await getRebaseLogs(wallet.Web3Provider.currentProvider, network);
 
 		const rebaseConfig = getRebase(network.symbol);
 
@@ -47,7 +46,7 @@ class RebaseStore {
 		const multicallContractAddress = getChainMulticallContract(network.symbol);
 
 		const multicall = new Multicall({
-			web3Instance: new Web3(wallet.provider),
+			web3Instance: wallet.Web3Provider,
 			tryAggregate: true,
 			multicallCustomContractAddress: multicallContractAddress,
 		});
@@ -140,15 +139,14 @@ class RebaseStore {
 			return;
 		}
 		const { queueNotification } = this.store.uiState;
-		const { wallet, address } = this.store.onboard;
+		const { Web3Provider, address } = this.store.wallet;
 		const { gasPrices } = this.store.network;
 
-		if (!address || !wallet?.provider) {
+		if (!address || !Web3Provider) {
 			return;
 		}
 
-		const web3 = new Web3(wallet.provider);
-		const redemption = new web3.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
+		const redemption = new Web3Provider.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
 		const method = redemption.methods.settle(redeemAmount.toString(10), '0');
 
 		queueNotification(`Sign the transaction to claim your options`, 'info');

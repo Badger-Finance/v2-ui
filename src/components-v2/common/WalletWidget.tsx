@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
 const WalletWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { onboard, uiState } = store;
+	const { uiState, wallet } = store;
 
 	async function connect(): Promise<void> {
-		if (onboard.isActive()) {
+		if (wallet.isConnected) {
 			uiState.toggleWalletDrawer();
 		} else {
 			try {
-				await onboard.connect();
+				await wallet.connect();
 			} catch (error) {
 				uiState.queueError('Issue connecting, please try again');
 				console.error(error);
@@ -42,14 +42,14 @@ const WalletWidget = observer(() => {
 		}
 	}
 
-	const { ensName } = useENS(onboard.address);
-	const walletAddress = onboard.address ? shortenAddress(onboard.address) : 'Connect';
+	const { ensName } = useENS(wallet.address);
+	const walletAddress = wallet.address ? shortenAddress(wallet.address) : 'Connect';
 
 	return (
 		<Button
 			disableElevation
 			color="primary"
-			variant={onboard.isActive() ? 'outlined' : 'contained'}
+			variant={wallet.isConnected ? 'outlined' : 'contained'}
 			onClick={connect}
 			classes={{ label: classes.walletButtonLabel }}
 		>
