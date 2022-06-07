@@ -36,14 +36,14 @@ interface Props {
 }
 
 export const MainContent = observer(({ vault }: Props): JSX.Element => {
-	const { user, onboard } = React.useContext(StoreContext);
+	const { user, wallet } = React.useContext(StoreContext);
 
 	const classes = useStyles();
 	const userData = user.accountDetails?.data[vault.vaultToken] ?? defaultVaultBalance(vault);
 
 	return (
 		<Grid container className={classes.content}>
-			{onboard.isActive() && (
+			{wallet.isConnected && (
 				<Grid container className={classes.holdingsContainer}>
 					<Holdings vault={vault} userData={userData} />
 				</Grid>

@@ -23,7 +23,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import BalanceInput from './BalanceInput';
 import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
 import IbbtcVaultZapAbi from '../../config/system/abis/IbbtcVaultZap.json';
 import { AbiItem } from 'web3-utils';
 import { toHex } from '../../mobx/utils/helpers';
@@ -105,7 +104,7 @@ enum DepositMode {
 const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JSX.Element => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { contracts, network, onboard, vaults, uiState, user } = store;
+	const { contracts, network, wallet, vaults, uiState, user } = store;
 
 	// lp token getters
 	const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
@@ -130,6 +129,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	const [minPoolTokens, setMinPoolTokens] = useState<TokenBalance>();
 
 	const areUserTokenBalancesAvailable = Object.keys(user.tokenBalances).length > 0;
+	// console.log('areUserTokenBalancesAvailable', areUserTokenBalancesAvailable);
 	const isLoading = !areUserTokenBalancesAvailable || !lpBadgerVault;
 
 	const totalDeposit = multiTokenDepositBalances.reduce(
@@ -150,8 +150,11 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
 	const getCalculations = useCallback(
 		async (balances: TokenBalance[]): Promise<BigNumber[]> => {
-			const web3 = new Web3(onboard.wallet?.provider);
-			const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], mainnetDeploy.ibbtcVaultZap);
+			if (!wallet.web3Instance) return [];
+			const ibbtcVaultPeak = new wallet.web3Instance.eth.Contract(
+				IbbtcVaultZapAbi as AbiItem[],
+				mainnetDeploy.ibbtcVaultZap,
+			);
 			const depositAmounts = balances.map((balance) => toHex(balance.tokenBalance));
 
 			const [calculatedMint, expectedAmount] = await Promise.all([
@@ -161,7 +164,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
 			return [calculatedMint, expectedAmount];
 		},
-		[onboard],
+		[wallet],
 	);
 
 	const handleClosing = () => {
@@ -230,10 +233,14 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	};
 
 	const handleMultiTokenDeposit = async () => {
+		const { web3Instance } = wallet;
+
 		const invalidBalance = multiTokenDepositBalances.find((depositBalance, index) => {
 			const depositOption = depositOptions[index];
 			return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
 		});
+
+		if (!web3Instance) return;
 
 		if (invalidBalance) {
 			uiState.queueError(`Insufficient ${invalidBalance.token.symbol} balance for deposit`);
@@ -252,9 +259,14 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
 		await Promise.all(allowanceApprovals);
 
-		const web3 = new Web3(onboard.wallet?.provider);
-		const ibbtcVaultPeakRead = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], mainnetDeploy.ibbtcVaultZap);
-		const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], mainnetDeploy.ibbtcVaultZap);
+		const ibbtcVaultPeakRead = new web3Instance.eth.Contract(
+			IbbtcVaultZapAbi as AbiItem[],
+			mainnetDeploy.ibbtcVaultZap,
+		);
+		const ibbtcVaultPeak = new web3Instance.eth.Contract(
+			IbbtcVaultZapAbi as AbiItem[],
+			mainnetDeploy.ibbtcVaultZap,
+		);
 
 		const depositAmounts = multiTokenDepositBalances.map((balance) => toHex(balance.tokenBalance));
 		const expectedAmount = new BigNumber(await ibbtcVaultPeakRead.methods.expectedAmount(depositAmounts).call());

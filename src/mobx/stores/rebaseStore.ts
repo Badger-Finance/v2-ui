@@ -31,11 +31,11 @@ class RebaseStore {
 		const { wallet } = this.store;
 		const { network } = this.store.network;
 
-		if (!wallet.Web3Provider) {
+		if (!wallet.web3Instance) {
 			return;
 		}
 
-		rebaseLog = await getRebaseLogs(wallet.Web3Provider.currentProvider, network);
+		rebaseLog = await getRebaseLogs(wallet.web3Instance.currentProvider, network);
 
 		const rebaseConfig = getRebase(network.symbol);
 
@@ -46,7 +46,7 @@ class RebaseStore {
 		const multicallContractAddress = getChainMulticallContract(network.symbol);
 
 		const multicall = new Multicall({
-			web3Instance: wallet.Web3Provider,
+			web3Instance: wallet.web3Instance,
 			tryAggregate: true,
 			multicallCustomContractAddress: multicallContractAddress,
 		});
@@ -139,14 +139,14 @@ class RebaseStore {
 			return;
 		}
 		const { queueNotification } = this.store.uiState;
-		const { Web3Provider, address } = this.store.wallet;
+		const { web3Instance, address } = this.store.wallet;
 		const { gasPrices } = this.store.network;
 
-		if (!address || !Web3Provider) {
+		if (!address || !web3Instance) {
 			return;
 		}
 
-		const redemption = new Web3Provider.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
+		const redemption = new web3Instance.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
 		const method = redemption.methods.settle(redeemAmount.toString(10), '0');
 
 		queueNotification(`Sign the transaction to claim your options`, 'info');

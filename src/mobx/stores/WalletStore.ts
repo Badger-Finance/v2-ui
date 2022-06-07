@@ -9,7 +9,7 @@ import Web3 from 'web3';
 export class WalletStore {
 	private web3Modal: Web3Modal;
 	private ethersWeb3Provider?: ethers.providers.Web3Provider;
-	private web3Provider?: Web3;
+	private web3?: Web3;
 	private store: RootStore;
 	private providerAddress?: string;
 	private providerNetwork?: ethers.providers.Network;
@@ -52,8 +52,8 @@ export class WalletStore {
 	}
 
 	@computed
-	get Web3Provider() {
-		return this.web3Provider;
+	get web3Instance() {
+		return this.web3;
 	}
 
 	disconnect() {
@@ -71,10 +71,8 @@ export class WalletStore {
 
 	private async updateAppNetwork() {
 		if (!this.ethersWeb3Provider || !this.providerNetwork) return;
-		await Promise.all([
-			this.store.updateNetwork(this.providerNetwork.chainId),
-			this.store.updateProvider(this.ethersWeb3Provider),
-		]);
+		await this.store.updateNetwork(this.providerNetwork.chainId);
+		await this.store.updateProvider(this.ethersWeb3Provider);
 	}
 
 	async connect() {
@@ -84,7 +82,7 @@ export class WalletStore {
 		provider.on('chainChanged', this.handleChainChanged);
 		provider.on('disconnect', this.disconnect);
 		this.ethersWeb3Provider = provider;
-		this.web3Provider = new Web3(instance);
+		this.web3 = new Web3(instance);
 		this.providerAddress = await provider.getSigner().getAddress();
 		this.providerNetwork = network;
 		await this.updateAppNetwork();

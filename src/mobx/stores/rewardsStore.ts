@@ -1,7 +1,9 @@
-import { action, extendObservable, toJS } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import { RootStore } from '../RootStore';
+import { AbiItem } from 'web3-utils';
 import BigNumber from 'bignumber.js';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
+import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
@@ -119,8 +121,6 @@ class RewardsStore {
 			wallet,
 		} = this.store;
 
-		console.log('loadTreeData');
-
 		if (this.loadingTreeData || !wallet.provider) {
 			return;
 		}
@@ -142,7 +142,6 @@ class RewardsStore {
 			this.badgerTree.lastCycle = new Date(timestamp.toNumber() * 1000);
 			this.badgerTree.cycle = cycle.toString();
 			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp.toNumber());
-			console.log(toJS(this.badgerTree));
 			await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
 		} catch (error) {
 			console.error('There was an error fetching rewards information: ', error);
@@ -171,8 +170,6 @@ class RewardsStore {
 			console.error('Error: No badger tree address was found in current network deploy config');
 			return;
 		}
-
-		console.log('claimProof', toJS(claimProof));
 
 		if (!provider || !claimProof || !address) {
 			this.resetRewards();
@@ -248,12 +245,12 @@ class RewardsStore {
 
 	claimGeysers = action(async (claimMap: ClaimMap): Promise<TransactionRequestResult | null> => {
 		const { proof, amounts } = this.badgerTree;
-		const { address, provider } = this.store.wallet;
+		const { address, web3Instance } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 		const { gasPrices, network } = this.store.network;
 		const { rebase } = this.store.rebase;
 
-		if (!address || !provider) {
+		if (!address || !web3Instance) {
 			return null;
 		}
 
@@ -302,9 +299,8 @@ class RewardsStore {
 			return null;
 		}
 
-		const signer = await provider.getSigner();
-		const rewardsTree = BadgerTree__factory.connect(network.badgerTree, signer);
-		const method = rewardsTree.claim(
+		const rewardsTree = new web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		const method = rewardsTree.methods.claim(
 			proof.tokens,
 			proof.cumulativeAmounts,
 			proof.index,

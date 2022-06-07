@@ -49,7 +49,7 @@ export class NetworkStore {
 		const { ethereum } = window;
 		// implementation details from:
 		// https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
-		if (ethereum && this.store.onboard.isActive()) {
+		if (ethereum && this.store.wallet.isConnected) {
 			try {
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				await ethereum.request!({
@@ -96,7 +96,7 @@ export class NetworkStore {
 			}
 		}
 		this.network = network;
-		if (!this.store.onboard.isActive()) {
+		if (!this.store.wallet.isConnected) {
 			await this.store.updateNetwork(network.id);
 		} else {
 			this.store.rewards.resetRewards();
