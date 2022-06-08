@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, makeStyles, Paper, Typography, Fade } from '@material-ui/core';
+import { Button, Fade, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import { bDiggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
@@ -68,10 +68,10 @@ export const PoolBalance = observer(() => {
 	// triggers the reduceStats method that's needed for the
 	// bDIGG <> DIGG exchange
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { vaults, onboard } = store;
+	const { vaults, wallet } = store;
 	const { poolBalance, loadingPoolBalance } = store.honeyPot;
 
-	if (!onboard.isActive()) {
+	if (!wallet.isConnected) {
 		return (
 			<Container>
 				<Grid item xs={12}>

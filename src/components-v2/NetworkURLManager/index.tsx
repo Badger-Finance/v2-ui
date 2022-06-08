@@ -5,26 +5,26 @@ import usePrevious from 'hooks/usePrevious';
 import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
 
 const NetworkURLManager: React.FC = ({ children }) => {
-	const { router, onboard } = useContext(StoreContext);
-	const chainId = onboard.chainId;
-	const previousChainId = usePrevious(onboard.chainId);
+	const { router, wallet } = useContext(StoreContext);
+	const chainId = wallet.chainId;
+	const previousChainId = usePrevious(wallet.chainId);
 
 	useEffect(() => {
 		if (!chainId) {
 			return;
 		}
 
-		if (chainId !== previousChainId && onboard.isActive()) {
+		if (chainId !== previousChainId && wallet.isConnected) {
 			router.queryParams = { ...router.queryParams, chain: NETWORK_IDS_TO_NAMES[chainId as NETWORK_IDS] };
 		}
-	}, [chainId, previousChainId, router, onboard]);
+	}, [chainId, previousChainId, router, wallet]);
 
 	useEffect(() => {
 		const urlChainId = router.queryParams?.chain;
 		if (chainId && !urlChainId) {
 			router.queryParams = { ...router.queryParams, chain: NETWORK_IDS_TO_NAMES[chainId as NETWORK_IDS] };
 		}
-	}, [chainId, onboard, router]);
+	}, [chainId, wallet, router]);
 
 	return <>{children}</>;
 };

@@ -84,17 +84,16 @@ class LockedCvxDelegationStore {
 
 	async loadLockedCvxBalance(): Promise<void> {
 		const {
-			onboard: { wallet, address },
+			wallet: { web3Instance, address },
 			network: { network },
 		} = this.store;
 
-		if (network.id !== NETWORK_IDS.ETH || !address || !wallet?.provider) {
+		if (network.id !== NETWORK_IDS.ETH || !address || !web3Instance) {
 			return;
 		}
 
 		try {
-			const web3 = new Web3(wallet.provider);
-			const cvxLocker = new web3.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);
+			const cvxLocker = new web3Instance.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);
 			this.lockedCVXBalance = new BigNumber(await cvxLocker.methods.balanceOf(address).call());
 		} catch (error) {
 			console.error('There was an error getting locked cvx balance: ', error);
@@ -149,16 +148,15 @@ class LockedCvxDelegationStore {
 
 	async getTotalVotiumRewards(): Promise<BigNumber> {
 		const {
-			onboard: { wallet, address },
+			wallet: { address, web3Instance },
 		} = this.store;
 
 		let totalEarned = new BigNumber(0);
-		if (!wallet?.provider || !address) {
+		if (!web3Instance || !address) {
 			return totalEarned;
 		}
 
-		const web3 = new Web3(wallet.provider);
-		const votiumMerkleTreeContract = new web3.eth.Contract(
+		const votiumMerkleTreeContract = new web3Instance.eth.Contract(
 			VotiumMerkleTreeAbi as AbiItem[],
 			votiumRewardsContractAddress,
 		);
@@ -177,11 +175,11 @@ class LockedCvxDelegationStore {
 
 	async getUnclaimedVotiumRewards(): Promise<BigNumber> {
 		const {
-			onboard: { wallet, address },
+			wallet: { web3Instance, address },
 		} = this.store;
 
 		let unclaimedBalance = new BigNumber(0);
-		if (!wallet?.provider || !address) {
+		if (!web3Instance || !address) {
 			return unclaimedBalance;
 		}
 
@@ -192,9 +190,7 @@ class LockedCvxDelegationStore {
 			return unclaimedBalance;
 		}
 
-		const web3 = new Web3(wallet.provider);
-
-		const votiumMerkleTreeContract = new web3.eth.Contract(
+		const votiumMerkleTreeContract = new web3Instance.eth.Contract(
 			VotiumMerkleTreeAbi as AbiItem[],
 			votiumRewardsContractAddress,
 		);
@@ -213,15 +209,14 @@ class LockedCvxDelegationStore {
 	async getUserDelegationState(): Promise<void> {
 		const {
 			network: { network },
-			onboard: { wallet, address },
+			wallet: { web3Instance, address },
 		} = this.store;
 
-		if (network.id !== NETWORK_IDS.ETH || !wallet?.provider || !address) {
+		if (network.id !== NETWORK_IDS.ETH || !web3Instance || !address) {
 			return;
 		}
 
-		const web3 = new Web3(wallet.provider);
-		const cvxLocker = new web3.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);
+		const cvxLocker = new web3Instance.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);
 		const lockedCVXBalance = new BigNumber(await cvxLocker.methods.balanceOf(address).call());
 
 		if (!lockedCVXBalance.gt(0)) {
@@ -229,8 +224,8 @@ class LockedCvxDelegationStore {
 			return;
 		}
 
-		const badgerDelegateAddress = await web3.eth.ens.getAddress(BADGER_DELEGATE_ENS);
-		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
+		const badgerDelegateAddress = await web3Instance.eth.ens.getAddress(BADGER_DELEGATE_ENS);
+		const cvxDelegator = new web3Instance.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
 		const alreadyDelegatedAddress = await cvxDelegator.methods.delegation(address, ID_TO_DELEGATE).call();
 
 		if (alreadyDelegatedAddress && alreadyDelegatedAddress !== ethers.constants.AddressZero) {
@@ -249,10 +244,10 @@ class LockedCvxDelegationStore {
 	async claimVotiumRewards(): Promise<void> {
 		const {
 			uiState: { queueNotification },
-			onboard: { wallet, address },
+			wallet: { web3Instance, address },
 		} = this.store;
 
-		if (!wallet?.provider || !address) {
+		if (!web3Instance || !address) {
 			return;
 		}
 
@@ -264,8 +259,10 @@ class LockedCvxDelegationStore {
 			return;
 		}
 
-		const web3 = new Web3(wallet.provider);
-		const votiumMerkleTree = new web3.eth.Contract(VotiumMerkleTreeAbi as AbiItem[], votiumRewardsContractAddress);
+		const votiumMerkleTree = new web3Instance.eth.Contract(
+			VotiumMerkleTreeAbi as AbiItem[],
+			votiumRewardsContractAddress,
+		);
 
 		const { index, amount, proof } = merkleTreeClaim;
 
@@ -287,17 +284,16 @@ class LockedCvxDelegationStore {
 	async delegateLockedCVX(): Promise<void> {
 		const {
 			uiState: { queueNotification },
-			onboard: { wallet, address },
+			wallet: { web3Instance, address },
 		} = this.store;
 
-		if (!wallet?.provider || !address) {
+		if (!web3Instance || !address) {
 			return;
 		}
 
-		const web3 = new Web3(wallet.provider);
-		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
+		const cvxDelegator = new web3Instance.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
 
-		const badgerDelegateAddress = await web3.eth.ens.getAddress(BADGER_DELEGATE_ENS);
+		const badgerDelegateAddress = await web3Instance.eth.ens.getAddress(BADGER_DELEGATE_ENS);
 		const setDelegate = cvxDelegator.methods.setDelegate(ID_TO_DELEGATE, badgerDelegateAddress);
 		const options = await this.store.contracts.getMethodSendOptions(setDelegate);
 

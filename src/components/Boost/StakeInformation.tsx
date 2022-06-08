@@ -56,12 +56,12 @@ interface Props {
 export const StakeInformation = observer(({ native, nonNative, onRankClick }: Props): JSX.Element => {
 	const {
 		user: { accountDetails },
-		onboard,
+		wallet,
 	} = React.useContext(StoreContext);
 
 	const classes = useStyles();
 
-	const isLoading = onboard.isActive() && accountDetails === undefined;
+	const isLoading = wallet.isConnected && accountDetails === undefined;
 	const accountNative = accountDetails?.nativeBalance;
 	const accountNonNative = accountDetails?.nonNativeBalance;
 
