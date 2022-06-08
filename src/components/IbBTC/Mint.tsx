@@ -61,10 +61,10 @@ const useStyles = makeStyles({
 });
 
 const ActionButton = observer(({ children }): JSX.Element => {
-	const { onboard } = useContext(StoreContext);
+	const { wallet } = useContext(StoreContext);
 	const connectWallet = useConnectWallet();
 
-	if (!onboard.address) {
+	if (!wallet.isConnected) {
 		return (
 			<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 				Connect Wallet
@@ -81,7 +81,7 @@ export const Mint = observer((): JSX.Element => {
 
 	const {
 		ibBTCStore: { ibBTC, mintFeePercent, mintOptions, mintRates, tokenBalances, initialized },
-		onboard,
+		wallet,
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState<TokenBalance>();
@@ -198,7 +198,7 @@ export const Mint = observer((): JSX.Element => {
 
 	useEffect(() => {
 		resetState();
-	}, [onboard.address]);
+	}, [wallet.address]);
 
 	useEffect(() => {
 		const defaultBalance = mintOptions[0];
@@ -222,7 +222,7 @@ export const Mint = observer((): JSX.Element => {
 					<Grid item xs={12} sm={5}>
 						<InputTokenAmount
 							inputProps={inputProps}
-							disabled={!onboard.address}
+							disabled={!wallet.isConnected}
 							value={inputAmount || ''}
 							placeholder="0.000"
 							onChange={onValidChange(handleInputChange)}
