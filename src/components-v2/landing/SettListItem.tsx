@@ -1,4 +1,4 @@
-import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
+import { ListItem, makeStyles, Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React, { useContext } from 'react';
@@ -93,11 +93,6 @@ export interface SettListItemProps {
 	onOpen: () => void;
 }
 
-interface RoiData {
-	apr: string;
-	tooltip: JSX.Element;
-}
-
 const SettListItem = observer(
 	(props: SettListItemProps): JSX.Element => {
 		const classes = useStyles();
@@ -105,66 +100,13 @@ const SettListItem = observer(
 		const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join(' ') : sett.name;
 		const store = useContext(StoreContext);
 		const { user } = store;
-		const divisor = period === 'month' ? 12 : 1;
 
-		const getRoi = (sett: Sett, multiplier?: number): RoiData => {
-			const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
-				return (
-					<>
-						{sett.sources.map((source) => {
-							const sourceApr = source.boostable ? source.apr * (multiplier ?? 1) : source.apr;
-							const apr = `${(sourceApr / divisor).toFixed(2)}% ${source.name}`;
-							return <div key={source.name}>{apr}</div>;
-						})}
-					</>
-				);
-			};
-
-			if (sett && sett.apr) {
-				let apr;
-				if (sett.boostable && sett.minApr && sett.maxApr) {
-					apr = `${(sett.minApr / divisor).toFixed(2)}% - ${(sett.maxApr / divisor).toFixed(2)}%`;
-				} else {
-					apr = `${(sett.apr / divisor).toFixed(2)}%`;
-				}
-				return { apr, tooltip: getToolTip(sett, divisor) };
-			} else {
-				return { apr: '0%', tooltip: <></> };
-			}
-		};
-
-		const getAprDisplay = () => {
-			return sett.deprecated ? (
-				<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-					{apr}
-				</Typography>
-			) : (
-				<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
-					<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-						{apr}
-					</Typography>
-				</Tooltip>
-			);
-		};
-
-		let userApr: number | undefined = undefined;
-
-		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
-		if (multiplier) {
-			userApr =
-				sett.sources
-					.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
-					.reduce((total, apr) => (total += apr), 0) / divisor;
-		}
-
-		const { apr, tooltip } = getRoi(sett, multiplier);
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 		// TODO: Clean up no access implementation, too much duplication
 		return sett.bouncer === BouncerType.Badger && !user.viewSettShop() ? (
 			<DisabledSettListItem
-				apy={apr}
-				tooltip={tooltip}
+				apy={0}
 				displayName={displayName}
 				sett={sett}
 				balance={balance}
@@ -246,13 +188,7 @@ const SettListItem = observer(
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2} className={classes.centerGrid}>
-						{getAprDisplay()}
-
-						{userApr && (
-							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
-								My Boost: {userApr.toFixed(2)}%
-							</Typography>
-						)}
+						{'--%'}
 					</Grid>
 					{/* Intentionally Empty Grid Space */}
 					<Grid item xs={6} md={1} className={classes.desktopSpacer} />

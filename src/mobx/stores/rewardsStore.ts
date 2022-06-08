@@ -129,7 +129,7 @@ class RewardsStore {
 		async (): Promise<void> => {
 			const { provider } = this.store.wallet;
 
-			if (this.loadingRewards) {
+			if (this.loadingRewards || !provider) {
 				return;
 			}
 			this.resetRewards();

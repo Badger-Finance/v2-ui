@@ -77,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
 
 interface DisabledSettListItemProps extends SettListItemProps {
 	apy: number | string;
-	tooltip: JSX.Element;
 	displayName: string;
 	disabledTooltip: string;
 }
@@ -85,7 +84,7 @@ interface DisabledSettListItemProps extends SettListItemProps {
 const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => {
 	const classes = useStyles();
 
-	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
+	const { apy, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
 
 	const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
@@ -166,11 +165,9 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2} className={classes.centerGrid}>
-						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
-							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-								{typeof apy === 'number' ? `${apy.toFixed(2)}%` : apy}
-							</Typography>
-						</Tooltip>
+						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+							{typeof apy === 'number' ? `${apy.toFixed(2)}%` : apy}
+						</Typography>
 					</Grid>
 					{/* Intentionally Empty Grid Space */}
 					<Grid item xs={6} md={1} className={classes.desktopSpacer} />
