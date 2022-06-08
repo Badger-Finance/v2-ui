@@ -82,7 +82,7 @@ const InvalidCycleDialog = ({ open, onClose }: Props): JSX.Element => {
 			<DialogTitle className={classes.title}>
 				<Box display="flex" alignItems="center">
 					Invalid Cycle Detected <BugReportIcon className={classes.bugIcon} />
-					<IconButton aria-label="go back to rewards" className={classes.closeButton} onClick={onClose}>
+					<IconButton aria-label="close dialog" className={classes.closeButton} onClick={onClose}>
 						<CloseIcon />
 					</IconButton>
 				</Box>

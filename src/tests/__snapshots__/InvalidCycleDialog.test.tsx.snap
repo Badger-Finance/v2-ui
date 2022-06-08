@@ -56,7 +56,7 @@ exports[`InvalidCycleDialog displays invalid cycle dialog 1`] = `
                 />
               </svg>
               <button
-                aria-label="go back to rewards"
+                aria-label="close dialog"
                 class="MuiButtonBase-root-105 MuiIconButton-root-96 makeStyles-closeButton-5"
                 tabindex="0"
                 type="button"
