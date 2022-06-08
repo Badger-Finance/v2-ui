@@ -29,12 +29,12 @@ class LockedDepositsStore {
 	async loadLockedBalances(): Promise<void> {
 		const {
 			network: { network },
-			onboard: { wallet },
+			wallet: { web3Instance },
 		} = this.store;
 
 		const tokens = NETWORKS_LOCKED_DEPOSITS_CONFIG[network.id];
 
-		if (!wallet?.provider || !tokens) {
+		if (!web3Instance || !tokens) {
 			return;
 		}
 
