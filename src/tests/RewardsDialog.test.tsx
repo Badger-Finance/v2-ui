@@ -4,7 +4,6 @@ import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import VaultStore from '../mobx/stores/VaultStore';
 import store from '../mobx/RootStore';
-import { OnboardStore } from '../mobx/stores/OnboardStore';
 import RewardsStore from '../mobx/stores/rewardsStore';
 import { customRender, fireEvent, screen } from './Utils';
 import { StoreProvider } from '../mobx/store-context';
@@ -14,6 +13,7 @@ import { VaultType } from '@badger-dao/sdk/lib/api/enums';
 import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from './utils/samples';
 import UserStore from '../mobx/stores/UserStore';
 import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
+import { WalletStore } from '../mobx/stores/WalletStore';
 
 const mockClaimProof = {
 	index: '0x33d4',
@@ -65,8 +65,11 @@ const mockBadgerTreeClaims: TokenBalance[] = [
 
 describe('Rewards Dialog', () => {
 	beforeEach(() => {
-		jest.spyOn(OnboardStore.prototype, 'isActive').mockReturnValue(true);
+		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
 		jest.spyOn(RewardsStore.prototype, 'isLoading', 'get').mockReturnValue(false);
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+		);
 		store.uiState.rewardsDialogOpen = true;
 		store.user.claimProof = mockClaimProof;
 		store.prices.exchangeRates = SAMPLE_EXCHANGES_RATES;
@@ -209,6 +212,7 @@ describe('Rewards Dialog', () => {
 
 		it('displays invalid cycle dialog if claim geysers fails with invalid cycle error', async () => {
 			jest.useFakeTimers();
+			console.error = jest.fn();
 			const reportSpy = jest.fn();
 
 			store.rewards.reportInvalidCycle = reportSpy;

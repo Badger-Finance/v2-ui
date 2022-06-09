@@ -3,9 +3,14 @@ import { RenVaultZap } from '../../mobx/model/vaults/ren-vault-zap';
 import { GeneralVaultZap } from 'mobx/model/vaults/general-vault-zap';
 import { IbBTCMintZapFactory } from '../../mobx/ibbtc-mint-zap-factory';
 import store from '../../mobx/RootStore';
+import { WalletStore } from '../../mobx/stores/WalletStore';
+import Web3 from 'web3';
 
 describe('IbBTCMintZapFactory', () => {
 	describe('creates the correct zap class instance', () => {
+		beforeEach(() => {
+			jest.spyOn(WalletStore.prototype, 'web3Instance', 'get').mockReturnValue(new Web3());
+		});
 		test.each([
 			[
 				'bcrvrenBTC',

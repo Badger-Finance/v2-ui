@@ -7,10 +7,14 @@ import { StoreProvider } from '../../mobx/store-context';
 import { customRender, screen } from '../Utils';
 import { Optimizer } from '../../components/Boost/Optimizer';
 import * as rankUtils from '../../utils/boost-ranks';
+import { WalletStore } from '../../mobx/stores/WalletStore';
 
 describe('Boost Optimizer', () => {
 	beforeEach(() => {
-		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+		);
 		store.user.accountDetails = {
 			address: '0xC26202cd0428276cC69017Df01137161f0102e55',
 			boost: 1,
@@ -138,7 +142,7 @@ describe('Boost Optimizer', () => {
 	});
 
 	it('supports no wallet mode', () => {
-		store.onboard.address = '';
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(undefined);
 		store.user.accountDetails = null;
 		jest.spyOn(rankUtils, 'calculateNativeToMatchRank').mockReturnValue(0);
 

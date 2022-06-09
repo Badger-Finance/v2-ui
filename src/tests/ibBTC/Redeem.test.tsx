@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-import { customRender, screen, fireEvent } from '../Utils';
+import { customRender, fireEvent, screen } from '../Utils';
 import { Redeem } from '../../components/IbBTC/Redeem';
 import { SnackbarProvider } from '../../components/Snackbar';
 import IbBTCStore from '../../mobx/stores/ibBTCStore';
@@ -11,6 +11,7 @@ import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { TransactionRequestResult } from '../../mobx/utils/web3';
 import SnackbarManager from '../../components-v2/common/SnackbarManager';
+import { WalletStore } from '../../mobx/stores/WalletStore';
 
 describe('ibBTC Redeem', () => {
 	beforeEach(() => {
@@ -82,7 +83,12 @@ describe('ibBTC Redeem', () => {
 		beforeEach(() => {
 			jest.useFakeTimers();
 
-			store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+			jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+				'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+			);
+
+			jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+
 			store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
 				fee: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '0.0120').tokenBalance,
 				max: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '100').tokenBalance,

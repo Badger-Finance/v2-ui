@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
+import { Button, Grid, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
@@ -11,16 +11,16 @@ import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
-	EndAlignText,
-	InputTokenAmount,
-	BorderedFocusableContainerGrid,
-	OutputContentGrid,
-	SummaryGrid,
 	BalanceGrid,
-	InputTokenActionButtonsGrid,
-	OutputAmountText,
-	OutputTokenGrid,
+	BorderedFocusableContainerGrid,
+	EndAlignText,
 	ErrorText,
+	InputTokenActionButtonsGrid,
+	InputTokenAmount,
+	OutputAmountText,
+	OutputContentGrid,
+	OutputTokenGrid,
+	SummaryGrid,
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
