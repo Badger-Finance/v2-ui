@@ -98,7 +98,7 @@ describe('Boost Optimizer', () => {
 	});
 
 	it('can decrease balances through the increase button', () => {
-		const { container } = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
 			</StoreProvider>,
@@ -131,7 +131,7 @@ describe('Boost Optimizer', () => {
 	it('shows empty non native message', () => {
 		jest.spyOn(rankUtils, 'calculateNativeToMatchRank').mockReturnValue(0);
 
-		const { container } = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
 			</StoreProvider>,
