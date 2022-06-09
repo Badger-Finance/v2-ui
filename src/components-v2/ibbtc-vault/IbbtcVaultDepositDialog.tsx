@@ -129,7 +129,6 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	const [minPoolTokens, setMinPoolTokens] = useState<TokenBalance>();
 
 	const areUserTokenBalancesAvailable = Object.keys(user.tokenBalances).length > 0;
-	// console.log('areUserTokenBalancesAvailable', areUserTokenBalancesAvailable);
 	const isLoading = !areUserTokenBalancesAvailable || !lpBadgerVault;
 
 	const totalDeposit = multiTokenDepositBalances.reduce(
