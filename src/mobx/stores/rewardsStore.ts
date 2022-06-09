@@ -11,7 +11,7 @@ import { BadgerTree } from '../model/rewards/badger-tree';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from '../../config/constants';
-import { BadgerTree__factory, GasSpeed, Network } from '@badger-dao/sdk';
+import { GasSpeed, Network } from '@badger-dao/sdk';
 import { ClaimMap } from '../model/rewards/claim-map';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 
@@ -121,7 +121,7 @@ class RewardsStore {
 			wallet,
 		} = this.store;
 
-		if (this.loadingTreeData || !wallet.provider) {
+		if (this.loadingTreeData || !wallet.web3Instance) {
 			return;
 		}
 
@@ -132,16 +132,15 @@ class RewardsStore {
 
 		this.loadingTreeData = true;
 
-		const signer = wallet.provider.getSigner();
-		const rewardsTree = BadgerTree__factory.connect(network.badgerTree, signer);
+		const rewardsTree = new wallet.web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 		try {
 			const [timestamp, cycle] = await Promise.all([
-				rewardsTree.lastPublishTimestamp(),
-				rewardsTree.currentCycle(),
+				rewardsTree.methods.lastPublishTimestamp().call(),
+				rewardsTree.methods.currentCycle().call(),
 			]);
-			this.badgerTree.lastCycle = new Date(timestamp.toNumber() * 1000);
+			this.badgerTree.lastCycle = new Date(timestamp * 1000);
 			this.badgerTree.cycle = cycle.toString();
-			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp.toNumber());
+			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
 			await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
 		} catch (error) {
 			console.error('There was an error fetching rewards information: ', error);
@@ -159,7 +158,7 @@ class RewardsStore {
 			network: { network },
 			prices: { arePricesAvailable },
 			user: { claimProof },
-			wallet: { provider, address },
+			wallet: { address, web3Instance },
 		} = this.store;
 
 		if (this.loadingRewards) {
@@ -171,7 +170,7 @@ class RewardsStore {
 			return;
 		}
 
-		if (!provider || !claimProof || !address) {
+		if (!web3Instance || !claimProof || !address) {
 			this.resetRewards();
 			return;
 		}
@@ -183,10 +182,8 @@ class RewardsStore {
 
 		this.loadingRewards = true;
 
-		const signer = await provider.getSigner();
-		const rewardsTree = BadgerTree__factory.connect(network.badgerTree, signer);
-		const [addresses, claims] = await rewardsTree.getClaimedFor(address, claimProof.tokens);
-		const claimed = [addresses.map(String), claims.map(String)] as TreeClaimData;
+		const rewardsTree = new web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		const claimed: TreeClaimData = await rewardsTree.methods.getClaimedFor(address, claimProof.tokens).call();
 
 		this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
 		this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
