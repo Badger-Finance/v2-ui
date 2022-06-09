@@ -121,9 +121,7 @@ class UiStateStore {
 	});
 
 	toggleWalletDrawer = action(() => {
-		console.log('toggleWalletDrawer');
 		this.showWalletDrawer = !this.showWalletDrawer;
-		console.log(this.showWalletDrawer);
 	});
 
 	openRewardsDialog = action(() => {
