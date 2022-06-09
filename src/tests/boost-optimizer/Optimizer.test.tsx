@@ -61,7 +61,7 @@ describe('Boost Optimizer', () => {
 	});
 
 	it('can change native and non native balances', () => {
-		const { container } = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
 			</StoreProvider>,
@@ -76,11 +76,12 @@ describe('Boost Optimizer', () => {
 		userEvent.type(nativeInput, '2000');
 		userEvent.type(nonNativeInput, '1000');
 
-		expect(container).toMatchSnapshot();
+		expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$2,000');
+		expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$1,000');
 	});
 
 	it('can increase balances through the increase button', () => {
-		const { container } = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
 			</StoreProvider>,
@@ -92,7 +93,8 @@ describe('Boost Optimizer', () => {
 		userEvent.click(increaseNativeButton);
 		userEvent.click(increaseNonNativeButton);
 
-		expect(container).toMatchSnapshot();
+		expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$2,000');
+		expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$1,500');
 	});
 
 	it('can decrease balances through the increase button', () => {
@@ -108,7 +110,8 @@ describe('Boost Optimizer', () => {
 		userEvent.click(decreaseNativeButton);
 		userEvent.click(decreaseNonNativeButton);
 
-		expect(container).toMatchSnapshot();
+		expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$0');
+		expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$0');
 	});
 
 	it('can jump to rank', () => {
@@ -138,7 +141,9 @@ describe('Boost Optimizer', () => {
 
 		userEvent.clear(nonNativeInput);
 
-		expect(container).toMatchSnapshot();
+		expect(
+			screen.getByText('While reducing Non-Native may increase your boost, your gross yield will be smaller'),
+		).toBeInTheDocument();
 	});
 
 	it('supports no wallet mode', () => {

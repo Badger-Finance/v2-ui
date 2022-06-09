@@ -19,15 +19,6 @@ exports[`WalletWidget Connected address is properly displayed 1`] = `
 </div>
 `;
 
-exports[`WalletWidget Displays walletSelect menu upon click 1`] = `
-<span
-  class="svelte-1799bj2"
->
-  MetaMask
-   
-</span>
-`;
-
 exports[`WalletWidget Renders correctly 1`] = `
 <div>
   <button
