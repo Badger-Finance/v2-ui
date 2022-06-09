@@ -13,7 +13,6 @@ import { action } from 'mobx';
 
 describe('VaultSearchControl', () => {
 	beforeEach(() => {
-		store.vaults.clearFilters();
 		jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
 		jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
 		config.disabled = true;

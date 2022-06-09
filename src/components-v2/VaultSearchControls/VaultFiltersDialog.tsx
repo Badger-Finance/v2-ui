@@ -115,8 +115,6 @@ const VaultFiltersDialog = () => {
 		syncPersistedFiltersValues();
 	}, [vaultsFilters, syncPersistedFiltersValues]);
 
-	// console.log('VaultFiltersDialog', JSON.stringify(vaultsFilters));
-
 	return (
 		<Dialog open={vaults.showVaultFilters} onClose={handleClose} maxWidth="xl" fullWidth>
 			<DialogTitle disableTypography className={classes.title}>
