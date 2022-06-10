@@ -36,8 +36,12 @@ const WalletWidget = observer(() => {
 			try {
 				await wallet.connect();
 			} catch (error) {
-				uiState.queueError('Issue connecting, please try again');
-				console.error(error);
+				const isModalClosed = String(error).includes('User closed modal');
+				const isEmptyAccounts = String(error).includes('Error: accounts received is empty');
+				if (!isModalClosed && !isEmptyAccounts) {
+					console.error(error);
+					uiState.queueError('Issue connecting, please try again');
+				}
 			}
 		}
 	}
