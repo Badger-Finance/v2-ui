@@ -8,6 +8,7 @@
 	"dependencies": {
 		"@babel/runtime": "^7.16.7",
 		"@badger-dao/sdk": "^1.8.2",
+		"@coinbase/wallet-sdk": "^3.2.0",
 		"@graphql-codegen/cli": "1.21.4",
 		"@graphql-codegen/typescript": "1.22.0",
 		"@graphql-codegen/typescript-graphql-request": "3.2.0",
@@ -16,6 +17,7 @@
 		"@material-ui/core": "^4.11.2",
 		"@material-ui/icons": "^4.11.2",
 		"@material-ui/lab": "^4.0.0-alpha.57",
+		"@portis/web3": "^4.0.7",
 		"@renproject/chains": "^2.3.0",
 		"@renproject/chains-terra": "2.5.6",
 		"@renproject/gateway": "1.1.0",
@@ -47,7 +49,6 @@
 		"bignumber.js": "^9.0.1",
 		"bitcoin-address-validation": "^1.0.2",
 		"bnc-notify": "^1.9.1",
-		"bnc-onboard": "^1.35.4",
 		"clsx": "^1.1.1",
 		"copy-to-clipboard": "^3.3.1",
 		"css-mediaquery": "^0.1.2",

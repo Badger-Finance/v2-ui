@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js';
 import slugify from 'slugify';
 import { VaultDTO } from '@badger-dao/sdk';
 import { TEN, ZERO } from '../../config/constants';
-import { API } from 'bnc-onboard/dist/src/interfaces';
 import store from 'mobx/RootStore';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
@@ -217,7 +216,7 @@ export async function fetchDiggChart(chart: string, range: number): Promise<Char
 }
 
 const reduceMarketChart = (data: any[], range: number, maxDate: Date): MarketDelta[] => {
-	const formatted = data.map((value: any, index: number) => {
+	return data.map((value: any, index: number) => {
 		const date = new Date();
 
 		// if range less than 90 days, coingecko's data points are 1 hour apart.
@@ -232,7 +231,6 @@ const reduceMarketChart = (data: any[], range: number, maxDate: Date): MarketDel
 			change: value[1],
 		};
 	});
-	return formatted;
 };
 
 // TODO: clean up this function
@@ -280,22 +278,6 @@ export const unscale = (amount: BigNumber, decimals: number): BigNumber => amoun
 export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
 export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
 export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
-
-/**
- * Easy interface to check to see if wallet selection is handled and ready to connect
- * via onboard.js.  To be reused if connect buttons are displayed in multiple components
- * @param onboard = instance of the onboard.js API
- * @param connect = connect function from the wallet store
- */
-export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => void): Promise<void> => {
-	const walletSelected = await onboard.walletSelect();
-	if (walletSelected) {
-		const readyToTransact = await onboard.walletCheck();
-		if (readyToTransact) {
-			connect(onboard);
-		}
-	}
-};
 
 export function getVaultsSlugCache(vaults: VaultDTO[]): Record<string, string> {
 	const occurrences: Record<string, number> = {};
