@@ -1,83 +1,11 @@
-import { getNetworkConfig, Network, NetworkConfig } from '@badger-dao/sdk';
-import { StateAndHelpers, WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
-import { APP_NAME, CONTACT_EMAIL, NETWORK_IDS, PORTIS_APP_ID, RPC_WALLETS } from './constants';
+import { getNetworkConfig, NetworkConfig } from '@badger-dao/sdk';
+import { NETWORK_IDS, PORTIS_APP_ID } from './constants';
 import { supportedNetworks } from './networks.config';
 import rpc from './rpc.config';
 import WalletConnectProvider from '@walletconnect/web3-provider';
-
-export interface WalletProviderInfo {
-	walletName: string;
-	rpcUrl?: string;
-	bridge?: string;
-	apiKey?: string;
-	label?: string;
-	rpc?: { [networkId: string]: string };
-	appName?: string;
-	appUrl?: string;
-	email?: string;
-	preferred?: boolean;
-}
-
-export const isRpcWallet = (walletName: string | null): boolean => {
-	if (!walletName) return false;
-	return RPC_WALLETS[walletName] ?? false;
-};
-
-// the preferred wallet true is to display the options upfront
-export const getOnboardWallets = (config: NetworkConfig): WalletProviderInfo[] => {
-	const networkRPC = rpc[config.network];
-	switch (config.network) {
-		case Network.BinanceSmartChain:
-			return [{ walletName: 'metamask', preferred: true }];
-		default:
-			return [
-				{ walletName: 'metamask', preferred: true },
-				{ walletName: 'tally', preferred: true },
-				{ walletName: 'coinbase', preferred: true },
-				{
-					walletName: 'ledger',
-					rpcUrl: networkRPC,
-					preferred: true,
-				},
-				{
-					walletName: 'walletConnect',
-					rpc: {
-						[NETWORK_IDS.ETH]: networkRPC,
-						[NETWORK_IDS.BSC]: networkRPC,
-					},
-					preferred: true,
-				},
-				{ walletName: 'walletLink', rpcUrl: networkRPC, appName: APP_NAME, preferred: true },
-				{
-					walletName: 'portis',
-					apiKey: PORTIS_APP_ID,
-					label: 'Portis',
-					preferred: true,
-				},
-				{
-					walletName: 'trezor',
-					appUrl: 'https://app.badger.finance/',
-					email: CONTACT_EMAIL,
-					rpcUrl: networkRPC,
-					preferred: true,
-				},
-			];
-	}
-};
-
-const supportedNetwork = () => {
-	return async (stateAndHelpers: StateAndHelpers): Promise<WalletCheckModal | undefined> => {
-		const { network } = stateAndHelpers;
-		if (!isSupportedNetwork(network)) {
-			const networkMembers = supportedNetworks.map((network) => network.name).join(', ');
-			return {
-				heading: `Unsupported Network`,
-				description: `Switch your network to one of the supported networks: ${networkMembers}`,
-				eventCode: 'network',
-			};
-		}
-	};
-};
+import Portis from '@portis/web3';
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
+import { CHAIN_DATA_LIST } from 'web3modal';
 
 export function isSupportedNetwork(chainId?: number): boolean {
 	if (!chainId) {
@@ -92,20 +20,36 @@ export function isSupportedNetwork(chainId?: number): boolean {
 	}
 }
 
-export const onboardWalletCheck = [
-	supportedNetwork(),
-	{ checkName: 'derivationPath' },
-	{ checkName: 'accounts' },
-	{ checkName: 'connect' },
-];
-
 export function getWeb3ModalProviders(config: NetworkConfig) {
+	// wallet connect / portis network names are different from ours, and they throw an error if they don't match
+	const network = Object.values(CHAIN_DATA_LIST).find((network) => network.chainId === config.chainId)?.network;
 	const networkRPC = rpc[config.network];
 	return {
 		walletconnect: {
 			package: WalletConnectProvider,
 			options: {
-				infuraId: networkRPC,
+				rpc: {
+					[NETWORK_IDS.ETH]: networkRPC,
+					[NETWORK_IDS.BSC]: networkRPC,
+					[NETWORK_IDS.ARB]: networkRPC,
+					[NETWORK_IDS.FTM]: networkRPC,
+					[NETWORK_IDS.MATIC]: networkRPC,
+				},
+				network,
+			},
+		},
+		coinbasewallet: {
+			package: CoinbaseWalletSDK,
+			options: {
+				appName: 'BadgerDAO',
+				rpc: networkRPC,
+			},
+		},
+		portis: {
+			package: Portis,
+			options: {
+				id: PORTIS_APP_ID,
+				network,
 			},
 		},
 	};
