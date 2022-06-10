@@ -108,14 +108,14 @@ export class NetworkStore {
 	});
 
 	syncUrlNetworkId = action(() => {
-		const { router, network: networkStore } = this.store;
-		const chainId = networkStore.network.id;
+		const { router, network: networkStore, wallet } = this.store;
+		const chainId = wallet.chainId;
 		const chain = router.queryParams?.chain;
 
 		if (chain && chain !== chainId) {
 			const fallBackParams = {
 				...router.queryParams,
-				chain: NETWORK_IDS_TO_NAMES[chain as NETWORK_IDS],
+				chain: NETWORK_IDS_TO_NAMES[chainId as NETWORK_IDS],
 			};
 			try {
 				const networkConfig = getNetworkConfig(String(chain));
