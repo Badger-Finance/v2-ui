@@ -194,6 +194,7 @@ class RewardsStore {
 	});
 
 	reportInvalidCycle() {
+		const { network } = this.store.network;
 		const webhookUrl = process.env.REACT_APP_FRONTEND_ALERTS_DISCORD_WEBHOOK_URL;
 		const { proof } = this.badgerTree;
 
@@ -226,6 +227,11 @@ class RewardsStore {
 							{
 								name: 'When',
 								value: new Date().toUTCString(),
+								inline: true,
+							},
+							{
+								name: 'Network',
+								value: network.name,
 								inline: true,
 							},
 						],
