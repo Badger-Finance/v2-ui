@@ -75,13 +75,15 @@ export const VaultDetail = observer((): JSX.Element => {
 		<>
 			<Container className={classes.root}>
 				<Header />
-				{vault && badgerVault && (
+				{vault && (
 					<>
-						<TopContent vault={vault} />
-						<MainContent vault={vault} badgerVault={badgerVault} />
+						<>
+							<TopContent vault={vault} />
+							<MainContent vault={vault} />
+						</>
+						<Footer vault={vault} />
 					</>
 				)}
-				{badgerVault && <Footer badgerVault={badgerVault} />}
 			</Container>
 			<MobileStickyActionButtons />
 			{vault && badgerVault && (

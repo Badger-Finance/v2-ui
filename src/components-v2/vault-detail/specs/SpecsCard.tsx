@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BadgerVault } from '../../../mobx/model/vaults/badger-vault';
 import { Tokens } from './Tokens';
 import { Claims } from './Claims';
 import VaultDetailLinks from './VaultDetailLinks';
@@ -23,10 +22,9 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
-	badgerVault: BadgerVault;
 }
 
-const SpecsCard = ({ vault, badgerVault }: Props): JSX.Element => {
+const SpecsCard = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
@@ -44,7 +42,7 @@ const SpecsCard = ({ vault, badgerVault }: Props): JSX.Element => {
 				<Fees vault={vault} />
 			</Grid>
 			<Grid item xs>
-				<VaultDetailLinks vault={vault} badgerVault={badgerVault} />
+				<VaultDetailLinks vault={vault} />
 			</Grid>
 		</CardContainer>
 	);

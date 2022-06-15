@@ -3,10 +3,12 @@ import { StoreContext } from '../mobx/store-context';
 import { getUserVaultBoost } from '../utils/componentHelpers';
 import { VaultDTO } from '@badger-dao/sdk';
 import { currencyConfiguration } from '../config/currency.config';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
 interface VaultInformation {
 	vaultBoost: number;
 	boostContribution: number | null;
+	depositBalance: TokenBalance;
 	depositBalanceDisplay: string | undefined;
 }
 
@@ -32,6 +34,7 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
 	return {
 		vaultBoost,
 		boostContribution,
+		depositBalance,
 		depositBalanceDisplay,
 	};
 }

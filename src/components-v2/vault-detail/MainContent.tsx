@@ -5,9 +5,7 @@ import { ChartsCard } from './charts/ChartsCard';
 import { Holdings } from './holdings/Holdings';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { NewVaultWarning } from './NewVaultWarning';
-import { BalanceNamespace } from 'web3/config/namespaces';
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { defaultVaultBalance } from './utils';
 
@@ -35,26 +33,24 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
-	badgerVault: BadgerVault;
 }
 
-export const MainContent = observer(({ badgerVault, vault }: Props): JSX.Element => {
+export const MainContent = observer(({ vault }: Props): JSX.Element => {
 	const { user, onboard } = React.useContext(StoreContext);
 
 	const classes = useStyles();
-	const tokenBalance = user.getBalance(BalanceNamespace.Token, badgerVault);
 	const userData = user.accountDetails?.data[vault.vaultToken] ?? defaultVaultBalance(vault);
 
 	return (
 		<Grid container className={classes.content}>
 			{onboard.isActive() && (
 				<Grid container className={classes.holdingsContainer}>
-					<Holdings vault={vault} badgerVault={badgerVault} tokenBalance={tokenBalance} userData={userData} />
+					<Holdings vault={vault} userData={userData} />
 				</Grid>
 			)}
 			<Grid container spacing={1}>
 				<Grid item xs={12} md={4} lg={3}>
-					<SpecsCard vault={vault} badgerVault={badgerVault} />
+					<SpecsCard vault={vault} />
 				</Grid>
 				<Grid item xs={12} md={8} lg={9} className={classes.chartsContainer}>
 					<ChartsCard vault={vault} />
