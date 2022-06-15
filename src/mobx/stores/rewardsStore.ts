@@ -206,36 +206,33 @@ class RewardsStore {
 			return;
 		}
 
-		fetch(
-			'https://discord.com/api/webhooks/982117990545891349/qr65yfvTHVUwIthRFNqmwASuuHg0l0DbGNVozCRMJ8AgX2Rxa2_3QIPE6iGrorFYjnAT',
-			{
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				body: JSON.stringify({
-					embeds: [
-						{
-							title: 'Invalid Cycle Detected',
-							color: 16721408,
-							description: 'An invalid cycle has been detected during rewards claiming.',
-							timestamp: new Date(),
-							fields: [
-								{
-									name: 'Cycle',
-									value: Number(proof.cycle),
-									inline: true,
-								},
-								{
-									name: 'When',
-									value: new Date().toUTCString(),
-									inline: true,
-								},
-							],
-						},
-					],
-					components: [],
-				}),
-			},
-		)
+		fetch(webhookUrl, {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({
+				embeds: [
+					{
+						title: 'Invalid Cycle Detected',
+						color: 16721408,
+						description: 'An invalid cycle has been detected during rewards claiming.',
+						timestamp: new Date(),
+						fields: [
+							{
+								name: 'Cycle',
+								value: Number(proof.cycle),
+								inline: true,
+							},
+							{
+								name: 'When',
+								value: new Date().toUTCString(),
+								inline: true,
+							},
+						],
+					},
+				],
+				components: [],
+			}),
+		})
 			.then()
 			.catch(console.error);
 	}
