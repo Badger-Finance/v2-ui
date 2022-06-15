@@ -258,17 +258,13 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
 		await Promise.all(allowanceApprovals);
 
-		const ibbtcVaultPeakRead = new web3Instance.eth.Contract(
-			IbbtcVaultZapAbi as AbiItem[],
-			mainnetDeploy.ibbtcVaultZap,
-		);
 		const ibbtcVaultPeak = new web3Instance.eth.Contract(
 			IbbtcVaultZapAbi as AbiItem[],
 			mainnetDeploy.ibbtcVaultZap,
 		);
 
 		const depositAmounts = multiTokenDepositBalances.map((balance) => toHex(balance.tokenBalance));
-		const expectedAmount = new BigNumber(await ibbtcVaultPeakRead.methods.expectedAmount(depositAmounts).call());
+		const expectedAmount = new BigNumber(await ibbtcVaultPeak.methods.expectedAmount(depositAmounts).call());
 		const minOut = expectedAmount.multipliedBy(1 - slippage / 100).toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, toHex(new BigNumber(minOut)), false);
 		const options = await contracts.getMethodSendOptions(deposit);
