@@ -51,10 +51,10 @@ export interface VaultModalProps {
 }
 
 export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
-	const { onboard, user, contracts, vaults } = useContext(StoreContext);
+	const { wallet, user, contracts, vaults } = useContext(StoreContext);
 	const classes = useStyles();
 
-	const [accepted, setAccepted] = useState(badgerVault.withdrawAdvisory ? false : true);
+	const [accepted, setAccepted] = useState(!badgerVault.withdrawAdvisory);
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
@@ -68,7 +68,7 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const bTokenSymbol = bToken?.symbol || '';
 
-	const canWithdraw = onboard.isActive() && !!amount && userHasBalance;
+	const canWithdraw = wallet.isConnected && !!amount && userHasBalance;
 	const isLoading = contracts.settsBeingWithdrawn[vault.vaultToken];
 
 	const handlePercentageChange = (percent: number) => {

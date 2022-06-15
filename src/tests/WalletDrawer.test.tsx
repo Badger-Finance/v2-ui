@@ -1,15 +1,15 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { OnboardStore } from '../mobx/stores/OnboardStore';
 import store from '../mobx/RootStore';
 import { StoreProvider } from '../mobx/store-context';
 import WalletDrawer from '../components-v2/common/WalletDrawer';
-import { customRender, screen, fireEvent } from './Utils';
+import { customRender, fireEvent, screen } from './Utils';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import * as copy from 'copy-to-clipboard';
 import UserStore from '../mobx/stores/UserStore';
 import deploy from '../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
+import { WalletStore } from '../mobx/stores/WalletStore';
 
 jest.mock('copy-to-clipboard', () => {
 	return jest.fn().mockReturnValue(true);
@@ -18,8 +18,10 @@ jest.mock('copy-to-clipboard', () => {
 describe('Wallet Drawer', () => {
 	beforeEach(() => {
 		store.uiState.showWalletDrawer = true;
-		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-		jest.spyOn(OnboardStore.prototype, 'isActive').mockReturnValue(true);
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+		);
+		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
 		jest.spyOn(UserStore.prototype, 'getTokenBalance').mockImplementation((token) => {
 			if (token === deploy.tokens.badger) {
 				return new TokenBalance(
@@ -73,8 +75,7 @@ describe('Wallet Drawer', () => {
 
 	it('disconnects wallet', () => {
 		jest.useFakeTimers();
-		const disconnectSpy = jest.fn();
-		store.onboard.disconnect = disconnectSpy;
+		const disconnectSpy = jest.spyOn(WalletStore.prototype, 'disconnect');
 
 		customRender(
 			<StoreProvider value={store}>

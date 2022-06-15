@@ -1,4 +1,4 @@
-import { GasPrices, GasFees, GasSpeed } from '@badger-dao/sdk';
+import { GasFees, GasPrices, GasSpeed, getNetworkConfig } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
@@ -6,6 +6,7 @@ import { BigNumber } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { Network } from 'mobx/model/network/network';
 import { RootStore } from 'mobx/RootStore';
+import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
 
 export class NetworkStore {
 	private store: RootStore;
@@ -48,7 +49,7 @@ export class NetworkStore {
 		const { ethereum } = window;
 		// implementation details from:
 		// https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
-		if (ethereum && this.store.onboard.isActive()) {
+		if (ethereum && this.store.wallet.isConnected) {
 			try {
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				await ethereum.request!({
@@ -95,7 +96,7 @@ export class NetworkStore {
 			}
 		}
 		this.network = network;
-		if (!this.store.onboard.isActive()) {
+		if (!this.store.wallet.isConnected) {
 			await this.store.updateNetwork(network.id);
 		} else {
 			this.store.rewards.resetRewards();
@@ -104,6 +105,31 @@ export class NetworkStore {
 
 	updateGasPrices = action(async () => {
 		this.gasPrices = await this.store.sdk.api.loadGasPrices();
+	});
+
+	syncUrlNetworkId = action(() => {
+		const { router, network: networkStore, wallet } = this.store;
+		const chainId = wallet.chainId;
+		const chain = router.queryParams?.chain;
+
+		if (chain && chain !== chainId) {
+			const fallBackParams = {
+				...router.queryParams,
+				chain: NETWORK_IDS_TO_NAMES[chainId as NETWORK_IDS],
+			};
+			try {
+				const networkConfig = getNetworkConfig(String(chain));
+				// purposely not awaiting this to not block the onboarding process
+				networkStore
+					.setNetwork(networkConfig.chainId)
+					.then()
+					.catch(() => {
+						router.queryParams = fallBackParams;
+					});
+			} catch (e) {
+				router.queryParams = fallBackParams;
+			}
+		}
 	});
 
 	private parseCachedGasPrice(): GasFees | number | undefined {

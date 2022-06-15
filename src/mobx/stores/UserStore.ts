@@ -53,7 +53,7 @@ export default class UserStore {
 
 	onGuestList(vault: VaultDTO): boolean {
 		// allow users who are not connected to nicely view setts
-		if (!this.store.onboard.isActive()) {
+		if (!this.store.wallet.isConnected) {
 			return true;
 		}
 		if (vault.bouncer === BouncerType.Internal) {
@@ -96,9 +96,9 @@ export default class UserStore {
 	}
 
 	async reloadBalances(address?: string): Promise<void> {
-		const { vaults, user, onboard } = this.store;
+		const { vaults, user, wallet } = this.store;
 		const actions = [];
-		const queryAddress = address ?? onboard.address;
+		const queryAddress = address ?? wallet.address;
 
 		if (vaults.initialized && queryAddress) {
 			actions.push(user.updateBalances());
@@ -159,7 +159,7 @@ export default class UserStore {
 	});
 
 	updateBalances = action(async (addressOverride?: string, cached?: boolean): Promise<void> => {
-		const { address, wallet } = this.store.onboard;
+		const { address, web3Instance } = this.store.wallet;
 		const { network } = this.store.network;
 		const { vaults } = this.store;
 
@@ -169,7 +169,7 @@ export default class UserStore {
 		 * will trigger balance display updates
 		 */
 		const queryAddress = addressOverride ?? address;
-		if (!queryAddress || !vaults.initialized || this.loadingBalances || !wallet?.provider || !vaults.vaultMap) {
+		if (!queryAddress || !vaults.initialized || this.loadingBalances || !web3Instance || !vaults.vaultMap) {
 			return;
 		}
 
@@ -198,7 +198,7 @@ export default class UserStore {
 			let multicallResults;
 			try {
 				multicall = new Multicall({
-					web3Instance: new Web3(wallet.provider),
+					web3Instance: web3Instance,
 					tryAggregate: true,
 					multicallCustomContractAddress: multicallContractAddress,
 				});
@@ -209,7 +209,7 @@ export default class UserStore {
 					message: `This error may be because MulticallV2 is not defined for ${network.name}.`,
 				});
 				multicall = new Multicall({
-					web3Instance: new Web3(wallet.provider),
+					web3Instance: web3Instance,
 					multicallCustomContractAddress: multicallContractAddress,
 				});
 				multicallResults = await multicall.call(multicallRequests);

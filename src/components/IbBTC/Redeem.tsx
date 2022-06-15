@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
+import { Button, Grid, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
@@ -11,16 +11,16 @@ import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
-	EndAlignText,
-	InputTokenAmount,
-	BorderedFocusableContainerGrid,
-	OutputContentGrid,
-	SummaryGrid,
 	BalanceGrid,
-	InputTokenActionButtonsGrid,
-	OutputAmountText,
-	OutputTokenGrid,
+	BorderedFocusableContainerGrid,
+	EndAlignText,
 	ErrorText,
+	InputTokenActionButtonsGrid,
+	InputTokenAmount,
+	OutputAmountText,
+	OutputContentGrid,
+	OutputTokenGrid,
+	SummaryGrid,
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
@@ -45,10 +45,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ActionButton = observer(({ children }): JSX.Element => {
-	const { onboard } = useContext(StoreContext);
+	const { wallet } = useContext(StoreContext);
 	const connectWallet = useConnectWallet();
 
-	if (!onboard.address) {
+	if (!wallet.isConnected) {
 		return (
 			<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 				Connect Wallet
@@ -65,7 +65,7 @@ export const Redeem = observer((): any => {
 
 	const {
 		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, redeemRates, initialized },
-		onboard,
+		wallet,
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState<TokenBalance>();
@@ -205,7 +205,7 @@ export const Redeem = observer((): any => {
 						<InputTokenAmount
 							inputProps={inputProps}
 							value={inputAmount}
-							disabled={!onboard.address}
+							disabled={!wallet.isConnected}
 							placeholder="0.000"
 							onChange={onValidChange(handleInputChange)}
 						/>

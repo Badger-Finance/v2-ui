@@ -1,4 +1,4 @@
-import { extendObservable, action } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import { RootStore } from '../RootStore';
 import { Currency } from 'config/enums/currency.enum';
 import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH, DEFAULT_CURRENCY } from 'config/constants';

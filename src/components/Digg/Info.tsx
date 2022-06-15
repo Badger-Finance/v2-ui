@@ -1,5 +1,5 @@
-import { Grid, Paper, makeStyles, Button, Typography, Tooltip, IconButton } from '@material-ui/core';
-import React, { useState, useContext, useEffect } from 'react';
+import { Button, Grid, IconButton, makeStyles, Paper, Tooltip, Typography } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
@@ -114,7 +114,7 @@ const Info = observer(() => {
 		vaults: { vaultMap },
 		uiState: { currency },
 		rebase: { rebase },
-		onboard,
+		wallet,
 		prices,
 	} = store;
 
@@ -132,7 +132,7 @@ const Info = observer(() => {
 		return () => clearInterval(rebaseInterval);
 	}, [rebase]);
 
-	if (!onboard.isActive()) {
+	if (!wallet.isConnected) {
 		return <NoWallet message="Connect wallet to see DIGG rebase statistics." />;
 	}
 

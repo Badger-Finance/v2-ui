@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-import { customRender, screen, fireEvent, cleanup } from '../Utils';
+import { cleanup, customRender, fireEvent, screen } from '../Utils';
 import { Mint } from '../../components/IbBTC/Mint';
 import { SnackbarProvider } from '../../components/Snackbar';
 import IbBTCStore from 'mobx/stores/ibBTCStore';
@@ -12,6 +12,7 @@ import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { TransactionRequestResult } from '../../mobx/utils/web3';
 import SnackbarManager from '../../components-v2/common/SnackbarManager';
+import { WalletStore } from '../../mobx/stores/WalletStore';
 
 const mockTokens = [
 	new TokenBalance(
@@ -40,7 +41,10 @@ describe('ibBTC Mint', () => {
 	beforeEach(() => {
 		jest.useFakeTimers();
 
-		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+		);
 
 		jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);
 		jest.spyOn(IbBTCStore.prototype, 'tokenBalances', 'get').mockReturnValue(mockTokens);
@@ -128,7 +132,8 @@ describe('ibBTC Mint', () => {
 	});
 
 	it('handles not connected wallet', () => {
-		store.onboard.address = undefined;
+		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(false);
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(undefined);
 
 		customRender(
 			<StoreProvider value={store}>

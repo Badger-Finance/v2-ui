@@ -12,6 +12,7 @@ import BigNumber from 'bignumber.js';
 import WalletTokenBalance from './WalletTokenBalance';
 import clsx from 'clsx';
 import WalletLiquidityPoolLinks from './WalletLiquidityPoolLinks';
+import CopyToClipboardIcon from './CopyToClipboardIcon';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -70,29 +71,32 @@ const useStyles = makeStyles((theme) => ({
 	address: {
 		textTransform: 'uppercase',
 	},
+	copyToClipboard: {
+		color: theme.palette.secondary.main,
+	},
 }));
 
 const WalletDrawer = (): JSX.Element | null => {
 	const [showCopiedMessage, setShowCopiedMessage] = useState(false);
-	const { uiState, user, onboard, network } = useContext(StoreContext);
-	const { ensName } = useENS(onboard.address);
+	const { uiState, user, network, wallet } = useContext(StoreContext);
+	const { ensName } = useENS(wallet.address);
 	const classes = useStyles();
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
 	const handleCopy = () => {
-		if (!onboard.address) return;
-		const didCopy = copy(onboard.address);
+		if (!wallet.address) return;
+		const didCopy = copy(wallet.address);
 		setShowCopiedMessage(didCopy);
 	};
 
 	const handleDisconnect = () => {
 		uiState.toggleWalletDrawer();
 		setTimeout(() => {
-			onboard.disconnect();
+			wallet.disconnect();
 		}, closeDialogTransitionDuration);
 	};
 
-	if (!onboard.address) {
+	if (!wallet.address) {
 		return null;
 	}
 
@@ -129,14 +133,14 @@ const WalletDrawer = (): JSX.Element | null => {
 							color="textSecondary"
 							display="inline"
 						>
-							{ensName || shortenAddress(onboard.address)}
+							{ensName || shortenAddress(wallet.address)}
 						</Typography>
 						<IconButton
 							onClick={handleCopy}
 							aria-label="copy wallet address"
 							className={classes.copyWalletButton}
 						>
-							<img src="/assets/icons/copy-wallet-address.svg" alt="copy wallet address icon" />
+							<CopyToClipboardIcon className={classes.copyToClipboard} />
 						</IconButton>
 					</Grid>
 					<Grid item>

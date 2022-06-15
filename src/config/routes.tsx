@@ -11,6 +11,7 @@ import Governance from 'components/Governance';
 import { Currency, Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
+import Bridge from 'components/Bridge';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -73,6 +74,10 @@ const routes = {
 	governance: new Route<RootStore, QueryParams>({
 		path: '/governance',
 		component: <Governance />,
+	}),
+	bridge: new Route<RootStore, QueryParams>({
+		path: '/bridge',
+		component: <Bridge />,
 	}),
 };
 

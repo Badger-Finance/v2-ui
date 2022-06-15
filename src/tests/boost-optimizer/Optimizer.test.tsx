@@ -7,10 +7,14 @@ import { StoreProvider } from '../../mobx/store-context';
 import { customRender, screen } from '../Utils';
 import { Optimizer } from '../../components/Boost/Optimizer';
 import * as rankUtils from '../../utils/boost-ranks';
+import { WalletStore } from '../../mobx/stores/WalletStore';
 
 describe('Boost Optimizer', () => {
 	beforeEach(() => {
-		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+		);
 		store.user.accountDetails = {
 			address: '0xC26202cd0428276cC69017Df01137161f0102e55',
 			boost: 1,
@@ -57,7 +61,7 @@ describe('Boost Optimizer', () => {
 	});
 
 	it('can change native and non native balances', () => {
-		const { container } = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
 			</StoreProvider>,
@@ -72,11 +76,12 @@ describe('Boost Optimizer', () => {
 		userEvent.type(nativeInput, '2000');
 		userEvent.type(nonNativeInput, '1000');
 
-		expect(container).toMatchSnapshot();
+		expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$2,000');
+		expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$1,000');
 	});
 
 	it('can increase balances through the increase button', () => {
-		const { container } = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
 			</StoreProvider>,
@@ -88,11 +93,12 @@ describe('Boost Optimizer', () => {
 		userEvent.click(increaseNativeButton);
 		userEvent.click(increaseNonNativeButton);
 
-		expect(container).toMatchSnapshot();
+		expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$2,000');
+		expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$1,500');
 	});
 
 	it('can decrease balances through the increase button', () => {
-		const { container } = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
 			</StoreProvider>,
@@ -104,7 +110,8 @@ describe('Boost Optimizer', () => {
 		userEvent.click(decreaseNativeButton);
 		userEvent.click(decreaseNonNativeButton);
 
-		expect(container).toMatchSnapshot();
+		expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$0');
+		expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$0');
 	});
 
 	it('can jump to rank', () => {
@@ -124,7 +131,7 @@ describe('Boost Optimizer', () => {
 	it('shows empty non native message', () => {
 		jest.spyOn(rankUtils, 'calculateNativeToMatchRank').mockReturnValue(0);
 
-		const { container } = customRender(
+		customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
 			</StoreProvider>,
@@ -134,11 +141,13 @@ describe('Boost Optimizer', () => {
 
 		userEvent.clear(nonNativeInput);
 
-		expect(container).toMatchSnapshot();
+		expect(
+			screen.getByText('While reducing Non-Native may increase your boost, your gross yield will be smaller'),
+		).toBeInTheDocument();
 	});
 
 	it('supports no wallet mode', () => {
-		store.onboard.address = '';
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(undefined);
 		store.user.accountDetails = null;
 		jest.spyOn(rankUtils, 'calculateNativeToMatchRank').mockReturnValue(0);
 

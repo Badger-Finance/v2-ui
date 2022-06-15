@@ -1,4 +1,3 @@
-import Web3 from 'web3';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import RenVaultZapABI from 'config/system/abis/RenVaultZap.json';
@@ -23,8 +22,9 @@ export class RenVaultZap extends IbBTCMintZap {
 
 	constructor(store: RootStore, token: Token) {
 		super(store, token, addresses.mainnet.contracts.RenVaultZap.address, RenVaultZapABI.abi as AbiItem[]);
-		const web3 = new Web3(this.store.onboard.wallet?.provider);
-		this.zap = new web3.eth.Contract(RenVaultZapABI.abi as AbiItem[], this.address);
+		const { web3Instance } = this.store.wallet;
+		if (!web3Instance) throw new Error('Web3 instance is not initialized');
+		this.zap = new web3Instance.eth.Contract(RenVaultZapABI.abi as AbiItem[], this.address);
 	}
 
 	getCalcMintMethod(amount: BigNumber): ContractSendMethod {
@@ -45,10 +45,11 @@ export class RenVaultZap extends IbBTCMintZap {
 	}
 
 	async bBTCToSett(amount: BigNumber): Promise<BigNumber> {
-		const web3 = new Web3(this.store.onboard.wallet?.provider);
-		const settToken = new web3.eth.Contract(vaultConfig.abi as AbiItem[], this.token.address);
+		const { web3Instance } = this.store.wallet;
+		if (!web3Instance) throw new Error('Web3 instance is not initialized');
+		const settToken = new web3Instance.eth.Contract(vaultConfig.abi as AbiItem[], this.token.address);
 		const { swap: swapAddress } = await this.zap.methods.pools(IbbtcDepositTokenPoolIds[this.token.address]).call();
-		const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
+		const swapContract = new web3Instance.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
 
 		const [settTokenPricePerFullShare, swapVirtualPrice] = await Promise.all([
 			settToken.methods.getPricePerFullShare().call(),

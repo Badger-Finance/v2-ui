@@ -34,4 +34,5 @@ export const NETWORKS_LIQUIDITY_POOL_LINKS: NetworksLiquidityPoolLinks = {
 	[Network.BinanceSmartChain]: {},
 	[Network.Polygon]: {},
 	[Network.Local]: {},
+	[Network.Optimism]: {},
 };

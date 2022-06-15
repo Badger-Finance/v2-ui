@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### 2.17.0 - 06/15/2022
+
+-   migrate to web3modal
+-   enable potential optimism support
+
 ### 2.16.0 - 04/14/2022
 
 -   add url based routing and filtering

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Collapse, Grid, makeStyles, Typography } from '@material-ui/core';
-import { BadgerVault } from '../../../mobx/model/vaults/badger-vault';
+import React from 'react';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import { StyledDivider } from '../styled';
@@ -28,16 +27,15 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
-	badgerVault: BadgerVault;
 }
 
-const VaultDetailLinks = observer(({ vault, badgerVault }: Props): JSX.Element => {
+const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
 	const { network: networkStore } = React.useContext(StoreContext);
 	const { network } = networkStore;
 	const classes = useStyles();
 
-	const vaultAddress = badgerVault.vaultToken.address;
-	const strategy = network.strategies[vaultAddress];
+	const { vaultToken } = vault;
+	const strategy = network.strategies[vaultToken];
 	const underlyingToken = vault.underlyingToken;
 	const strategyAddress =
 		vault.strategy?.address && vault.strategy.address !== ethers.constants.AddressZero
@@ -51,7 +49,7 @@ const VaultDetailLinks = observer(({ vault, badgerVault }: Props): JSX.Element =
 			{strategy.userGuide && <VaultDetailLink title="User Guide" href={strategy.userGuide} />}
 			{strategy.strategyLink && <VaultDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
 			{strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
-			<VaultDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultAddress}`} />
+			<VaultDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultToken}`} />
 			<VaultDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
 			<VaultDetailLink title="Underlying Token Address" href={`${network.explorer}/address/${underlyingToken}`} />
 		</Grid>
