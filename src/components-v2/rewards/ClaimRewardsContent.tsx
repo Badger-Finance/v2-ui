@@ -164,10 +164,10 @@ interface Props {
 const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, onClaim }: Props): JSX.Element => {
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
-	const { uiState, router, onboard } = useContext(StoreContext);
+	const { uiState, router, wallet } = useContext(StoreContext);
 	const [claims, setClaims] = useState<ClaimMap>(claimableRewards);
 
-	const hasRewards = onboard.isActive() && Object.keys(claims).length > 0;
+	const hasRewards = wallet.isConnected && Object.keys(claims).length > 0;
 
 	const totalClaimValue = Object.keys(claims).reduce(
 		(total, claimKey) => total.plus(claims[claimKey].value),

@@ -5,6 +5,7 @@ import { groupBy } from '../../utils/lodashToNative';
 // the reason why there are multiple returnValues is because the method can be called multiple times hence can have multiple results
 export type ParsedCallReturn = Record<string, CallReturnContext['returnValues'][]>;
 
+// https://github.com/joshstevens19/ethereum-multicall
 export function getChainMulticallContract(network: Network): string {
 	switch (network) {
 		case Network.Local:
@@ -20,6 +21,8 @@ export function getChainMulticallContract(network: Network): string {
 			return '0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4';
 		case Network.Fantom:
 			return '0xd98e3dbe5950ca8ce5a4b59630a5652110403e5c';
+		case Network.Optimism:
+			return '0xeAa6877139d436Dc6d1f75F3aF15B74662617B2C';
 	}
 }
 

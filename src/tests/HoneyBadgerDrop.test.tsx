@@ -1,11 +1,12 @@
 import React from 'react';
-import { customRender, cleanup, act } from './Utils';
+import { act, cleanup, customRender } from './Utils';
 import HoneybadgerDrop from './../components/HoneybadgerDrop/index';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/RootStore';
 import { action } from 'mobx';
 import { checkSnapshot } from './utils/snapshots';
+import { WalletStore } from '../mobx/stores/WalletStore';
 
 describe('HoneybadgerDrop Page', () => {
 	const connectedStore = store;
@@ -21,7 +22,10 @@ describe('HoneybadgerDrop Page', () => {
 
 	test('Renders correctly with connected address', () => {
 		act(() => {
-			connectedStore.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+			jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+			jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+				'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+			);
 		});
 		const { container } = customRender(
 			<StoreProvider value={connectedStore}>
@@ -33,7 +37,10 @@ describe('HoneybadgerDrop Page', () => {
 
 	test('Renders correctly with connected address and a balance of NFTs', () => {
 		act(() => {
-			connectedStore.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+			jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+			jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+				'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+			);
 			connectedStore.honeyPot.nfts = [
 				{
 					tokenId: '1',

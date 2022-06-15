@@ -5,13 +5,13 @@ import { StoreContext } from 'mobx/store-context';
 import PageHeader from 'components-v2/common/PageHeader';
 import { NftList } from './NftList';
 import { PoolBalance } from './PoolBalance';
-import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
 import { Network } from '@badger-dao/sdk';
 
 const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
 	const { network } = store.network;
-	const { onboard } = store;
+	const { wallet } = store;
 
 	return (
 		<LayoutContainer>
@@ -23,7 +23,7 @@ const HoneybadgerDrop: React.FC = observer(() => {
 					<>
 						<Grid item xs={12} container spacing={5}>
 							<PoolBalance />
-							{onboard.isActive() && <NftList />}
+							{wallet.isConnected && <NftList />}
 						</Grid>
 					</>
 				) : (

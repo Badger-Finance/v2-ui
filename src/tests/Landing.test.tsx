@@ -8,12 +8,16 @@ import UserStore from 'mobx/stores/UserStore';
 import { createMatchMedia } from './Utils';
 import VaultStore from '../mobx/stores/VaultStore';
 import { SAMPLE_VAULTS } from './utils/samples';
+import { WalletStore } from '../mobx/stores/WalletStore';
 
 describe('Landing', () => {
 	beforeEach(() => {
 		store.prices.getPrice = jest.fn().mockReturnValue(new BigNumber(15e18));
 		store.network.network.deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
-		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+		);
 		store.user.accountDetails = {
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 			value: 0,

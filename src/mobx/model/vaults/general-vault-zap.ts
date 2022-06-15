@@ -1,10 +1,9 @@
-import Web3 from 'web3';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import BigNumber from 'bignumber.js';
 import GeneralVaultZapABI from 'config/system/abis/GeneralVaultZap.json';
 import ibbtcConfig from 'config/ibBTC/addresses.json';
-import { IbBTCMintZap, IBBTC_METHOD_NOT_SUPPORTED } from './ibbtc-mint-zap';
+import { IBBTC_METHOD_NOT_SUPPORTED, IbBTCMintZap } from './ibbtc-mint-zap';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import { Token } from '@badger-dao/sdk';
@@ -15,8 +14,9 @@ export class GeneralVaultZap extends IbBTCMintZap {
 
 	constructor(store: RootStore, token: Token) {
 		super(store, token, ibbtcConfig.mainnet.contracts.GeneralVaultZap.address, GeneralVaultZapABI.abi as AbiItem[]);
-		const web3 = new Web3(this.store.onboard.wallet?.provider);
-		this.zap = new web3.eth.Contract(GeneralVaultZapABI.abi as AbiItem[], this.address);
+		const { web3Instance } = this.store.wallet;
+		if (!web3Instance) throw new Error('Web3 instance is not initialized');
+		this.zap = new web3Instance.eth.Contract(GeneralVaultZapABI.abi as AbiItem[], this.address);
 	}
 
 	getCalcMintMethod(amount: BigNumber): ContractSendMethod {

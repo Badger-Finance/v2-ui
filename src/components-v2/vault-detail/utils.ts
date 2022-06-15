@@ -45,14 +45,3 @@ export function defaultVaultBalance(vault: VaultDTO): VaultData {
 		earnedTokens: [],
 	};
 }
-
-export interface Balance {
-	balance: number;
-}
-
-export function hasBalance(input?: Balance): boolean {
-	if (!input) {
-		return false;
-	}
-	return input.balance > 0;
-}

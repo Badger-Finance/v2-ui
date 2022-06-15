@@ -33,6 +33,7 @@ const networkAbbreviationBySymbol: Record<ChainNetworkSymbol, string> = {
 	[ChainNetworkSymbol.Polygon]: 'MATIC',
 	[ChainNetworkSymbol.Avalanche]: 'AVALANCHE',
 	[ChainNetworkSymbol.Fantom]: 'FANTOM',
+	[ChainNetworkSymbol.Optimism]: 'OPTIMISM',
 };
 
 interface Props {

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const RewardsButton = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { vaults, onboard, user } = store;
+	const { vaults, user, wallet } = store;
 	const { badgerTree, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
 	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
@@ -47,7 +47,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
 		setClaimableRewards(balances);
 	}, [vaults, badgerTree.claims]);
 
-	if (!onboard.isActive()) {
+	if (!wallet.isConnected) {
 		return (
 			<Button
 				startIcon={<img src="/assets/icons/rewards-spark.svg" alt="rewards icon" />}

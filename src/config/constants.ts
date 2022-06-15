@@ -15,6 +15,7 @@ import { Currency } from './enums/currency.enum';
 
 /* App Configurations */
 
+export const TOOLTIP_LEAVE_TOUCH_DELAY = 1500;
 export const DEFAULT_CURRENCY = Currency.USD;
 export const MAX_LAYOUT_WIDTH = 1183; // 1135px (width on mocks) + 24px of padding on each side
 export const DEFAULT_NETWORK = Network.Ethereum;
@@ -82,7 +83,7 @@ export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
 // https://semver.org/#is-v123-a-semantic-version
-export const SITE_VERSION = '2.16.0';
+export const SITE_VERSION = '2.17.0';
 export const BLOCKNATIVE_API_KEY = process.env.REACT_APP_BLOCKNATIVE_API_KEY;
 
 export const ZERO = new BigNumber(0);

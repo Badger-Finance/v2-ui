@@ -1,5 +1,4 @@
-import { extendObservable, action } from 'mobx';
-import Web3 from 'web3';
+import { action, extendObservable } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
 import { AbiItem } from 'web3-utils';
@@ -55,15 +54,13 @@ export class HoneyPotStore {
 	fetchPoolBalance = action(async () => {
 		try {
 			const { network } = this.store.network;
-			const { address, wallet } = this.store.onboard;
-			if (!address || !wallet || network.id !== NETWORK_IDS.ETH) return;
+			const { address, web3Instance } = this.store.wallet;
+			if (!address || !web3Instance || network.id !== NETWORK_IDS.ETH) return;
 
 			this.loadingPoolBalance = true;
-
-			const web3 = new Web3(wallet.provider);
-			const pool = new web3.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
+			const pool = new web3Instance.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
 			const bDiggAddress = await pool.methods.bdigg().call();
-			const bDigg = new web3.eth.Contract(ERC20.abi as AbiItem[], bDiggAddress);
+			const bDigg = new web3Instance.eth.Contract(ERC20.abi as AbiItem[], bDiggAddress);
 			const balance = await bDigg.methods.balanceOf(mainnet.honeypotMeme).call();
 			this.poolBalance = new BigNumber(balance);
 		} catch (error) {
@@ -77,17 +74,16 @@ export class HoneyPotStore {
 	fetchNFTS = action(async () => {
 		try {
 			const { network } = this.store.network;
-			const { address, wallet } = this.store.onboard;
-			if (!address || !wallet || network.id !== NETWORK_IDS.ETH) return;
+			const { address, web3Instance } = this.store.wallet;
+			if (!address || !web3Instance || network.id !== NETWORK_IDS.ETH) return;
 
 			this.loadingNfts = true;
 
 			this.nftBeingRedeemed = [];
 			const nfts = [];
-			const web3 = new Web3(wallet.provider);
-			const pool = new web3.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
+			const pool = new web3Instance.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
 			const memeLtdAddress = await pool.methods.memeLtd().call();
-			const memeLtd = new web3.eth.Contract(memeLtdABI as AbiItem[], memeLtdAddress);
+			const memeLtd = new web3Instance.eth.Contract(memeLtdABI as AbiItem[], memeLtdAddress);
 
 			// given that we don't have the length of the nfts array in the contract we iterate until the contract fails
 			for (let tokenIndex = 0; ; tokenIndex++) {
@@ -128,15 +124,14 @@ export class HoneyPotStore {
 	redeemNFT = action(async (tokenId: string, amount: number) => {
 		try {
 			const { queueNotification } = this.store.uiState;
-			const { address, wallet } = this.store.onboard;
+			const { address, web3Instance } = this.store.wallet;
 			const { network, gasSpeed } = this.store.network;
-			if (!address || !wallet || network.id !== NETWORK_IDS.ETH) return;
+			if (!address || !web3Instance || network.id !== NETWORK_IDS.ETH) return;
 
 			this.nftBeingRedeemed.push(tokenId);
-			const web3 = new Web3(wallet.provider);
-			const pool = new web3.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
+			const pool = new web3Instance.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
 			const memeLtdAddress = await pool.methods.memeLtd().call();
-			const memeLtd = new web3.eth.Contract(memeLtdABI as AbiItem[], memeLtdAddress);
+			const memeLtd = new web3Instance.eth.Contract(memeLtdABI as AbiItem[], memeLtdAddress);
 
 			const redeem = memeLtd.methods.safeTransferFrom(address, mainnet.honeypotMeme, tokenId, amount, '0x00');
 

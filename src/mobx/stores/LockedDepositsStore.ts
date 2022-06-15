@@ -29,12 +29,12 @@ class LockedDepositsStore {
 	async loadLockedBalances(): Promise<void> {
 		const {
 			network: { network },
-			onboard: { wallet },
+			wallet: { web3Instance },
 		} = this.store;
 
 		const tokens = NETWORKS_LOCKED_DEPOSITS_CONFIG[network.id];
 
-		if (!wallet?.provider || !tokens) {
+		if (!web3Instance || !tokens) {
 			return;
 		}
 
@@ -49,19 +49,16 @@ class LockedDepositsStore {
 		strategyAddress,
 	}: LockedContractInfo): Promise<[string, TokenBalance][]> => {
 		const {
-			onboard: { ethersWeb3Provider },
+			wallet: { provider },
 		} = this.store;
 
-		if (!ethersWeb3Provider) {
+		if (!provider) {
 			return [];
 		}
 
 		const token = this.store.vaults.getToken(underlyingTokenAddress);
-		const tokenContract = ERC20__factory.connect(underlyingTokenAddress, ethersWeb3Provider);
-		const voteLockedDepositContract = VoteLockedDeposit__factory.connect(
-			lockingContractAddress,
-			ethersWeb3Provider,
-		);
+		const tokenContract = ERC20__factory.connect(underlyingTokenAddress, provider);
+		const voteLockedDepositContract = VoteLockedDeposit__factory.connect(lockingContractAddress, provider);
 
 		const [vaultBalance, strategyBalance, totalTokenBalanceStrategy, lockedTokenBalanceStrategy] =
 			await Promise.all([

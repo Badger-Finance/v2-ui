@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InvalidCycleDialog displays invalid cycle dialog 1`] = `
+<body
+  style="padding-right: 0px; overflow: hidden;"
+>
+  
+  <div
+    aria-hidden="true"
+  />
+  <div
+    class="MuiDialog-root-9"
+    role="presentation"
+    style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiBackdrop-root-24"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    />
+    <div
+      data-test="sentinelStart"
+      tabindex="0"
+    />
+    <div
+      class="MuiDialog-container-12 MuiDialog-scrollPaper-10"
+      role="none presentation"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      tabindex="-1"
+    >
+      <div
+        class="MuiPaper-root-26 MuiDialog-paper-13 MuiDialog-paperScrollPaper-14 MuiDialog-paperWidthMd-19 MuiDialog-paperFullWidth-22 MuiPaper-elevation24-53 MuiPaper-rounded-27"
+        role="dialog"
+      >
+        <div
+          class="MuiDialogTitle-root-54 makeStyles-title-1"
+        >
+          <h2
+            class="MuiTypography-root-55 MuiTypography-h6-65"
+          >
+            <div
+              class="MuiBox-root-85 MuiBox-root-86"
+            >
+              Invalid Cycle Detected 
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-87 makeStyles-bugIcon-4"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"
+                />
+              </svg>
+              <button
+                aria-label="close dialog"
+                class="MuiButtonBase-root-105 MuiIconButton-root-96 makeStyles-closeButton-5"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label-104"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root-87"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root-128"
+                />
+              </button>
+            </div>
+          </h2>
+        </div>
+        <div
+          class="MuiDialogContent-root-108 makeStyles-content-2"
+        >
+          <img
+            alt="badger error logo"
+            class="makeStyles-logo-3"
+            src="/assets/icons/badger-error.png"
+          />
+          <p
+            class="MuiTypography-root-55 MuiDialogContentText-root-110 MuiTypography-body1-57 MuiTypography-colorTextPrimary-80"
+            id="alert-dialog-description"
+          >
+            The rewards could not be claimed because the current cycle is invalid. Please report this in the ❓
+            <a
+              class="MuiTypography-root-55 MuiLink-root-111 MuiLink-underlineHover-113 MuiTypography-colorPrimary-78"
+              href="https://discord.com/channels/743271185751474307/767912941106233355"
+              rel="noopener"
+              target="_blank"
+            >
+              support channel.
+            </a>
+          </p>
+          <pre
+            class="makeStyles-code-6"
+          >
+            <p
+              class="MuiTypography-root-55 MuiTypography-body1-57 MuiTypography-colorTextPrimary-80"
+            >
+              Cycle: 
+              123
+            </p>
+            <button
+              aria-label="copy to clipboard"
+              class="MuiButtonBase-root-105 MuiIconButton-root-96 makeStyles-copyToClipboardButton-7"
+              tabindex="0"
+              title="Copy to clipboard"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-104"
+              >
+                <svg
+                  class="makeStyles-copyToClipboardIcon-8"
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.59981 15.9991H1.60075C1.38867 16.0064 1.17734 15.9701 0.979913 15.8923C0.78248 15.8145 0.603163 15.6969 0.453112 15.5469C0.30306 15.3968 0.185484 15.2175 0.107694 15.0201C0.0299036 14.8227 -0.00643645 14.6113 0.000933297 14.3993V6.40019C-0.00643645 6.18811 0.0299036 5.97679 0.107694 5.77935C0.185484 5.58192 0.30306 5.4026 0.453112 5.25255C0.603163 5.1025 0.78248 4.98492 0.979913 4.90713C1.17734 4.82934 1.38867 4.793 1.60075 4.80037H4.80037V1.60075C4.793 1.38867 4.82934 1.17734 4.90713 0.979913C4.98492 0.78248 5.1025 0.603163 5.25255 0.453112C5.4026 0.30306 5.58192 0.185484 5.77935 0.107694C5.97679 0.0299036 6.18811 -0.00643645 6.40019 0.000933297H14.3993C14.6113 -0.00643645 14.8227 0.0299036 15.0201 0.107694C15.2175 0.185484 15.3968 0.30306 15.5469 0.453112C15.6969 0.603163 15.8145 0.78248 15.8923 0.979913C15.9701 1.17734 16.0064 1.38867 15.9991 1.60075V9.59981C16.0063 9.81186 15.9699 10.0231 15.8921 10.2205C15.8142 10.4179 15.6967 10.5972 15.5466 10.7472C15.3966 10.8972 15.2173 11.0148 15.02 11.0926C14.8226 11.1705 14.6113 11.2069 14.3993 11.1996H11.1996V14.3993C11.2069 14.6113 11.1705 14.8226 11.0926 15.02C11.0148 15.2173 10.8972 15.3966 10.7472 15.5466C10.5972 15.6967 10.4179 15.8142 10.2205 15.8921C10.0231 15.9699 9.81186 16.0063 9.59981 15.9991ZM1.60075 6.40019V14.3993H9.59981V11.1996H6.40019C6.18814 11.2069 5.97687 11.1705 5.77949 11.0926C5.58211 11.0148 5.40284 10.8972 5.25282 10.7472C5.10279 10.5972 4.98521 10.4179 4.90738 10.2205C4.82954 10.0231 4.79312 9.81186 4.80037 9.59981V6.40019H1.60075ZM6.40019 1.60075V9.59981H14.3993V1.60075H6.40019Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-128"
+              />
+            </button>
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div
+      data-test="sentinelEnd"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;

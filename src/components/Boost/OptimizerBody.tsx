@@ -47,7 +47,7 @@ type OptimizerBodyProps = {
 export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element => {
 	const {
 		user: { accountDetails },
-		onboard,
+		wallet,
 	} = React.useContext(StoreContext);
 
 	const {
@@ -66,7 +66,7 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 	const smallScreen = useMediaQuery(theme.breakpoints.down(706));
 	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 
-	const isLoading = onboard.isActive() && accountDetails === undefined;
+	const isLoading = wallet.isConnected && accountDetails === undefined;
 	const clampedStakeRatio = clampStakeRatio(Number(stakeRatio));
 
 	const handleApplyRemaining = (amountToAdd: string) => {

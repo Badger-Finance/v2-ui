@@ -52,6 +52,13 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 		bridge: false,
 		boost: false,
 	},
+	[Network.Optimism]: {
+		cycle: false,
+		digg: false,
+		ibBTC: false,
+		bridge: false,
+		boost: false,
+	},
 };
 
 export function getNavbarConfig(network?: Network): NavbarConfig {

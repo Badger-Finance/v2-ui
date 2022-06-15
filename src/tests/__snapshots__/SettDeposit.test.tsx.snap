@@ -4,9 +4,6 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-   
-   
-  
   
   <div
     aria-hidden="true"
@@ -301,9 +298,6 @@ exports[`Vault Deposit can see full fees descriptions 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-   
-   
-  
   
   <div
     aria-hidden="true"
@@ -412,9 +406,6 @@ exports[`Vault Deposit displays sett information 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-   
-   
-  
   
   <div
     aria-hidden="true"

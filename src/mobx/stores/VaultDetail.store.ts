@@ -75,7 +75,7 @@ export class VaultDetailStore {
 	}
 
 	get canUserDeposit(): boolean {
-		const isConnected = this.store.onboard.isActive();
+		const isConnected = this.store.wallet.isConnected;
 
 		if (!isConnected || !this.searchedVault) {
 			return false;
