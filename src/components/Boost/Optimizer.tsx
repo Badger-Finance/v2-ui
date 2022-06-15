@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export const Optimizer = observer((): JSX.Element => {
 	const {
 		user: { accountDetails },
-		onboard,
+		wallet,
 	} = useContext(StoreContext);
 
 	const classes = useStyles();
@@ -130,7 +130,7 @@ export const Optimizer = observer((): JSX.Element => {
 	// load store holdings by default once they're available
 	useEffect(() => {
 		// wallet was disconnected so we reset values to no wallet defaults
-		if (!onboard.isActive()) {
+		if (!wallet.isConnected) {
 			resetToDisconnectedWalletDefaults();
 			return;
 		}
@@ -143,7 +143,7 @@ export const Optimizer = observer((): JSX.Element => {
 		setNative(formatWithoutExtraZeros(nativeBalance, 4));
 		setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
 		setStakeRatio(stakeRatio);
-	}, [accountDetails, onboard, onboard.address]);
+	}, [accountDetails, wallet, wallet.address]);
 
 	return (
 		<Grid container spacing={2}>

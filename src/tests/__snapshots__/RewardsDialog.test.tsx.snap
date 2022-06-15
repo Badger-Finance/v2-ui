@@ -4,9 +4,6 @@ exports[`Rewards Dialog when there are no rewards displays no rewards dialog 1`]
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-   
-   
-  
   
   <div
     aria-hidden="true"
@@ -185,9 +182,6 @@ exports[`Rewards Dialog when there are rewards can display user guide 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-   
-   
-  
   
   <div
     aria-hidden="true"
@@ -493,9 +487,6 @@ exports[`Rewards Dialog when there are rewards can go back from user guide 1`] =
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-   
-   
-  
   
   <div
     aria-hidden="true"
@@ -904,9 +895,6 @@ exports[`Rewards Dialog when there are rewards displays claim options 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-   
-   
-  
   
   <div
     aria-hidden="true"
@@ -1321,9 +1309,6 @@ exports[`Rewards Dialog when there are rewards displays success dialog 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-   
-   
-  
   
   <div
     aria-hidden="true"

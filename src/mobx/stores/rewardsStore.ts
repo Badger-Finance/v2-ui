@@ -1,20 +1,19 @@
 import { action, extendObservable } from 'mobx';
-import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
-import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
+import { AbiItem } from 'web3-utils';
 import BigNumber from 'bignumber.js';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
+import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerTree } from '../model/rewards/badger-tree';
-import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from '../../config/constants';
 import { GasSpeed, Network } from '@badger-dao/sdk';
 import { ClaimMap } from '../model/rewards/claim-map';
+import { TreeClaimData } from '../model/rewards/tree-claim-data';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.
@@ -119,10 +118,10 @@ class RewardsStore {
 		const {
 			network: { network },
 			uiState: { queueNotification },
-			onboard: { wallet },
+			wallet,
 		} = this.store;
 
-		if (this.loadingTreeData) {
+		if (this.loadingTreeData || !wallet.web3Instance) {
 			return;
 		}
 
@@ -133,17 +132,15 @@ class RewardsStore {
 
 		this.loadingTreeData = true;
 
-		const web3 = new Web3(wallet?.provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		const rewardsTree = new wallet.web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 		try {
-			const [timestamp, cycle]: [number, number] = await Promise.all([
+			const [timestamp, cycle] = await Promise.all([
 				rewardsTree.methods.lastPublishTimestamp().call(),
 				rewardsTree.methods.currentCycle().call(),
 			]);
 			this.badgerTree.lastCycle = new Date(timestamp * 1000);
 			this.badgerTree.cycle = cycle.toString();
 			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
-
 			await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
 		} catch (error) {
 			console.error('There was an error fetching rewards information: ', error);
@@ -161,7 +158,7 @@ class RewardsStore {
 			network: { network },
 			prices: { arePricesAvailable },
 			user: { claimProof },
-			onboard: { wallet, address },
+			wallet: { address, web3Instance },
 		} = this.store;
 
 		if (this.loadingRewards) {
@@ -173,7 +170,7 @@ class RewardsStore {
 			return;
 		}
 
-		if (!address || !claimProof) {
+		if (!web3Instance || !claimProof || !address) {
 			this.resetRewards();
 			return;
 		}
@@ -185,8 +182,7 @@ class RewardsStore {
 
 		this.loadingRewards = true;
 
-		const web3 = new Web3(wallet?.provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		const rewardsTree = new web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 		const claimed: TreeClaimData = await rewardsTree.methods.getClaimedFor(address, claimProof.tokens).call();
 
 		this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
@@ -246,12 +242,12 @@ class RewardsStore {
 
 	claimGeysers = action(async (claimMap: ClaimMap): Promise<TransactionRequestResult | null> => {
 		const { proof, amounts } = this.badgerTree;
-		const { wallet, address } = this.store.onboard;
+		const { address, web3Instance } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 		const { gasPrices, network } = this.store.network;
 		const { rebase } = this.store.rebase;
 
-		if (!address) {
+		if (!address || !web3Instance) {
 			return null;
 		}
 
@@ -300,8 +296,7 @@ class RewardsStore {
 			return null;
 		}
 
-		const web3 = new Web3(wallet?.provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		const rewardsTree = new web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 		const method = rewardsTree.methods.claim(
 			proof.tokens,
 			proof.cumulativeAmounts,

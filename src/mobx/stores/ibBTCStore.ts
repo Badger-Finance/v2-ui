@@ -3,7 +3,6 @@ import { action, computed, extendObservable } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import Web3 from 'web3';
 import { ERC20_ABI, MAX, ZERO } from 'config/constants';
 import settConfig from 'config/system/abis/Vault.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
@@ -97,10 +96,12 @@ class IbBTCStore {
 	}
 
 	async init(): Promise<void> {
-		const { address, wallet } = this.store.onboard;
+		const { address, web3Instance } = this.store.wallet;
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
-		const network = getNetworkFromProvider(wallet?.provider);
+		if (!web3Instance) return;
+
+		const network = getNetworkFromProvider(web3Instance.givenProvider);
 
 		if (this.initialized || network !== Network.Ethereum || !address) {
 			return;
@@ -131,8 +132,8 @@ class IbBTCStore {
 	});
 
 	fetchConversionRates = action(async (): Promise<void> => {
-		const { wallet } = this.store.onboard;
-		if (!wallet?.provider) return;
+		const { web3Instance } = this.store.wallet;
+		if (!web3Instance) return;
 
 		const [fetchMintRates, fetchRedeemRates] = await Promise.all([
 			Promise.all(this.mintOptions.map(({ token }) => this.fetchMintRate(token))),
@@ -194,30 +195,28 @@ class IbBTCStore {
 	}
 
 	async getRedeemConversionRate(token: Token): Promise<BigNumber> {
-		const { wallet } = this.store.onboard;
-		if (!wallet?.provider) return ZERO;
+		const { web3Instance } = this.store.wallet;
+		if (!web3Instance) return ZERO;
 
-		const web3 = new Web3(wallet.provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.token.address);
+		const ibBTC = new web3Instance.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.token.address);
 		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
 
 		return IbBTCMintZapFactory.getIbBTCZap(this.store, token).bBTCToSett(new BigNumber(ibBTCPricePerShare));
 	}
 
 	async getFees(): Promise<ibBTCFees> {
-		const { wallet } = this.store.onboard;
+		const { web3Instance } = this.store.wallet;
 
-		if (!wallet?.provider) {
+		if (!web3Instance) {
 			return {
 				mintFeePercent: new BigNumber(0),
 				redeemFeePercent: new BigNumber(0),
 			};
 		}
 
-		const web3 = new Web3(wallet.provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.token.address);
+		const ibBTC = new web3Instance.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.token.address);
 		const coreAddress = await ibBTC.methods.core().call();
-		const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
+		const core = new web3Instance.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
 		const mintFeePercent = await core.methods.mintFee().call();
 		const redeemFeePercent = await core.methods.redeemFee().call();
 
@@ -235,22 +234,22 @@ class IbBTCStore {
 	}
 
 	async getAllowance(underlyingAsset: Token, spender: string): Promise<BigNumber> {
-		const { address, wallet } = this.store.onboard;
-		const web3 = new Web3(wallet?.provider);
-		const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], underlyingAsset.address);
+		const { address, web3Instance } = this.store.wallet;
+		if (!web3Instance) return ZERO;
+		const tokenContract = new web3Instance.eth.Contract(settConfig.abi as AbiItem[], underlyingAsset.address);
 		const allowance = await tokenContract.methods.allowance(address, spender).call();
 		return new BigNumber(allowance);
 	}
 
-	async increaseAllowance(underlyingAsset: Token, spender: string, amount: BigNumber | string = MAX): Promise<void> {
+	async increaseAllowance(underlyingAsset: Token, spender: string, amount: BigNumber | string = MAX) {
 		const { queueNotification } = this.store.uiState;
-		const { address } = this.store.onboard;
+		const { address } = this.store.wallet;
 		if (!address) {
 			return;
 		}
 		const method = this.getApprovalMethod(underlyingAsset, spender, amount);
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
-		await this.executeMethod(
+		return this.executeMethod(
 			method,
 			`Increase ${underlyingAsset.symbol} allowance submitted.`,
 			`${underlyingAsset.symbol} allowance increased.`,
@@ -265,7 +264,8 @@ class IbBTCStore {
 
 			// make sure we have allowance
 			if (mintBalance.tokenBalance.gt(allowance)) {
-				await this.increaseAllowance(mintBalance.token, zap.address);
+				const increaseTx = await this.increaseAllowance(mintBalance.token, zap.address);
+				if (increaseTx !== TransactionRequestResult.Success) return TransactionRequestResult.Rejected;
 			}
 
 			const result = await this.mintBBTC(mintBalance, slippage);
@@ -369,14 +369,18 @@ class IbBTCStore {
 	}
 
 	private getApprovalMethod(token: Token, spender: string, amount: BigNumber | string = MAX) {
-		const { wallet } = this.store.onboard;
-		const web3 = new Web3(wallet?.provider);
+		const { web3Instance } = this.store.wallet;
+
+		if (!web3Instance) return;
 
 		if (token.address === mainnetDeploy.tokens['wBTC']) {
-			return new web3.eth.Contract(ERC20_ABI as AbiItem[], token.address).methods.approve(spender, amount);
+			return new web3Instance.eth.Contract(ERC20_ABI as AbiItem[], token.address).methods.approve(
+				spender,
+				amount,
+			);
 		}
 
-		return new web3.eth.Contract(settConfig.abi as AbiItem[], token.address).methods.increaseAllowance(
+		return new web3Instance.eth.Contract(settConfig.abi as AbiItem[], token.address).methods.increaseAllowance(
 			spender,
 			amount,
 		);
@@ -387,7 +391,7 @@ class IbBTCStore {
 		infoMessage: string,
 		successMessage: string,
 	): Promise<TransactionRequestResult> {
-		const { address } = this.store.onboard;
+		const { address } = this.store.wallet;
 		if (!address) {
 			return TransactionRequestResult.Rejected;
 		}
@@ -397,15 +401,14 @@ class IbBTCStore {
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
-		const { wallet } = this.store.onboard;
-		if (!wallet?.provider) {
+		const { web3Instance } = this.store.wallet;
+		if (!web3Instance) {
 			return null;
 		}
 		const secondsPerYear = new BigNumber(31536000);
-		const web3 = new Web3(wallet.provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.token.address);
+		const ibBTC = new web3Instance.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.token.address);
 		const currentPPS = new BigNumber(await ibBTC.methods.pricePerShare().call());
-		const currentBlock = await web3.eth.getBlockNumber();
+		const currentBlock = await web3Instance.eth.getBlockNumber();
 
 		try {
 			const targetBlock = currentBlock - Math.floor(timestamp / 15);

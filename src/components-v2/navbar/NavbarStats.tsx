@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 export const NavbarStats = observer((): JSX.Element => {
 	const {
 		prices,
-		onboard,
+		wallet,
 		user,
 		network: { network },
 		rewards: { badgerTree },
@@ -71,7 +71,7 @@ export const NavbarStats = observer((): JSX.Element => {
 	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : new BigNumber(0);
+	const portfolioValue = wallet.isConnected && user.initialized ? user.portfolioValue : new BigNumber(0);
 	const chainName = getFormattedNetworkName(network);
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 

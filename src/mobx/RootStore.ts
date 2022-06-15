@@ -14,7 +14,7 @@ import { NetworkStore } from './stores/NetworkStore';
 import { VaultDetailStore } from './stores/VaultDetail.store';
 import { VaultChartsStore } from './stores/VaultChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerSDK, SDKProvider, getNetworkConfig } from '@badger-dao/sdk';
+import { BadgerSDK, getNetworkConfig, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
@@ -25,6 +25,7 @@ import rpc from '../config/rpc.config';
 import { FLAGS } from '../config/environment';
 import { GovernancePortalStore } from './stores/GovernancePortalStore';
 import LockedDepositsStore from './stores/LockedDepositsStore';
+import { WalletStore } from './stores/WalletStore';
 
 export class RootStore {
 	public sdk: BadgerSDK;
@@ -34,6 +35,7 @@ export class RootStore {
 	public contracts: ContractsStore;
 	public rebase: RebaseStore;
 	public onboard: OnboardStore;
+	public wallet: WalletStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
 	public vaults: VaultStore;
@@ -57,6 +59,7 @@ export class RootStore {
 		const config = getNetworkConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
 		this.onboard = new OnboardStore(this, config);
+		this.wallet = new WalletStore(this, config);
 		this.network = new NetworkStore(this);
 		this.prices = new PricesStore(this);
 		this.contracts = new ContractsStore(this);
@@ -93,7 +96,7 @@ export class RootStore {
 
 		let refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
-		if (this.onboard.provider && this.network.network.hasBadgerTree) {
+		if (this.network.network.hasBadgerTree) {
 			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
 		}
 
@@ -102,7 +105,7 @@ export class RootStore {
 
 	async updateProvider(provider: SDKProvider): Promise<void> {
 		this.rewards.resetRewards();
-		const { address } = this.onboard;
+		const { address } = this.wallet;
 		const { network } = this.network;
 		const signer = provider.getSigner();
 

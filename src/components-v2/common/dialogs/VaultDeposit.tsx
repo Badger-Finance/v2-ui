@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Grid, Dialog, Typography, DialogContent, Button } from '@material-ui/core';
+import { Button, Dialog, DialogContent, Grid, Typography } from '@material-ui/core';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { useNumericInput } from 'utils/useNumericInput';
@@ -50,7 +50,7 @@ export interface VaultModalProps {
 
 export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
 	const store = useContext(StoreContext);
-	const { contracts, user, onboard } = store;
+	const { contracts, user, wallet } = store;
 
 	const shouldCheckAdvisory = badgerVault.depositAdvisory || vault.state === VaultState.Experimental;
 	const [accepted, setAccepted] = useState(!shouldCheckAdvisory);
@@ -64,7 +64,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 	const vaultCaps = user.vaultCaps[vault.vaultToken];
 	const isLoading = contracts.settsBeingDeposited[vault.vaultToken];
 
-	let canDeposit = onboard.isActive() && !!amount && depositBalance.tokenBalance.gt(0);
+	let canDeposit = wallet.isConnected && !!amount && depositBalance.tokenBalance.gt(0);
 
 	if (canDeposit && vaultCaps) {
 		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(depositBalance.tokenBalance);

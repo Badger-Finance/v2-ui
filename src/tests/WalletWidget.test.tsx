@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
-import { customRender, cleanup, fireEvent, screen } from './Utils';
+import { cleanup, customRender, fireEvent, screen } from './Utils';
 import WalletWidget from '../components-v2/common/WalletWidget';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/RootStore';
+import { WalletStore } from '../mobx/stores/WalletStore';
+
+jest.unmock('web3modal');
 
 describe('WalletWidget', () => {
 	afterEach(cleanup);
@@ -50,13 +52,17 @@ describe('WalletWidget', () => {
 				<WalletWidget />
 			</StoreProvider>,
 		);
-		fireEvent.click(screen.getByText('Connect'));
-		// Checks that menu openned by finding the MetaMask option
-		expect(await screen.findByText('MetaMask')).toMatchSnapshot();
+		fireEvent.click(screen.getByRole('button', { name: /connect/i }));
+		expect(screen.getByText('WalletConnect')).toBeInTheDocument();
+		expect(screen.getByText('Portis')).toBeInTheDocument();
+		expect(screen.getByText('Coinbase')).toBeInTheDocument();
 	});
 
 	test('Connected address is properly displayed', async () => {
-		testStore.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+		);
 		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<WalletWidget />
