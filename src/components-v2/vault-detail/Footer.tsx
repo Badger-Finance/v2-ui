@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
+import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	vaultDescription: {
@@ -20,16 +20,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	badgerVault: BadgerVault;
+	vault: VaultDTO;
 }
 
-export const Footer = observer(({ badgerVault }: Props): JSX.Element => {
+export const Footer = observer(({ vault }: Props): JSX.Element => {
 	const store = React.useContext(StoreContext);
 	const { network: networkStore } = store;
 	const { network } = networkStore;
 	const classes = useStyles();
 
-	const strategy = network.strategies[badgerVault.vaultToken.address];
+	const strategy = network.strategies[vault.vaultToken];
 
 	return (
 		<footer>

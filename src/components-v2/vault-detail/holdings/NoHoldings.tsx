@@ -30,20 +30,19 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
-	badgerVault: BadgerVault;
 }
 
-export const NoHoldings = observer(({ vault, badgerVault }: Props): JSX.Element | null => {
+export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
 	const store = React.useContext(StoreContext);
 	const { network: networkStore, vaultDetail, user } = store;
 	const { network } = networkStore;
 	const classes = useStyles();
 
-	const strategy = network.strategies[badgerVault.vaultToken.address];
 	if (!user.onGuestList(vault)) {
 		return null;
 	}
 
+	const strategy = network.strategies[vault.vaultToken];
 	return (
 		<Grid container className={classes.root} component={Paper}>
 			<Grid item xs={12} sm={8}>
