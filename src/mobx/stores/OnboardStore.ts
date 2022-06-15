@@ -93,7 +93,7 @@ export class OnboardStore {
 		const { router, network: networkStore } = this.store;
 		const chain = router.queryParams?.chain;
 		const shouldUpdate = this.address !== undefined && this.address !== address;
-		this.address = '0x71535aae1b6c0c51db317b54d5eee72d1ab843c1'; // address;
+		this.address = address;
 
 		if (chain && chain !== this.chainId) {
 			const fallBackParams = {
