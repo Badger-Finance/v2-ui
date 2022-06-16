@@ -6,7 +6,6 @@ import { QueryParams, Route } from 'mobx-router';
 import React from 'react';
 
 import { BoostOptimizer } from '../components/Boost';
-import { Digg } from '../components/Digg';
 import { NotFound } from '../components-v2/common/NotFound';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
@@ -43,10 +42,6 @@ const routes = {
 	boostOptimizer: new Route<RootStore, QueryParams>({
 		path: '/boost-optimizer',
 		component: <BoostOptimizer />,
-	}),
-	digg: new Route<RootStore, QueryParams>({
-		path: '/digg',
-		component: <Digg />,
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',

@@ -46,33 +46,10 @@ class LockedCvxDelegationStore {
 			unclaimedBalance: this.unclaimedBalance,
 			delegationState: this.delegationState,
 		});
-
-		if (FLAGS.LOCKED_CVX_DELEGATION_WIDGET) {
-			observe(this.store.user, 'accountDetails', () => {
-				this.loadLockedCvxBalance();
-				this.loadVotiumRewardsInformation();
-			});
-
-			observe(this.store.user, 'settBalances', () => {
-				const areVaultBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
-
-				if (areVaultBalancesAvailable) {
-					this.getUserDelegationState();
-				}
-			});
-		}
 	}
 
 	get shouldBannerBeDisplayed(): boolean {
-		if (!FLAGS.LOCKED_CVX_DELEGATION_WIDGET) {
-			return false;
-		}
-
-		if (this.store.network.network.id !== NETWORK_IDS.ETH || !this.delegationState) {
-			return false;
-		}
-
-		return this.delegationState !== DelegationState.Ineligible;
+		return false;
 	}
 
 	get canUserDelegate(): boolean {

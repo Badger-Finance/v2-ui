@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+=======
+import { RouterStore } from 'mobx-router';
+import UiStateStore from './stores/uiStore';
+import ContractsStore from './stores/contractsStore';
+import RebaseStore from './stores/rebaseStore';
+import RewardsStore from './stores/rewardsStore';
+import IbBTCStore from './stores/ibBTCStore';
+import VaultStore from './stores/VaultStore';
+import GasPricesStore from './stores/GasPricesStore';
+import { NETWORK_IDS } from '../config/constants';
+import UserStore from './stores/UserStore';
+import PricesStore from './stores/PricesStore';
+import { NetworkStore } from './stores/NetworkStore';
+import { VaultDetailStore } from './stores/VaultDetail.store';
+import { VaultChartsStore } from './stores/VaultChartsStore';
+import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
+>>>>>>> digg-death
 import { BadgerSDK, getNetworkConfig, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import routes from 'config/routes';
@@ -40,7 +58,6 @@ export class RootStore {
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
 	public vaults: VaultStore;
-	public honeyPot: HoneyPotStore;
 	public user: UserStore;
 	public prices: PricesStore;
 	public vaultDetail: VaultDetailStore;
@@ -69,7 +86,6 @@ export class RootStore {
 		this.uiState = new UiStateStore(this);
 		this.vaults = new VaultStore(this);
 		this.user = new UserStore(this);
-		this.honeyPot = new HoneyPotStore(this);
 		this.vaultDetail = new VaultDetailStore(this);
 		this.vaultCharts = new VaultChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
@@ -110,9 +126,7 @@ export class RootStore {
 		const { network } = this.network;
 		const signer = provider.getSigner();
 
-		if (FLAGS.SDK_USE_WALLET_PROVIDER) {
-			this.sdk = new BadgerSDK({ network: network.id, provider, baseURL: BADGER_API });
-		}
+		this.sdk = new BadgerSDK({ network: network.id, provider, baseURL: BADGER_API });
 
 		if (signer && address) {
 			const config = getNetworkConfig(network.id);

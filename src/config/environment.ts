@@ -45,12 +45,6 @@ export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
-	XDAI: toBool(process.env.REACT_APP_XDAI),
-	AVAX: toBool(process.env.REACT_APP_AVAX),
-	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
-	LOCKED_CVX_DELEGATION_WIDGET: toBool(process.env.REACT_APP_LOCKED_CVX_DELEGATION_WIDGET),
 	SDK_INTEGRATION_ENABLED: toBool(process.env.REACT_APP_SDK_INTEGRATION),
-	SDK_USE_WALLET_PROVIDER: toBool(process.env.REACT_SDK_USE_WALLET_PROVIDER),
 	GOVERNANCE_TIMELOCK: toBool(process.env.REACT_APP_GOVERNANCE_TIMELOCK),
 };

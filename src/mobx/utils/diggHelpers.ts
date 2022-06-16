@@ -83,32 +83,6 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 	return `${prefix} ${fixedNormal}${suffix}`;
 };
 
-// TODO: Capture some typing
-export const getRebaseLogs = async (provider: provider, network: NetworkModel): Promise<any> => {
-	if (network.symbol !== Network.Ethereum) {
-		return;
-	}
-	// Disable reason: 'web3-eth-contract' object can only be imported with the required method since it
-	// is exported using 'module.exports'
-	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	const web3 = new Web3(provider);
-	const rebaseConfig = getRebase(network.symbol);
-	if (!rebaseConfig) {
-		return;
-	}
-	const policy = rebaseConfig.digg[1];
-	const contractInstance = new web3.eth.Contract(policy.abi as AbiItem[], policy.contractAddress);
-	const currentBlock = await web3.eth.getBlockNumber();
-	// remove one month of blocks to get start block
-	// 30 * 24 * 60 * 60 - number of seconds in a month, div 13 for seconds per block
-	const startBlock = currentBlock - (30 * 24 * 60 * 60) / 13;
-	const events = await contractInstance.getPastEvents('LogRebase', {
-		fromBlock: startBlock.toFixed(),
-		toBlock: (currentBlock - 1).toFixed(),
-	});
-	return events.length ? events[events.length - 1].returnValues : null;
-};
-
 export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumber): number => {
 	return newValue.minus(originalValue).dividedBy(originalValue).multipliedBy(100).toNumber();
 };
