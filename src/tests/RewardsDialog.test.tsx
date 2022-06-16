@@ -229,6 +229,7 @@ describe('Rewards Dialog', () => {
 			);
 
 			fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
+			jest.runOnlyPendingTimers();
 			await screen.findByText('Invalid Cycle Detected');
 			expect(reportSpy).toHaveBeenCalled();
 			jest.useRealTimers();
