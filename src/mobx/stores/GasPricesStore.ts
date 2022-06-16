@@ -37,9 +37,6 @@ class GasPricesStore {
 
 		await Promise.all(
 			this.gasNetworks.map(async (network) => {
-				if (DEBUG) {
-					console.log(`Request gas prices for ${network.name}`);
-				}
 				const prices = await this.store.sdk.api.loadGasPrices(network.symbol);
 				pricesCache[network.id] = prices;
 				pricesCache[network.symbol] = prices;

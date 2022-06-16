@@ -374,6 +374,16 @@ const ethVaultDefinitions: BadgerVault[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['aura'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.graviaura'],
+			decimals: 18,
+		},
+	},
 ];
 
 export const ethVaults = toVaultConfig(ethVaultDefinitions);
