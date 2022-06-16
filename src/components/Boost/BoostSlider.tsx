@@ -1,7 +1,7 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { withStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
+import { withStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 
 const CustomSlider = withStyles((theme) => ({
 	thumb: {

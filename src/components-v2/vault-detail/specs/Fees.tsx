@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Dialog, IconButton } from '@material-ui/core';
-import { DepositFeesInformation } from '../../common/DepositFeesInformation';
-import CloseIcon from '@material-ui/icons/Close';
-import { VaultFees } from '../../common/VaultFees';
 import { VaultDTO } from '@badger-dao/sdk';
+import { Dialog, IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import React, { useState } from 'react';
+
+import { DepositFeesInformation } from '../../common/DepositFeesInformation';
+import { VaultFees } from '../../common/VaultFees';
 
 interface Props {
 	vault: VaultDTO;

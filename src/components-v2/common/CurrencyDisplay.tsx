@@ -1,7 +1,7 @@
-import React from 'react';
-import { makeStyles, GridJustification, Box, useTheme } from '@material-ui/core';
+import { Box, GridJustification, makeStyles, useTheme } from '@material-ui/core';
 import clsx from 'clsx';
-import { Typography, TypographyVariant, TypographyProps } from 'ui-library/Typography';
+import React from 'react';
+import { Typography, TypographyProps, TypographyVariant } from 'ui-library/Typography';
 
 // this will make sure that the icon has the same size of the typography variant
 const useCurrencyIconStyles = (typographyVariant: TypographyVariant) => {

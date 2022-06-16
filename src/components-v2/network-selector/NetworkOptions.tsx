@@ -1,7 +1,8 @@
-import React from 'react';
-import Menu from '../../ui-library/Menu';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+
 import { supportedNetworks } from '../../config/networks.config';
+import Menu from '../../ui-library/Menu';
 import MenuSubheader from '../../ui-library/MenuSubheader';
 import NetworkOption from './NetworkOption';
 

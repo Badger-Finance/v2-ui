@@ -1,8 +1,8 @@
-import { ContractSendMethod } from 'web3-eth-contract';
+import { Token } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
 import { RootStore } from 'mobx/RootStore';
+import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import { Token } from '@badger-dao/sdk';
 
 export const IBBTC_METHOD_NOT_SUPPORTED = 'ibBTC may only be redeemed for Badger renBTC Vault Tokens';
 

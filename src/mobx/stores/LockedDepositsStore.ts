@@ -1,12 +1,13 @@
-import { RootStore } from '../RootStore';
+import { BigNumber } from 'bignumber.js';
+import { ethers } from 'ethers';
 import { extendObservable } from 'mobx';
-import { Network } from '../model/network/network';
+
 import { NETWORKS_LOCKED_DEPOSITS_CONFIG } from '../../config/networks-locked-deposits';
 import { ERC20__factory, VoteLockedDeposit__factory } from '../../contracts';
-import { BigNumber } from 'bignumber.js';
-import { TokenBalance } from '../model/tokens/token-balance';
 import { LockedContractInfo } from '../model/locked-deposits/locked-contract-info';
-import { ethers } from 'ethers';
+import { Network } from '../model/network/network';
+import { TokenBalance } from '../model/tokens/token-balance';
+import { RootStore } from '../RootStore';
 
 type LockedDepositBalancesMap = Map<string, TokenBalance>;
 

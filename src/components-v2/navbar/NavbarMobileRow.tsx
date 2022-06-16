@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
 import { Grid, IconButton, makeStyles } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
 import NetworkGasWidget from '../common/NetworkGasWidget';
 import WalletWidget from '../common/WalletWidget';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles({
 	menuIcon: {

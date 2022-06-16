@@ -1,4 +1,5 @@
 import fetchMock from 'jest-fetch-mock';
+
 import { fetchData } from '../../utils/fetchData';
 
 describe('fetchData', () => {

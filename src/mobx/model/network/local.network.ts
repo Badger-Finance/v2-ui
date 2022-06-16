@@ -1,13 +1,14 @@
+import { Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
+import { Currency } from 'config/enums/currency.enum';
 import { toVaultConfig } from 'web3/config/config-utils';
+import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
+import { ProtocolTokens } from 'web3/interface/protocol-token';
+
+import deploy from '../../../config/deployments/local.json';
 import { BadgerVault } from '../vaults/badger-vault';
 import { Network as NetworkModel } from './network';
-import deploy from '../../../config/deployments/local.json';
-import { toRecord } from 'web3/config/token-config';
-import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { Currency } from 'config/enums/currency.enum';
-import { Network } from '@badger-dao/sdk';
 
 export class Local extends NetworkModel {
 	constructor() {

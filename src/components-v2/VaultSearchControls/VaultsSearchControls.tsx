@@ -1,16 +1,17 @@
-import React, { useContext } from 'react';
 import { Grid, makeStyles, Paper, useMediaQuery, useTheme } from '@material-ui/core';
-import OnlyDepositsControl from './OnlyDepositsControl';
-import MobileFiltersButton from './MobileFiltersButton';
 import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
+import { Currency } from '../../config/enums/currency.enum';
 import { StoreContext } from '../../mobx/store-context';
-import VaultSearchInputsRow from './VaultSearchInputsRow';
-import PortfolioDustControl from './PortfolioDustControl';
 import BoostedVaultsControl from './BoostedVaultsControl';
+import MobileFiltersButton from './MobileFiltersButton';
+import OnlyDepositsControl from './OnlyDepositsControl';
+import PortfolioDustControl from './PortfolioDustControl';
+import VaultFiltersDialogV2 from './VaultFiltersDialog';
 import VaultsAprControl from './VaultsAprControl';
 import VaultsCurrencyControl from './VaultsCurrencyControl';
-import { Currency } from '../../config/enums/currency.enum';
-import VaultFiltersDialogV2 from './VaultFiltersDialog';
+import VaultSearchInputsRow from './VaultSearchInputsRow';
 
 const useStyles = makeStyles((theme) => ({
 	firstRow: {

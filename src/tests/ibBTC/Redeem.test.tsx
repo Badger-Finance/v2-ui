@@ -1,17 +1,19 @@
-import React from 'react';
 import '@testing-library/jest-dom';
+
+import BigNumber from 'bignumber.js';
 import store from 'mobx/RootStore';
-import { StoreProvider } from '../../mobx/store-context';
-import { customRender, fireEvent, screen } from '../Utils';
+import React from 'react';
+
 import { Redeem } from '../../components/IbBTC/Redeem';
 import { SnackbarProvider } from '../../components/Snackbar';
-import IbBTCStore from '../../mobx/stores/ibBTCStore';
-import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import BigNumber from 'bignumber.js';
-import { TransactionRequestResult } from '../../mobx/utils/web3';
 import SnackbarManager from '../../components-v2/common/SnackbarManager';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { StoreProvider } from '../../mobx/store-context';
+import IbBTCStore from '../../mobx/stores/ibBTCStore';
 import { WalletStore } from '../../mobx/stores/WalletStore';
+import { TransactionRequestResult } from '../../mobx/utils/web3';
+import { customRender, fireEvent, screen } from '../Utils';
+import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 
 describe('ibBTC Redeem', () => {
 	beforeEach(() => {

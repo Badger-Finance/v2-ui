@@ -1,6 +1,7 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
 import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
 import { CheckboxControlProps } from './types';
 
 const OnlyDepositsControl = ({ checked, onChange, ...muiProps }: CheckboxControlProps): JSX.Element => {

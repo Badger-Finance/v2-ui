@@ -1,25 +1,26 @@
-import { action, extendObservable } from 'mobx';
-import { RootStore } from '../RootStore';
-import Web3 from 'web3';
-import { ExtractedBalances, GuestListInformation, TokenBalances } from 'mobx/model/account/user-balances';
+import { Account, BouncerType, MerkleProof, Network, VaultDTO } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
-import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
+import { ONE_MIN_MS } from 'config/constants';
+import { Multicall } from 'ethereum-multicall';
+import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
+import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
+import { ethers } from 'ethers';
+import { action, extendObservable } from 'mobx';
+import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
+import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
+import { ExtractedBalances, GuestListInformation, TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
-import { ONE_MIN_MS } from 'config/constants';
-import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
-import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
-import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
-import { Account, BouncerType, MerkleProof, Network, VaultDTO } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
-import { Multicall } from 'ethereum-multicall';
-import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
-import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
-import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
+import Web3 from 'web3';
+import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
+
 import { createMulticallRequest } from '../../web3/config/config-utils';
-import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
-import { ethers } from 'ethers';
+import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
+import { RootStore } from '../RootStore';
+import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
+import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
 
 export default class UserStore {
 	private store: RootStore;

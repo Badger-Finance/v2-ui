@@ -1,6 +1,3 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { StoreContext } from '../../mobx/store-context';
-import { observer } from 'mobx-react-lite';
 import {
 	Button,
 	Dialog,
@@ -14,15 +11,19 @@ import {
 	useTheme,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
+import BoostedVaultsControl from './BoostedVaultsControl';
 import OnlyDepositsControl from './OnlyDepositsControl';
 import PortfolioDustControl from './PortfolioDustControl';
-import BoostedVaultsControl from './BoostedVaultsControl';
-import VaultStatusSelector from './VaultStatusSelector';
-import VaultsPlatformSelector from './VaultsPlatformSelector';
-import VaultsRewardsSelector from './VaultsRewardsSelector';
-import VaultSearchBar from './VaultSearchBar';
 import VaultsAprControl from './VaultsAprControl';
 import VaultsCurrencyControl from './VaultsCurrencyControl';
+import VaultSearchBar from './VaultSearchBar';
+import VaultsPlatformSelector from './VaultsPlatformSelector';
+import VaultsRewardsSelector from './VaultsRewardsSelector';
+import VaultStatusSelector from './VaultStatusSelector';
 
 const useStyles = makeStyles(() => ({
 	title: {

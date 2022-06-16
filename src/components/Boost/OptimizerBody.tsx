@@ -1,14 +1,15 @@
-import React from 'react';
 import { Grid, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BoostBadgerAnimation } from './ScoreAnimation';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 import { Skeleton } from '@material-ui/lab';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
+import { clampStakeRatio } from '../../utils/boost-ranks';
 import { NativeBox } from './NativeBox';
 import { NonNativeBox } from './NonNativeBox';
-import { clampStakeRatio } from '../../utils/boost-ranks';
+import { BoostBadgerAnimation } from './ScoreAnimation';
 
 const BoostLoader = withStyles((theme) => ({
 	root: {

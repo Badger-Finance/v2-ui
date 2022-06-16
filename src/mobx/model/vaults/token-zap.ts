@@ -1,12 +1,13 @@
+import { Token } from '@badger-dao/sdk';
+import BigNumber from 'bignumber.js';
+import addresses from 'config/ibBTC/addresses.json';
+import zapConfig from 'config/system/abis/ZapPeak.json';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
-import zapConfig from 'config/system/abis/ZapPeak.json';
-import addresses from 'config/ibBTC/addresses.json';
-import { IBBTC_METHOD_NOT_SUPPORTED, IbBTCMintZap } from './ibbtc-mint-zap';
+
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
-import { Token } from '@badger-dao/sdk';
+import { IBBTC_METHOD_NOT_SUPPORTED, IbBTCMintZap } from './ibbtc-mint-zap';
 
 export class TokenZap extends IbBTCMintZap {
 	private zap: any;

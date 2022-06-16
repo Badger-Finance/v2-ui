@@ -1,12 +1,13 @@
-import React from 'react';
-import { format } from 'd3-format';
-import BaseAreaChart from './BaseAreaChart';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
-import { TooltipProps } from 'recharts';
-import { makeStyles } from '@material-ui/core';
 import { VaultDTO } from '@badger-dao/sdk';
+import { makeStyles } from '@material-ui/core';
+import { format } from 'd3-format';
+import React from 'react';
+import { TooltipProps } from 'recharts';
+import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+
 import { MAX_BOOST } from '../../../config/system/boost-ranks';
 import { calculateUserStakeRatio } from '../../../utils/boost-ranks';
+import BaseAreaChart from './BaseAreaChart';
 
 const useStyles = makeStyles((theme) => ({
 	tooltipContainer: {

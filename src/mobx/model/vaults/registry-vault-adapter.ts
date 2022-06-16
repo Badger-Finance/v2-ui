@@ -1,16 +1,16 @@
 import {
-	RegistryVault,
-	VaultDTO,
 	BoostConfig,
 	BouncerType,
 	Protocol,
+	RegistryVault,
 	TokenBalance,
+	TokenValue,
 	ValueSource,
+	VaultBehavior,
+	VaultDTO,
 	VaultState,
 	VaultStrategy,
 	VaultType,
-	VaultBehavior,
-	TokenValue,
 	VaultVersion,
 } from '@badger-dao/sdk';
 // TODO: sadge export

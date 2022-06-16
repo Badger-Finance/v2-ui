@@ -1,10 +1,10 @@
-import React from 'react';
 import { GasPrices } from '@badger-dao/sdk';
+import { GasFees } from '@badger-dao/sdk/lib/api/interfaces/gas-fees.interface';
 import { makeStyles, Paper } from '@material-ui/core';
+import React from 'react';
+import Menu from 'ui-library/Menu';
 import MenuItem from 'ui-library/MenuItem';
 import MenuItemText from 'ui-library/MenuItemText';
-import Menu from 'ui-library/Menu';
-import { GasFees } from '@badger-dao/sdk/lib/api/interfaces/gas-fees.interface';
 
 const useStyles = makeStyles({
 	root: {

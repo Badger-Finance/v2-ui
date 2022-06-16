@@ -1,18 +1,20 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import store from 'mobx/RootStore';
-import { StoreProvider } from '../../mobx/store-context';
-import { cleanup, customRender, fireEvent, screen } from '../Utils';
-import { Mint } from '../../components/IbBTC/Mint';
-import { SnackbarProvider } from '../../components/Snackbar';
-import IbBTCStore from 'mobx/stores/ibBTCStore';
+
 import { within } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
-import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { TransactionRequestResult } from '../../mobx/utils/web3';
+import store from 'mobx/RootStore';
+import IbBTCStore from 'mobx/stores/ibBTCStore';
+import React from 'react';
+
+import { Mint } from '../../components/IbBTC/Mint';
+import { SnackbarProvider } from '../../components/Snackbar';
 import SnackbarManager from '../../components-v2/common/SnackbarManager';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { StoreProvider } from '../../mobx/store-context';
 import { WalletStore } from '../../mobx/stores/WalletStore';
+import { TransactionRequestResult } from '../../mobx/utils/web3';
+import { cleanup, customRender, fireEvent, screen } from '../Utils';
+import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 
 const mockTokens = [
 	new TokenBalance(

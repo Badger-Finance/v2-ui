@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Divider, Grid, Link, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CallMadeIcon from '@material-ui/icons/CallMade';
-import { VaultDTO } from '@badger-dao/sdk';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
-import routes from '../../config/routes';
+import React, { useContext } from 'react';
+
 import { DEPRECATED_VAULTS_MIGRATIONS_MAPPING } from '../../config/deprecated-vaults-migrations.config';
+import routes from '../../config/routes';
+import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles({
 	root: {

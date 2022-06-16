@@ -1,5 +1,6 @@
-import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { BadgerType } from '@badger-dao/sdk';
+
+import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 
 export const BOOST_RANKS: BoostRank[] = [
 	{

@@ -1,8 +1,9 @@
-import React from 'react';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import React from 'react';
+
 import { StyledDivider } from '../styled';
 import { VaultToken } from './VaultToken';
-import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	title: {

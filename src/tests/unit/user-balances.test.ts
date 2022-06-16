@@ -1,5 +1,6 @@
-import { extractBalanceRequestResults } from '../../mobx/utils/user-balances';
 import { ContractCallResults } from 'ethereum-multicall';
+
+import { extractBalanceRequestResults } from '../../mobx/utils/user-balances';
 import { BalanceNamespace } from '../../web3/config/namespaces';
 
 const mockedCorrectResults: ContractCallResults = {

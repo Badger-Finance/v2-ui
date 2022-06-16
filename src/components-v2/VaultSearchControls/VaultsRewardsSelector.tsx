@@ -1,6 +1,6 @@
-import React from 'react';
-import { Checkbox, FormControl, InputLabel, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { VaultBehavior } from '@badger-dao/sdk';
+import { Checkbox, FormControl, InputLabel, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
+import React from 'react';
 
 const useStyles = makeStyles({
 	formControl: {

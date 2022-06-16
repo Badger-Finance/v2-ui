@@ -1,15 +1,17 @@
-import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { checkSnapshot } from '../utils/snapshots';
-import VaultsSearchControls from '../../components-v2/VaultSearchControls';
-import { createMatchMedia, customRender, fireEvent, screen } from '../Utils';
-import VaultStore from '../../mobx/stores/VaultStore';
-import { StoreProvider } from '../../mobx/store-context';
-import store from '../../mobx/RootStore';
-import { within } from '@testing-library/react';
+
 import { Protocol, VaultBehavior, VaultState } from '@badger-dao/sdk';
-import { config } from 'react-transition-group';
+import { within } from '@testing-library/react';
 import { action } from 'mobx';
+import React from 'react';
+import { config } from 'react-transition-group';
+
+import VaultsSearchControls from '../../components-v2/VaultSearchControls';
+import store from '../../mobx/RootStore';
+import { StoreProvider } from '../../mobx/store-context';
+import VaultStore from '../../mobx/stores/VaultStore';
+import { createMatchMedia, customRender, fireEvent, screen } from '../Utils';
+import { checkSnapshot } from '../utils/snapshots';
 
 describe('VaultSearchControl', () => {
 	beforeEach(() => {

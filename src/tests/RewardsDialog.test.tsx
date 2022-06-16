@@ -1,19 +1,21 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { TokenBalance } from '../mobx/model/tokens/token-balance';
-import BigNumber from 'bignumber.js';
-import VaultStore from '../mobx/stores/VaultStore';
-import store from '../mobx/RootStore';
-import RewardsStore from '../mobx/stores/rewardsStore';
-import { customRender, fireEvent, screen } from './Utils';
-import { StoreProvider } from '../mobx/store-context';
-import { action } from 'mobx';
-import { TransactionRequestResult } from '../mobx/utils/web3';
+
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
-import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from './utils/samples';
-import UserStore from '../mobx/stores/UserStore';
+import BigNumber from 'bignumber.js';
+import { action } from 'mobx';
+import React from 'react';
+
 import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
+import { TokenBalance } from '../mobx/model/tokens/token-balance';
+import store from '../mobx/RootStore';
+import { StoreProvider } from '../mobx/store-context';
+import RewardsStore from '../mobx/stores/rewardsStore';
+import UserStore from '../mobx/stores/UserStore';
+import VaultStore from '../mobx/stores/VaultStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
+import { TransactionRequestResult } from '../mobx/utils/web3';
+import { customRender, fireEvent, screen } from './Utils';
+import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from './utils/samples';
 
 const mockClaimProof = {
 	index: '0x33d4',

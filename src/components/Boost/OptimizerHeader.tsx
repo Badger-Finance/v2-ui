@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
 import { Button, Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles, styled } from '@material-ui/core/styles';
+import InfoIcon from '@material-ui/icons/Info';
 import clsx from 'clsx';
-import { getColorFromComparison } from './utils';
-import { calculateUserBoost } from '../../utils/boost-ranks';
 import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
 import { StoreContext } from '../../mobx/store-context';
+import { calculateUserBoost } from '../../utils/boost-ranks';
 import { isValidCalculatedValue, roundWithPrecision } from '../../utils/componentHelpers';
+import { getColorFromComparison } from './utils';
 
 const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 	marginLeft: theme.spacing(1),

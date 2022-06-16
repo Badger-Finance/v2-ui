@@ -1,9 +1,10 @@
-import React from 'react';
 import { ButtonBase, Grid, Tooltip } from '@material-ui/core';
-import { RankLevel } from './RankLevel';
 import { makeStyles } from '@material-ui/core/styles';
-import { RankProgressBarSlice } from './RankProgressBarSlice';
+import React from 'react';
+
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
+import { RankLevel } from './RankLevel';
+import { RankProgressBarSlice } from './RankProgressBarSlice';
 
 const useStyles = makeStyles({
 	root: {

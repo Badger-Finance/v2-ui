@@ -1,11 +1,12 @@
-import { useEffect, useContext, useState } from 'react';
-import { IconButton, Grid } from '@material-ui/core';
+import { Grid, IconButton } from '@material-ui/core';
+import { StoreContext } from 'mobx/store-context';
 import { observer } from 'mobx-react-lite';
+import { useContext, useEffect, useState } from 'react';
+
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
+import PageHeader from '../../components-v2/common/PageHeader';
 import AddressInfoCard from './AddressInfoCard';
 import EventsTable from './EventsTable';
-import PageHeader from '../../components-v2/common/PageHeader';
-import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
-import { StoreContext } from 'mobx/store-context';
 import GovernanceFilterDialog from './GovernanceFilterDialog';
 
 const GovernancePortal = observer(() => {

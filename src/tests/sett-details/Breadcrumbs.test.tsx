@@ -1,5 +1,6 @@
 import React from 'react';
 import { checkSnapshot } from 'tests/utils/snapshots';
+
 import { Breadcrumb } from '../../components-v2/vault-detail/Breadcrumb';
 import { SAMPLE_VAULT } from '../utils/samples';
 

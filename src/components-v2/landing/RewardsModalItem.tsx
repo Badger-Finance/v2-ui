@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
 import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import CurrencyDisplay from '../common/CurrencyDisplay';
-import { StoreContext } from '../../mobx/store-context';
 import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { StoreContext } from '../../mobx/store-context';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 
 export interface RewardsModalItemProps {
 	checked: boolean;

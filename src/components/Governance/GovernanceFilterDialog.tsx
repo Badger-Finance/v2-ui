@@ -1,7 +1,3 @@
-import { useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { Filters } from '../../mobx/model/governance-timelock/vote-filters';
-
 import {
 	Button,
 	Checkbox,
@@ -15,6 +11,10 @@ import {
 	Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
+
+import { Filters } from '../../mobx/model/governance-timelock/vote-filters';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -79,11 +79,11 @@ const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Elem
 	const [filters, setFilters] = useState<Set<string>>(empty);
 	const handleFilterSelect = (filterValue: string) => {
 		if (filters.has(filterValue)) {
-			let newfilters = new Set(filters);
+			const newfilters = new Set(filters);
 			newfilters.delete(filterValue);
 			setFilters(newfilters);
 		} else {
-			let newfilters = new Set(filters);
+			const newfilters = new Set(filters);
 			newfilters.add(filterValue);
 			setFilters(newfilters);
 		}

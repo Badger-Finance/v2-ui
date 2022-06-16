@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import CurrencyDisplay from '../common/CurrencyDisplay';
-import { inCurrency } from '../../mobx/utils/helpers';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import { getFormattedNetworkName } from '../../utils/componentHelpers';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Typography } from 'ui-library/Typography';
+
+import { StoreContext } from '../../mobx/store-context';
+import { inCurrency } from '../../mobx/utils/helpers';
+import { getFormattedNetworkName } from '../../utils/componentHelpers';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

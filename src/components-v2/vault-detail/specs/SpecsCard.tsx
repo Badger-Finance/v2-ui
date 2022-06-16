@@ -1,13 +1,14 @@
-import React from 'react';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Tokens } from './Tokens';
-import { Claims } from './Claims';
-import VaultDetailLinks from './VaultDetailLinks';
-import { Fees } from './Fees';
+import React from 'react';
+
 import { CardContainer } from '../styled';
+import { Claims } from './Claims';
+import { Fees } from './Fees';
+import { Tokens } from './Tokens';
+import VaultDetailLinks from './VaultDetailLinks';
 import VaultMetrics from './VaultMetrics';
-import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

@@ -1,11 +1,12 @@
 import { getNetworkConfig, NetworkConfig } from '@badger-dao/sdk';
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
+import Portis from '@portis/web3';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { CHAIN_DATA_LIST } from 'web3modal';
+
 import { NETWORK_IDS, PORTIS_APP_ID } from './constants';
 import { supportedNetworks } from './networks.config';
 import rpc from './rpc.config';
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import Portis from '@portis/web3';
-import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
-import { CHAIN_DATA_LIST } from 'web3modal';
 
 export function isSupportedNetwork(chainId?: number): boolean {
 	if (!chainId) {

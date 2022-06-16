@@ -1,4 +1,5 @@
 import { Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
+
 import { Currency } from '../../../config/enums/currency.enum';
 
 export enum VaultSortOrder {

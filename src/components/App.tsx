@@ -1,18 +1,17 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { MobxRouter } from 'mobx-router';
-import { useEffect } from 'react';
-import { ONE_MIN_MS } from 'config/constants';
-import { useContext } from 'react';
-import { StoreContext } from 'mobx/store-context';
-import NetworkNotification from 'components-v2/common/NetworkNotification';
-import Announcements from '../components-v2/common/Announcements';
-import Sidebar from 'components-v2/sidebar';
-import clsx from 'clsx';
 import { useMediaQuery, useTheme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import NetworkNotification from 'components-v2/common/NetworkNotification';
+import Sidebar from 'components-v2/sidebar';
+import { ONE_MIN_MS } from 'config/constants';
+import { StoreContext } from 'mobx/store-context';
+import { MobxRouter } from 'mobx-router';
+import React, { useContext, useEffect } from 'react';
+
+import Announcements from '../components-v2/common/Announcements';
+import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
 import WalletDrawer from '../components-v2/common/WalletDrawer';
 import Navbar from '../components-v2/navbar';
-import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {

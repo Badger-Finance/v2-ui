@@ -1,10 +1,11 @@
-import { IbBTCMintZap } from './model/vaults/ibbtc-mint-zap';
-import { RootStore } from './RootStore';
-import addresses from 'config/ibBTC/addresses.json';
-import { TokenZap } from './model/vaults/token-zap';
-import { GeneralVaultZap } from './model/vaults/general-vault-zap';
-import { RenVaultZap } from './model/vaults/ren-vault-zap';
 import { Token } from '@badger-dao/sdk';
+import addresses from 'config/ibBTC/addresses.json';
+
+import { GeneralVaultZap } from './model/vaults/general-vault-zap';
+import { IbBTCMintZap } from './model/vaults/ibbtc-mint-zap';
+import { RenVaultZap } from './model/vaults/ren-vault-zap';
+import { TokenZap } from './model/vaults/token-zap';
+import { RootStore } from './RootStore';
 
 export class IbBTCMintZapFactory {
 	private static tokenZaps: Record<string, TokenZap> = {};

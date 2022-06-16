@@ -1,14 +1,15 @@
-import React, { useState, useContext } from 'react';
+import { Network } from '@badger-dao/sdk';
+import { Card, Container, Grid, Link, Paper, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from 'mobx/store-context';
-import { Container, Grid, Tabs, Tab, Card, Link, Paper } from '@material-ui/core';
+import WrapTextIcon from '@material-ui/icons/WrapText';
 import PageHeader from 'components-v2/common/PageHeader';
+import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useState } from 'react';
+
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
-import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
-import { Network } from '@badger-dao/sdk';
-import WrapTextIcon from '@material-ui/icons/WrapText';
 
 type TABS = 'Mint' | 'Redeem';
 

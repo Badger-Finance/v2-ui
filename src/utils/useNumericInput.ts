@@ -1,6 +1,6 @@
-import { SetStateAction, ChangeEvent } from 'react';
 import { InputProps } from '@material-ui/core';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
+import { ChangeEvent, SetStateAction } from 'react';
 /**
  * Functions that will be triggered on valid changes
  */

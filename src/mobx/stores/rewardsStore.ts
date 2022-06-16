@@ -1,19 +1,20 @@
-import { action, extendObservable } from 'mobx';
-import { RootStore } from '../RootStore';
-import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
-import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
-import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
-import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
-import { getToken } from '../../web3/config/token-config';
-import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { BadgerTree } from '../model/rewards/badger-tree';
-import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { retry } from '@lifeomic/attempt';
-import { defaultRetryOptions } from '../../config/constants';
 import { GasSpeed, Network } from '@badger-dao/sdk';
+import { retry } from '@lifeomic/attempt';
+import BigNumber from 'bignumber.js';
+import { action, extendObservable } from 'mobx';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
+import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
+import { AbiItem } from 'web3-utils';
+
+import { defaultRetryOptions } from '../../config/constants';
+import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
+import { getToken } from '../../web3/config/token-config';
+import { BadgerTree } from '../model/rewards/badger-tree';
 import { ClaimMap } from '../model/rewards/claim-map';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
+import { RootStore } from '../RootStore';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.

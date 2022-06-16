@@ -1,13 +1,11 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { observer } from 'mobx-react-lite';
-import clsx from 'clsx';
-
 import { Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import { HoldingAssetInput } from './HoldingAssetInput';
-import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
-import { useAssetInputStyles } from './utils';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
 import { StoreContext } from '../../mobx/store-context';
+import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
 import {
 	calculateNativeToMatchRank,
 	calculateUserBoost,
@@ -15,6 +13,8 @@ import {
 	getNextBoostRank,
 	isValidStakeRatio,
 } from '../../utils/boost-ranks';
+import { HoldingAssetInput } from './HoldingAssetInput';
+import { useAssetInputStyles } from './utils';
 
 const useStyles = makeStyles((theme) => ({
 	settInformation: {

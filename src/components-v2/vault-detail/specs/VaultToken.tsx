@@ -1,7 +1,7 @@
-import React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import React from 'react';
 
 import { VaultTokenBalance } from '../../../mobx/model/vaults/vault-token-balance';
 import { numberWithCommas } from '../../../mobx/utils/helpers';

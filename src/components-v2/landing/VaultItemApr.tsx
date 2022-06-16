@@ -1,8 +1,9 @@
-import React, { MouseEvent, useState } from 'react';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { VaultDTO } from '@badger-dao/sdk';
 import { numberWithCommas } from 'mobx/utils/helpers';
+import React, { MouseEvent, useState } from 'react';
+
 import VaultApyInformation from '../VaultApyInformation';
 
 const useStyles = makeStyles({

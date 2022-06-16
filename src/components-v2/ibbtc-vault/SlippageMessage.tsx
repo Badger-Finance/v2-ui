@@ -1,7 +1,7 @@
-import React from 'react';
-import BigNumber from 'bignumber.js';
-import { makeStyles } from '@material-ui/core/styles';
 import { Box, Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import BigNumber from 'bignumber.js';
+import React from 'react';
 
 interface Props {
 	calculatedSlippage: BigNumber;

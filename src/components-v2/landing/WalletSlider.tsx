@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
-import { FormControlLabel, Switch, makeStyles } from '@material-ui/core';
+import { FormControlLabel, makeStyles, Switch } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
 import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles(() => ({

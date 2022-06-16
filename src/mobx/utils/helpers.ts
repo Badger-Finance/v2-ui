@@ -1,14 +1,15 @@
-import BigNumber from 'bignumber.js';
-import slugify from 'slugify';
 import { VaultDTO } from '@badger-dao/sdk';
-import { TEN, ZERO } from '../../config/constants';
-import store from 'mobx/RootStore';
+import BigNumber from 'bignumber.js';
+import { currencyConfiguration } from 'config/currency.config';
+import { Currency } from 'config/enums/currency.enum';
+import { ChartData } from 'mobx/model/charts/chart-data';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
-import { ChartData } from 'mobx/model/charts/chart-data';
 import { Network } from 'mobx/model/network/network';
-import { Currency } from 'config/enums/currency.enum';
-import { currencyConfiguration } from 'config/currency.config';
+import store from 'mobx/RootStore';
+import slugify from 'slugify';
+
+import { TEN, ZERO } from '../../config/constants';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;

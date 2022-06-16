@@ -1,5 +1,5 @@
-import { BoostRank } from '../mobx/model/boost/leaderboard-rank';
 import { BOOST_RANKS, MAX_BOOST_RANK, MIN_BOOST, MIN_BOOST_RANK } from '../config/system/boost-ranks';
+import { BoostRank } from '../mobx/model/boost/leaderboard-rank';
 import { restrictToRange } from './componentHelpers';
 
 /**

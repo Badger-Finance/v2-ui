@@ -1,15 +1,17 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Grid, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { observer } from 'mobx-react-lite';
+import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
-import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
-import { OptionTokens } from './OptionTokens';
-import { OptionToken } from './OptionToken';
-import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { debounce } from 'utils/componentHelpers';
+
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { TransactionRequestResult } from '../../mobx/utils/web3';
+import { useNumericInput } from '../../utils/useNumericInput';
 import {
 	BalanceGrid,
 	BorderedFocusableContainerGrid,
@@ -22,10 +24,9 @@ import {
 	OutputTokenGrid,
 	SummaryGrid,
 } from './Common';
-import { useNumericInput } from '../../utils/useNumericInput';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { TransactionRequestResult } from '../../mobx/utils/web3';
-import { Skeleton } from '@material-ui/lab';
+import { DownArrow } from './DownArrow';
+import { OptionToken } from './OptionToken';
+import { OptionTokens } from './OptionTokens';
 
 type RedeemInformation = {
 	inputAmount: TokenBalance;

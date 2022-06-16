@@ -1,5 +1,6 @@
-import React from 'react';
 import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import React from 'react';
+
 import { CheckboxControlProps } from './types';
 
 const PortfolioDustControl = ({ checked, onChange, ...muiProps }: CheckboxControlProps): JSX.Element => {

@@ -1,5 +1,5 @@
-import React from 'react';
 import { StoreContext } from 'mobx/store-context';
+import React from 'react';
 
 /**
  * Utility hook that return the a function that upon execution will prompt wallet connection

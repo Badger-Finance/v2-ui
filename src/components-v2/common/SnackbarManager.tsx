@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 import { useSnackbar } from 'notistack';
+import React, { useContext, useEffect } from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
 
 const SnackbarManager: React.FC = (props): JSX.Element => {
 	const { enqueueSnackbar } = useSnackbar();

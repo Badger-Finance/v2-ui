@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Collapse, Grid, Typography } from '@material-ui/core';
-import { StyledDivider } from '../styled';
 import { makeStyles } from '@material-ui/core/styles';
+import { Skeleton } from '@material-ui/lab';
+import BigNumber from 'bignumber.js';
 import { observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
+
 import { StoreContext } from '../../../mobx/store-context';
 import { inCurrency, numberWithCommas } from '../../../mobx/utils/helpers';
-import BigNumber from 'bignumber.js';
-import { Skeleton } from '@material-ui/lab';
-import { VaultDTO } from '@badger-dao/sdk';
+import { StyledDivider } from '../styled';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

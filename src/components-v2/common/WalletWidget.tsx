@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 import useENS from 'hooks/useEns';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
 import { shortenAddress } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({

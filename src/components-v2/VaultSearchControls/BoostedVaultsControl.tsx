@@ -1,7 +1,8 @@
-import React from 'react';
 import { Checkbox, FormControlLabel, makeStyles, Typography } from '@material-ui/core';
-import { CheckboxControlProps } from './types';
 import clsx from 'clsx';
+import React from 'react';
+
+import { CheckboxControlProps } from './types';
 
 const useStyles = makeStyles((theme) => ({
 	label: {

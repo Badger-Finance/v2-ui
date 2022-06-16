@@ -1,8 +1,9 @@
-import React from 'react';
+import { VaultData } from '@badger-dao/sdk';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+
 import { TokenDistributionItem } from './TokenDistributionItem';
-import { VaultData } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

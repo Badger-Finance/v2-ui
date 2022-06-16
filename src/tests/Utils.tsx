@@ -1,13 +1,11 @@
-import React from 'react';
-
 /**
  * RTL Wrapper to disable MUI's dynammic JSS classes generation
  * Credits: @lookfirst
  */
-
 import { createGenerateClassName, StylesProvider } from '@material-ui/core/styles';
 import { render as tlRender } from '@testing-library/react';
 import mediaQuery from 'css-mediaquery';
+import React from 'react';
 
 function MyStyles({ children }: any) {
 	// make a copy of the data because the state is mutated below in one of the tests for clicks

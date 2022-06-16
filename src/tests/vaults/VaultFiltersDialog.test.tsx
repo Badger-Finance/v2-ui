@@ -1,14 +1,16 @@
-import React from 'react';
-import store from '../../mobx/RootStore';
-import { customRender, fireEvent, screen } from '../Utils';
-import VaultFiltersDialogV2 from '../../components-v2/VaultSearchControls/VaultFiltersDialog';
-import { StoreProvider } from '../../mobx/store-context';
-import VaultStore from '../../mobx/stores/VaultStore';
 import '@testing-library/jest-dom/extend-expect';
+
 import { Protocol, VaultBehavior, VaultState } from '@badger-dao/sdk';
 import { within } from '@testing-library/react';
-import { config } from 'react-transition-group';
 import UserEvent from '@testing-library/user-event';
+import React from 'react';
+import { config } from 'react-transition-group';
+
+import VaultFiltersDialogV2 from '../../components-v2/VaultSearchControls/VaultFiltersDialog';
+import store from '../../mobx/RootStore';
+import { StoreProvider } from '../../mobx/store-context';
+import VaultStore from '../../mobx/stores/VaultStore';
+import { customRender, fireEvent, screen } from '../Utils';
 
 describe('VaultFiltersDialog', () => {
 	beforeEach(() => {

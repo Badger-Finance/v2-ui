@@ -1,9 +1,10 @@
-import React from 'react';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Grid, makeStyles } from '@material-ui/core';
+import React from 'react';
+
+import VaultDeprecationWarning from '../VaultDeprecationWarning';
 import { Breadcrumb } from './Breadcrumb';
 import { Description } from './description/Description';
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
-import VaultDeprecationWarning from '../VaultDeprecationWarning';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

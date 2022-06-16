@@ -1,5 +1,5 @@
-import { TokenBalances } from './user-balances';
 import { VaultCaps } from '../vaults/vault-cap copy';
+import { TokenBalances } from './user-balances';
 
 export interface CachedTokenBalances {
 	key: string;

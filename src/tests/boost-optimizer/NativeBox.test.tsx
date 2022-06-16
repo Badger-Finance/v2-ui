@@ -1,10 +1,12 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { customRender, screen } from '../Utils';
-import { NativeBox } from '../../components/Boost/NativeBox';
+
 import userEvent from '@testing-library/user-event';
-import { StoreProvider } from '../../mobx/store-context';
+import React from 'react';
+
+import { NativeBox } from '../../components/Boost/NativeBox';
 import store from '../../mobx/RootStore';
+import { StoreProvider } from '../../mobx/store-context';
+import { customRender, screen } from '../Utils';
 
 describe('Native Box', () => {
 	it('triggers increase and decrease actions', () => {

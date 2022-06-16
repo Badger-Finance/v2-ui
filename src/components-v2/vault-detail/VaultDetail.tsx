@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
 import { Button, Container, Grid, makeStyles } from '@material-ui/core';
-import { Header } from './Header';
-import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
-import { MobileStickyActionButtons } from './actions/MobileStickyActionButtons';
+import React, { useContext } from 'react';
+
 import { Loader } from '../../components/Loader';
-import { TopContent } from './TopContent';
+import routes from '../../config/routes';
+import { StoreContext } from '../../mobx/store-context';
+import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
 import { VaultDeposit } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
-import { Footer } from './Footer';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
-import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
-import routes from '../../config/routes';
+import { MobileStickyActionButtons } from './actions/MobileStickyActionButtons';
+import { Footer } from './Footer';
+import { Header } from './Header';
+import { MainContent } from './MainContent';
+import { TopContent } from './TopContent';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

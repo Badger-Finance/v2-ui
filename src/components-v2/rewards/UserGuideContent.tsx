@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { VaultType } from '@badger-dao/sdk';
 import {
 	Box,
 	Button,
@@ -10,12 +10,13 @@ import {
 	useMediaQuery,
 	useTheme,
 } from '@material-ui/core';
-import { ArrowBackIosOutlined } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { ArrowBackIosOutlined } from '@material-ui/icons';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
 import { StoreContext } from '../../mobx/store-context';
-import { VaultType } from '@badger-dao/sdk';
 import { limitVaultType, useFormatExampleList } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme: Theme) =>
