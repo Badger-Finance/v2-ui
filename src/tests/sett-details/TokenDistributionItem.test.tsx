@@ -1,10 +1,11 @@
-import React from 'react';
-import { SAMPLE_VAULT_BALANCE } from '../utils/samples';
-import { TokenDistributionIcon } from '../../components-v2/vault-detail/holdings/TokenDistributionIcon';
-import { customRender, screen } from '../Utils';
 import userEvent from '@testing-library/user-event';
-import { StoreProvider } from '../../mobx/store-context';
+import React from 'react';
+
+import { TokenDistributionIcon } from '../../components-v2/vault-detail/holdings/TokenDistributionIcon';
 import store from '../../mobx/RootStore';
+import { StoreProvider } from '../../mobx/store-context';
+import { customRender, screen } from '../Utils';
+import { SAMPLE_VAULT_BALANCE } from '../utils/samples';
 
 describe('Token Distribution Icon', () => {
 	it('displays sett token distribution information on hover', async () => {

@@ -1,7 +1,7 @@
-import React, { MouseEvent } from 'react';
 import { VaultBehavior, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Chip, Grid, GridProps, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
+import React, { MouseEvent } from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	tag: {

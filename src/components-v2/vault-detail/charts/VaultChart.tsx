@@ -1,10 +1,11 @@
-import React from 'react';
-import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
-import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
-import BaseAreaChart from './BaseAreaChart';
-import { ChartModeTitles } from '../utils';
+import { timeFormat } from 'd3-time-format';
 import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
+import React from 'react';
+
+import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
+import { ChartModeTitles } from '../utils';
+import BaseAreaChart from './BaseAreaChart';
 
 interface Props {
 	mode: ChartMode;

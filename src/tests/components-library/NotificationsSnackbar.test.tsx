@@ -1,8 +1,9 @@
-import React from 'react';
-import NotificationSnackbar from '../../components-library/NotificationSnackbar';
-import { checkSnapshot } from '../utils/snapshots';
-import { customRender, fireEvent, screen } from '../Utils';
 import { CustomContentProps } from 'notistack';
+import React from 'react';
+
+import NotificationSnackbar from '../../components-library/NotificationSnackbar';
+import { customRender, fireEvent, screen } from '../Utils';
+import { checkSnapshot } from '../utils/snapshots';
 
 const mockCloseSnackbar = jest.fn();
 

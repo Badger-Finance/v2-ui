@@ -1,5 +1,6 @@
 import { ContractCallResults } from 'ethereum-multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
+
 import { BalanceNamespace } from '../../web3/config/namespaces';
 
 export interface RequestExtractedResults {

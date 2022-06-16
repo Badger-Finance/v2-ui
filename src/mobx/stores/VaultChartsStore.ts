@@ -1,10 +1,11 @@
+import { VaultDTO } from '@badger-dao/sdk';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+
 import { VaultChartData, VaultChartTimeframe } from '../model/vaults/vault-charts';
-import { RootStore } from '../RootStore';
 import { VaultSnapshotGranularity } from '../model/vaults/vault-snapshot';
+import { RootStore } from '../RootStore';
 import { fetchVaultChartInformation } from '../utils/apiV2';
-import { VaultDTO } from '@badger-dao/sdk';
 
 dayjs.extend(utc);
 

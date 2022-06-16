@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 import { Drawer, Hidden, IconButton, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import { SITE_VERSION } from 'config/constants';
+import routes from 'config/routes';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 import Menu from 'ui-library/Menu';
 import MenuItem from 'ui-library/MenuItem';
-import MenuItemText from '../../ui-library/MenuItemText';
-import MenuItemIcon from '../../ui-library/MenuItemIcon';
-import { Typography } from '../../ui-library/Typography';
-import { inCurrency } from '../../mobx/utils/helpers';
+
 import { Currency } from '../../config/enums/currency.enum';
-import routes from 'config/routes';
-import { SITE_VERSION } from 'config/constants';
+import { StoreContext } from '../../mobx/store-context';
+import { inCurrency } from '../../mobx/utils/helpers';
+import MenuItemIcon from '../../ui-library/MenuItemIcon';
+import MenuItemText from '../../ui-library/MenuItemText';
+import { Typography } from '../../ui-library/Typography';
 
 const useStyles = makeStyles((theme) => ({
 	drawerPaper: {

@@ -1,8 +1,9 @@
 import SpecsCard from 'components-v2/vault-detail/specs/SpecsCard';
 import React from 'react';
 import { checkSnapshot } from 'tests/utils/snapshots';
-import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from '../utils/samples';
+
 import VaultStore from '../../mobx/stores/VaultStore';
+import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from '../utils/samples';
 
 describe('Specs Section', () => {
 	it('displays sett information', () => {

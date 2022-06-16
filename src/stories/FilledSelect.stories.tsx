@@ -1,7 +1,7 @@
-import { ComponentMeta } from '@storybook/react';
-import React, { useState } from 'react';
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { ComponentMeta } from '@storybook/react';
+import React, { useState } from 'react';
 
 export default {
 	title: 'Filled Select',

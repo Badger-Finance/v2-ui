@@ -1,20 +1,21 @@
+import { Currency, PriceSummary } from '@badger-dao/sdk';
 import { retry } from '@lifeomic/attempt';
+import BigNumber from 'bignumber.js';
 import { defaultRetryOptions } from 'config/constants';
 import { action, extendObservable } from 'mobx';
-import { RootStore } from 'mobx/RootStore';
-import Web3 from 'web3';
-import { ExchangeRates } from '../model/system-config/exchange-rates';
-import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
-import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
 import {
 	CoingeckoPriceResponse,
 	FANTOM_PRICE_KEY,
 	MATIC_PRICE_KEY,
 } from 'mobx/model/system-config/coingecko-price-response';
-import { fetchData } from '../../utils/fetchData';
+import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
+import { RootStore } from 'mobx/RootStore';
+import Web3 from 'web3';
+
 import { DEBUG } from '../../config/environment';
-import BigNumber from 'bignumber.js';
-import { Currency, PriceSummary } from '@badger-dao/sdk';
+import { fetchData } from '../../utils/fetchData';
+import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
+import { ExchangeRates } from '../model/system-config/exchange-rates';
 
 type CoinGeckoBatchResponse = { [key: string]: CoingeckoPriceResponse };
 

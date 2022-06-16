@@ -1,7 +1,8 @@
-import React from 'react';
 import { Grid } from '@material-ui/core';
-import { NavbarTabs } from './NavbarTabs';
+import React from 'react';
+
 import { NavbarButtons } from './NavbarButtons';
+import { NavbarTabs } from './NavbarTabs';
 
 export const NavbarActionsRow = (): JSX.Element => {
 	return (

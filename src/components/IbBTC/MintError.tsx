@@ -1,10 +1,10 @@
-import React from 'react';
-import BigNumber from 'bignumber.js';
 import { Grid, makeStyles, Tooltip } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
+import React from 'react';
 
-import { ErrorText } from './Common';
 import { MintLimits } from '../../mobx/model/strategies/mint-limits';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { ErrorText } from './Common';
 
 interface Props {
 	token: TokenBalance;

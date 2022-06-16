@@ -1,10 +1,11 @@
+import { Network } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
+import { Network as NetworkModel } from 'mobx/model/network/network';
 import Web3 from 'web3';
 import { provider } from 'web3-core';
-import { numberWithCommas } from './helpers';
-import { Network as NetworkModel } from 'mobx/model/network/network';
 import { AbiItem } from 'web3-utils';
-import { Network } from '@badger-dao/sdk';
+
+import { numberWithCommas } from './helpers';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;

@@ -1,18 +1,19 @@
-import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 import { Button, Drawer, Grid, IconButton, makeStyles, Typography, useTheme } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import useENS from '../../hooks/useEns';
-import { shortenAddress } from '../../utils/componentHelpers';
-import CurrencyDisplay from './CurrencyDisplay';
-import { inCurrency } from '../../mobx/utils/helpers';
-import copy from 'copy-to-clipboard';
 import BigNumber from 'bignumber.js';
-import WalletTokenBalance from './WalletTokenBalance';
 import clsx from 'clsx';
-import WalletLiquidityPoolLinks from './WalletLiquidityPoolLinks';
+import copy from 'copy-to-clipboard';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useState } from 'react';
+
+import useENS from '../../hooks/useEns';
+import { StoreContext } from '../../mobx/store-context';
+import { inCurrency } from '../../mobx/utils/helpers';
+import { shortenAddress } from '../../utils/componentHelpers';
 import CopyToClipboardIcon from './CopyToClipboardIcon';
+import CurrencyDisplay from './CurrencyDisplay';
+import WalletLiquidityPoolLinks from './WalletLiquidityPoolLinks';
+import WalletTokenBalance from './WalletTokenBalance';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

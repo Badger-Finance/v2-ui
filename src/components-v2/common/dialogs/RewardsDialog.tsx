@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
 import { Dialog, useTheme } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../../mobx/store-context';
+import React, { useContext, useEffect, useState } from 'react';
+
+import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
 import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
+import { StoreContext } from '../../../mobx/store-context';
 import { TransactionRequestResult } from '../../../mobx/utils/web3';
-import UserGuideContent from '../../rewards/UserGuideContent';
 import ClaimedRewardsContent from '../../rewards/ClaimedRewardsContent';
 import ClaimRewardsContent from '../../rewards/ClaimRewardsContent';
-import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
+import UserGuideContent from '../../rewards/UserGuideContent';
 import InvalidCycleDialog from './InvalidCycleDialog';
 
 const useStyles = makeStyles(() =>

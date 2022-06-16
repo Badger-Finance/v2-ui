@@ -1,7 +1,9 @@
-import React from 'react';
-import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import '@testing-library/jest-dom';
+
 import BigNumber from 'bignumber.js';
+import React from 'react';
+
+import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import { checkSnapshot } from './utils/snapshots';
 
 describe('CurrencyInfoCard', () => {

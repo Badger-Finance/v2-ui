@@ -1,9 +1,10 @@
-import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+
 import { LayoutContainer } from '../components-v2/common/Containers';
 import VaultListDisplay from '../components-v2/landing/VaultListDisplay';
 import VaultsSearchControls from '../components-v2/VaultSearchControls';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
 	root: {

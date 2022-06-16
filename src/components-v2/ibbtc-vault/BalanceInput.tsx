@@ -1,10 +1,11 @@
-import React, { Fragment, useEffect, useState } from 'react';
 import { Box, ButtonBase, Divider, Grid, TextField, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import React, { Fragment, useEffect, useState } from 'react';
+
+import { Currency } from '../../config/enums/currency.enum';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { useNumericInput } from '../../utils/useNumericInput';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { Currency } from '../../config/enums/currency.enum';
-import { makeStyles } from '@material-ui/core/styles';
 
 interface Props {
 	tokenBalance: TokenBalance;

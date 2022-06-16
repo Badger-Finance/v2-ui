@@ -1,5 +1,6 @@
-import { Network, getNetworkConfig } from '@badger-dao/sdk';
+import { getNetworkConfig, Network } from '@badger-dao/sdk';
 import { isSupportedNetwork } from 'config/wallets';
+
 import { NavbarConfig } from './interfaces/navbar-config.interface';
 
 const navbarConfig: Record<Network, NavbarConfig> = {
@@ -54,7 +55,7 @@ const navbarConfig: Record<Network, NavbarConfig> = {
 };
 
 export function getNavbarConfig(network?: Network): NavbarConfig {
-	let chain = Network.Ethereum;
+	const chain = Network.Ethereum;
 	try {
 		const config = getNetworkConfig(network ?? chain);
 		if (isSupportedNetwork(config.chainId)) {

@@ -1,7 +1,8 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { VaultDTO } from '@badger-dao/sdk';
+import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+
 import VaultLogo from '../../landing/VaultLogo';
 
 const useStyles = makeStyles((theme) => ({

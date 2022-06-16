@@ -1,14 +1,16 @@
-import React from 'react';
-import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
-import store from '../mobx/RootStore';
-import { checkSnapshot } from './utils/snapshots';
+
 import BigNumber from 'bignumber.js';
 import UserStore from 'mobx/stores/UserStore';
-import { createMatchMedia } from './Utils';
+import React from 'react';
+
+import store from '../mobx/RootStore';
 import VaultStore from '../mobx/stores/VaultStore';
-import { SAMPLE_VAULTS } from './utils/samples';
 import { WalletStore } from '../mobx/stores/WalletStore';
+import Landing from '../pages/Landing';
+import { createMatchMedia } from './Utils';
+import { SAMPLE_VAULTS } from './utils/samples';
+import { checkSnapshot } from './utils/snapshots';
 
 describe('Landing', () => {
 	beforeEach(() => {

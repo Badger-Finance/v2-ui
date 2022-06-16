@@ -1,6 +1,8 @@
-import React from 'react';
-import WalletSlider from '../components-v2/landing/WalletSlider';
 import '@testing-library/jest-dom';
+
+import React from 'react';
+
+import WalletSlider from '../components-v2/landing/WalletSlider';
 import { checkSnapshot } from './utils/snapshots';
 
 describe('WalletSlider', () => {

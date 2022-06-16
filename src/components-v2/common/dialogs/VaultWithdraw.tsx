@@ -1,18 +1,19 @@
-import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from 'mobx/store-context';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Dialog, Grid, Typography } from '@material-ui/core';
-import { BadgerVault } from 'mobx/model/vaults/badger-vault';
+import { makeStyles } from '@material-ui/core/styles';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { BadgerVault } from 'mobx/model/vaults/badger-vault';
+import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useState } from 'react';
 import { useNumericInput } from 'utils/useNumericInput';
-import { VaultDialogTitle } from './VaultDialogTitle';
+
+import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { PercentageSelector } from '../PercentageSelector';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, VaultDialogContent } from './styled';
-import { BalanceNamespace } from '../../../web3/config/namespaces';
-import { VaultConversionAndFee } from './VaultConversionAndFee';
-import { makeStyles } from '@material-ui/core/styles';
-import { VaultDTO } from '@badger-dao/sdk';
 import VaultAdvisory from './VaultAdvisory';
+import { VaultConversionAndFee } from './VaultConversionAndFee';
+import { VaultDialogTitle } from './VaultDialogTitle';
 
 const useStyles = makeStyles((theme) => ({
 	content: {

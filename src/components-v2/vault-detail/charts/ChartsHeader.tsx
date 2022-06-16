@@ -1,9 +1,10 @@
-import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { ChartTimeframeControls } from './ChartTimeframeControls';
 import { makeStyles } from '@material-ui/core/styles';
-import { ChartModeTitles } from '../utils';
+import React from 'react';
+
 import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
+import { ChartModeTitles } from '../utils';
+import { ChartTimeframeControls } from './ChartTimeframeControls';
 
 const useStyles = makeStyles((theme) => ({
 	titleText: {

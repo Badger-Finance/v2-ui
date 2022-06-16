@@ -1,13 +1,15 @@
+import '@testing-library/jest-dom';
+
+import BigNumber from 'bignumber.js';
+
 import {
 	calculateNewSupply,
 	getNextRebase,
-	getTimeBarPercentage,
-	toHHMMSS,
-	shortenNumbers,
 	getPercentageChange,
+	getTimeBarPercentage,
+	shortenNumbers,
+	toHHMMSS,
 } from '../../mobx/utils/diggHelpers';
-import '@testing-library/jest-dom';
-import BigNumber from 'bignumber.js';
 
 describe('calculateNewSupply', () => {
 	const UPPER_LIMIT = 1.05 * 1e18;

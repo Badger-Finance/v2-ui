@@ -1,9 +1,11 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { customRender, screen, fireEvent, within } from '../../Utils';
+
+import BigNumber from 'bignumber.js';
+import React from 'react';
+
 import { OptionTokens } from '../../../components/IbBTC/OptionTokens';
 import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
-import BigNumber from 'bignumber.js';
+import { customRender, fireEvent, screen, within } from '../../Utils';
 
 const tokens = [
 	new TokenBalance(

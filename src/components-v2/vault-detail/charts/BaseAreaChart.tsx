@@ -1,7 +1,7 @@
 import { makeStyles, useTheme } from '@material-ui/core';
 import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 import React from 'react';
-import { AreaChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Area, ReferenceLine } from 'recharts';
+import { Area, AreaChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const useStyles = makeStyles(() => ({
 	chartContainer: {

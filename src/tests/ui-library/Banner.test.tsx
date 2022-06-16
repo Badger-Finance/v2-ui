@@ -1,8 +1,9 @@
 import React from 'react';
-import { checkSnapshot } from '../utils/snapshots';
+
 import Banner from '../../ui-library/Banner';
-import { customRender, fireEvent, screen } from '../Utils';
 import BannerCloseActionButton from '../../ui-library/BannerCloseActionButton';
+import { customRender, fireEvent, screen } from '../Utils';
+import { checkSnapshot } from '../utils/snapshots';
 
 describe('Banner', () => {
 	it('renders banner information correctly', () => {

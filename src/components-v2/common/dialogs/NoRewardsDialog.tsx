@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
 import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import CurrencyDisplay from '../CurrencyDisplay';
-import { inCurrency } from '../../../mobx/utils/helpers';
-import BigNumber from 'bignumber.js';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { StoreContext } from '../../../mobx/store-context';
+import CloseIcon from '@material-ui/icons/Close';
+import BigNumber from 'bignumber.js';
 import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
+import { StoreContext } from '../../../mobx/store-context';
+import { inCurrency } from '../../../mobx/utils/helpers';
+import CurrencyDisplay from '../CurrencyDisplay';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({

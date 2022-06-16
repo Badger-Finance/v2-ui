@@ -1,8 +1,9 @@
-import React from 'react';
 import { Button, DialogContent, Grid, IconButton, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import CloseIcon from '@material-ui/icons/Close';
+import React from 'react';
+
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({

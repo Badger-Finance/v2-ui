@@ -1,14 +1,15 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
-import { makeStyles } from '@material-ui/core/styles';
-import { Divider, Grid, Typography } from '@material-ui/core';
-import { formatStrategyFee } from '../../../utils/componentHelpers';
-import { StoreContext } from '../../../mobx/store-context';
-import { MAX_FEE } from 'config/constants';
 import { VaultDTO } from '@badger-dao/sdk';
-import { getStrategyFee } from '../../../mobx/utils/fees';
+import { Divider, Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import BigNumber from 'bignumber.js';
+import { MAX_FEE } from 'config/constants';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
+import { StoreContext } from '../../../mobx/store-context';
+import { getStrategyFee } from '../../../mobx/utils/fees';
+import { formatStrategyFee } from '../../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {

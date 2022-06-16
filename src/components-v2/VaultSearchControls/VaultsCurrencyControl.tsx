@@ -1,6 +1,7 @@
-import React from 'react';
 import { Button, ButtonGroup, ButtonGroupProps, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
+import React from 'react';
+
 import { Currency } from '../../config/enums/currency.enum';
 
 const useStyles = makeStyles({

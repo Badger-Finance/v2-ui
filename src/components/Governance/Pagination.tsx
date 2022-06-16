@@ -1,7 +1,7 @@
-import React from 'react';
+import { makeStyles, Typography } from '@material-ui/core';
 import classNames from 'classnames';
+import React from 'react';
 
-import { Typography, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
 	paginationWrapper: {
 		padding: theme.spacing(2),
@@ -34,7 +34,7 @@ export interface Props {
 }
 export const PaginationComponent: React.FC<Props> = ({ page, totalPages, handlePagination }) => {
 	const classes = useStyles();
-	var pageJsx: JSX.Element[] = [];
+	const pageJsx: JSX.Element[] = [];
 	for (let i = 1; i <= totalPages; i++) {
 		pageJsx.push(
 			<button

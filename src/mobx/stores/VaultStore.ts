@@ -1,13 +1,3 @@
-import { action, extendObservable } from 'mobx';
-import { RootStore } from '../RootStore';
-import Web3 from 'web3';
-import { Token } from 'mobx/model/tokens/token';
-import { TokenCache } from '../model/tokens/token-cache';
-import { VaultCache } from '../model/vaults/vault-cache';
-import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-cache';
-import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
-import { VaultMap } from '../model/vaults/vault-map';
-import { TokenBalances } from 'mobx/model/account/user-balances';
 import {
 	Currency,
 	Network,
@@ -17,18 +7,29 @@ import {
 	VaultDTO,
 	VaultState,
 } from '@badger-dao/sdk';
-import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
-import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import BigNumber from 'bignumber.js';
 import { ContractCallReturnContext } from 'ethereum-multicall';
-import { parseCallReturnContext } from 'mobx/utils/multicall';
+import { action, extendObservable } from 'mobx';
+import { TokenBalances } from 'mobx/model/account/user-balances';
+import { Token } from 'mobx/model/tokens/token';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { getVaultsSlugCache } from '../utils/helpers';
-import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
+import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
+import { parseCallReturnContext } from 'mobx/utils/multicall';
+import Web3 from 'web3';
+
 import { FLAGS } from '../../config/environment';
-import { RegistryVaultAdapter } from '../model/vaults/registry-vault-adapter';
-import { BadgerVault } from '../model/vaults/badger-vault';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
+import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-cache';
+import { TokenCache } from '../model/tokens/token-cache';
+import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
+import { BadgerVault } from '../model/vaults/badger-vault';
+import { RegistryVaultAdapter } from '../model/vaults/registry-vault-adapter';
+import { VaultCache } from '../model/vaults/vault-cache';
+import { VaultMap } from '../model/vaults/vault-map';
+import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
+import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
+import { RootStore } from '../RootStore';
+import { getVaultsSlugCache } from '../utils/helpers';
 
 export default class VaultStore {
 	private store!: RootStore;

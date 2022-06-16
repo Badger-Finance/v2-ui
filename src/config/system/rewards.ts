@@ -1,9 +1,10 @@
-import BadgerTree from './abis/BadgerTree.json';
-import { AbiItem } from 'web3-utils';
-import { getApi } from '../../mobx/utils/apiV2';
-import { badgerTree, tokens, sett_system } from '../deployments/mainnet.json';
-import { RewardNetworkConfig } from '../../mobx/model/network/reward-network-config';
 import { Network } from '@badger-dao/sdk';
+import { AbiItem } from 'web3-utils';
+
+import { RewardNetworkConfig } from '../../mobx/model/network/reward-network-config';
+import { getApi } from '../../mobx/utils/apiV2';
+import { badgerTree, sett_system, tokens } from '../deployments/mainnet.json';
+import BadgerTree from './abis/BadgerTree.json';
 
 export const getRewards = (network?: string): RewardNetworkConfig | undefined => {
 	switch (network) {

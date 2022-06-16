@@ -1,16 +1,17 @@
-import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
-import { EIP1559SendOptions, getSendOptions, sendContractMethod, TransactionRequestResult } from '../utils/web3';
+import { BouncerType, Token, VaultDTO } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
-import { RootStore } from '../RootStore';
-import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
 import { ERC20, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
-import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { BadgerVault } from 'mobx/model/vaults/badger-vault';
-import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { BouncerType, Token, VaultDTO } from '@badger-dao/sdk';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { BadgerVault } from 'mobx/model/vaults/badger-vault';
+import Web3 from 'web3';
+import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
+
+import { RootStore } from '../RootStore';
+import { toFixedDecimals, unscale } from '../utils/helpers';
+import { EIP1559SendOptions, getSendOptions, sendContractMethod, TransactionRequestResult } from '../utils/web3';
 
 // TODO: did we lose some functionality here?
 type ProgressTracker = Record<string, boolean>;

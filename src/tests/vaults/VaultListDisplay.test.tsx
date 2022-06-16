@@ -1,14 +1,15 @@
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import BigNumber from 'bignumber.js';
 import React from 'react';
+
+import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import store from '../../mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
-import { customRender } from '../Utils';
-import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';
 import UserStore from '../../mobx/stores/UserStore';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import BigNumber from 'bignumber.js';
-import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from '../utils/samples';
 import VaultStore from '../../mobx/stores/VaultStore';
+import { customRender } from '../Utils';
+import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from '../utils/samples';
 
 const mockVaultsInformation = (vaults: VaultDTO[]) => {
 	jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(

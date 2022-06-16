@@ -1,6 +1,6 @@
-import React, { forwardRef, useCallback } from 'react';
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import { CustomContentProps, SnackbarContent, useSnackbar } from 'notistack';
+import React, { forwardRef, useCallback } from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

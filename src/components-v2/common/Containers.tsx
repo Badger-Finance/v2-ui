@@ -1,5 +1,6 @@
-import { styled } from '@material-ui/core/styles';
 import { Container, Grid } from '@material-ui/core';
+import { styled } from '@material-ui/core/styles';
+
 import { MAX_LAYOUT_WIDTH } from '../../config/constants';
 
 export const LayoutContainer = styled(Container)({

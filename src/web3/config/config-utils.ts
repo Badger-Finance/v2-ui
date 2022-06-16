@@ -1,10 +1,11 @@
 import { ERC20_ABI, GUEST_LIST_ABI, SETT_ABI } from 'config/constants';
-import { AbiItem } from 'web3-utils';
 import { ContractCallContext } from 'ethereum-multicall';
-import { BalanceNamespace, ContractNamespaces } from './namespaces';
 import Web3 from 'web3';
-import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
+import { AbiItem } from 'web3-utils';
+
 import { BalancesRequestAddresses } from '../../mobx/model/account/user-balances';
+import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
+import { BalanceNamespace, ContractNamespaces } from './namespaces';
 
 export const createMulticallRequest = (
 	addresses: string[],

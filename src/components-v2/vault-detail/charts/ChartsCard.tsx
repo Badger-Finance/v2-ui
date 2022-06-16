@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
+
+import { ChartMode, VaultChartData, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
+import { StoreContext } from '../../../mobx/store-context';
 import { CardContainer } from '../styled';
 import { ChartModeTitles } from '../utils';
-import { ChartMode, VaultChartData, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
-import { ChartsHeader } from './ChartsHeader';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../../mobx/store-context';
-import { VaultChart } from './VaultChart';
-import ChartContent from './ChartContent';
 import { BoostChart } from './BoostChart';
-import { VaultDTO } from '@badger-dao/sdk';
+import ChartContent from './ChartContent';
+import { ChartsHeader } from './ChartsHeader';
+import { VaultChart } from './VaultChart';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

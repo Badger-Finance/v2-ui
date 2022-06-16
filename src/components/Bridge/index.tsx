@@ -1,8 +1,8 @@
-import React from 'react';
-import { Grid, makeStyles, Paper, Typography, Link, List } from '@material-ui/core';
-import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
-
+import { Grid, Link, List, makeStyles, Paper, Typography } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
+import React from 'react';
+
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
 	guideContainer: {

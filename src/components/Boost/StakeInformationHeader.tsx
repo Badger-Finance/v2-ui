@@ -1,12 +1,13 @@
-import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { BadgerBoostImage } from './BadgerBoostImage';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { getColorFromComparison } from './utils';
-import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { Skeleton } from '@material-ui/lab';
+import clsx from 'clsx';
+import React from 'react';
+
+import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { isValidCalculatedValue } from '../../utils/componentHelpers';
+import { BadgerBoostImage } from './BadgerBoostImage';
+import { getColorFromComparison } from './utils';
 
 const useComparedValuesStyles = (currentRatio: number, accountRatio: number) => {
 	return makeStyles((theme) => {

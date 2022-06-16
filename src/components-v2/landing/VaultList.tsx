@@ -1,8 +1,9 @@
-import React from 'react';
 import VaultListHeader from 'components-v2/landing/VaultListHeader';
-import EmptyVaultSearch from './EmptyVaultSearch';
-import VaultStatusInformationPanel from '../VaultStatusInformationPanel';
+import React from 'react';
+
 import VaultRewardsInformationPanel from '../VaultRewardsInformationPanel';
+import VaultStatusInformationPanel from '../VaultStatusInformationPanel';
+import EmptyVaultSearch from './EmptyVaultSearch';
 
 export interface VaultTableProps {
 	settList: JSX.Element[];

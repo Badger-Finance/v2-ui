@@ -1,12 +1,13 @@
-import React from 'react';
-import { LayoutContainer } from '../common/Containers';
-import { NavbarInfoRow } from './NavbarInfoRow';
 import { Divider, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import clsx from 'clsx';
+import React from 'react';
+
+import { LayoutContainer } from '../common/Containers';
 import { NavbarActionsRow } from './NavbarActionsRow';
+import { NavbarInfoRow } from './NavbarInfoRow';
 import { NavbarMobileRow } from './NavbarMobileRow';
 import { NavbarStats } from './NavbarStats';
 import { NavbarTabs } from './NavbarTabs';
-import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

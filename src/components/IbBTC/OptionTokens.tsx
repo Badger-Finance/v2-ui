@@ -1,5 +1,6 @@
+import { MenuItem, Select } from '@material-ui/core';
 import React from 'react';
-import { Select, MenuItem } from '@material-ui/core';
+
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { OptionToken } from './OptionToken';
 

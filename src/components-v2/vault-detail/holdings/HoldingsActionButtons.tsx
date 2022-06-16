@@ -1,7 +1,8 @@
-import React from 'react';
-import { VaultActionButton } from '../../common/VaultActionButtons';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+
 import { StoreContext } from '../../../mobx/store-context';
+import { VaultActionButton } from '../../common/VaultActionButtons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

@@ -1,15 +1,16 @@
-import React from 'react';
+import { VaultData, VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import { HoldingItem } from './HoldingItem';
+import { useVaultInformation } from 'hooks/useVaultInformation';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { shouldDisplayEarnings } from 'utils/componentHelpers';
+
 import { StoreContext } from '../../../mobx/store-context';
+import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
+import { HoldingItem } from './HoldingItem';
 import { HoldingsActionButtons } from './HoldingsActionButtons';
 import { NoHoldings } from './NoHoldings';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
-import { VaultDTO, VaultData } from '@badger-dao/sdk';
-import { shouldDisplayEarnings } from 'utils/componentHelpers';
-import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
-import { useVaultInformation } from 'hooks/useVaultInformation';
 
 const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {

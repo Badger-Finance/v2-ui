@@ -1,8 +1,9 @@
-import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import { RewardsButton } from '../landing/RewardsButton';
+import React from 'react';
+
 import NetworkGasWidget from '../common/NetworkGasWidget';
 import WalletWidget from '../common/WalletWidget';
+import { RewardsButton } from '../landing/RewardsButton';
 
 const useStyles = makeStyles({
 	root: {

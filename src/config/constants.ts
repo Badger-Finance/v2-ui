@@ -1,15 +1,16 @@
-import Web3 from 'web3';
-import BigNumber from 'bignumber.js';
-import importedErc20 from '../config/system/abis/ERC20.json';
-import importedVault from '../config/system/abis/Vault.json';
-import importedBscErc20 from '../config/system/abis/BscErc20.json';
-import importedYearnVault from '../config/system/abis/YearnWrapper.json';
-import importedGuestList from '../config/system/abis/GuestList.json';
-import { AbiItem } from 'web3-utils';
-import { PartialAttemptOptions } from '@lifeomic/attempt';
-import { Wallets } from './enums/wallets.enum';
 import { Network } from '@badger-dao/sdk';
+import { PartialAttemptOptions } from '@lifeomic/attempt';
+import BigNumber from 'bignumber.js';
+import Web3 from 'web3';
+import { AbiItem } from 'web3-utils';
+
+import importedBscErc20 from '../config/system/abis/BscErc20.json';
+import importedErc20 from '../config/system/abis/ERC20.json';
+import importedGuestList from '../config/system/abis/GuestList.json';
+import importedVault from '../config/system/abis/Vault.json';
+import importedYearnVault from '../config/system/abis/YearnWrapper.json';
 import { Currency } from './enums/currency.enum';
+import { Wallets } from './enums/wallets.enum';
 
 /* App Configurations */
 

@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Grid, List, makeStyles, Typography } from '@material-ui/core';
 import { TimelockEvent } from 'mobx/model/governance-timelock/timelock-event';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import EventsTableItem from './EventsTableItem';
-import { Grid, Typography, List, makeStyles } from '@material-ui/core';
 import { Pagination } from './Pagination';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,13 +43,13 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
 	const classes = useStyles();
 	const [eventListShow, setEventListShow] = useState<TimelockEvent[]>([]);
 	const [page, setPage] = useState<number>(1);
-	let filteredEventList: TimelockEvent[] = useMemo(() => {
+	const filteredEventList: TimelockEvent[] = useMemo(() => {
 		const applyFilter = (eventItem: TimelockEvent) => {
 			return filters.includes(eventItem.status);
 		};
-		let eventList: TimelockEvent[] = [];
+		const eventList: TimelockEvent[] = [];
 		if (events) {
-			for (let key of events.keys()) {
+			for (const key of events.keys()) {
 				let eventItem = {} as TimelockEvent;
 				eventItem = events.get(key) || eventItem;
 				eventList.push(eventItem);
@@ -71,7 +72,7 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
 			} else if (updatePage < 1) {
 				updatePage = totalPages;
 			}
-			let currentEventList: TimelockEvent[] = filteredEventList.slice(
+			const currentEventList: TimelockEvent[] = filteredEventList.slice(
 				(updatePage - 1) * rowsPerPage,
 				updatePage * rowsPerPage,
 			);

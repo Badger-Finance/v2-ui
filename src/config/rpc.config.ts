@@ -1,4 +1,5 @@
 import { Network } from '@badger-dao/sdk';
+
 import { Provider } from './provider.config';
 
 const rpc: Record<string, string> = {

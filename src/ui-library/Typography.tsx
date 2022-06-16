@@ -1,11 +1,11 @@
-import React from 'react';
-import clsx from 'clsx';
 import {
+	makeStyles,
 	Typography as MuiTypography,
 	TypographyProps as MuiTypographyProps,
-	makeStyles,
 	TypographyVariant as MuiTypographyVariant,
 } from '@material-ui/core';
+import clsx from 'clsx';
+import React from 'react';
 
 const useStyles = makeStyles({
 	helperText: {
@@ -26,6 +26,8 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'variant'> {
  * @see https://github.com/mui/material-ui/issues/22257#issuecomment-776300833
  */
 export const Typography = ({ variant, className, ...props }: TypographyProps): JSX.Element => {
+	// idk matieral ui is stupid
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	const classes = useStyles() as Record<string, {}>;
 	const isCustom = variant ? Object.keys(classes).indexOf(variant) > -1 : false;
 	const customClassName = variant ? classes[variant] : undefined;

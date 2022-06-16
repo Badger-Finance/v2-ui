@@ -1,14 +1,15 @@
 import { Button } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
+import clsx from 'clsx';
 import { Loader } from 'components/Loader';
-import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
+import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
-import clsx from 'clsx';
-import CurrencyDisplay from '../common/CurrencyDisplay';
+
 import { ClaimMap } from '../../mobx/model/rewards/claim-map';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({

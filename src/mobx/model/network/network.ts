@@ -1,17 +1,18 @@
+// TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
+import { Network as ChainNetwork, TokenConfiguration, VaultState } from '@badger-dao/sdk';
 import { TransactionData } from 'bnc-notify';
 import { Currency } from 'config/enums/currency.enum';
 import rpc from 'config/rpc.config';
 import { getStrategies } from 'config/system/strategies';
+import { ContractCallContext } from 'ethereum-multicall';
 import Web3 from 'web3';
 import { createBalancesRequest } from 'web3/config/config-utils';
-import { VaultMap } from '../vaults/vault-map';
+
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
 import { NotifyLink } from '../system-config/notifyLink';
 import { BadgerVault } from '../vaults/badger-vault';
-// TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
-import { Network as ChainNetwork, VaultState, TokenConfiguration } from '@badger-dao/sdk';
-import { ContractCallContext } from 'ethereum-multicall';
+import { VaultMap } from '../vaults/vault-map';
 
 export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};

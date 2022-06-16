@@ -5,6 +5,20 @@
 		"project": "tsconfig.json",
 		"sourceType": "module"
 	},
-	"extends": ["react-app", "react-app/jest", "plugin:prettier/recommended"],
-	"ignorePatterns": [".eslintrc"]
+	"plugins": ["@typescript-eslint/eslint-plugin", "simple-import-sort", "import"],
+	"extends": ["react-app", "react-app/jest", "plugin:prettier/recommended", "plugin:@typescript-eslint/recommended"],
+	"ignorePatterns": [".eslintrc", "generated", "contracts"],
+	"env": {
+		"es6": true,
+		"jest": true,
+		"browser": true
+	},
+	"rules": {
+		"simple-import-sort/imports": "error",
+		"simple-import-sort/exports": "error",
+		"import/first": "error",
+		"import/newline-after-import": "error",
+		"import/no-duplicates": "error",
+		"@typescript-eslint/explicit-module-boundary-types": "off"
+	}
 }

@@ -5,6 +5,7 @@ import { Fantom } from 'mobx/model/network/ftm.network';
 import { Local } from 'mobx/model/network/local.network';
 import { Polygon } from 'mobx/model/network/matic.network';
 import { Network } from 'mobx/model/network/network';
+
 import { DEBUG } from './environment';
 
 export const supportedNetworks: Network[] = [

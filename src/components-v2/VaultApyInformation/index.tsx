@@ -1,4 +1,3 @@
-import React, { MouseEvent, useContext } from 'react';
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import {
 	Button,
@@ -12,10 +11,12 @@ import {
 	Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { numberWithCommas } from '../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
+import React, { MouseEvent, useContext } from 'react';
+
 import routes from '../../config/routes';
+import { StoreContext } from '../../mobx/store-context';
+import { numberWithCommas } from '../../mobx/utils/helpers';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
 

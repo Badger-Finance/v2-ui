@@ -1,14 +1,16 @@
+import { Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
+import { Currency } from 'config/enums/currency.enum';
+import { FLAGS } from 'config/environment';
 import { toVaultConfig } from 'web3/config/config-utils';
+import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
+import { ProtocolTokens } from 'web3/interface/protocol-token';
+
+import deploy from '../../../config/deployments/mainnet.json';
+import { AdvisoryType } from '../vaults/advisory-type';
 import { BadgerVault } from '../vaults/badger-vault';
 import { Network as NetworkModel } from './network';
-import deploy from '../../../config/deployments/mainnet.json';
-import { toRecord } from 'web3/config/token-config';
-import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { Currency } from 'config/enums/currency.enum';
-import { AdvisoryType } from '../vaults/advisory-type';
-import { Network } from '@badger-dao/sdk';
 
 export class Ethereum extends NetworkModel {
 	constructor() {

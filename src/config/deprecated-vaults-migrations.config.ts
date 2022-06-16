@@ -1,5 +1,6 @@
-import { ETH_DEPLOY } from '../mobx/model/network/eth.network';
 import { Network } from '@badger-dao/sdk';
+
+import { ETH_DEPLOY } from '../mobx/model/network/eth.network';
 
 type Config = {
 	[k in Network]?: Record<string, string>;

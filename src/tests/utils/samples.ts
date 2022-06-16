@@ -1,18 +1,19 @@
-import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import BigNumber from 'bignumber.js';
 import {
 	BouncerType,
 	Protocol,
-	VaultDTO,
 	VaultBehavior,
 	VaultData,
+	VaultDTO,
 	VaultState,
 	VaultType,
 	VaultVersion,
 } from '@badger-dao/sdk';
-import { TEST_ADDRESS } from './snapshots';
+import BigNumber from 'bignumber.js';
+
 import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
+import { TEST_ADDRESS } from './snapshots';
 
 export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
 	{

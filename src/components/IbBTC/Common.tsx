@@ -1,6 +1,6 @@
-import { styled } from '@material-ui/core/styles';
 import { Grid, InputBase, Typography } from '@material-ui/core';
 import red from '@material-ui/core/colors/red';
+import { styled } from '@material-ui/core/styles';
 
 export const SummaryGrid = styled(Grid)({
 	background: 'rgba(20, 20, 20, 0.5)',
