@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { FormControlLabel, Switch } from '@material-ui/core';
 import { ComponentMeta } from '@storybook/react';
-import { Switch, FormControlLabel } from '@material-ui/core';
+import React, { useState } from 'react';
 
 export default {
 	title: 'Switch Button With Label',

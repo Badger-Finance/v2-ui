@@ -1,7 +1,8 @@
+import { Network } from '@badger-dao/sdk';
+import { DEBUG } from 'config/environment';
+
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { VaultChartFetchParams, VaultSnapshot, VaultSnapshotGranularity } from '../model/vaults/vault-snapshot';
-import { DEBUG } from 'config/environment';
-import { Network } from '@badger-dao/sdk';
 
 export const getApi = (): string => {
 	if (DEBUG) {

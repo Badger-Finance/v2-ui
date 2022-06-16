@@ -1,14 +1,14 @@
-import React from 'react';
 import { Grid, Link, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 
-import { StyledDivider } from '../styled';
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
 import { StoreContext } from '../../../mobx/store-context';
+import { StyledDivider } from '../styled';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 const useStyles = makeStyles((theme) => ({
 	rewardsFrequency: {

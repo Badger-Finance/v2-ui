@@ -1,6 +1,7 @@
-import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { SnackbarProvider as NotistackProvider } from 'notistack';
+import React from 'react';
+
 import NotificationSnackbar from '../../components-library/NotificationSnackbar';
 
 export const SnackbarProvider: React.FC = observer((props) => {

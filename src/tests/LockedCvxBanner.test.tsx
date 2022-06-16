@@ -1,12 +1,13 @@
-import React from 'react';
-import store from '../mobx/RootStore';
-import { customRender, fireEvent, screen } from './Utils';
-import { StoreProvider } from '../mobx/store-context';
-import LockeDelegationBanner from '../../src/components-v2/locked-cvx-bribes/Banner';
-import { checkSnapshot } from './utils/snapshots';
-import { DelegationState } from '../mobx/model/vaults/locked-cvx-delegation';
 import BigNumber from 'bignumber.js';
+import React from 'react';
+
+import LockeDelegationBanner from '../../src/components-v2/locked-cvx-bribes/Banner';
+import { DelegationState } from '../mobx/model/vaults/locked-cvx-delegation';
+import store from '../mobx/RootStore';
+import { StoreProvider } from '../mobx/store-context';
 import LockedCvxDelegationStore from '../mobx/stores/lockedCvxDelegationStore';
+import { customRender, fireEvent, screen } from './Utils';
+import { checkSnapshot } from './utils/snapshots';
 
 describe('Locked CVX Delegation Banner', () => {
 	beforeEach(() => {

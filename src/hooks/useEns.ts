@@ -13,8 +13,8 @@ const useENS = (address?: string) => {
 		const resolveENS = async () => {
 			if (provider && address && ethers.utils.isAddress(address)) {
 				try {
-					let ensName = await provider.lookupAddress(address);
-					let avatar = ensName ? await provider.getAvatar(ensName) : null;
+					const ensName = await provider.lookupAddress(address);
+					const avatar = ensName ? await provider.getAvatar(ensName) : null;
 					setENSName(ensName);
 					setENSAvatar(avatar);
 				} catch (e) {

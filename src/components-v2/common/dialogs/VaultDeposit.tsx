@@ -1,23 +1,24 @@
-import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from 'mobx/store-context';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Button, Dialog, DialogContent, Grid, Typography } from '@material-ui/core';
-import { BadgerVault } from 'mobx/model/vaults/badger-vault';
-import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { useNumericInput } from 'utils/useNumericInput';
-import { VaultDialogTitle } from './VaultDialogTitle';
-import { VaultAvailableDeposit } from './VaultAvailableDeposit';
-import { PercentageSelector } from '../PercentageSelector';
-import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } from './styled';
 import { makeStyles } from '@material-ui/core/styles';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
+import { BadgerVault } from 'mobx/model/vaults/badger-vault';
+import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useState } from 'react';
+import { useNumericInput } from 'utils/useNumericInput';
+
 import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { NewVaultWarning } from '../../vault-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
+import { PercentageSelector } from '../PercentageSelector';
 import { VaultFees } from '../VaultFees';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } from './styled';
 import VaultAdvisory from './VaultAdvisory';
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
-import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
+import { VaultAvailableDeposit } from './VaultAvailableDeposit';
+import { VaultDialogTitle } from './VaultDialogTitle';
 
 const useStyles = makeStyles((theme) => ({
 	content: {

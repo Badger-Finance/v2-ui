@@ -1,8 +1,3 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { StoreContext } from '../../mobx/store-context';
-import mainnetDeploy from '../../config/deployments/mainnet.json';
 import {
 	Box,
 	Button,
@@ -20,21 +15,27 @@ import {
 	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { ReportProblem } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
-import BalanceInput from './BalanceInput';
 import BigNumber from 'bignumber.js';
-import IbbtcVaultZapAbi from '../../config/system/abis/IbbtcVaultZap.json';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AbiItem } from 'web3-utils';
+
+import { Loader } from '../../components/Loader';
+import mainnetDeploy from '../../config/deployments/mainnet.json';
+import IbbtcVaultZapAbi from '../../config/system/abis/IbbtcVaultZap.json';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { StoreContext } from '../../mobx/store-context';
 import { toHex } from '../../mobx/utils/helpers';
 import { sendContractMethod } from '../../mobx/utils/web3';
-import { VaultModalProps } from '../common/dialogs/VaultDeposit';
-import { Loader } from '../../components/Loader';
-import SlippageMessage from './SlippageMessage';
-import { ReportProblem } from '@material-ui/icons';
 import { BalanceNamespace } from '../../web3/config/namespaces';
-import clsx from 'clsx';
+import { VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { StrategyFees } from '../common/StrategyFees';
 import VaultLogo from '../landing/VaultLogo';
+import BalanceInput from './BalanceInput';
+import SlippageMessage from './SlippageMessage';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

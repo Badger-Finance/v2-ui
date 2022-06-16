@@ -1,7 +1,8 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { getColorFromComparison } from './utils';
+import React from 'react';
+
 import { percentageBetweenRange, roundWithPrecision } from '../../utils/componentHelpers';
+import { getColorFromComparison } from './utils';
 
 const useStyles = makeStyles(() => ({
 	rankBar: {

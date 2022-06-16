@@ -1,4 +1,4 @@
-import { VaultDTO, VaultBehavior } from '@badger-dao/sdk';
+import { VaultBehavior, VaultDTO } from '@badger-dao/sdk';
 import React from 'react';
 
 interface Props {

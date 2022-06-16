@@ -1,4 +1,5 @@
 import { BouncerType, Protocol, Vault, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
+
 import { getVaultsSlugCache } from '../../mobx/utils/helpers';
 
 jest.doMock('slugify', () => ({

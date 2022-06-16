@@ -1,9 +1,10 @@
-import React from 'react';
-import { RankProgressBar } from './RankProgressBar';
-import { RankConnector } from './RankConnector';
-import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+
+import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { getNextBoostRank } from '../../utils/boost-ranks';
+import { RankConnector } from './RankConnector';
+import { RankProgressBar } from './RankProgressBar';
 
 const useStyles = makeStyles({
 	progressContainer: {

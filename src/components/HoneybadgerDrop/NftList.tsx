@@ -1,11 +1,12 @@
-import React from 'react';
-import { Grid, makeStyles, Typography, Fade, useMediaQuery, useTheme } from '@material-ui/core';
-import { bDiggToCurrency } from 'mobx/utils/helpers';
-import NftStats from './NftStats';
+import { Fade, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { StoreContext } from 'mobx/store-context';
+import { bDiggToCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+
 import { NFT } from '../../mobx/model/boost/NFT';
+import NftStats from './NftStats';
 
 const useStyles = makeStyles((theme) => ({
 	center: {

@@ -1,13 +1,14 @@
-import { action, extendObservable } from 'mobx';
 import BigNumber from 'bignumber.js';
-import { RootStore } from '../RootStore';
-import { AbiItem } from 'web3-utils';
 import { ERC20, NETWORK_IDS } from 'config/constants';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
+import { action, extendObservable } from 'mobx';
 import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
+import { AbiItem } from 'web3-utils';
+
 import { NFT } from '../model/boost/NFT';
+import { RootStore } from '../RootStore';
 
 const nftAssetsByTokenId: Record<string, Pick<NFT, 'name' | 'image' | 'redirectUrl' | 'totalSupply'>> = {
 	'205': {

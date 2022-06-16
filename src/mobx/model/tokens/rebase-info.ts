@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+
 import { DroptInfo } from './dropt-info';
 
 export interface RebaseInfo {

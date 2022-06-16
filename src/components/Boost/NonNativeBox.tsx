@@ -1,11 +1,11 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
 import { Grid, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 
-import { HoldingAssetInput } from './HoldingAssetInput';
 import { StoreContext } from '../../mobx/store-context';
+import { HoldingAssetInput } from './HoldingAssetInput';
 import { useAssetInputStyles } from './utils';
 
 const useStyles = makeStyles((theme) => ({

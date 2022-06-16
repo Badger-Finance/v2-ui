@@ -1,14 +1,15 @@
-import React from 'react';
 import '@testing-library/jest-dom';
 
-import { customRender, screen } from '../../Utils';
-import { IbbtcRoi } from '../../../components/IbBTC/IbbtcRoi';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import React from 'react';
+
+import { IbbtcRoi } from '../../../components/IbBTC/IbbtcRoi';
 import { darkTheme } from '../../../config/ui/dark';
-import { StoreProvider } from '../../../mobx/store-context';
 import store from '../../../mobx/RootStore';
-import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../../utils/samples';
+import { StoreProvider } from '../../../mobx/store-context';
 import IbBTCStore from '../../../mobx/stores/ibBTCStore';
+import { customRender, screen } from '../../Utils';
+import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../../utils/samples';
 
 it('displays N/A state', () => {
 	jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);

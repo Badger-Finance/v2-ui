@@ -1,7 +1,7 @@
-import React, { ChangeEvent } from 'react';
 import { Button, TextField, TextFieldProps } from '@material-ui/core';
-import NumberFormat from 'react-number-format';
 import { makeStyles } from '@material-ui/core/styles';
+import React, { ChangeEvent } from 'react';
+import NumberFormat from 'react-number-format';
 
 const useInputStyles = makeStyles((theme) => ({
 	input: {

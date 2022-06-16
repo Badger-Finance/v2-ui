@@ -1,21 +1,23 @@
+import '@testing-library/jest-dom';
+
+import BigNumber from 'bignumber.js';
+
 import {
-	keyBy,
-	defaultsDeep,
-	forIn,
 	compact,
+	defaults,
+	defaultsDeep,
 	flatten,
+	forIn,
+	groupBy,
+	isEqual,
+	isString,
+	keyBy,
 	map,
 	mapValues,
 	values,
 	valuesIn,
-	groupBy,
-	defaults,
 	zipObject,
-	isString,
-	isEqual,
 } from '../../utils/lodashToNative';
-import '@testing-library/jest-dom';
-import BigNumber from 'bignumber.js';
 
 describe('keyBy', () => {
 	const testArray = [

@@ -1,8 +1,9 @@
+import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
-import { TimelockEvent } from '../model/governance-timelock/timelock-event';
+
 import GovernanceTimelockAbi from '../../config/system/abis/GovernanceTimelock.json';
-import { ethers } from 'ethers';
+import { TimelockEvent } from '../model/governance-timelock/timelock-event';
 
 // Defined for now, will be used when signature will be shown in UI
 const getParameterTypes = (signature: string) => {
@@ -30,21 +31,21 @@ export class GovernancePortalStore {
 			provider.getSigner(0),
 		);
 
-		let proposedFilter = GovernanceContract.filters.CallScheduled();
+		const proposedFilter = GovernanceContract.filters.CallScheduled();
 		const proposedEventData = await GovernanceContract.queryFilter(proposedFilter, 0, 'latest');
-		let vetoedFilter = GovernanceContract.filters.CallDisputed();
+		const vetoedFilter = GovernanceContract.filters.CallDisputed();
 		const vetoedEventData = await GovernanceContract.queryFilter(vetoedFilter, 0, 'latest');
-		let executedFilter = GovernanceContract.filters.CallExecuted();
+		const executedFilter = GovernanceContract.filters.CallExecuted();
 		const executedEventData = await GovernanceContract.queryFilter(executedFilter, 0, 'latest');
-		let vetoResolvedFilter = GovernanceContract.filters.CallDisputedResolved();
+		const vetoResolvedFilter = GovernanceContract.filters.CallDisputedResolved();
 		const vetoResolvedEventData = await GovernanceContract.queryFilter(vetoResolvedFilter, 0, 'latest');
 
 		const eventData = [...proposedEventData, ...vetoedEventData, ...executedEventData, ...vetoResolvedEventData];
 		eventData.sort((a: any, b: any) => b.blockNumber + b.id - a.blockNumber + a.id);
 
-		let timelockEventMap = new Map<string, TimelockEvent>();
+		const timelockEventMap = new Map<string, TimelockEvent>();
 
-		for (let eventitem of eventData) {
+		for (const eventitem of eventData) {
 			if (eventitem.args) {
 				const id = eventitem.args.id;
 				const blockInfo = await provider.getBlock(eventitem.blockNumber);

@@ -1,7 +1,7 @@
-import React from 'react';
 import { Button, ButtonGroup, ButtonGroupProps, ButtonProps } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import React from 'react';
 
 interface Props extends Omit<ButtonGroupProps, 'onChange'> {
 	selectedOption?: number;

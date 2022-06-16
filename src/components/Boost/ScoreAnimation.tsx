@@ -1,9 +1,10 @@
-import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { percentageBetweenRange } from '../../utils/componentHelpers';
+import React from 'react';
+
 import { MAX_BOOST_RANK, MIN_BOOST_RANK } from '../../config/system/boost-ranks';
 import { getHighestRankFromStakeRatio } from '../../utils/boost-ranks';
+import { percentageBetweenRange } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

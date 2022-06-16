@@ -1,17 +1,18 @@
 import { Button, Grid, IconButton, makeStyles, Paper, Tooltip, Typography } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react';
-import { StoreContext } from '../../mobx/store-context';
-import { observer } from 'mobx-react-lite';
-import { Loader } from '../Loader';
-import Metric from './Metric';
-import { shortenNumbers } from '../../mobx/utils/diggHelpers';
-import { inCurrency } from 'mobx/utils/helpers';
-import { InfoItem } from './InfoItem';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import BigNumber from 'bignumber.js';
 import NoWallet from 'components/Common/NoWallet';
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import DroptModal from './DroptModal';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { inCurrency } from 'mobx/utils/helpers';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
+import { shortenNumbers } from '../../mobx/utils/diggHelpers';
+import { Loader } from '../Loader';
+import DroptModal from './DroptModal';
+import { InfoItem } from './InfoItem';
+import Metric from './Metric';
 
 const useStyles = makeStyles((theme) => ({
 	darkPaper: {

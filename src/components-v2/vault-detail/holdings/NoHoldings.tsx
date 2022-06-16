@@ -1,12 +1,13 @@
-import React from 'react';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { VaultActionButton } from '../../common/VaultActionButtons';
-import { BadgerVault } from '../../../mobx/model/vaults/badger-vault';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+
+import { BadgerVault } from '../../../mobx/model/vaults/badger-vault';
 import { StoreContext } from '../../../mobx/store-context';
+import { VaultActionButton } from '../../common/VaultActionButtons';
 import DepositInfo from './DepositInfo';
-import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

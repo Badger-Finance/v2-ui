@@ -1,5 +1,5 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 
 const useRankConnectorStyles = (signatureColor: string, isMain: boolean) => {
 	return makeStyles(() => ({

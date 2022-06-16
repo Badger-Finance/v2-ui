@@ -1,11 +1,12 @@
-import { Network, GasPrices } from '@badger-dao/sdk';
-import { GasPricesSummary } from '../model/network/gas-prices-summary';
-import { supportedNetworks } from '../../config/networks.config';
-import { computed, extendObservable } from 'mobx';
-import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
-import { Network as BadgerNetwork } from '../../mobx/model/network/network';
-import { RootStore } from 'mobx/RootStore';
+import { GasPrices, Network } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
+import { computed, extendObservable } from 'mobx';
+import { RootStore } from 'mobx/RootStore';
+
+import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
+import { supportedNetworks } from '../../config/networks.config';
+import { Network as BadgerNetwork } from '../../mobx/model/network/network';
+import { GasPricesSummary } from '../model/network/gas-prices-summary';
 
 class GasPricesStore {
 	private gasNetworks: BadgerNetwork[];

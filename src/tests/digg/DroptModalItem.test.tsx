@@ -1,7 +1,8 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import DroptModalItem from 'components/Digg/DroptModalItem';
+
 import BigNumber from 'bignumber.js';
+import DroptModalItem from 'components/Digg/DroptModalItem';
+import React from 'react';
 import { customRender } from 'tests/Utils';
 
 describe('Dropt Modal Item', () => {

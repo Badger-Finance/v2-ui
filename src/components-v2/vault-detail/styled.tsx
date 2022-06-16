@@ -1,5 +1,5 @@
-import { styled } from '@material-ui/core/styles';
 import { Card, Divider } from '@material-ui/core';
+import { styled } from '@material-ui/core/styles';
 
 export const StyledDivider = styled(Divider)(({ theme }) => ({
 	width: '100%',

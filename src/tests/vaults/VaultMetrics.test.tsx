@@ -1,10 +1,11 @@
-import React from 'react';
-import { checkSnapshot } from '../utils/snapshots';
-import VaultMetrics from '../../components-v2/vault-detail/specs/VaultMetrics';
-import { SAMPLE_VAULT } from '../utils/samples';
-import LockedDepositsStore from '../../mobx/stores/LockedDepositsStore';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
+import React from 'react';
+
+import VaultMetrics from '../../components-v2/vault-detail/specs/VaultMetrics';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import LockedDepositsStore from '../../mobx/stores/LockedDepositsStore';
+import { SAMPLE_VAULT } from '../utils/samples';
+import { checkSnapshot } from '../utils/snapshots';
 
 describe('VaultMetrics', () => {
 	it('renders correctly', () => {

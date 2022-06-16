@@ -1,8 +1,9 @@
-import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
-import { VaultCap } from 'mobx/model/vaults/vault-cap';
-import { MAX } from '../../../config/constants';
 import BigNumber from 'bignumber.js';
+import { VaultCap } from 'mobx/model/vaults/vault-cap';
+import React from 'react';
+
+import { MAX } from '../../../config/constants';
 
 const maxCapAmount = new BigNumber(MAX).toFixed();
 

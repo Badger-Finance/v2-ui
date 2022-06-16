@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
 import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({

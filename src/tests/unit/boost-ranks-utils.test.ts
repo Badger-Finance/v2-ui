@@ -1,14 +1,15 @@
-import {
-	isValidStakeRatio,
-	clampStakeRatio,
-	calculateNativeToMatchRank,
-	calculateUserBoost,
-	getNextBoostRank,
-	getHighestRankFromStakeRatio,
-} from '../../utils/boost-ranks';
+import { BadgerType } from '@badger-dao/sdk';
+
 import { BADGER_TYPE_BOOSTS, MAX_BOOST_RANK } from '../../config/system/boost-ranks';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
-import { BadgerType } from '@badger-dao/sdk';
+import {
+	calculateNativeToMatchRank,
+	calculateUserBoost,
+	clampStakeRatio,
+	getHighestRankFromStakeRatio,
+	getNextBoostRank,
+	isValidStakeRatio,
+} from '../../utils/boost-ranks';
 
 describe('Boost Ranks Utils', () => {
 	describe('calculateNativeToMatchRank', () => {

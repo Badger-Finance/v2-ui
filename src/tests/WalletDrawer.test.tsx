@@ -1,15 +1,17 @@
-import React from 'react';
 import '@testing-library/jest-dom';
+
+import BigNumber from 'bignumber.js';
+import * as copy from 'copy-to-clipboard';
+import React from 'react';
+
+import WalletDrawer from '../components-v2/common/WalletDrawer';
+import deploy from '../config/deployments/mainnet.json';
+import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import store from '../mobx/RootStore';
 import { StoreProvider } from '../mobx/store-context';
-import WalletDrawer from '../components-v2/common/WalletDrawer';
-import { customRender, fireEvent, screen } from './Utils';
-import { TokenBalance } from '../mobx/model/tokens/token-balance';
-import * as copy from 'copy-to-clipboard';
 import UserStore from '../mobx/stores/UserStore';
-import deploy from '../config/deployments/mainnet.json';
-import BigNumber from 'bignumber.js';
 import { WalletStore } from '../mobx/stores/WalletStore';
+import { customRender, fireEvent, screen } from './Utils';
 
 jest.mock('copy-to-clipboard', () => {
 	return jest.fn().mockReturnValue(true);

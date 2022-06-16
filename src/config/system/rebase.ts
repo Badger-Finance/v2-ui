@@ -1,13 +1,14 @@
-import UFragments from './abis/UFragments.json';
-import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
+import { Network } from '@badger-dao/sdk';
+import { ERC20_ABI } from 'config/constants';
+import { AbiItem } from 'web3-utils';
+
+import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
+import { digg_system } from '../deployments/mainnet.json';
+import DroptRedemption from './abis/DroptRedemption.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
-import DroptRedemption from './abis/DroptRedemption.json';
-import { digg_system } from '../deployments/mainnet.json';
-import { AbiItem } from 'web3-utils';
-import { ERC20_ABI } from 'config/constants';
-import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
-import { Network } from '@badger-dao/sdk';
+import UFragments from './abis/UFragments.json';
+import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 
 const erc20ReadCalls = [
 	{ reference: 'name', methodName: 'name', methodParameters: [] },

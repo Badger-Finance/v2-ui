@@ -1,12 +1,14 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { VaultDeposit } from '../components-v2/common/dialogs/VaultDeposit';
-import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from './utils/samples';
-import { customRender, screen } from './Utils';
-import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/RootStore';
+
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+
+import { VaultDeposit } from '../components-v2/common/dialogs/VaultDeposit';
+import store from '../mobx/RootStore';
+import { StoreProvider } from '../mobx/store-context';
 import VaultStore from '../mobx/stores/VaultStore';
+import { customRender, screen } from './Utils';
+import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from './utils/samples';
 
 describe('Vault Deposit', () => {
 	beforeEach(() => {

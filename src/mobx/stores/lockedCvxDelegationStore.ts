@@ -1,19 +1,20 @@
-import { RootStore } from '../RootStore';
-import mainnet from '../../config/deployments/mainnet.json';
-import Web3 from 'web3';
-import CvxDelegatorAbi from '../../config/system/abis/CvxDelegator.json';
-import CvxLockerAbi from '../../config/system/abis/CvxLocker.json';
-import { AbiItem } from 'web3-utils';
-import { sendContractMethod } from '../utils/web3';
-import { DelegationState } from '../model/vaults/locked-cvx-delegation';
-import { extendObservable, observe } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { NETWORK_IDS } from 'config/constants';
-import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json';
-import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
-import { fetchData } from '../../utils/fetchData';
-import { FLAGS } from '../../config/environment';
 import { ethers } from 'ethers';
+import { extendObservable, observe } from 'mobx';
+import Web3 from 'web3';
+import { AbiItem } from 'web3-utils';
+
+import mainnet from '../../config/deployments/mainnet.json';
+import { FLAGS } from '../../config/environment';
+import CvxDelegatorAbi from '../../config/system/abis/CvxDelegator.json';
+import CvxLockerAbi from '../../config/system/abis/CvxLocker.json';
+import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json';
+import { fetchData } from '../../utils/fetchData';
+import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
+import { DelegationState } from '../model/vaults/locked-cvx-delegation';
+import { RootStore } from '../RootStore';
+import { sendContractMethod } from '../utils/web3';
 
 // this is mainnet only
 const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';

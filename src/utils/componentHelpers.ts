@@ -1,9 +1,10 @@
-import mainnetDeploy from '../config/deployments/mainnet.json';
-import { Token, VaultDTO, VaultData, VaultState } from '@badger-dao/sdk';
-import { Network } from '../mobx/model/network/network';
+import { Token, VaultData, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
-import UserStore from '../mobx/stores/UserStore';
+
+import mainnetDeploy from '../config/deployments/mainnet.json';
 import { MAX_BOOST_RANK } from '../config/system/boost-ranks';
+import { Network } from '../mobx/model/network/network';
+import UserStore from '../mobx/stores/UserStore';
 import { calculateUserBoost } from './boost-ranks';
 
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);

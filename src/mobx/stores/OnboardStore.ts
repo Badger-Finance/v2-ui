@@ -1,7 +1,7 @@
-import { RootStore } from 'mobx/RootStore';
+import { NetworkConfig } from '@badger-dao/sdk';
 import Notify, { API as NotifyAPI, InitOptions } from 'bnc-notify';
 import { BLOCKNATIVE_API_KEY } from 'config/constants';
-import { NetworkConfig } from '@badger-dao/sdk';
+import { RootStore } from 'mobx/RootStore';
 
 export class OnboardStore {
 	public notify: NotifyAPI;

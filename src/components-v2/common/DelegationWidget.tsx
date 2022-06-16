@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
-import clsx from 'clsx';
 import { Button, Dialog, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import CvxDelegationBanner from '../locked-cvx-bribes/Banner';
-import { StoreContext } from '../../mobx/store-context';
 import CloseIcon from '@material-ui/icons/Close';
+import clsx from 'clsx';
+import React, { useContext, useState } from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
+import CvxDelegationBanner from '../locked-cvx-bribes/Banner';
 
 const useStyles = makeStyles(() => ({
 	delegateButton: {

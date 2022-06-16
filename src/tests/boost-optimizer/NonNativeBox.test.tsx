@@ -1,10 +1,12 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { customRender, screen } from '../Utils';
-import { NonNativeBox } from '../../components/Boost/NonNativeBox';
+
 import userEvent from '@testing-library/user-event';
-import { StoreProvider } from '../../mobx/store-context';
+import React from 'react';
+
+import { NonNativeBox } from '../../components/Boost/NonNativeBox';
 import store from '../../mobx/RootStore';
+import { StoreProvider } from '../../mobx/store-context';
+import { customRender, screen } from '../Utils';
 
 describe('Non Native Box', () => {
 	it('triggers increase and decrease actions', () => {

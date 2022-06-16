@@ -1,11 +1,12 @@
+import { Network } from '@badger-dao/sdk';
 import { Grid, makeStyles } from '@material-ui/core';
+import { StoreContext } from 'mobx/store-context';
 import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
+import { LayoutContainer } from '../../components-v2/common/Containers';
 import DashboardCard from './DashboardCard';
 import Info from './Info';
-import React, { useContext } from 'react';
-import { StoreContext } from 'mobx/store-context';
-import { LayoutContainer } from '../../components-v2/common/Containers';
-import { Network } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	diggContainer: {

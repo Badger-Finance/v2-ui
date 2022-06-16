@@ -1,12 +1,13 @@
-import React from 'react';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Grid, makeStyles } from '@material-ui/core';
-import SpecsCard from './specs/SpecsCard';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
 import { ChartsCard } from './charts/ChartsCard';
 import { Holdings } from './holdings/Holdings';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 import { NewVaultWarning } from './NewVaultWarning';
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import SpecsCard from './specs/SpecsCard';
 import { defaultVaultBalance } from './utils';
 
 const useStyles = makeStyles((theme) => ({

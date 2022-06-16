@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { ComponentMeta } from '@storybook/react';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { ComponentMeta } from '@storybook/react';
+import React, { useState } from 'react';
 
 export default {
 	title: 'Checkbox With Label',

@@ -1,11 +1,11 @@
-import { Button, ButtonGroup, Card, CardContent, Tabs, Tab, CardHeader } from '@material-ui/core';
+import { Button, ButtonGroup, Card, CardContent, CardHeader, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState, useEffect } from 'react';
-
-import AreaChart from './AreaChart';
-import { observer } from 'mobx-react-lite';
-import { fetchDiggChart } from '../../mobx/utils/helpers';
 import { Loader } from 'components/Loader';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react';
+
+import { fetchDiggChart } from '../../mobx/utils/helpers';
+import AreaChart from './AreaChart';
 
 const useStyles = makeStyles((theme) => ({
 	chartHeader: {

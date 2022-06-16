@@ -1,5 +1,5 @@
-import { RewardMerkleClaim } from './reward-merkle-claim';
 import { TokenBalance } from '../tokens/token-balance';
+import { RewardMerkleClaim } from './reward-merkle-claim';
 
 export interface BadgerTree {
 	cycle: string;

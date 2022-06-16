@@ -1,15 +1,16 @@
+import { Token } from '@badger-dao/sdk';
+import BigNumber from 'bignumber.js';
+import addresses from 'config/ibBTC/addresses.json';
+import RenVaultZapABI from 'config/system/abis/RenVaultZap.json';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import RenVaultZapABI from 'config/system/abis/RenVaultZap.json';
-import addresses from 'config/ibBTC/addresses.json';
-import { IbBTCMintZap } from './ibbtc-mint-zap';
+
+import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
+import vaultConfig from '../../../config/system/abis/Vault.json';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
-import BigNumber from 'bignumber.js';
-import vaultConfig from '../../../config/system/abis/Vault.json';
-import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
 import { IbbtcDepositTokenPoolIds } from '../../utils/ibbtc';
-import { Token } from '@badger-dao/sdk';
+import { IbBTCMintZap } from './ibbtc-mint-zap';
 
 // TODO: Remove if ever actually unused
 // "RenVaultZap": {

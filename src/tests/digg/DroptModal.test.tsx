@@ -1,15 +1,17 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import DroptModal from 'components/Digg/DroptModal';
-import store from 'mobx/RootStore';
-import VaultStore from 'mobx/stores/VaultStore';
-import UserStore from 'mobx/stores/UserStore';
-import { digg_system } from 'config/deployments/mainnet.json';
-import { checkSnapshot } from 'tests/utils/snapshots';
+
 import BigNumber from 'bignumber.js';
-import { customRender, fireEvent } from 'tests/Utils';
-import { StoreProvider } from 'mobx/store-context';
+import DroptModal from 'components/Digg/DroptModal';
+import { digg_system } from 'config/deployments/mainnet.json';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import store from 'mobx/RootStore';
+import { StoreProvider } from 'mobx/store-context';
+import UserStore from 'mobx/stores/UserStore';
+import VaultStore from 'mobx/stores/VaultStore';
+import React from 'react';
+import { customRender, fireEvent } from 'tests/Utils';
+import { checkSnapshot } from 'tests/utils/snapshots';
+
 import { screen } from '../Utils';
 
 const validStore = (store.rebase.rebase = {

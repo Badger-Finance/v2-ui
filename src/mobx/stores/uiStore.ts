@@ -1,8 +1,9 @@
-import { action, extendObservable } from 'mobx';
-import { RootStore } from '../RootStore';
-import { Currency } from 'config/enums/currency.enum';
 import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH, DEFAULT_CURRENCY } from 'config/constants';
+import { Currency } from 'config/enums/currency.enum';
+import { action, extendObservable } from 'mobx';
+
 import { SnackbarNotificationProps } from '../model/ui/snackbar-notification-props';
+import { RootStore } from '../RootStore';
 
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
 

@@ -1,5 +1,6 @@
 import { Token } from '@badger-dao/sdk';
 import React, { SyntheticEvent } from 'react';
+
 import { getTokenIconPath } from '../../utils/componentHelpers';
 
 interface Props extends React.HTMLAttributes<HTMLImageElement> {

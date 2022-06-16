@@ -1,13 +1,14 @@
-import React, { MouseEvent, useContext } from 'react';
-import { observer } from 'mobx-react-lite';
-import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import { VaultDTO } from '@badger-dao/sdk';
-import VaultItemApr from './VaultItemApr';
-import CurrencyDisplay from '../common/CurrencyDisplay';
-import { useVaultInformation } from '../../hooks/useVaultInformation';
+import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
+import React, { MouseEvent, useContext } from 'react';
+
 import routes from '../../config/routes';
+import { useVaultInformation } from '../../hooks/useVaultInformation';
 import { StoreContext } from '../../mobx/store-context';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 import VaultListItemTags from '../VaultListItemTags';
+import VaultItemApr from './VaultItemApr';
 import VaultLogo from './VaultLogo';
 
 const useStyles = makeStyles(() => ({

@@ -1,8 +1,9 @@
-import React from 'react';
-import { makeStyles, Tooltip } from '@material-ui/core';
-import { TokenDistribution } from './TokenDistribution';
-import HelpIcon from '@material-ui/icons/Help';
 import { VaultData } from '@badger-dao/sdk';
+import { makeStyles, Tooltip } from '@material-ui/core';
+import HelpIcon from '@material-ui/icons/Help';
+import React from 'react';
+
+import { TokenDistribution } from './TokenDistribution';
 
 const useStyles = makeStyles((theme) => ({
 	helpIcon: {

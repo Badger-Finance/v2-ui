@@ -1,9 +1,10 @@
-import React from 'react';
-import { checkSnapshot } from './utils/snapshots';
-import { VaultAvailableDeposit } from '../components-v2/common/dialogs/VaultAvailableDeposit';
-import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
+import React from 'react';
+
+import { VaultAvailableDeposit } from '../components-v2/common/dialogs/VaultAvailableDeposit';
 import { MAX } from '../config/constants';
+import { TokenBalance } from '../mobx/model/tokens/token-balance';
+import { checkSnapshot } from './utils/snapshots';
 
 describe('VaultAvailableDeposit', () => {
 	it('displays deposit limits', () => {

@@ -1,9 +1,11 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { checkSnapshot } from './utils/snapshots';
-import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
+
 import VaultAdvisory from 'components-v2/common/dialogs/VaultAdvisory';
+import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
+import React from 'react';
+
 import { SAMPLE_VAULT } from './utils/samples';
+import { checkSnapshot } from './utils/snapshots';
 
 describe('VaultAdvisory', () => {
 	describe('Shows the proper vault advisory if one exists, or no advisory', () => {

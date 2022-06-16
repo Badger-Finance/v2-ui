@@ -6,6 +6,7 @@ import { BigNumber } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { Network } from 'mobx/model/network/network';
 import { RootStore } from 'mobx/RootStore';
+
 import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
 
 export class NetworkStore {

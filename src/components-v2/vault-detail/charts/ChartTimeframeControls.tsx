@@ -1,5 +1,6 @@
-import React from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
+import React from 'react';
+
 import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
 
 interface Props {

@@ -1,12 +1,13 @@
-import { Backdrop, Button, Grid, Modal, Fade, Paper, Typography, makeStyles } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
-import React, { useState, useContext } from 'react';
-import DroptModalItem from './DroptModalItem';
-import { StoreContext } from 'mobx/store-context';
-import { formatTokens } from 'mobx/utils/helpers';
-import { redemptionToLongToken } from 'config/system/rebase';
+import { Backdrop, Button, Fade, Grid, makeStyles, Modal, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { DEBUG } from 'config/environment';
+import { redemptionToLongToken } from 'config/system/rebase';
+import { StoreContext } from 'mobx/store-context';
+import { formatTokens } from 'mobx/utils/helpers';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useState } from 'react';
+
+import DroptModalItem from './DroptModalItem';
 
 const useStyles = makeStyles((theme) => ({
 	droptPaper: {

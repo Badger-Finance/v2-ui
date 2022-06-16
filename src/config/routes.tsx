@@ -1,17 +1,18 @@
-import React from 'react';
+import { Currency, Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
+import Bridge from 'components/Bridge';
+import Governance from 'components/Governance';
+import { IbBTC } from 'components/IbBTC';
 import { QueryParams, Route } from 'mobx-router';
-import Landing from '../pages/Landing';
-import { RootStore } from '../mobx/RootStore';
+import React from 'react';
+
 import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
-import { IbBTC } from 'components/IbBTC';
-import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
-import Governance from 'components/Governance';
-import { Currency, Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
+import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
+import { RootStore } from '../mobx/RootStore';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
-import Bridge from 'components/Bridge';
+import Landing from '../pages/Landing';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({

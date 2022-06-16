@@ -1,18 +1,19 @@
-import { action, extendObservable } from 'mobx';
-import { RootStore } from '../RootStore';
-import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
-import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
-import DroptRedemption from '../../config/system/abis/DroptRedemption.json';
-import { AbiItem } from 'web3-utils';
-import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
-import { ProviderReport } from 'mobx/model/digg/provider-reports';
-import { getRebase } from 'config/system/rebase';
+import { GasSpeed } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
-import { groupBy } from 'utils/lodashToNative';
-import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
+import { getRebase } from 'config/system/rebase';
 import { Multicall } from 'ethereum-multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
-import { GasSpeed } from '@badger-dao/sdk';
+import { action, extendObservable } from 'mobx';
+import { ProviderReport } from 'mobx/model/digg/provider-reports';
+import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
+import { groupBy } from 'utils/lodashToNative';
+import { AbiItem } from 'web3-utils';
+
+import DroptRedemption from '../../config/system/abis/DroptRedemption.json';
+import { RootStore } from '../RootStore';
+import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
+import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
 
 class RebaseStore {
 	private store: RootStore;

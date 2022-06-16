@@ -1,11 +1,11 @@
-import React from 'react';
 import { Button, Fade, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import { bDiggToCurrency } from 'mobx/utils/helpers';
-import { StoreContext } from 'mobx/store-context';
-import { useConnectWallet } from 'mobx/utils/hooks';
 import { Skeleton } from '@material-ui/lab';
-import { observer } from 'mobx-react-lite';
 import { sett_system } from 'config/deployments/mainnet.json';
+import { StoreContext } from 'mobx/store-context';
+import { bDiggToCurrency } from 'mobx/utils/helpers';
+import { useConnectWallet } from 'mobx/utils/hooks';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	center: {

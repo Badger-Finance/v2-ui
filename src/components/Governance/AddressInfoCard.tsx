@@ -1,7 +1,7 @@
-import React from 'react';
-import { Typography, makeStyles, Link, Grid } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
+import { Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 
 export interface AddressInfoCardProps {
 	title: string;

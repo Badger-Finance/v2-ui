@@ -1,15 +1,16 @@
+import { VaultState } from '@badger-dao/sdk';
+import { SAMPLE_VAULT } from 'tests/utils/samples';
+
+import { Arbitrum } from '../../mobx/model/network/arbitrum.network';
+import { BinanceSmartChain } from '../../mobx/model/network/bsc.network';
+import { Ethereum } from '../../mobx/model/network/eth.network';
+import { Polygon } from '../../mobx/model/network/matic.network';
 import {
 	getFormattedNetworkName,
 	getUserVaultBoost,
 	restrictToRange,
 	roundWithPrecision,
 } from '../../utils/componentHelpers';
-import { Ethereum } from '../../mobx/model/network/eth.network';
-import { BinanceSmartChain } from '../../mobx/model/network/bsc.network';
-import { Arbitrum } from '../../mobx/model/network/arbitrum.network';
-import { Polygon } from '../../mobx/model/network/matic.network';
-import { SAMPLE_VAULT } from 'tests/utils/samples';
-import { VaultState } from '@badger-dao/sdk';
 
 describe('Component Helpers', () => {
 	describe('restrictToRange', () => {

@@ -1,7 +1,7 @@
-import React from 'react';
 import { Box, Button, CircularProgress, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {

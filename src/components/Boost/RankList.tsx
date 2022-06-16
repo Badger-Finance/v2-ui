@@ -1,7 +1,8 @@
 import React from 'react';
+
 import { BOOST_RANKS, MIN_BOOST_RANK } from '../../config/system/boost-ranks';
-import { RankItem } from './RankItem';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
+import { RankItem } from './RankItem';
 
 interface Props {
 	currentStakeRatio?: number;

@@ -1,10 +1,12 @@
-import React from 'react';
-import { cleanup, customRender, fireEvent, screen } from './Utils';
-import WalletWidget from '../components-v2/common/WalletWidget';
 import '@testing-library/jest-dom';
-import { StoreProvider } from '../mobx/store-context';
+
+import React from 'react';
+
+import WalletWidget from '../components-v2/common/WalletWidget';
 import store from '../mobx/RootStore';
+import { StoreProvider } from '../mobx/store-context';
 import { WalletStore } from '../mobx/stores/WalletStore';
+import { cleanup, customRender, fireEvent, screen } from './Utils';
 
 jest.unmock('web3modal');
 

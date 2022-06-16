@@ -1,6 +1,7 @@
-import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+
 import { VaultTokenBalance } from '../../../mobx/model/vaults/vault-token-balance';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import TokenLogo from '../../TokenLogo';

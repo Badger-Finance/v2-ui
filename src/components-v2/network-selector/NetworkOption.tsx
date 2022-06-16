@@ -1,17 +1,17 @@
-import React, { useContext, useRef, useState } from 'react';
-import { GasFees } from '@badger-dao/sdk';
-import MenuItemIcon from '../../ui-library/MenuItemIcon';
-import { getNetworkIconPath } from '../../utils/network-icon';
-import MenuItemText from '../../ui-library/MenuItemText';
-import { makeStyles } from '@material-ui/core/styles';
-import { Network } from '../../mobx/model/network/network';
+import { GasFees, getNetworkConfig } from '@badger-dao/sdk';
 import { Grid, IconButton, Popper, useMediaQuery, useTheme } from '@material-ui/core';
-import GasOptions from './GasOptions';
-import { observer } from 'mobx-react-lite';
-import { getNetworkConfig } from '@badger-dao/sdk';
-import { StoreContext } from '../../mobx/store-context';
-import MenuItem from 'ui-library/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useRef, useState } from 'react';
+import MenuItem from 'ui-library/MenuItem';
+
+import { Network } from '../../mobx/model/network/network';
+import { StoreContext } from '../../mobx/store-context';
+import MenuItemIcon from '../../ui-library/MenuItemIcon';
+import MenuItemText from '../../ui-library/MenuItemText';
+import { getNetworkIconPath } from '../../utils/network-icon';
+import GasOptions from './GasOptions';
 
 const useStyles = makeStyles((theme) => ({
 	networkListIcon: {

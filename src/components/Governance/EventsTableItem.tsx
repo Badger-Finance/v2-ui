@@ -1,8 +1,10 @@
-import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
-import { Grid, Typography, ListItem, makeStyles, Link } from '@material-ui/core';
+import { Grid, Link, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { ArrowUpward } from '@material-ui/icons';
 import clsx from 'clsx';
+
+import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
 import { Filters } from '../../mobx/model/governance-timelock/vote-filters';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		paddingLeft: theme.spacing(2),

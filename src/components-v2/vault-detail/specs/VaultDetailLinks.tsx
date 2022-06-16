@@ -1,11 +1,12 @@
-import React from 'react';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+
 import { StoreContext } from '../../../mobx/store-context';
 import { StyledDivider } from '../styled';
 import VaultDetailLink from './VaultDetailLink';
-import { VaultDTO } from '@badger-dao/sdk';
-import { ethers } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	showMoreContainer: {

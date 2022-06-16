@@ -1,5 +1,6 @@
-import { CallReturnContext } from 'ethereum-multicall';
 import { Network } from '@badger-dao/sdk';
+import { CallReturnContext } from 'ethereum-multicall';
+
 import { groupBy } from '../../utils/lodashToNative';
 
 // the reason why there are multiple returnValues is because the method can be called multiple times hence can have multiple results

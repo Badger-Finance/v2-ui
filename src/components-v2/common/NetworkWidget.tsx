@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
+import { getNetworkConfig, Network as ChainNetworkSymbol } from '@badger-dao/sdk';
+import { Button, List, ListItem, makeStyles, Paper, Popper, Typography } from '@material-ui/core';
 import { ArrowDropDown } from '@material-ui/icons';
-import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@material-ui/core';
-import { StoreContext } from 'mobx/store-context';
+import clsx from 'clsx';
 import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
-import { Network as ChainNetworkSymbol, getNetworkConfig } from '@badger-dao/sdk';
-import clsx from 'clsx';
+import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	network: {

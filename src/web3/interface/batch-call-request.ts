@@ -1,4 +1,5 @@
 import { AbiItem } from 'web3-utils';
+
 import { ReadMethod } from './read-method';
 
 export interface BatchCallRequest {

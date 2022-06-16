@@ -1,15 +1,16 @@
 import React from 'react';
 import { checkSnapshot } from 'tests/utils/snapshots';
+
+import { Holdings } from '../../components-v2/vault-detail/holdings/Holdings';
+import store from '../../mobx/RootStore';
+import UserStore from '../../mobx/stores/UserStore';
 import {
 	SAMPLE_BADGER_SETT,
+	SAMPLE_EXCHANGES_RATES,
+	SAMPLE_TOKEN_BALANCE,
 	SAMPLE_VAULT,
 	SAMPLE_VAULT_BALANCE,
-	SAMPLE_TOKEN_BALANCE,
-	SAMPLE_EXCHANGES_RATES,
 } from '../utils/samples';
-import { Holdings } from '../../components-v2/vault-detail/holdings/Holdings';
-import UserStore from '../../mobx/stores/UserStore';
-import store from '../../mobx/RootStore';
 
 describe('Holdings', () => {
 	beforeEach(() => {

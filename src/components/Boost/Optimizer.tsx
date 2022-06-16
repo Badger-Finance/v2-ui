@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { observer } from 'mobx-react-lite';
 import { Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { OptimizerBody } from './OptimizerBody';
-import { StoreContext } from '../../mobx/store-context';
-import { StakeInformation } from './StakeInformation';
-import OptimizerHeader from './OptimizerHeader';
-import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
+import { StoreContext } from '../../mobx/store-context';
+import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import { calculateNativeToMatchRank } from '../../utils/boost-ranks';
+import { OptimizerBody } from './OptimizerBody';
+import OptimizerHeader from './OptimizerHeader';
+import { StakeInformation } from './StakeInformation';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {

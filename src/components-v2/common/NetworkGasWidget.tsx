@@ -1,10 +1,11 @@
-import React, { useContext, useRef } from 'react';
-import { Button, Popper, ClickAwayListener } from '@material-ui/core';
+import { Button, ClickAwayListener, Popper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
+import React, { useContext, useRef } from 'react';
+
 import { StoreContext } from '../../mobx/store-context';
-import NetworkOptions from '../network-selector/NetworkOptions';
 import { getNetworkIconPath } from '../../utils/network-icon';
+import NetworkOptions from '../network-selector/NetworkOptions';
 
 const useStyles = makeStyles({
 	networkButton: {

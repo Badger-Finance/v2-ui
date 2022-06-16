@@ -1,7 +1,8 @@
-import React from 'react';
 import { Chip, makeStyles } from '@material-ui/core';
-import { BadgeProps, BadgeType } from './Badge.types';
 import clsx from 'clsx';
+import React from 'react';
+
+import { BadgeProps, BadgeType } from './Badge.types';
 
 const useStyles = makeStyles({
 	tag: {

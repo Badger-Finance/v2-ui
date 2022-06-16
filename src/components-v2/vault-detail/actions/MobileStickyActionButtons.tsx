@@ -1,8 +1,9 @@
-import React from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { VaultActionButton } from '../../common/VaultActionButtons';
+import React from 'react';
+
 import { StoreContext } from '../../../mobx/store-context';
+import { VaultActionButton } from '../../common/VaultActionButtons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

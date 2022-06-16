@@ -1,5 +1,6 @@
 import { Checkbox, FormControlLabel, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
+
 import { ActionButton } from './styled';
 
 const useStyles = makeStyles((theme) => ({

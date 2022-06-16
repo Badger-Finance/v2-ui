@@ -1,9 +1,10 @@
-import React from 'react';
 import { Divider, Grid, makeStyles, Paper, Typography, useMediaQuery } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
 import { Theme } from '@material-ui/core/styles';
-import { StoreContext } from '../../mobx/store-context';
+import { Skeleton } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	container: {

@@ -1,4 +1,4 @@
-import { Typography, Paper, makeStyles } from '@material-ui/core';
+import { makeStyles, Paper, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 

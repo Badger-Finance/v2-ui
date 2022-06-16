@@ -1,12 +1,14 @@
-import React from 'react';
-import { act, cleanup, customRender } from './Utils';
-import HoneybadgerDrop from './../components/HoneybadgerDrop/index';
 import '@testing-library/jest-dom';
-import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/RootStore';
+
 import { action } from 'mobx';
-import { checkSnapshot } from './utils/snapshots';
+import React from 'react';
+
+import store from '../mobx/RootStore';
+import { StoreProvider } from '../mobx/store-context';
 import { WalletStore } from '../mobx/stores/WalletStore';
+import HoneybadgerDrop from './../components/HoneybadgerDrop/index';
+import { act, cleanup, customRender } from './Utils';
+import { checkSnapshot } from './utils/snapshots';
 
 describe('HoneybadgerDrop Page', () => {
 	const connectedStore = store;

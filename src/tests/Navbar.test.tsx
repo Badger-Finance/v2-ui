@@ -1,15 +1,16 @@
+import BigNumber from 'bignumber.js';
+import { RouterStore } from 'mobx-router';
+import React from 'react';
+
+import Navbar from '../components-v2/navbar';
 import store from '../mobx/RootStore';
 import PricesStore from '../mobx/stores/PricesStore';
-import BigNumber from 'bignumber.js';
-import VaultStore from '../mobx/stores/VaultStore';
 import UserStore from '../mobx/stores/UserStore';
-import { checkSnapshot } from './utils/snapshots';
-import { createMatchMedia } from './Utils';
-import React from 'react';
-import Navbar from '../components-v2/navbar';
-import { RouterStore } from 'mobx-router';
-import { SAMPLE_EXCHANGES_RATES } from './utils/samples';
+import VaultStore from '../mobx/stores/VaultStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
+import { createMatchMedia } from './Utils';
+import { SAMPLE_EXCHANGES_RATES } from './utils/samples';
+import { checkSnapshot } from './utils/snapshots';
 
 class ResizeObserver {
 	disconnect() {}

@@ -1,5 +1,6 @@
-import { getChainMulticallContract, parseCallReturnContext } from '../../mobx/utils/multicall';
 import { Network } from '@badger-dao/sdk/lib/config/enums/network.enum';
+
+import { getChainMulticallContract, parseCallReturnContext } from '../../mobx/utils/multicall';
 
 const sampleResult = [
 	{

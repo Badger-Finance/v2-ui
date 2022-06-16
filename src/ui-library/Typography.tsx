@@ -1,11 +1,11 @@
-import React from 'react';
-import clsx from 'clsx';
 import {
+	makeStyles,
 	Typography as MuiTypography,
 	TypographyProps as MuiTypographyProps,
-	makeStyles,
 	TypographyVariant as MuiTypographyVariant,
 } from '@material-ui/core';
+import clsx from 'clsx';
+import React from 'react';
 
 const useStyles = makeStyles({
 	helperText: {

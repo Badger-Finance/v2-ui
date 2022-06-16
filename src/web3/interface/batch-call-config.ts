@@ -1,4 +1,5 @@
 import { provider } from 'web3-core';
+
 import { EtherscanConfig } from './etherscan-config';
 
 export interface BatchCallConfig {

@@ -1,7 +1,8 @@
-import React from 'react';
 import { Grid, Link, makeStyles } from '@material-ui/core';
-import { Typography } from 'ui-library/Typography';
 import clsx from 'clsx';
+import React from 'react';
+import { Typography } from 'ui-library/Typography';
+
 import { FLAGS } from '../../config/environment';
 
 const useStyles = makeStyles(() => ({

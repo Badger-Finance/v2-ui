@@ -1,14 +1,15 @@
-import React from 'react';
-import { Divider, Tooltip, Typography } from '@material-ui/core';
-import HelpIcon from '@material-ui/icons/Help';
-import { makeStyles } from '@material-ui/core/styles';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
-import { StrategyFees } from './StrategyFees';
 import { VaultDTO } from '@badger-dao/sdk';
+import { Divider, Tooltip, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import HelpIcon from '@material-ui/icons/Help';
 import { ethers } from 'ethers';
 import { StrategyFee } from 'mobx/model/system-config/stategy-fees';
 import { getVaultStrategyFee } from 'mobx/utils/fees';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
+import { StrategyFees } from './StrategyFees';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {

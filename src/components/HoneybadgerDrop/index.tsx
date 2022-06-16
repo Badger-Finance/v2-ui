@@ -1,12 +1,13 @@
-import React from 'react';
+import { Network } from '@badger-dao/sdk';
 import { Grid } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from 'mobx/store-context';
 import PageHeader from 'components-v2/common/PageHeader';
+import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
 import { NftList } from './NftList';
 import { PoolBalance } from './PoolBalance';
-import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
-import { Network } from '@badger-dao/sdk';
 
 const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);

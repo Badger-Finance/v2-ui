@@ -1,5 +1,6 @@
-import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
 import { makeStyles, Tooltip } from '@material-ui/core';
+
+import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
 
 const useStyles = makeStyles(() => ({
 	tooltipWrap: {

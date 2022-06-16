@@ -1,8 +1,9 @@
-import React from 'react';
 import { BouncerType, Protocol, VaultBehavior, VaultDTO, VaultState, VaultType, VaultVersion } from '@badger-dao/sdk';
-import { checkSnapshot } from '../utils/snapshots';
-import VaultItemApr from '../../components-v2/landing/VaultItemApr';
+import React from 'react';
 import { SAMPLE_VAULT } from 'tests/utils/samples';
+
+import VaultItemApr from '../../components-v2/landing/VaultItemApr';
+import { checkSnapshot } from '../utils/snapshots';
 
 const normalVault: VaultDTO = {
 	available: 0,

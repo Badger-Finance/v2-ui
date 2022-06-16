@@ -1,7 +1,8 @@
-import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import { NavbarStats } from './NavbarStats';
+import React from 'react';
+
 import { NavbarSocialContact } from './NavbarSocialContact';
+import { NavbarStats } from './NavbarStats';
 
 const useStyles = makeStyles(() => ({
 	badgerIconContainer: {

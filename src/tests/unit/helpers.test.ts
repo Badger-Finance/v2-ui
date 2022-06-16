@@ -1,3 +1,10 @@
+import '@testing-library/jest-dom';
+
+import BigNumber from 'bignumber.js';
+import { Currency } from 'config/enums/currency.enum';
+import store from 'mobx/RootStore';
+
+import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 import {
 	formatTokens,
 	inCurrency,
@@ -5,11 +12,6 @@ import {
 	parseQueryMultipleParams,
 	toFixedDecimals,
 } from '../../mobx/utils/helpers';
-import '@testing-library/jest-dom';
-import BigNumber from 'bignumber.js';
-import store from 'mobx/RootStore';
-import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
-import { Currency } from 'config/enums/currency.enum';
 
 describe('helpers', () => {
 	const exchangeRates: ExchangeRates = {

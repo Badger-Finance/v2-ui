@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 import { Skeleton } from '@material-ui/lab';
-import { formatBalance } from './utils';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
+import { StoreContext } from '../../mobx/store-context';
 import DelegationButton from './DelegationButton';
+import { formatBalance } from './utils';
 
 const useStyles = makeStyles((theme) => ({
 	icon: {

@@ -1,5 +1,5 @@
-import React from 'react';
 import { VaultState } from '@badger-dao/sdk';
+import React from 'react';
 import { Badge, BadgeType } from 'ui-library/Badge';
 
 interface VaultBadgeProps {

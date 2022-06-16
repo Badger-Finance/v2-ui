@@ -1,8 +1,9 @@
-import React from 'react';
 import { Token } from '@badger-dao/sdk';
-import TokenLogo from '../../components-v2/TokenLogo';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+
+import TokenLogo from '../../components-v2/TokenLogo';
 
 const useStyles = makeStyles((theme) => ({
 	tokenIcon: {

@@ -1,12 +1,13 @@
+import { Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { Network as NetworkModel } from './network';
-import deploy from '../../../config/deployments/bsc.json';
-import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { Currency } from 'config/enums/currency.enum';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
+import { ProtocolTokens } from 'web3/interface/protocol-token';
+
+import deploy from '../../../config/deployments/bsc.json';
 import { BadgerVault } from '../vaults/badger-vault';
-import { Currency } from 'config/enums/currency.enum';
-import { Network } from '@badger-dao/sdk';
+import { Network as NetworkModel } from './network';
 
 export class BinanceSmartChain extends NetworkModel {
 	constructor() {

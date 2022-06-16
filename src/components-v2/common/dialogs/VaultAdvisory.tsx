@@ -1,6 +1,7 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import React from 'react';
+
 import ChadgerVaultAdvisory from './ChadgerVaultAdvisory';
 import LockingVaultAdvisory from './LockingVaultAdivsory';
 import RemunerationVaultAdvisory from './RemunerationVaultAdvisory';

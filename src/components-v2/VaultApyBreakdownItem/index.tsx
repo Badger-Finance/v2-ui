@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
 import { ValueSource, VaultDTO } from '@badger-dao/sdk';
 import { Grid, Link, makeStyles, Typography } from '@material-ui/core';
-import { numberWithCommas } from '../../mobx/utils/helpers';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
-import { useVaultInformation } from '../../hooks/useVaultInformation';
-import routes from '../../config/routes';
-import { calculateUserBoost } from 'utils/boost-ranks';
 import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+import { calculateUserBoost } from 'utils/boost-ranks';
+
+import routes from '../../config/routes';
+import { useVaultInformation } from '../../hooks/useVaultInformation';
+import { StoreContext } from '../../mobx/store-context';
+import { numberWithCommas } from '../../mobx/utils/helpers';
 
 const useStyles = makeStyles({
 	apyBreakdownIcon: {

@@ -1,13 +1,14 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import store from 'mobx/RootStore';
-import userEvent from '@testing-library/user-event';
 
-import { StoreProvider } from '../../mobx/store-context';
-import { customRender, screen } from '../Utils';
+import userEvent from '@testing-library/user-event';
+import store from 'mobx/RootStore';
+import React from 'react';
+
 import { Optimizer } from '../../components/Boost/Optimizer';
-import * as rankUtils from '../../utils/boost-ranks';
+import { StoreProvider } from '../../mobx/store-context';
 import { WalletStore } from '../../mobx/stores/WalletStore';
+import * as rankUtils from '../../utils/boost-ranks';
+import { customRender, screen } from '../Utils';
 
 describe('Boost Optimizer', () => {
 	beforeEach(() => {

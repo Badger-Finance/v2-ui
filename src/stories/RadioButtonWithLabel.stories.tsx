@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { FormControlLabel, Radio } from '@material-ui/core';
 import { ComponentMeta } from '@storybook/react';
-import { Radio, FormControlLabel } from '@material-ui/core';
+import React, { useState } from 'react';
 
 export default {
 	title: 'Radio Button With Label',

@@ -1,6 +1,7 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core';
 import { TokenValue } from '@badger-dao/sdk';
+import { makeStyles } from '@material-ui/core';
+import React from 'react';
+
 import TokenLogo from '../TokenLogo';
 
 const logoWidth = 32;

@@ -1,11 +1,12 @@
-import React from 'react';
-import { StrategyFee, userReadableFeeNames } from '../../mobx/model/system-config/stategy-fees';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { formatStrategyFee } from '../../utils/componentHelpers';
-import { getStrategyFee } from 'mobx/utils/fees';
-import { VaultDTO } from '@badger-dao/sdk';
 import { FeeConfig } from 'mobx/model/fees/fee-config';
+import { getStrategyFee } from 'mobx/utils/fees';
+import React from 'react';
+
+import { StrategyFee, userReadableFeeNames } from '../../mobx/model/system-config/stategy-fees';
+import { formatStrategyFee } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles({
 	specName: {

@@ -1,6 +1,6 @@
-import React from 'react';
 import { ListItemIcon, ListItemIconProps, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
+import React from 'react';
 
 const useStyles = makeStyles({
 	root: {

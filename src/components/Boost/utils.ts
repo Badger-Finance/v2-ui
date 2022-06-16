@@ -1,6 +1,6 @@
-import BigNumber from 'bignumber.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
+import BigNumber from 'bignumber.js';
 
 type ComparisonConfig = {
 	toCompareValue: BigNumber.Value;
