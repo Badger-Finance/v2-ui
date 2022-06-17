@@ -744,7 +744,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.performance]: new BigNumber(300),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
-					userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/graviaura',
+					userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/graviaura-vote-locked-aura',
 				},
 			};
 	}
