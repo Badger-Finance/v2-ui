@@ -77,14 +77,14 @@ const useStyles = makeStyles((theme) => ({
 
 const WalletDrawer = (): JSX.Element | null => {
 	const [showCopiedMessage, setShowCopiedMessage] = useState(false);
-	const { uiState, user, network, wallet } = useContext(StoreContext);
-	const { ensName } = useENS(wallet.address);
+	const { uiState, user, network, sdk, wallet } = useContext(StoreContext);
+	const { ensName } = useENS(sdk.address);
 	const classes = useStyles();
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
 	const handleCopy = () => {
-		if (!wallet.address) return;
-		const didCopy = copy(wallet.address);
+		if (!sdk.address) return;
+		const didCopy = copy(sdk.address);
 		setShowCopiedMessage(didCopy);
 	};
 
@@ -95,7 +95,7 @@ const WalletDrawer = (): JSX.Element | null => {
 		}, closeDialogTransitionDuration);
 	};
 
-	if (!wallet.address) {
+	if (!sdk.address) {
 		return null;
 	}
 
@@ -132,7 +132,7 @@ const WalletDrawer = (): JSX.Element | null => {
 							color="textSecondary"
 							display="inline"
 						>
-							{ensName || shortenAddress(wallet.address)}
+							{ensName || shortenAddress(sdk.address)}
 						</Typography>
 						<IconButton
 							onClick={handleCopy}

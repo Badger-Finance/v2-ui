@@ -7,12 +7,13 @@ import {
 	VaultDTO,
 	VaultState,
 } from '@badger-dao/sdk';
+import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { Token } from 'mobx/model/tokens/token';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
-import { parseCallReturnContext } from 'mobx/utils/multicall';
+import slugify from 'slugify';
 
 import { FLAGS } from '../../config/environment';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
@@ -178,7 +179,7 @@ export default class VaultStore {
 			return;
 		}
 
-		return this.vaultMap[Web3.utils.toChecksumAddress(address)];
+		return this.vaultMap[ethers.utils.getAddress(address)];
 	}
 
 	getVaultBySlug(slug: string): VaultDTO | undefined | null {
@@ -219,7 +220,7 @@ export default class VaultStore {
 		}
 
 		let vaults = Array.from(this.vaultsDefinitions.values()).flatMap((vaultDefinition) => {
-			const vault = vaultMap[Web3.utils.toChecksumAddress(vaultDefinition.vaultToken.address)];
+			const vault = vaultMap[ethers.utils.getAddress(vaultDefinition.vaultToken.address)];
 			return vault ? [vault] : [];
 		});
 
@@ -249,7 +250,7 @@ export default class VaultStore {
 	getToken(address: string): Token {
 		const { network } = this.store.network;
 		const tokens = this.tokenCache[network.symbol];
-		const tokenAddress = Web3.utils.toChecksumAddress(address);
+		const tokenAddress = ethers.utils.getAddress(address);
 		if (!tokens || !tokens[tokenAddress]) {
 			return {
 				name: '',
@@ -350,30 +351,6 @@ export default class VaultStore {
 		} else {
 			this.protocolSummaryCache[chain] = null;
 		}
-	});
-
-	updateAvailableBalance = action((returnContext: ContractCallReturnContext): void => {
-		const { prices } = this.store;
-		const settAddress = returnContext.originalContractCallContext.contractAddress;
-		const vault = parseCallReturnContext(returnContext.callsReturnContext);
-		if (!vault.available) {
-			return;
-		}
-		const balanceResults = vault.available[0];
-		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
-			return;
-		}
-		const settToken = this.getToken(settAddress);
-		if (!settToken) {
-			return;
-		}
-		const balance = new BigNumber(balanceResults[0].hex);
-		if (!balance || balance.isNaN()) {
-			return;
-		}
-		const tokenPrice = prices.getPrice(settAddress);
-		const key = Web3.utils.toChecksumAddress(settAddress);
-		this.availableBalances[key] = new TokenBalance(settToken, balance, tokenPrice);
 	});
 
 	setVaultsFilter = action(<T extends keyof VaultsFilters>(filter: T, value: VaultsFilters[T]) => {
@@ -484,12 +461,13 @@ export default class VaultStore {
 					const userBalance = user.getTokenBalance(vault.vaultToken).value;
 
 					// only evaluate vaults with deposited balance
-					if (userBalance.isZero()) {
+					if (userBalance === 0) {
 						return true;
 					}
 
 					// balance bigger than $1
-					return userBalance.multipliedBy(exchangeRates.usd).gt(1);
+					// TODO: BAD DOG EXCHANGE DOG PLEASE!!!!!!!!!!! VERIFY ME
+					return userBalance > 1;
 				});
 			} else {
 				console.error('Portfolio dust filtering was skipped because the exchanges rates are not available');
@@ -497,7 +475,7 @@ export default class VaultStore {
 		}
 
 		if (onlyDeposits) {
-			vaults = vaults.filter((vault) => user.getTokenBalance(vault.vaultToken).value.gt(0));
+			vaults = vaults.filter((vault) => user.getTokenBalance(vault.vaultToken).value > 0);
 		}
 
 		if (onlyBoostedVaults && this.networkHasBoostVaults) {
@@ -561,14 +539,14 @@ export default class VaultStore {
 				vaults = vaults = vaults.sort((a, b) => {
 					const balanceB = user.getTokenBalance(b.vaultToken).value;
 					const balanceA = user.getTokenBalance(a.vaultToken).value;
-					return balanceA.minus(balanceB).toNumber();
+					return balanceA - balanceB;
 				});
 				break;
 			case VaultSortOrder.BALANCE_DESC:
 				vaults = vaults = vaults.sort((a, b) => {
 					const balanceB = user.getTokenBalance(b.vaultToken).value;
 					const balanceA = user.getTokenBalance(a.vaultToken).value;
-					return balanceB.minus(balanceA).toNumber();
+					return balanceB - balanceA;
 				});
 				break;
 			default:
@@ -583,15 +561,15 @@ export default class VaultStore {
 					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
 					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
 
-					if (!vaultTokenBalanceA.isZero() || !vaultTokenBalanceB.isZero()) {
-						return vaultTokenBalanceB.minus(vaultTokenBalanceA).toNumber();
+					if (vaultTokenBalanceA !== 0 || vaultTokenBalanceB !== 0) {
+						return vaultTokenBalanceB - vaultTokenBalanceA;
 					}
 
 					const depositTokenBalanceB = user.getTokenBalance(b.underlyingToken).value;
 					const depositTokenBalanceA = user.getTokenBalance(a.underlyingToken).value;
 
-					if (!depositTokenBalanceB.lte(1) || !depositTokenBalanceA.lte(1)) {
-						return depositTokenBalanceB.minus(depositTokenBalanceA).toNumber();
+					if (depositTokenBalanceB > 1 || depositTokenBalanceA > 1) {
+						return depositTokenBalanceB - depositTokenBalanceA;
 					}
 
 					const rankA = featuredVaultRank[a.vaultToken];

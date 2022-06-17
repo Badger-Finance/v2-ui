@@ -1,4 +1,4 @@
-import { Account, BouncerType, MerkleProof, Network, VaultDTO } from '@badger-dao/sdk';
+import { Account, BouncerType, MerkleProof, Network, RewardTree, VaultDTO } from '@badger-dao/sdk';
 import { ONE_MIN_MS } from 'config/constants';
 import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
@@ -8,17 +8,16 @@ import { ExtractedBalances, GuestListInformation, TokenBalances } from 'mobx/mod
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
-import { fetchClaimProof } from 'mobx/utils/apiV2';
+import { values } from 'utils/lodashToNative';
 
-import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
-import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
+import { RootStore } from './RootStore';
 
 export default class UserStore {
 	private store: RootStore;
 	private userBalanceCache: UserBalanceCache = {};
 
 	// loading: undefined, error: null, present: object
-	public claimProof: RewardMerkleClaim | undefined | null;
+	public claimProof: RewardTree | undefined | null;
 	public bouncerProof: MerkleProof | undefined | null;
 	public accountDetails: Account | undefined | null;
 	public tokenBalances: TokenBalances = {};
@@ -57,18 +56,18 @@ export default class UserStore {
 		return !!this.bouncerProof && this.bouncerProof.length > 0;
 	}
 
-	get portfolioValue(): BigNumber {
-		return this.walletValue.plus(this.vaultValue);
+	get portfolioValue(): number {
+		return this.walletValue + this.vaultValue;
 	}
 
-	get walletValue(): BigNumber {
+	get walletValue(): number {
 		return Object.values(this.tokenBalances)
 			.filter((t) => this.store.vaults.protocolTokens?.has(t.token.address))
-			.reduce((total, token) => total.plus(token.value), new BigNumber(0));
+			.reduce((total, token) => (total += token.value), 0);
 	}
 
-	get vaultValue(): BigNumber {
-		return Object.values(this.settBalances).reduce((total, vault) => total.plus(vault.value), new BigNumber(0));
+	get vaultValue(): number {
+		return Object.values(this.settBalances).reduce((total, vault) => (total += vault.value), 0);
 	}
 
 	get initialized(): boolean {
@@ -88,9 +87,9 @@ export default class UserStore {
 	}
 
 	async reloadBalances(address?: string): Promise<void> {
-		const { vaults, user, wallet } = this.store;
+		const { vaults, user, sdk } = this.store;
 		const actions = [];
-		const queryAddress = address ?? wallet.address;
+		const queryAddress = address ?? sdk.address;
 
 		if (vaults.initialized && queryAddress) {
 			actions.push(user.updateBalances());
@@ -100,7 +99,7 @@ export default class UserStore {
 	}
 
 	getBalance(vault: BadgerVault): TokenBalance {
-		throw new Error('kekekek');
+		return this.getTokenBalance(vault.vaultToken.address);
 	}
 
 	getTokenBalance(contract: string): TokenBalance {
@@ -124,7 +123,7 @@ export default class UserStore {
 	});
 
 	loadClaimProof = action(async (address: string, chain = Network.Ethereum): Promise<void> => {
-		const proof = await fetchClaimProof(ethers.utils.getAddress(address), chain);
+		const proof = await this.store.sdk.api.loadRewardTree(address, chain);
 		if (proof) {
 			this.claimProof = proof;
 			await this.store.rewards.fetchVaultRewards();
@@ -141,9 +140,11 @@ export default class UserStore {
 	});
 
 	updateBalances = action(async (addressOverride?: string, cached?: boolean): Promise<void> => {
-		const { address, web3Instance } = this.store.wallet;
 		const { network } = this.store.network;
-		const { vaults } = this.store;
+		const {
+			vaults,
+			sdk: { provider, address },
+		} = this.store;
 
 		/**
 		 * only allow one set of calls at a time, blocked by a loading guard
@@ -151,7 +152,7 @@ export default class UserStore {
 		 * will trigger balance display updates
 		 */
 		const queryAddress = addressOverride ?? address;
-		if (!queryAddress || !vaults.initialized || this.loadingBalances || !web3Instance || !vaults.vaultMap) {
+		if (!queryAddress || !vaults.initialized || this.loadingBalances || !provider || !vaults.vaultMap) {
 			return;
 		}
 
@@ -162,58 +163,59 @@ export default class UserStore {
 		if (cached) {
 			const cachedBalances = this.userBalanceCache[cacheKey];
 			if (cachedBalances && Date.now() <= cachedBalances.expiry) {
-				this.setBalances(cachedBalances);
+				// this.setBalances(cachedBalances);
 				this.loadingBalances = false;
 				return;
 			}
 		}
 
 		try {
-			const multicallContractAddress = getChainMulticallContract(network.symbol);
-			const multicallRequests = network.getBalancesRequests(
-				vaults.vaultMap,
-				vaults.getTokenConfigs(),
-				queryAddress,
-			);
+			// 	const multicallContractAddress = getChainMulticallContract(network.symbol);
+			// 	const multicallRequests = network.getBalancesRequests(
+			// 		vaults.vaultMap,
+			// 		vaults.getTokenConfigs(),
+			// 		queryAddress,
+			// 	);
 
-			let multicall;
-			let multicallResults;
-			try {
-				multicall = new Multicall({
-					web3Instance: web3Instance,
-					tryAggregate: true,
-					multicallCustomContractAddress: multicallContractAddress,
-				});
-				multicallResults = await multicall.call(multicallRequests);
-			} catch (err) {
-				console.error({
-					err,
-					message: `This error may be because MulticallV2 is not defined for ${network.name}.`,
-				});
-				multicall = new Multicall({
-					web3Instance: web3Instance,
-					multicallCustomContractAddress: multicallContractAddress,
-				});
-				multicallResults = await multicall.call(multicallRequests);
-			}
+			// 	let multicall;
+			// 	let multicallResults;
+			// 	try {
+			// 		multicall = new Multicall({
+			// 			web3Instance: web3Instance,
+			// 			tryAggregate: true,
+			// 			multicallCustomContractAddress: multicallContractAddress,
+			// 		});
+			// 		multicallResults = await multicall.call(multicallRequests);
+			// 	} catch (err) {
+			// 		console.error({
+			// 			err,
+			// 			message: `This error may be because MulticallV2 is not defined for ${network.name}.`,
+			// 		});
+			// 		multicall = new Multicall({
+			// 			web3Instance: web3Instance,
+			// 			multicallCustomContractAddress: multicallContractAddress,
+			// 		});
+			// 		multicallResults = await multicall.call(multicallRequests);
+			// 	}
 
-			const requestResults = extractBalanceRequestResults(multicallResults);
-			const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
-			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedVaults);
-			const guestListRequests = createMulticallRequest(guestLists, ContractNamespaces.GuestList, queryAddress);
-			const guestListResults = await multicall.call(guestListRequests);
-			const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
+			// 	const requestResults = extractBalanceRequestResults(multicallResults);
+			// 	const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
+			// 	const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedVaults);
+			// 	const guestListRequests = createMulticallRequest(guestLists, ContractNamespaces.GuestList, queryAddress);
+			// 	const guestListResults = await multicall.call(guestListRequests);
+			// 	const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
 
-			const result = {
-				key: cacheKey,
-				tokens: tokenBalances,
-				setts: settBalances,
-				vaultCaps,
-				expiry: Date.now() + 5 * ONE_MIN_MS,
-			};
+			// 	const result = {
+			// 		key: cacheKey,
+			// 		tokens: tokenBalances,
+			// 		setts: settBalances,
+			// 		vaultCaps,
+			// 		expiry: Date.now() + 5 * ONE_MIN_MS,
+			// 	};
 
-			this.userBalanceCache[cacheKey] = result;
-			this.setBalances(result);
+			// 	this.userBalanceCache[cacheKey] = result;
+			// 	this.setBalances(result);
+
 			this.loadingBalances = false;
 		} catch (err) {
 			console.error(err);
@@ -228,133 +230,4 @@ export default class UserStore {
 		}
 		return balance;
 	}
-
-	private extractBalancesFromResults({
-		userTokens,
-		userGeneralVaults,
-		userGuardedVaults,
-		userDeprecatedVaults,
-	}: RequestExtractedResults): ExtractedBalances {
-		const tokenBalances: TokenBalances = {};
-		const settBalances: TokenBalances = {};
-
-		// update all token balances (this is currently incorrect or redundant)
-		userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token));
-
-		// add underlying tokens, and sett tokens to user balances
-		userGeneralVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
-		userGeneralVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
-
-		// add guarded underlying tokens, and sett tokens to user balances
-		userGuardedVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
-		userGuardedVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
-
-		// add deprecated underlying tokens, and sett tokens to user balances
-		userDeprecatedVaults.forEach((vault) => this.updateUserBalance(settBalances, vault));
-		userDeprecatedVaults.forEach((vault) => this.store.vaults.updateAvailableBalance(vault));
-
-		return {
-			tokenBalances,
-			settBalances,
-		};
-	}
-
-	private setBalances = action((balances: CachedTokenBalances): void => {
-		const { tokens, setts, vaultCaps } = balances;
-		this.tokenBalances = tokens;
-		this.settBalances = setts;
-		this.vaultCaps = vaultCaps;
-	});
-
-	private async getVaultCaps(
-		guestListResults: ContractCallResults,
-		guestListLookup: Record<string, string>,
-	): Promise<VaultCaps> {
-		const vaultCaps: VaultCaps = {};
-
-		for (const guestListResultsKey in guestListResults.results) {
-			const {
-				callsReturnContext,
-				originalContractCallContext: { contractAddress },
-			} = guestListResults.results[guestListResultsKey];
-
-			const result = parseCallReturnContext(callsReturnContext);
-			if (
-				!result.remainingTotalDepositAllowed ||
-				!result.remainingUserDepositAllowed ||
-				!result.totalDepositCap ||
-				!result.userDepositCap
-			) {
-				continue;
-			}
-
-			const vaultAddress = guestListLookup[contractAddress];
-			const vault = this.store.vaults.getVault(vaultAddress);
-
-			if (!vault) {
-				continue;
-			}
-
-			const depositToken = this.store.vaults.getToken(vault.underlyingToken);
-
-			if (!depositToken) {
-				continue;
-			}
-
-			const remainingTotalDepositAllowed = result.remainingTotalDepositAllowed[0][0].hex;
-			const totalDepositCap = result.totalDepositCap[0][0].hex;
-			const remainingUserDepositAllowed = result.remainingUserDepositAllowed[0][0].hex;
-			const userDepositCap = result.userDepositCap[0][0].hex;
-
-			vaultCaps[vault.vaultToken] = {
-				vaultCap: this.store.rewards.balanceFromProof(depositToken.address, remainingTotalDepositAllowed),
-				totalVaultCap: this.store.rewards.balanceFromProof(depositToken.address, totalDepositCap),
-				userCap: this.store.rewards.balanceFromProof(depositToken.address, remainingUserDepositAllowed),
-				totalUserCap: this.store.rewards.balanceFromProof(depositToken.address, userDepositCap),
-				asset: depositToken.symbol,
-			};
-		}
-
-		return vaultCaps;
-	}
-
-	private extractGuestListInformation(guardedVaultsResult: ContractCallReturnContext[]): GuestListInformation {
-		const guestListLookup: Record<string, string> = {};
-		const guestLists = guardedVaultsResult
-			.map((returnContext) => {
-				const settAddress = returnContext.originalContractCallContext.contractAddress;
-				const vault = parseCallReturnContext(returnContext.callsReturnContext);
-				if (!vault.guestList || vault.guestList.length === 0) {
-					return null;
-				}
-
-				const guestList = vault.guestList[0][0];
-				if (guestList === ethers.constants.AddressZero) {
-					return null;
-				}
-
-				guestListLookup[guestList] = settAddress;
-				return guestList;
-			})
-			.filter(Boolean);
-
-		return { guestLists, guestListLookup };
-	}
-
-	/* Update Balance Helpers */
-
-	private updateUserBalance = (tokenBalances: TokenBalances, returnContext: ContractCallReturnContext): void => {
-		const { prices, vaults } = this.store;
-		const tokenAddress = returnContext.originalContractCallContext.contractAddress;
-		const token = parseCallReturnContext(returnContext.callsReturnContext);
-		const balanceResults = token.balanceOf || token.totalStakedFor;
-		if (!balanceResults || balanceResults.length === 0) {
-			return;
-		}
-		const balanceTokenInfo = vaults.getToken(tokenAddress);
-		const balance = new BigNumber(balanceResults[0][0].hex);
-		const tokenPrice = prices.getPrice(tokenAddress);
-		const key = ethers.utils.getAddress(tokenAddress);
-		tokenBalances[key] = new TokenBalance(balanceTokenInfo, balance, tokenPrice);
-	};
 }

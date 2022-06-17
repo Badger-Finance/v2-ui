@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const WalletWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { uiState, wallet } = store;
+	const { uiState, sdk, wallet } = store;
 
 	async function connect(): Promise<void> {
 		if (wallet.isConnected) {
@@ -47,8 +47,8 @@ const WalletWidget = observer(() => {
 		}
 	}
 
-	const { ensName } = useENS(wallet.address);
-	const walletAddress = wallet.address ? shortenAddress(wallet.address) : 'Connect';
+	const { ensName } = useENS(sdk.address);
+	const walletAddress = sdk.address ? shortenAddress(sdk.address) : 'Connect';
 
 	return (
 		<Button

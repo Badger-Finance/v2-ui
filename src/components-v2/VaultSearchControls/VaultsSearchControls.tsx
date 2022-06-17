@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
 	checkbox: {
 		marginRight: 20,
 	},
-	apr: {
-		marginRight: 20,
-	},
 	paper: {
 		width: '100%',
 		padding: '20px 42px',
@@ -81,7 +78,6 @@ const VaultsSearchControls = () => {
 				</div>
 				<div>
 					<VaultsAprControl
-						className={classes.apr}
 						showAPR={vaultsFilters.showAPR}
 						onShowAPRChange={(checked) => setVaultsFilter('showAPR', checked)}
 					/>

@@ -68,10 +68,10 @@ export class VaultDetailStore {
 			return false;
 		}
 
-		const openBalance = this.store.user.getBalance(BalanceNamespace.Vault, vaultDefinition).balance;
-		const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedVault, vaultDefinition).balance;
+		const openBalance = this.store.user.getBalance(vaultDefinition).balance;
+		const guardedBalance = this.store.user.getBalance(vaultDefinition).balance;
 
-		return openBalance.plus(guardedBalance).gt(0);
+		return openBalance + guardedBalance > 0;
 	}
 
 	get canUserDeposit(): boolean {

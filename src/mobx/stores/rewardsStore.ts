@@ -119,10 +119,10 @@ class RewardsStore {
 		const {
 			network: { network },
 			uiState: { queueNotification },
-			wallet,
+			sdk: { provider },
 		} = this.store;
 
-		if (this.loadingTreeData || !wallet.web3Instance) {
+		if (this.loadingTreeData || !provider) {
 			return;
 		}
 
@@ -160,7 +160,8 @@ class RewardsStore {
 			network: { network },
 			prices: { arePricesAvailable },
 			user: { claimProof },
-			wallet: { address, web3Instance },
+			sdk: { address },
+			sdk: { provider },
 		} = this.store;
 
 		if (this.loadingRewards) {
@@ -172,7 +173,7 @@ class RewardsStore {
 			return;
 		}
 
-		if (!web3Instance || !claimProof || !address) {
+		if (!provider || !claimProof || !address) {
 			this.resetRewards();
 			return;
 		}

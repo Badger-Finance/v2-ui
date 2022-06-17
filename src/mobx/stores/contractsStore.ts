@@ -5,7 +5,7 @@ import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 
-import { RootStore } from '../RootStore';
+import { RootStore } from './RootStore';
 
 // TODO: did we lose some functionality here?
 type ProgressTracker = Record<string, boolean>;
@@ -42,17 +42,11 @@ class ContractsStore {
 		withdrawAmount: TokenBalance,
 	): Promise<void> => {};
 
-	increaseAllowance = async (token: Token, contract: string) => {
-		const {
-			wallet: { web3Instance },
-			uiState: { queueNotification },
-		} = this.store;
-	};
+	increaseAllowance = async (token: Token, contract: string) => {};
 
 	depositVault = action(async (vault: VaultDTO, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		const { bouncerProof } = this.store.user;
-		const { web3Instance } = this.store.wallet;
 
 		// if (!web3Instance) return;
 		// const settContract = new web3Instance.eth.Contract(SETT_ABI, vault.vaultToken);
@@ -101,7 +95,6 @@ class ContractsStore {
 	});
 
 	withdrawVault = action(async (vault: VaultDTO, badgerVault: BadgerVault, amount: TokenBalance): Promise<void> => {
-		const { web3Instance } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 
 		// if (!web3Instance) return;

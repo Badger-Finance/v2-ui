@@ -1,7 +1,8 @@
+import { RewardTree } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers/lib/ethers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import store from 'mobx/RootStore';
+import store from 'mobx/stores/RootStore';
 
-import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 
 export const reduceTimeSinceLastCycle = (time: number): string => {
@@ -15,11 +16,7 @@ export const reduceTimeSinceLastCycle = (time: number): string => {
 	);
 };
 
-export const reduceClaims = (
-	proof: RewardMerkleClaim,
-	claimedRewards: TreeClaimData,
-	claims?: boolean,
-): TokenBalance[] => {
+export const reduceClaims = (proof: RewardTree, claimedRewards: TreeClaimData, claims?: boolean): TokenBalance[] => {
 	if (!proof.cumulativeAmounts) {
 		return [];
 	}
@@ -34,14 +31,14 @@ export const reduceClaims = (
 		if (!claimToken) {
 			continue;
 		}
-		const claimed = new BigNumber(amounts[i]);
-		const earned = new BigNumber(proof.cumulativeAmounts[i]);
-		const amount = earned.minus(claimed).gt(0) ? earned.minus(claimed) : new BigNumber(0);
+		const claimed = BigNumber.from(amounts[i]);
+		const earned = BigNumber.from(proof.cumulativeAmounts[i]);
+		const amount = earned.sub(claimed).gt(0) ? earned.sub(claimed) : BigNumber.from(0);
 		let claimable;
 		if (claims) {
-			claimable = rewards.balanceFromProof(token, amount.toFixed());
+			claimable = rewards.balanceFromProof(token, amount.toString());
 		} else {
-			claimable = new TokenBalance(claimToken, amount, new BigNumber(0));
+			claimable = new TokenBalance(claimToken, amount, 0);
 		}
 
 		tokenClaims.push(claimable);

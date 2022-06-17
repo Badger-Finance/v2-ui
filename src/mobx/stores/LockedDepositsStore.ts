@@ -30,12 +30,12 @@ class LockedDepositsStore {
 	async loadLockedBalances(): Promise<void> {
 		const {
 			network: { network },
-			wallet: { web3Instance },
+			sdk: { provider },
 		} = this.store;
 
 		const tokens = NETWORKS_LOCKED_DEPOSITS_CONFIG[network.id];
 
-		if (!web3Instance || !tokens) {
+		if (!provider || !tokens) {
 			return;
 		}
 
@@ -50,7 +50,7 @@ class LockedDepositsStore {
 		strategyAddress,
 	}: LockedContractInfo): Promise<[string, TokenBalance][]> => {
 		const {
-			wallet: { provider },
+			sdk: { provider },
 		} = this.store;
 
 		if (!provider) {
@@ -69,11 +69,11 @@ class LockedDepositsStore {
 				await voteLockedDepositContract.balanceOf(vaultAddress),
 			]);
 
-		const balance = new BigNumber(
-			vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy)._hex,
-		);
-
-		return [[ethers.utils.getAddress(underlyingTokenAddress), new TokenBalance(token, balance, balance)]];
+		const balance = vaultBalance
+			.add(strategyBalance)
+			.add(totalTokenBalanceStrategy)
+			.sub(lockedTokenBalanceStrategy);
+		return [[ethers.utils.getAddress(underlyingTokenAddress), new TokenBalance(token, balance, 0)]];
 	};
 }
 

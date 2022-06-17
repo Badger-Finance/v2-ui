@@ -109,8 +109,12 @@ export class NetworkStore {
 	});
 
 	syncUrlNetworkId = action(() => {
-		const { router, network: networkStore, wallet } = this.store;
-		const chainId = wallet.chainId;
+		const {
+			router,
+			network: networkStore,
+			sdk: { config },
+		} = this.store;
+		const chainId = config.chainId;
 		const chain = router.queryParams?.chain;
 
 		if (chain && chain !== chainId) {

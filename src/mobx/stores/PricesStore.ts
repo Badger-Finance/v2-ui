@@ -1,6 +1,7 @@
 import { Currency, PriceSummary } from '@badger-dao/sdk';
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from 'config/constants';
+import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import {
 	CoingeckoPriceResponse,
@@ -8,12 +9,12 @@ import {
 	MATIC_PRICE_KEY,
 } from 'mobx/model/system-config/coingecko-price-response';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
-import { RootStore } from 'mobx/RootStore';
 
 import { DEBUG } from '../../config/environment';
 import { fetchData } from '../../utils/fetchData';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
 import { ExchangeRates } from '../model/system-config/exchange-rates';
+import { RootStore } from './RootStore';
 
 type CoinGeckoBatchResponse = { [key: string]: CoingeckoPriceResponse };
 
@@ -47,9 +48,9 @@ export default class PricesStore {
 		await Promise.all([this.loadPrices(), this.loadExchangeRates()]);
 	}
 
-	getPrice(address: string): BigNumber {
-		const price = this.priceCache[Web3.utils.toChecksumAddress(address)];
-		return price ? new BigNumber(price) : new BigNumber(0);
+	getPrice(address: string): number {
+		const price = this.priceCache[ethers.utils.getAddress(address)];
+		return price ? price : 0;
 	}
 
 	loadPrices = action(async (): Promise<void> => {

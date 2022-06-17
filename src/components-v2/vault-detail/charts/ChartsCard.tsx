@@ -1,11 +1,11 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTO, VaultSnapshot } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { ChartMode, VaultChartData, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
+import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
 import { CardContainer } from '../styled';
 import { ChartModeTitles } from '../utils';
 import { BoostChart } from './BoostChart';
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const getYAxisAccessor = (mode: ChartMode) => {
-	return (data: VaultChartData) => {
+	return (data: VaultSnapshot) => {
 		const optionsFromMode: Record<string, number> = {
 			[ChartMode.Value]: data.value,
 			[ChartMode.Ratio]: data.pricePerFullShare,
@@ -58,17 +58,15 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
 	const isBoostable = minApr && maxApr;
 
 	const classes = useStyles();
-	const [settChartData, setVaultChartData] = useState<VaultChartData[] | null>(null);
+	const [settChartData, setVaultChartData] = useState<VaultSnapshot[]>([]);
 	const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
 	const [loading, setLoading] = useState(!isBoostable);
 	const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
 
 	const yAxisAccessor = getYAxisAccessor(mode);
-	const chartData = settChartData
-		? settChartData.map((d) => ({ x: d.timestamp.getTime(), y: yAxisAccessor(d) }))
-		: null;
+	const chartData = settChartData ? settChartData.map((d) => ({ x: d.timestamp, y: yAxisAccessor(d) })) : null;
 
-	const handleFetch = (fetchedData: VaultChartData[] | null) => {
+	const handleFetch = (fetchedData: VaultSnapshot[]) => {
 		setVaultChartData(fetchedData);
 		setLoading(false);
 	};

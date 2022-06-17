@@ -47,6 +47,7 @@ export const Optimizer = observer((): JSX.Element => {
 	const {
 		user: { accountDetails },
 		wallet,
+		sdk,
 	} = useContext(StoreContext);
 
 	const classes = useStyles();
@@ -142,7 +143,7 @@ export const Optimizer = observer((): JSX.Element => {
 		setNative(nativeBalance.toFixed(4));
 		setNonNative(nonNativeBalance.toFixed(4));
 		setStakeRatio(stakeRatio);
-	}, [accountDetails, wallet, wallet.address]);
+	}, [accountDetails, wallet, sdk.address]);
 
 	return (
 		<Grid container spacing={2}>

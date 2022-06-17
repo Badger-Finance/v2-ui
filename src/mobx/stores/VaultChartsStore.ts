@@ -1,16 +1,14 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { ChartGranularity, VaultDTO, VaultSnapshot } from '@badger-dao/sdk';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { VaultChartData, VaultChartTimeframe } from '../model/vaults/vault-charts';
+import { VaultChartTimeframe } from '../model/vaults/vault-charts';
 import { VaultSnapshotGranularity } from '../model/vaults/vault-snapshot';
-import { fetchVaultChartInformation } from '../utils/apiV2';
 import { RootStore } from './RootStore';
 
 dayjs.extend(utc);
 
-type VaultChartInformation = VaultChartData[] | null;
-type ChartCacheByPeriod = Map<VaultChartTimeframe, VaultChartInformation>;
+type ChartCacheByPeriod = Map<VaultChartTimeframe, VaultSnapshot[]>;
 type VaultCache = Map<VaultDTO['underlyingToken'], ChartCacheByPeriod>;
 
 export class VaultChartsStore {
@@ -26,7 +24,7 @@ export class VaultChartsStore {
 	 * @param vault
 	 * @param timeframe
 	 */
-	async search(vault: VaultDTO, timeframe: VaultChartTimeframe): Promise<VaultChartInformation> {
+	async search(vault: VaultDTO, timeframe: VaultChartTimeframe): Promise<VaultSnapshot[]> {
 		const vaultCache = this.cache.get(vault.underlyingToken);
 
 		if (!vaultCache) {
@@ -49,8 +47,10 @@ export class VaultChartsStore {
 		return timeFrameCache;
 	}
 
-	private async fetchVaultChart(vault: VaultDTO, timeframe: VaultChartTimeframe) {
-		const { network } = this.store.network;
+	private async fetchVaultChart(vault: VaultDTO, timeframe: VaultChartTimeframe): Promise<VaultSnapshot[]> {
+		const {
+			config: { network },
+		} = this.store.sdk;
 
 		const daysFromTimeFrame = {
 			[VaultChartTimeframe.Day]: 1,
@@ -62,27 +62,27 @@ export class VaultChartsStore {
 		const isDayTimeFrame = timeframe === VaultChartTimeframe.Day;
 
 		// if timeframe is just one day then we want the granularity to be hours
-		const granularity = isDayTimeFrame ? VaultSnapshotGranularity.HOUR : VaultSnapshotGranularity.DAY;
+		const granularity = isDayTimeFrame ? ChartGranularity.HOUR : ChartGranularity.DAY;
 
 		const now = dayjs().utc(); // query until current date
 		const from = dayjs(now).subtract(timeframeDays, 'days').utc();
 
-		const fetchedData = await fetchVaultChartInformation({
-			granularity,
-			id: vault.vaultToken,
+		const fetchedData = await this.store.sdk.api.loadCharts(
+			{
+				granularity,
+				vault: vault.vaultToken,
 
-			from: from.toDate(),
-			to: now.toDate(),
-			chain: network.symbol,
-		});
+				start: from.toDate().toISOString(),
+				end: now.toDate().toISOString(),
+			},
+			network,
+		);
 
 		if (!fetchedData) {
-			return null;
+			return [];
 		}
 
 		// data needs to be ascending sorted
-		return fetchedData
-			.sort((a, b) => a.timestamp - b.timestamp)
-			.map((d) => ({ ...d, timestamp: new Date(d.timestamp) }));
+		return fetchedData.sort((a, b) => a.timestamp - b.timestamp);
 	}
 }

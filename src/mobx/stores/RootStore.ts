@@ -4,10 +4,9 @@ import routes from 'config/routes';
 import { RouterStore } from 'mobx-router';
 
 import { NETWORK_IDS } from '../../config/constants';
-import { FLAGS } from '../../config/environment';
+import { BADGER_API, FLAGS } from '../../config/environment';
 import rpc from '../../config/rpc.config';
 import { Network } from '../model/network/network';
-import { BADGER_API } from '../utils/apiV2';
 import ContractsStore from './contractsStore';
 import GasPricesStore from './GasPricesStore';
 import { GovernancePortalStore } from './GovernancePortalStore';
@@ -28,6 +27,7 @@ import { WalletStore } from './WalletStore';
 
 export class RootStore {
 	public sdk: BadgerSDK;
+
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
 	public uiState: UiStateStore;
@@ -108,7 +108,7 @@ export class RootStore {
 
 	async updateProvider(provider: SDKProvider): Promise<void> {
 		this.rewards.resetRewards();
-		const { address } = this.wallet;
+		const { address } = this.sdk;
 		const { network } = this.network;
 		const signer = provider.getSigner();
 
@@ -125,9 +125,9 @@ export class RootStore {
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
 				// handle per page reloads, when init route is skipped
-				if (this.router.currentRoute?.path === routes.IbBTC.path) {
-					updateActions.push(this.ibBTCStore.init());
-				}
+				// if (this.router.currentRoute?.path === routes.IbBTC.path) {
+				// 	updateActions.push(this.ibBTCStore.init());
+				// }
 			}
 
 			await Promise.all([Promise.all(updateActions), this.user.reloadBalances(address)]);

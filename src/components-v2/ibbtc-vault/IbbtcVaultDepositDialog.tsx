@@ -146,23 +146,24 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
 	const getCalculations = useCallback(
 		async (balances: TokenBalance[]): Promise<BigNumber[]> => {
-			if (!wallet.web3Instance) return [];
-			const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, wallet.web3Instance);
-			if (balances.length !== 4) {
-				throw new Error('dafuq');
-			}
+			// if (!wallet.web3Instance) return [];
+			// const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, wallet.web3Instance);
+			// if (balances.length !== 4) {
+			// 	throw new Error('dafuq');
+			// }
 			// const depositAmounts = balances.map((balance) => toHex(balance.tokenBalance));
 
 			// TODO: FIX ME!!! THIS SHOULD NOT STILL BE THERE
 			// IF YOU SKIP THIS REVIEWING YOU ARE JUST A BAD DOG AS JINTAO
 			const depositAmounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish] = ['0', '0', '0', '0'];
 
-			const [calculatedMint, expectedAmount] = await Promise.all([
-				ibbtcVaultPeak.calcMint(depositAmounts, false),
-				ibbtcVaultPeak.expectedAmount(depositAmounts),
-			]);
+			// const [calculatedMint, expectedAmount] = await Promise.all([
+			// 	ibbtcVaultPeak.calcMint(depositAmounts, false),
+			// 	ibbtcVaultPeak.expectedAmount(depositAmounts),
+			// ]);
 
-			return [calculatedMint, expectedAmount];
+			// return [calculatedMint, expectedAmount];
+			return [];
 		},
 		[wallet],
 	);
@@ -236,19 +237,19 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	};
 
 	const handleMultiTokenDeposit = async () => {
-		const { web3Instance } = wallet;
+		// const { web3Instance } = wallet;
 
-		const invalidBalance = multiTokenDepositBalances.find((depositBalance, index) => {
-			const depositOption = depositOptions[index];
-			return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
-		});
+		// const invalidBalance = multiTokenDepositBalances.find((depositBalance, index) => {
+		// 	const depositOption = depositOptions[index];
+		// 	return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
+		// });
 
-		if (!web3Instance) return;
+		// if (!web3Instance) return;
 
-		if (invalidBalance) {
-			uiState.queueError(`Insufficient ${invalidBalance.token.symbol} balance for deposit`);
-			return;
-		}
+		// if (invalidBalance) {
+		// 	uiState.queueError(`Insufficient ${invalidBalance.token.symbol} balance for deposit`);
+		// 	return;
+		// }
 
 		const allowanceApprovals = [];
 

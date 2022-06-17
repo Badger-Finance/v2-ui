@@ -6,9 +6,13 @@ import React, { useContext, useEffect } from 'react';
 import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
 
 const NetworkURLManager: React.FC = ({ children }) => {
-	const { router, wallet } = useContext(StoreContext);
-	const chainId = wallet.chainId;
-	const previousChainId = usePrevious(wallet.chainId);
+	const {
+		router,
+		sdk: { config },
+		wallet,
+	} = useContext(StoreContext);
+	const chainId = config.chainId;
+	const previousChainId = usePrevious(config.chainId);
 
 	useEffect(() => {
 		if (!chainId) {

@@ -40,6 +40,15 @@ export const BUILD_ENV = getStage(process.env.REACT_APP_BUILD_ENV);
 // debugging flag available on non-prod equivalent deployments
 export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 
+export const getApi = (): string => {
+	if (DEBUG) {
+		return 'https://staging-api.badger.com/v2';
+	}
+	return 'https://api.badger.com/v2';
+};
+
+export const BADGER_API = getApi();
+
 /* App Feature Flags */
 
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);

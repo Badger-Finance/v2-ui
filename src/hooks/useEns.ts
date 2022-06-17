@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 
 const useENS = (address?: string) => {
 	const store = useContext(StoreContext);
-	const { provider } = store.wallet;
+	const { provider } = store.sdk;
 	const [ensName, setENSName] = useState<string | null>(null);
 	const [ensAvatar, setENSAvatar] = useState<string | null>(null);
 
