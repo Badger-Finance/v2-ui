@@ -6,7 +6,6 @@ import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/mainnet.json';
 import { toRecord } from 'web3/config/token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { FLAGS } from 'config/environment';
 import { Currency } from 'config/enums/currency.enum';
 import { AdvisoryType } from '../vaults/advisory-type';
 import { Network } from '@badger-dao/sdk';
@@ -384,6 +383,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.graviaura'],
 			decimals: 18,
 		},
+		depositAdvisory: AdvisoryType.VaultLock,
 	},
 ];
 
