@@ -14,7 +14,7 @@ import { getToken } from '../../web3/config/token-config';
 import { BadgerTree } from '../model/rewards/badger-tree';
 import { ClaimMap } from '../model/rewards/claim-map';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
-import { RootStore } from '../RootStore';
+import { RootStore } from './RootStore';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.

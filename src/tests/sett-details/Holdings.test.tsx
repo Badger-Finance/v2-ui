@@ -2,15 +2,9 @@ import React from 'react';
 import { checkSnapshot } from 'tests/utils/snapshots';
 
 import { Holdings } from '../../components-v2/vault-detail/holdings/Holdings';
-import store from '../../mobx/RootStore';
+import store from '../../mobx/stores/RootStore';
 import UserStore from '../../mobx/stores/UserStore';
-import {
-	SAMPLE_BADGER_SETT,
-	SAMPLE_EXCHANGES_RATES,
-	SAMPLE_TOKEN_BALANCE,
-	SAMPLE_VAULT,
-	SAMPLE_VAULT_BALANCE,
-} from '../utils/samples';
+import { SAMPLE_EXCHANGES_RATES, SAMPLE_TOKEN_BALANCE, SAMPLE_VAULT, SAMPLE_VAULT_BALANCE } from '../utils/samples';
 
 describe('Holdings', () => {
 	beforeEach(() => {
@@ -19,25 +13,11 @@ describe('Holdings', () => {
 	});
 
 	it('displays holdings with no balance', () => {
-		checkSnapshot(
-			<Holdings
-				vault={SAMPLE_VAULT}
-				badgerVault={SAMPLE_BADGER_SETT}
-				userData={SAMPLE_VAULT_BALANCE}
-				tokenBalance={SAMPLE_TOKEN_BALANCE}
-			/>,
-		);
+		checkSnapshot(<Holdings vault={SAMPLE_VAULT} userData={SAMPLE_VAULT_BALANCE} />);
 	});
 
 	it('displays holdings with balance', () => {
 		jest.spyOn(UserStore.prototype, 'getTokenBalance').mockReturnValue(SAMPLE_TOKEN_BALANCE);
-		checkSnapshot(
-			<Holdings
-				vault={SAMPLE_VAULT}
-				badgerVault={SAMPLE_BADGER_SETT}
-				userData={SAMPLE_VAULT_BALANCE}
-				tokenBalance={SAMPLE_TOKEN_BALANCE}
-			/>,
-		);
+		checkSnapshot(<Holdings vault={SAMPLE_VAULT} userData={SAMPLE_VAULT_BALANCE} />);
 	});
 });

@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import { VaultWithdraw } from '../components-v2/common/dialogs/VaultWithdraw';
-import store from '../mobx/RootStore';
-import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/stores/RootStore';
 import { customRender } from './Utils';
 import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from './utils/samples';
 

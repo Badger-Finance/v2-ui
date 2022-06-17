@@ -3,8 +3,8 @@ import { RouterStore } from 'mobx-router';
 import React from 'react';
 
 import Navbar from '../components-v2/navbar';
-import store from '../mobx/RootStore';
 import PricesStore from '../mobx/stores/PricesStore';
+import store from '../mobx/stores/RootStore';
 import UserStore from '../mobx/stores/UserStore';
 import VaultStore from '../mobx/stores/VaultStore';
 import { WalletStore } from '../mobx/stores/WalletStore';

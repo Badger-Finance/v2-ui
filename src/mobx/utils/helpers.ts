@@ -6,7 +6,7 @@ import { ChartData } from 'mobx/model/charts/chart-data';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
 import { Network } from 'mobx/model/network/network';
-import store from 'mobx/RootStore';
+import store from 'mobx/stores/RootStore';
 import slugify from 'slugify';
 
 import { TEN, ZERO } from '../../config/constants';

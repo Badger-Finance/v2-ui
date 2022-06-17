@@ -8,7 +8,7 @@ import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import settConfig from 'config/system/abis/Vault.json';
 import { action, computed, extendObservable } from 'mobx';
 import { IbBTCMintZapFactory } from 'mobx/ibbtc-mint-zap-factory';
-import { RootStore } from 'mobx/RootStore';
+import { RootStore } from 'mobx/stores/RootStore';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { ContractSendMethod } from 'web3-eth-contract';

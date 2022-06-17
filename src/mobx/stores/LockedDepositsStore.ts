@@ -7,7 +7,7 @@ import { ERC20__factory, VoteLockedDeposit__factory } from '../../contracts';
 import { LockedContractInfo } from '../model/locked-deposits/locked-contract-info';
 import { Network } from '../model/network/network';
 import { TokenBalance } from '../model/tokens/token-balance';
-import { RootStore } from '../RootStore';
+import { RootStore } from './RootStore';
 
 type LockedDepositBalancesMap = Map<string, TokenBalance>;
 

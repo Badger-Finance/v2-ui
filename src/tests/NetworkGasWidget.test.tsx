@@ -1,11 +1,11 @@
 import { action } from 'mobx';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import NetworkGasWidget from '../components-v2/common/NetworkGasWidget';
 import { defaultNetwork, supportedNetworks } from '../config/networks.config';
-import store from '../mobx/RootStore';
-import { StoreProvider } from '../mobx/store-context';
 import GasPricesStore from '../mobx/stores/GasPricesStore';
+import store from '../mobx/stores/RootStore';
 import { createMatchMedia, customRender, fireEvent, screen } from './Utils';
 
 const mockGasPrices = {

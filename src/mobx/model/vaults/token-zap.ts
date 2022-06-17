@@ -5,7 +5,7 @@ import zapConfig from 'config/system/abis/ZapPeak.json';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
-import { RootStore } from '../../RootStore';
+import { RootStore } from '../../stores/RootStore';
 import { toHex } from '../../utils/helpers';
 import { IBBTC_METHOD_NOT_SUPPORTED, IbBTCMintZap } from './ibbtc-mint-zap';
 

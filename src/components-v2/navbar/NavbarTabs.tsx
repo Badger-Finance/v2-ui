@@ -1,12 +1,12 @@
 import { makeStyles, Tab, Tabs, useMediaQuery, useTheme } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { QueryParams, Route } from 'mobx-router';
 import React, { useContext, useState } from 'react';
 
 import { getNavbarConfig } from '../../config/navbar.config';
 import routes from '../../config/routes';
-import { RootStore } from '../../mobx/RootStore';
-import { StoreContext } from '../../mobx/store-context';
+import { RootStore } from '../../mobx/stores/RootStore';
 
 const useStyles = makeStyles({
 	tab: {

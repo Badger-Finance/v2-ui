@@ -9,9 +9,9 @@ import Web3 from 'web3';
 import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
-import { RootStore } from '../RootStore';
 import { toFixedDecimals, unscale } from '../utils/helpers';
 import { EIP1559SendOptions, getSendOptions, sendContractMethod, TransactionRequestResult } from '../utils/web3';
+import { RootStore } from './RootStore';
 
 // TODO: did we lose some functionality here?
 type ProgressTracker = Record<string, boolean>;

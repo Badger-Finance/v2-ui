@@ -1,9 +1,9 @@
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import VaultListHeader from '../components-v2/landing/VaultListHeader';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
-import store from '../mobx/RootStore';
-import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/stores/RootStore';
 import { customRender, fireEvent, screen } from './Utils';
 import { checkSnapshot } from './utils/snapshots';
 
@@ -11,12 +11,7 @@ type SortTestingOptions = undefined | VaultSortOrder;
 
 describe('Vault List Header', () => {
 	it('renders correctly', () => {
-		checkSnapshot(
-			<VaultListHeader
-				title="All Setts"
-				helperText="A vault is a smart contract which hold specific tokens. It secures your crypto, while making your money work (e.g. rewards, APR...)"
-			/>,
-		);
+		checkSnapshot(<VaultListHeader />);
 	});
 
 	describe('content sorting', () => {
@@ -44,7 +39,7 @@ describe('Vault List Header', () => {
 
 				customRender(
 					<StoreProvider value={store}>
-						<VaultListHeader title="All Setts" />
+						<VaultListHeader />,
 					</StoreProvider>,
 				);
 
@@ -78,7 +73,7 @@ describe('Vault List Header', () => {
 
 				customRender(
 					<StoreProvider value={store}>
-						<VaultListHeader title="All Setts" />
+						<VaultListHeader />,
 					</StoreProvider>,
 				);
 
@@ -112,7 +107,7 @@ describe('Vault List Header', () => {
 
 				customRender(
 					<StoreProvider value={store}>
-						<VaultListHeader title="All Setts" />
+						<VaultListHeader />,
 					</StoreProvider>,
 				);
 

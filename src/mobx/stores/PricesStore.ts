@@ -9,7 +9,7 @@ import {
 	MATIC_PRICE_KEY,
 } from 'mobx/model/system-config/coingecko-price-response';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
-import { RootStore } from 'mobx/RootStore';
+import { RootStore } from 'mobx/stores/RootStore';
 import Web3 from 'web3';
 
 import { DEBUG } from '../../config/environment';

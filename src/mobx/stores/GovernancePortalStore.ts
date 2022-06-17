@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
-import { RootStore } from 'mobx/RootStore';
+import { RootStore } from 'mobx/stores/RootStore';
 
 import GovernanceTimelockAbi from '../../config/system/abis/GovernanceTimelock.json';
 import { TimelockEvent } from '../model/governance-timelock/timelock-event';

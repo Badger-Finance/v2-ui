@@ -3,7 +3,7 @@ import { action, extendObservable, observe } from 'mobx';
 import { BalanceNamespace } from 'web3/config/namespaces';
 
 import { ETH_DEPLOY } from '../model/network/eth.network';
-import { RootStore } from '../RootStore';
+import { RootStore } from './RootStore';
 
 export class VaultDetailStore {
 	private readonly store: RootStore;

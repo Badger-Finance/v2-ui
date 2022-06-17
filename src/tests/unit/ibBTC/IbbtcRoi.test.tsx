@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom';
 
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import { IbbtcRoi } from '../../../components/IbBTC/IbbtcRoi';
 import { darkTheme } from '../../../config/ui/dark';
-import store from '../../../mobx/RootStore';
-import { StoreProvider } from '../../../mobx/store-context';
 import IbBTCStore from '../../../mobx/stores/ibBTCStore';
+import store from '../../../mobx/stores/RootStore';
 import { customRender, screen } from '../../Utils';
 import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../../utils/samples';
 

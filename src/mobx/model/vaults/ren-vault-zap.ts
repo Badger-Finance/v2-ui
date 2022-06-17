@@ -7,7 +7,7 @@ import { AbiItem } from 'web3-utils';
 
 import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
 import vaultConfig from '../../../config/system/abis/Vault.json';
-import { RootStore } from '../../RootStore';
+import { RootStore } from '../../stores/RootStore';
 import { toHex } from '../../utils/helpers';
 import { IbbtcDepositTokenPoolIds } from '../../utils/ibbtc';
 import { IbBTCMintZap } from './ibbtc-mint-zap';

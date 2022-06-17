@@ -3,12 +3,12 @@ import '@testing-library/jest-dom/extend-expect';
 import { Protocol, VaultBehavior, VaultState } from '@badger-dao/sdk';
 import { within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 import { config } from 'react-transition-group';
 
 import VaultFiltersDialogV2 from '../../components-v2/VaultSearchControls/VaultFiltersDialog';
-import store from '../../mobx/RootStore';
-import { StoreProvider } from '../../mobx/store-context';
+import store from '../../mobx/stores/RootStore';
 import VaultStore from '../../mobx/stores/VaultStore';
 import { customRender, fireEvent, screen } from '../Utils';
 

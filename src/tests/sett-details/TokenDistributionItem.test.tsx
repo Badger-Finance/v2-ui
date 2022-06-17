@@ -1,9 +1,9 @@
 import userEvent from '@testing-library/user-event';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import { TokenDistributionIcon } from '../../components-v2/vault-detail/holdings/TokenDistributionIcon';
-import store from '../../mobx/RootStore';
-import { StoreProvider } from '../../mobx/store-context';
+import store from '../../mobx/stores/RootStore';
 import { customRender, screen } from '../Utils';
 import { SAMPLE_VAULT_BALANCE } from '../utils/samples';
 

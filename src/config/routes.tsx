@@ -9,7 +9,7 @@ import { BoostOptimizer } from '../components/Boost';
 import { NotFound } from '../components-v2/common/NotFound';
 import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
-import { RootStore } from '../mobx/RootStore';
+import { RootStore } from '../mobx/stores/RootStore';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
 import Landing from '../pages/Landing';
 

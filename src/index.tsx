@@ -3,6 +3,7 @@ import './assets/css/body.css';
 
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { StoreProvider } from 'mobx/stores/store-context';
 import { startRouter } from 'mobx-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -13,8 +14,7 @@ import SnackbarManager from './components-v2/common/SnackbarManager';
 import NetworkURLManager from './components-v2/NetworkURLManager';
 import routes from './config/routes';
 import { darkTheme } from './config/ui/dark';
-import store from './mobx/RootStore';
-import { StoreProvider } from './mobx/store-context';
+import store from './mobx/stores/RootStore';
 
 startRouter(routes, store, {
 	html5history: true,

@@ -5,7 +5,7 @@ import GeneralVaultZapABI from 'config/system/abis/GeneralVaultZap.json';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
-import { RootStore } from '../../RootStore';
+import { RootStore } from '../../stores/RootStore';
 import { toHex } from '../../utils/helpers';
 import { IbbtcDepositTokenPoolIds } from '../../utils/ibbtc';
 import { IBBTC_METHOD_NOT_SUPPORTED, IbBTCMintZap } from './ibbtc-mint-zap';

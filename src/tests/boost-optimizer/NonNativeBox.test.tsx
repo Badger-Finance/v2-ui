@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 
 import userEvent from '@testing-library/user-event';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import { NonNativeBox } from '../../components/Boost/NonNativeBox';
-import store from '../../mobx/RootStore';
-import { StoreProvider } from '../../mobx/store-context';
+import store from '../../mobx/stores/RootStore';
 import { customRender, screen } from '../Utils';
 
 describe('Non Native Box', () => {
