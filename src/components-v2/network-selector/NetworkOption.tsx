@@ -2,12 +2,12 @@ import { GasFees, getNetworkConfig } from '@badger-dao/sdk';
 import { Grid, IconButton, Popper, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useRef, useState } from 'react';
 import MenuItem from 'ui-library/MenuItem';
 
 import { Network } from '../../mobx/model/network/network';
-import { StoreContext } from '../../mobx/store-context';
 import MenuItemIcon from '../../ui-library/MenuItemIcon';
 import MenuItemText from '../../ui-library/MenuItemText';
 import { getNetworkIconPath } from '../../utils/network-icon';

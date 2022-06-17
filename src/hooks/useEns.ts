@@ -1,6 +1,6 @@
 import { DEBUG } from 'config/environment';
 import { ethers } from 'ethers';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { useContext, useEffect, useState } from 'react';
 
 const useENS = (address?: string) => {

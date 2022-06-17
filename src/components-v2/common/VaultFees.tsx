@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
 import { ethers } from 'ethers';
 import { StrategyFee } from 'mobx/model/system-config/stategy-fees';
+import { StoreContext } from 'mobx/stores/store-context';
 import { getVaultStrategyFee } from 'mobx/utils/fees';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import { StrategyFees } from './StrategyFees';
 
 const useStyles = makeStyles((theme) => ({

@@ -1,11 +1,11 @@
 import { Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { MIN_BOOST, MIN_BOOST_RANK } from '../../config/system/boost-ranks';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
-import { StoreContext } from '../../mobx/store-context';
 import { calculateUserBoost, getHighestRankFromStakeRatio } from '../../utils/boost-ranks';
 import { isValidCalculatedValue } from '../../utils/componentHelpers';
 import { RankList } from './RankList';

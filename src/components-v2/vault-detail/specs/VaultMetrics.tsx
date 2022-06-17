@@ -3,10 +3,10 @@ import { Collapse, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 
-import { StoreContext } from '../../../mobx/store-context';
 import { inCurrency, numberWithCommas } from '../../../mobx/utils/helpers';
 import { StyledDivider } from '../styled';
 

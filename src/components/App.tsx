@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import NetworkNotification from 'components-v2/common/NetworkNotification';
 import Sidebar from 'components-v2/sidebar';
 import { ONE_MIN_MS } from 'config/constants';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { MobxRouter } from 'mobx-router';
 import React, { useContext, useEffect } from 'react';
 

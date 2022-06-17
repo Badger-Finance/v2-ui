@@ -5,7 +5,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 import { useNumericInput } from 'utils/useNumericInput';

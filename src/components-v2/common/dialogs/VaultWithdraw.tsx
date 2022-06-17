@@ -3,7 +3,7 @@ import { Dialog, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 import { useNumericInput } from 'utils/useNumericInput';

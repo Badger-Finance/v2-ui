@@ -1,7 +1,7 @@
 import { makeStyles, Paper, Typography } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import BigNumber from 'bignumber.js';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';

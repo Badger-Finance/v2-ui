@@ -1,9 +1,8 @@
 import { Protocol } from '@badger-dao/sdk';
 import { Checkbox, FormControl, InputLabel, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-
-import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles({
 	formControl: {

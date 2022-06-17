@@ -13,7 +13,7 @@ import { makeStyles, styled } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 import { BigNumber } from 'bignumber.js';
 import { ZERO } from 'config/constants';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';

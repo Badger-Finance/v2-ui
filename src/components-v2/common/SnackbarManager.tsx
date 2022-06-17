@@ -1,5 +1,5 @@
-import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/stores/store-context';
+import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 import React, { useContext, useEffect } from 'react';
 

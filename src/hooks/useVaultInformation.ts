@@ -1,9 +1,9 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
 
 import { currencyConfiguration } from '../config/currency.config';
-import { StoreContext } from '../mobx/store-context';
 import { getUserVaultBoost } from '../utils/componentHelpers';
 
 interface VaultInformation {

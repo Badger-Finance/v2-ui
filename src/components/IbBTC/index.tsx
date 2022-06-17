@@ -3,7 +3,7 @@ import { Card, Container, Grid, Link, Paper, Tab, Tabs } from '@material-ui/core
 import { makeStyles } from '@material-ui/core/styles';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import PageHeader from 'components-v2/common/PageHeader';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 

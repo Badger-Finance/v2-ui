@@ -1,8 +1,8 @@
 import { Button, Grid, makeStyles } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import VaultSearchBar from './VaultSearchBar';
 import VaultPlatformSelector from './VaultsPlatformSelector';
 import VaultsRewardsSelector from './VaultsRewardsSelector';

@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 import clsx from 'clsx';
 import { Loader } from 'components/Loader';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';

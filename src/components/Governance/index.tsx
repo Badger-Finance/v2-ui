@@ -1,5 +1,5 @@
 import { Grid, IconButton } from '@material-ui/core';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
 

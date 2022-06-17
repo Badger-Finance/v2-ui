@@ -1,8 +1,8 @@
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import { APP_NEWS_MESSAGE, APP_NEWS_URL, APP_NEWS_URL_TEXT } from '../../config/constants';
-import { StoreContext } from '../../mobx/store-context';
 import Banner from '../../ui-library/Banner';
 import BannerCloseIconButton from '../../ui-library/BannerCloseIconButton';
 

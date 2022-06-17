@@ -11,10 +11,10 @@ import {
 	useTheme,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import BoostedVaultsControl from './BoostedVaultsControl';
 import OnlyDepositsControl from './OnlyDepositsControl';
 import PortfolioDustControl from './PortfolioDustControl';
