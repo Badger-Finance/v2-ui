@@ -1,5 +1,4 @@
-import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH, DEFAULT_CURRENCY } from 'config/constants';
-import { Currency } from 'config/enums/currency.enum';
+import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH } from 'config/constants';
 import { action, extendObservable } from 'mobx';
 
 import { SnackbarNotificationProps } from '../model/ui/snackbar-notification-props';
@@ -9,7 +8,6 @@ const SHOW_USER_BALANCE_KEY = 'showUserBalance';
 
 class UiStateStore {
 	private readonly store!: RootStore;
-	public currency: Currency;
 	public airdropStats: any;
 	public showWalletDrawer: boolean;
 	public rewardsDialogOpen: boolean;
@@ -25,7 +23,6 @@ class UiStateStore {
 		const storedBalanceDisplay = window.localStorage.getItem(SHOW_USER_BALANCE_KEY);
 		this.showUserBalances = storedBalanceDisplay === 'true';
 
-		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		this.showNotification = this.notificationClosingThreshold < 3;
 		this.showWalletDrawer = false;
 		this.showNetworkOptions = false;
@@ -34,7 +31,6 @@ class UiStateStore {
 
 		extendObservable(this, {
 			showNotification: this.showNotification,
-			currency: this.currency,
 			sidebarOpen: false,
 			rewardsDialogOpen: false,
 			showUserBalances: this.showUserBalances,
@@ -68,13 +64,6 @@ class UiStateStore {
 
 	/* Load Operations */
 
-	private loadCurrency(defaultCurrency: Currency): Currency {
-		const { network } = this.store.network;
-		const stored = window.localStorage.getItem(`${network.name}-selectedCurrency`);
-		const currency = stored?.toUpperCase() || defaultCurrency;
-		return Currency[currency as keyof typeof Currency] || defaultCurrency;
-	}
-
 	closeNotification = action(() => {
 		if (APP_NEWS_STORAGE_HASH) {
 			this.showNotification = false;
@@ -97,12 +86,6 @@ class UiStateStore {
 	setShowUserBalances = action((shouldShowUserBalance: boolean) => {
 		window.localStorage.setItem(SHOW_USER_BALANCE_KEY, `${shouldShowUserBalance}`);
 		this.showUserBalances = shouldShowUserBalance;
-	});
-
-	setCurrency = action((currency: Currency) => {
-		this.currency = currency;
-		const { network } = this.store.network;
-		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
 	});
 
 	openSidebar = action(() => {

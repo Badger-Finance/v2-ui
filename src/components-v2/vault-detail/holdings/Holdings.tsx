@@ -1,4 +1,4 @@
-import { VaultData, VaultDTO } from '@badger-dao/sdk';
+import { Currency, VaultData, VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { useVaultInformation } from 'hooks/useVaultInformation';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -58,7 +58,7 @@ export const Holdings = observer(({ userData, vault }: Props): JSX.Element | nul
 						vault={vault}
 						name="Total Deposited"
 						balance={depositBalance.balanceDisplay()}
-						value={depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency) ?? '0'}
+						value={depositBalance.balanceValueDisplay(Currency.USD) ?? '0'}
 						helpIcon={<TokenDistributionIcon settBalance={userData} />}
 					/>
 				</Grid>

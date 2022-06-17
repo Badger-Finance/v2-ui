@@ -4,7 +4,6 @@ import routes from 'config/routes';
 import { RouterStore } from 'mobx-router';
 
 import { NETWORK_IDS } from '../../config/constants';
-import { Currency } from '../../config/enums/currency.enum';
 import { FLAGS } from '../../config/environment';
 import rpc from '../../config/rpc.config';
 import { Network } from '../model/network/network';
@@ -84,7 +83,6 @@ export class RootStore {
 			this.network.network = appNetwork;
 		}
 
-		this.uiState.setCurrency(Currency.USD);
 		this.sdk = new BadgerSDK({ network, provider: rpc[appNetwork.symbol], baseURL: BADGER_API });
 		this.rewards.resetRewards();
 

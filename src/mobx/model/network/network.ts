@@ -1,7 +1,6 @@
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
-import { Network as ChainNetwork, TokenConfiguration, VaultState } from '@badger-dao/sdk';
+import { Currency, Network as ChainNetwork, TokenConfiguration, VaultState } from '@badger-dao/sdk';
 import { TransactionData } from 'bnc-notify';
-import { Currency } from 'config/enums/currency.enum';
 import rpc from 'config/rpc.config';
 import { getStrategies } from 'config/system/strategies';
 import { ContractCallContext } from 'ethereum-multicall';

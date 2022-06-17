@@ -16,10 +16,7 @@ exports[`VaultMetrics displays withdrawable tokens 1`] = `
     <p
       class="MuiTypography-root-113 makeStyles-amount-2 MuiTypography-body1-115"
     >
-      <span
-        class="MuiSkeleton-root-152 MuiSkeleton-text-153 MuiSkeleton-pulse-156"
-        style="width: 209px; height: 37px;"
-      />
+      135,697,015
     </p>
     <p
       class="MuiTypography-root-113 MuiTypography-body2-114"
@@ -36,14 +33,14 @@ exports[`VaultMetrics displays withdrawable tokens 1`] = `
       </div>
     </div>
     <div
-      class="MuiCollapse-root-163 MuiCollapse-entered-164"
+      class="MuiCollapse-root-152 MuiCollapse-entered-153"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper-166"
+        class="MuiCollapse-wrapper-155"
       >
         <div
-          class="MuiCollapse-wrapperInner-167"
+          class="MuiCollapse-wrapperInner-156"
         >
           <div
             class="makeStyles-submetric-4"
@@ -96,10 +93,7 @@ exports[`VaultMetrics renders correctly 1`] = `
     <p
       class="MuiTypography-root-113 makeStyles-amount-2 MuiTypography-body1-115"
     >
-      <span
-        class="MuiSkeleton-root-152 MuiSkeleton-text-153 MuiSkeleton-pulse-156"
-        style="width: 209px; height: 37px;"
-      />
+      135,697,015
     </p>
     <p
       class="MuiTypography-root-113 MuiTypography-body2-114"
@@ -116,14 +110,14 @@ exports[`VaultMetrics renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiCollapse-root-163 MuiCollapse-entered-164"
+      class="MuiCollapse-root-152 MuiCollapse-entered-153"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper-166"
+        class="MuiCollapse-wrapper-155"
       >
         <div
-          class="MuiCollapse-wrapperInner-167"
+          class="MuiCollapse-wrapperInner-156"
         >
           <div
             class="makeStyles-submetric-4"

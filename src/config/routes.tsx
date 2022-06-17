@@ -24,7 +24,6 @@ const routes = {
 					showAPR: Boolean(queryParams['showAPR']),
 					onlyDeposits: Boolean(queryParams['onlyDeposits']),
 					onlyBoostedVaults: Boolean(queryParams['onlyBoostedVaults']),
-					currency: (queryParams['currency'] as Currency) ?? store.uiState.currency,
 					sortOrder: (queryParams['sortOrder'] as VaultSortOrder) ?? undefined,
 					search: (queryParams['search'] as string) ?? undefined,
 					protocols: parseQueryMultipleParams<Protocol>(queryParams['protocols']),

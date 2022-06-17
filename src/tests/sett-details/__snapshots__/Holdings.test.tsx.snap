@@ -74,7 +74,7 @@ exports[`Holdings displays holdings with balance 1`] = `
                 <p
                   class="MuiTypography-root-106 MuiTypography-body2-107 MuiTypography-colorTextSecondary-132"
                 >
-                  $114,098.03
+                  1.999000000000000000
                 </p>
               </div>
             </div>
@@ -213,7 +213,7 @@ exports[`Holdings displays holdings with no balance 1`] = `
                 <p
                   class="MuiTypography-root-106 MuiTypography-body2-107 MuiTypography-colorTextSecondary-132"
                 >
-                  $114,098.03
+                  1.999000000000000000
                 </p>
               </div>
             </div>

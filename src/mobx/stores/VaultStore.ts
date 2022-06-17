@@ -15,6 +15,7 @@ import { Token } from 'mobx/model/tokens/token';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
+import slugify from 'slugify';
 import Web3 from 'web3';
 
 import { FLAGS } from '../../config/environment';
@@ -28,7 +29,6 @@ import { VaultCache } from '../model/vaults/vault-cache';
 import { VaultMap } from '../model/vaults/vault-map';
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
 import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
-import { getVaultsSlugCache } from '../utils/helpers';
 import { RootStore } from './RootStore';
 
 export default class VaultStore {
@@ -79,7 +79,6 @@ export default class VaultStore {
 		this.vaultsFilters = {
 			hidePortfolioDust: false,
 			showAPR: false,
-			currency: store.uiState.currency,
 			onlyDeposits: false,
 			onlyBoostedVaults: false,
 		};
@@ -327,7 +326,7 @@ export default class VaultStore {
 		this.vaultCache[chain] = Object.fromEntries(vaultList.map((vault) => [vault.vaultToken, vault]));
 		this.slugCache[chain] = {
 			...this.slugCache[chain],
-			...getVaultsSlugCache(vaultList),
+			...this.getVaultsSlugCache(vaultList),
 		};
 	});
 
@@ -425,7 +424,6 @@ export default class VaultStore {
 		this.vaultsFilters = {
 			hidePortfolioDust: false,
 			showAPR: false,
-			currency: this.store.uiState.currency,
 			onlyDeposits: false,
 			onlyBoostedVaults: false,
 			protocols: undefined,
@@ -634,5 +632,29 @@ export default class VaultStore {
 		}
 
 		return getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
+	}
+
+	private getVaultsSlugCache(vaults: VaultDTO[]): Record<string, string> {
+		const occurrences: Record<string, number> = {};
+		return Object.fromEntries(
+			vaults.map((vault) => {
+				const sanitizedVaultName = vault.name
+					.replace(/[^\x00-\x7F]/g, '')
+					.replace(/\/+/g, '-')
+					.trim(); // replace "/" with "-"
+
+				const appearances = occurrences[sanitizedVaultName] ?? 0;
+
+				let slugStoreName = sanitizedVaultName;
+				// in the event of duplicate vault names append an index suffix to prevent slug overlapping
+				if (appearances > 0) {
+					slugStoreName = `${sanitizedVaultName}-${occurrences[sanitizedVaultName]}`;
+				}
+
+				occurrences[sanitizedVaultName] = appearances + 1;
+
+				return [vault.vaultToken, slugify(`${vault.protocol}-${slugStoreName}`, { lower: true })];
+			}),
+		);
 	}
 }

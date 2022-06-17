@@ -1,7 +1,5 @@
 import { Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
 
-import { Currency } from '../../../config/enums/currency.enum';
-
 export enum VaultSortOrder {
 	APR_ASC = 'APR_ASC',
 	APR_DESC = 'APR_DESC',
@@ -17,7 +15,6 @@ export interface VaultsFilters {
 	hidePortfolioDust: boolean;
 	sortOrder?: VaultSortOrder;
 	showAPR: boolean;
-	currency: Currency;
 	onlyDeposits: boolean;
 	onlyBoostedVaults: boolean;
 	protocols?: Protocol[];

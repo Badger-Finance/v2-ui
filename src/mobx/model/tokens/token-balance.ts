@@ -1,7 +1,6 @@
-import { Token } from '@badger-dao/sdk';
+import { Currency, Token } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
-import { Currency } from 'config/enums/currency.enum';
-import { inCurrency, minBalance } from 'mobx/utils/helpers';
+import { minBalance } from 'mobx/utils/helpers';
 
 export class TokenBalance {
 	readonly token: Token;
@@ -73,7 +72,9 @@ export class TokenBalance {
 			return `${this.balanceDisplay(precision ?? 8)} ${this.token.symbol}`;
 		}
 
-		return inCurrency(this.value, currency, precision);
+		// TODO: remove btc currency options - we are not bitcoin focused, usd maxis
+		// we aren't doing this ridiculous in app conversions anymore
+		return this.balanceDisplay();
 	}
 
 	/**

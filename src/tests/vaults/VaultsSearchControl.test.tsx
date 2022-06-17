@@ -128,30 +128,6 @@ describe('VaultSearchControl', () => {
 			expect(aprButton).toHaveAttribute('aria-selected', 'true');
 		});
 
-		it('can select USD currency', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
-
-			const usdButton = screen.getByRole('button', { name: 'USD' });
-			fireEvent.click(usdButton);
-			expect(usdButton).toHaveAttribute('aria-selected', 'true');
-		});
-
-		it('can select BTC currency', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
-
-			const btcButton = screen.getByRole('button', { name: 'BTC' });
-			fireEvent.click(btcButton);
-			expect(btcButton).toHaveAttribute('aria-selected', 'true');
-		});
-
 		it('can clear filters', () => {
 			const clear = jest.fn();
 			store.vaults.clearFilters = action(clear);

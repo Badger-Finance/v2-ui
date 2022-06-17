@@ -6,7 +6,6 @@ Object {
     "DCA",
     "Compounder",
   ],
-  "currency": "BTC",
   "hidePortfolioDust": true,
   "onlyBoostedVaults": true,
   "onlyDeposits": true,
@@ -87,7 +86,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-383"
+                class="MuiTouchRipple-root-381"
               />
             </button>
           </div>
@@ -132,7 +131,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-383"
+                    class="MuiTouchRipple-root-381"
                   />
                 </span>
                 <span
@@ -177,7 +176,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-383"
+                    class="MuiTouchRipple-root-381"
                   />
                 </span>
                 <span
@@ -222,7 +221,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-383"
+                    class="MuiTouchRipple-root-381"
                   />
                 </span>
                 <span
@@ -464,7 +463,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                         </svg>
                       </span>
                       <span
-                        class="MuiTouchRipple-root-383"
+                        class="MuiTouchRipple-root-381"
                       />
                     </button>
                   </div>
@@ -512,7 +511,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                     APY
                   </span>
                   <span
-                    class="MuiTouchRipple-root-383"
+                    class="MuiTouchRipple-root-381"
                   />
                 </button>
                 <button
@@ -527,47 +526,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                     APR
                   </span>
                   <span
-                    class="MuiTouchRipple-root-383"
-                  />
-                </button>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-54 MuiGrid-item-56"
-            >
-              <div
-                aria-label="currency selector"
-                class="MuiButtonGroup-root-328"
-                role="group"
-              >
-                <button
-                  aria-selected="true"
-                  class="MuiButtonBase-root-196 MuiButton-root-352 MuiButton-outlined-357 MuiButtonGroup-grouped-334 MuiButtonGroup-groupedHorizontal-335 MuiButtonGroup-groupedOutlined-342 MuiButtonGroup-groupedOutlinedHorizontal-343 MuiButtonGroup-groupedOutlined-342 makeStyles-selected-381 makeStyles-button-382"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-label-353"
-                  >
-                    USD
-                  </span>
-                  <span
-                    class="MuiTouchRipple-root-383"
-                  />
-                </button>
-                <button
-                  aria-selected="false"
-                  class="MuiButtonBase-root-196 MuiButton-root-352 MuiButton-outlined-357 MuiButtonGroup-grouped-334 MuiButtonGroup-groupedHorizontal-335 MuiButtonGroup-groupedOutlined-342 MuiButtonGroup-groupedOutlinedHorizontal-343 MuiButtonGroup-groupedOutlined-342 makeStyles-button-382"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-label-353"
-                  >
-                    BTC
-                  </span>
-                  <span
-                    class="MuiTouchRipple-root-383"
+                    class="MuiTouchRipple-root-381"
                   />
                 </button>
               </div>
@@ -593,7 +552,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   Clear All
                 </span>
                 <span
-                  class="MuiTouchRipple-root-383"
+                  class="MuiTouchRipple-root-381"
                 />
               </button>
             </div>
@@ -611,7 +570,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                   Apply Filters
                 </span>
                 <span
-                  class="MuiTouchRipple-root-383"
+                  class="MuiTouchRipple-root-381"
                 />
               </button>
             </div>

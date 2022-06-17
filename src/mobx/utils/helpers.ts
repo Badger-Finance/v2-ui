@@ -1,13 +1,8 @@
-import { VaultDTO } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
-import { currencyConfiguration } from 'config/currency.config';
-import { Currency } from 'config/enums/currency.enum';
 import { ChartData } from 'mobx/model/charts/chart-data';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
 import { Network } from 'mobx/model/network/network';
-import store from 'mobx/stores/RootStore';
-import slugify from 'slugify';
 
 import { TEN, ZERO } from '../../config/constants';
 
@@ -45,104 +40,6 @@ export const secondsToBlocks = (seconds: number): number => {
 };
 
 // TECH DEBT: Reformat these formatting functions using a factory pattern and delete repeated code
-
-/**
- * Function for wrapping ETH based prices or values to be displayed in any currency.
- * @param value Amount of eth to be displayed.
- * @param currency
- * @param dispalyDecimals
- * @returns
- */
-export function inCurrency(value: BigNumber, currency: Currency, dispalyDecimals?: number): string | undefined {
-	const { exchangeRates } = store.prices;
-	if (value.isNaN() || !exchangeRates) {
-		return;
-	}
-	const currencyConfig = currencyConfiguration[currency];
-	const { prefix, getExchangeRate, decimals } = currencyConfig;
-	const conversionDecimals = dispalyDecimals ?? decimals;
-	let converted = value.multipliedBy(getExchangeRate(exchangeRates));
-	let suffix = '';
-	if (converted.gt(0) && converted.lt(10 ** -conversionDecimals)) {
-		converted = converted.multipliedBy(10 ** conversionDecimals);
-		suffix = `e-${conversionDecimals}`;
-	}
-	const amount = numberWithCommas(converted.toFixed(conversionDecimals, BigNumber.ROUND_HALF_FLOOR));
-	return `${prefix}${amount}${suffix}`;
-}
-
-interface DiggToCurrencyOptions {
-	amount: BigNumber;
-	currency: 'usd' | 'btc' | 'eth' | 'cad' | 'bnb';
-	hide?: boolean;
-	preferredDecimals?: number;
-	noCommas?: boolean;
-}
-
-/**
- * Formats an amount in Digg to a specific currency
- *
- * @param options amount, currency, hide, preferredDecimals, noCommas
- * @returns formatted amount
- */
-export const bDiggToCurrency = ({
-	amount,
-	currency,
-	preferredDecimals = 2,
-	noCommas = false,
-}: DiggToCurrencyOptions): string | undefined => {
-	const bDiggExchangeRates = store.prices.bDiggExchangeRates;
-	if (!bDiggExchangeRates || amount.isNaN()) {
-		return;
-	}
-
-	let normal = amount.dividedBy(1e18);
-	let prefix = '';
-	let decimals = preferredDecimals;
-
-	switch (currency) {
-		case 'usd':
-			normal = normal.multipliedBy(bDiggExchangeRates.usd);
-			decimals = 2;
-			prefix = '$ ';
-			break;
-		case 'btc':
-			normal = normal.multipliedBy(bDiggExchangeRates.btc);
-			decimals = 5;
-			prefix = '₿ ';
-			break;
-		case 'eth':
-			normal = normal.multipliedBy(bDiggExchangeRates.eth);
-			prefix = 'Ξ ';
-			decimals = 5;
-			break;
-		case 'cad':
-			normal = normal.multipliedBy(bDiggExchangeRates.cad);
-			decimals = 2;
-			prefix = 'C$';
-			break;
-		case 'bnb':
-			normal = normal.multipliedBy(bDiggExchangeRates.bnb);
-			decimals = 2;
-			prefix = '/assets/icons/bnb-white.png';
-			break;
-	}
-
-	let suffix = '';
-
-	if (normal.gt(0) && normal.lt(10 ** -decimals)) {
-		normal = normal.multipliedBy(10 ** decimals);
-		suffix = `e-${decimals}`;
-	} else if (normal.dividedBy(1e4).gt(1)) {
-		decimals = preferredDecimals;
-	}
-
-	const fixedNormal = noCommas
-		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
-		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
-
-	return `${prefix}${fixedNormal}${suffix}`;
-};
 
 export const formatTokens = (value: BigNumber, decimals = 5): string => {
 	if (!value || value.isNaN()) {
@@ -279,30 +176,6 @@ export const unscale = (amount: BigNumber, decimals: number): BigNumber => amoun
 export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
 export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
 export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
-
-export function getVaultsSlugCache(vaults: VaultDTO[]): Record<string, string> {
-	const occurrences: Record<string, number> = {};
-	return Object.fromEntries(
-		vaults.map((vault) => {
-			const sanitizedVaultName = vault.name
-				.replace(/[^\x00-\x7F]/g, '')
-				.replace(/\/+/g, '-')
-				.trim(); // replace "/" with "-"
-
-			const appearances = occurrences[sanitizedVaultName] ?? 0;
-
-			let slugStoreName = sanitizedVaultName;
-			// in the event of duplicate vault names append an index suffix to prevent slug overlapping
-			if (appearances > 0) {
-				slugStoreName = `${sanitizedVaultName}-${occurrences[sanitizedVaultName]}`;
-			}
-
-			occurrences[sanitizedVaultName] = appearances + 1;
-
-			return [vault.vaultToken, slugify(`${vault.protocol}-${slugStoreName}`, { lower: true })];
-		}),
-	);
-}
 
 /**
  * If the parameter is a string, return an array with that string as the only element. Otherwise, return the parameter as

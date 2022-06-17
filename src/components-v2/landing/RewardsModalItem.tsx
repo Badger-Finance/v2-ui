@@ -1,3 +1,4 @@
+import { Currency } from '@badger-dao/sdk';
 import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -49,7 +50,7 @@ export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Ele
 					<CurrencyDisplay
 						variant="body2"
 						justifyContent="flex-end"
-						displayValue={claimBalance.balanceValueDisplay(uiState.currency, 5)}
+						displayValue={claimBalance.balanceValueDisplay(Currency.USD, 5)}
 						TypographyProps={{ color: 'textSecondary' }}
 					/>
 				</div>

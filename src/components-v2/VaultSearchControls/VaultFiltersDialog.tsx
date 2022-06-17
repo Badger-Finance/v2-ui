@@ -19,7 +19,6 @@ import BoostedVaultsControl from './BoostedVaultsControl';
 import OnlyDepositsControl from './OnlyDepositsControl';
 import PortfolioDustControl from './PortfolioDustControl';
 import VaultsAprControl from './VaultsAprControl';
-import VaultsCurrencyControl from './VaultsCurrencyControl';
 import VaultSearchBar from './VaultSearchBar';
 import VaultsPlatformSelector from './VaultsPlatformSelector';
 import VaultsRewardsSelector from './VaultsRewardsSelector';
@@ -65,7 +64,6 @@ const VaultFiltersDialog = () => {
 	const [platforms, setPlatforms] = useState(vaultsFilters.protocols);
 	const [rewards, setRewards] = useState(vaultsFilters.behaviors);
 	const [search, setSearch] = useState(vaultsFilters.search);
-	const [currency, setCurrency] = useState(vaultsFilters.currency);
 
 	const syncPersistedFiltersValues = useCallback(() => {
 		setOnlyDeposits(vaultsFilters.onlyDeposits);
@@ -76,7 +74,6 @@ const VaultFiltersDialog = () => {
 		setPlatforms(vaultsFilters.protocols);
 		setRewards(vaultsFilters.behaviors);
 		setSearch(vaultsFilters.search);
-		setCurrency(vaultsFilters.currency);
 	}, [vaultsFilters]);
 
 	const handleClose = () => {
@@ -90,7 +87,6 @@ const VaultFiltersDialog = () => {
 			statuses: statuses,
 			onlyDeposits,
 			showAPR,
-			currency,
 			protocols: platforms,
 			behaviors: rewards,
 			search: search,
@@ -105,7 +101,6 @@ const VaultFiltersDialog = () => {
 		setShowAPR(false);
 		setBoostedVaults(false);
 		setHideDust(false);
-		setCurrency(vaultsFilters.currency);
 		setStatuses(undefined);
 		setPlatforms(undefined);
 		setRewards(undefined);
@@ -165,12 +160,6 @@ const VaultFiltersDialog = () => {
 				<Grid container>
 					<Grid item className={classes.apr}>
 						<VaultsAprControl showAPR={showAPR} onShowAPRChange={(checked) => setShowAPR(checked)} />
-					</Grid>
-					<Grid item>
-						<VaultsCurrencyControl
-							currency={currency}
-							onCurrencyChange={(currency) => setCurrency(currency)}
-						/>
 					</Grid>
 				</Grid>
 				<Divider className={classes.divider} />

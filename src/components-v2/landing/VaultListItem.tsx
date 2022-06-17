@@ -2,7 +2,6 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Card, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { StoreContext } from 'mobx/stores/store-context';
-import { inCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
 
@@ -73,7 +72,6 @@ interface VaultListItemProps {
 const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | null => {
 	const classes = useStyles();
 	const { router, vaults } = useContext(StoreContext);
-	const currency = vaults.vaultsFilters.currency;
 	const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
 	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 
@@ -121,7 +119,7 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
 				</Grid>
 				<Grid item xs container justifyContent="flex-end">
 					<CurrencyDisplay
-						displayValue={inCurrency(new BigNumber(vault.value), currency, 0)}
+						displayValue={vault.value.toFixed()}
 						variant="body1"
 						justifyContent="flex-start"
 						TypographyProps={{ className: classes.itemText }}
