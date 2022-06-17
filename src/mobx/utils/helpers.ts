@@ -1,34 +1,3 @@
-import { VaultDTO } from '@badger-dao/sdk';
-import { currencyConfiguration } from 'config/currency.config';
-import { Currency } from 'config/enums/currency.enum';
-import store from 'mobx/RootStore';
-import slugify from 'slugify';
-
-/**
- * Function for wrapping ETH based prices or values to be displayed in any currency.
- * @param value Amount of eth to be displayed.
- * @param currency
- * @param dispalyDecimals
- * @returns
- */
-export function inCurrency(value: number, currency: Currency, dispalyDecimals?: number): string | undefined {
-	const { exchangeRates } = store.prices;
-	if (isNaN(value) || !exchangeRates) {
-		return;
-	}
-	const currencyConfig = currencyConfiguration[currency];
-	const { prefix, getExchangeRate, decimals } = currencyConfig;
-	const conversionDecimals = dispalyDecimals ?? decimals;
-	let converted = value * getExchangeRate(exchangeRates);
-	let suffix = '';
-	if (converted > 0 && converted < 10 ** -conversionDecimals) {
-		converted = converted * 10 ** conversionDecimals;
-		suffix = `e-${conversionDecimals}`;
-	}
-	const amount = numberWithCommas(converted.toFixed(conversionDecimals));
-	return `${prefix}${amount}${suffix}`;
-}
-
 export const numberWithCommas = (x: string): string => {
 	const parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');

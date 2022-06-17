@@ -3,8 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { Loader } from 'components/Loader';
 import { BigNumber } from 'ethers';
-import { StoreContext } from 'mobx/store-context';
-import { inCurrency } from 'mobx/utils/helpers';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -34,8 +33,8 @@ export const RewardsButton = observer((): JSX.Element | null => {
 	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
 
 	const totalRewardsValue = Object.keys(claimableRewards).reduce(
-		(total, claimKey) => total.add(claimableRewards[claimKey].value),
-		BigNumber.from(0),
+		(total, claimKey) => (total += claimableRewards[claimKey].value),
+		0,
 	);
 
 	useEffect(() => {
@@ -69,7 +68,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
 		);
 	}
 
-	const widgetButtonDecimals = totalRewardsValue.isZero() ? 0 : 2; // use default otherwise
+	const widgetButtonDecimals = totalRewardsValue === 0 ? 0 : 2; // use default otherwise
 
 	return (
 		<>

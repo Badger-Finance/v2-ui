@@ -1,7 +1,7 @@
 import { Currency, Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
 import Bridge from 'components/Bridge';
 import Governance from 'components/Governance';
-import { IbBTC } from 'components/IbBTC';
+// import { IbBTC } from 'components/IbBTC';
 import { QueryParams, Route } from 'mobx-router';
 import React from 'react';
 
@@ -17,7 +17,7 @@ const routes = {
 	home: new Route<RootStore, QueryParams>({
 		path: '/',
 		component: <Landing />,
-		onEnter: (route, params, store, queryParams: Record<string, any>) => {
+		onEnter: (_route, _params, store, queryParams: Record<string, any>) => {
 			if (queryParams) {
 				store.vaults.vaultsFilters = {
 					hidePortfolioDust: Boolean(queryParams['hidePortfolioDust']),
@@ -44,8 +44,8 @@ const routes = {
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
-		component: <IbBTC />,
-		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
+		component: <></>, //  <IbBTC />,
+		// onEnter: (_route, _params, store) => store.ibBTCStore.init(),
 	}),
 	vaultDetail: new Route<RootStore, QueryParams>({
 		path: '/vault/:vaultName',

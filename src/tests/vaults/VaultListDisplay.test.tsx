@@ -1,4 +1,6 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';
@@ -93,8 +95,8 @@ describe('VaultListDisplay', () => {
 						decimals: 18,
 						name: '',
 					},
-					new BigNumber(10),
-					new BigNumber(2),
+					BigNumber.from(10),
+					2,
 				);
 			}
 
@@ -106,8 +108,8 @@ describe('VaultListDisplay', () => {
 						decimals: 18,
 						name: '',
 					},
-					new BigNumber(1),
-					new BigNumber(2),
+					BigNumber.from(1),
+					2,
 				);
 			}
 
@@ -118,8 +120,8 @@ describe('VaultListDisplay', () => {
 					decimals: 18,
 					name: '',
 				},
-				new BigNumber(0),
-				new BigNumber(0),
+				BigNumber.from(0),
+				0,
 			);
 		});
 

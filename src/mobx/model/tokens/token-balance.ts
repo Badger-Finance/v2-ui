@@ -1,5 +1,5 @@
-import { Currency, Token } from '@badger-dao/sdk';
-import BigNumber from 'bignumber.js';
+import { Currency, formatBalance, Token } from '@badger-dao/sdk';
+import { BigNumber, BigNumberish } from 'ethers';
 import { minBalance } from 'mobx/utils/helpers';
 
 export class TokenBalance {

@@ -9,7 +9,7 @@ import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json'
 import { fetchData } from '../../utils/fetchData';
 import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
 import { DelegationState } from '../model/vaults/locked-cvx-delegation';
-import { RootStore } from '../RootStore';
+import { RootStore } from './RootStore';
 
 // this is mainnet only
 const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';

@@ -2,7 +2,6 @@ import { retry } from '@lifeomic/attempt';
 import { BigNumber } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { RewardMerkleClaim } from 'mobx/model/rewards/reward-merkle-claim';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
 
@@ -134,23 +133,24 @@ class RewardsStore {
 
 		this.loadingTreeData = true;
 
-		const rewardsTree = new wallet.web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-		try {
-			const [timestamp, cycle] = await Promise.all([
-				rewardsTree.methods.lastPublishTimestamp().call(),
-				rewardsTree.methods.currentCycle().call(),
-			]);
-			this.badgerTree.lastCycle = new Date(timestamp * 1000);
-			this.badgerTree.cycle = cycle.toString();
-			this.badgerTree.timeSinceLastCycle = this.reduceTimeSinceLastCycle(timestamp);
-			await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
-		} catch (error) {
-			console.error('There was an error fetching rewards information: ', error);
-			queueNotification(
-				`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
-				'error',
-			);
-		}
+		// use sdk
+		// const rewardsTree = new wallet.web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		// try {
+		// 	const [timestamp, cycle] = await Promise.all([
+		// 		rewardsTree.methods.lastPublishTimestamp().call(),
+		// 		rewardsTree.methods.currentCycle().call(),
+		// 	]);
+		// 	this.badgerTree.lastCycle = new Date(timestamp * 1000);
+		// 	this.badgerTree.cycle = cycle.toString();
+		// 	this.badgerTree.timeSinceLastCycle = this.reduceTimeSinceLastCycle(timestamp);
+		// 	await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
+		// } catch (error) {
+		// 	console.error('There was an error fetching rewards information: ', error);
+		// 	queueNotification(
+		// 		`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
+		// 		'error',
+		// 	);
+		// }
 
 		this.loadingTreeData = false;
 	});
@@ -184,13 +184,14 @@ class RewardsStore {
 
 		this.loadingRewards = true;
 
-		const rewardsTree = new web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-		const claimed: TreeClaimData = await rewardsTree.methods.getClaimedFor(address, claimProof.tokens).call();
+		// use sdk
+		// const rewardsTree = new web3Instance.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+		// const claimed: TreeClaimData = await rewardsTree.methods.getClaimedFor(address, claimProof.tokens).call();
 
-		this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
-		this.badgerTree.claims = this.reduceClaims(claimProof, claimed, true);
-		this.badgerTree.amounts = this.reduceClaims(claimProof, claimed);
-		this.badgerTree.proof = claimProof;
+		// this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
+		// this.badgerTree.claims = this.reduceClaims(claimProof, claimed, true);
+		// this.badgerTree.amounts = this.reduceClaims(claimProof, claimed);
+		// this.badgerTree.proof = claimProof;
 
 		this.loadingRewards = false;
 	});

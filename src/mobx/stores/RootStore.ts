@@ -36,7 +36,7 @@ export class RootStore {
 	public onboard: OnboardStore;
 	public wallet: WalletStore;
 	public rewards: RewardsStore;
-	public ibBTCStore: IbBTCStore;
+	// public ibBTCStore: IbBTCStore;
 	public vaults: VaultStore;
 	public user: UserStore;
 	public prices: PricesStore;
@@ -70,7 +70,7 @@ export class RootStore {
 		this.vaultCharts = new VaultChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
 		this.gasPrices = new GasPricesStore(this);
-		this.ibBTCStore = new IbBTCStore(this);
+		// this.ibBTCStore = new IbBTCStore(this);
 		this.governancePortal = new GovernancePortalStore(this);
 		this.lockedDeposits = new LockedDepositsStore(this);
 	}

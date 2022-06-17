@@ -2,6 +2,8 @@ import { Grid, makeStyles } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Skeleton } from '@material-ui/lab';
 import { BigNumber } from 'ethers';
+import { StoreContext } from 'mobx/stores/store-context';
+import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Typography } from 'ui-library/Typography';

@@ -2,7 +2,6 @@ import { Network } from '@badger-dao/sdk';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { BigNumber, ethers } from 'ethers';
 
-import { Currency } from './enums/currency.enum';
 import { Wallets } from './enums/wallets.enum';
 
 /* App Configurations */

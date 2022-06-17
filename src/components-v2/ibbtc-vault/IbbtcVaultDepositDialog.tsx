@@ -20,13 +20,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 import { IbbtcVaultZap__factory } from 'contracts';
 import { BigNumber, BigNumberish, ethers } from 'ethers';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { Loader } from '../../components/Loader';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { StoreContext } from '../../mobx/store-context';
 import { VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { StrategyFees } from '../common/StrategyFees';
 import VaultLogo from '../landing/VaultLogo';

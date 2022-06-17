@@ -115,10 +115,6 @@ export const IbBTC = observer(() => {
 								{content}
 							</Card>
 						</Grid>
-						{/* Removed per Tritium as of 17-11-2021, re-enable once less flaky, or ibbtc basket updated. cc: @jintao */}
-						{/* <Grid item xs={12} md={9} lg={7} className={classes.apyInformation}>
-							<IbbtcRoi />
-						</Grid> */}
 					</div>
 				) : (
 					<>
