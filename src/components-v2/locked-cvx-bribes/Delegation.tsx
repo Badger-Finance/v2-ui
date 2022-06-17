@@ -1,8 +1,8 @@
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
-import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/stores/store-context';
+import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import DelegationButton from './DelegationButton';
