@@ -95,7 +95,8 @@ class RewardsStore {
 		}
 
 		const isDigg = claimToken.address === ETH_DEPLOY.tokens.digg;
-		const divisor = isDigg && rebaseInfo ? rebaseInfo.sharesPerFragment : new BigNumber(1);
+		const divisor =
+			isDigg && rebaseInfo ? new BigNumber(rebaseInfo.sharesPerFragment.toString()) : new BigNumber(1);
 
 		const amount = new BigNumber(balance).dividedBy(divisor);
 		return new TokenBalance(claimToken, amount, tokenPrice);
@@ -259,7 +260,7 @@ class RewardsStore {
 		if (network.symbol === Network.Ethereum && !rebase) {
 			return null;
 		} else if (rebase) {
-			sharesPerFragment = rebase.sharesPerFragment;
+			sharesPerFragment = new BigNumber(rebase.sharesPerFragment.toString());
 		}
 
 		if (!proof || !claimMap) {

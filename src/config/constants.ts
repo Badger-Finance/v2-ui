@@ -7,8 +7,6 @@ import importedYearnVault from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
-import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
-import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
 import { Wallets } from './enums/wallets.enum';
 import { Network } from '@badger-dao/sdk';
 import { Currency } from './enums/currency.enum';
@@ -19,28 +17,6 @@ export const TOOLTIP_LEAVE_TOUCH_DELAY = 1500;
 export const DEFAULT_CURRENCY = Currency.USD;
 export const MAX_LAYOUT_WIDTH = 1183; // 1135px (width on mocks) + 24px of padding on each side
 export const DEFAULT_NETWORK = Network.Ethereum;
-
-export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
-	pending: 'Transaction Pending.',
-	burned: 'Tokens Burned.',
-	released: 'Tokens Released.',
-	reverted: 'Transaction Reverted.',
-};
-
-export const burnStatusIndex: Record<BurnAndReleaseStatus, number> = {
-	pending: 0,
-	burned: 1,
-	released: 2,
-	reverted: 3,
-};
-
-export const depositStatusDict: Record<DepositStatus, string> = {
-	detected: 'Transaction Detected.',
-	confirmed: 'Transaction Confirmed.',
-	signed: 'Transaction Signed.',
-	reverted: 'Transaction Reverted.',
-	submitted: 'Transaction Submitted.',
-};
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
 	[Wallets.Ledger]: true,
@@ -130,8 +106,8 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE = 'Please confirm the URL is "https://app.badger.com/" before interacting with the site';
+export const APP_NEWS_MESSAGE = 'Limited Time Bootstrapping emissions on  graviAURA: ';
 // Text & URL should be defined or explicitly undefined.
-export const APP_NEWS_URL_TEXT = undefined;
-export const APP_NEWS_URL = undefined;
+export const APP_NEWS_URL_TEXT = 'Learn More';
+export const APP_NEWS_URL = 'https://badger.com/gravity-news/graviaura-bootstrapping';
 export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);

@@ -27,6 +27,7 @@ export class Ethereum extends NetworkModel {
 
 	get settOrder(): string[] {
 		return [
+			this.deploy.sett_system.vaults['native.graviaura'],
 			this.deploy.sett_system.vaults['native.icvx'],
 			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.cvxCrv'],
@@ -371,6 +372,16 @@ const ethVaultDefinitions: BadgerVault[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.badgerCrv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['aura'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.graviaura'],
 			decimals: 18,
 		},
 	},
