@@ -1,6 +1,6 @@
 import { VaultDTO } from '@badger-dao/sdk';
-import { StoreContext } from 'mobx/store-context';
 import { observer } from 'mobx-react-lite';
+import { StoreContext } from 'mobx/stores/store-context';
 import React, { useContext } from 'react';
 
 interface Props {

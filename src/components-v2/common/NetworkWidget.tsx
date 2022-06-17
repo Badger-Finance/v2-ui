@@ -4,9 +4,9 @@ import { ArrowDropDown } from '@material-ui/icons';
 import clsx from 'clsx';
 import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
-import { StoreContext } from 'mobx/stores/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
