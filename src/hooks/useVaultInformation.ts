@@ -1,9 +1,8 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { Currency, VaultDTO } from '@badger-dao/sdk';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
 
-import { currencyConfiguration } from '../config/currency.config';
 import { getUserVaultBoost } from '../utils/componentHelpers';
 
 interface VaultInformation {
@@ -29,8 +28,8 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
 			: null;
 
 	const depositBalanceDisplay = depositBalance.tokenBalance.gt(0)
-		? depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency)
-		: `${currencyConfiguration[vaults.vaultsFilters.currency].prefix}-`;
+		? depositBalance.balanceValueDisplay(Currency.USD)
+		: '$0';
 
 	return {
 		vaultBoost,

@@ -1,6 +1,5 @@
-import { Network } from '@badger-dao/sdk';
+import { Currency, Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { Currency } from 'config/enums/currency.enum';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';

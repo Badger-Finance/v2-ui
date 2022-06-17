@@ -9,13 +9,11 @@ import importedErc20 from '../config/system/abis/ERC20.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import importedVault from '../config/system/abis/Vault.json';
 import importedYearnVault from '../config/system/abis/YearnWrapper.json';
-import { Currency } from './enums/currency.enum';
 import { Wallets } from './enums/wallets.enum';
 
 /* App Configurations */
 
 export const TOOLTIP_LEAVE_TOUCH_DELAY = 1500;
-export const DEFAULT_CURRENCY = Currency.USD;
 export const MAX_LAYOUT_WIDTH = 1183; // 1135px (width on mocks) + 24px of padding on each side
 export const DEFAULT_NETWORK = Network.Ethereum;
 

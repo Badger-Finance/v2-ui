@@ -7,7 +7,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 
-import { inCurrency, numberWithCommas } from '../../../mobx/utils/helpers';
+import { numberWithCommas } from '../../../mobx/utils/helpers';
 import { StyledDivider } from '../styled';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,10 +59,10 @@ interface Props {
 }
 
 const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
-	const { uiState, lockedDeposits } = React.useContext(StoreContext);
+	const { lockedDeposits } = React.useContext(StoreContext);
 	const classes = useStyles();
 
-	const currencyValue = inCurrency(new BigNumber(vault.value), uiState.currency);
+	const currencyValue = numberWithCommas(vault.value.toFixed());
 	const hasCurrencyIcon = currencyValue?.includes('.png');
 
 	let currencyIcon;

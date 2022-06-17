@@ -20,7 +20,6 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import routes from '../../config/routes';
 import { ClaimMap } from '../../mobx/model/rewards/claim-map';
-import { inCurrency } from '../../mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
 
@@ -229,7 +228,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 									<CurrencyDisplay
 										variant="h6"
 										justifyContent="flex-end"
-										displayValue={inCurrency(totalClaimValue, uiState.currency)}
+										displayValue={totalClaimValue.toFixed(2)}
 										TypographyProps={{ className: classes.titleText }}
 									/>
 								</Grid>
@@ -256,7 +255,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 									<CurrencyDisplay
 										variant="h6"
 										justifyContent="flex-end"
-										displayValue={inCurrency(new BigNumber(0), uiState.currency, 2)}
+										displayValue={'0'}
 										TypographyProps={{ className: classes.titleText }}
 									/>
 								</div>

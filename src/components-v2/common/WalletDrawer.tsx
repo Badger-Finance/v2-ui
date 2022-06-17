@@ -8,7 +8,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 
 import useENS from '../../hooks/useEns';
-import { inCurrency } from '../../mobx/utils/helpers';
 import { shortenAddress } from '../../utils/componentHelpers';
 import CopyToClipboardIcon from './CopyToClipboardIcon';
 import CurrencyDisplay from './CurrencyDisplay';
@@ -151,7 +150,7 @@ const WalletDrawer = (): JSX.Element | null => {
 						<CurrencyDisplay
 							variant="body1"
 							justifyContent="flex-start"
-							displayValue={inCurrency(totalBalance, uiState.currency)}
+							displayValue={totalBalance.toFixed(2)}
 							TypographyProps={{ className: classes.balance }}
 						/>
 					</Grid>

@@ -3,14 +3,12 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import { Currency } from '../../config/enums/currency.enum';
 import BoostedVaultsControl from './BoostedVaultsControl';
 import MobileFiltersButton from './MobileFiltersButton';
 import OnlyDepositsControl from './OnlyDepositsControl';
 import PortfolioDustControl from './PortfolioDustControl';
 import VaultFiltersDialogV2 from './VaultFiltersDialog';
 import VaultsAprControl from './VaultsAprControl';
-import VaultsCurrencyControl from './VaultsCurrencyControl';
 import VaultSearchInputsRow from './VaultSearchInputsRow';
 
 const useStyles = makeStyles((theme) => ({
@@ -86,10 +84,6 @@ const VaultsSearchControls = () => {
 						className={classes.apr}
 						showAPR={vaultsFilters.showAPR}
 						onShowAPRChange={(checked) => setVaultsFilter('showAPR', checked)}
-					/>
-					<VaultsCurrencyControl
-						currency={vaultsFilters.currency ?? Currency.USD}
-						onCurrencyChange={(change) => setVaultsFilter('currency', change)}
 					/>
 				</div>
 			</Grid>

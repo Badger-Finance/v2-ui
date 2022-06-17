@@ -1,10 +1,8 @@
 import { makeStyles, Paper, Typography } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import BigNumber from 'bignumber.js';
-import { StoreContext } from 'mobx/stores/store-context';
-import { inCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import CurrencyDisplay from './CurrencyDisplay';
 
@@ -26,9 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = observer((props: CurrencyInfoCardProps) => {
 	const classes = useStyles();
 	const { title, value } = props;
-	const store = useContext(StoreContext);
-	const { currency } = store.uiState;
-	const displayValue = value ? inCurrency(value, currency) : undefined;
+	const displayValue = value ? value.toFixed() : undefined;
 	return (
 		<Paper elevation={2} className={classes.infoPaper}>
 			<Typography variant="subtitle1" color="textPrimary">

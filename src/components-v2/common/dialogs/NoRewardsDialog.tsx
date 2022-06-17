@@ -6,7 +6,6 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import { inCurrency } from '../../../mobx/utils/helpers';
 import CurrencyDisplay from '../CurrencyDisplay';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -94,7 +93,7 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
 								<CurrencyDisplay
 									variant="h6"
 									justifyContent="flex-start"
-									displayValue={inCurrency(new BigNumber(0), uiState.currency)}
+									displayValue={'0'}
 									TypographyProps={{ className: classes.titleText }}
 								/>
 							</Box>

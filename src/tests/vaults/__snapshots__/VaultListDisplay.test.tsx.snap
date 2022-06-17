@@ -488,7 +488,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
           >
-            $0.00e-2
+            0.000000000000000010
           </p>
         </div>
       </div>
@@ -501,7 +501,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
           >
-            $12,463,112
+            2874
           </p>
         </div>
       </div>
@@ -595,7 +595,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
           >
-            $0.00e-2
+            0.000000000000000001
           </p>
         </div>
       </div>
@@ -608,7 +608,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
           >
-            $43,372,000
+            10000
           </p>
         </div>
       </div>

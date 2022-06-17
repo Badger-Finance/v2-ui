@@ -2,9 +2,7 @@ import { Box, ButtonBase, Divider, Grid, TextField, Typography } from '@material
 import { makeStyles } from '@material-ui/core/styles';
 import React, { Fragment, useEffect, useState } from 'react';
 
-import { Currency } from '../../config/enums/currency.enum';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { inCurrency } from '../../mobx/utils/helpers';
 import { useNumericInput } from '../../utils/useNumericInput';
 
 interface Props {
@@ -83,7 +81,7 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 			<Grid item xs={12} sm={3}>
 				<Typography variant="subtitle2">{token.symbol}</Typography>
 				<Typography variant="caption" color="textSecondary">
-					{inCurrency(price, Currency.USD)}
+					{price.toFixed(2)}
 				</Typography>
 			</Grid>
 			<Grid item container xs={12} sm={9}>

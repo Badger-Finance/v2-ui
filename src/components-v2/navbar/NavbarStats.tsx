@@ -3,11 +3,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 import { StoreContext } from 'mobx/stores/store-context';
+import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Typography } from 'ui-library/Typography';
 
-import { inCurrency } from '../../mobx/utils/helpers';
 import { getFormattedNetworkName } from '../../utils/componentHelpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 
@@ -60,7 +60,6 @@ export const NavbarStats = observer((): JSX.Element => {
 		user,
 		network: { network },
 		rewards: { badgerTree },
-		uiState: { currency },
 		vaults: { protocolSummary },
 	} = useContext(StoreContext);
 
@@ -129,7 +128,7 @@ export const NavbarStats = observer((): JSX.Element => {
 					</Typography>
 					{badgerPrice ? (
 						<CurrencyDisplay
-							displayValue={inCurrency(badgerPrice, currency)}
+							displayValue={badgerPrice.toFixed(2)}
 							variant="helperText"
 							justifyContent="flex-start"
 						/>
@@ -149,7 +148,7 @@ export const NavbarStats = observer((): JSX.Element => {
 					</Typography>
 					{totalValueLocked ? (
 						<CurrencyDisplay
-							displayValue={inCurrency(totalValueLocked, currency, 0)}
+							displayValue={numberWithCommas(totalValueLocked.toFixed())}
 							variant="helperText"
 							justifyContent="flex-start"
 						/>
@@ -162,7 +161,7 @@ export const NavbarStats = observer((): JSX.Element => {
 						My Assets: &nbsp;
 					</Typography>
 					<CurrencyDisplay
-						displayValue={inCurrency(portfolioValue, currency)}
+						displayValue={numberWithCommas(portfolioValue.toFixed())}
 						variant="helperText"
 						justifyContent="flex-start"
 					/>

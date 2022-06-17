@@ -92,7 +92,7 @@ exports[`Rewards Dialog when there are no rewards displays no rewards dialog 1`]
                     <h6
                       class="MuiTypography-root-80 makeStyles-titleText-57 MuiTypography-h6-90"
                     >
-                      $0.00
+                      0
                     </h6>
                   </div>
                 </div>
@@ -629,7 +629,7 @@ exports[`Rewards Dialog when there are rewards can go back from user guide 1`] =
                             <p
                               class="MuiTypography-root-80 MuiTypography-body2-81 MuiTypography-colorTextSecondary-106"
                             >
-                              $3.40513
+                              0.028019610295276968
                             </p>
                           </div>
                         </div>
@@ -701,7 +701,7 @@ exports[`Rewards Dialog when there are rewards can go back from user guide 1`] =
                             <p
                               class="MuiTypography-root-80 MuiTypography-body2-81 MuiTypography-colorTextSecondary-106"
                             >
-                              $2.60968
+                              0.024529508667974375
                             </p>
                           </div>
                         </div>
@@ -773,7 +773,7 @@ exports[`Rewards Dialog when there are rewards can go back from user guide 1`] =
                             <p
                               class="MuiTypography-root-80 MuiTypography-body2-81 MuiTypography-colorTextSecondary-106"
                             >
-                              $6.90143
+                              0.039890071517351528
                             </p>
                           </div>
                         </div>
@@ -798,7 +798,7 @@ exports[`Rewards Dialog when there are rewards can go back from user guide 1`] =
                     <h6
                       class="MuiTypography-root-80 makeStyles-titleText-345 MuiTypography-h6-90"
                     >
-                      $12.92
+                      0.00
                     </h6>
                   </div>
                 </div>
@@ -1037,7 +1037,7 @@ exports[`Rewards Dialog when there are rewards displays claim options 1`] = `
                             <p
                               class="MuiTypography-root-80 MuiTypography-body2-81 MuiTypography-colorTextSecondary-106"
                             >
-                              $3.40513
+                              0.028019610295276968
                             </p>
                           </div>
                         </div>
@@ -1109,7 +1109,7 @@ exports[`Rewards Dialog when there are rewards displays claim options 1`] = `
                             <p
                               class="MuiTypography-root-80 MuiTypography-body2-81 MuiTypography-colorTextSecondary-106"
                             >
-                              $2.60968
+                              0.024529508667974375
                             </p>
                           </div>
                         </div>
@@ -1181,7 +1181,7 @@ exports[`Rewards Dialog when there are rewards displays claim options 1`] = `
                             <p
                               class="MuiTypography-root-80 MuiTypography-body2-81 MuiTypography-colorTextSecondary-106"
                             >
-                              $6.90143
+                              0.039890071517351528
                             </p>
                           </div>
                         </div>
@@ -1206,7 +1206,7 @@ exports[`Rewards Dialog when there are rewards displays claim options 1`] = `
                     <h6
                       class="MuiTypography-root-80 makeStyles-titleText-57 MuiTypography-h6-90"
                     >
-                      $12.92
+                      0.00
                     </h6>
                   </div>
                 </div>

@@ -9,8 +9,6 @@ import React, { useContext } from 'react';
 import Menu from 'ui-library/Menu';
 import MenuItem from 'ui-library/MenuItem';
 
-import { Currency } from '../../config/enums/currency.enum';
-import { inCurrency } from '../../mobx/utils/helpers';
 import MenuItemIcon from '../../ui-library/MenuItemIcon';
 import MenuItemText from '../../ui-library/MenuItemText';
 import { Typography } from '../../ui-library/Typography';
@@ -84,7 +82,7 @@ const Sidebar = observer(() => {
 						</MenuItemIcon>
 					</MenuItem>
 					<MenuItem button onClick={handleRewardsClick}>
-						Rewards ({inCurrency(claimableRewards, Currency.USD, 2)})
+						Rewards ({claimableRewards.toFixed(2)})
 					</MenuItem>
 					<MenuItem button onClick={() => window.open('https://docs.badger.com/')}>
 						Wiki

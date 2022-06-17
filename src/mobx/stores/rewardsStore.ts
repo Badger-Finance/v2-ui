@@ -3,8 +3,8 @@ import { retry } from '@lifeomic/attempt';
 import BigNumber from 'bignumber.js';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { RewardMerkleClaim } from 'mobx/model/rewards/reward-merkle-claim';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
 import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { AbiItem } from 'web3-utils';
 
@@ -142,7 +142,7 @@ class RewardsStore {
 			]);
 			this.badgerTree.lastCycle = new Date(timestamp * 1000);
 			this.badgerTree.cycle = cycle.toString();
-			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
+			this.badgerTree.timeSinceLastCycle = this.reduceTimeSinceLastCycle(timestamp);
 			await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
 		} catch (error) {
 			console.error('There was an error fetching rewards information: ', error);
@@ -188,8 +188,8 @@ class RewardsStore {
 		const claimed: TreeClaimData = await rewardsTree.methods.getClaimedFor(address, claimProof.tokens).call();
 
 		this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
-		this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
-		this.badgerTree.amounts = reduceClaims(claimProof, claimed);
+		this.badgerTree.claims = this.reduceClaims(claimProof, claimed, true);
+		this.badgerTree.amounts = this.reduceClaims(claimProof, claimed);
 		this.badgerTree.proof = claimProof;
 
 		this.loadingRewards = false;
@@ -318,6 +318,54 @@ class RewardsStore {
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
 		return sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
 	});
+
+
+	reduceTimeSinceLastCycle(time: number): string  {
+	const timestamp = time * 1000;
+	const timeSinceLastCycle = Math.abs(Date.now() - timestamp);
+	return (
+		Math.floor(timeSinceLastCycle / (60 * 60 * 1000)) +
+		'h ' +
+		Math.round(((timeSinceLastCycle % 86400000) % 3600000) / 60000) +
+		'm'
+	);
+};
+
+reduceClaims(
+	proof: RewardMerkleClaim,
+	claimedRewards: TreeClaimData,
+	claims?: boolean,
+): TokenBalance[] {
+	if (!proof.cumulativeAmounts) {
+		return [];
+	}
+	const { rewards, vaults } = this.store;
+	const claimableTokens = proof.cumulativeAmounts.length;
+	const tokenClaims = [];
+
+	const amounts = claimedRewards[1];
+	for (let i = 0; i < claimableTokens; i++) {
+		const token = proof.tokens[i];
+		const claimToken = vaults.getToken(token);
+		if (!claimToken) {
+			continue;
+		}
+		const claimed = new BigNumber(amounts[i]);
+		const earned = new BigNumber(proof.cumulativeAmounts[i]);
+		const amount = earned.minus(claimed).gt(0) ? earned.minus(claimed) : new BigNumber(0);
+		let claimable;
+		if (claims) {
+			claimable = rewards.balanceFromProof(token, amount.toFixed());
+		} else {
+			claimable = new TokenBalance(claimToken, amount, new BigNumber(0));
+		}
+
+		tokenClaims.push(claimable);
+	}
+
+	return tokenClaims;
+};
+
 }
 
 export default RewardsStore;

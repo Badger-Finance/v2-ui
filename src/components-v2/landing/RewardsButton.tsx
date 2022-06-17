@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js';
 import clsx from 'clsx';
 import { Loader } from 'components/Loader';
 import { StoreContext } from 'mobx/stores/store-context';
-import { inCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -31,7 +30,6 @@ export const RewardsButton = observer((): JSX.Element | null => {
 	const store = useContext(StoreContext);
 	const { vaults, user, wallet } = store;
 	const { badgerTree, loadingRewards } = store.rewards;
-	const { currency } = store.uiState;
 	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
 
 	const totalRewardsValue = Object.keys(claimableRewards).reduce(
@@ -57,11 +55,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
 				variant="outlined"
 				onClick={() => store.uiState.toggleRewardsDialog()}
 			>
-				<CurrencyDisplay
-					displayValue={inCurrency(new BigNumber(0), currency)}
-					variant="body2"
-					justifyContent="center"
-				/>
+				<CurrencyDisplay displayValue={'0'} variant="body2" justifyContent="center" />
 			</Button>
 		);
 	}
@@ -74,7 +68,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
 		);
 	}
 
-	const widgetButtonDecimals = totalRewardsValue.isZero() ? 0 : undefined; // use default otherwise
+	const widgetButtonDecimals = totalRewardsValue.isZero() ? 0 : 2; // use default otherwise
 
 	return (
 		<>
@@ -86,7 +80,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
 				onClick={() => store.uiState.toggleRewardsDialog()}
 			>
 				<CurrencyDisplay
-					displayValue={inCurrency(totalRewardsValue, currency, widgetButtonDecimals)}
+					displayValue={totalRewardsValue.toFixed(widgetButtonDecimals)}
 					variant="body2"
 					justifyContent="center"
 					TypographyProps={{ className: classes.label }}

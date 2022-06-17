@@ -1,3 +1,4 @@
+import { Currency } from '@badger-dao/sdk';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -60,7 +61,7 @@ const WalletTokenBalance = ({ balance }: Props): JSX.Element => {
 			</Grid>
 			<Grid item container justifyContent="flex-end" className={classes.balanceDisplayValue}>
 				<Typography className={classes.balance} variant="subtitle2" color="textSecondary">
-					{balance.balanceValueDisplay(uiState.currency, 6)}
+					{balance.balanceValueDisplay(Currency.USD, 6)}
 				</Typography>
 			</Grid>
 		</Grid>

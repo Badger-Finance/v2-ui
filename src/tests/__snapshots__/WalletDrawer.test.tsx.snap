@@ -113,7 +113,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
             >
               <p
                 class="MuiTypography-root-161 makeStyles-balance-4 MuiTypography-body1-163"
-              />
+              >
+                90000.00
+              </p>
             </div>
           </div>
           <div
@@ -154,7 +156,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
               >
                 <h6
                   class="MuiTypography-root-161 makeStyles-balance-220 MuiTypography-subtitle2-173 MuiTypography-colorTextSecondary-187"
-                />
+                >
+                  1000.000000000000000000
+                </h6>
               </div>
             </div>
             <div
@@ -192,7 +196,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
               >
                 <h6
                   class="MuiTypography-root-161 makeStyles-balance-220 MuiTypography-subtitle2-173 MuiTypography-colorTextSecondary-187"
-                />
+                >
+                  0.10000000
+                </h6>
               </div>
             </div>
             <div
@@ -230,7 +236,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
               >
                 <h6
                   class="MuiTypography-root-161 makeStyles-balance-220 MuiTypography-subtitle2-173 MuiTypography-colorTextSecondary-187"
-                />
+                >
+                  0.10000000
+                </h6>
               </div>
             </div>
           </div>
