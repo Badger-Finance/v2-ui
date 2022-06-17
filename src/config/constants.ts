@@ -106,8 +106,8 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE = 'Please confirm the URL is "https://app.badger.com/" before interacting with the site';
+export const APP_NEWS_MESSAGE = 'Limited Time Bootstrapping emissions on  graviAURA: ';
 // Text & URL should be defined or explicitly undefined.
-export const APP_NEWS_URL_TEXT = undefined;
-export const APP_NEWS_URL = undefined;
+export const APP_NEWS_URL_TEXT = 'Learn More';
+export const APP_NEWS_URL = 'https://badger.com/graviaura-bootstrapping';
 export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);
