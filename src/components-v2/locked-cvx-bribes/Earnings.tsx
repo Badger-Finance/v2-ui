@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
+import { StoreContext } from 'mobx/stores/store-context';
 import React, { useContext } from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import { SAFE_BOX_ILLUSTRATION_BREAKPOINT } from './Banner';
 import { formatBalance } from './utils';
 
