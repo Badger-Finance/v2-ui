@@ -24,7 +24,7 @@ const VaultAdvisory = ({ vault, type, accept }: Props): JSX.Element | null => {
 				/>
 			);
 			break;
-		case AdvisoryType.OxDAOLock:
+		case AdvisoryType.VaultLock:
 			advisory = <LockingVaultAdvisory vault={vault} accept={accept} lockingWeeks={16} />;
 			break;
 		case AdvisoryType.Remuneration:
