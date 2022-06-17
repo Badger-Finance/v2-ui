@@ -734,11 +734,17 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					// TODO: update strategy link
-					// strategyLink: 'https://badger.wiki/strategies#82d72e94cb3b49f0836d8197ad13bc36',
 					userGuide:
 						'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-badger-wbtc',
 					depositLink: 'https://curve.fi/factory-crypto/4/deposit',
+				},
+				[ethDeploy.sett_system.vaults['native.graviaura']]: {
+					address: ethDeploy.sett_system.strategies['native.graviaura'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(300),
+						[StrategyFee.withdraw]: new BigNumber(0),
+					},
+					userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/graviaura-vote-locked-aura',
 				},
 			};
 	}

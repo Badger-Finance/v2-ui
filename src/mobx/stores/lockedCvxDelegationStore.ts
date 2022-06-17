@@ -6,13 +6,12 @@ import CvxLockerAbi from '../../config/system/abis/CvxLocker.json';
 import { AbiItem } from 'web3-utils';
 import { sendContractMethod } from '../utils/web3';
 import { DelegationState } from '../model/vaults/locked-cvx-delegation';
-import { extendObservable, observe } from 'mobx';
+import { extendObservable } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { NETWORK_IDS } from 'config/constants';
 import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json';
 import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
 import { fetchData } from '../../utils/fetchData';
-import { FLAGS } from '../../config/environment';
 import { ethers } from 'ethers';
 
 // this is mainnet only
@@ -45,33 +44,10 @@ class LockedCvxDelegationStore {
 			unclaimedBalance: this.unclaimedBalance,
 			delegationState: this.delegationState,
 		});
-
-		if (FLAGS.LOCKED_CVX_DELEGATION_WIDGET) {
-			observe(this.store.user, 'accountDetails', () => {
-				this.loadLockedCvxBalance();
-				this.loadVotiumRewardsInformation();
-			});
-
-			observe(this.store.user, 'settBalances', () => {
-				const areVaultBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
-
-				if (areVaultBalancesAvailable) {
-					this.getUserDelegationState();
-				}
-			});
-		}
 	}
 
 	get shouldBannerBeDisplayed(): boolean {
-		if (!FLAGS.LOCKED_CVX_DELEGATION_WIDGET) {
-			return false;
-		}
-
-		if (this.store.network.network.id !== NETWORK_IDS.ETH || !this.delegationState) {
-			return false;
-		}
-
-		return this.delegationState !== DelegationState.Ineligible;
+		return false;
 	}
 
 	get canUserDelegate(): boolean {
