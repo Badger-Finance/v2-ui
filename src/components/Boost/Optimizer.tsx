@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
-import { StoreContext } from '../../mobx/store-context';
 import { calculateNativeToMatchRank } from '../../utils/boost-ranks';
 import { OptimizerBody } from './OptimizerBody';
 import OptimizerHeader from './OptimizerHeader';

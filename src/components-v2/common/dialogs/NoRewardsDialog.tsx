@@ -91,11 +91,7 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
 								<CurrencyDisplay
 									variant="h6"
 									justifyContent="flex-start"
-<<<<<<< HEAD
 									displayValue={'0'}
-=======
-									displayValue={inCurrency(0, uiState.currency)}
->>>>>>> 98010859 (chore: initial sdk migration)
 									TypographyProps={{ className: classes.titleText }}
 								/>
 							</Box>

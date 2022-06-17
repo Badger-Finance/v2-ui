@@ -6,7 +6,6 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
 import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
-import { StoreContext } from '../../../mobx/store-context';
 import ClaimedRewardsContent from '../../rewards/ClaimedRewardsContent';
 import ClaimRewardsContent from '../../rewards/ClaimRewardsContent';
 import UserGuideContent from '../../rewards/UserGuideContent';

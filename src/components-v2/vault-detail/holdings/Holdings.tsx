@@ -6,7 +6,6 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
-import { StoreContext } from '../../../mobx/store-context';
 import { numberWithCommas } from '../../../mobx/utils/helpers';
 import { HoldingItem } from './HoldingItem';
 import { HoldingsActionButtons } from './HoldingsActionButtons';

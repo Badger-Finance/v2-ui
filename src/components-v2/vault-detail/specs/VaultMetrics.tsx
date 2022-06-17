@@ -60,11 +60,7 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 	const { lockedDeposits } = React.useContext(StoreContext);
 	const classes = useStyles();
 
-<<<<<<< HEAD
 	const currencyValue = numberWithCommas(vault.value.toFixed());
-=======
-	const currencyValue = inCurrency(vault.value, uiState.currency);
->>>>>>> 98010859 (chore: initial sdk migration)
 	const hasCurrencyIcon = currencyValue?.includes('.png');
 
 	let currencyIcon;
