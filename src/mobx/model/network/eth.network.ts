@@ -27,6 +27,7 @@ export class Ethereum extends NetworkModel {
 
 	get settOrder(): string[] {
 		return [
+			this.deploy.sett_system.vaults['native.graviaura'],
 			this.deploy.sett_system.vaults['native.icvx'],
 			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.cvxCrv'],
