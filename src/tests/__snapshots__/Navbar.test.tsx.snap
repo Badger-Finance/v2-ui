@@ -237,22 +237,6 @@ exports[`Navbar Renders correctly 1`] = `
                     <span
                       class="MuiTab-wrapper-197"
                     >
-                      DIGG
-                    </span>
-                    <span
-                      class="MuiTouchRipple-root-262"
-                    />
-                  </button>
-                  <button
-                    aria-selected="false"
-                    class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191"
-                    role="tab"
-                    tabindex="-1"
-                    type="button"
-                  >
-                    <span
-                      class="MuiTab-wrapper-197"
-                    >
                       IBBTC
                     </span>
                     <span
@@ -589,22 +573,6 @@ exports[`Navbar Renders mobile version correctly 1`] = `
               <span
                 class="MuiTab-wrapper-197"
               >
-                DIGG
-              </span>
-              <span
-                class="MuiTouchRipple-root-290"
-              />
-            </button>
-            <button
-              aria-selected="false"
-              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191 MuiTab-fullWidth-195"
-              role="tab"
-              tabindex="-1"
-              type="button"
-            >
-              <span
-                class="MuiTab-wrapper-197"
-              >
                 IBBTC
               </span>
               <span
@@ -832,22 +800,6 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 class="MuiTab-wrapper-197"
               >
                 BOOST
-              </span>
-              <span
-                class="MuiTouchRipple-root-290"
-              />
-            </button>
-            <button
-              aria-selected="false"
-              class="MuiButtonBase-root-198 MuiTab-root-188 makeStyles-tab-175 MuiTab-textColorPrimary-191"
-              role="tab"
-              tabindex="-1"
-              type="button"
-            >
-              <span
-                class="MuiTab-wrapper-197"
-              >
-                DIGG
               </span>
               <span
                 class="MuiTouchRipple-root-290"
