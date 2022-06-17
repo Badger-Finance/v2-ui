@@ -1,9 +1,9 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Grid, makeStyles } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import { ChartsCard } from './charts/ChartsCard';
 import { Holdings } from './holdings/Holdings';
 import { NewVaultWarning } from './NewVaultWarning';

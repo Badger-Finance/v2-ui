@@ -1,4 +1,4 @@
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
 
 /**

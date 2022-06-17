@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { SITE_VERSION } from 'config/constants';
 import routes from 'config/routes';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import Menu from 'ui-library/Menu';
 import MenuItem from 'ui-library/MenuItem';
 
 import { Currency } from '../../config/enums/currency.enum';
-import { StoreContext } from '../../mobx/store-context';
 import { inCurrency } from '../../mobx/utils/helpers';
 import MenuItemIcon from '../../ui-library/MenuItemIcon';
 import MenuItemText from '../../ui-library/MenuItemText';

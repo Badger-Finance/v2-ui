@@ -3,11 +3,11 @@ import { Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 import { MAX_FEE } from 'config/constants';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
-import { StoreContext } from '../../../mobx/store-context';
 import { getStrategyFee } from '../../../mobx/utils/fees';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
 

@@ -1,10 +1,10 @@
 import { Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
 import {
 	calculateNativeToMatchRank,

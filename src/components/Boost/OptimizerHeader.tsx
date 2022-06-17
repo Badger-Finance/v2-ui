@@ -2,10 +2,10 @@ import { Button, Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@mat
 import { makeStyles, styled } from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
 import clsx from 'clsx';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import { calculateUserBoost } from '../../utils/boost-ranks';
 import { isValidCalculatedValue, roundWithPrecision } from '../../utils/componentHelpers';
 import { getColorFromComparison } from './utils';

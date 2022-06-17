@@ -1,9 +1,9 @@
 import usePrevious from 'hooks/usePrevious';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
 
 import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
-import { StoreContext } from '../../mobx/store-context';
 
 const NetworkURLManager: React.FC = ({ children }) => {
 	const { router, wallet } = useContext(StoreContext);

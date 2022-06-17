@@ -1,11 +1,11 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
 
 import routes from '../../config/routes';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
-import { StoreContext } from '../../mobx/store-context';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import VaultListItemTags from '../VaultListItemTags';
 import VaultItemApr from './VaultItemApr';

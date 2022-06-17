@@ -1,9 +1,9 @@
 import { Button, ClickAwayListener, Popper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useRef } from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import { getNetworkIconPath } from '../../utils/network-icon';
 import NetworkOptions from '../network-selector/NetworkOptions';
 

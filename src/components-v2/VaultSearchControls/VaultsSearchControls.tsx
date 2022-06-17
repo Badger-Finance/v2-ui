@@ -1,9 +1,9 @@
 import { Grid, makeStyles, Paper, useMediaQuery, useTheme } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import { Currency } from '../../config/enums/currency.enum';
-import { StoreContext } from '../../mobx/store-context';
 import BoostedVaultsControl from './BoostedVaultsControl';
 import MobileFiltersButton from './MobileFiltersButton';
 import OnlyDepositsControl from './OnlyDepositsControl';

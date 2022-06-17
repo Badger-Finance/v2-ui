@@ -2,10 +2,10 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Breadcrumbs, Link, makeStyles, Typography } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import clsx from 'clsx';
+import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
 
 import routes from '../../config/routes';
-import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles({
 	breadcrumbsItem: {

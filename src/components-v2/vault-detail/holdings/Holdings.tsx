@@ -1,11 +1,11 @@
 import { VaultData, VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { useVaultInformation } from 'hooks/useVaultInformation';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
-import { StoreContext } from '../../../mobx/store-context';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { HoldingItem } from './HoldingItem';
 import { HoldingsActionButtons } from './HoldingsActionButtons';

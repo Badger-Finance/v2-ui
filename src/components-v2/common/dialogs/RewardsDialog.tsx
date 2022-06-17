@@ -1,11 +1,11 @@
 import { Dialog, useTheme } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
 import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
-import { StoreContext } from '../../../mobx/store-context';
 import { TransactionRequestResult } from '../../../mobx/utils/web3';
 import ClaimedRewardsContent from '../../rewards/ClaimedRewardsContent';
 import ClaimRewardsContent from '../../rewards/ClaimRewardsContent';

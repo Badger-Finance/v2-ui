@@ -1,10 +1,10 @@
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import TokenLogo from '../../components-v2/TokenLogo';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	tokenNameAndIcon: {

@@ -2,9 +2,9 @@ import { Button, Dialog, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
+import { StoreContext } from 'mobx/stores/store-context';
 import React, { useContext, useState } from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import CvxDelegationBanner from '../locked-cvx-bribes/Banner';
 
 const useStyles = makeStyles(() => ({

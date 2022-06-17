@@ -1,9 +1,9 @@
 import { Link, makeStyles } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
 
 import routes from '../../config/routes';
-import { StoreContext } from '../../mobx/store-context';
 import { PageHeaderContainer } from '../common/Containers';
 
 const useStyles = makeStyles((theme) => ({

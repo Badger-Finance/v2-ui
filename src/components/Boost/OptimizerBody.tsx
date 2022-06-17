@@ -1,10 +1,10 @@
 import { Grid, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import { clampStakeRatio } from '../../utils/boost-ranks';
 import { NativeBox } from './NativeBox';

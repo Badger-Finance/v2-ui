@@ -1,10 +1,10 @@
 import { Button, Container, Grid, makeStyles } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import { Loader } from '../../components/Loader';
 import routes from '../../config/routes';
-import { StoreContext } from '../../mobx/store-context';
 import { isVaultVaultIbbtc } from '../../utils/componentHelpers';
 import { VaultDeposit } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';

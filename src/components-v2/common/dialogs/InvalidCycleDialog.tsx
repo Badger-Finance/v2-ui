@@ -13,11 +13,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import CloseIcon from '@material-ui/icons/Close';
 import copy from 'copy-to-clipboard';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 
 import { TOOLTIP_LEAVE_TOUCH_DELAY } from '../../../config/constants';
-import { StoreContext } from '../../../mobx/store-context';
 import CopyToClipboardIcon from '../CopyToClipboardIcon';
 
 interface Props {

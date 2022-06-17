@@ -1,8 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, makeStyles, Typography } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-
-import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles({
 	title: {

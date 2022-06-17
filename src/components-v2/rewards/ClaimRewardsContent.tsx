@@ -14,12 +14,12 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import BigNumber from 'bignumber.js';
 import clsx from 'clsx';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
 import routes from '../../config/routes';
 import { ClaimMap } from '../../mobx/model/rewards/claim-map';
-import { StoreContext } from '../../mobx/store-context';
 import { inCurrency } from '../../mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';

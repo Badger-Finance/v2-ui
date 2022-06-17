@@ -1,9 +1,8 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { makeStyles, Typography } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-
-import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	vaultDescription: {

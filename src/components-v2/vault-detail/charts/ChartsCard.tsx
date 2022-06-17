@@ -1,11 +1,11 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { ChartMode, VaultChartData, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
-import { StoreContext } from '../../../mobx/store-context';
 import { CardContainer } from '../styled';
 import { ChartModeTitles } from '../utils';
 import { BoostChart } from './BoostChart';

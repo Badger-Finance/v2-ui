@@ -1,8 +1,8 @@
 import { Grid, IconButton, makeStyles } from '@material-ui/core';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import { StoreContext } from '../../mobx/store-context';
 import NetworkGasWidget from '../common/NetworkGasWidget';
 import WalletWidget from '../common/WalletWidget';
 

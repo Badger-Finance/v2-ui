@@ -3,11 +3,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import BigNumber from 'bignumber.js';
 import clsx from 'clsx';
 import copy from 'copy-to-clipboard';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 
 import useENS from '../../hooks/useEns';
-import { StoreContext } from '../../mobx/store-context';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { shortenAddress } from '../../utils/componentHelpers';
 import CopyToClipboardIcon from './CopyToClipboardIcon';

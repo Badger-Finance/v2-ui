@@ -1,7 +1,7 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Card, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';

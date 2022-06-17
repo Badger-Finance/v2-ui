@@ -2,11 +2,11 @@ import { Grid, Link, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
-import { StoreContext } from '../../../mobx/store-context';
 import { StyledDivider } from '../styled';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
 

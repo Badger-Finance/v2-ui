@@ -3,7 +3,7 @@ import { makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/co
 import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { BalanceNamespace } from 'web3/config/namespaces';

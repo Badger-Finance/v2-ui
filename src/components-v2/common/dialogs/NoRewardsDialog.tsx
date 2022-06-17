@@ -2,10 +2,10 @@ import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography }
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import BigNumber from 'bignumber.js';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import { StoreContext } from '../../../mobx/store-context';
 import { inCurrency } from '../../../mobx/utils/helpers';
 import CurrencyDisplay from '../CurrencyDisplay';
 

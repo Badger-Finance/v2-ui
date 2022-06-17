@@ -11,11 +11,11 @@ import {
 	Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
 
 import routes from '../../config/routes';
-import { StoreContext } from '../../mobx/store-context';
 import { numberWithCommas } from '../../mobx/utils/helpers';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
