@@ -61,6 +61,16 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
   const { lockedDeposits } = React.useContext(StoreContext);
   const classes = useStyles();
 
+	const currencyValue = numberWithCommas(vault.value.toFixed());
+	const hasCurrencyIcon = currencyValue?.includes('.png');
+
+	let currencyIcon;
+	let displayValue = currencyValue;
+
+	if (currencyValue && hasCurrencyIcon) {
+		[currencyIcon, displayValue] = currencyValue.split('.png');
+	}
+
 	const [showMore, setShowMore] = useState(true);
 	const expandText = showMore ? 'Hide' : 'Show More';
 	const shownBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
