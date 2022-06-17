@@ -1,9 +1,9 @@
 import copy from 'copy-to-clipboard';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import InvalidCycleDialog from '../components-v2/common/dialogs/InvalidCycleDialog';
-import store from '../mobx/RootStore';
-import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/stores/RootStore';
 import { customRender, fireEvent, screen } from './Utils';
 
 jest.mock('copy-to-clipboard');

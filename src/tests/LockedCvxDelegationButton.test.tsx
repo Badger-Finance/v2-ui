@@ -1,10 +1,10 @@
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import DelegationButton from '../components-v2/locked-cvx-bribes/DelegationButton';
 import { DelegationState } from '../mobx/model/vaults/locked-cvx-delegation';
-import store from '../mobx/RootStore';
-import { StoreProvider } from '../mobx/store-context';
 import LockedCvxDelegationStore from '../mobx/stores/lockedCvxDelegationStore';
+import store from '../mobx/stores/RootStore';
 import { customRender } from './Utils';
 
 describe('LockedCvxDelegationButton', () => {

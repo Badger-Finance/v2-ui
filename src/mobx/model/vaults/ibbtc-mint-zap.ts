@@ -1,6 +1,6 @@
 import { Token } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
-import { RootStore } from 'mobx/RootStore';
+import { RootStore } from 'mobx/stores/RootStore';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 

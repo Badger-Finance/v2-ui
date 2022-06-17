@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import WalletWidget from '../components-v2/common/WalletWidget';
-import store from '../mobx/RootStore';
-import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/stores/RootStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
 import { cleanup, customRender, fireEvent, screen } from './Utils';
 

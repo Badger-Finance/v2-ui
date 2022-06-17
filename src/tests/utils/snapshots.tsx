@@ -1,5 +1,5 @@
-import store from 'mobx/RootStore';
-import { StoreProvider } from 'mobx/store-context';
+import store from 'mobx/stores/RootStore';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 import { customRender } from 'tests/Utils';
 

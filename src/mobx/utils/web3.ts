@@ -1,7 +1,7 @@
 import { GasFees } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
 import { DEBUG } from 'config/environment';
-import { RootStore } from 'mobx/RootStore';
+import { RootStore } from 'mobx/stores/RootStore';
 import { ContractSendMethod, EstimateGasOptions, SendOptions } from 'web3-eth-contract';
 
 export interface EIP1559SendOptions {

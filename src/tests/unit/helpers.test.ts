@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 
 import BigNumber from 'bignumber.js';
 import { Currency } from 'config/enums/currency.enum';
-import store from 'mobx/RootStore';
+import store from 'mobx/stores/RootStore';
 
 import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 import {

@@ -1,7 +1,7 @@
 import { action, extendObservable } from 'mobx';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
 
-import { RootStore } from '../RootStore';
+import { RootStore } from './RootStore';
 
 class RebaseStore {
 	private store: RootStore;

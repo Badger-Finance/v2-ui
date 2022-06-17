@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import { IbBTCMintZapFactory } from '../../mobx/ibbtc-mint-zap-factory';
 import { RenVaultZap } from '../../mobx/model/vaults/ren-vault-zap';
 import { TokenZap } from '../../mobx/model/vaults/token-zap';
-import store from '../../mobx/RootStore';
+import store from '../../mobx/stores/RootStore';
 import { WalletStore } from '../../mobx/stores/WalletStore';
 
 describe('IbBTCMintZapFactory', () => {

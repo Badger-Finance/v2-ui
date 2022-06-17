@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import UserStore from 'mobx/stores/UserStore';
 import React from 'react';
 
-import store from '../mobx/RootStore';
+import store from '../mobx/stores/RootStore';
 import VaultStore from '../mobx/stores/VaultStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
 import Landing from '../pages/Landing';
@@ -27,16 +27,13 @@ describe('Landing', () => {
 			data: {},
 			boost: 1,
 			boostRank: 251,
-			multipliers: {
-				'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b': 1,
-			},
 			nativeBalance: 100,
 			nonNativeBalance: 10,
 			stakeRatio: 100,
 			claimableBalances: {},
 			nftBalance: 0,
 			bveCvxBalance: 0,
-			rank: 1,
+			diggBalance: 10,
 		};
 
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);

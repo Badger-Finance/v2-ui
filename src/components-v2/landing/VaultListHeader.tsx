@@ -1,6 +1,6 @@
 import { Grid, IconButton, makeStyles, Paper, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import clsx from 'clsx';
-import { StoreContext } from 'mobx/store-context';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 

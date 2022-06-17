@@ -1,14 +1,14 @@
 import '@testing-library/jest-dom';
 
 import BigNumber from 'bignumber.js';
-import store from 'mobx/RootStore';
+import store from 'mobx/stores/RootStore';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import { Redeem } from '../../components/IbBTC/Redeem';
 import { SnackbarProvider } from '../../components/Snackbar';
 import SnackbarManager from '../../components-v2/common/SnackbarManager';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { StoreProvider } from '../../mobx/store-context';
 import IbBTCStore from '../../mobx/stores/ibBTCStore';
 import { WalletStore } from '../../mobx/stores/WalletStore';
 import { TransactionRequestResult } from '../../mobx/utils/web3';

@@ -3,13 +3,13 @@ import '@testing-library/jest-dom';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
 import BigNumber from 'bignumber.js';
 import { action } from 'mobx';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
-import store from '../mobx/RootStore';
-import { StoreProvider } from '../mobx/store-context';
 import RewardsStore from '../mobx/stores/rewardsStore';
+import store from '../mobx/stores/RootStore';
 import UserStore from '../mobx/stores/UserStore';
 import VaultStore from '../mobx/stores/VaultStore';
 import { WalletStore } from '../mobx/stores/WalletStore';

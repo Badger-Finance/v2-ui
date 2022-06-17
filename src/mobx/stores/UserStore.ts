@@ -18,9 +18,9 @@ import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 
 import { createMulticallRequest } from '../../web3/config/config-utils';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
-import { RootStore } from '../RootStore';
 import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
 import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
+import { RootStore } from './RootStore';
 
 export default class UserStore {
 	private store: RootStore;

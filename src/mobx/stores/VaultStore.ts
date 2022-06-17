@@ -28,8 +28,8 @@ import { VaultCache } from '../model/vaults/vault-cache';
 import { VaultMap } from '../model/vaults/vault-map';
 import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
 import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
-import { RootStore } from '../RootStore';
 import { getVaultsSlugCache } from '../utils/helpers';
+import { RootStore } from './RootStore';
 
 export default class VaultStore {
 	private store!: RootStore;

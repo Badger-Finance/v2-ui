@@ -2,13 +2,13 @@ import '@testing-library/jest-dom';
 
 import BigNumber from 'bignumber.js';
 import * as copy from 'copy-to-clipboard';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import WalletDrawer from '../components-v2/common/WalletDrawer';
 import deploy from '../config/deployments/mainnet.json';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
-import store from '../mobx/RootStore';
-import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/stores/RootStore';
 import UserStore from '../mobx/stores/UserStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
 import { customRender, fireEvent, screen } from './Utils';

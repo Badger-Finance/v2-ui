@@ -3,7 +3,7 @@ import { Currency } from 'config/enums/currency.enum';
 import { action, extendObservable } from 'mobx';
 
 import { SnackbarNotificationProps } from '../model/ui/snackbar-notification-props';
-import { RootStore } from '../RootStore';
+import { RootStore } from './RootStore';
 
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
 

@@ -5,7 +5,7 @@ import { GeneralVaultZap } from './model/vaults/general-vault-zap';
 import { IbBTCMintZap } from './model/vaults/ibbtc-mint-zap';
 import { RenVaultZap } from './model/vaults/ren-vault-zap';
 import { TokenZap } from './model/vaults/token-zap';
-import { RootStore } from './RootStore';
+import { RootStore } from './stores/RootStore';
 
 export class IbBTCMintZapFactory {
 	private static tokenZaps: Record<string, TokenZap> = {};

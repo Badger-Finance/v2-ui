@@ -1,11 +1,11 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
+import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import store from '../../mobx/RootStore';
-import { StoreProvider } from '../../mobx/store-context';
+import store from '../../mobx/stores/RootStore';
 import UserStore from '../../mobx/stores/UserStore';
 import VaultStore from '../../mobx/stores/VaultStore';
 import { customRender } from '../Utils';

@@ -5,7 +5,7 @@ import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
 import { getWeb3ModalProviders } from '../../config/wallets';
-import { RootStore } from '../RootStore';
+import { RootStore } from './RootStore';
 
 export class WalletStore {
 	private store: RootStore;

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import store from 'mobx/RootStore';
+import store from 'mobx/stores/RootStore';
 import MockDate from 'mockdate';
 
 import { RewardMerkleClaim } from '../../mobx/model/rewards/reward-merkle-claim';
