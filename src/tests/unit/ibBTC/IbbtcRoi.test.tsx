@@ -56,19 +56,3 @@ it('displays APY information', () => {
 	expect(screen.getByText('18.234%')).toBeInTheDocument();
 	expect(screen.getByText('Sampled from last week')).toBeInTheDocument();
 });
-
-// This test requires of a Mock Web3 Provider which is being implemented in a separate branch
-
-// it('displays loading state', () => {
-// 	store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-// 	store.ibBTCStore.ibBTC = new TokenModel(store, addresses.mainnet.contracts.tokens.ibBTC);
-// 	customRender(
-// 		<StoreProvider value={store}>
-// 			<ThemeProvider theme={darkTheme}>
-// 				<CssBaseline />
-// 				<IbbtcRoi />
-// 			</ThemeProvider>
-// 		</StoreProvider>,
-// 	);
-// 	expect(screen.getAllByRole('loader')).toHaveLength(2);
-// });

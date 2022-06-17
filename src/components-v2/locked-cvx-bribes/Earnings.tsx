@@ -2,8 +2,8 @@ import { Button, Card, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 import clsx from 'clsx';
-import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/stores/store-context';
+import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import { SAFE_BOX_ILLUSTRATION_BREAKPOINT } from './Banner';
