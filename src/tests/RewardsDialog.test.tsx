@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 import { action } from 'mobx';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
@@ -13,7 +13,6 @@ import store from '../mobx/stores/RootStore';
 import UserStore from '../mobx/stores/UserStore';
 import VaultStore from '../mobx/stores/VaultStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
-import { TransactionRequestResult } from '../mobx/utils/web3';
 import { customRender, fireEvent, screen } from './Utils';
 import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from './utils/samples';
 
@@ -29,7 +28,7 @@ const mockClaimProof = {
 	cumulativeAmounts: ['28019610295276968', '24529508667974375', '39890071517351528'],
 	proof: ['0x0000000000000000000000000000000000000001'],
 	node: '0x0000000000000000000000000000000000000001',
-	boost: new BigNumber(1),
+	boost: BigNumber.from(1),
 };
 
 const mockBadgerTreeClaims: TokenBalance[] = [
@@ -40,8 +39,8 @@ const mockBadgerTreeClaims: TokenBalance[] = [
 			decimals: 18,
 			address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 		},
-		new BigNumber('28019610295276968'),
-		new BigNumber('0.028019610295276968'),
+		BigNumber.from('28019610295276968'),
+		BigNumber.from('0.028019610295276968'),
 	),
 	new TokenBalance(
 		{
@@ -50,8 +49,8 @@ const mockBadgerTreeClaims: TokenBalance[] = [
 			decimals: 18,
 			address: '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305',
 		},
-		new BigNumber('24529508667974375'),
-		new BigNumber('0.024529508667974375'),
+		BigNumber.from('24529508667974375'),
+		BigNumber.from('0.024529508667974375'),
 	),
 	new TokenBalance(
 		{
@@ -60,8 +59,8 @@ const mockBadgerTreeClaims: TokenBalance[] = [
 			decimals: 18,
 			address: '0x2B5455aac8d64C14786c3a29858E43b5945819C0',
 		},
-		new BigNumber('39890071517351528'),
-		new BigNumber('0.039890071517351528'),
+		BigNumber.from('39890071517351528'),
+		BigNumber.from('0.039890071517351528'),
 	),
 ];
 
@@ -140,8 +139,8 @@ describe('Rewards Dialog', () => {
 						name: 'test',
 						symbol: 'Test Token',
 					},
-					new BigNumber(0),
-					new BigNumber(1),
+					BigNumber.from(0),
+					BigNumber.from(1),
 				),
 			);
 

@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 import React from 'react';
 
 interface Props {
@@ -37,20 +37,20 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
 					</Typography>
 				</Box>
 				<Typography variant="body2" className={classes.positiveSlippage}>
-					{`${calculatedSlippage.absoluteValue().decimalPlaces(4)}%`}
+					{`${calculatedSlippage.abs().toNumber().toFixed(4)}%`}
 				</Typography>
 			</Grid>
 		);
 	}
 
-	if (calculatedSlippage.isGreaterThan(limitSlippage)) {
+	if (calculatedSlippage.gt(limitSlippage)) {
 		return (
 			<Grid container alignItems="center" justifyContent="space-between">
 				<Typography variant="body2" className={classes.negativeSlippage}>
 					Slippage higher than expected (incl. pricing):
 				</Typography>
 				<Typography variant="body2" className={classes.negativeSlippage}>
-					{`${calculatedSlippage.decimalPlaces(4)}%`}
+					{`${calculatedSlippage.toNumber().toFixed(4)}%`}
 				</Typography>
 			</Grid>
 		);
@@ -59,7 +59,7 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
 	return (
 		<Grid container alignItems="center" justifyContent="space-between">
 			<Typography variant="body2">Estimated slippage (incl. pricing):</Typography>
-			<Typography variant="body2">{`${calculatedSlippage.decimalPlaces(4)}%`}</Typography>
+			<Typography variant="body2">{`${calculatedSlippage.toNumber().toFixed(4)}%`}</Typography>
 		</Grid>
 	);
 };

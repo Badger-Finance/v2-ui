@@ -5,7 +5,8 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
+import { StoreContext } from '../../mobx/store-context';
+import { numberWithCommas } from '../../mobx/utils/helpers';
 import {
 	calculateNativeToMatchRank,
 	calculateUserBoost,
@@ -141,13 +142,13 @@ export const NativeBox = observer((props: Props) => {
 		<Grid item className={classes.settInformation}>
 			<Typography variant="h6">Native: </Typography>
 			<Typography variant="body2" color="textSecondary">
-				Badger & Digg: ${numberWithCommas(formatWithoutExtraZeros(badgerDiggBalance, 3))}
+				Badger & Digg: ${numberWithCommas(badgerDiggBalance.toFixed(3))}
 			</Typography>
 			<Typography variant="body2" color="textSecondary">
-				NFTs: ${numberWithCommas(formatWithoutExtraZeros(nftBalance, 3))}
+				NFTs: ${numberWithCommas(nftBalance.toFixed(3))}
 			</Typography>
 			<Typography variant="body2" color="textSecondary">
-				bveCVX: ${numberWithCommas(formatWithoutExtraZeros(bveCVXBalance, 3))}
+				bveCVX: ${numberWithCommas(bveCVXBalance.toFixed(3))}
 			</Typography>
 			<HoldingAssetInput
 				className={classes.assetInput}
@@ -173,7 +174,7 @@ export const NativeBox = observer((props: Props) => {
 							<span
 								className={classes.amountToNextLevel}
 								onClick={handleNextLevelAmountClick}
-							>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
+							>{` $${numberWithCommas(amountToReachNextLevel.toFixed(3))} `}</span>
 						</Tooltip>
 						more Native to reach next multiplier:{' '}
 						<span className={classes.nextLevelName}>{nextStepText}</span>
@@ -186,7 +187,7 @@ export const NativeBox = observer((props: Props) => {
 					<Typography
 						className={clsx(classes.valueToAddText, classes.amountToAdd)}
 						onClick={handleApplyNativeToAdd}
-					>{`+$${numberWithCommas(formatWithoutExtraZeros(nativeToAdd, 3))}`}</Typography>
+					>{`+$${numberWithCommas(Number(nativeToAdd).toFixed(3))}`}</Typography>
 				</Grid>
 			)}
 		</Grid>

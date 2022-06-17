@@ -1,9 +1,9 @@
-import { BigNumber } from 'bignumber.js';
+import { Erc20__factory } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { extendObservable } from 'mobx';
 
 import { NETWORKS_LOCKED_DEPOSITS_CONFIG } from '../../config/networks-locked-deposits';
-import { ERC20__factory, VoteLockedDeposit__factory } from '../../contracts';
+import { VoteLockedDeposit__factory } from '../../contracts';
 import { LockedContractInfo } from '../model/locked-deposits/locked-contract-info';
 import { Network } from '../model/network/network';
 import { TokenBalance } from '../model/tokens/token-balance';
@@ -58,7 +58,7 @@ class LockedDepositsStore {
 		}
 
 		const token = this.store.vaults.getToken(underlyingTokenAddress);
-		const tokenContract = ERC20__factory.connect(underlyingTokenAddress, provider);
+		const tokenContract = Erc20__factory.connect(underlyingTokenAddress, provider);
 		const voteLockedDepositContract = VoteLockedDeposit__factory.connect(lockingContractAddress, provider);
 
 		const [vaultBalance, strategyBalance, totalTokenBalanceStrategy, lockedTokenBalanceStrategy] =

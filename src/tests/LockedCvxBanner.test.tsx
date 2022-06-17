@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js';
-import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import LockeDelegationBanner from '../../src/components-v2/locked-cvx-bribes/Banner';

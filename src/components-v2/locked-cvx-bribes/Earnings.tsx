@@ -1,3 +1,4 @@
+import { formatBalance } from '@badger-dao/sdk';
 import { Button, Card, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
@@ -7,7 +8,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import { SAFE_BOX_ILLUSTRATION_BREAKPOINT } from './Banner';
-import { formatBalance } from './utils';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

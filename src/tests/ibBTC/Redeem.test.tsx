@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom';
 
-import BigNumber from 'bignumber.js';
-import store from 'mobx/stores/RootStore';
-import { StoreProvider } from 'mobx/stores/store-context';
+import { BigNumber } from 'ethers';
+import store from 'mobx/RootStore';
 import React from 'react';
 
 import { Redeem } from '../../components/IbBTC/Redeem';
@@ -11,7 +10,6 @@ import SnackbarManager from '../../components-v2/common/SnackbarManager';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import IbBTCStore from '../../mobx/stores/ibBTCStore';
 import { WalletStore } from '../../mobx/stores/WalletStore';
-import { TransactionRequestResult } from '../../mobx/utils/web3';
 import { customRender, fireEvent, screen } from '../Utils';
 import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 
@@ -27,12 +25,12 @@ describe('ibBTC Redeem', () => {
 					decimals: 18,
 					address: '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545',
 				},
-				new BigNumber('5000000000000000000'),
-				new BigNumber('12.47195816949324'),
+				BigNumber.from('5000000000000000000'),
+				BigNumber.from('12.47195816949324'),
 			),
 		]);
 
-		store.ibBTCStore.redeemFeePercent = new BigNumber(0);
+		store.ibBTCStore.redeemFeePercent = BigNumber.from(0);
 
 		store.ibBTCStore.redeemRates = {
 			'0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': '0.976196',

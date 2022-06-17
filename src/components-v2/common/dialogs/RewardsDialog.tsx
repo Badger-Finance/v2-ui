@@ -6,7 +6,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
 import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
-import { TransactionRequestResult } from '../../../mobx/utils/web3';
+import { StoreContext } from '../../../mobx/store-context';
 import ClaimedRewardsContent from '../../rewards/ClaimedRewardsContent';
 import ClaimRewardsContent from '../../rewards/ClaimRewardsContent';
 import UserGuideContent from '../../rewards/UserGuideContent';
@@ -36,11 +36,12 @@ const RewardsDialog = (): JSX.Element => {
 
 	const handleClaim = async (claims: ClaimMap) => {
 		try {
-			const txResult = await rewards.claimGeysers(claims);
-			if (txResult === TransactionRequestResult.Success) {
-				setClaimedRewards(Object.values(claims));
-				await rewards.loadTreeData();
-			}
+			// ENABLE THIS BACK YOU DOGGY JINTAO
+			// const txResult = await rewards.claimGeysers(claims);
+			// if (txResult === TransactionRequestResult.Success) {
+			// 	setClaimedRewards(Object.values(claims));
+			// 	await rewards.loadTreeData();
+			// }
 		} catch (error) {
 			console.error(error);
 			if (String(error).includes('execution reverted: Invalid cycle')) {

@@ -1,16 +1,15 @@
 import { Button, Grid, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
-import BigNumber from 'bignumber.js';
 import { ZERO } from 'config/constants';
-import { StoreContext } from 'mobx/stores/store-context';
+import { BigNumber } from 'ethers';
+import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { debounce } from 'utils/componentHelpers';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { TransactionRequestResult } from '../../mobx/utils/web3';
 import { useNumericInput } from '../../utils/useNumericInput';
 import {
 	BalanceGrid,
@@ -123,7 +122,7 @@ export const Redeem = observer((): any => {
 
 	const debounceInputAmountChange = useCallback(
 		debounce(200, async (change): Promise<void> => {
-			const input = new BigNumber(change);
+			const input = BigNumber.from(change);
 
 			if (!selectedToken) {
 				return;
@@ -148,7 +147,7 @@ export const Redeem = observer((): any => {
 			return;
 		}
 
-		setInputAmount(ibBTC.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
+		setInputAmount(ibBTC.balanceDisplay(6));
 		setRedeemBalance(ibBTC);
 		await calculateRedeem(ibBTC, selectedToken);
 	};
@@ -159,7 +158,7 @@ export const Redeem = observer((): any => {
 		}
 
 		const limitBalance = TokenBalance.fromBigNumber(ibBTC, limit);
-		setInputAmount(limitBalance.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
+		setInputAmount(limitBalance.balanceDisplay(6));
 		setRedeemBalance(limitBalance);
 		await calculateRedeem(limitBalance, selectedToken);
 	};
@@ -178,9 +177,10 @@ export const Redeem = observer((): any => {
 
 			const txResult = await store.ibBTCStore.redeem(redeemBalance, selectedToken.token);
 
-			if (txResult === TransactionRequestResult.Success) {
-				resetState();
-			}
+			// :() bad dogyy....
+			// if (txResult === TransactionRequestResult.Success) {
+			// 	resetState();
+			// }
 		}
 	};
 

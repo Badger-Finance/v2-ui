@@ -10,7 +10,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { NewVaultWarning } from '../../vault-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { PercentageSelector } from '../PercentageSelector';
@@ -60,7 +59,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 	const { onValidChange, inputProps } = useNumericInput();
 	const classes = useStyles();
 
-	const userBalance = user.getBalance(BalanceNamespace.Token, badgerVault);
+	const userBalance = user.getBalance(badgerVault);
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
 	const vaultCaps = user.vaultCaps[vault.vaultToken];
 	const isLoading = contracts.settsBeingDeposited[vault.vaultToken];

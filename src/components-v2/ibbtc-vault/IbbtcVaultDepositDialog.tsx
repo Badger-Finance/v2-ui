@@ -17,20 +17,16 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { ReportProblem } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
-import BigNumber from 'bignumber.js';
 import clsx from 'clsx';
-import { StoreContext } from 'mobx/stores/store-context';
+import { IbbtcVaultZap__factory } from 'contracts';
+import { BigNumber, BigNumberish, ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { AbiItem } from 'web3-utils';
 
 import { Loader } from '../../components/Loader';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
-import IbbtcVaultZapAbi from '../../config/system/abis/IbbtcVaultZap.json';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { toHex } from '../../mobx/utils/helpers';
-import { sendContractMethod } from '../../mobx/utils/web3';
-import { BalanceNamespace } from '../../web3/config/namespaces';
+import { StoreContext } from '../../mobx/store-context';
 import { VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { StrategyFees } from '../common/StrategyFees';
 import VaultLogo from '../landing/VaultLogo';
@@ -110,7 +106,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	// lp token getters
 	const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
 	const lpBadgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === lpVault?.vaultToken);
-	const userLpTokenBalance = lpBadgerVault ? user.getBalance(BalanceNamespace.Token, lpBadgerVault) : undefined;
+	const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault) : undefined;
 	const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
 	const settStrategy = lpBadgerVault ? network.network.strategies[lpBadgerVault.vaultToken.address] : undefined;
 
@@ -133,8 +129,8 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	const isLoading = !areUserTokenBalancesAvailable || !lpBadgerVault;
 
 	const totalDeposit = multiTokenDepositBalances.reduce(
-		(total, balance) => total.plus(balance.tokenBalance),
-		new BigNumber(0),
+		(total, balance) => total.add(balance.tokenBalance),
+		ethers.constants.Zero,
 	);
 
 	const multiTokenDisabled = totalDeposit.isZero() || slippageRevertProtected;
@@ -151,15 +147,19 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	const getCalculations = useCallback(
 		async (balances: TokenBalance[]): Promise<BigNumber[]> => {
 			if (!wallet.web3Instance) return [];
-			const ibbtcVaultPeak = new wallet.web3Instance.eth.Contract(
-				IbbtcVaultZapAbi as AbiItem[],
-				mainnetDeploy.ibbtcVaultZap,
-			);
-			const depositAmounts = balances.map((balance) => toHex(balance.tokenBalance));
+			const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, wallet.web3Instance);
+			if (balances.length !== 4) {
+				throw new Error('dafuq');
+			}
+			// const depositAmounts = balances.map((balance) => toHex(balance.tokenBalance));
+
+			// TODO: FIX ME!!! THIS SHOULD NOT STILL BE THERE
+			// IF YOU SKIP THIS REVIEWING YOU ARE JUST A BAD DOG AS JINTAO
+			const depositAmounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish] = ['0', '0', '0', '0'];
 
 			const [calculatedMint, expectedAmount] = await Promise.all([
-				new BigNumber(await ibbtcVaultPeak.methods.calcMint(depositAmounts, false).call()),
-				new BigNumber(await ibbtcVaultPeak.methods.expectedAmount(depositAmounts).call()),
+				ibbtcVaultPeak.calcMint(depositAmounts, false),
+				ibbtcVaultPeak.expectedAmount(depositAmounts),
 			]);
 
 			return [calculatedMint, expectedAmount];
@@ -184,20 +184,23 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 		}
 
 		const [calculatedMint, expectedAmount] = await getCalculations(multiTokenDepositBalances);
-		const minOut = expectedAmount.multipliedBy(1 - newSlippage / 100);
-		const calculatedSlippage = expectedAmount.minus(calculatedMint).multipliedBy(100).dividedBy(expectedAmount);
+		const minOut = expectedAmount.mul(1 - newSlippage / 100);
+		const calculatedSlippage = expectedAmount.sub(calculatedMint).mul(100).div(expectedAmount);
 
 		setSlippage(newSlippage);
 		setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
 		setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint));
-		setSlippageRevertProtected(calculatedMint.isLessThan(minOut));
+		setSlippageRevertProtected(calculatedMint.lt(minOut));
 		setExpectedSlippage(calculatedSlippage);
 	};
 
 	const handleDepositBalanceChange = async (tokenBalance: TokenBalance, index: number) => {
 		const balances = [...multiTokenDepositBalances];
 		balances[index] = tokenBalance;
-		const totalDeposit = balances.reduce((total, balance) => total.plus(balance.tokenBalance), new BigNumber(0));
+		const totalDeposit = balances.reduce(
+			(total, balance) => total.add(balance.tokenBalance),
+			ethers.constants.Zero,
+		);
 
 		if (totalDeposit.isZero()) {
 			setMultiTokenDepositBalances(balances);
@@ -210,8 +213,8 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
 		const [calculatedMint, expectedAmount] = await getCalculations(balances);
 		// formula: slippage = [(expectedAmount - calculatedMint) * 100] / expectedAmount
-		const calculatedSlippage = expectedAmount.minus(calculatedMint).multipliedBy(100).dividedBy(expectedAmount);
-		const minOut = expectedAmount.multipliedBy(1 - slippage / 100);
+		const calculatedSlippage = expectedAmount.sub(calculatedMint).mul(100).div(expectedAmount);
+		const minOut = expectedAmount.mul(1 - slippage / 100);
 
 		if (userLpTokenBalance) {
 			setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
@@ -219,7 +222,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 		}
 
 		// this will protect users from submitting tx that will be reverted because of slippage
-		setSlippageRevertProtected(calculatedMint.isLessThan(minOut));
+		setSlippageRevertProtected(calculatedMint.lt(minOut));
 		setExpectedSlippage(calculatedSlippage);
 		setMultiTokenDepositBalances(balances);
 	};
@@ -249,36 +252,35 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
 		const allowanceApprovals = [];
 
-		for (const depositBalance of multiTokenDepositBalances) {
-			const allowance = await contracts.getAllowance(depositBalance.token, mainnetDeploy.ibbtcVaultZap);
+		// TODO DOGGY PLEASE DO NOT LEAVE THIS COMMENTED
+		// for (const depositBalance of multiTokenDepositBalances) {
+		// 	const allowance = await contracts.getAllowance(depositBalance.token, mainnetDeploy.ibbtcVaultZap);
 
-			if (allowance.tokenBalance.lt(depositBalance.tokenBalance)) {
-				allowanceApprovals.push(contracts.increaseAllowance(depositBalance.token, mainnetDeploy.ibbtcVaultZap));
-			}
-		}
+		// 	if (allowance.tokenBalance.lt(depositBalance.tokenBalance)) {
+		// 		allowanceApprovals.push(contracts.increaseAllowance(depositBalance.token, mainnetDeploy.ibbtcVaultZap));
+		// 	}
+		// }
 
-		await Promise.all(allowanceApprovals);
+		// await Promise.all(allowanceApprovals);
 
-		const ibbtcVaultPeak = new web3Instance.eth.Contract(
-			IbbtcVaultZapAbi as AbiItem[],
-			mainnetDeploy.ibbtcVaultZap,
-		);
+		// const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, web3Instance);
 
-		const depositAmounts = multiTokenDepositBalances.map((balance) => toHex(balance.tokenBalance));
-		const expectedAmount = new BigNumber(await ibbtcVaultPeak.methods.expectedAmount(depositAmounts).call());
-		const minOut = expectedAmount.multipliedBy(1 - slippage / 100).toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, toHex(new BigNumber(minOut)), false);
-		const options = await contracts.getMethodSendOptions(deposit);
+		// // const depositAmounts = multiTokenDepositBalances.map((balance) => balance.tokenBalance);
+		// const depositAmounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish] = ['0', '0', '0', '0'];
+		// const expectedAmount = await ibbtcVaultPeak.expectedAmount(depositAmounts);
+		// const minOut = expectedAmount.mul(1 - slippage / 100);
+		// const deposit = ibbtcVaultPeak.deposit(depositAmounts, minOut, false);
+		// const options = await contracts.getMethodSendOptions(deposit);
 
-		uiState.queueNotification('Sign transaction to execute deposit', 'info');
+		// uiState.queueNotification('Sign transaction to execute deposit', 'info');
 
-		await sendContractMethod(
-			store,
-			deposit,
-			options,
-			'Deposit transaction submitted',
-			'Deposit processed successfully',
-		);
+		// await sendContractMethod(
+		// 	store,
+		// 	deposit,
+		// 	options,
+		// 	'Deposit transaction submitted',
+		// 	'Deposit processed successfully',
+		// );
 	};
 
 	useEffect(() => {
@@ -293,7 +295,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	useEffect(() => {
 		const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
 		const lpBadgerVault = lpVault ? vaults.getVaultDefinition(lpVault) : undefined;
-		const userLpTokenBalance = lpBadgerVault ? user.getBalance(BalanceNamespace.Token, lpBadgerVault) : undefined;
+		const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault) : undefined;
 
 		if (!userLpTokenBalance) {
 			return;
@@ -441,7 +443,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 					</Grid>
 				)}
 				<Divider className={classes.divider} variant="fullWidth" />
-				{lpVault && settStrategy && <StrategyFees vault={lpVault} fees={settStrategy.fees} />}
+				{lpVault && <StrategyFees vault={lpVault} />}
 				<Button
 					fullWidth
 					variant="contained"

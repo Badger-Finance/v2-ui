@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import { VaultAvailableDeposit } from '../components-v2/common/dialogs/VaultAvailableDeposit';

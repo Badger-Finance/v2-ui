@@ -1,5 +1,4 @@
 import { Network } from '@badger-dao/sdk';
-import { CallReturnContext } from 'ethereum-multicall';
 
 import { groupBy } from '../../utils/lodashToNative';
 

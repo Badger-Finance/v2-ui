@@ -42,15 +42,15 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 
 	const handleInputChange = (amount: string) => {
 		setInputValue(amount);
-		const inputBalance = TokenBalance.fromBalance(tokenBalance, amount || '0');
-		onChange(inputBalance.tokenBalance.isNaN() ? TokenBalance.fromBalance(tokenBalance, '0') : inputBalance);
+		const input = Number(amount);
+		const value = isNaN(input) ? input : 0;
+		const inputBalance = TokenBalance.fromBalance(tokenBalance, value.toString());
+		onChange(inputBalance);
 	};
 
 	const handleApplyPercentage = (percentage: number) => {
-		setInputValue(balance.multipliedBy(percentage / 100).toString());
-		onChange(
-			new TokenBalance(token, tokenBalance.tokenBalance.multipliedBy(percentage).dividedToIntegerBy(100), price),
-		);
+		setInputValue(((balance * percentage) / 100).toString());
+		onChange(new TokenBalance(token, tokenBalance.tokenBalance.mul(percentage).div(100), price));
 	};
 
 	const percentages = (

@@ -1,5 +1,5 @@
 import { Grid, makeStyles, Tooltip } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 import React from 'react';
 
 import { MintLimits } from '../../mobx/model/strategies/mint-limits';

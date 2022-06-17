@@ -5,14 +5,14 @@ import { minBalance } from 'mobx/utils/helpers';
 export class TokenBalance {
 	readonly token: Token;
 	public tokenBalance: BigNumber;
-	public balance: BigNumber;
-	public price: BigNumber;
+	public balance: number;
+	public price: number;
 
-	constructor(token: Token, balance: BigNumber, price: BigNumber) {
+	constructor(token: Token, balance: BigNumberish, price: number) {
 		this.token = token;
-		this.tokenBalance = balance;
+		this.tokenBalance = BigNumber.from(balance);
 		this.price = price;
-		this.balance = balance.dividedBy(Math.pow(10, token.decimals));
+		this.balance = formatBalance(balance, token.decimals);
 	}
 
 	/**
@@ -26,8 +26,8 @@ export class TokenBalance {
 	 */
 	static fromBalance(tokenBalance: TokenBalance, balance: string): TokenBalance {
 		const { token, price } = tokenBalance;
-		const scalar = new BigNumber(Math.pow(10, token.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar);
+		const scalar = BigNumber.from(Math.pow(10, token.decimals).toString());
+		const amount = BigNumber.from(balance).mul(scalar);
 		return new TokenBalance(token, amount, price);
 	}
 
@@ -36,15 +36,15 @@ export class TokenBalance {
 		return new TokenBalance(token, balance, price);
 	}
 
-	static hasBalance(tokenBalance?: TokenBalance): boolean {
+	hasBalance(tokenBalance?: TokenBalance): boolean {
 		if (!tokenBalance) {
 			return false;
 		}
-		return tokenBalance.balance.gt(0);
+		return tokenBalance.balance > 0;
 	}
 
-	get value(): BigNumber {
-		return this.balance.multipliedBy(this.price);
+	get value(): number {
+		return this.balance * this.price;
 	}
 
 	/**
@@ -58,7 +58,7 @@ export class TokenBalance {
 	 */
 	balanceDisplay(precision?: number): string {
 		const decimals = precision || this.token.decimals;
-		if (this.balance.gt(0) && this.balance.lt(minBalance(decimals))) {
+		if (this.balance > 0 && this.balance < minBalance(decimals)) {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
 
@@ -66,7 +66,7 @@ export class TokenBalance {
 	}
 
 	balanceValueDisplay(currency: Currency, precision?: number): string | undefined {
-		if (this.price.isZero()) {
+		if (this.price === 0) {
 			// cap to 8 decimals by default because the spaces for price converted values are usually too small to fit
 			// the balances with full token decimals
 			return `${this.balanceDisplay(precision ?? 8)} ${this.token.symbol}`;
@@ -82,17 +82,17 @@ export class TokenBalance {
 	 * Conversions to bTokens can utilize this function with scalePrice
 	 * to effectively convert balances using ppfs as the given scalar.
 	 */
-	scale(scalar: BigNumber, scalePrice?: boolean): TokenBalance {
+	scale(scalar: number, scalePrice?: boolean): TokenBalance {
 		if (this.tokenBalance.eq(0)) {
 			return this;
 		}
-		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
-		const price = scalePrice ? this.price.dividedBy(scalar) : this.price;
+		const tokenBalance = this.tokenBalance.mul(scalar);
+		const price = scalePrice ? this.price / scalar : this.price;
 		return new TokenBalance(this.token, tokenBalance, price);
 	}
 
 	scaledBalanceDisplay(percent: number): string {
-		const scaledBalance = this.scale(new BigNumber(percent / 100));
+		const scaledBalance = this.scale(percent / 100);
 		return scaledBalance.balanceDisplay();
 	}
 }

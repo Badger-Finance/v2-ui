@@ -1,9 +1,5 @@
 import { Account, BouncerType, MerkleProof, Network, VaultDTO } from '@badger-dao/sdk';
-import BigNumber from 'bignumber.js';
 import { ONE_MIN_MS } from 'config/constants';
-import { Multicall } from 'ethereum-multicall';
-import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
-import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
@@ -13,14 +9,9 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
-import Web3 from 'web3';
-import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 
-import { createMulticallRequest } from '../../web3/config/config-utils';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
-import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
-import { RootStore } from './RootStore';
 
 export default class UserStore {
 	private store: RootStore;
@@ -108,22 +99,12 @@ export default class UserStore {
 		}
 	}
 
-	getBalance(namespace: BalanceNamespace, vault: BadgerVault): TokenBalance {
-		switch (namespace) {
-			case BalanceNamespace.Vault:
-			case BalanceNamespace.GuardedVault:
-			case BalanceNamespace.Deprecated:
-				const settAddress = Web3.utils.toChecksumAddress(vault.vaultToken.address);
-				return this.getOrDefaultBalance(this.settBalances, settAddress);
-			case BalanceNamespace.Token:
-			default:
-				const tokenAddress = Web3.utils.toChecksumAddress(vault.depositToken.address);
-				return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
-		}
+	getBalance(vault: BadgerVault): TokenBalance {
+		throw new Error('kekekek');
 	}
 
 	getTokenBalance(contract: string): TokenBalance {
-		const tokenAddress = Web3.utils.toChecksumAddress(contract);
+		const tokenAddress = ethers.utils.getAddress(contract);
 		const compositeBalances = {
 			...this.settBalances,
 			...this.tokenBalances,
@@ -143,7 +124,7 @@ export default class UserStore {
 	});
 
 	loadClaimProof = action(async (address: string, chain = Network.Ethereum): Promise<void> => {
-		const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
+		const proof = await fetchClaimProof(ethers.utils.getAddress(address), chain);
 		if (proof) {
 			this.claimProof = proof;
 			await this.store.rewards.fetchVaultRewards();
@@ -373,7 +354,7 @@ export default class UserStore {
 		const balanceTokenInfo = vaults.getToken(tokenAddress);
 		const balance = new BigNumber(balanceResults[0][0].hex);
 		const tokenPrice = prices.getPrice(tokenAddress);
-		const key = Web3.utils.toChecksumAddress(tokenAddress);
+		const key = ethers.utils.getAddress(tokenAddress);
 		tokenBalances[key] = new TokenBalance(balanceTokenInfo, balance, tokenPrice);
 	};
 }

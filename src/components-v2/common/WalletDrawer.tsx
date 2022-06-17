@@ -1,6 +1,5 @@
 import { Button, Drawer, Grid, IconButton, makeStyles, Typography, useTheme } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import BigNumber from 'bignumber.js';
 import clsx from 'clsx';
 import copy from 'copy-to-clipboard';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -105,8 +104,8 @@ const WalletDrawer = (): JSX.Element | null => {
 		return isBadgerToken ? [user.getTokenBalance(network.network.deploy.tokens[token])] : [];
 	});
 
-	const sortedBalances = tokenBalances.sort((a, b) => b.value.minus(a.value).toNumber());
-	const totalBalance = tokenBalances.reduce((total, next) => total.plus(next.value), new BigNumber(0));
+	const sortedBalances = tokenBalances.sort((a, b) => b.value - a.value);
+	const totalBalance = tokenBalances.reduce((total, next) => (total += next.value), 0);
 
 	return (
 		<Drawer open={uiState.showWalletDrawer} anchor="right" onClose={() => uiState.toggleWalletDrawer()}>

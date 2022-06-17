@@ -8,7 +8,6 @@ import {
 	VaultType,
 	VaultVersion,
 } from '@badger-dao/sdk';
-import BigNumber from 'bignumber.js';
 
 import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
@@ -22,8 +21,8 @@ export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
 		decimals: 18,
 		address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F',
 	},
-	new BigNumber('10000000000000000000'),
-	new BigNumber('12.012381'),
+	BigNumber.from('10000000000000000000'),
+	BigNumber.from('12.012381'),
 );
 
 export const SAMPLE_BADGER_SETT: BadgerVault = {
@@ -192,8 +191,8 @@ export const SAMPLE_TOKEN_BALANCE = new TokenBalance(
 		symbol: 'curve-renBTC-wBTC-sBTC',
 		decimals: 18,
 	},
-	new BigNumber(1.999 * 1e18),
-	new BigNumber(13.16),
+	BigNumber.from(1.999 * 1e18),
+	BigNumber.from(13.16),
 );
 
 export const SAMPLE_VAULTS: VaultDTO[] = [

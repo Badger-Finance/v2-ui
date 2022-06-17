@@ -38,10 +38,7 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
 	const { vaultToken } = vault;
 	const strategy = network.strategies[vaultToken];
 	const underlyingToken = vault.underlyingToken;
-	const strategyAddress =
-		vault.strategy?.address && vault.strategy.address !== ethers.constants.AddressZero
-			? vault.strategy.address
-			: network.strategies[vault.vaultToken].address;
+	const strategyAddress = vault.strategy.address;
 
 	return (
 		<Grid container className={classes.linksContainer}>

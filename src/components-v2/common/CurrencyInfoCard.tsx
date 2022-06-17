@@ -1,6 +1,7 @@
 import { makeStyles, Paper, Typography } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import BigNumber from 'bignumber.js';
+import { StoreContext } from 'mobx/store-context';
+import { inCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -8,7 +9,7 @@ import CurrencyDisplay from './CurrencyDisplay';
 
 export interface CurrencyInfoCardProps {
 	title: string;
-	value?: BigNumber;
+	value?: number;
 }
 
 const useStyles = makeStyles((theme) => ({

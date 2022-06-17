@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 import { within } from '@testing-library/react';
-import BigNumber from 'bignumber.js';
+import store from 'mobx/RootStore';
 import IbBTCStore from 'mobx/stores/ibBTCStore';
 import store from 'mobx/stores/RootStore';
 import { StoreProvider } from 'mobx/stores/store-context';
@@ -12,7 +12,6 @@ import { SnackbarProvider } from '../../components/Snackbar';
 import SnackbarManager from '../../components-v2/common/SnackbarManager';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { WalletStore } from '../../mobx/stores/WalletStore';
-import { TransactionRequestResult } from '../../mobx/utils/web3';
 import { cleanup, customRender, fireEvent, screen } from '../Utils';
 import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 
@@ -24,8 +23,8 @@ const mockTokens = [
 			decimals: 18,
 			address: '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545',
 		},
-		new BigNumber('5000000000000000000'),
-		new BigNumber('12.47195816949324'),
+		BigNumber.from('5000000000000000000'),
+		BigNumber.from('12.47195816949324'),
 	),
 	new TokenBalance(
 		{
@@ -34,8 +33,8 @@ const mockTokens = [
 			decimals: 8,
 			address: '0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D',
 		},
-		new BigNumber('1000000000'),
-		new BigNumber('12.070858'),
+		BigNumber.from('1000000000'),
+		BigNumber.from('12.070858'),
 	),
 ];
 
@@ -52,7 +51,7 @@ describe('ibBTC Mint', () => {
 		jest.spyOn(IbBTCStore.prototype, 'tokenBalances', 'get').mockReturnValue(mockTokens);
 		jest.spyOn(IbBTCStore.prototype, 'initialized', 'get').mockReturnValue(true);
 
-		store.ibBTCStore.mintFeePercent = new BigNumber(0);
+		store.ibBTCStore.mintFeePercent = BigNumber.from(0);
 
 		store.ibBTCStore.mintRates = {
 			'0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': '1.024385',
@@ -214,7 +213,7 @@ describe('ibBTC Mint', () => {
 		expect(mintSpy).toHaveBeenNthCalledWith(
 			1,
 			TokenBalance.fromBalance(store.ibBTCStore.mintOptions[0], '0.1'),
-			new BigNumber('1'),
+			BigNumber.from('1'),
 		);
 	});
 });

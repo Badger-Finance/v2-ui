@@ -1,9 +1,10 @@
 import { Button } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import BigNumber from 'bignumber.js';
 import clsx from 'clsx';
 import { Loader } from 'components/Loader';
-import { StoreContext } from 'mobx/stores/store-context';
+import { BigNumber } from 'ethers';
+import { StoreContext } from 'mobx/store-context';
+import { inCurrency } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -33,8 +34,8 @@ export const RewardsButton = observer((): JSX.Element | null => {
 	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
 
 	const totalRewardsValue = Object.keys(claimableRewards).reduce(
-		(total, claimKey) => total.plus(claimableRewards[claimKey].value),
-		new BigNumber(0),
+		(total, claimKey) => total.add(claimableRewards[claimKey].value),
+		BigNumber.from(0),
 	);
 
 	useEffect(() => {
@@ -55,7 +56,11 @@ export const RewardsButton = observer((): JSX.Element | null => {
 				variant="outlined"
 				onClick={() => store.uiState.toggleRewardsDialog()}
 			>
+<<<<<<< HEAD
 				<CurrencyDisplay displayValue={'0'} variant="body2" justifyContent="center" />
+=======
+				<CurrencyDisplay displayValue={inCurrency(0, currency)} variant="body2" justifyContent="center" />
+>>>>>>> 98010859 (chore: initial sdk migration)
 			</Button>
 		);
 	}
@@ -80,7 +85,13 @@ export const RewardsButton = observer((): JSX.Element | null => {
 				onClick={() => store.uiState.toggleRewardsDialog()}
 			>
 				<CurrencyDisplay
+<<<<<<< HEAD
 					displayValue={totalRewardsValue.toFixed(widgetButtonDecimals)}
+=======
+					// TODO BAD JINTAO DOG DO NOT LEAVE THIS IN!!!!!!!!!!
+					displayValue={inCurrency(0, currency, widgetButtonDecimals)}
+					// displayValue={inCurrency(totalRewardsValue, currency, widgetButtonDecimals)}
+>>>>>>> 98010859 (chore: initial sdk migration)
 					variant="body2"
 					justifyContent="center"
 					TypographyProps={{ className: classes.label }}

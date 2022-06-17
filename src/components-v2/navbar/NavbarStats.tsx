@@ -1,9 +1,7 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Skeleton } from '@material-ui/lab';
-import BigNumber from 'bignumber.js';
-import { StoreContext } from 'mobx/stores/store-context';
-import { numberWithCommas } from 'mobx/utils/helpers';
+import { BigNumber } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Typography } from 'ui-library/Typography';
@@ -70,8 +68,8 @@ export const NavbarStats = observer((): JSX.Element => {
 
 	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
-	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const portfolioValue = wallet.isConnected && user.initialized ? user.portfolioValue : new BigNumber(0);
+	const totalValueLocked = protocolSummary ? protocolSummary.totalValue : undefined;
+	const portfolioValue = wallet.isConnected && user.initialized ? user.portfolioValue : BigNumber.from(0);
 	const chainName = getFormattedNetworkName(network);
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 

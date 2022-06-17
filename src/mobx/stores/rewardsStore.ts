@@ -1,18 +1,14 @@
-import { GasSpeed, Network } from '@badger-dao/sdk';
 import { retry } from '@lifeomic/attempt';
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { RewardMerkleClaim } from 'mobx/model/rewards/reward-merkle-claim';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
-import { AbiItem } from 'web3-utils';
+import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
 
 import { defaultRetryOptions } from '../../config/constants';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
-import { getToken } from '../../web3/config/token-config';
 import { BadgerTree } from '../model/rewards/badger-tree';
-import { ClaimMap } from '../model/rewards/claim-map';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { RootStore } from './RootStore';
 
@@ -63,8 +59,8 @@ class RewardsStore {
 		});
 	}
 
-	get claimableRewards(): BigNumber {
-		return this.badgerTree.claims.reduce((total, reward) => total.plus(reward.value), new BigNumber(0));
+	get claimableRewards(): number {
+		return this.badgerTree.claims.reduce((total, reward) => (total += reward.value), 0);
 	}
 
 	get isLoading(): boolean {
@@ -76,11 +72,11 @@ class RewardsStore {
 		const badgerToken = this.store.vaults.getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
 		if (!tokenPrice) {
-			const amount = new BigNumber(balance);
-			return new TokenBalance(badgerToken, amount, new BigNumber(0));
+			const amount = BigNumber.from(balance);
+			return new TokenBalance(badgerToken, amount, 0);
 		}
-		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar);
+		const scalar = BigNumber.from(Math.pow(10, badgerToken.decimals));
+		const amount = BigNumber.from(balance).mul(scalar);
 		return new TokenBalance(badgerToken, amount, tokenPrice);
 	}
 
@@ -91,20 +87,24 @@ class RewardsStore {
 		const tokenPrice = this.store.prices.getPrice(token);
 
 		if (!tokenPrice) {
-			const amount = new BigNumber(balance);
-			return new TokenBalance(claimToken, amount, new BigNumber(0));
+			const amount = BigNumber.from(balance);
+			return new TokenBalance(claimToken, amount, 0);
 		}
 
 		const isDigg = claimToken.address === ETH_DEPLOY.tokens.digg;
 		const divisor =
-			isDigg && rebaseInfo ? new BigNumber(rebaseInfo.sharesPerFragment.toString()) : new BigNumber(1);
+			isDigg && rebaseInfo ? BigNumber.from(rebaseInfo.sharesPerFragment.toString()) : BigNumber.from(1);
 
-		const amount = new BigNumber(balance).dividedBy(divisor);
+		const amount = BigNumber.from(balance).div(divisor);
 		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
 
 	mockBalance(token: string): TokenBalance {
-		return new TokenBalance(this.store.vaults.getToken(token), new BigNumber(0), this.store.prices.getPrice(token));
+		return new TokenBalance(
+			this.store.vaults.getToken(token),
+			BigNumber.from(0),
+			this.store.prices.getPrice(token),
+		);
 	}
 
 	resetRewards = action((): void => {
@@ -245,6 +245,7 @@ class RewardsStore {
 			.then()
 			.catch(console.error);
 	}
+<<<<<<< HEAD
 
 	claimGeysers = action(async (claimMap: ClaimMap): Promise<TransactionRequestResult | null> => {
 		const { proof, amounts } = this.badgerTree;
@@ -360,6 +361,8 @@ class RewardsStore {
 
 		return tokenClaims;
 	}
+=======
+>>>>>>> 98010859 (chore: initial sdk migration)
 }
 
 export default RewardsStore;

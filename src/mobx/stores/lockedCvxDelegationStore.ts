@@ -1,9 +1,6 @@
-import BigNumber from 'bignumber.js';
 import { NETWORK_IDS } from 'config/constants';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { extendObservable } from 'mobx';
-import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
 
 import mainnet from '../../config/deployments/mainnet.json';
 import CvxDelegatorAbi from '../../config/system/abis/CvxDelegator.json';
@@ -12,8 +9,7 @@ import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json'
 import { fetchData } from '../../utils/fetchData';
 import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
 import { DelegationState } from '../model/vaults/locked-cvx-delegation';
-import { sendContractMethod } from '../utils/web3';
-import { RootStore } from './RootStore';
+import { RootStore } from '../RootStore';
 
 // this is mainnet only
 const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';

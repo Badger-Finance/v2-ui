@@ -11,16 +11,15 @@ import {
 } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
-import { BigNumber } from 'bignumber.js';
 import { ZERO } from 'config/constants';
-import { StoreContext } from 'mobx/stores/store-context';
+import { BigNumber } from 'ethers';
+import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { debounce } from 'utils/componentHelpers';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { TransactionRequestResult } from '../../mobx/utils/web3';
 import { useNumericInput } from '../../utils/useNumericInput';
 import {
 	BalanceGrid,
@@ -145,7 +144,7 @@ export const Mint = observer((): JSX.Element => {
 
 	const debounceInputAmountChange = useCallback(
 		debounce(200, async (change: string): Promise<void> => {
-			const input = new BigNumber(change);
+			const input = BigNumber.from(change);
 
 			if (!selectedToken) {
 				return;
@@ -168,13 +167,13 @@ export const Mint = observer((): JSX.Element => {
 			return;
 		}
 
-		setInputAmount(selectedToken.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
+		setInputAmount(selectedToken.balanceDisplay(6));
 		setMintBalance(selectedToken);
 		await calculateMintInformation(selectedToken);
 	};
 
 	const handleTokenChange = async (tokenBalance: TokenBalance): Promise<void> => {
-		setInputAmount(tokenBalance.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
+		setInputAmount(tokenBalance.balanceDisplay(6));
 		setSelectedToken(tokenBalance);
 		setMintBalance(tokenBalance);
 		await calculateMintInformation(tokenBalance);
@@ -182,7 +181,7 @@ export const Mint = observer((): JSX.Element => {
 
 	const handleMintClick = async (): Promise<void> => {
 		if (mintBalance && selectedToken) {
-			const mintSlippage = new BigNumber(slippage || customSlippage || '');
+			const mintSlippage = BigNumber.from(slippage || customSlippage || '');
 			const isValidAmount = store.ibBTCStore.isValidAmount(mintBalance, selectedToken, mintSlippage);
 
 			if (!isValidAmount) {
@@ -191,9 +190,10 @@ export const Mint = observer((): JSX.Element => {
 
 			const txResult = await store.ibBTCStore.mint(mintBalance, mintSlippage);
 
-			if (txResult === TransactionRequestResult.Success) {
-				resetState();
-			}
+			// BLS DOGGY DO NOT LET IT NOT FIX
+			// if (txResult === TransactionRequestResult.Success) {
+			// 	resetState();
+			// }
 		}
 	};
 

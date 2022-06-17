@@ -1,5 +1,4 @@
 import { GasPrices, Network } from '@badger-dao/sdk';
-import { DEBUG } from 'config/environment';
 import { computed, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/stores/RootStore';
 

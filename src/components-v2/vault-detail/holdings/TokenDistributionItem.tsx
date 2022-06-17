@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 import { VaultTokenBalance } from '../../../mobx/model/vaults/vault-token-balance';
-import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
+import { numberWithCommas } from '../../../mobx/utils/helpers';
 import TokenLogo from '../../TokenLogo';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ interface Props {
 
 export const TokenDistributionItem = ({ tokenBalance }: Props): JSX.Element => {
 	const classes = useStyles();
-	const displayAmount = numberWithCommas(formatWithoutExtraZeros(tokenBalance.balance, 2));
+	const displayAmount = numberWithCommas(tokenBalance.balance.toFixed(2));
 
 	return (
 		<Grid container alignItems="center" justifyContent="space-between">

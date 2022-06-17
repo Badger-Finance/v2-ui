@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 
-import BigNumber from 'bignumber.js';
 import UserStore from 'mobx/stores/UserStore';
 import React from 'react';
 

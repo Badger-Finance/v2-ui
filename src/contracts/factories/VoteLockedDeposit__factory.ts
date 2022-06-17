@@ -2,121 +2,127 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from 'ethers';
-import type { Provider } from '@ethersproject/providers';
-import type { VoteLockedDeposit, VoteLockedDepositInterface } from '../VoteLockedDeposit';
+import { Contract, Signer, utils } from "ethers";
+import type { Provider } from "@ethersproject/providers";
+import type {
+  VoteLockedDeposit,
+  VoteLockedDepositInterface,
+} from "../VoteLockedDeposit";
 
 const _abi = [
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '_user',
-				type: 'address',
-			},
-		],
-		name: 'balanceOf',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: 'amount',
-				type: 'uint256',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '_user',
-				type: 'address',
-			},
-		],
-		name: 'lockedBalanceOf',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: 'amount',
-				type: 'uint256',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: '_user',
-				type: 'address',
-			},
-		],
-		name: 'lockedBalances',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: 'total',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'unlockable',
-				type: 'uint256',
-			},
-			{
-				internalType: 'uint256',
-				name: 'locked',
-				type: 'uint256',
-			},
-			{
-				components: [
-					{
-						internalType: 'uint112',
-						name: 'amount',
-						type: 'uint112',
-					},
-					{
-						internalType: 'uint112',
-						name: 'boosted',
-						type: 'uint112',
-					},
-					{
-						internalType: 'uint32',
-						name: 'unlockTime',
-						type: 'uint32',
-					},
-				],
-				internalType: 'struct CvxLocker.LockedBalance[]',
-				name: 'lockData',
-				type: 'tuple[]',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [],
-		name: 'lockedSupply',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: '',
-				type: 'uint256',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+    ],
+    name: "balanceOf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+    ],
+    name: "lockedBalanceOf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+    ],
+    name: "lockedBalances",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "total",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "unlockable",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "locked",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint112",
+            name: "amount",
+            type: "uint112",
+          },
+          {
+            internalType: "uint112",
+            name: "boosted",
+            type: "uint112",
+          },
+          {
+            internalType: "uint32",
+            name: "unlockTime",
+            type: "uint32",
+          },
+        ],
+        internalType: "struct CvxLocker.LockedBalance[]",
+        name: "lockData",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lockedSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ];
 
 export class VoteLockedDeposit__factory {
-	static readonly abi = _abi;
-	static createInterface(): VoteLockedDepositInterface {
-		return new utils.Interface(_abi) as VoteLockedDepositInterface;
-	}
-	static connect(address: string, signerOrProvider: Signer | Provider): VoteLockedDeposit {
-		return new Contract(address, _abi, signerOrProvider) as VoteLockedDeposit;
-	}
+  static readonly abi = _abi;
+  static createInterface(): VoteLockedDepositInterface {
+    return new utils.Interface(_abi) as VoteLockedDepositInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): VoteLockedDeposit {
+    return new Contract(address, _abi, signerOrProvider) as VoteLockedDeposit;
+  }
 }

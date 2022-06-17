@@ -1,6 +1,5 @@
 import { Currency, Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { toVaultConfig } from 'web3/config/config-utils';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
@@ -387,7 +386,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 	},
 ];
 
-export const ethVaults = toVaultConfig(ethVaultDefinitions);
+export const ethVaults = ethVaultDefinitions;
 
 // named "rewards", this array is a way to inject token balance look ups
 export const ethRewards = [

@@ -1,14 +1,8 @@
 import { Network } from '@badger-dao/sdk';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
-import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
+import { BigNumber, ethers } from 'ethers';
 
-import importedBscErc20 from '../config/system/abis/BscErc20.json';
-import importedErc20 from '../config/system/abis/ERC20.json';
-import importedGuestList from '../config/system/abis/GuestList.json';
-import importedVault from '../config/system/abis/Vault.json';
-import importedYearnVault from '../config/system/abis/YearnWrapper.json';
+import { Currency } from './enums/currency.enum';
 import { Wallets } from './enums/wallets.enum';
 
 /* App Configurations */
@@ -47,12 +41,7 @@ export const NETWORK_IDS_TO_NAMES = {
 };
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
-export const ERC20 = importedErc20;
-export const ERC20_ABI = importedErc20.abi as AbiItem[];
-export const SETT_ABI = importedVault.abi as AbiItem[];
-export const YEARN_ABI = importedYearnVault.abi as AbiItem[];
-export const GUEST_LIST_ABI = importedGuestList.abi as AbiItem[];
-export const BSC_ERC20 = importedBscErc20;
+
 export const APP_NAME = 'BadgerDAO App';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
@@ -61,10 +50,10 @@ export const ZERO_CURRENCY = '0.00000';
 export const SITE_VERSION = '2.17.0';
 export const BLOCKNATIVE_API_KEY = process.env.REACT_APP_BLOCKNATIVE_API_KEY;
 
-export const ZERO = new BigNumber(0);
-export const TEN = new BigNumber(10);
-export const MAX = Web3.utils.toTwosComplement(-1);
+export const ZERO = ethers.constants.Zero;
+export const TEN = BigNumber.from(10);
 export const MAX_FEE = 1e4;
+export const MAX = ethers.constants.MaxUint256;
 
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 

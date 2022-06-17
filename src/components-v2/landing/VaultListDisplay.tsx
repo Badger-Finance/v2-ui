@@ -1,12 +1,10 @@
 import { VaultState } from '@badger-dao/sdk';
 import { makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-import { BalanceNamespace } from 'web3/config/namespaces';
 
 import NoVaults from './NoVaults';
 import VaultList from './VaultList';
@@ -50,8 +48,7 @@ const VaultListDisplay = observer(() => {
 			return [];
 		}
 
-		const scalar = new BigNumber(vault.pricePerFullShare);
-		const depositBalance = user.getBalance(BalanceNamespace.Vault, badgerVault).scale(scalar, true);
+		const depositBalance = user.getBalance(badgerVault).scale(vault.pricePerFullShare, true);
 		const hasNoBalance = depositBalance.tokenBalance.eq(0);
 
 		// Hide the remBadger vault from users who do not have rembadger (this default hides the sett)

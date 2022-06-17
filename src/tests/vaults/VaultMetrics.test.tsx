@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import React from 'react';
 
 import VaultMetrics from '../../components-v2/vault-detail/specs/VaultMetrics';

@@ -2,8 +2,6 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Collapse, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
-import BigNumber from 'bignumber.js';
-import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 
@@ -62,7 +60,11 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 	const { lockedDeposits } = React.useContext(StoreContext);
 	const classes = useStyles();
 
+<<<<<<< HEAD
 	const currencyValue = numberWithCommas(vault.value.toFixed());
+=======
+	const currencyValue = inCurrency(vault.value, uiState.currency);
+>>>>>>> 98010859 (chore: initial sdk migration)
 	const hasCurrencyIcon = currencyValue?.includes('.png');
 
 	let currencyIcon;

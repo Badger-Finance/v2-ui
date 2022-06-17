@@ -3,9 +3,7 @@ import { Currency, Network as ChainNetwork, TokenConfiguration, VaultState } fro
 import { TransactionData } from 'bnc-notify';
 import rpc from 'config/rpc.config';
 import { getStrategies } from 'config/system/strategies';
-import { ContractCallContext } from 'ethereum-multicall';
-import Web3 from 'web3';
-import { createBalancesRequest } from 'web3/config/config-utils';
+import { ethers } from 'ethers';
 
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
@@ -88,41 +86,12 @@ export abstract class Network {
 		return { link: `${this.explorer}/tx/${transaction.hash}` };
 	}
 
-	getBalancesRequests(vaults: VaultMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
-		let tokenAddresses = Object.values(vaults).map((vault) => vault.underlyingToken);
-		const vaultAddresses = Object.values(vaults).map((vault) => vault.vaultToken);
-		const generalVaultAddresses = vaultAddresses.filter(
-			(vault) => vaults[vault].state === VaultState.Open || vaults[vault].state === VaultState.Featured,
-		);
-		const guardedVaultAddresses = vaultAddresses.filter(
-			(vault) => vaults[vault].state === VaultState.Guarded || vaults[vault].state === VaultState.Experimental,
-		);
-		const deprecatedVaultAddresses = vaultAddresses.filter(
-			(vault) => vaults[vault].state === VaultState.Discontinued,
-		);
-		const allVaults = new Set([...generalVaultAddresses, ...guardedVaultAddresses, ...deprecatedVaultAddresses]);
-		for (const token of Object.keys(tokens).filter((t) => !tokenAddresses.includes(t))) {
-			if (!allVaults.has(token)) {
-				tokenAddresses.push(token);
-			}
-		}
-		// remove duplicate requests to cut down on calls
-		tokenAddresses = tokenAddresses.filter((t) => !allVaults.has(t));
-		return createBalancesRequest({
-			tokenAddresses,
-			generalVaultAddresses,
-			guardedVaultAddresses,
-			deprecatedVaultAddresses,
-			userAddress,
-		});
-	}
-
 	private checksumVaults(vaults: BadgerVault[]): BadgerVault[] {
 		return vaults.map((vault) => {
-			vault.depositToken.address = Web3.utils.toChecksumAddress(vault.depositToken.address);
-			vault.vaultToken.address = Web3.utils.toChecksumAddress(vault.vaultToken.address);
+			vault.depositToken.address = ethers.utils.getAddress(vault.depositToken.address);
+			vault.vaultToken.address = ethers.utils.getAddress(vault.vaultToken.address);
 			if (vault.geyser) {
-				vault.geyser = Web3.utils.toChecksumAddress(vault.geyser);
+				vault.geyser = ethers.utils.getAddress(vault.geyser);
 			}
 			return vault;
 		});

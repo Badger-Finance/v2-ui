@@ -1,6 +1,4 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
-import BigNumber from 'bignumber.js';
-import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
 import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';

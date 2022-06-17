@@ -5,7 +5,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
+import { StoreContext } from '../../mobx/store-context';
 import { clampStakeRatio } from '../../utils/boost-ranks';
 import { NativeBox } from './NativeBox';
 import { NonNativeBox } from './NonNativeBox';
@@ -87,7 +87,7 @@ export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element =
 			return;
 		}
 
-		onNativeChange(formatWithoutExtraZeros(amountToReach, 4));
+		onNativeChange(amountToReach.toFixed(4));
 	};
 
 	const handleIncreaseNative = () => {

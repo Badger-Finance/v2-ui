@@ -6,7 +6,8 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
-import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
+import { StoreContext } from '../../../mobx/store-context';
+import { numberWithCommas } from '../../../mobx/utils/helpers';
 import { HoldingItem } from './HoldingItem';
 import { HoldingsActionButtons } from './HoldingsActionButtons';
 import { NoHoldings } from './NoHoldings';
@@ -67,8 +68,8 @@ export const Holdings = observer(({ userData, vault }: Props): JSX.Element | nul
 						<HoldingItem
 							vault={vault}
 							name="Total Earned"
-							balance={formatWithoutExtraZeros(earnedBalance, decimals)}
-							value={`~$${numberWithCommas(formatWithoutExtraZeros(earnedValue, 2))}`}
+							balance={earnedBalance.toFixed(decimals)}
+							value={`~$${numberWithCommas(earnedValue.toFixed(2))}`}
 						/>
 					</Grid>
 				)}

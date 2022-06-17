@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
-import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
+import { StoreContext } from '../../mobx/store-context';
 import { calculateNativeToMatchRank } from '../../utils/boost-ranks';
 import { OptimizerBody } from './OptimizerBody';
 import OptimizerHeader from './OptimizerHeader';
@@ -88,8 +88,8 @@ export const Optimizer = observer((): JSX.Element => {
 		const stakeRatio = nativeBalance / nonNativeBalance;
 
 		setNativeToAdd(undefined);
-		setNative(formatWithoutExtraZeros(nativeBalance, 4));
-		setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
+		setNative(nativeBalance.toFixed(4));
+		setNonNative(nonNativeBalance.toFixed(4));
 		setStakeRatio(stakeRatio);
 	};
 
@@ -140,8 +140,8 @@ export const Optimizer = observer((): JSX.Element => {
 		const { nativeBalance, nonNativeBalance } = accountDetails;
 		const stakeRatio = nativeBalance / nonNativeBalance;
 
-		setNative(formatWithoutExtraZeros(nativeBalance, 4));
-		setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
+		setNative(nativeBalance.toFixed(4));
+		setNonNative(nonNativeBalance.toFixed(4));
 		setStakeRatio(stakeRatio);
 	}, [accountDetails, wallet, wallet.address]);
 

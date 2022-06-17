@@ -8,7 +8,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { PercentageSelector } from '../PercentageSelector';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, VaultDialogContent } from './styled';
 import VaultAdvisory from './VaultAdvisory';
@@ -59,8 +58,8 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
-	const userBalance = user.getBalance(BalanceNamespace.Vault, badgerVault);
-	const userHasBalance = userBalance.balance.gt(0);
+	const userBalance = user.getBalance(badgerVault);
+	const userHasBalance = userBalance.hasBalance();
 
 	const depositToken = vaults.getToken(vault.underlyingToken);
 	const bToken = vaults.getToken(vault.vaultToken);

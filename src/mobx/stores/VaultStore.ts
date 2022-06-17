@@ -7,16 +7,12 @@ import {
 	VaultDTO,
 	VaultState,
 } from '@badger-dao/sdk';
-import BigNumber from 'bignumber.js';
-import { ContractCallReturnContext } from 'ethereum-multicall';
 import { action, extendObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { Token } from 'mobx/model/tokens/token';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { parseCallReturnContext } from 'mobx/utils/multicall';
-import slugify from 'slugify';
-import Web3 from 'web3';
 
 import { FLAGS } from '../../config/environment';
 import { getUserVaultBoost } from '../../utils/componentHelpers';

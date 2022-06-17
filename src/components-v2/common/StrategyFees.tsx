@@ -17,16 +17,15 @@ const useStyles = makeStyles({
 
 interface Props {
 	vault: VaultDTO;
-	fees: FeeConfig;
 	showEmpty?: boolean;
 }
 
-export const StrategyFees = ({ vault, fees, showEmpty = false }: Props): JSX.Element => {
+export const StrategyFees = ({ vault, showEmpty = false }: Props): JSX.Element => {
 	const classes = useStyles();
-	const feeKeys = Object.keys(fees) as StrategyFee[];
+	const feeKeys = Object.values(StrategyFee);
 
 	const feeItems = feeKeys.map((key) => {
-		const fee = getStrategyFee(vault, key, fees);
+		const fee = getStrategyFee(vault, key);
 		if (!fee) {
 			return null;
 		}

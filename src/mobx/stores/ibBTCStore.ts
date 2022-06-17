@@ -1,18 +1,12 @@
 import { Network, Token } from '@badger-dao/sdk';
-import BigNumber from 'bignumber.js';
-import { ERC20_ABI, MAX, ZERO } from 'config/constants';
 import { DEBUG } from 'config/environment';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
-import settConfig from 'config/system/abis/Vault.json';
+import { BigNumber } from 'ethers';
 import { action, computed, extendObservable } from 'mobx';
 import { IbBTCMintZapFactory } from 'mobx/ibbtc-mint-zap-factory';
-import { RootStore } from 'mobx/stores/RootStore';
-import { getNetworkFromProvider } from 'mobx/utils/helpers';
-import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
-import { ContractSendMethod } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
+import { RootStore } from 'mobx/RootStore';
 
 import mainnetDeploy from '../../config/deployments/mainnet.json';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
@@ -102,9 +96,10 @@ class IbBTCStore {
 		// connected wallet is using ETH network, not the site.
 		if (!web3Instance) return;
 
-		const network = getNetworkFromProvider(web3Instance.givenProvider);
+		const { config: network } = this.store.sdk;
 
-		if (this.initialized || network !== Network.Ethereum || !address) {
+		// kek we done did it again, the network network :gigabrain:
+		if (this.initialized || network.network !== Network.Ethereum || !address) {
 			return;
 		}
 

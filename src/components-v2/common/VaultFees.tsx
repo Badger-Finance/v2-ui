@@ -50,20 +50,11 @@ export const VaultFees = observer(
 		const { network } = networkStore;
 		const { strategy } = vault;
 
-		const defaultFees = network.strategies[vault.vaultToken].fees;
-
 		let totalFees = 0;
 		if (strategy && strategy.address !== ethers.constants.AddressZero) {
 			for (const fee of Object.values(StrategyFee)) {
 				const feesAmount = getVaultStrategyFee(strategy, fee);
 				if (feesAmount && feesAmount > 0) {
-					totalFees++;
-				}
-			}
-		} else {
-			for (const fee of Object.values(StrategyFee)) {
-				const feeAmount = defaultFees[fee];
-				if (feeAmount && feeAmount.gt(0)) {
 					totalFees++;
 				}
 			}
@@ -102,7 +93,7 @@ export const VaultFees = observer(
 					)}
 				</div>
 				<Divider className={classes.divider} />
-				<StrategyFees vault={vault} fees={defaultFees} />
+				<StrategyFees vault={vault} />
 			</div>
 		);
 	},

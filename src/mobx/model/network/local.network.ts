@@ -1,6 +1,5 @@
 import { Currency, Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { toVaultConfig } from 'web3/config/config-utils';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
@@ -32,7 +31,7 @@ export const LOCAL_DEPLOY = deploy as Deploy;
 
 const localVaultDefinitions: BadgerVault[] = [];
 
-export const localVaults = toVaultConfig(localVaultDefinitions);
+export const localVaults = localVaultDefinitions;
 
 export const localRewards = [
 	{

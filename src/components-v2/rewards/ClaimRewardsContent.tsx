@@ -12,9 +12,8 @@ import {
 } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import BigNumber from 'bignumber.js';
 import clsx from 'clsx';
-import { StoreContext } from 'mobx/stores/store-context';
+import { BigNumber } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -169,10 +168,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 
 	const hasRewards = wallet.isConnected && Object.keys(claims).length > 0;
 
-	const totalClaimValue = Object.keys(claims).reduce(
-		(total, claimKey) => total.plus(claims[claimKey].value),
-		new BigNumber(0),
-	);
+	const totalClaimValue = Object.keys(claims).reduce((total, claimKey) => (total += claims[claimKey].value), 0);
 
 	const handleClaimCheckChange = (rewardKey: string, checked: boolean) => {
 		if (checked) {
@@ -235,7 +231,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 								<Grid item className={classes.submitButton}>
 									<Button
 										fullWidth
-										disabled={totalClaimValue.eq(0)}
+										disabled={totalClaimValue === 0}
 										color="primary"
 										variant="contained"
 										onClick={() => onClaim(claims)}

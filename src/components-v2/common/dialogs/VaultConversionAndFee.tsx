@@ -1,9 +1,8 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { formatBalance, VaultDTO } from '@badger-dao/sdk';
 import { Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import BigNumber from 'bignumber.js';
 import { MAX_FEE } from 'config/constants';
-import { StoreContext } from 'mobx/stores/store-context';
+import { BigNumber, BigNumberish } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -28,28 +27,21 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
-	amount: BigNumber.Value;
+	amount: BigNumberish;
 }
 
-const formatAmount = (amount: BigNumber.Value, decimals: number) => {
-	return new BigNumber(amount).decimalPlaces(decimals, BigNumber.ROUND_HALF_FLOOR).toString();
-};
-
 export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.Element => {
-	const {
-		vaults,
-		network: { network },
-	} = React.useContext(StoreContext);
+	const { vaults } = React.useContext(StoreContext);
 	const classes = useStyles();
 
-	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw, network.strategies[vault.vaultToken].fees);
+	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw);
 	const depositToken = vaults.getToken(vault.underlyingToken);
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const depositTokenDecimals = depositToken?.decimals || 18;
 
-	const withdrawAmount = new BigNumber(amount).multipliedBy(vault.pricePerFullShare);
-	const withdrawalFee = withdrawAmount.multipliedBy(withdrawFee).dividedBy(MAX_FEE);
-	const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
+	const withdrawAmount = BigNumber.from(amount).mul(vault.pricePerFullShare);
+	const withdrawalFee = withdrawAmount.mul(withdrawFee).div(MAX_FEE);
+	const amountAfterFee = BigNumber.from(withdrawAmount).sub(withdrawalFee);
 
 	return (
 		<Grid container>
@@ -60,7 +52,7 @@ export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.El
 					Converted Amount
 				</Typography>
 				<Typography display="inline" variant="subtitle2">
-					{`${formatAmount(withdrawAmount, depositTokenDecimals)} ${depositTokenSymbol}`}
+					{`${formatBalance(withdrawAmount, depositTokenDecimals)} ${depositTokenSymbol}`}
 				</Typography>
 			</Grid>
 			<Grid container justifyContent="space-between">
@@ -68,7 +60,7 @@ export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.El
 					{`Estimated Fee (${formatStrategyFee(withdrawFee)})`}
 				</Typography>
 				<Typography display="inline" variant="subtitle2">
-					{`${formatAmount(withdrawalFee, depositTokenDecimals)} ${depositTokenSymbol}`}
+					{`${formatBalance(withdrawalFee, depositTokenDecimals)} ${depositTokenSymbol}`}
 				</Typography>
 			</Grid>
 			<Grid container justifyContent="space-between">
@@ -76,7 +68,7 @@ export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.El
 					You will receive
 				</Typography>
 				<Typography display="inline" variant="subtitle2">
-					{`${formatAmount(amountAfterFee, depositTokenDecimals)} ${depositTokenSymbol}`}
+					{`${formatBalance(amountAfterFee, depositTokenDecimals)} ${depositTokenSymbol}`}
 				</Typography>
 			</Grid>
 		</Grid>

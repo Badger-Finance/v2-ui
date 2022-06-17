@@ -1,6 +1,5 @@
 import { Currency, PriceSummary } from '@badger-dao/sdk';
 import { retry } from '@lifeomic/attempt';
-import BigNumber from 'bignumber.js';
 import { defaultRetryOptions } from 'config/constants';
 import { action, extendObservable } from 'mobx';
 import {
@@ -9,9 +8,7 @@ import {
 	MATIC_PRICE_KEY,
 } from 'mobx/model/system-config/coingecko-price-response';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
-import { RootStore } from 'mobx/stores/RootStore';
-import { numberWithCommas } from 'mobx/utils/helpers';
-import Web3 from 'web3';
+import { RootStore } from 'mobx/RootStore';
 
 import { DEBUG } from '../../config/environment';
 import { fetchData } from '../../utils/fetchData';

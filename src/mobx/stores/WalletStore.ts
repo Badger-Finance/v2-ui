@@ -1,7 +1,6 @@
 import { NetworkConfig } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { computed, extendObservable } from 'mobx';
-import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
 import { getWeb3ModalProviders } from '../../config/wallets';

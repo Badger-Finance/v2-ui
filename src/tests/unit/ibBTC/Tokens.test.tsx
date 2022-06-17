@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 import React from 'react';
 
 import { OptionTokens } from '../../../components/IbBTC/OptionTokens';
@@ -8,21 +8,13 @@ import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
 import { customRender, fireEvent, screen, within } from '../../Utils';
 
 const tokens = [
-	new TokenBalance(
-		{ name: 'bcrvRenBTC', symbol: 'bcrvRenBTC', address: '0x0', decimals: 18 },
-		new BigNumber(0),
-		new BigNumber(0),
-	),
+	new TokenBalance({ name: 'bcrvRenBTC', symbol: 'bcrvRenBTC', address: '0x0', decimals: 18 }, BigNumber.from(0), 0),
 	new TokenBalance(
 		{ name: 'bcrvRenSBTC', symbol: 'bcrvRenSBTC', address: '0x1', decimals: 18 },
-		new BigNumber(0),
-		new BigNumber(0),
+		BigNumber.from(0),
+		0,
 	),
-	new TokenBalance(
-		{ name: 'bcrvTBTC', symbol: 'bcrvTBTC', address: '0x2', decimals: 18 },
-		new BigNumber(0),
-		new BigNumber(0),
-	),
+	new TokenBalance({ name: 'bcrvTBTC', symbol: 'bcrvTBTC', address: '0x2', decimals: 18 }, BigNumber.from(0), 0),
 ];
 
 it('starts with the first token as default value', () => {

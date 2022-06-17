@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 
 import {
 	compact,
@@ -23,30 +23,30 @@ describe('keyBy', () => {
 	const testArray = [
 		{
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(100),
+			balance: BigNumber.from(100),
 		},
 		{
 			address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
-			balance: new BigNumber(200),
+			balance: BigNumber.from(200),
 		},
 		{
 			address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
-			balance: new BigNumber(300),
+			balance: BigNumber.from(300),
 		},
 	];
 
 	const testStringKeyedArray = {
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(100),
+			balance: BigNumber.from(100),
 		},
 		'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b': {
 			address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
-			balance: new BigNumber(200),
+			balance: BigNumber.from(200),
 		},
 		'0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c': {
 			address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
-			balance: new BigNumber(300),
+			balance: BigNumber.from(300),
 		},
 	};
 
@@ -57,15 +57,15 @@ describe('keyBy', () => {
 	const testBNKeyedArray = {
 		'100': {
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(100),
+			balance: BigNumber.from(100),
 		},
 		'200': {
 			address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
-			balance: new BigNumber(200),
+			balance: BigNumber.from(200),
 		},
 		'300': {
 			address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
-			balance: new BigNumber(300),
+			balance: BigNumber.from(300),
 		},
 	};
 
@@ -76,15 +76,15 @@ describe('keyBy', () => {
 	const testRepeatedArray = [
 		{
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(100),
+			balance: BigNumber.from(100),
 		},
 		{
 			address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
-			balance: new BigNumber(200),
+			balance: BigNumber.from(200),
 		},
 		{
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(300),
+			balance: BigNumber.from(300),
 		},
 	];
 
@@ -92,11 +92,11 @@ describe('keyBy', () => {
 	const testRepeatedKeyedArray = {
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(300),
+			balance: BigNumber.from(300),
 		},
 		'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b': {
 			address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
-			balance: new BigNumber(200),
+			balance: BigNumber.from(200),
 		},
 	};
 
@@ -109,27 +109,27 @@ describe('forIn', () => {
 	const testArray = {
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(100),
+			balance: BigNumber.from(100),
 		},
 		'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b': {
 			address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
-			balance: new BigNumber(200),
+			balance: BigNumber.from(200),
 		},
 		'0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c': {
 			address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
-			balance: new BigNumber(300),
+			balance: BigNumber.from(300),
 		},
 	};
 
 	test('Properties of object are manipulated correctly with iterative function', () => {
-		let sum = new BigNumber(0);
+		let sum = BigNumber.from(0);
 		const addresses: string[] = [];
 
 		forIn(testArray, (token) => {
-			sum = sum.plus(token.balance);
+			sum = sum.add(token.balance);
 			addresses.push(token.address);
 		});
-		expect(sum).toEqual(new BigNumber(600));
+		expect(sum).toEqual(BigNumber.from(600));
 		expect(addresses).toEqual([
 			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 			'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
@@ -345,7 +345,7 @@ describe('defaultsDeep', () => {
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 			balance: 200,
-			ethValue: new BigNumber(100),
+			ethValue: BigNumber.from(100),
 		},
 	};
 	// Adding non-existing property
@@ -385,7 +385,7 @@ describe('defaultsDeep', () => {
 			name: 'token1',
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 			balance: 100,
-			ethValue: new BigNumber(100),
+			ethValue: BigNumber.from(100),
 			decimals: 12,
 			methods: [
 				{
@@ -426,30 +426,30 @@ describe('zipObject', () => {
 		const values = [
 			{
 				address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-				balance: new BigNumber(100),
+				balance: BigNumber.from(100),
 			},
 			{
 				address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
-				balance: new BigNumber(200),
+				balance: BigNumber.from(200),
 			},
 			{
 				address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
-				balance: new BigNumber(300),
+				balance: BigNumber.from(300),
 			},
 		];
 
 		const result = {
 			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 				address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-				balance: new BigNumber(100),
+				balance: BigNumber.from(100),
 			},
 			'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b': {
 				address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
-				balance: new BigNumber(200),
+				balance: BigNumber.from(200),
 			},
 			'0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c': {
 				address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
-				balance: new BigNumber(300),
+				balance: BigNumber.from(300),
 			},
 		};
 		expect(zipObject(props, values)).toEqual(result);
@@ -466,7 +466,7 @@ describe('isString', () => {
 	});
 
 	test('Returns false for a BigNumber input', () => {
-		expect(isString(new BigNumber(2))).toEqual(false);
+		expect(isString(BigNumber.from(2))).toEqual(false);
 	});
 
 	test('Returns false for an Object input', () => {
@@ -491,7 +491,7 @@ describe('isEqual', () => {
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 			name: 'token1',
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(100),
+			balance: BigNumber.from(100),
 			methods: [
 				{
 					name: 'getPricePerFullShare',
@@ -509,7 +509,7 @@ describe('isEqual', () => {
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 			name: 'token1',
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(100),
+			balance: BigNumber.from(100),
 			methods: [
 				{
 					name: 'getPricePerFullShare',
@@ -527,7 +527,7 @@ describe('isEqual', () => {
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 			name: 'token1',
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(1000),
+			balance: BigNumber.from(1000),
 			methods: [
 				{
 					name: 'getPricePerFullShare',
@@ -545,7 +545,7 @@ describe('isEqual', () => {
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
 			name: 'token1',
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			balance: new BigNumber(100),
+			balance: BigNumber.from(100),
 			methods: [
 				{
 					name: 'getPricePerFullShare',

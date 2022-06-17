@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import { RouterStore } from 'mobx-router';
 import React from 'react';
 

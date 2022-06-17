@@ -1,8 +1,6 @@
 import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import BigNumber from 'bignumber.js';
-import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
@@ -93,7 +91,11 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
 								<CurrencyDisplay
 									variant="h6"
 									justifyContent="flex-start"
+<<<<<<< HEAD
 									displayValue={'0'}
+=======
+									displayValue={inCurrency(0, uiState.currency)}
+>>>>>>> 98010859 (chore: initial sdk migration)
 									TypographyProps={{ className: classes.titleText }}
 								/>
 							</Box>
