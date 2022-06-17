@@ -1,5 +1,5 @@
 export enum AdvisoryType {
-	OxDAOLock = 'OxDAOLock',
+	VaultLock = 'VaultLock',
 	ConvexLock = 'ConvexLock',
 	Remuneration = 'Remuneration',
 	Chadger = 'Chadger',
