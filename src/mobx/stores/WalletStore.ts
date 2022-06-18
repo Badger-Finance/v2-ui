@@ -85,7 +85,10 @@ export class WalletStore {
 
 	private async updateAppNetwork() {
 		this.store.network.syncUrlNetworkId();
-		if (!this.ethersWeb3Provider || !this.providerNetwork) return;
+		console.log({ ethers: this.ethersWeb3Provider, network: this.providerNetwork });
+		if (!this.ethersWeb3Provider || !this.providerNetwork) {
+			return;
+		};
 		await this.store.updateNetwork(this.providerNetwork.chainId);
 		await this.store.updateProvider(this.ethersWeb3Provider);
 	}
