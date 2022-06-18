@@ -1,15 +1,12 @@
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
-import { Currency, Network as ChainNetwork, TokenConfiguration, VaultState } from '@badger-dao/sdk';
-import { TransactionData } from 'bnc-notify';
+import { Currency, Network as ChainNetwork } from '@badger-dao/sdk';
 import rpc from 'config/rpc.config';
 import { getStrategies } from 'config/system/strategies';
 import { ethers } from 'ethers';
-
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
+
 import { DeployConfig } from '../system-config/deploy-config';
-import { NotifyLink } from '../system-config/notifyLink';
 import { BadgerVault } from '../vaults/badger-vault';
-import { VaultMap } from '../vaults/vault-map';
 
 export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
@@ -80,10 +77,6 @@ export abstract class Network {
 
 	get settOrder(): string[] {
 		return this.vaults.map((s) => s.vaultToken.address);
-	}
-
-	notifyLink(transaction: TransactionData): NotifyLink {
-		return { link: `${this.explorer}/tx/${transaction.hash}` };
 	}
 
 	private checksumVaults(vaults: BadgerVault[]): BadgerVault[] {

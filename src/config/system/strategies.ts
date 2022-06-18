@@ -7,7 +7,6 @@ import fantomDeploy from '../../config/deployments/ftm.json';
 import ethDeploy from '../../config/deployments/mainnet.json';
 import maticDeploy from '../../config/deployments/matic.json';
 import { StrategyNetworkConfig } from '../../mobx/model/strategies/strategy-network-config';
-import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
 
 // TODO: add descriptions and deposit instructions after marketing team provides them
 export const getStrategies = (network: Network): StrategyNetworkConfig => {

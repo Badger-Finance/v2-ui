@@ -1,4 +1,3 @@
-import './assets/css/onboard-override.css';
 import './assets/css/body.css';
 
 import { CssBaseline } from '@material-ui/core';
@@ -9,8 +8,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { App } from './components/App';
-import { SnackbarProvider } from './components/Snackbar';
-import SnackbarManager from './components-v2/common/SnackbarManager';
 import NetworkURLManager from './components-v2/NetworkURLManager';
 import routes from './config/routes';
 import { darkTheme } from './config/ui/dark';
@@ -30,11 +27,7 @@ ReactDOM.render(
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
 			<NetworkURLManager />
-			<SnackbarProvider>
-				<SnackbarManager>
-					<App />
-				</SnackbarManager>
-			</SnackbarProvider>
+			<App />
 		</ThemeProvider>
 	</StoreProvider>,
 	document.getElementById('root'),

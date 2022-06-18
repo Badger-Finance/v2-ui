@@ -1,9 +1,6 @@
-import { Token } from '@badger-dao/sdk';
-import addresses from 'config/ibBTC/addresses.json';
-import zapConfig from 'config/system/abis/ZapPeak.json';
 import { BigNumber } from 'ethers';
 
-import { IBBTC_METHOD_NOT_SUPPORTED, IbBTCMintZap } from './ibbtc-mint-zap';
+import { IbBTCMintZap } from './ibbtc-mint-zap';
 
 export class TokenZap extends IbBTCMintZap {
 	calcMint(amount: BigNumber): Promise<BigNumber> {

@@ -1,7 +1,6 @@
 import { NetworkConfig } from '@badger-dao/sdk';
 import { Web3Provider } from '@ethersproject/providers';
-import { ThreeDRotationSharp } from '@material-ui/icons';
-import { computed } from 'mobx';
+import { computed, makeAutoObservable, makeObservable, observable } from 'mobx';
 import Web3Modal from 'web3modal';
 
 import { getWeb3ModalProviders } from '../../config/wallets';
@@ -10,6 +9,8 @@ import { RootStore } from './RootStore';
 export class WalletStore {
 	private web3Modal: Web3Modal;
 	private provider?: Web3Provider;
+
+	public address?: string;
 
 	constructor(private store: RootStore, config: NetworkConfig) {
 		this.store = store;
@@ -22,27 +23,18 @@ export class WalletStore {
 		if (this.web3Modal.cachedProvider) {
 			this.connect();
 		}
+
+		makeAutoObservable(this, {
+			address: observable,
+		});
 	}
 
-	@computed
 	get isConnected(): boolean {
 		return this.store.sdk.address !== undefined;
 	}
 
 	disconnect() {
 		this.web3Modal.clearCachedProvider();
-	}
-
-	private async handleChainChanged(chainId: string) {
-		await this.store.updateNetwork(Number(chainId));
-		await this.handleAccountsChanged([]);
-	}
-
-	// ignore the accounts, web3 modal kekekeke
-	private async handleAccountsChanged(_accounts: string[]) {
-		if (this.provider) {
-			await this.store.updateProvider(this.provider);
-		}
 	}
 
 	async connect() {
@@ -55,8 +47,12 @@ export class WalletStore {
 		// extract information and pass it into our app, thank fuck
 		const temporaryProvider = this.getLibrary(provider);
 		const connectedNetwork = await temporaryProvider.getNetwork();
+		this.provider = temporaryProvider;
+
 		await this.store.updateNetwork(connectedNetwork.chainId);
 		await this.store.updateProvider(temporaryProvider);
+
+		this.address = this.store.sdk.address;
 
 		// sync it up
 		this.store.network.syncUrlNetworkId();
@@ -73,5 +69,19 @@ export class WalletStore {
 		);
 		library.pollingInterval = 15000;
 		return library;
+	}
+
+	private async handleChainChanged(chainId: string) {
+		await this.store.updateNetwork(Number(chainId));
+		const addresses = this.address ? [this.address] : [];
+		await this.handleAccountsChanged(addresses);
+	}
+
+	// ignore the accounts, web3 modal kekekeke
+	private async handleAccountsChanged(accounts: string[]) {
+		this.address = accounts[0];
+		if (this.provider) {
+			await this.store.updateProvider(this.provider);
+		}
 	}
 }

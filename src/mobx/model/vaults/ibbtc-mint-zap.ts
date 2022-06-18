@@ -1,6 +1,4 @@
-import { Token } from '@badger-dao/sdk';
 import { BigNumber } from 'ethers';
-import { RootStore } from 'mobx/stores/RootStore';
 
 export const IBBTC_METHOD_NOT_SUPPORTED = 'ibBTC may only be redeemed for Badger renBTC Vault Tokens';
 

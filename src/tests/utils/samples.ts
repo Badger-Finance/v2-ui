@@ -10,7 +10,6 @@ import {
 } from '@badger-dao/sdk';
 import { BigNumber } from 'ethers';
 
-import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { TEST_ADDRESS } from './snapshots';
@@ -335,14 +334,3 @@ export const SAMPLE_VAULTS: VaultDTO[] = [
 		type: VaultType.Standard,
 	},
 ];
-
-export const SAMPLE_EXCHANGES_RATES: ExchangeRates = {
-	usd: 4337.2,
-	cad: 5487.64,
-	btc: 0.07463853,
-	bnb: 7.230643,
-	matic: 2502.8156676260796,
-	xdai: 4337.2,
-	ftm: 1,
-	avax: 1,
-};

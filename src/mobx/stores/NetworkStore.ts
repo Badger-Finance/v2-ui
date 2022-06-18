@@ -3,7 +3,7 @@ import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
 import { BigNumber } from 'ethers';
-import { action, extendObservable } from 'mobx';
+import { action, extendObservable, makeObservable, observable } from 'mobx';
 import { Network } from 'mobx/model/network/network';
 import { RootStore } from 'mobx/stores/RootStore';
 
@@ -11,19 +11,19 @@ import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
 
 export class NetworkStore {
 	private store: RootStore;
+	private txGasPrice?: GasFees | number;
+
 	public network: Network;
 	public gasPrices: GasPrices | null;
-	private txGasPrice?: GasFees | number;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.network = defaultNetwork;
 		this.gasPrices = { rapid: 35, fast: 30, standard: 25, slow: 20 };
-		this.txGasPrice = this.parseCachedGasPrice();
 
-		extendObservable(this, {
-			network: this.network,
-			gasPrices: this.gasPrices,
+		makeObservable(this, {
+			network: observable,
+			gasPrices: observable,
 		});
 	}
 
@@ -136,32 +136,4 @@ export class NetworkStore {
 			}
 		}
 	});
-
-	private parseCachedGasPrice(): GasFees | number | undefined {
-		const cachedGasPrices = window.localStorage.getItem(`${this.network.name}-selectedGasPrice`);
-
-		if (!cachedGasPrices) {
-			return undefined;
-		}
-
-		try {
-			const parsedGasPrices = JSON.parse(cachedGasPrices);
-
-			if (typeof parsedGasPrices === 'number') {
-				return parsedGasPrices;
-			}
-
-			if (
-				parsedGasPrices['maxFeePerGas'] === undefined ||
-				parsedGasPrices['maxPriorityFeePerGas'] === undefined
-			) {
-				return undefined;
-			}
-
-			return parsedGasPrices;
-		} catch (e) {
-			console.error('Error parsing cached gas price', e);
-			return undefined;
-		}
-	}
 }

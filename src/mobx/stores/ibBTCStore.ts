@@ -1,15 +1,6 @@
-import { Network, Token } from '@badger-dao/sdk';
-import { DEBUG } from 'config/environment';
-import addresses from 'config/ibBTC/addresses.json';
-import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
-import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import { BigNumber } from 'ethers';
-import { action, computed, extendObservable } from 'mobx';
-import { IbBTCMintZapFactory } from 'mobx/ibbtc-mint-zap-factory';
+import { extendObservable } from 'mobx';
 
-import mainnetDeploy from '../../config/deployments/mainnet.json';
-import { ibBTCFees } from '../model/fees/ibBTCFees';
-import { TokenBalance } from '../model/tokens/token-balance';
 import { RootStore } from './RootStore';
 
 interface MintAmountCalculation {

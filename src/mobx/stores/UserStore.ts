@@ -1,14 +1,11 @@
 import { Account, BouncerType, MerkleProof, Network, RewardTree, VaultDTO } from '@badger-dao/sdk';
-import { ONE_MIN_MS } from 'config/constants';
 import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
-import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
-import { ExtractedBalances, GuestListInformation, TokenBalances } from 'mobx/model/account/user-balances';
+import { TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
-import { values } from 'utils/lodashToNative';
 
 import { RootStore } from './RootStore';
 

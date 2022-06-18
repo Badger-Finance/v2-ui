@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
 import { VaultChartTimeframe } from '../model/vaults/vault-charts';
-import { VaultSnapshotGranularity } from '../model/vaults/vault-snapshot';
 import { RootStore } from './RootStore';
 
 dayjs.extend(utc);

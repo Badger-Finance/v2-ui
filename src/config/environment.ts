@@ -54,6 +54,5 @@ export const BADGER_API = getApi();
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-	SDK_INTEGRATION_ENABLED: toBool(process.env.REACT_APP_SDK_INTEGRATION),
 	GOVERNANCE_TIMELOCK: toBool(process.env.REACT_APP_GOVERNANCE_TIMELOCK),
 };

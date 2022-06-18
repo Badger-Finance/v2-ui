@@ -1,7 +1,6 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FeeConfig } from 'mobx/model/fees/fee-config';
 import { getStrategyFee } from 'mobx/utils/fees';
 import React from 'react';
 

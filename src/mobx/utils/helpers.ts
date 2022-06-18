@@ -11,7 +11,9 @@ export const minBalance = (decimals: number): number => Number(`0.${'0'.repeat(d
  * an array.
  * @param {string | string[]} [param] - The parameter to parse.
  */
-export function parseQueryMultipleParams<T extends string>(param?: string | string[]): T[] | undefined {
+export function parseQueryMultipleParams<T extends string>(
+	param?: string | number | boolean | string[],
+): T[] | undefined {
 	if (!param) {
 		return undefined;
 	}

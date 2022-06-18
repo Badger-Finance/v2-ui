@@ -18,7 +18,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ReportProblem } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
-import { IbbtcVaultZap__factory } from 'contracts';
 import { BigNumber, BigNumberish, ethers } from 'ethers';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';

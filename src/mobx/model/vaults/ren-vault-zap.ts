@@ -1,10 +1,5 @@
-import { Token } from '@badger-dao/sdk';
-import addresses from 'config/ibBTC/addresses.json';
-import RenVaultZapABI from 'config/system/abis/RenVaultZap.json';
 import { BigNumber } from 'ethers';
 
-import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
-import { IbbtcDepositTokenPoolIds } from '../../utils/ibbtc';
 import { IbBTCMintZap } from './ibbtc-mint-zap';
 
 export class RenVaultZap extends IbBTCMintZap {

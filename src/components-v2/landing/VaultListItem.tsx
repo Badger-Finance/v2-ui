@@ -10,6 +10,7 @@ import CurrencyDisplay from '../common/CurrencyDisplay';
 import VaultListItemTags from '../VaultListItemTags';
 import VaultItemApr from './VaultItemApr';
 import VaultLogo from './VaultLogo';
+import { numberWithCommas } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -118,7 +119,7 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
 				</Grid>
 				<Grid item xs container justifyContent="flex-end">
 					<CurrencyDisplay
-						displayValue={vault.value.toFixed()}
+						displayValue={`$${numberWithCommas(vault.value.toFixed())}`}
 						variant="body1"
 						justifyContent="flex-start"
 						TypographyProps={{ className: classes.itemText }}

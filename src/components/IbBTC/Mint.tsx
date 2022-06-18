@@ -1,41 +1,9 @@
-import {
-	Button,
-	FormControlLabel,
-	Grid,
-	InputAdornment,
-	OutlinedInput,
-	Radio,
-	RadioGroup,
-	Tooltip,
-	Typography,
-} from '@material-ui/core';
+import { Button, Grid, RadioGroup } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
-import { ZERO } from 'config/constants';
-import { BigNumber } from 'ethers';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import { observer } from 'mobx-react-lite';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { debounce } from 'utils/componentHelpers';
-
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { useNumericInput } from '../../utils/useNumericInput';
-import {
-	BalanceGrid,
-	BorderedFocusableContainerGrid,
-	EndAlignText,
-	InputTokenActionButtonsGrid,
-	InputTokenAmount,
-	OutputAmountText,
-	OutputBalanceText,
-	OutputContentGrid,
-	OutputTokenGrid,
-	SummaryGrid,
-} from './Common';
-import { DownArrow } from './DownArrow';
-import { OptionToken } from './OptionToken';
-import { OptionTokens } from './OptionTokens';
+import React, { useContext } from 'react';
 
 const SlippageContainer = styled(Grid)(({ theme }) => ({
 	marginTop: theme.spacing(1),

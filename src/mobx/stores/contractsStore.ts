@@ -1,7 +1,5 @@
-import { BouncerType, Token, VaultDTO } from '@badger-dao/sdk';
-import { MAX } from 'config/constants';
+import { Token, VaultDTO } from '@badger-dao/sdk';
 import { action, extendObservable } from 'mobx';
-import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 

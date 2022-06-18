@@ -3,7 +3,6 @@ import {
 	BouncerType,
 	Protocol,
 	RegistryVault,
-	TokenBalance,
 	TokenValue,
 	ValueSource,
 	VaultBehavior,
@@ -12,9 +11,8 @@ import {
 	VaultStrategy,
 	VaultType,
 	VaultVersion,
+	VaultYieldProjection,
 } from '@badger-dao/sdk';
-// TODO: sadge export
-import { VaultYieldProjection } from '@badger-dao/sdk/lib/api/interfaces/vault-yield-projection.interface';
 
 export class RegistryVaultAdapter implements VaultDTO {
 	apr: number;

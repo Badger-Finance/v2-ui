@@ -1,14 +1,9 @@
-import { retry } from '@lifeomic/attempt';
 import { BigNumber } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { BadgerTree } from 'mobx/model/rewards/badger-tree';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/utils/statsReducers';
 
-import { defaultRetryOptions } from '../../config/constants';
-import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
-import { BadgerTree } from '../model/rewards/badger-tree';
-import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { RootStore } from './RootStore';
 
 /**

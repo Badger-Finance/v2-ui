@@ -8,29 +8,24 @@ import {
 	VaultState,
 } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import { action, extendObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
+import { ProtocolSummaryCache } from 'mobx/model/system-config/protocol-summary-cache';
 import { Token } from 'mobx/model/tokens/token';
-import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { TokenCache } from 'mobx/model/tokens/token-cache';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
+import { VaultCache } from 'mobx/model/vaults/vault-cache';
+import { VaultSlugCache } from 'mobx/model/vaults/vault-slug-cache';
 import slugify from 'slugify';
 
-import { FLAGS } from '../../config/environment';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
-import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-cache';
-import { TokenCache } from '../model/tokens/token-cache';
 import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import { BadgerVault } from '../model/vaults/badger-vault';
-import { RegistryVaultAdapter } from '../model/vaults/registry-vault-adapter';
-import { VaultCache } from '../model/vaults/vault-cache';
 import { VaultMap } from '../model/vaults/vault-map';
-import { VaultSlugCache } from '../model/vaults/vault-slug-cache';
 import { VaultsDefinitionCache, VaultsDefinitions } from '../model/vaults/vaults-definition-cache';
 import { RootStore } from './RootStore';
 
 export default class VaultStore {
-	private store!: RootStore;
-
 	// loading: undefined, error: null, present: object
 	private vaultDefinitionsCache: VaultsDefinitionCache;
 	private tokenCache: TokenCache;
@@ -45,23 +40,7 @@ export default class VaultStore {
 	public showRewardsInformationPanel: boolean;
 	public vaultsFilters: VaultsFilters;
 
-	constructor(store: RootStore) {
-		this.store = store;
-
-		extendObservable(this, {
-			vaultDefinitionsCache: undefined,
-			tokenCache: undefined,
-			protocolSummaryCache: undefined,
-			vaultCache: undefined,
-			priceCache: undefined,
-			initialized: false,
-			availableBalances: this.availableBalances,
-			vaultsFilters: {},
-			showVaultFilters: false,
-			showStatusInformationPanel: false,
-			showRewardsInformationPanel: false,
-		});
-
+	constructor(private store: RootStore) {
 		this.vaultDefinitionsCache = {};
 		this.tokenCache = {};
 		this.vaultCache = {};
@@ -79,6 +58,8 @@ export default class VaultStore {
 			onlyDeposits: false,
 			onlyBoostedVaults: false,
 		};
+
+		makeAutoObservable(this);
 
 		this.refresh();
 	}
@@ -297,13 +278,13 @@ export default class VaultStore {
 		let vaultList: VaultDTO[] | null = null;
 
 		try {
-			vaultList = await this.store.sdk.api.loadVaults(Currency.ETH);
+			vaultList = await this.store.sdk.api.loadVaults();
 		} catch (error) {
 			console.error('There was an error fetching vaults from API: ', error);
-			if (FLAGS.SDK_INTEGRATION_ENABLED) {
-				const sdkVaults = await this.store.sdk.vaults.loadVaults();
-				vaultList = sdkVaults.map((sdkVault) => new RegistryVaultAdapter(sdkVault));
-			}
+			// if (FLAGS.SDK_INTEGRATION_ENABLED) {
+			// 	const sdkVaults = await this.store.sdk.vaults.loadVaults();
+			// 	vaultList = sdkVaults.map((sdkVault) => new RegistryVaultAdapter(sdkVault));
+			// }
 		}
 
 		if (!vaultList) {
@@ -333,19 +314,19 @@ export default class VaultStore {
 		try {
 			tokenConfig = await this.store.sdk.api.loadTokens();
 		} catch (error) {
-			if (FLAGS.SDK_INTEGRATION_ENABLED) {
-				const tokensList = Array.from(this.vaultsDefinitions?.values() ?? []).map(
-					(vault) => vault.depositToken.address,
-				);
-				tokenConfig = await this.store.sdk.tokens.loadTokens(tokensList);
-			}
+			// if (FLAGS.SDK_INTEGRATION_ENABLED) {
+			// 	const tokensList = Array.from(this.vaultsDefinitions?.values() ?? []).map(
+			// 		(vault) => vault.depositToken.address,
+			// 	);
+			// 	tokenConfig = await this.store.sdk.tokens.loadTokens(tokensList);
+			// }
 		}
 
 		this.tokenCache[chain] = tokenConfig;
 	});
 
 	loadAssets = action(async (chain = Network.Ethereum): Promise<void> => {
-		const protocolSummary = await this.store.sdk.api.loadProtocolSummary(Currency.ETH);
+		const protocolSummary = await this.store.sdk.api.loadProtocolSummary();
 		if (protocolSummary) {
 			this.protocolSummaryCache[chain] = protocolSummary;
 		} else {
@@ -414,64 +395,60 @@ export default class VaultStore {
 	 * This process is done async to prevent load time increase.
 	 */
 	private sanitizeVaultDefinitions = action(async () => {
-		if (FLAGS.SDK_INTEGRATION_ENABLED && this.vaultsDefinitions) {
-			const { network: currentNetwork } = this.store.network;
-			const sdkVaults = await this.store.sdk.vaults.loadVaults();
-			const sdkVaultsMap: VaultsDefinitions = new Map(
-				sdkVaults.map((vault) => [
-					vault.address,
-					{
-						depositToken: vault.token,
-						vaultToken: {
-							address: vault.address,
-							decimals: vault.decimals,
-							symbol: vault.symbol,
-							name: vault.name,
-						},
-					},
-				]),
-			);
-
-			this.vaultsDefinitions.forEach((vaultDefinition, vaultDefinitionKey, vaultDefinitions) => {
-				const sdkVaultDefinition = sdkVaultsMap.get(vaultDefinitionKey);
-				if (!sdkVaultDefinition) {
-					vaultDefinitions.delete(vaultDefinitionKey);
-				}
-			});
-
-			this.vaultDefinitionsCache = {
-				...this.vaultDefinitionsCache,
-				[currentNetwork.symbol]: new Map([...this.vaultsDefinitions, ...sdkVaultsMap]),
-			};
-		}
+		// if (FLAGS.SDK_INTEGRATION_ENABLED && this.vaultsDefinitions) {
+		// 	const { network: currentNetwork } = this.store.network;
+		// 	const sdkVaults = await this.store.sdk.vaults.loadVaults();
+		// 	const sdkVaultsMap: VaultsDefinitions = new Map(
+		// 		sdkVaults.map((vault) => [
+		// 			vault.address,
+		// 			{
+		// 				depositToken: vault.token,
+		// 				vaultToken: {
+		// 					address: vault.address,
+		// 					decimals: vault.decimals,
+		// 					symbol: vault.symbol,
+		// 					name: vault.name,
+		// 				},
+		// 			},
+		// 		]),
+		// 	);
+		// 	this.vaultsDefinitions.forEach((vaultDefinition, vaultDefinitionKey, vaultDefinitions) => {
+		// 		const sdkVaultDefinition = sdkVaultsMap.get(vaultDefinitionKey);
+		// 		if (!sdkVaultDefinition) {
+		// 			vaultDefinitions.delete(vaultDefinitionKey);
+		// 		}
+		// 	});
+		// 	this.vaultDefinitionsCache = {
+		// 		...this.vaultDefinitionsCache,
+		// 		[currentNetwork.symbol]: new Map([...this.vaultsDefinitions, ...sdkVaultsMap]),
+		// 	};
+		// }
 	});
 
 	private applyFilters(vaults: VaultDTO[]): VaultDTO[] {
 		const {
 			user,
-			prices: { exchangeRates },
 		} = this.store;
 
 		const { protocols, search, statuses, behaviors, onlyBoostedVaults, onlyDeposits, hidePortfolioDust } =
 			this.vaultsFilters;
 
 		if (hidePortfolioDust) {
-			if (exchangeRates) {
-				vaults = vaults.filter((vault) => {
-					const userBalance = user.getTokenBalance(vault.vaultToken).value;
+			// TODO: MAKE SURE TO UPDATE THIS TO USE USD RATES WE WILL CACHE
+			// PLEASE DOG PLEASE
+			// DO NOT FORGET :()
+			vaults = vaults.filter((vault) => {
+				const userBalance = user.getTokenBalance(vault.vaultToken).value;
 
-					// only evaluate vaults with deposited balance
-					if (userBalance === 0) {
-						return true;
-					}
+				// only evaluate vaults with deposited balance
+				if (userBalance === 0) {
+					return true;
+				}
 
-					// balance bigger than $1
-					// TODO: BAD DOG EXCHANGE DOG PLEASE!!!!!!!!!!! VERIFY ME
-					return userBalance > 1;
-				});
-			} else {
-				console.error('Portfolio dust filtering was skipped because the exchanges rates are not available');
-			}
+				// balance bigger than $1
+				// TODO: BAD DOG EXCHANGE DOG PLEASE!!!!!!!!!!! VERIFY ME
+				return userBalance > 1;
+			});
 		}
 
 		if (onlyDeposits) {
@@ -557,7 +534,7 @@ export default class VaultStore {
 				// 3 - feature vaults
 				// 4 - new vaults
 				// 5 - boosted vaults
-				vaults = vaults = vaults.sort((a, b) => {
+				vaults = vaults.sort((a, b) => {
 					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
 					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
 

@@ -1,31 +1,11 @@
-import { Button, Grid, Tooltip, Typography } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
-import { ZERO } from 'config/constants';
-import { BigNumber } from 'ethers';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import { observer } from 'mobx-react-lite';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { debounce } from 'utils/componentHelpers';
+import React, { useContext } from 'react';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { useNumericInput } from '../../utils/useNumericInput';
-import {
-	BalanceGrid,
-	BorderedFocusableContainerGrid,
-	EndAlignText,
-	ErrorText,
-	InputTokenActionButtonsGrid,
-	InputTokenAmount,
-	OutputAmountText,
-	OutputContentGrid,
-	OutputTokenGrid,
-	SummaryGrid,
-} from './Common';
-import { DownArrow } from './DownArrow';
-import { OptionToken } from './OptionToken';
-import { OptionTokens } from './OptionTokens';
 
 type RedeemInformation = {
 	inputAmount: TokenBalance;

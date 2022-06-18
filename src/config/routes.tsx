@@ -1,4 +1,4 @@
-import { Currency, Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
+import { Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
 import Bridge from 'components/Bridge';
 import Governance from 'components/Governance';
 // import { IbBTC } from 'components/IbBTC';
@@ -17,7 +17,7 @@ const routes = {
 	home: new Route<RootStore, QueryParams>({
 		path: '/',
 		component: <Landing />,
-		onEnter: (_route, _params, store, queryParams: Record<string, any>) => {
+		onEnter: (_route, _params, store, queryParams: QueryParams) => {
 			if (queryParams) {
 				store.vaults.vaultsFilters = {
 					hidePortfolioDust: Boolean(queryParams['hidePortfolioDust']),

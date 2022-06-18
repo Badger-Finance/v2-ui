@@ -1,11 +1,6 @@
-import { Token } from '@badger-dao/sdk';
-import ibbtcConfig from 'config/ibBTC/addresses.json';
-import GeneralVaultZapABI from 'config/system/abis/GeneralVaultZap.json';
 import { BigNumber } from 'ethers';
-import { RootStore } from 'mobx/stores/RootStore';
 
-import { IbbtcDepositTokenPoolIds } from '../../utils/ibbtc';
-import { IBBTC_METHOD_NOT_SUPPORTED, IbBTCMintZap } from './ibbtc-mint-zap';
+import { IbBTCMintZap } from './ibbtc-mint-zap';
 
 export class GeneralVaultZap extends IbBTCMintZap {
 	calcMint(amount: BigNumber): Promise<BigNumber> {

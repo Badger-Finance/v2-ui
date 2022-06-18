@@ -1,19 +1,18 @@
 import { NETWORK_IDS } from 'config/constants';
-import { BigNumber } from 'ethers';
-import { extendObservable } from 'mobx';
+import { ethers } from 'ethers';
+import { extendObservable, makeAutoObservable } from 'mobx';
 
 import { RootStore } from './RootStore';
 
 class LockedCvxDelegationStore {
 	private store: RootStore;
-	lockedCVXBalance?: BigNumber | null;
+	
+	public lockedCVXBalance = ethers.constants.Zero;
 
 	constructor(store: RootStore) {
 		this.store = store;
 
-		extendObservable(this, {
-			lockedCVXBalance: this.lockedCVXBalance,
-		});
+		makeAutoObservable(this);
 	}
 
 	async loadLockedCvxBalance(): Promise<void> {

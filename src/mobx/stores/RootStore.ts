@@ -1,20 +1,19 @@
 import { BadgerSDK, getNetworkConfig, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import routes from 'config/routes';
+import { action, makeObservable, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 
 import { NETWORK_IDS } from '../../config/constants';
-import { BADGER_API, FLAGS } from '../../config/environment';
+import { BADGER_API } from '../../config/environment';
 import rpc from '../../config/rpc.config';
 import { Network } from '../model/network/network';
 import ContractsStore from './contractsStore';
 import GasPricesStore from './GasPricesStore';
 import { GovernancePortalStore } from './GovernancePortalStore';
-import IbBTCStore from './ibBTCStore';
 import LockedCvxDelegationStore from './lockedCvxDelegationStore';
 import LockedDepositsStore from './LockedDepositsStore';
 import { NetworkStore } from './NetworkStore';
-import { OnboardStore } from './OnboardStore';
 import PricesStore from './PricesStore';
 import RebaseStore from './rebaseStore';
 import RewardsStore from './rewardsStore';
@@ -26,14 +25,17 @@ import VaultStore from './VaultStore';
 import { WalletStore } from './WalletStore';
 
 export class RootStore {
+	// Badger SDK Utilized Objects
 	public sdk: BadgerSDK;
 
+	// Router
 	public router: RouterStore<RootStore>;
+
+	// Stores
 	public network: NetworkStore;
 	public uiState: UiStateStore;
 	public contracts: ContractsStore;
 	public rebase: RebaseStore;
-	public onboard: OnboardStore;
 	public wallet: WalletStore;
 	public rewards: RewardsStore;
 	// public ibBTCStore: IbBTCStore;
@@ -48,7 +50,6 @@ export class RootStore {
 	public lockedDeposits: LockedDepositsStore;
 
 	constructor() {
-		// this is passed as a dummy rpc - it will never be used unless required by an rpc wallet, e.g.: wallet connect
 		this.sdk = new BadgerSDK({
 			network: defaultNetwork.id,
 			provider: rpc[defaultNetwork.symbol],
@@ -56,7 +57,6 @@ export class RootStore {
 		});
 		const config = getNetworkConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
-		this.onboard = new OnboardStore(this, config);
 		this.wallet = new WalletStore(this, config);
 		this.network = new NetworkStore(this);
 		this.prices = new PricesStore(this);
@@ -73,6 +73,12 @@ export class RootStore {
 		// this.ibBTCStore = new IbBTCStore(this);
 		this.governancePortal = new GovernancePortalStore(this);
 		this.lockedDeposits = new LockedDepositsStore(this);
+
+		makeObservable(this, {
+			sdk: observable,
+			updateNetwork: action,
+			updateProvider: action,
+		});
 	}
 
 	async updateNetwork(network: number): Promise<void> {
@@ -85,10 +91,6 @@ export class RootStore {
 
 		this.sdk = new BadgerSDK({ network, provider: rpc[appNetwork.symbol], baseURL: BADGER_API });
 		this.rewards.resetRewards();
-
-		if (FLAGS.SDK_INTEGRATION_ENABLED) {
-			await this.sdk.ready();
-		}
 
 		let refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
@@ -108,11 +110,12 @@ export class RootStore {
 
 	async updateProvider(provider: SDKProvider): Promise<void> {
 		this.rewards.resetRewards();
-		const { address } = this.sdk;
 		const { network } = this.network;
-		const signer = provider.getSigner();
 
 		this.sdk = new BadgerSDK({ network: network.id, provider, baseURL: BADGER_API });
+		await this.sdk.ready();
+
+		const { signer, address } = this.sdk;
 
 		if (signer && address) {
 			const config = getNetworkConfig(network.id);
@@ -130,7 +133,7 @@ export class RootStore {
 				// }
 			}
 
-			await Promise.all([Promise.all(updateActions), this.user.reloadBalances(address)]);
+			await Promise.all([...updateActions, this.user.reloadBalances(address)]);
 		}
 	}
 }
