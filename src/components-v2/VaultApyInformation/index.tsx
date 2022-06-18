@@ -58,7 +58,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
 	const classes = useStyles();
 	const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
 	//make sure boost sources are always the last one
-	const sortedSources = sources.sort((source) => (source.boostable ? 1 : -1));
+	const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
 
 	const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
 		event.stopPropagation();

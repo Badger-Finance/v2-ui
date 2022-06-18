@@ -97,10 +97,7 @@ export class RootStore {
 			refreshData = refreshData.concat([this.rewards.loadTreeData()]);
 
 			if (network === NETWORK_IDS.ETH || network === NETWORK_IDS.LOCAL) {
-				// handle per page reloads, when init route is skipped
-				if (this.router.currentRoute?.path === routes.IbBTC.path) {
-					refreshData = refreshData.concat([this.rebase.fetchRebaseStats()]);
-				}
+				refreshData = refreshData.concat([this.rebase.fetchRebaseStats()]);
 			}
 		}
 
