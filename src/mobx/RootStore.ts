@@ -94,7 +94,14 @@ export class RootStore {
 		let refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
 		if (this.network.network.hasBadgerTree) {
-			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
+			refreshData = refreshData.concat([this.rewards.loadTreeData()]);
+
+			if (network === NETWORK_IDS.ETH || network === NETWORK_IDS.LOCAL) {
+				// handle per page reloads, when init route is skipped
+				if (this.router.currentRoute?.path === routes.IbBTC.path) {
+					refreshData = refreshData.concat([this.rebase.fetchRebaseStats()]);
+				}
+			}
 		}
 
 		await Promise.all(refreshData);
