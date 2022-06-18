@@ -114,14 +114,15 @@ class RewardsStore {
 		const {
 			network: { network },
 			uiState: { queueNotification },
-			sdk: { provider },
+			sdk
 		} = this.store;
+		const { provider } = sdk;
 
 		if (this.loadingTreeData || !provider) {
 			return;
 		}
 
-		if (!network.badgerTree) {
+		if (!sdk.rewards.hasBadgerTree()) {
 			console.error('Error: No badger tree address was found in current network deploy config');
 			return;
 		}
@@ -152,23 +153,22 @@ class RewardsStore {
 
 	fetchVaultRewards = action(async (): Promise<void> => {
 		const {
-			network: { network },
 			prices: { arePricesAvailable },
 			user: { claimProof },
-			sdk: { address },
-			sdk: { provider },
+			sdk,
 		} = this.store;
+		const { address } = sdk;
 
 		if (this.loadingRewards) {
 			return;
 		}
 
-		if (!network.badgerTree) {
+		if (!sdk.rewards.hasBadgerTree()) {
 			console.error('Error: No badger tree address was found in current network deploy config');
 			return;
 		}
 
-		if (!provider || !claimProof || !address) {
+		if (!claimProof || !address) {
 			this.resetRewards();
 			return;
 		}

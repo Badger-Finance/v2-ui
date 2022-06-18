@@ -100,12 +100,12 @@ enum DepositMode {
 const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JSX.Element => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { contracts, network, wallet, vaults, uiState, user } = store;
+	const { network, wallet, vaults, uiState, user } = store;
 
 	// lp token getters
 	const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
 	const lpBadgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === lpVault?.vaultToken);
-	const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault) : undefined;
+	const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.vaultToken.address) : undefined;
 	const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
 	const settStrategy = lpBadgerVault ? network.network.strategies[lpBadgerVault.vaultToken.address] : undefined;
 
@@ -232,7 +232,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 			return;
 		}
 
-		await contracts.deposit(lpVault, lpBadgerVault, userLpTokenBalance, lpTokenDepositBalance);
+		// await contracts.deposit(lpVault, lpBadgerVault, userLpTokenBalance, lpTokenDepositBalance);
 	};
 
 	const handleMultiTokenDeposit = async () => {
@@ -284,10 +284,10 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	};
 
 	useEffect(() => {
-		const sBTC = user.getTokenBalance(mainnetDeploy.tokens['sBTC']);
-		const renBTC = user.getTokenBalance(mainnetDeploy.tokens['renBTC']);
-		const wBTC = user.getTokenBalance(mainnetDeploy.tokens['wBTC']);
-		const ibbtc = user.getTokenBalance(mainnetDeploy.tokens['ibBTC']);
+		const sBTC = user.getBalance(mainnetDeploy.tokens['sBTC']);
+		const renBTC = user.getBalance(mainnetDeploy.tokens['renBTC']);
+		const wBTC = user.getBalance(mainnetDeploy.tokens['wBTC']);
+		const ibbtc = user.getBalance(mainnetDeploy.tokens['ibBTC']);
 		setDepositOptions([ibbtc, renBTC, wBTC, sBTC]);
 		setMultiTokenDepositBalances([ibbtc, renBTC, wBTC, sBTC]);
 	}, [user, user.initialized]);
@@ -295,7 +295,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 	useEffect(() => {
 		const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
 		const lpBadgerVault = lpVault ? vaults.getVaultDefinition(lpVault) : undefined;
-		const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault) : undefined;
+		const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.vaultToken.address) : undefined;
 
 		if (!userLpTokenBalance) {
 			return;

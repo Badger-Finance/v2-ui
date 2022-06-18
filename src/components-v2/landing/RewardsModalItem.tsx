@@ -1,9 +1,7 @@
 import { Currency } from '@badger-dao/sdk';
 import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import CurrencyDisplay from '../common/CurrencyDisplay';
@@ -25,7 +23,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Element => {
-	const { uiState } = useContext(StoreContext);
 	const classes = useStyles();
 	const { claimBalance, onChange, checked } = props;
 
@@ -50,7 +47,7 @@ export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Ele
 					<CurrencyDisplay
 						variant="body2"
 						justifyContent="flex-end"
-						displayValue={claimBalance.balanceValueDisplay(Currency.USD, 5)}
+						displayValue={claimBalance.balanceValueDisplay(5)}
 						TypographyProps={{ color: 'textSecondary' }}
 					/>
 				</div>

@@ -127,7 +127,7 @@ export const NavbarStats = observer((): JSX.Element => {
 					</Typography>
 					{badgerPrice ? (
 						<CurrencyDisplay
-							displayValue={badgerPrice.toFixed(2)}
+							displayValue={`$${numberWithCommas(badgerPrice.toFixed(2))}`}
 							variant="helperText"
 							justifyContent="flex-start"
 						/>
@@ -147,7 +147,7 @@ export const NavbarStats = observer((): JSX.Element => {
 					</Typography>
 					{totalValueLocked ? (
 						<CurrencyDisplay
-							displayValue={numberWithCommas(totalValueLocked.toFixed())}
+							displayValue={`$${numberWithCommas(totalValueLocked.toFixed())}`}
 							variant="helperText"
 							justifyContent="flex-start"
 						/>
@@ -160,7 +160,7 @@ export const NavbarStats = observer((): JSX.Element => {
 						My Assets: &nbsp;
 					</Typography>
 					<CurrencyDisplay
-						displayValue={numberWithCommas(portfolioValue.toFixed())}
+						displayValue={`$${numberWithCommas(portfolioValue.toFixed())}`}
 						variant="helperText"
 						justifyContent="flex-start"
 					/>

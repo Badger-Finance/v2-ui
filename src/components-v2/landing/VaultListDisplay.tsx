@@ -28,6 +28,7 @@ const VaultListDisplay = observer(() => {
 		user,
 	} = store;
 	const vaultOrder = vaults.getVaultOrder();
+	const showDeprecated = vaults.vaultsFilters.statuses?.includes(VaultState.Discontinued);
 
 	if (vaultOrder === undefined || vaults.vaultsDefinitions === undefined) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;
@@ -48,7 +49,7 @@ const VaultListDisplay = observer(() => {
 			return [];
 		}
 
-		const depositBalance = user.getBalance(badgerVault).scale(vault.pricePerFullShare, true);
+		const depositBalance = user.getBalance(badgerVault.vaultToken.address).scale(vault.pricePerFullShare, true);
 		const hasNoBalance = depositBalance.tokenBalance.eq(0);
 
 		// Hide the remBadger vault from users who do not have rembadger (this default hides the sett)
@@ -57,7 +58,7 @@ const VaultListDisplay = observer(() => {
 		}
 
 		// Hide deprecated vaults that the user is not deposited into
-		if (vault.state === VaultState.Discontinued && hasNoBalance) {
+		if (!showDeprecated && vault.state === VaultState.Discontinued && hasNoBalance) {
 			return [];
 		}
 

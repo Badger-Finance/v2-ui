@@ -155,9 +155,9 @@ export default class VaultStore {
 		return this.slugCache[currentNetwork.symbol][address];
 	}
 
-	getVault(address: string): VaultDTO | undefined {
+	getVault(address: string): VaultDTO {
 		if (!this.vaultMap) {
-			return;
+			throw new Error('Path will never run, non valid vaults never requested.');
 		}
 
 		return this.vaultMap[ethers.utils.getAddress(address)];
@@ -438,7 +438,7 @@ export default class VaultStore {
 			// PLEASE DOG PLEASE
 			// DO NOT FORGET :()
 			vaults = vaults.filter((vault) => {
-				const userBalance = user.getTokenBalance(vault.vaultToken).value;
+				const userBalance = user.getBalance(vault.vaultToken).value;
 
 				// only evaluate vaults with deposited balance
 				if (userBalance === 0) {
@@ -452,7 +452,7 @@ export default class VaultStore {
 		}
 
 		if (onlyDeposits) {
-			vaults = vaults.filter((vault) => user.getTokenBalance(vault.vaultToken).value > 0);
+			vaults = vaults.filter((vault) => user.getBalance(vault.vaultToken).value > 0);
 		}
 
 		if (onlyBoostedVaults && this.networkHasBoostVaults) {
@@ -514,15 +514,15 @@ export default class VaultStore {
 				break;
 			case VaultSortOrder.BALANCE_ASC:
 				vaults = vaults = vaults.sort((a, b) => {
-					const balanceB = user.getTokenBalance(b.vaultToken).value;
-					const balanceA = user.getTokenBalance(a.vaultToken).value;
+					const balanceB = user.getBalance(b.vaultToken).value;
+					const balanceA = user.getBalance(a.vaultToken).value;
 					return balanceA - balanceB;
 				});
 				break;
 			case VaultSortOrder.BALANCE_DESC:
 				vaults = vaults = vaults.sort((a, b) => {
-					const balanceB = user.getTokenBalance(b.vaultToken).value;
-					const balanceA = user.getTokenBalance(a.vaultToken).value;
+					const balanceB = user.getBalance(b.vaultToken).value;
+					const balanceA = user.getBalance(a.vaultToken).value;
 					return balanceB - balanceA;
 				});
 				break;
@@ -535,15 +535,15 @@ export default class VaultStore {
 				// 4 - new vaults
 				// 5 - boosted vaults
 				vaults = vaults.sort((a, b) => {
-					const vaultTokenBalanceB = user.getTokenBalance(b.vaultToken).value;
-					const vaultTokenBalanceA = user.getTokenBalance(a.vaultToken).value;
+					const vaultTokenBalanceB = user.getBalance(b.vaultToken).value;
+					const vaultTokenBalanceA = user.getBalance(a.vaultToken).value;
 
 					if (vaultTokenBalanceA !== 0 || vaultTokenBalanceB !== 0) {
 						return vaultTokenBalanceB - vaultTokenBalanceA;
 					}
 
-					const depositTokenBalanceB = user.getTokenBalance(b.underlyingToken).value;
-					const depositTokenBalanceA = user.getTokenBalance(a.underlyingToken).value;
+					const depositTokenBalanceB = user.getBalance(b.underlyingToken).value;
+					const depositTokenBalanceA = user.getBalance(a.underlyingToken).value;
 
 					if (depositTokenBalanceB > 1 || depositTokenBalanceA > 1) {
 						return depositTokenBalanceB - depositTokenBalanceA;

@@ -30,7 +30,7 @@ interface Props {
 }
 
 export const Holdings = observer(({ userData, vault }: Props): JSX.Element | null => {
-	const { user, vaults } = React.useContext(StoreContext);
+	const { user } = React.useContext(StoreContext);
 	const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 	const classes = useStyles();
 	const canDeposit = user.onGuestList(vault);
@@ -58,7 +58,7 @@ export const Holdings = observer(({ userData, vault }: Props): JSX.Element | nul
 						vault={vault}
 						name="Total Deposited"
 						balance={depositBalance.balanceDisplay()}
-						value={depositBalance.balanceValueDisplay(Currency.USD) ?? '0'}
+						value={depositBalance.balanceValueDisplay() ?? '0'}
 						helpIcon={<TokenDistributionIcon settBalance={userData} />}
 					/>
 				</Grid>

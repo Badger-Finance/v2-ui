@@ -67,14 +67,6 @@ export abstract class Network {
 		return Network.symbolToNetwork[symbol];
 	}
 
-	get hasBadgerTree(): boolean {
-		return !!this.deploy.badgerTree;
-	}
-
-	get badgerTree(): string {
-		return this.deploy.badgerTree;
-	}
-
 	get settOrder(): string[] {
 		return this.vaults.map((s) => s.vaultToken.address);
 	}

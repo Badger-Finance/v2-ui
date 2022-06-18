@@ -101,7 +101,7 @@ const WalletDrawer = (): JSX.Element | null => {
 
 	const tokenBalances = Object.keys(network.network.deploy.tokens).flatMap((token) => {
 		const isBadgerToken = ['badger', 'digg', 'remdigg'].includes(token.toLowerCase());
-		return isBadgerToken ? [user.getTokenBalance(network.network.deploy.tokens[token])] : [];
+		return isBadgerToken ? [user.getBalance(network.network.deploy.tokens[token])] : [];
 	});
 
 	const sortedBalances = tokenBalances.sort((a, b) => b.value - a.value);

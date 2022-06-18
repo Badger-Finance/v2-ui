@@ -51,14 +51,14 @@ export interface VaultModalProps {
 }
 
 export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
-	const { wallet, user, contracts, vaults } = useContext(StoreContext);
+	const { wallet, user, vaults } = useContext(StoreContext);
 	const classes = useStyles();
 
 	const [accepted, setAccepted] = useState(!badgerVault.withdrawAdvisory);
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
-	const userBalance = user.getBalance(badgerVault);
+	const userBalance = user.getBalance(vault.vaultToken);
 	const userHasBalance = userBalance.hasBalance();
 
 	const depositToken = vaults.getToken(vault.underlyingToken);
@@ -69,7 +69,7 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 	const bTokenSymbol = bToken?.symbol || '';
 
 	const canWithdraw = wallet.isConnected && !!amount && userHasBalance;
-	const isLoading = contracts.settsBeingWithdrawn[vault.vaultToken];
+	const isLoading = false;
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -80,7 +80,6 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 			return;
 		}
 		const withdrawBalance = TokenBalance.fromBalance(userBalance, amount);
-		await contracts.withdraw(vault, badgerVault, userBalance, withdrawBalance);
 	};
 
 	if (!accepted && badgerVault.withdrawAdvisory) {

@@ -95,11 +95,7 @@ export default class UserStore {
 		}
 	}
 
-	getBalance(vault: BadgerVault): TokenBalance {
-		return this.getTokenBalance(vault.vaultToken.address);
-	}
-
-	getTokenBalance(contract: string): TokenBalance {
+	getBalance(contract: string): TokenBalance {
 		const tokenAddress = ethers.utils.getAddress(contract);
 		const compositeBalances = {
 			...this.settBalances,

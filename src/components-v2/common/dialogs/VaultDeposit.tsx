@@ -50,7 +50,7 @@ export interface VaultModalProps {
 
 export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
 	const store = useContext(StoreContext);
-	const { contracts, user, wallet } = store;
+	const { user, wallet } = store;
 
 	const shouldCheckAdvisory = badgerVault.depositAdvisory || vault.state === VaultState.Experimental;
 	const [accepted, setAccepted] = useState(!shouldCheckAdvisory);
@@ -59,10 +59,11 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 	const { onValidChange, inputProps } = useNumericInput();
 	const classes = useStyles();
 
-	const userBalance = user.getBalance(badgerVault);
+	// TODO: update this - it wasn't working anyways
+	const isLoading = false;
+	const userBalance = user.getBalance(vault.underlyingToken);
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
 	const vaultCaps = user.vaultCaps[vault.vaultToken];
-	const isLoading = contracts.settsBeingDeposited[vault.vaultToken];
 
 	let canDeposit = wallet.isConnected && !!amount && depositBalance.tokenBalance.gt(0);
 
@@ -81,7 +82,6 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 		if (!amount) {
 			return;
 		}
-		await contracts.deposit(vault, badgerVault, userBalance, depositBalance);
 	};
 
 	if (!accepted && shouldCheckAdvisory) {

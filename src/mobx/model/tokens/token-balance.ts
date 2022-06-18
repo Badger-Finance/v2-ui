@@ -1,6 +1,6 @@
 import { Currency, formatBalance, Token } from '@badger-dao/sdk';
 import { BigNumber, BigNumberish } from 'ethers';
-import { minBalance } from 'mobx/utils/helpers';
+import { minBalance, numberWithCommas } from 'mobx/utils/helpers';
 
 export class TokenBalance {
 	readonly token: Token;
@@ -65,16 +65,14 @@ export class TokenBalance {
 		return this.balance.toFixed(decimals);
 	}
 
-	balanceValueDisplay(currency: Currency, precision?: number): string | undefined {
+	balanceValueDisplay(precision?: number): string {
 		if (this.price === 0) {
 			// cap to 8 decimals by default because the spaces for price converted values are usually too small to fit
 			// the balances with full token decimals
 			return `${this.balanceDisplay(precision ?? 8)} ${this.token.symbol}`;
 		}
 
-		// TODO: remove btc currency options - we are not bitcoin focused, usd maxis
-		// we aren't doing this ridiculous in app conversions anymore
-		return this.balanceDisplay();
+		return `$${numberWithCommas(this.value.toFixed(precision))}`;
 	}
 
 	/**

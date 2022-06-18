@@ -1,6 +1,6 @@
 import { NetworkConfig } from '@badger-dao/sdk';
 import { Web3Provider } from '@ethersproject/providers';
-import { computed, makeAutoObservable, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import Web3Modal from 'web3modal';
 
 import { getWeb3ModalProviders } from '../../config/wallets';
@@ -24,17 +24,14 @@ export class WalletStore {
 			this.connect();
 		}
 
-		makeAutoObservable(this, {
+		makeObservable(this, {
 			address: observable,
+			connect: action,
 		});
 	}
 
 	get isConnected(): boolean {
 		return this.store.sdk.address !== undefined;
-	}
-
-	disconnect() {
-		this.web3Modal.clearCachedProvider();
 	}
 
 	async connect() {
@@ -49,13 +46,20 @@ export class WalletStore {
 		const connectedNetwork = await temporaryProvider.getNetwork();
 		this.provider = temporaryProvider;
 
-		await this.store.updateNetwork(connectedNetwork.chainId);
-		await this.store.updateProvider(temporaryProvider);
-
-		this.address = this.store.sdk.address;
+		// quickly render connection - provide address to the interface
+		this.address = await this.provider.getSigner().getAddress();
 
 		// sync it up
 		this.store.network.syncUrlNetworkId();
+
+		// update piece wise app components
+		await this.store.updateNetwork(connectedNetwork.chainId);
+		await this.store.updateProvider(temporaryProvider);
+	}
+
+	disconnect() {
+		this.address = undefined;
+		this.web3Modal.clearCachedProvider();
 	}
 
 	private getLibrary(provider: any): Web3Provider {

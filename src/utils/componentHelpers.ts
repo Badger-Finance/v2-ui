@@ -102,7 +102,7 @@ export const limitVaultType = (vaults: VaultDTO[], type: VaultType, max = 3): Va
 export function useFormatExampleList(userStore: UserStore): (vaults: VaultDTO[]) => string {
 	return (vaults: VaultDTO[]) =>
 		vaults
-			.map((vault) => userStore.getTokenBalance(vault.underlyingToken).token.symbol)
+			.map((vault) => userStore.getBalance(vault.underlyingToken).token.symbol)
 			.sort((a, b) => a.length - b.length) // sort with the shortest name
 			.join(', ');
 }

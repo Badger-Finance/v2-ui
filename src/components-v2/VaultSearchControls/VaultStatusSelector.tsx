@@ -41,7 +41,6 @@ const VaultStatusSelector = ({ statuses = [], onChange }: Props): JSX.Element =>
 					<em>Status</em>
 				</MenuItem>
 				{Object.values(VaultState)
-					.filter((status) => status !== VaultState.Discontinued)
 					.map((status) => (
 						<MenuItem className={classes.capitalized} key={status} value={status}>
 							<Checkbox color="primary" checked={statuses.indexOf(status) > -1} />

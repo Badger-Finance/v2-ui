@@ -8,7 +8,6 @@ import { NETWORK_IDS } from '../../config/constants';
 import { BADGER_API } from '../../config/environment';
 import rpc from '../../config/rpc.config';
 import { Network } from '../model/network/network';
-import ContractsStore from './contractsStore';
 import GasPricesStore from './GasPricesStore';
 import { GovernancePortalStore } from './GovernancePortalStore';
 import LockedCvxDelegationStore from './lockedCvxDelegationStore';
@@ -34,7 +33,6 @@ export class RootStore {
 	// Stores
 	public network: NetworkStore;
 	public uiState: UiStateStore;
-	public contracts: ContractsStore;
 	public rebase: RebaseStore;
 	public wallet: WalletStore;
 	public rewards: RewardsStore;
@@ -60,7 +58,6 @@ export class RootStore {
 		this.wallet = new WalletStore(this, config);
 		this.network = new NetworkStore(this);
 		this.prices = new PricesStore(this);
-		this.contracts = new ContractsStore(this);
 		this.rebase = new RebaseStore(this);
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiStateStore(this);
@@ -94,7 +91,7 @@ export class RootStore {
 
 		let refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
-		if (this.network.network.hasBadgerTree) {
+		if (this.sdk.rewards.hasBadgerTree()) {
 			refreshData = refreshData.concat([this.rewards.loadTreeData()]);
 
 			if (network === NETWORK_IDS.ETH || network === NETWORK_IDS.LOCAL) {

@@ -30,8 +30,6 @@ const WalletWidget = observer(() => {
 	const store = useContext(StoreContext);
 	const { uiState, wallet } = store;
 
-	console.log(wallet.address);
-
 	async function connect(): Promise<void> {
 		if (wallet.isConnected) {
 			uiState.toggleWalletDrawer();

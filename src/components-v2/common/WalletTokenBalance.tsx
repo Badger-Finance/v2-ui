@@ -39,7 +39,6 @@ interface Props {
 }
 
 const WalletTokenBalance = ({ balance }: Props): JSX.Element => {
-	const { uiState } = useContext(StoreContext);
 	const classes = useStyles();
 	// small hack to allow rem tokens to share icons with their badger counterparts
 	const token = { ...balance.token };
@@ -61,7 +60,7 @@ const WalletTokenBalance = ({ balance }: Props): JSX.Element => {
 			</Grid>
 			<Grid item container justifyContent="flex-end" className={classes.balanceDisplayValue}>
 				<Typography className={classes.balance} variant="subtitle2" color="textSecondary">
-					{balance.balanceValueDisplay(Currency.USD, 6)}
+					{balance.balanceValueDisplay(6)}
 				</Typography>
 			</Grid>
 		</Grid>
