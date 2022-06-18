@@ -111,7 +111,8 @@ export class VaultDetailStore {
 	get canUserWithdraw(): boolean {
 		if (!this.searchedVault) return false;
 		const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
-		if (!vault) return false;
-		return this.store.vaults.canUserWithdraw(vault);
+		const openBalance = this.store.user.getBalance(vault.vaultToken).balance;
+		const guardedBalance = this.store.user.getBalance(vault.vaultToken).balance;
+		return openBalance + guardedBalance > 0;
 	}
 }
