@@ -100,7 +100,7 @@ export class NetworkStore {
 		if (!this.store.wallet.isConnected) {
 			await this.store.updateNetwork(network.id);
 		} else {
-			this.store.rewards.resetRewards();
+			this.store.tree.reset();
 		}
 	});
 

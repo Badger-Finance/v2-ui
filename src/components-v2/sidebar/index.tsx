@@ -43,9 +43,10 @@ const Sidebar = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { sidebarOpen, closeSidebar, openRewardsDialog },
-		rewards: { claimableRewards },
+		tree: { claimable },
 	} = store;
 
+	const claimableRewards = Object.values(claimable).reduce((total, v) => total += v.value, 0);
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
 	const handleRewardsClick = () => {

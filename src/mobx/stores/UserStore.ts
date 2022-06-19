@@ -1,10 +1,9 @@
 import { Account, BouncerType, MerkleProof, Network, RewardTree, VaultDTO } from '@badger-dao/sdk';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 
 import { RootStore } from './RootStore';
@@ -14,7 +13,6 @@ export default class UserStore {
 	private userBalanceCache: UserBalanceCache = {};
 
 	// loading: undefined, error: null, present: object
-	public claimProof: RewardTree | undefined | null;
 	public bouncerProof: MerkleProof | undefined | null;
 	public accountDetails: Account | undefined | null;
 	public tokenBalances: TokenBalances = {};
@@ -29,7 +27,6 @@ export default class UserStore {
 		extendObservable(this, {
 			bouncerProof: this.bouncerProof,
 			accountDetails: this.accountDetails,
-			claimProof: this.claimProof,
 			tokenBalances: this.tokenBalances,
 			settBalances: this.settBalances,
 			vaultCaps: this.vaultCaps,
@@ -113,16 +110,6 @@ export default class UserStore {
 				this.bouncerProof = proof;
 			}
 		} catch {} // ignore non 200 responses
-	});
-
-	loadClaimProof = action(async (address: string, chain = Network.Ethereum): Promise<void> => {
-		const proof = await this.store.sdk.api.loadRewardTree(address, chain);
-		if (proof) {
-			this.claimProof = proof;
-			await this.store.rewards.fetchVaultRewards();
-		} else {
-			this.claimProof = null;
-		}
 	});
 
 	loadAccountDetails = action(async (address: string): Promise<void> => {
@@ -219,7 +206,7 @@ export default class UserStore {
 	private getOrDefaultBalance(balances: TokenBalances, token: string): TokenBalance {
 		const balance = balances[token];
 		if (!balance) {
-			return this.store.rewards.mockBalance(token);
+			return new TokenBalance(this.store.vaults.getToken(token), BigNumber.from(0), this.store.prices.getPrice(token));
 		}
 		return balance;
 	}

@@ -58,7 +58,7 @@ export const NavbarStats = observer((): JSX.Element => {
 		wallet,
 		user,
 		network: { network },
-		rewards: { badgerTree },
+		tree,
 		vaults: { protocolSummary },
 	} = useContext(StoreContext);
 
@@ -137,8 +137,8 @@ export const NavbarStats = observer((): JSX.Element => {
 				</Grid>
 				<Grid item>
 					<Typography variant="helperText" display="inline">
-						Cycle: {badgerTree.cycle} &nbsp;
-						{badgerTree.timeSinceLastCycle && `(latest ${badgerTree.timeSinceLastCycle})`}
+						Cycle: {tree.cycle} &nbsp;
+						{tree.lastUpdate && `(last: ${tree.lastUpdate})`}
 					</Typography>
 				</Grid>
 				<Grid item>

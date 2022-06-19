@@ -18,9 +18,9 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
 import routes from '../../config/routes';
-import { ClaimMap } from '../../mobx/model/rewards/claim-map';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
+import { TokenBalances } from 'mobx/model/account/user-balances';
 
 const checkboxComplementarySpace = 1.5;
 
@@ -154,17 +154,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-	claimableRewards: ClaimMap;
+	claimableRewards: TokenBalances;
 	onClose: () => void;
-	onClaim: (claim: ClaimMap) => void;
+	onClaim: (claim: TokenBalances) => void;
 	onGuideModeSelection: () => void;
 }
 
 const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, onClaim }: Props): JSX.Element => {
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
-	const { uiState, router, wallet } = useContext(StoreContext);
-	const [claims, setClaims] = useState<ClaimMap>(claimableRewards);
+	const { router, wallet } = useContext(StoreContext);
+	const [claims, setClaims] = useState<TokenBalances>(claimableRewards);
 
 	const hasRewards = wallet.isConnected && Object.keys(claims).length > 0;
 

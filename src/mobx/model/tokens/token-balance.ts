@@ -1,4 +1,4 @@
-import { Currency, formatBalance, Token } from '@badger-dao/sdk';
+import { formatBalance, Token } from '@badger-dao/sdk';
 import { BigNumber, BigNumberish } from 'ethers';
 import { minBalance, numberWithCommas } from 'mobx/utils/helpers';
 

@@ -1,4 +1,4 @@
-import { BadgerSDK, getNetworkConfig, SDKProvider } from '@badger-dao/sdk';
+import { BadgerAPI, BadgerSDK, getNetworkConfig, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import routes from 'config/routes';
 import { action, makeObservable, observable } from 'mobx';
@@ -15,7 +15,7 @@ import LockedDepositsStore from './LockedDepositsStore';
 import { NetworkStore } from './NetworkStore';
 import PricesStore from './PricesStore';
 import RebaseStore from './rebaseStore';
-import RewardsStore from './rewardsStore';
+import { TreeStore } from './TreeStore';
 import UiStateStore from './uiStore';
 import UserStore from './UserStore';
 import { VaultChartsStore } from './VaultChartsStore';
@@ -26,6 +26,7 @@ import { WalletStore } from './WalletStore';
 export class RootStore {
 	// Badger SDK Utilized Objects
 	public sdk: BadgerSDK;
+	public api: BadgerAPI;
 
 	// Router
 	public router: RouterStore<RootStore>;
@@ -35,7 +36,6 @@ export class RootStore {
 	public uiState: UiStateStore;
 	public rebase: RebaseStore;
 	public wallet: WalletStore;
-	public rewards: RewardsStore;
 	// public ibBTCStore: IbBTCStore;
 	public vaults: VaultStore;
 	public user: UserStore;
@@ -47,10 +47,17 @@ export class RootStore {
 	public governancePortal: GovernancePortalStore;
 	public lockedDeposits: LockedDepositsStore;
 
+	// New Stores
+	public tree: TreeStore;
+
 	constructor() {
 		this.sdk = new BadgerSDK({
 			network: defaultNetwork.id,
 			provider: rpc[defaultNetwork.symbol],
+			baseURL: BADGER_API,
+		});
+		this.api = new BadgerAPI({
+			network: defaultNetwork.id,
 			baseURL: BADGER_API,
 		});
 		const config = getNetworkConfig(defaultNetwork.id);
@@ -59,7 +66,6 @@ export class RootStore {
 		this.network = new NetworkStore(this);
 		this.prices = new PricesStore(this);
 		this.rebase = new RebaseStore(this);
-		this.rewards = new RewardsStore(this);
 		this.uiState = new UiStateStore(this);
 		this.vaults = new VaultStore(this);
 		this.user = new UserStore(this);
@@ -70,6 +76,9 @@ export class RootStore {
 		// this.ibBTCStore = new IbBTCStore(this);
 		this.governancePortal = new GovernancePortalStore(this);
 		this.lockedDeposits = new LockedDepositsStore(this);
+
+		// new stores
+		this.tree = new TreeStore(this);
 
 		makeObservable(this, {
 			sdk: observable,
@@ -86,27 +95,20 @@ export class RootStore {
 			this.network.network = appNetwork;
 		}
 
-		this.sdk = new BadgerSDK({ network, provider: rpc[appNetwork.symbol], baseURL: BADGER_API });
-		this.rewards.resetRewards();
+		this.api = new BadgerAPI({
+			network,
+			baseURL: BADGER_API,
+		});
+
+		this.tree.reset();
 
 		let refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
-
-		if (this.sdk.rewards.hasBadgerTree()) {
-			refreshData = refreshData.concat([this.rewards.loadTreeData()]);
-
-			if (network === NETWORK_IDS.ETH || network === NETWORK_IDS.LOCAL) {
-				// handle per page reloads, when init route is skipped
-				if (this.router.currentRoute?.path === routes.IbBTC.path) {
-					refreshData = refreshData.concat([this.rebase.fetchRebaseStats()]);
-				}
-			}
-		}
 
 		await Promise.all(refreshData);
 	}
 
 	async updateProvider(provider: SDKProvider): Promise<void> {
-		this.rewards.resetRewards();
+		this.tree.reset();
 		const { network } = this.network;
 
 		this.sdk = new BadgerSDK({ network: network.id, provider, baseURL: BADGER_API });
@@ -119,8 +121,8 @@ export class RootStore {
 
 			const updateActions = [
 				this.user.loadAccountDetails(address),
-				this.user.loadClaimProof(address, config.network),
 				this.lockedDeposits.loadLockedBalances(),
+				this.user.reloadBalances(address),
 			];
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
@@ -128,9 +130,15 @@ export class RootStore {
 				// if (this.router.currentRoute?.path === routes.IbBTC.path) {
 				// 	updateActions.push(this.ibBTCStore.init());
 				// }
+
+				updateActions.push(this.rebase.fetchRebaseStats());
 			}
 
-			await Promise.all([...updateActions, this.user.reloadBalances(address)]);
+			if (this.sdk.rewards.hasBadgerTree()) {
+				updateActions.push(this.tree.loadBadgerTree());
+			}
+
+			await Promise.all(updateActions);
 		}
 	}
 }

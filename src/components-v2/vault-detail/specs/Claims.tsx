@@ -54,10 +54,10 @@ enum DelaySeverity {
 }
 
 export const Claims = observer((): JSX.Element => {
-	const { rewards } = React.useContext(StoreContext);
+	const { tree } = React.useContext(StoreContext);
 	const classes = useStyles();
 
-	const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(rewards.badgerTree.lastCycle);
+	const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(tree.lastUpdateTimestamp);
 	const delaySeverity = calculateDelaySeverity(differenceInHoursFromCycle);
 
 	const isDelayed = delaySeverity !== DelaySeverity.none;

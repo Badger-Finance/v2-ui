@@ -67,14 +67,14 @@ const useStyles = makeStyles((theme) => ({
 
 const InvalidCycleDialog = ({ open, onClose }: Props): JSX.Element => {
 	const {
-		rewards: { badgerTree },
+		tree,
 	} = useContext(StoreContext);
 	const [showCopiedText, setShowCopiedText] = useState(false);
 	const classes = useStyles();
 
 	const copyToClipboard = () => {
-		if (!badgerTree.cycle) return;
-		const didCopy = copy(Number(badgerTree.cycle).toString());
+		if (!tree.cycle) return;
+		const didCopy = copy(tree.cycle.toString());
 		setShowCopiedText(didCopy);
 	};
 
@@ -100,9 +100,9 @@ const InvalidCycleDialog = ({ open, onClose }: Props): JSX.Element => {
 						support channel.
 					</Link>
 				</DialogContentText>
-				{badgerTree.cycle && (
+				{tree.cycle && (
 					<pre className={classes.code}>
-						<Typography color="textPrimary">Cycle: {Number(badgerTree.cycle)}</Typography>
+						<Typography color="textPrimary">Cycle: {tree.cycle}</Typography>
 						<Tooltip title={showCopiedText ? 'Copied!' : 'Copy to clipboard'} placement="right-start" arrow>
 							<IconButton
 								onClick={copyToClipboard}

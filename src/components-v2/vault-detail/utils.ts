@@ -26,8 +26,11 @@ export const calculateDelaySeverity = (delay: number): DelaySeverity => {
 	return DelaySeverity.none;
 };
 
-export const calculateDifferenceInHoursFromCycle = (cycle: Date): number => {
-	return Math.abs(dayjs(cycle).diff(dayjs(), 'hours'));
+export const calculateDifferenceInHoursFromCycle = (lastUpdateTimestamp?: number): number => {
+	if (!lastUpdateTimestamp) {
+		return 0;
+	}
+	return Math.abs(dayjs(lastUpdateTimestamp).diff(dayjs(), 'hours'));
 };
 
 export function defaultVaultBalance(vault: VaultDTO): VaultData {

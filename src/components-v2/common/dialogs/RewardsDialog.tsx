@@ -2,14 +2,14 @@ import { Dialog, useTheme } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
-import { ClaimMap } from '../../../mobx/model/rewards/claim-map';
 import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
 import ClaimedRewardsContent from '../../rewards/ClaimedRewardsContent';
 import ClaimRewardsContent from '../../rewards/ClaimRewardsContent';
 import UserGuideContent from '../../rewards/UserGuideContent';
 import InvalidCycleDialog from './InvalidCycleDialog';
+import { TokenBalances } from 'mobx/model/account/user-balances';
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -23,17 +23,16 @@ const useStyles = makeStyles(() =>
 );
 
 const RewardsDialog = (): JSX.Element => {
-	const { rewards, vaults, uiState } = useContext(StoreContext);
+	const { tree, uiState } = useContext(StoreContext);
 	const classes = useStyles();
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
 	const [showInvalidCycle, setShowInvalidCycle] = useState(false);
-	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
 	const [claimedRewards, setClaimedRewards] = useState<TokenBalance[]>();
 	const [guideMode, setGuideMode] = useState(false);
-	const hasRewards = Object.keys(claimableRewards).length > 0;
+	const hasRewards = Object.keys(tree.claimable).length > 0;
 
-	const handleClaim = async (claims: ClaimMap) => {
+	const handleClaim = async (claims: TokenBalances) => {
 		try {
 			// ENABLE THIS BACK YOU DOGGY JINTAO
 			// const txResult = await rewards.claimGeysers(claims);
@@ -44,7 +43,7 @@ const RewardsDialog = (): JSX.Element => {
 		} catch (error) {
 			console.error(error);
 			if (String(error).includes('execution reverted: Invalid cycle')) {
-				rewards.reportInvalidCycle();
+				tree.reportInvalidCycle();
 				uiState.toggleRewardsDialog();
 				setTimeout(() => {
 					setShowInvalidCycle(true);
@@ -59,15 +58,6 @@ const RewardsDialog = (): JSX.Element => {
 			setClaimedRewards(undefined);
 		}, closeDialogTransitionDuration);
 	};
-
-	useEffect(() => {
-		const balances = Object.fromEntries(
-			rewards.badgerTree.claims
-				.filter((claim) => !!vaults.getToken(claim.token.address) && claim.tokenBalance.gt(0))
-				.map((claim) => [claim.token.address, claim]),
-		);
-		setClaimableRewards(balances);
-	}, [vaults, rewards.badgerTree.claims]);
 
 	if (guideMode) {
 		return (
@@ -117,7 +107,7 @@ const RewardsDialog = (): JSX.Element => {
 				onClose={() => uiState.toggleRewardsDialog()}
 			>
 				<ClaimRewardsContent
-					claimableRewards={claimableRewards}
+					claimableRewards={tree.claimable}
 					onClose={() => uiState.toggleRewardsDialog()}
 					onClaim={handleClaim}
 					onGuideModeSelection={() => setGuideMode(true)}

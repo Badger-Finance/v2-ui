@@ -4,9 +4,8 @@ import clsx from 'clsx';
 import { Loader } from 'components/Loader';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
-import { ClaimMap } from '../../mobx/model/rewards/claim-map';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -27,23 +26,13 @@ const useStyles = makeStyles((theme: Theme) =>
 export const RewardsButton = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { vaults, user, wallet } = store;
-	const { badgerTree, loadingRewards } = store.rewards;
-	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
+	const { wallet } = store;
+	const { claimable, loadingTree } = store.tree;
 
-	const totalRewardsValue = Object.keys(claimableRewards).reduce(
-		(total, claimKey) => (total += claimableRewards[claimKey].value),
+	const totalRewardsValue = Object.keys(claimable).reduce(
+		(total, claimKey) => (total += claimable[claimKey].value),
 		0,
 	);
-
-	useEffect(() => {
-		const balances = Object.fromEntries(
-			badgerTree.claims
-				.filter((claim) => !!vaults.getToken(claim.token.address) && claim.tokenBalance.gt(0))
-				.map((claim) => [claim.token.address, claim]),
-		);
-		setClaimableRewards(balances);
-	}, [vaults, badgerTree.claims]);
 
 	if (!wallet.isConnected) {
 		return (
@@ -59,7 +48,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
 		);
 	}
 
-	if (loadingRewards || user.claimProof === undefined) {
+	if (loadingTree) {
 		return (
 			<Button variant="outlined" color="primary" className={clsx(classes.button, classes.loadingRewardsButton)}>
 				<Loader size={15} />
