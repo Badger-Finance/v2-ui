@@ -426,9 +426,7 @@ export default class VaultStore {
 	});
 
 	private applyFilters(vaults: VaultDTO[]): VaultDTO[] {
-		const {
-			user,
-		} = this.store;
+		const { user } = this.store;
 
 		const { protocols, search, statuses, behaviors, onlyBoostedVaults, onlyDeposits, hidePortfolioDust } =
 			this.vaultsFilters;

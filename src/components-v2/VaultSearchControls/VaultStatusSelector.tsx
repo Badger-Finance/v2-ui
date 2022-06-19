@@ -40,13 +40,12 @@ const VaultStatusSelector = ({ statuses = [], onChange }: Props): JSX.Element =>
 				<MenuItem disabled value="">
 					<em>Status</em>
 				</MenuItem>
-				{Object.values(VaultState)
-					.map((status) => (
-						<MenuItem className={classes.capitalized} key={status} value={status}>
-							<Checkbox color="primary" checked={statuses.indexOf(status) > -1} />
-							<ListItemText primary={status} />
-						</MenuItem>
-					))}
+				{Object.values(VaultState).map((status) => (
+					<MenuItem className={classes.capitalized} key={status} value={status}>
+						<Checkbox color="primary" checked={statuses.indexOf(status) > -1} />
+						<ListItemText primary={status} />
+					</MenuItem>
+				))}
 			</Select>
 		</FormControl>
 	);

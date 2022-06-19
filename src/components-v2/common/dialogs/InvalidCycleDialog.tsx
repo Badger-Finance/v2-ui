@@ -66,9 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const InvalidCycleDialog = ({ open, onClose }: Props): JSX.Element => {
-	const {
-		tree,
-	} = useContext(StoreContext);
+	const { tree } = useContext(StoreContext);
 	const [showCopiedText, setShowCopiedText] = useState(false);
 	const classes = useStyles();
 

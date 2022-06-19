@@ -206,7 +206,11 @@ export default class UserStore {
 	private getOrDefaultBalance(balances: TokenBalances, token: string): TokenBalance {
 		const balance = balances[token];
 		if (!balance) {
-			return new TokenBalance(this.store.vaults.getToken(token), BigNumber.from(0), this.store.prices.getPrice(token));
+			return new TokenBalance(
+				this.store.vaults.getToken(token),
+				BigNumber.from(0),
+				this.store.prices.getPrice(token),
+			);
 		}
 		return balance;
 	}

@@ -46,7 +46,7 @@ const Sidebar = observer(() => {
 		tree: { claimable },
 	} = store;
 
-	const claimableRewards = Object.values(claimable).reduce((total, v) => total += v.value, 0);
+	const claimableRewards = Object.values(claimable).reduce((total, v) => (total += v.value), 0);
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
 	const handleRewardsClick = () => {

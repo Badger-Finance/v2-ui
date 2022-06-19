@@ -6,7 +6,7 @@ import { RootStore } from './RootStore';
 
 class LockedCvxDelegationStore {
 	private store: RootStore;
-	
+
 	public lockedCVXBalance = ethers.constants.Zero;
 
 	constructor(store: RootStore) {
