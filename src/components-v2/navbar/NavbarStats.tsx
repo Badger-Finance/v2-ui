@@ -56,7 +56,7 @@ export const NavbarStats = observer((): JSX.Element => {
 	const {
 		prices,
 		wallet,
-		user,
+		user: { portfolioValue },
 		network: { network },
 		tree,
 		vaults: { protocolSummary },
@@ -70,7 +70,6 @@ export const NavbarStats = observer((): JSX.Element => {
 	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 	const totalValueLocked = protocolSummary ? protocolSummary.totalValue : undefined;
-	const portfolioValue = wallet.isConnected && user.initialized ? user.portfolioValue : 0;
 	const chainName = getFormattedNetworkName(network);
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 

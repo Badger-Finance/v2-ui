@@ -10,6 +10,7 @@ import React from 'react';
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
 import { getVaultStrategyFee } from 'mobx/utils/fees';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -28,10 +29,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
-	amount: BigNumberish;
+	balance: TokenBalance;
 }
 
-export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.Element => {
+export const VaultConversionAndFee = observer(({ vault, balance }: Props): JSX.Element => {
 	const { vaults } = React.useContext(StoreContext);
 	const classes = useStyles();
 
@@ -40,9 +41,9 @@ export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.El
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const depositTokenDecimals = depositToken?.decimals || 18;
 
-	const withdrawAmount = BigNumber.from(amount).mul(vault.pricePerFullShare);
-	const withdrawalFee = withdrawAmount.mul(withdrawFee).div(MAX_FEE);
-	const amountAfterFee = BigNumber.from(withdrawAmount).sub(withdrawalFee);
+	const withdrawAmount = balance.scale(vault.pricePerFullShare);
+	const withdrawalFee = withdrawAmount.tokenBalance.mul(withdrawFee).div(MAX_FEE);
+	const amountAfterFee = withdrawAmount.tokenBalance.sub(withdrawalFee);
 
 	return (
 		<Grid container>
@@ -53,7 +54,7 @@ export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.El
 					Converted Amount
 				</Typography>
 				<Typography display="inline" variant="subtitle2">
-					{`${formatBalance(withdrawAmount, depositTokenDecimals)} ${depositTokenSymbol}`}
+					{`${formatBalance(withdrawAmount.tokenBalance, depositTokenDecimals)} ${depositTokenSymbol}`}
 				</Typography>
 			</Grid>
 			<Grid container justifyContent="space-between">

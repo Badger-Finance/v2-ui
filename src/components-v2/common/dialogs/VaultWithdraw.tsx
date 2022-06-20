@@ -13,6 +13,7 @@ import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, Vau
 import VaultAdvisory from './VaultAdvisory';
 import { VaultConversionAndFee } from './VaultConversionAndFee';
 import { VaultDialogTitle } from './VaultDialogTitle';
+import { BigNumber } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -51,11 +52,11 @@ export interface VaultModalProps {
 }
 
 export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
-	const { wallet, user, vaults } = useContext(StoreContext);
+	const { wallet, user, vaults, sdk } = useContext(StoreContext);
 	const classes = useStyles();
 
 	const [accepted, setAccepted] = useState(!badgerVault.withdrawAdvisory);
-	const [amount, setAmount] = useState('');
+	const [amount, setAmount] = useState('0');
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const userBalance = user.getBalance(vault.vaultToken);
@@ -64,22 +65,27 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 	const depositToken = vaults.getToken(vault.underlyingToken);
 	const bToken = vaults.getToken(vault.vaultToken);
 
-	const vaultSymbol = vaults.getToken(badgerVault.vaultToken.address)?.symbol || vault.asset;
-	const depositTokenSymbol = depositToken?.symbol || '';
+	const vaultSymbol = vaults.getToken(badgerVault.vaultToken.address).symbol;
+	const depositTokenSymbol = depositToken.symbol;
 	const bTokenSymbol = bToken?.symbol || '';
 
 	const canWithdraw = wallet.isConnected && !!amount && userHasBalance;
 	const isLoading = false;
+
+	const withdrawAmount = TokenBalance.fromBalance(userBalance, Number(amount));
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
 
 	const handleSubmit = async (): Promise<void> => {
-		if (!amount) {
-			return;
+		if (withdrawAmount.tokenBalance.gt(0)) {
+			const result = await sdk.vaults.withdraw({
+				vault: vault.vaultToken,
+				amount: withdrawAmount.tokenBalance,
+			});
+			console.log(result);
 		}
-		const withdrawBalance = TokenBalance.fromBalance(userBalance, Number(amount));
 	};
 
 	if (!accepted && badgerVault.withdrawAdvisory) {
@@ -110,7 +116,7 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 				</Typography>
 			</Grid>
 			<Grid container className={classes.fees}>
-				<VaultConversionAndFee vault={vault} amount={amount || 0} />
+				<VaultConversionAndFee vault={vault} balance={withdrawAmount} />
 			</Grid>
 		</>
 	);

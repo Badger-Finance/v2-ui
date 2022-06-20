@@ -290,7 +290,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 		const ibbtc = user.getBalance(mainnetDeploy.tokens['ibBTC']);
 		setDepositOptions([ibbtc, renBTC, wBTC, sBTC]);
 		setMultiTokenDepositBalances([ibbtc, renBTC, wBTC, sBTC]);
-	}, [user, user.initialized]);
+	}, [user]);
 
 	useEffect(() => {
 		const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);

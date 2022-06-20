@@ -132,8 +132,8 @@ export class TreeStore {
 						{
 							title: 'Invalid Cycle Detected',
 							color: 16721408,
-							description:
-								'An invalid cycle has been detected during rewards claiming. <@&804147406043086850>',
+							content: '<@&804147406043086850>',
+							description: 'An invalid cycle has been detected during rewards claiming.',
 							timestamp: new Date(),
 							fields: [
 								{

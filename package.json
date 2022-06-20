@@ -69,9 +69,7 @@
 		"recharts": "^2.1.2",
 		"slugify": "^1.6.0",
 		"typescript": "^4.5.4",
-		"web3modal": "^1.9.7"
-	},
-	"devDependencies": {
+		"web3modal": "^1.9.7",
 		"@typechain/ethers-v5": "^10.0.0",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"typechain": "^8.0.0"

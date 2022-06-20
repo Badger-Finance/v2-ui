@@ -1,5 +1,5 @@
 import { formatBalance, Token } from '@badger-dao/sdk';
-import { BigNumber, BigNumberish } from 'ethers';
+import { BigNumber, BigNumberish, ethers } from 'ethers';
 import { minBalance, numberWithCommas } from 'mobx/utils/helpers';
 
 export class TokenBalance {
@@ -35,11 +35,8 @@ export class TokenBalance {
 		return new TokenBalance(token, balance, price);
 	}
 
-	hasBalance(tokenBalance?: TokenBalance): boolean {
-		if (!tokenBalance) {
-			return false;
-		}
-		return tokenBalance.balance > 0;
+	hasBalance(): boolean {
+		return this.balance > 0;
 	}
 
 	get value(): number {
@@ -83,13 +80,15 @@ export class TokenBalance {
 		if (this.tokenBalance.eq(0)) {
 			return this;
 		}
-		const tokenBalance = this.tokenBalance.mul((Math.pow(10, this.token.decimals) * scalar).toString());
+		const tokenBalance = this.tokenBalance
+			.mul((Math.pow(10, this.token.decimals) * scalar).toString())
+			.div(ethers.constants.WeiPerEther);
 		const price = scalePrice ? this.price / scalar : this.price;
 		return new TokenBalance(this.token, tokenBalance, price);
 	}
 
 	scaledBalanceDisplay(percent: number): string {
 		const scaledBalance = this.scale(percent / 100);
-		return scaledBalance.balanceDisplay();
+		return scaledBalance.balanceDisplay(0);
 	}
 }

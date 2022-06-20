@@ -49,10 +49,6 @@ export default class UserStore {
 		return rewardsValue + walletValue;
 	}
 
-	get initialized(): boolean {
-		return !this.loadingBalances;
-	}
-
 	async reloadBalances(): Promise<void> {
 		const { wallet } = this.store;
 
@@ -85,14 +81,14 @@ export default class UserStore {
 		} catch {} // ignore non 200 responses
 	});
 
-	loadAccountDetails = action(async (address: string): Promise<void> => {
+	private loadAccountDetails = action(async (address: string): Promise<void> => {
 		const accountDetails = await this.store.api.loadAccount(address);
 		if (accountDetails) {
 			this.accountDetails = accountDetails;
 		}
 	});
 
-	updateBalances = action(async (): Promise<void> => {
+	private updateBalances = action(async (): Promise<void> => {
 		const { vaults, prices, sdk } = this.store;
 
 		/**
