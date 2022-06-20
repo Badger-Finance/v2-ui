@@ -38,9 +38,9 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
 	// this will need to be updated to reflect that.
 	const isBoostBreakdown = source.name === 'Boosted Badger Rewards';
 	const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
-	const boostMultiplier = user.accountDetails?.boost ?? 1;
+	const userBoost = user.accountDetails?.boost ?? 1;
 	const sourceApr = source.boostable
-		? source.minApr + (source.maxApr - source.minApr) * (boostMultiplier / maxBoost)
+		? source.minApr + (source.maxApr - source.minApr) * (userBoost / maxBoost)
 		: source.apr;
 
 	const handleGoToCalculator = async () => {
@@ -62,7 +62,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
 						</Typography>
 					</Grid>
 				</Grid>
-				{!!boostMultiplier && !!boostContribution && (
+				{!!userBoost && !!boostContribution && (
 					<Grid item container>
 						<img
 							className={classes.apyBreakdownIcon}
@@ -70,7 +70,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
 							alt="apy breakdown icon"
 						/>
 						<Typography variant="body2" display="inline" color="textSecondary">
-							{`My Boost: ${boostMultiplier}x`}
+							{`My Boost: ${userBoost}x`}
 						</Typography>
 						<Link color="primary" onClick={handleGoToCalculator} className={classes.link}>
 							<Typography
