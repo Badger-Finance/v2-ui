@@ -201,3 +201,23 @@ export function isEqual(value: any, other: any): boolean {
 	}
 	return true;
 }
+export function deepCopy(inObject: any): any {
+	let outObject, value, key;
+
+	if (typeof inObject !== 'object' || inObject === null) {
+		return inObject; // Return the value if inObject is not an object
+	}
+
+	// Create an array or object to hold the values
+	outObject = Array.isArray(inObject) ? [] : {};
+
+	for (key in inObject) {
+		value = inObject[key];
+
+		// Recursively (deep) copy for nested objects, including arrays
+		// @ts-ignore
+		outObject[key] = deepCopy(value);
+	}
+
+	return outObject;
+}

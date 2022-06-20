@@ -117,8 +117,6 @@ export class RootStore {
 		const { signer, address } = this.sdk;
 
 		if (signer && address) {
-			const config = getNetworkConfig(network.id);
-
 			const updateActions = [
 				this.user.loadAccountDetails(address),
 				this.lockedDeposits.loadLockedBalances(),

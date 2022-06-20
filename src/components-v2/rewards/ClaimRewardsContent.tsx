@@ -15,12 +15,16 @@ import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import routes from '../../config/routes';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { BigNumber, ethers } from 'ethers';
 import { TokenBalances } from 'mobx/model/account/user-balances';
+import { deepCopy } from 'utils/lodashToNative';
+import InvalidCycleDialog from 'components-v2/common/dialogs/InvalidCycleDialog';
 
 const checkboxComplementarySpace = 1.5;
 
@@ -154,46 +158,89 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-	claimableRewards: TokenBalances;
-	onClose: () => void;
-	onClaim: (claim: TokenBalances) => void;
 	onGuideModeSelection: () => void;
 }
 
-const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, onClaim }: Props): JSX.Element => {
+type ClaimOptions = {
+	[token: string]: {
+		hasBalance: boolean;
+		balance: TokenBalance;
+	};
+};
+
+const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
-	const { router, wallet } = useContext(StoreContext);
-	const [claims, setClaims] = useState<TokenBalances>(claimableRewards);
+	const { router, sdk, tree, uiState } = useContext(StoreContext);
+	const { claimable, claimProof } = tree;
 
-	const hasRewards = wallet.isConnected && Object.keys(claims).length > 0;
+	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
-	const totalClaimValue = Object.keys(claims).reduce((total, claimKey) => (total += claims[claimKey].value), 0);
+	const [showInvalidCycle, setShowInvalidCycle] = useState(false);
+	const [claimOptions, setClaimOptions] = useState<ClaimOptions>(
+		Object.fromEntries(
+			Object.entries(claimable).map((e) => {
+				const options = {
+					hasBalance: e[1].tokenBalance.gt(0),
+					balance: TokenBalance.fromBalance(e[1], e[1].balance),
+				};
+				return [e[0], options];
+			}),
+		),
+	);
+
+	const hasRewards = claimProof && Object.keys(claimable).length > 0;
+	const totalClaimValue = Object.values(claimOptions).map((c) => c.balance).reduce((total, k) => (total += k.value), 0);
 
 	const handleClaimCheckChange = (rewardKey: string, checked: boolean) => {
-		if (checked) {
-			setClaims({
-				...claims,
-				[rewardKey]: claimableRewards[rewardKey],
-			});
+		const newClaimOptions = {
+			...claimOptions,
+		};
+		if (!checked) {
+			newClaimOptions[rewardKey].balance.balance = 0;
+			newClaimOptions[rewardKey].balance.tokenBalance = BigNumber.from(0);
 		} else {
-			const newClaims = { ...claims };
-			delete newClaims[rewardKey];
-			setClaims(newClaims);
+			newClaimOptions[rewardKey].balance.balance = claimable[rewardKey].balance;
+			newClaimOptions[rewardKey].balance.tokenBalance = BigNumber.from(
+				claimable[rewardKey].tokenBalance.toString(),
+			);
+		}
+		setClaimOptions(newClaimOptions);
+	};
+
+	const handleClaim = async (claimOptions: ClaimOptions) => {
+		try {
+			if (!tree.claimProof) {
+				return;
+			}
+			const claimTokens = Object.keys(claimOptions);
+			const claimAmounts = Object.values(claimOptions).map((c) => c.balance.tokenBalance);
+
+			const { cumulativeAmounts } = tree.claimProof;
+
+			const { index, cycle, proof } = tree.claimProof;
+			const tx = await sdk.rewards.badgerTree.claim(claimTokens, cumulativeAmounts, index, cycle, proof, claimAmounts);
+			await tx.wait();
+		} catch (error) {
+			console.error(error);
+			if (String(error).includes('execution reverted: Invalid cycle')) {
+				tree.reportInvalidCycle();
+				uiState.toggleRewardsDialog();
+				setTimeout(() => {
+					setShowInvalidCycle(true);
+				}, closeDialogTransitionDuration);
+			}
 		}
 	};
 
-	useEffect(() => {
-		setClaims(claimableRewards);
-	}, [claimableRewards]);
-
 	return (
 		<>
+			<InvalidCycleDialog open={showInvalidCycle} onClose={() => setShowInvalidCycle(false)} />
 			<DialogTitle className={classes.title} disableTypography>
 				<Typography variant="h6" className={classes.titleText}>
 					My Rewards
 				</Typography>
-				<IconButton className={classes.closeButton} onClick={onClose}>
+				<IconButton className={classes.closeButton} onClick={() => uiState.toggleRewardsDialog()}>
 					<CloseIcon />
 				</IconButton>
 			</DialogTitle>
@@ -208,15 +255,28 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 						{hasRewards ? (
 							<Grid container direction="column" className={classes.contentPadding}>
 								<Grid item container className={classes.optionsContainer}>
-									{Object.keys(claimableRewards).map((rewardsKey, index) => (
-										<Grid key={`${rewardsKey}_${index}`} item className={classes.claimRow}>
-											<RewardsModalItem
-												checked={!!claims[rewardsKey]}
-												claimBalance={claimableRewards[rewardsKey]}
-												onChange={(checked) => handleClaimCheckChange(rewardsKey, checked)}
-											/>
-										</Grid>
-									))}
+									{Object.values(claimOptions)
+										.filter((o) => o.hasBalance)
+										.map((option, index) => {
+											return (
+												<Grid
+													key={`${option.balance.token.address}_${index}`}
+													item
+													className={classes.claimRow}
+												>
+													<RewardsModalItem
+														checked={option.balance.tokenBalance.gt(0)}
+														claimBalance={option.balance}
+														onChange={(checked) =>
+															handleClaimCheckChange(
+																option.balance.token.address,
+																checked,
+															)
+														}
+													/>
+												</Grid>
+											);
+										})}
 								</Grid>
 								<Divider className={classes.divider} />
 								<Grid item container alignItems="center" justifyContent="space-between">
@@ -234,7 +294,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 										disabled={totalClaimValue === 0}
 										color="primary"
 										variant="contained"
-										onClick={() => onClaim(claims)}
+										onClick={() => handleClaim(claimOptions)}
 									>
 										Claim My Rewards
 									</Button>
@@ -291,7 +351,7 @@ const ClaimRewardsContent = ({ claimableRewards, onClose, onGuideModeSelection, 
 										variant="contained"
 										onClick={async () => {
 											await router.goTo(routes.boostOptimizer);
-											onClose();
+											uiState.toggleRewardsDialog();
 										}}
 									>
 										Boost My Rewards

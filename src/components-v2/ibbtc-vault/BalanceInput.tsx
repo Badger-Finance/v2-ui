@@ -44,7 +44,7 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 		setInputValue(amount);
 		const input = Number(amount);
 		const value = isNaN(input) ? input : 0;
-		const inputBalance = TokenBalance.fromBalance(tokenBalance, value.toString());
+		const inputBalance = TokenBalance.fromBalance(tokenBalance, value);
 		onChange(inputBalance);
 	};
 

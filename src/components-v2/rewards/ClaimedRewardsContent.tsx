@@ -1,7 +1,9 @@
 import { Button, DialogContent, Grid, IconButton, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from 'mobx/stores/store-context';
+import React, { useContext } from 'react';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 
@@ -49,18 +51,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
 	claimedRewards: TokenBalance[];
-	onClose: () => void;
 	onGoBack: () => void;
 }
 
-const ClaimedRewardsContent = ({ claimedRewards, onClose, onGoBack }: Props): JSX.Element => {
+const ClaimedRewardsContent = observer(({ claimedRewards, onGoBack }: Props): JSX.Element => {
 	const classes = useStyles();
+	const { uiState } = useContext(StoreContext);
 
 	return (
 		<>
 			<DialogContent className={classes.content}>
 				<Grid container direction="column" className={classes.centeredText}>
-					<IconButton className={classes.closeButton} onClick={onClose}>
+					<IconButton className={classes.closeButton} onClick={() => uiState.toggleRewardsDialog()}>
 						<CloseIcon />
 					</IconButton>
 					<Grid item className={classes.successIconContainer}>
@@ -82,6 +84,6 @@ const ClaimedRewardsContent = ({ claimedRewards, onClose, onGoBack }: Props): JS
 			</DialogContent>
 		</>
 	);
-};
+});
 
 export default ClaimedRewardsContent;

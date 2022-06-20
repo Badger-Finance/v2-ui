@@ -79,7 +79,7 @@ export const VaultWithdraw = observer(({ open = false, vault, badgerVault, onClo
 		if (!amount) {
 			return;
 		}
-		const withdrawBalance = TokenBalance.fromBalance(userBalance, amount);
+		const withdrawBalance = TokenBalance.fromBalance(userBalance, Number(amount));
 	};
 
 	if (!accepted && badgerVault.withdrawAdvisory) {

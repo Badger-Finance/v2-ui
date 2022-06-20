@@ -24,10 +24,9 @@ export class TokenBalance {
 	 * a requested precision threshold (< 0.001 balance display).
 	 * Does not work with digg share conversion - only fragments support.
 	 */
-	static fromBalance(tokenBalance: TokenBalance, balance: string): TokenBalance {
+	static fromBalance(tokenBalance: TokenBalance, balance: number): TokenBalance {
 		const { token, price } = tokenBalance;
-		const scalar = BigNumber.from(Math.pow(10, token.decimals).toString());
-		const amount = BigNumber.from(balance).mul(scalar);
+		const amount = BigNumber.from((Math.pow(10, token.decimals) * balance).toString());
 		return new TokenBalance(token, amount, price);
 	}
 

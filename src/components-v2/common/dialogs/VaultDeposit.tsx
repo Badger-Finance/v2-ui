@@ -62,7 +62,7 @@ export const VaultDeposit = observer(({ open = false, vault, badgerVault, onClos
 	// TODO: update this - it wasn't working anyways
 	const isLoading = false;
 	const userBalance = user.getBalance(vault.underlyingToken);
-	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
+	const depositBalance = TokenBalance.fromBalance(userBalance, Number(amount ?? '0'));
 	const vaultCaps = user.vaultCaps[vault.vaultToken];
 
 	let canDeposit = wallet.isConnected && !!amount && depositBalance.tokenBalance.gt(0);
