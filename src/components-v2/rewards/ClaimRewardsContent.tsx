@@ -171,7 +171,13 @@ type ClaimOptions = {
 const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
-	const { router, sdk, tree, uiState } = useContext(StoreContext);
+	const {
+		router,
+		sdk,
+		tree,
+		uiState,
+		wallet: { address },
+	} = useContext(StoreContext);
 	const { claimable, claimProof } = tree;
 
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
@@ -190,7 +196,9 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
 	);
 
 	const hasRewards = claimProof && Object.keys(claimable).length > 0;
-	const totalClaimValue = Object.values(claimOptions).map((c) => c.balance).reduce((total, k) => (total += k.value), 0);
+	const totalClaimValue = Object.values(claimOptions)
+		.map((c) => c.balance)
+		.reduce((total, k) => (total += k.value), 0);
 
 	const handleClaimCheckChange = (rewardKey: string, checked: boolean) => {
 		const newClaimOptions = {
@@ -209,28 +217,32 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
 	};
 
 	const handleClaim = async (claimOptions: ClaimOptions) => {
-		try {
-			if (!tree.claimProof) {
-				return;
-			}
-			const claimTokens = Object.keys(claimOptions);
-			const claimAmounts = Object.values(claimOptions).map((c) => c.balance.tokenBalance);
-
-			const { cumulativeAmounts } = tree.claimProof;
-
-			const { index, cycle, proof } = tree.claimProof;
-			const tx = await sdk.rewards.badgerTree.claim(claimTokens, cumulativeAmounts, index, cycle, proof, claimAmounts);
-			await tx.wait();
-		} catch (error) {
-			console.error(error);
-			if (String(error).includes('execution reverted: Invalid cycle')) {
-				tree.reportInvalidCycle();
-				uiState.toggleRewardsDialog();
-				setTimeout(() => {
-					setShowInvalidCycle(true);
-				}, closeDialogTransitionDuration);
-			}
+		if (!tree.claimProof || !address) {
+			return;
 		}
+
+		const tokens = Object.keys(claimOptions);
+		const claimAmounts = Object.values(claimOptions).map((c) => c.balance.tokenBalance);
+		const { index, cycle, proof, cumulativeAmounts } = tree.claimProof;
+
+		await sdk.rewards.claim({
+			tokens,
+			cumulativeAmounts,
+			index,
+			cycle,
+			proof,
+			claimAmounts,
+			onError: (err) => {
+				console.error(err);
+				if (String(err).includes('execution reverted: Invalid cycle')) {
+					tree.reportInvalidCycle();
+					uiState.toggleRewardsDialog();
+					setTimeout(() => {
+						setShowInvalidCycle(true);
+					}, closeDialogTransitionDuration);
+				}
+			},
+		});
 	};
 
 	return (

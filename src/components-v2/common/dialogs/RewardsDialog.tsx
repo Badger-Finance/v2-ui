@@ -42,25 +42,23 @@ const RewardsDialog = (): JSX.Element => {
 		);
 	}
 
+	// TODO: DOGGY DWHAT?!!!!!!!!!!!!!!!!!
 	// funky af logic here
-	// if (!hasRewards) {
-	// 	return (
-	// 		<Dialog
-	// 			fullWidth
-	// 			maxWidth="xl"
-	// 			aria-labelledby="claimed-rewards"
-	// 			aria-describedby="Claimed Rewards Overview"
-	// 			classes={{ paperWidthXl: classes.bigDialog }}
-	// 			open={uiState.rewardsDialogOpen}
-	// 			onClose={() => uiState.toggleRewardsDialog()}
-	// 		>
-	// 			<ClaimedRewardsContent
-	// 				claimedRewards={claimedRewards}
-	// 				onGoBack={() => setClaimedRewards(undefined)}
-	// 			/>
-	// 		</Dialog>
-	// 	);
-	// }
+	if (!hasRewards) {
+		return (
+			<Dialog
+				fullWidth
+				maxWidth="xl"
+				aria-labelledby="claimed-rewards"
+				aria-describedby="Claimed Rewards Overview"
+				classes={{ paperWidthXl: classes.bigDialog }}
+				open={uiState.rewardsDialogOpen}
+				onClose={() => uiState.toggleRewardsDialog()}
+			>
+				<ClaimedRewardsContent claimedRewards={[]} />
+			</Dialog>
+		);
+	}
 
 	return (
 		<>

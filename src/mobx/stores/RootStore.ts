@@ -62,8 +62,8 @@ export class RootStore {
 		});
 		const config = getNetworkConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
-		this.wallet = new WalletStore(this, config);
 		this.network = new NetworkStore(this);
+		this.wallet = new WalletStore(this, config);
 		this.prices = new PricesStore(this);
 		this.rebase = new RebaseStore(this);
 		this.uiState = new UiStateStore(this);
@@ -117,11 +117,15 @@ export class RootStore {
 		const { signer, address } = this.sdk;
 
 		if (signer && address) {
-			const updateActions = [
-				this.user.loadAccountDetails(address),
-				this.lockedDeposits.loadLockedBalances(),
-				this.user.reloadBalances(address),
-			];
+			const updateActions = [];
+
+			if (this.sdk.rewards.hasBadgerTree()) {
+				updateActions.push(this.tree.loadBadgerTree());
+			}
+
+			updateActions.push(this.user.reloadBalances());
+
+			// this.lockedDeposits.loadLockedBalances(),
 
 			if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
 				// handle per page reloads, when init route is skipped
@@ -130,10 +134,6 @@ export class RootStore {
 				// }
 
 				updateActions.push(this.rebase.fetchRebaseStats());
-			}
-
-			if (this.sdk.rewards.hasBadgerTree()) {
-				updateActions.push(this.tree.loadBadgerTree());
 			}
 
 			await Promise.all(updateActions);

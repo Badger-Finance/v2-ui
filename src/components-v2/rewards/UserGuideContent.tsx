@@ -90,7 +90,7 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
 
 	const formatExampleList = useFormatExampleList(user);
 
-	const vaultMap = vaults.getVaultMap();
+	const vaultMap = vaults.vaultMap;
 	const allVaults = vaultMap ? Object.values(vaultMap) : undefined;
 
 	const boostedTokensExamples = allVaults

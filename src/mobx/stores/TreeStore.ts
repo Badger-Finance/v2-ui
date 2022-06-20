@@ -1,6 +1,6 @@
 import { RewardTree } from '@badger-dao/sdk';
 import { BigNumber } from 'ethers';
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { RootStore } from './RootStore';
@@ -14,7 +14,9 @@ export class TreeStore {
 	public loadingTree = false;
 
 	constructor(private store: RootStore) {
-		makeAutoObservable(this);
+		makeAutoObservable(this, {
+			loadBadgerTree: action,
+		});
 	}
 
 	async loadBadgerTree() {

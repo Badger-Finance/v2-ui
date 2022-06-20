@@ -77,14 +77,14 @@ const useStyles = makeStyles((theme) => ({
 
 const WalletDrawer = (): JSX.Element | null => {
 	const [showCopiedMessage, setShowCopiedMessage] = useState(false);
-	const { uiState, user, network, sdk, wallet } = useContext(StoreContext);
-	const { ensName } = useENS(sdk.address);
+	const { uiState, user, network, wallet } = useContext(StoreContext);
+	const { ensName } = useENS(wallet.address);
 	const classes = useStyles();
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
 	const handleCopy = () => {
-		if (!sdk.address) return;
-		const didCopy = copy(sdk.address);
+		if (!wallet.address) return;
+		const didCopy = copy(wallet.address);
 		setShowCopiedMessage(didCopy);
 	};
 
@@ -95,12 +95,12 @@ const WalletDrawer = (): JSX.Element | null => {
 		}, closeDialogTransitionDuration);
 	};
 
-	if (!sdk.address) {
+	if (!wallet.address) {
 		return null;
 	}
 
 	const tokenBalances = Object.keys(network.network.deploy.tokens).flatMap((token) => {
-		const isBadgerToken = ['badger', 'digg', 'remdigg'].includes(token.toLowerCase());
+		const isBadgerToken = ['badger', 'digg'].includes(token.toLowerCase());
 		return isBadgerToken ? [user.getBalance(network.network.deploy.tokens[token])] : [];
 	});
 
@@ -132,7 +132,7 @@ const WalletDrawer = (): JSX.Element | null => {
 							color="textSecondary"
 							display="inline"
 						>
-							{ensName || shortenAddress(sdk.address)}
+							{ensName || shortenAddress(wallet.address)}
 						</Typography>
 						<IconButton
 							onClick={handleCopy}

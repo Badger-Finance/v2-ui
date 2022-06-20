@@ -51,10 +51,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
 	claimedRewards: TokenBalance[];
-	onGoBack: () => void;
 }
 
-const ClaimedRewardsContent = observer(({ claimedRewards, onGoBack }: Props): JSX.Element => {
+const ClaimedRewardsContent = observer(({ claimedRewards }: Props): JSX.Element => {
 	const classes = useStyles();
 	const { uiState } = useContext(StoreContext);
 
@@ -77,7 +76,12 @@ const ClaimedRewardsContent = observer(({ claimedRewards, onGoBack }: Props): JS
 							{token.symbol}
 						</Typography>
 					))}
-					<Button variant="contained" color="primary" className={classes.goBackButton} onClick={onGoBack}>
+					<Button
+						variant="contained"
+						color="primary"
+						className={classes.goBackButton}
+						onClick={() => uiState.toggleRewardsDialog()}
+					>
 						Go Back To My Rewards
 					</Button>
 				</Grid>

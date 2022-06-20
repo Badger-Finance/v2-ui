@@ -1,6 +1,6 @@
 import { NetworkConfig } from '@badger-dao/sdk';
 import { Web3Provider } from '@ethersproject/providers';
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import Web3Modal from 'web3modal';
 
 import { getWeb3ModalProviders } from '../../config/wallets';
@@ -13,7 +13,6 @@ export class WalletStore {
 	public address?: string;
 
 	constructor(private store: RootStore, config: NetworkConfig) {
-		this.store = store;
 		this.web3Modal = new Web3Modal({
 			network: config.name,
 			providerOptions: getWeb3ModalProviders(config),
@@ -27,11 +26,12 @@ export class WalletStore {
 		makeObservable(this, {
 			address: observable,
 			connect: action,
+			isConnected: computed,
 		});
 	}
 
 	get isConnected(): boolean {
-		return this.store.sdk.address !== undefined;
+		return this.address !== undefined;
 	}
 
 	async connect() {

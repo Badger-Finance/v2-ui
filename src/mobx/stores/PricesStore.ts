@@ -1,36 +1,15 @@
-import { Currency, PriceSummary } from '@badger-dao/sdk';
-import { retry } from '@lifeomic/attempt';
-import { defaultRetryOptions } from 'config/constants';
+import { PriceSummary } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import { action, extendObservable, makeAutoObservable } from 'mobx';
-import {
-	CoingeckoPriceResponse,
-	FANTOM_PRICE_KEY,
-	MATIC_PRICE_KEY,
-} from 'mobx/model/system-config/coingecko-price-response';
+import { action, makeAutoObservable } from 'mobx';
 
-import { DEBUG } from '../../config/environment';
-import { fetchData } from '../../utils/fetchData';
 import { RootStore } from './RootStore';
 
-type CoinGeckoBatchResponse = { [key: string]: CoingeckoPriceResponse };
-
 export default class PricesStore {
-	private store: RootStore;
-	private priceCache: PriceSummary;
+	private priceCache: PriceSummary = {};
 
-	public pricesAvailability: Record<string, boolean> = {};
-
-	constructor(store: RootStore) {
-		this.store = store;
-		this.priceCache = {};
-
+	constructor(private store: RootStore) {
 		makeAutoObservable(this);
-	}
-
-	get arePricesAvailable(): boolean {
-		const { network } = this.store.network;
-		return this.pricesAvailability[network.symbol] ?? false;
+		this.loadPrices();
 	}
 
 	getPrice(address: string): number {
@@ -39,17 +18,11 @@ export default class PricesStore {
 	}
 
 	loadPrices = action(async (): Promise<void> => {
-		const { network } = this.store.network;
-		const prices = await this.store.sdk.api.loadPrices();
+		const prices = await this.store.api.loadPrices();
 		if (prices) {
 			this.priceCache = {
 				...this.priceCache,
 				...prices,
-			};
-
-			this.pricesAvailability = {
-				...this.pricesAvailability,
-				[network.symbol]: true,
 			};
 		}
 	});

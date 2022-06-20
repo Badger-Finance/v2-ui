@@ -27,10 +27,11 @@ const VaultListDisplay = observer(() => {
 		network: { network },
 		user,
 	} = store;
-	const vaultOrder = vaults.getVaultOrder();
+
+	const { initialized, vaultOrder } = vaults;
 	const showDeprecated = vaults.vaultsFilters.statuses?.includes(VaultState.Discontinued);
 
-	if (vaultOrder === undefined || vaults.vaultsDefinitions === undefined) {
+	if (!initialized) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;
 	}
 

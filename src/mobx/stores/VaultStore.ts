@@ -8,7 +8,7 @@ import {
 	VaultState,
 } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import { action, makeAutoObservable } from 'mobx';
+import { action, computed, extendObservable, makeAutoObservable, makeObservable, observable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { ProtocolSummaryCache } from 'mobx/model/system-config/protocol-summary-cache';
 import { Token } from 'mobx/model/tokens/token';
@@ -27,39 +27,56 @@ import { RootStore } from './RootStore';
 
 export default class VaultStore {
 	// loading: undefined, error: null, present: object
-	private vaultDefinitionsCache: VaultsDefinitionCache;
-	private tokenCache: TokenCache;
-	private vaultCache: VaultCache;
-	private slugCache: VaultSlugCache;
-	private protocolSummaryCache: ProtocolSummaryCache;
-	public protocolTokensCache: Record<string, Set<string>>;
+	private vaultDefinitionsCache: VaultsDefinitionCache = {};
+	public tokenCache: TokenCache = {};
+	public vaultCache: VaultCache = {};
+	public slugCache: VaultSlugCache = {};
+	public protocolSummaryCache: ProtocolSummaryCache = {};
+
 	public availableBalances: TokenBalances = {};
-	public initialized: boolean;
-	public showVaultFilters: boolean;
-	public showStatusInformationPanel: boolean;
-	public showRewardsInformationPanel: boolean;
-	public vaultsFilters: VaultsFilters;
+	public initialized: boolean = false;
+	public showVaultFilters: boolean = false;
+	public showStatusInformationPanel: boolean = false;
+	public showRewardsInformationPanel: boolean = false;
+	public vaultsFilters: VaultsFilters = {
+		hidePortfolioDust: false,
+		showAPR: false,
+		onlyDeposits: false,
+		onlyBoostedVaults: false,
+	};
 
 	constructor(private store: RootStore) {
-		this.vaultDefinitionsCache = {};
-		this.tokenCache = {};
-		this.vaultCache = {};
-		this.slugCache = {};
-		this.protocolSummaryCache = {};
-		this.protocolTokensCache = {};
-		this.initialized = false;
-		this.showVaultFilters = false;
-		this.showStatusInformationPanel = false;
-		this.showRewardsInformationPanel = false;
-
-		this.vaultsFilters = {
-			hidePortfolioDust: false,
-			showAPR: false,
-			onlyDeposits: false,
-			onlyBoostedVaults: false,
-		};
-
+		// consider figuring out how to make this auto observable
 		makeAutoObservable(this);
+		// makeObservable(this, {
+		// 	tokenCache: observable,
+		// 	vaultCache: observable,
+		// 	slugCache: observable,
+		// 	protocolSummaryCache: observable,
+
+		// 	protocolTokensCache: observable,
+		// 	availableBalances: observable,
+		// 	initialized: observable,
+		// 	showVaultFilters: observable,
+		// 	showStatusInformationPanel: observable,
+		// 	showRewardsInformationPanel: observable,
+		// 	vaultsFilters: observable,
+
+		// 	vaultsDefinitions: computed,
+		// 	vaultOrder: computed,
+		// });
+
+		const { network: currentNetwork } = this.store.network;
+		const networkDeployVaults = Object.values(currentNetwork.deploy.sett_system.vaults) as string[];
+		const networkVaultsMap = Object.fromEntries(
+			currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
+		);
+		this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
+			networkDeployVaults.flatMap((vaultAddress) => {
+				const vault = networkVaultsMap[vaultAddress];
+				return vault ? [[vaultAddress, vault]] : [];
+			}),
+		);
 
 		this.refresh();
 	}
@@ -102,16 +119,21 @@ export default class VaultStore {
 		return count;
 	}
 
-	get vaultMap(): VaultMap | undefined | null {
-		return this.vaultCache[this.store.network.network.symbol];
+	get vaultMap(): VaultMap {
+		const { network } = this.store.network;
+		const vaults = this.vaultCache[network.symbol];
+		if (!vaults) {
+			return {};
+		}
+		return vaults;
 	}
 
 	get protocolSummary(): ProtocolSummary | undefined | null {
 		return this.protocolSummaryCache[this.store.network.network.symbol];
 	}
 
-	get tokenConfig(): TokenConfigRecord | undefined | null {
-		return this.tokenCache[this.store.network.network.symbol];
+	get tokenConfig(): TokenConfigRecord {
+		return this.tokenCache[this.store.network.network.symbol] ?? {};
 	}
 
 	get vaultsDefinitions(): VaultsDefinitions | undefined | null {
@@ -133,8 +155,8 @@ export default class VaultStore {
 		];
 	}
 
-	get protocolTokens(): Set<string> | undefined {
-		return this.protocolTokensCache[this.store.network.network.symbol];
+	get protocolTokens(): Set<string> {
+		return new Set(Object.keys(this.vaultMap));
 	}
 
 	get networkHasBoostVaults(): boolean {
@@ -181,42 +203,27 @@ export default class VaultStore {
 		return this.getVault(settBySlug[0]);
 	}
 
-	getVaultMapByState(state: VaultState): VaultMap | undefined | null {
-		const setts = this.getVaultMap();
-		if (!setts) {
-			return setts;
-		}
-		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
+	getVaultMapByState(state: VaultState): VaultMap {
+		return Object.fromEntries(Object.entries(this.vaultMap).filter((entry) => entry[1].state === state));
 	}
 
-	getVaultOrder(): VaultDTO[] | undefined | null {
-		const vaultMap = this.getVaultMap();
-
-		if (vaultMap === undefined || this.vaultsDefinitions === undefined) {
-			return undefined;
+	get vaultOrder(): VaultDTO[] {
+		if (this.vaultsDefinitions === undefined) {
+			return [];
 		}
 
-		if (!vaultMap || !this.vaultsDefinitions) {
-			return null;
+		if (!this.vaultsDefinitions) {
+			return [];
 		}
 
 		let vaults = Array.from(this.vaultsDefinitions.values()).flatMap((vaultDefinition) => {
-			const vault = vaultMap[ethers.utils.getAddress(vaultDefinition.vaultToken.address)];
+			const vault = this.vaultMap[ethers.utils.getAddress(vaultDefinition.vaultToken.address)];
 			return vault ? [vault] : [];
 		});
 
 		vaults = this.applyFilters(vaults);
 		vaults = this.applySorting(vaults);
 		return vaults;
-	}
-
-	getVaultMap(): VaultMap | undefined | null {
-		const { network } = this.store.network;
-		const setts = this.vaultCache[network.symbol];
-		if (!setts) {
-			return setts;
-		}
-		return setts;
 	}
 
 	getTokenConfigs(): TokenConfiguration {
@@ -247,7 +254,6 @@ export default class VaultStore {
 		const { network } = this.store.network;
 		if (network) {
 			this.initialized = false;
-			this.initializeVaultsRegistry();
 			await Promise.all([
 				this.loadVaults(network.symbol),
 				this.loadTokens(network.symbol),
@@ -257,62 +263,22 @@ export default class VaultStore {
 		}
 	}
 
-	initializeVaultsRegistry = action(() => {
-		const { network: currentNetwork } = this.store.network;
-		const networkDeployVaults = Object.values(currentNetwork.deploy.sett_system.vaults) as string[];
-		const networkVaultsMap = Object.fromEntries(
-			currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
-		);
-
-		this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
-			networkDeployVaults.flatMap((vaultAddress) => {
-				const vault = networkVaultsMap[vaultAddress];
-				return vault ? [[vaultAddress, vault]] : [];
-			}),
-		);
-
-		this.sanitizeVaultDefinitions();
-	});
-
 	loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
-		let vaultList: VaultDTO[] | null = null;
-
 		try {
-			vaultList = await this.store.sdk.api.loadVaults();
+			const vaults = await this.store.api.loadVaults();
+			this.vaultCache[chain] = Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault]));
+			this.slugCache[chain] = this.getVaultsSlugCache(vaults);
 		} catch (error) {
-			console.error('There was an error fetching vaults from API: ', error);
-			// if (FLAGS.SDK_INTEGRATION_ENABLED) {
-			// 	const sdkVaults = await this.store.sdk.vaults.loadVaults();
-			// 	vaultList = sdkVaults.map((sdkVault) => new RegistryVaultAdapter(sdkVault));
-			// }
+			console.error({
+				error,
+				message: `Error loading vaults for ${this.store.network.network}`,
+			});
 		}
-
-		if (!vaultList) {
-			this.vaultCache[chain] = null;
-			return;
-		}
-
-		const badgerToken = this.store.network.network.deploy.token;
-		const protocolTokens = new Set(vaultList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
-
-		// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
-		if (badgerToken && !protocolTokens.has(badgerToken)) {
-			protocolTokens.add(badgerToken);
-		}
-
-		this.protocolTokensCache[chain] = protocolTokens;
-		this.vaultCache[chain] = Object.fromEntries(vaultList.map((vault) => [vault.vaultToken, vault]));
-		this.slugCache[chain] = {
-			...this.slugCache[chain],
-			...this.getVaultsSlugCache(vaultList),
-		};
 	});
 
 	loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {
-		let tokenConfig: TokenConfiguration | null = null;
-
 		try {
-			tokenConfig = await this.store.sdk.api.loadTokens();
+			this.tokenCache[chain] = await this.store.api.loadTokens();
 		} catch (error) {
 			// if (FLAGS.SDK_INTEGRATION_ENABLED) {
 			// 	const tokensList = Array.from(this.vaultsDefinitions?.values() ?? []).map(
@@ -321,12 +287,10 @@ export default class VaultStore {
 			// 	tokenConfig = await this.store.sdk.tokens.loadTokens(tokensList);
 			// }
 		}
-
-		this.tokenCache[chain] = tokenConfig;
 	});
 
 	loadAssets = action(async (chain = Network.Ethereum): Promise<void> => {
-		const protocolSummary = await this.store.sdk.api.loadProtocolSummary();
+		const protocolSummary = await this.store.api.loadProtocolSummary();
 		if (protocolSummary) {
 			this.protocolSummaryCache[chain] = protocolSummary;
 		} else {
@@ -388,41 +352,6 @@ export default class VaultStore {
 		};
 		const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
 		this.store.router.queryParams = { ...Object.fromEntries(nonFilterParams) };
-	});
-
-	/**
-	 * Fetches the vaults on chain registry using the sdk and sanitizes the default registry.
-	 * This process is done async to prevent load time increase.
-	 */
-	private sanitizeVaultDefinitions = action(async () => {
-		// if (FLAGS.SDK_INTEGRATION_ENABLED && this.vaultsDefinitions) {
-		// 	const { network: currentNetwork } = this.store.network;
-		// 	const sdkVaults = await this.store.sdk.vaults.loadVaults();
-		// 	const sdkVaultsMap: VaultsDefinitions = new Map(
-		// 		sdkVaults.map((vault) => [
-		// 			vault.address,
-		// 			{
-		// 				depositToken: vault.token,
-		// 				vaultToken: {
-		// 					address: vault.address,
-		// 					decimals: vault.decimals,
-		// 					symbol: vault.symbol,
-		// 					name: vault.name,
-		// 				},
-		// 			},
-		// 		]),
-		// 	);
-		// 	this.vaultsDefinitions.forEach((vaultDefinition, vaultDefinitionKey, vaultDefinitions) => {
-		// 		const sdkVaultDefinition = sdkVaultsMap.get(vaultDefinitionKey);
-		// 		if (!sdkVaultDefinition) {
-		// 			vaultDefinitions.delete(vaultDefinitionKey);
-		// 		}
-		// 	});
-		// 	this.vaultDefinitionsCache = {
-		// 		...this.vaultDefinitionsCache,
-		// 		[currentNetwork.symbol]: new Map([...this.vaultsDefinitions, ...sdkVaultsMap]),
-		// 	};
-		// }
 	});
 
 	private applyFilters(vaults: VaultDTO[]): VaultDTO[] {
