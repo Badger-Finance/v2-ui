@@ -1,7 +1,7 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getStrategyFee } from 'mobx/utils/fees';
+import { getVaultStrategyFee } from 'mobx/utils/fees';
 import React from 'react';
 
 import { StrategyFee, userReadableFeeNames } from '../../mobx/model/system-config/stategy-fees';
@@ -24,7 +24,7 @@ export const StrategyFees = ({ vault, showEmpty = false }: Props): JSX.Element =
 	const feeKeys = Object.values(StrategyFee);
 
 	const feeItems = feeKeys.map((key) => {
-		const fee = getStrategyFee(vault, key);
+		const fee = getVaultStrategyFee(vault, key);
 		if (!fee) {
 			return null;
 		}

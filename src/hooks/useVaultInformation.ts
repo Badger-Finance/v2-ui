@@ -27,7 +27,7 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
 			? Math.max(0, vaultBoost - (showAPR ? vault.minApr : vault.minApy))
 			: null;
 
-	const depositBalanceDisplay = depositBalance.balanceValueDisplay();
+	const depositBalanceDisplay = depositBalance.balanceValueDisplay(depositBalance.balance === 0 ? 0 : 2);
 
 	return {
 		vaultBoost,

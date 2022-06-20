@@ -1,51 +1,12 @@
-import { VaultDTO, VaultStrategy } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import { FeeConfig } from 'mobx/model/fees/fee-config';
 
 import { StrategyFee } from '../model/system-config/stategy-fees';
 
-export function getStrategyFee(vault: VaultDTO, fee: StrategyFee, defaultFeeConfig?: FeeConfig): number {
+export function getVaultStrategyFee(vault: VaultDTO, fee: StrategyFee): number {
 	const { strategy } = vault;
-	let requestedFee: number | undefined;
-	if (strategy) {
-		requestedFee = getVaultStrategyFee(strategy, fee);
-	}
-	if (requestedFee === undefined) {
-		switch (fee) {
-			case StrategyFee.withdraw:
-				requestedFee = defaultFeeConfig?.withdraw?.toNumber();
-				break;
-			case StrategyFee.performance:
-				requestedFee = defaultFeeConfig?.performance?.toNumber();
-				break;
-			case StrategyFee.strategistPerformance:
-				requestedFee = defaultFeeConfig?.strategistPerformance?.toNumber();
-				break;
-			case StrategyFee.yearnManagement:
-				requestedFee = defaultFeeConfig?.yearnManagement?.toNumber();
-				break;
-			case StrategyFee.yearnPerformance:
-				requestedFee = defaultFeeConfig?.yearnPerformance?.toNumber();
-				break;
-			case StrategyFee.harvestPerformance:
-				requestedFee = defaultFeeConfig?.harvestPerformance?.toNumber();
-				break;
-			case StrategyFee.harvestStrategistPerformance:
-				requestedFee = defaultFeeConfig?.harvestStrategistPerformance?.toNumber();
-				break;
-			default:
-				break;
-		}
-	}
-	if (requestedFee === undefined) {
-		throw new Error(`${vault.name} missing default ${fee} fee`);
-	}
-	return requestedFee;
-}
-
-export function getVaultStrategyFee(strategy: VaultStrategy, fee: StrategyFee): number | undefined {
 	if (strategy.address === ethers.constants.AddressZero) {
-		return;
+		return 0;
 	}
 	switch (fee) {
 		case StrategyFee.withdraw:
@@ -57,6 +18,6 @@ export function getVaultStrategyFee(strategy: VaultStrategy, fee: StrategyFee): 
 		case StrategyFee.aumFee:
 			return strategy.aumFee;
 		default:
-			return;
+			return 0;
 	}
 }

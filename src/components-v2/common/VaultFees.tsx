@@ -46,17 +46,12 @@ export const VaultFees = observer(
 	({ vault, onHelpClick, showNoFees = true, ...rootProps }: Props): JSX.Element | null => {
 		const classes = useStyles();
 		const store = React.useContext(StoreContext);
-		const { network: networkStore } = store;
-		const { network } = networkStore;
-		const { strategy } = vault;
 
 		let totalFees = 0;
-		if (strategy && strategy.address !== ethers.constants.AddressZero) {
-			for (const fee of Object.values(StrategyFee)) {
-				const feesAmount = getVaultStrategyFee(strategy, fee);
-				if (feesAmount && feesAmount > 0) {
-					totalFees++;
-				}
+		for (const fee of Object.values(StrategyFee)) {
+			const feesAmount = getVaultStrategyFee(vault, fee);
+			if (feesAmount && feesAmount > 0) {
+				totalFees++;
 			}
 		}
 

@@ -8,8 +8,8 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
-import { getStrategyFee } from '../../../mobx/utils/fees';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
+import { getVaultStrategyFee } from 'mobx/utils/fees';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -35,7 +35,7 @@ export const VaultConversionAndFee = observer(({ vault, amount }: Props): JSX.El
 	const { vaults } = React.useContext(StoreContext);
 	const classes = useStyles();
 
-	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw);
+	const withdrawFee = getVaultStrategyFee(vault, StrategyFee.withdraw);
 	const depositToken = vaults.getToken(vault.underlyingToken);
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const depositTokenDecimals = depositToken?.decimals || 18;

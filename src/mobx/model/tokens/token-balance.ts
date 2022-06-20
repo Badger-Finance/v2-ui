@@ -83,7 +83,7 @@ export class TokenBalance {
 		if (this.tokenBalance.eq(0)) {
 			return this;
 		}
-		const tokenBalance = this.tokenBalance.mul(scalar);
+		const tokenBalance = this.tokenBalance.mul((Math.pow(10, this.token.decimals) * scalar).toString());
 		const price = scalePrice ? this.price / scalar : this.price;
 		return new TokenBalance(this.token, tokenBalance, price);
 	}

@@ -50,8 +50,7 @@ const VaultListDisplay = observer(() => {
 			return [];
 		}
 
-		const depositBalance = user.getBalance(badgerVault.vaultToken.address).scale(vault.pricePerFullShare, true);
-		const hasNoBalance = depositBalance.tokenBalance.eq(0);
+		const hasNoBalance = user.getBalance(badgerVault.vaultToken.address).tokenBalance.eq(0);
 
 		// Hide the remBadger vault from users who do not have rembadger (this default hides the sett)
 		if (badgerVault.vaultToken.address === ETH_DEPLOY.sett_system.vaults['native.rembadger'] && hasNoBalance) {
