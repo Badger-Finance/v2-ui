@@ -70,7 +70,7 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
   const base = vaultsFilters.showAPR ? apr : apy;
 	const base = vaultsFilters.showAPR ? apr : apy;
   const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
-  const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
+	const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
 
   const boostableApr = boostSources
     .filter((s) => s.boostable)
@@ -80,18 +80,18 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
 	const baseApr = base - boostableApr;
 
 	const boostableMinApr = boostSources
-    .filter((s) => s.boostable)
-    .map((s) => s.minApr)
-    .reduce((total, apr) => total + apr, 0);
-  const boostableMaxApr = boostSources
-    .filter((s) => s.boostable)
-    .map((s) => s.maxApr)
-    .reduce((total, apr) => total + apr, 0);
+		.filter((s) => s.boostable)
+		.map((s) => s.minApr)
+		.reduce((total, apr) => total + apr, 0);
+	const boostableMaxApr = boostSources
+		.filter((s) => s.boostable)
+		.map((s) => s.maxApr)
+		.reduce((total, apr) => total + apr, 0);
 
-  const range = boostableMaxApr - boostableMinApr;
+	const range = boostableMaxApr - boostableMinApr;
 
-  const boostData = boostCheckpoints.map((checkpoint) => {
-    const rangeScalar = (checkpoint === 0 ? 1 : checkpoint) / MAX_BOOST;
+	const boostData = boostCheckpoints.map((checkpoint) => {
+		const rangeScalar = (checkpoint === 0 ? 1 : checkpoint) / MAX_BOOST;
     return {
       x: checkpoint,
       y: (baseApr + rangeScalar * range) / 100,
