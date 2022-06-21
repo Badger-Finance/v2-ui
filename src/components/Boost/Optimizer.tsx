@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { calculateNativeToMatchRank } from '../../utils/boost-ranks';
+import { isValidCalculatedValue } from '../../utils/componentHelpers';
 import { OptimizerBody } from './OptimizerBody';
 import OptimizerHeader from './OptimizerHeader';
 import { StakeInformation } from './StakeInformation';
@@ -152,7 +153,7 @@ export const Optimizer = observer((): JSX.Element => {
 
     setNative(nativeBalance.toFixed(4));
     setNonNative(nonNativeBalance.toFixed(4));
-    setStakeRatio(stakeRatio);
+    setStakeRatio(isValidCalculatedValue(stakeRatio) ? stakeRatio : 0);
   }, [accountDetails, wallet, sdk.address]);
 
   return (
