@@ -27,7 +27,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { wallet } = store;
-	const { claimable, loadingTree } = store.tree;
+	const { claimable, loadingTree, initialized } = store.tree;
 
 	const totalRewardsValue = Object.keys(claimable).reduce(
 		(total, claimKey) => (total += claimable[claimKey].value),
@@ -48,7 +48,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
 		);
 	}
 
-	if (loadingTree) {
+	if (!initialized || loadingTree) {
 		return (
 			<Button variant="outlined" color="primary" className={clsx(classes.button, classes.loadingRewardsButton)}>
 				<Loader size={15} />

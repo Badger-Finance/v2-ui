@@ -70,14 +70,6 @@ class UiStateStore {
 		}
 	});
 
-	queueNotification = action((message: string, variant: SnackbarNotificationProps['variant'], hash?: string) => {
-		this.notification = { message, variant, hash: hash };
-	});
-
-	queueError(message: string): void {
-		this.queueNotification(message, 'error');
-	}
-
 	// TODO: this does nothing?
 	setTxStatus = action((status?: string) => {
 		this.txStatus = status;

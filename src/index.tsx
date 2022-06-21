@@ -6,12 +6,15 @@ import { StoreProvider } from 'mobx/stores/store-context';
 import { startRouter } from 'mobx-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { App } from './components/App';
 import NetworkURLManager from './components-v2/NetworkURLManager';
 import routes from './config/routes';
 import { darkTheme } from './config/ui/dark';
 import store from './mobx/stores/RootStore';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 startRouter(routes, store, {
 	html5history: true,
@@ -28,6 +31,13 @@ ReactDOM.render(
 			<CssBaseline />
 			<NetworkURLManager />
 			<App />
+			<ToastContainer
+				position="bottom-right"
+				newestOnTop={true}
+				closeOnClick
+				theme="dark"
+				draggable
+			/>
 		</ThemeProvider>
 	</StoreProvider>,
 	document.getElementById('root'),

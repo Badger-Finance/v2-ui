@@ -6,6 +6,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { RootStore } from './RootStore';
 
 export class TreeStore {
+	public initialized = false;
 	public cycle?: number = undefined;
 	public lastUpdateTimestamp?: number = undefined;
 	public lastUpdate?: string = undefined;
@@ -34,6 +35,7 @@ export class TreeStore {
 			return;
 		}
 
+		this.initialized = true;
 		this.loadingTree = true;
 
 		// Load user claim proofs
@@ -104,6 +106,7 @@ export class TreeStore {
 	}
 
 	reset() {
+		this.initialized = false;
 		this.cycle = undefined;
 		this.lastUpdate = undefined;
 		this.claimProof = undefined;

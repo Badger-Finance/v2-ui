@@ -31,7 +31,6 @@ const WalletWidget = observer(() => {
 	const { uiState, wallet } = store;
 
 	async function connect(): Promise<void> {
-		console.log(`Connected: ${wallet.isConnected}`);
 		if (wallet.isConnected) {
 			uiState.toggleWalletDrawer();
 		} else {
@@ -42,7 +41,6 @@ const WalletWidget = observer(() => {
 				const isEmptyAccounts = String(error).includes('Error: accounts received is empty');
 				if (!isModalClosed && !isEmptyAccounts) {
 					console.error(error);
-					uiState.queueError('Issue connecting, please try again');
 				}
 			}
 		}
