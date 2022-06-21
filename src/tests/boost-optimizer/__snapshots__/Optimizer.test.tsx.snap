@@ -20,16 +20,16 @@ exports[`Boost Optimizer can jump to rank 1`] = `
             <div
               class="MuiGrid-root-6 makeStyles-boostSectionContainer-141 MuiGrid-item-8"
             >
-              <p
-                class="MuiTypography-root-143 makeStyles-boostText-138 MuiTypography-body1-145 MuiTypography-displayInline-171"
+              <h6
+                class="MuiTypography-root-143 makeStyles-boostText-138 MuiTypography-h6-153 MuiTypography-displayInline-171"
               >
                 Boost:
-              </p>
-              <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-406 MuiTypography-body1-145 MuiTypography-displayInline-171"
-              >
-                1x
-              </p>
+                <span
+                  class="makeStyles-boostValue-139 makeStyles-fontColor-406"
+                >
+                  1x
+                </span>
+              </h6>
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
@@ -764,16 +764,16 @@ exports[`Boost Optimizer displays correct information 1`] = `
             <div
               class="MuiGrid-root-6 makeStyles-boostSectionContainer-141 MuiGrid-item-8"
             >
-              <p
-                class="MuiTypography-root-143 makeStyles-boostText-138 MuiTypography-body1-145 MuiTypography-displayInline-171"
+              <h6
+                class="MuiTypography-root-143 makeStyles-boostText-138 MuiTypography-h6-153 MuiTypography-displayInline-171"
               >
                 Boost:
-              </p>
-              <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-366 MuiTypography-body1-145 MuiTypography-displayInline-171"
-              >
-                1x
-              </p>
+                <span
+                  class="makeStyles-boostValue-139 makeStyles-fontColor-366"
+                >
+                  1x
+                </span>
+              </h6>
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
@@ -1486,16 +1486,16 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
             <div
               class="MuiGrid-root-6 makeStyles-boostSectionContainer-141 MuiGrid-item-8"
             >
-              <p
-                class="MuiTypography-root-143 makeStyles-boostText-138 MuiTypography-body1-145 MuiTypography-displayInline-171"
+              <h6
+                class="MuiTypography-root-143 makeStyles-boostText-138 MuiTypography-h6-153 MuiTypography-displayInline-171"
               >
                 Boost:
-              </p>
-              <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-142 MuiTypography-body1-145 MuiTypography-displayInline-171"
-              >
-                1x
-              </p>
+                <span
+                  class="makeStyles-boostValue-139 makeStyles-fontColor-142"
+                >
+                  1x
+                </span>
+              </h6>
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
