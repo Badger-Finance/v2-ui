@@ -40,27 +40,27 @@ const useStakeRatioClasses = (currentStakeRatio: number, accountStakeRatio = 0) 
 };
 
 const useStyles = makeStyles((theme) => ({
-  header: {
-    justifyContent: 'space-between',
-    [theme.breakpoints.down(480)]: {
-      justifyContent: 'center',
-    },
-  },
-  boostText: {
-    fontSize: theme.spacing(4),
-    fontWeight: 400,
-  },
-  boostValue: {
-    fontSize: theme.spacing(4),
-    marginLeft: theme.spacing(1),
-  },
-  invalidMultiplier: {
-    color: theme.palette.error.main,
-  },
-  boostSectionContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
+	header: {
+		justifyContent: 'space-between',
+		[theme.breakpoints.down(480)]: {
+			justifyContent: 'center',
+		},
+	},
+	boostText: {
+		fontSize: theme.spacing(4),
+		fontWeight: 400,
+	},
+	boostValue: {
+		fontSize: theme.spacing(4),
+		marginLeft: theme.spacing(1),
+	},
+	invalidMultiplier: {
+		color: theme.palette.error.main,
+	},
+	boostSectionContainer: {
+		display: 'flex',
+		alignItems: 'center',
+	},
 }));
 
 interface Props {
@@ -82,8 +82,8 @@ const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => {
     <Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
       <Grid item className={classes.boostSectionContainer}>
         <Typography display="inline" variant="h6" className={classes.boostText}>
-          Boost:
-          <span className={clsx(classes.boostValue, boostClasses.fontColor)}>{`${currentBoost}x`}</span>
+					Boost:
+					<span className={clsx(classes.boostValue, boostClasses.fontColor)}>{`${currentBoost}x`}</span>
         </Typography>
         <Tooltip
           enterTouchDelay={0}
