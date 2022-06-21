@@ -10,6 +10,7 @@ import OptimizerHeader from './OptimizerHeader';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 import { calculateNativeToMatchRank } from '../../utils/boost-ranks';
+import { isValidCalculatedValue } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
@@ -142,7 +143,7 @@ export const Optimizer = observer((): JSX.Element => {
 
 		setNative(formatWithoutExtraZeros(nativeBalance, 4));
 		setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
-		setStakeRatio(stakeRatio);
+		setStakeRatio(isValidCalculatedValue(stakeRatio) ? stakeRatio : 0);
 	}, [accountDetails, wallet, wallet.address]);
 
 	return (

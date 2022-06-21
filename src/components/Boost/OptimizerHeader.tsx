@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	boostText: {
 		fontSize: theme.spacing(4),
+		fontWeight: 400,
 	},
 	boostValue: {
 		fontSize: theme.spacing(4),
@@ -79,11 +80,9 @@ const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => {
 	return (
 		<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
 			<Grid item className={classes.boostSectionContainer}>
-				<Typography display="inline" className={classes.boostText}>
+				<Typography display="inline" variant="h6" className={classes.boostText}>
 					Boost:
-				</Typography>
-				<Typography display="inline" className={clsx(classes.boostValue, boostClasses.fontColor)}>
-					{`${currentBoost}x`}
+					<span className={clsx(classes.boostValue, boostClasses.fontColor)}>{`${currentBoost}x`}</span>
 				</Typography>
 				<Tooltip
 					enterTouchDelay={0}
