@@ -10,6 +10,7 @@ import { isValidCalculatedValue } from '../../utils/componentHelpers';
 import { OptimizerBody } from './OptimizerBody';
 import OptimizerHeader from './OptimizerHeader';
 import { StakeInformation } from './StakeInformation';
+import { isValidCalculatedValue } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
   calculatorContainer: {
