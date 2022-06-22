@@ -1,4 +1,9 @@
-import { Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
+import {
+  Protocol,
+  VaultBehavior,
+  VaultState,
+  VaultType,
+} from '@badger-dao/sdk';
 
 export enum VaultSortOrder {
   APR_ASC = 'APR_ASC',

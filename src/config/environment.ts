@@ -51,7 +51,8 @@ export const BADGER_API = getApi();
 
 /* App Feature Flags */
 
-const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
+const toBool = (val: string | undefined): boolean =>
+  val ? val.toLowerCase() === 'true' : false;
 
 export const FLAGS = {
   GOVERNANCE_TIMELOCK: toBool(process.env.REACT_APP_GOVERNANCE_TIMELOCK),

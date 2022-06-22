@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom';
 
-import { numberWithCommas, parseQueryMultipleParams } from '../../mobx/utils/helpers';
+import {
+  numberWithCommas,
+  parseQueryMultipleParams,
+} from '../../mobx/utils/helpers';
 
 describe('helpers', () => {
   describe('numberWithCommas', () => {
