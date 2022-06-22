@@ -46,7 +46,16 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+		"prepare": "husky install",
+		"test:coverage": "react-scripts test --silent --ci --coverage --watchAll=false --coverageReporters=\"text\" --coverageReporters=\"text-summary\" --json --outputFile=report.json",
+		"lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
+    "format": "yarn pretty-quick",
+    "codegen:contracts": "typechain --target ethers-v5 --out-dir src/contracts src/abi/*.abi",
+    "requirements-check": "node check-version.js",
+    "postinstall": "yarn requirements-check",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": [
