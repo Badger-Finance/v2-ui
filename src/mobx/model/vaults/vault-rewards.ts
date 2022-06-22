@@ -1,5 +1,5 @@
 export enum DelaySeverity {
-	none = 'none',
-	medium = 'medium',
-	high = 'high',
+  none = 'none',
+  medium = 'medium',
+  high = 'high',
 }

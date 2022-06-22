@@ -5,7 +5,7 @@ import { Breadcrumb } from '../../components-v2/vault-detail/Breadcrumb';
 import { SAMPLE_VAULT } from '../utils/samples';
 
 describe('Breadcrumb', () => {
-	it('displays sett breadcrumb', () => {
-		checkSnapshot(<Breadcrumb vault={SAMPLE_VAULT} />);
-	});
+  it('displays sett breadcrumb', () => {
+    checkSnapshot(<Breadcrumb vault={SAMPLE_VAULT} />);
+  });
 });

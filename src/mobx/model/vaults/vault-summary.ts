@@ -1,5 +1,5 @@
 export interface VaultSummary {
-	name: string;
-	value: number;
-	balance: number;
+  name: string;
+  value: number;
+  balance: number;
 }

@@ -1,6 +1,6 @@
 export interface LockedContractInfo {
-	vaultAddress: string;
-	strategyAddress: string;
-	underlyingTokenAddress: string;
-	lockingContractAddress: string;
+  vaultAddress: string;
+  strategyAddress: string;
+  underlyingTokenAddress: string;
+  lockingContractAddress: string;
 }

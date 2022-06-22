@@ -1,5 +1,5 @@
 import { StrategyConfig } from './strategy-config';
 
 export interface StrategyNetworkConfig {
-	[vaultAddress: string]: StrategyConfig;
+  [vaultAddress: string]: StrategyConfig;
 }

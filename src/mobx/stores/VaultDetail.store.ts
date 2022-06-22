@@ -5,112 +5,115 @@ import { ETH_DEPLOY } from '../model/network/eth.network';
 import { RootStore } from './RootStore';
 
 export class VaultDetailStore {
-	private readonly store: RootStore;
-	private searchSlug: string | undefined;
-	private searchedVault: VaultDTO | undefined | null;
+  private readonly store: RootStore;
+  private searchSlug: string | undefined;
+  private searchedVault: VaultDTO | undefined | null;
 
-	private comesFromPortfolioView = false;
-	private shouldShowDepositDialog = false;
-	private shouldShowWithdrawDialog = false;
+  private comesFromPortfolioView = false;
+  private shouldShowDepositDialog = false;
+  private shouldShowWithdrawDialog = false;
 
-	constructor(store: RootStore) {
-		this.store = store;
+  constructor(store: RootStore) {
+    this.store = store;
 
-		extendObservable(this, {
-			searchSlug: this.searchSlug,
-			searchedVault: this.searchedVault,
-			comesFromPortfolioView: this.comesFromPortfolioView,
-			shouldShowDepositDialog: this.shouldShowDepositDialog,
-			shouldShowWithdrawDialog: this.shouldShowWithdrawDialog,
-		});
+    extendObservable(this, {
+      searchSlug: this.searchSlug,
+      searchedVault: this.searchedVault,
+      comesFromPortfolioView: this.comesFromPortfolioView,
+      shouldShowDepositDialog: this.shouldShowDepositDialog,
+      shouldShowWithdrawDialog: this.shouldShowWithdrawDialog,
+    });
 
-		observe(store.network, 'network', () => {
-			this.searchSlugInformation();
-		});
+    observe(store.network, 'network', () => {
+      this.searchSlugInformation();
+    });
 
-		observe(store.vaults, 'initialized', () => {
-			this.searchSlugInformation();
-		});
-	}
+    observe(store.vaults, 'initialized', () => {
+      this.searchSlugInformation();
+    });
+  }
 
-	get shouldShowDirectAccountInformation(): boolean {
-		return this.comesFromPortfolioView;
-	}
+  get shouldShowDirectAccountInformation(): boolean {
+    return this.comesFromPortfolioView;
+  }
 
-	get vault(): VaultDTO | undefined | null {
-		return this.searchedVault;
-	}
+  get vault(): VaultDTO | undefined | null {
+    return this.searchedVault;
+  }
 
-	get isLoading(): boolean {
-		return this.searchedVault === undefined;
-	}
+  get isLoading(): boolean {
+    return this.searchedVault === undefined;
+  }
 
-	get isNotFound(): boolean {
-		return this.searchedVault === null;
-	}
+  get isNotFound(): boolean {
+    return this.searchedVault === null;
+  }
 
-	get isDepositDialogDisplayed(): boolean {
-		return this.shouldShowDepositDialog;
-	}
+  get isDepositDialogDisplayed(): boolean {
+    return this.shouldShowDepositDialog;
+  }
 
-	get isWithdrawDialogDisplayed(): boolean {
-		return this.shouldShowWithdrawDialog;
-	}
+  get isWithdrawDialogDisplayed(): boolean {
+    return this.shouldShowWithdrawDialog;
+  }
 
-	get canUserWithdraw(): boolean {
-		if (!this.searchedVault) {
-			return false;
-		}
-		const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
-		const openBalance = this.store.user.getBalance(vault.vaultToken).balance;
-		const guardedBalance = this.store.user.getBalance(vault.vaultToken).balance;
+  get canUserWithdraw(): boolean {
+    if (!this.searchedVault) {
+      return false;
+    }
+    const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
+    const openBalance = this.store.user.getBalance(vault.vaultToken).balance;
+    const guardedBalance = this.store.user.getBalance(vault.vaultToken).balance;
 
-		return openBalance + guardedBalance > 0;
-	}
+    return openBalance + guardedBalance > 0;
+  }
 
-	get canUserDeposit(): boolean {
-		const isConnected = this.store.wallet.isConnected;
+  get canUserDeposit(): boolean {
+    const isConnected = this.store.wallet.isConnected;
 
-		if (!isConnected || !this.searchedVault) {
-			return false;
-		}
+    if (!isConnected || !this.searchedVault) {
+      return false;
+    }
 
-		// rem badger does not support deposit
-		if (this.searchedVault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger']) {
-			return false;
-		}
+    // rem badger does not support deposit
+    if (
+      this.searchedVault.vaultToken ===
+      ETH_DEPLOY.sett_system.vaults['native.rembadger']
+    ) {
+      return false;
+    }
 
-		return this.store.user.onGuestList(this.searchedVault);
-	}
+    return this.store.user.onGuestList(this.searchedVault);
+  }
 
-	toggleDepositDialog(): void {
-		this.shouldShowDepositDialog = !this.shouldShowDepositDialog;
-	}
+  toggleDepositDialog(): void {
+    this.shouldShowDepositDialog = !this.shouldShowDepositDialog;
+  }
 
-	toggleWithdrawDialog(): void {
-		this.shouldShowWithdrawDialog = !this.shouldShowWithdrawDialog;
-	}
+  toggleWithdrawDialog(): void {
+    this.shouldShowWithdrawDialog = !this.shouldShowWithdrawDialog;
+  }
 
-	setAccountViewMode(): void {
-		this.comesFromPortfolioView = true;
-	}
+  setAccountViewMode(): void {
+    this.comesFromPortfolioView = true;
+  }
 
-	setSearchSlug = action((slug: string) => {
-		this.searchSlug = slug;
-		this.searchSlugInformation();
-	});
+  setSearchSlug = action((slug: string) => {
+    this.searchSlug = slug;
+    this.searchSlugInformation();
+  });
 
-	reset = action(() => {
-		this.searchedVault = undefined;
-		this.searchSlug = undefined;
-		this.comesFromPortfolioView = false;
-	});
+  reset = action(() => {
+    this.searchedVault = undefined;
+    this.searchSlug = undefined;
+    this.comesFromPortfolioView = false;
+  });
 
-	private searchSlugInformation() {
-		const { vaults } = this.store;
+  private searchSlugInformation() {
+    const { vaults } = this.store;
 
-		if (this.searchSlug && vaults.initialized) {
-			this.searchedVault = vaults.getVaultBySlug(this.searchSlug);
-		}
-	}
+    if (this.searchSlug && vaults.initialized) {
+      this.searchedVault = vaults.getVaultBySlug(this.searchSlug);
+    }
+  }
 }

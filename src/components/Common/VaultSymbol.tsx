@@ -4,30 +4,31 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
-	symbol: {
-		marginTop: 'auto',
-		marginBottom: 'auto',
-		padding: theme.spacing(0, 0, 0, 0),
-		marginRight: theme.spacing(2),
-		display: 'inline-block',
-		float: 'left',
-		width: '2.4rem',
-	},
+  symbol: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    padding: theme.spacing(0, 0, 0, 0),
+    marginRight: theme.spacing(2),
+    display: 'inline-block',
+    float: 'left',
+    width: '2.4rem',
+  },
 }));
 
 export const VaultSymbol = observer((props: any) => {
-	const classes = useStyles();
-	const { token, iconName } = props;
+  const classes = useStyles();
+  const { token, iconName } = props;
 
-	// Return a formatted Vault Icon for the vault forms
-	if (!token) return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />;
-	else {
-		return (
-			<img
-				alt={`Badger ${token.asset} Vault Symbol`}
-				className={classes.symbol}
-				src={`assets/icons/${iconName}.png`}
-			/>
-		);
-	}
+  // Return a formatted Vault Icon for the vault forms
+  if (!token)
+    return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />;
+  else {
+    return (
+      <img
+        alt={`Badger ${token.asset} Vault Symbol`}
+        className={classes.symbol}
+        src={`assets/icons/${iconName}.png`}
+      />
+    );
+  }
 });

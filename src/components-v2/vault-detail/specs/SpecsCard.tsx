@@ -11,42 +11,42 @@ import VaultDetailLinks from './VaultDetailLinks';
 import VaultMetrics from './VaultMetrics';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		flexDirection: 'column',
-		padding: theme.spacing(2),
-		display: 'flex',
-	},
-	specSection: {
-		marginBottom: 20,
-	},
+  root: {
+    flexDirection: 'column',
+    padding: theme.spacing(2),
+    display: 'flex',
+  },
+  specSection: {
+    marginBottom: 20,
+  },
 }));
 
 interface Props {
-	vault: VaultDTO;
+  vault: VaultDTO;
 }
 
 const SpecsCard = ({ vault }: Props): JSX.Element => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	return (
-		<CardContainer className={classes.root}>
-			<Grid item xs className={classes.specSection}>
-				<VaultMetrics vault={vault} />
-			</Grid>
-			<Grid item xs className={classes.specSection}>
-				<Tokens vault={vault} />
-			</Grid>
-			<Grid item xs className={classes.specSection}>
-				<Claims />
-			</Grid>
-			<Grid item xs className={classes.specSection}>
-				<Fees vault={vault} />
-			</Grid>
-			<Grid item xs>
-				<VaultDetailLinks vault={vault} />
-			</Grid>
-		</CardContainer>
-	);
+  return (
+    <CardContainer className={classes.root}>
+      <Grid item xs className={classes.specSection}>
+        <VaultMetrics vault={vault} />
+      </Grid>
+      <Grid item xs className={classes.specSection}>
+        <Tokens vault={vault} />
+      </Grid>
+      <Grid item xs className={classes.specSection}>
+        <Claims />
+      </Grid>
+      <Grid item xs className={classes.specSection}>
+        <Fees vault={vault} />
+      </Grid>
+      <Grid item xs>
+        <VaultDetailLinks vault={vault} />
+      </Grid>
+    </CardContainer>
+  );
 };
 
 export default SpecsCard;

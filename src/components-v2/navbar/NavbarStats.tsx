@@ -11,161 +11,170 @@ import { getFormattedNetworkName } from '../../utils/componentHelpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		position: 'relative',
-		width: 'calc(100% + 30px)',
-		margin: '-30px 0 0 -30px',
-		overflowY: 'hidden',
-		[theme.breakpoints.down('sm')]: {
-			overflowX: 'auto',
-			flexWrap: 'nowrap',
-		},
-		'& > *': {
-			display: 'flex',
-			margin: '30px 0 0 30px',
-			flexWrap: 'none',
-			flexShrink: 0,
-		},
-	},
-	loader: {
-		display: 'inline-flex',
-		marginLeft: 4,
-	},
-	assets: {
-		[theme.breakpoints.down('md')]: {
-			display: 'none',
-		},
-	},
-	arrowRightContainer: {
-		position: 'absolute',
-		top: 0,
-		right: 0,
-		justifyContent: 'center',
-		display: 'flex',
-		alignItems: 'center',
-		width: 36,
-		height: 46,
-		zIndex: 1,
-		opacity: 0.8,
-		cursor: 'pointer',
-		background: '#2a2a2a',
-	},
+  root: {
+    position: 'relative',
+    width: 'calc(100% + 30px)',
+    margin: '-30px 0 0 -30px',
+    overflowY: 'hidden',
+    [theme.breakpoints.down('sm')]: {
+      overflowX: 'auto',
+      flexWrap: 'nowrap',
+    },
+    '& > *': {
+      display: 'flex',
+      margin: '30px 0 0 30px',
+      flexWrap: 'none',
+      flexShrink: 0,
+    },
+  },
+  loader: {
+    display: 'inline-flex',
+    marginLeft: 4,
+  },
+  assets: {
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
+  arrowRightContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    justifyContent: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    width: 36,
+    height: 46,
+    zIndex: 1,
+    opacity: 0.8,
+    cursor: 'pointer',
+    background: '#2a2a2a',
+  },
 }));
 
 export const NavbarStats = observer((): JSX.Element => {
-	const {
-		prices,
-		wallet,
-		user,
-		network: { network },
-		tree,
-		vaults: { protocolSummary },
-	} = useContext(StoreContext);
+  const {
+    prices,
+    wallet,
+    user: { portfolioValue },
+    network: { network },
+    tree,
+    vaults: { protocolSummary },
+  } = useContext(StoreContext);
 
-	const barRef = useRef<HTMLDivElement>(null);
-	const [hasScrollableContent, setHasScrollableContent] = useState(false);
-	const [hasReachedScrollEnd, setHasReachedScrollEnd] = useState(false);
-	const classes = useStyles();
+  const barRef = useRef<HTMLDivElement>(null);
+  const [hasScrollableContent, setHasScrollableContent] = useState(false);
+  const [hasReachedScrollEnd, setHasReachedScrollEnd] = useState(false);
+  const classes = useStyles();
 
-	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
-	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
-	const totalValueLocked = protocolSummary ? protocolSummary.totalValue : undefined;
-	const portfolioValue = wallet.isConnected && user.initialized ? user.portfolioValue : 0;
-	const chainName = getFormattedNetworkName(network);
-	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
+  const badgerToken =
+    network.deploy.token.length > 0 ? network.deploy.token : undefined;
+  const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
+  const totalValueLocked = protocolSummary
+    ? protocolSummary.totalValue
+    : undefined;
+  const chainName = getFormattedNetworkName(network);
+  const valuePlaceholder = (
+    <Skeleton animation="wave" width={32} className={classes.loader} />
+  );
 
-	const handleScrollClick = () => {
-		if (barRef.current) {
-			barRef.current.scrollTo({
-				top: 0,
-				left: barRef.current.scrollLeft + 50,
-				behavior: 'smooth',
-			});
-		}
-	};
+  const handleScrollClick = () => {
+    if (barRef.current) {
+      barRef.current.scrollTo({
+        top: 0,
+        left: barRef.current.scrollLeft + 50,
+        behavior: 'smooth',
+      });
+    }
+  };
 
-	// track scrolling activity to display right arrow icon on mobile if there is content to be scrolled
-	useEffect(() => {
-		const ref = barRef.current;
+  // track scrolling activity to display right arrow icon on mobile if there is content to be scrolled
+  useEffect(() => {
+    const ref = barRef.current;
 
-		const sizeObserver = new ResizeObserver((entries) => {
-			const target = entries[0].target as HTMLDivElement;
-			const hasReachedEnd = target.scrollLeft + target.offsetWidth === target.scrollWidth;
-			setHasScrollableContent(target.scrollWidth > target.clientWidth);
-			setHasReachedScrollEnd(hasReachedEnd);
-		});
+    const sizeObserver = new ResizeObserver((entries) => {
+      const target = entries[0].target as HTMLDivElement;
+      const hasReachedEnd =
+        target.scrollLeft + target.offsetWidth === target.scrollWidth;
+      setHasScrollableContent(target.scrollWidth > target.clientWidth);
+      setHasReachedScrollEnd(hasReachedEnd);
+    });
 
-		function updateScrollPosition(event: Event) {
-			const target = event.target as HTMLDivElement;
-			const hasReachedEnd = target.scrollLeft + target.offsetWidth === target.scrollWidth;
-			setHasReachedScrollEnd(hasReachedEnd);
-		}
+    function updateScrollPosition(event: Event) {
+      const target = event.target as HTMLDivElement;
+      const hasReachedEnd =
+        target.scrollLeft + target.offsetWidth === target.scrollWidth;
+      setHasReachedScrollEnd(hasReachedEnd);
+    }
 
-		if (ref) {
-			setHasScrollableContent(ref.scrollWidth > ref.clientWidth);
-			sizeObserver.observe(ref);
-			ref.addEventListener('scroll', updateScrollPosition);
+    if (ref) {
+      setHasScrollableContent(ref.scrollWidth > ref.clientWidth);
+      sizeObserver.observe(ref);
+      ref.addEventListener('scroll', updateScrollPosition);
 
-			return () => {
-				ref.removeEventListener('scroll', updateScrollPosition);
-				sizeObserver.unobserve(ref);
-			};
-		}
-	}, []);
+      return () => {
+        ref.removeEventListener('scroll', updateScrollPosition);
+        sizeObserver.unobserve(ref);
+      };
+    }
+  }, []);
 
-	return (
-		<>
-			{hasScrollableContent && !hasReachedScrollEnd && (
-				<div className={classes.arrowRightContainer} onClick={handleScrollClick}>
-					<ChevronRightIcon />
-				</div>
-			)}
-			<Grid container className={classes.root} ref={barRef} id="here-ref">
-				<Grid item>
-					<Typography variant="helperText" display="inline">
-						BADGER Price: &nbsp;
-					</Typography>
-					{badgerPrice ? (
-						<CurrencyDisplay
-							displayValue={`$${numberWithCommas(badgerPrice.toFixed(2))}`}
-							variant="helperText"
-							justifyContent="flex-start"
-						/>
-					) : (
-						valuePlaceholder
-					)}
-				</Grid>
-				<Grid item>
-					<Typography variant="helperText" display="inline">
-						Cycle: {tree.cycle} &nbsp;
-						{tree.lastUpdate && `(last: ${tree.lastUpdate})`}
-					</Typography>
-				</Grid>
-				<Grid item>
-					<Typography variant="helperText" display="inline">
-						{chainName} TVL: &nbsp;
-					</Typography>
-					{totalValueLocked ? (
-						<CurrencyDisplay
-							displayValue={`$${numberWithCommas(totalValueLocked.toFixed())}`}
-							variant="helperText"
-							justifyContent="flex-start"
-						/>
-					) : (
-						valuePlaceholder
-					)}
-				</Grid>
-				<Grid item className={classes.assets}>
-					<Typography variant="helperText" display="inline">
-						My Assets: &nbsp;
-					</Typography>
-					<CurrencyDisplay
-						displayValue={`$${numberWithCommas(portfolioValue.toFixed())}`}
-						variant="helperText"
-						justifyContent="flex-start"
-					/>
-				</Grid>
-			</Grid>
-		</>
-	);
+  return (
+    <>
+      {hasScrollableContent && !hasReachedScrollEnd && (
+        <div
+          className={classes.arrowRightContainer}
+          onClick={handleScrollClick}
+        >
+          <ChevronRightIcon />
+        </div>
+      )}
+      <Grid container className={classes.root} ref={barRef} id="here-ref">
+        <Grid item>
+          <Typography variant="helperText" display="inline">
+            BADGER Price: &nbsp;
+          </Typography>
+          {badgerPrice ? (
+            <CurrencyDisplay
+              displayValue={`$${numberWithCommas(badgerPrice.toFixed(2))}`}
+              variant="helperText"
+              justifyContent="flex-start"
+            />
+          ) : (
+            valuePlaceholder
+          )}
+        </Grid>
+        <Grid item>
+          <Typography variant="helperText" display="inline">
+            Cycle: {tree.cycle} &nbsp;
+            {tree.lastUpdate && `(last: ${tree.lastUpdate})`}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="helperText" display="inline">
+            {chainName} TVL: &nbsp;
+          </Typography>
+          {totalValueLocked ? (
+            <CurrencyDisplay
+              displayValue={`$${numberWithCommas(totalValueLocked.toFixed())}`}
+              variant="helperText"
+              justifyContent="flex-start"
+            />
+          ) : (
+            valuePlaceholder
+          )}
+        </Grid>
+        <Grid item className={classes.assets}>
+          <Typography variant="helperText" display="inline">
+            My Assets: &nbsp;
+          </Typography>
+          <CurrencyDisplay
+            displayValue={`$${numberWithCommas(portfolioValue.toFixed())}`}
+            variant="helperText"
+            justifyContent="flex-start"
+          />
+        </Grid>
+      </Grid>
+    </>
+  );
 });

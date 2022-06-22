@@ -7,25 +7,30 @@ import { DepositFeesInformation } from '../../common/DepositFeesInformation';
 import { VaultFees } from '../../common/VaultFees';
 
 interface Props {
-	vault: VaultDTO;
+  vault: VaultDTO;
 }
 
 export const Fees = ({ vault }: Props): JSX.Element => {
-	const [openFeesDialog, setOpenFeesDialog] = useState(false);
-	const toggleDialog = () => setOpenFeesDialog(!openFeesDialog);
+  const [openFeesDialog, setOpenFeesDialog] = useState(false);
+  const toggleDialog = () => setOpenFeesDialog(!openFeesDialog);
 
-	return (
-		<>
-			<Dialog open={openFeesDialog} onClose={toggleDialog} fullWidth maxWidth="xl">
-				<DepositFeesInformation
-					closeIcon={
-						<IconButton onClick={toggleDialog}>
-							<CloseIcon />
-						</IconButton>
-					}
-				/>
-			</Dialog>
-			<VaultFees vault={vault} showNoFees onHelpClick={toggleDialog} />
-		</>
-	);
+  return (
+    <>
+      <Dialog
+        open={openFeesDialog}
+        onClose={toggleDialog}
+        fullWidth
+        maxWidth="xl"
+      >
+        <DepositFeesInformation
+          closeIcon={
+            <IconButton onClick={toggleDialog}>
+              <CloseIcon />
+            </IconButton>
+          }
+        />
+      </Dialog>
+      <VaultFees vault={vault} showNoFees onHelpClick={toggleDialog} />
+    </>
+  );
 };

@@ -9,11 +9,11 @@ import { Network } from 'mobx/model/network/network';
 import { DEBUG } from './environment';
 
 export const supportedNetworks: Network[] = [
-	new Ethereum(),
-	...(DEBUG ? [new Local()] : []),
-	new Polygon(),
-	new BinanceSmartChain(),
-	new Arbitrum(),
-	new Fantom(),
+  new Ethereum(),
+  ...(DEBUG ? [new Local()] : []),
+  new Polygon(),
+  new BinanceSmartChain(),
+  new Arbitrum(),
+  new Fantom(),
 ];
 export const defaultNetwork = supportedNetworks[0];

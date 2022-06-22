@@ -1,23 +1,23 @@
 import {
-	makeStyles,
-	Typography as MuiTypography,
-	TypographyProps as MuiTypographyProps,
-	TypographyVariant as MuiTypographyVariant,
+  makeStyles,
+  Typography as MuiTypography,
+  TypographyProps as MuiTypographyProps,
+  TypographyVariant as MuiTypographyVariant,
 } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 
 const useStyles = makeStyles({
-	helperText: {
-		fontSize: 12,
-		fontWeight: 400,
-	},
+  helperText: {
+    fontSize: 12,
+    fontWeight: 400,
+  },
 });
 
 export type TypographyVariant = MuiTypographyVariant | 'helperText';
 
 export interface TypographyProps extends Omit<MuiTypographyProps, 'variant'> {
-	variant?: TypographyVariant;
+  variant?: TypographyVariant;
 }
 
 /**
@@ -25,19 +25,23 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'variant'> {
  * TODO: upgrade to MUI v5 to add custom variants through Typescript
  * @see https://github.com/mui/material-ui/issues/22257#issuecomment-776300833
  */
-export const Typography = ({ variant, className, ...props }: TypographyProps): JSX.Element => {
-	// idk matieral ui is stupid
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	const classes = useStyles() as Record<string, {}>;
-	const isCustom = variant ? Object.keys(classes).indexOf(variant) > -1 : false;
-	const customClassName = variant ? classes[variant] : undefined;
-	return (
-		<MuiTypography
-			className={isCustom ? clsx(customClassName, className) : className}
-			variant={(isCustom ? 'inherit' : variant) as MuiTypographyVariant}
-			{...props}
-		>
-			{props.children}
-		</MuiTypography>
-	);
+export const Typography = ({
+  variant,
+  className,
+  ...props
+}: TypographyProps): JSX.Element => {
+  // idk matieral ui is stupid
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  const classes = useStyles() as Record<string, {}>;
+  const isCustom = variant ? Object.keys(classes).indexOf(variant) > -1 : false;
+  const customClassName = variant ? classes[variant] : undefined;
+  return (
+    <MuiTypography
+      className={isCustom ? clsx(customClassName, className) : className}
+      variant={(isCustom ? 'inherit' : variant) as MuiTypographyVariant}
+      {...props}
+    >
+      {props.children}
+    </MuiTypography>
+  );
 };

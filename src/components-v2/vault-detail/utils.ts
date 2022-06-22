@@ -8,44 +8,46 @@ import { DelaySeverity } from '../../mobx/model/vaults/vault-rewards';
 dayjs.extend(utc);
 
 export const ChartModeTitles: Record<string, string> = {
-	[ChartMode.Value]: 'Sett Value',
-	[ChartMode.Ratio]: 'Token Ratio',
-	[ChartMode.AccountBalance]: 'My Holdings',
-	[ChartMode.BoostMultiplier]: 'Badger Boost',
+  [ChartMode.Value]: 'Sett Value',
+  [ChartMode.Ratio]: 'Token Ratio',
+  [ChartMode.AccountBalance]: 'My Holdings',
+  [ChartMode.BoostMultiplier]: 'Badger Boost',
 };
 
 export const calculateDelaySeverity = (delay: number): DelaySeverity => {
-	if (delay >= 4) {
-		return DelaySeverity.high;
-	}
+  if (delay >= 4) {
+    return DelaySeverity.high;
+  }
 
-	if (delay >= 2) {
-		return DelaySeverity.medium;
-	}
+  if (delay >= 2) {
+    return DelaySeverity.medium;
+  }
 
-	return DelaySeverity.none;
+  return DelaySeverity.none;
 };
 
-export const calculateDifferenceInHoursFromCycle = (lastUpdateTimestamp?: number): number => {
-	if (!lastUpdateTimestamp) {
-		return 0;
-	}
-	return Math.abs(dayjs(lastUpdateTimestamp).diff(dayjs(), 'hours'));
+export const calculateDifferenceInHoursFromCycle = (
+  lastUpdateTimestamp?: number,
+): number => {
+  if (!lastUpdateTimestamp) {
+    return 0;
+  }
+  return Math.abs(dayjs(lastUpdateTimestamp).diff(dayjs(), 'hours'));
 };
 
 export function defaultVaultBalance(vault: VaultDTO): VaultData {
-	return {
-		address: vault.vaultToken,
-		name: vault.name,
-		symbol: vault.asset,
-		pricePerFullShare: vault.pricePerFullShare,
-		balance: 0,
-		value: 0,
-		earnedBalance: 0,
-		earnedValue: 0,
-		depositedBalance: 0,
-		withdrawnBalance: 0,
-		tokens: [],
-		earnedTokens: [],
-	};
+  return {
+    address: vault.vaultToken,
+    name: vault.name,
+    symbol: vault.asset,
+    pricePerFullShare: vault.pricePerFullShare,
+    balance: 0,
+    value: 0,
+    earnedBalance: 0,
+    earnedValue: 0,
+    depositedBalance: 0,
+    withdrawnBalance: 0,
+    tokens: [],
+    earnedTokens: [],
+  };
 }

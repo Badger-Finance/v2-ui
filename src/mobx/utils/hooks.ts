@@ -6,13 +6,13 @@ import React from 'react';
  * @returns wallet connection prompt function
  */
 export function useConnectWallet(): () => void {
-	const store = React.useContext(StoreContext);
-	const { wallet } = store;
+  const store = React.useContext(StoreContext);
+  const { wallet } = store;
 
-	return async () => {
-		if (store.uiState.sidebarOpen) {
-			store.uiState.closeSidebar();
-		}
-		await wallet.connect();
-	};
+  return async () => {
+    if (store.uiState.sidebarOpen) {
+      store.uiState.closeSidebar();
+    }
+    await wallet.connect();
+  };
 }

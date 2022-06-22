@@ -2,8 +2,8 @@
 declare module 'web3-batch-call';
 
 interface Window {
-	ethereum?: {
-		isMetaMask?: true;
-		request?: (...args: any[]) => Promise<void>;
-	};
+  ethereum?: {
+    isMetaMask?: true;
+    request?: (...args: any[]) => Promise<void>;
+  };
 }
