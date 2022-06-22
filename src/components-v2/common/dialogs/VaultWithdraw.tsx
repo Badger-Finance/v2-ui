@@ -19,7 +19,6 @@ import {
 import VaultAdvisory from './VaultAdvisory';
 import { VaultConversionAndFee } from './VaultConversionAndFee';
 import { VaultDialogTitle } from './VaultDialogTitle';
-import { BigNumber } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
   content: {

@@ -1,9 +1,6 @@
-import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { StoreContext } from 'mobx/stores/store-context';
-import { useConnectWallet } from 'mobx/utils/hooks';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 

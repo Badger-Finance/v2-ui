@@ -1,6 +1,6 @@
 import { NETWORK_IDS } from 'config/constants';
 import { ethers } from 'ethers';
-import { extendObservable, makeAutoObservable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 import { RootStore } from './RootStore';
 

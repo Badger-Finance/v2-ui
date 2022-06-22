@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
+
 import { RootStore } from './RootStore';
 
 export class TreeStore {

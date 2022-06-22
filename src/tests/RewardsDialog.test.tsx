@@ -13,7 +13,6 @@ import UserStore from '../mobx/stores/UserStore';
 import VaultStore from '../mobx/stores/VaultStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
 import { customRender, fireEvent, screen } from './Utils';
-import { SAMPLE_VAULTS } from './utils/samples';
 
 const mockClaimProof = {
   index: '0x33d4',

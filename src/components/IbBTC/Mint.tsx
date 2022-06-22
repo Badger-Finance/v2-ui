@@ -1,9 +1,7 @@
-import { Button, Grid, RadioGroup } from '@material-ui/core';
+import { Grid, RadioGroup } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
-import { StoreContext } from 'mobx/stores/store-context';
-import { useConnectWallet } from 'mobx/utils/hooks';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React from 'react';
 
 const SlippageContainer = styled(Grid)(({ theme }) => ({
   marginTop: theme.spacing(1),

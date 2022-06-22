@@ -1,4 +1,4 @@
-import { Currency, VaultData, VaultDTO } from '@badger-dao/sdk';
+import { VaultData, VaultDTO } from '@badger-dao/sdk';
 import {
   Grid,
   makeStyles,

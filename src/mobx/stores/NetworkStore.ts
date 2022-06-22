@@ -8,7 +8,7 @@ import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
 import { BigNumber } from 'ethers';
-import { action, extendObservable, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { Network } from 'mobx/model/network/network';
 import { RootStore } from 'mobx/stores/RootStore';
 

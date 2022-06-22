@@ -1,15 +1,5 @@
 import '@testing-library/jest-dom';
 
-import { BigNumber } from 'ethers';
-import React from 'react';
-
-import { Redeem } from '../../components/IbBTC/Redeem';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import IbBTCStore from '../../mobx/stores/ibBTCStore';
-import { WalletStore } from '../../mobx/stores/WalletStore';
-import { customRender, fireEvent, screen } from '../Utils';
-import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
-
 // describe('ibBTC Redeem', () => {
 // 	beforeEach(() => {
 // 		jest.spyOn(IbBTCStore.prototype, 'initialized', 'get').mockReturnValue(true);

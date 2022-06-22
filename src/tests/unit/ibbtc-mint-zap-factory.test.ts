@@ -1,10 +1,7 @@
 import { GeneralVaultZap } from 'mobx/model/vaults/general-vault-zap';
 
-import { IbBTCMintZapFactory } from '../../mobx/ibbtc-mint-zap-factory';
 import { RenVaultZap } from '../../mobx/model/vaults/ren-vault-zap';
 import { TokenZap } from '../../mobx/model/vaults/token-zap';
-import store from '../../mobx/stores/RootStore';
-import { WalletStore } from '../../mobx/stores/WalletStore';
 
 describe('IbBTCMintZapFactory', () => {
   describe('creates the correct zap class instance', () => {

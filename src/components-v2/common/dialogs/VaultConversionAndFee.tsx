@@ -2,15 +2,14 @@ import { formatBalance, VaultDTO } from '@badger-dao/sdk';
 import { Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MAX_FEE } from 'config/constants';
-import { BigNumber, BigNumberish } from 'ethers';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
+import { getVaultStrategyFee } from 'mobx/utils/fees';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
-import { getVaultStrategyFee } from 'mobx/utils/fees';
-import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
 const useStyles = makeStyles((theme) => ({
   specName: {

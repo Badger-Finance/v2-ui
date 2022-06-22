@@ -1,5 +1,4 @@
 import {
-  Currency,
   Network,
   Protocol,
   ProtocolSummary,
@@ -8,14 +7,7 @@ import {
   VaultState,
 } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import {
-  action,
-  computed,
-  extendObservable,
-  makeAutoObservable,
-  makeObservable,
-  observable,
-} from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { ProtocolSummaryCache } from 'mobx/model/system-config/protocol-summary-cache';
 import { Token } from 'mobx/model/tokens/token';
@@ -44,10 +36,10 @@ export default class VaultStore {
   public protocolSummaryCache: ProtocolSummaryCache = {};
 
   public availableBalances: TokenBalances = {};
-  public initialized: boolean = false;
-  public showVaultFilters: boolean = false;
-  public showStatusInformationPanel: boolean = false;
-  public showRewardsInformationPanel: boolean = false;
+  public initialized = false;
+  public showVaultFilters = false;
+  public showStatusInformationPanel = false;
+  public showRewardsInformationPanel = false;
   public vaultsFilters: VaultsFilters = {
     hidePortfolioDust: false,
     showAPR: false,

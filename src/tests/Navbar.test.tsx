@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers';
 import { RouterStore } from 'mobx-router';
 import React from 'react';
 

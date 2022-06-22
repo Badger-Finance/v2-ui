@@ -1,3 +1,3 @@
 export interface VaultSlugCache {
-	[chain: string]: Record<string, string>;
+  [chain: string]: Record<string, string>;
 }

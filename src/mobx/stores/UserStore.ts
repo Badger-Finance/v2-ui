@@ -15,7 +15,7 @@ export default class UserStore {
   public accountDetails?: Account | null = undefined;
   public balances: TokenBalances = {};
   public vaultCaps: VaultCaps = {};
-  public loadingBalances: boolean = false;
+  public loadingBalances = false;
 
   constructor(store: RootStore) {
     this.store = store;

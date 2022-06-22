@@ -3,8 +3,8 @@ import { Currency, Network as ChainNetwork } from '@badger-dao/sdk';
 import rpc from 'config/rpc.config';
 import { getStrategies } from 'config/system/strategies';
 import { ethers } from 'ethers';
-import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 
+import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
 import { BadgerVault } from '../vaults/badger-vault';
 

@@ -13,6 +13,9 @@ import {
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
+import InvalidCycleDialog from 'components-v2/common/dialogs/InvalidCycleDialog';
+import { BigNumber } from 'ethers';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
@@ -20,11 +23,6 @@ import React, { useContext, useState } from 'react';
 import routes from '../../config/routes';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
-import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { BigNumber, ethers } from 'ethers';
-import { TokenBalances } from 'mobx/model/account/user-balances';
-import { deepCopy } from 'utils/lodashToNative';
-import InvalidCycleDialog from 'components-v2/common/dialogs/InvalidCycleDialog';
 
 const checkboxComplementarySpace = 1.5;
 

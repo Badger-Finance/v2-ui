@@ -1,4 +1,5 @@
 import './assets/css/body.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -13,8 +14,6 @@ import NetworkURLManager from './components-v2/NetworkURLManager';
 import routes from './config/routes';
 import { darkTheme } from './config/ui/dark';
 import store from './mobx/stores/RootStore';
-
-import 'react-toastify/dist/ReactToastify.css';
 
 startRouter(routes, store, {
   html5history: true,

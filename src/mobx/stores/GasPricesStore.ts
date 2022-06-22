@@ -4,8 +4,8 @@ import { RootStore } from 'mobx/stores/RootStore';
 
 import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
 import { supportedNetworks } from '../../config/networks.config';
-import { GasPricesSummary } from '../model/network/gas-prices-summary';
 import { Network as BadgerNetwork } from '../../mobx/model/network/network';
+import { GasPricesSummary } from '../model/network/gas-prices-summary';
 
 class GasPricesStore {
   private gasNetworks: BadgerNetwork[];

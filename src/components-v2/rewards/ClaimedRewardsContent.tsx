@@ -7,8 +7,8 @@ import {
 } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/stores/store-context';
+import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';

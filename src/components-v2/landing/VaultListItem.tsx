@@ -8,6 +8,7 @@ import {
   useTheme,
 } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
+import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
 
@@ -17,7 +18,6 @@ import CurrencyDisplay from '../common/CurrencyDisplay';
 import VaultListItemTags from '../VaultListItemTags';
 import VaultItemApr from './VaultItemApr';
 import VaultLogo from './VaultLogo';
-import { numberWithCommas } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
   root: {

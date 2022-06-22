@@ -1,26 +1,26 @@
 export interface Deploy {
-	token: string;
-	tokens: { [name: string]: string };
-	geysers: { [name: string]: string };
-	sett_system: VaultSystem;
-	citadel?: { [name: string]: string };
+  token: string;
+  tokens: { [name: string]: string };
+  geysers: { [name: string]: string };
+  sett_system: VaultSystem;
+  citadel?: { [name: string]: string };
 }
 
 export interface EthDeploy extends Deploy {
-	digg_system: DiggSystem;
+  digg_system: DiggSystem;
 }
 
 export interface VaultSystem {
-	vaults: { [name: string]: string };
-	strategies: { [name: string]: string };
+  vaults: { [name: string]: string };
+  strategies: { [name: string]: string };
 }
 
 export interface DiggSystem {
-	DROPT: {
-		[variant: string]: {
-			longToken: string;
-			shortToken: string;
-			redemption: string;
-		};
-	};
+  DROPT: {
+    [variant: string]: {
+      longToken: string;
+      shortToken: string;
+      redemption: string;
+    };
+  };
 }

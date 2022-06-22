@@ -1,5 +1,5 @@
 export enum Filters {
-	PROPOSED = 'Proposed',
-	VETOED = 'Vetoed',
-	EXECUTED = 'Executed',
+  PROPOSED = 'Proposed',
+  VETOED = 'Vetoed',
+  EXECUTED = 'Executed',
 }

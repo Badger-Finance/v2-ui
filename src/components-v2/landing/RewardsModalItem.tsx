@@ -1,4 +1,3 @@
-import { Currency } from '@badger-dao/sdk';
 import {
   Box,
   Checkbox,

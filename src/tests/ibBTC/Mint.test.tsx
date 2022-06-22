@@ -1,17 +1,5 @@
 import '@testing-library/jest-dom';
 
-import { within } from '@testing-library/react';
-import IbBTCStore from 'mobx/stores/ibBTCStore';
-import store from 'mobx/stores/RootStore';
-import { StoreProvider } from 'mobx/stores/store-context';
-import React from 'react';
-
-import { Mint } from '../../components/IbBTC/Mint';
-import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { WalletStore } from '../../mobx/stores/WalletStore';
-import { cleanup, customRender, fireEvent, screen } from '../Utils';
-import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
-
 // const mockTokens = [
 // 	new TokenBalance(
 // 		{

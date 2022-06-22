@@ -5,7 +5,6 @@ import {
   SDKProvider,
 } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
-import routes from 'config/routes';
 import { action, makeObservable, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 
@@ -107,7 +106,7 @@ export class RootStore {
 
     this.tree.reset();
 
-    let refreshData = [
+    const refreshData = [
       this.network.updateGasPrices(),
       this.vaults.refresh(),
       this.prices.loadPrices(),
