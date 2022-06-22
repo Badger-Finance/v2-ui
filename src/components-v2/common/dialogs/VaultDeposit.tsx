@@ -176,7 +176,6 @@ export const VaultDeposit = observer(
           />
           <VaultFees
             vault={vault}
-            showNoFees={false}
             className={classes.fees}
             onHelpClick={() => setShowFees(true)}
           />

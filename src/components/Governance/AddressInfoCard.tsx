@@ -9,7 +9,7 @@ export interface AddressInfoCardProps {
   linkAddress: string;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   linkIcon: {
     display: 'inline-block',
     transform: 'rotate(45deg)',

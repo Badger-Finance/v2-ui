@@ -3,7 +3,6 @@ import { Divider, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
 import { StrategyFee } from 'mobx/model/system-config/stategy-fees';
-import { StoreContext } from 'mobx/stores/store-context';
 import { getVaultStrategyFee } from 'mobx/utils/fees';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -38,18 +37,11 @@ const useStyles = makeStyles((theme) => ({
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   vault: VaultDTO;
   onHelpClick?: () => void;
-  showNoFees?: boolean;
 }
 
 export const VaultFees = observer(
-  ({
-    vault,
-    onHelpClick,
-    showNoFees = true,
-    ...rootProps
-  }: Props): JSX.Element | null => {
+  ({ vault, onHelpClick, ...rootProps }: Props): JSX.Element | null => {
     const classes = useStyles();
-    const store = React.useContext(StoreContext);
 
     let totalFees = 0;
     for (const fee of Object.values(StrategyFee)) {

@@ -1,8 +1,6 @@
 import { Currency, Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { toRecord } from 'web3/config/token-config';
-import { Deploy } from 'web3/interface/deploy';
-import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/ftm.json';
 import { AdvisoryType } from '../vaults/advisory-type';
@@ -230,10 +228,3 @@ export const ftmVaults: BadgerVault[] = [
     },
   },
 ];
-
-const ftmTokens = ftmVaults.flatMap((vault) => [
-  vault.depositToken,
-  vault.vaultToken,
-]);
-
-export const ftmProtocolTokens: ProtocolTokens = toRecord(ftmTokens, 'address');

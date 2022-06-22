@@ -2,6 +2,9 @@
   "name": "v3-ui",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=16.13.1"
+  },
   "dependencies": {
     "@badger-dao/sdk": "^1.15.4",
     "@badger-dao/sdk-mocks": "^1.15.4",

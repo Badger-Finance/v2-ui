@@ -1,21 +1,19 @@
 import { BigNumber } from 'ethers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { randomValue } from 'tests/utils/random';
-import { protocolTokens } from 'web3/config/token-config';
+import availableTokens from '@badger-dao/sdk-mocks/generated/ethereum/api/loadTokens.json'
+import { Token } from '@badger-dao/sdk';
 
 describe('token-balance', () => {
+  const testTokens: Record<string, Token> = availableTokens;
+
   const randomTokenBalance = (
     balance?: number,
     cost?: number,
   ): TokenBalance => {
-    const availableTokens = protocolTokens();
     const options = Object.keys(availableTokens);
     const address = options[Math.floor(Math.random() * options.length)];
-    const token = {
-      ...availableTokens[address],
-      name: availableTokens[address].name ?? '',
-      symbol: availableTokens[address].symbol ?? '',
-    };
+    const token = testTokens[address];
     if (!token) {
       throw Error(`Require ${address} token defined`);
     }

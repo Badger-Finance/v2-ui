@@ -61,6 +61,11 @@ export function getNavbarConfig(network?: Network): NavbarConfig {
     if (isSupportedNetwork(config.chainId)) {
       return navbarConfig[config.network];
     }
-  } catch {} // ignore network not found error - defaults to ethereum
+  } catch (err) {
+    console.warn({
+      err,
+      message: 'Network unsupported, defaulting to Ethereum',
+    });
+  } // ignore network not found error - defaults to ethereum
   return navbarConfig[chain];
 }

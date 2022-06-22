@@ -1,8 +1,6 @@
 import { Currency, Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { toRecord } from 'web3/config/token-config';
-import { Deploy } from 'web3/interface/deploy';
-import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/matic.json';
 import { BadgerVault } from '../vaults/badger-vault';
@@ -67,27 +65,3 @@ export const maticVaults: BadgerVault[] = [
     },
   },
 ];
-
-export const maticRewards = [
-  {
-    address: MATIC_DEPLOY.tokens['CRV'],
-    decimals: 18,
-  },
-  {
-    address: MATIC_DEPLOY.tokens['BADGER'],
-    decimals: 18,
-  },
-  {
-    address: MATIC_DEPLOY.tokens['SUSHI'],
-    decimals: 18,
-  },
-];
-
-const maticTokens = maticVaults
-  .flatMap((vault) => [vault.depositToken, vault.vaultToken])
-  .concat(maticRewards);
-
-export const maticProtocolTokens: ProtocolTokens = toRecord(
-  maticTokens,
-  'address',
-);

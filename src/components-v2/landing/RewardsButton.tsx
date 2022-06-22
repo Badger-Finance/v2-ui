@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { Loader } from 'components/Loader';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -8,7 +8,7 @@ import React, { useContext } from 'react';
 
 import CurrencyDisplay from '../common/CurrencyDisplay';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     button: {
       height: 36,

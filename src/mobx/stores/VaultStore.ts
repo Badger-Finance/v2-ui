@@ -15,6 +15,7 @@ import { TokenCache } from 'mobx/model/tokens/token-cache';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { VaultCache } from 'mobx/model/vaults/vault-cache';
 import { VaultSlugCache } from 'mobx/model/vaults/vault-slug-cache';
+import { QueryParams } from 'mobx-router';
 import slugify from 'slugify';
 
 import { getUserVaultBoost } from '../../utils/componentHelpers';
@@ -351,8 +352,8 @@ export default class VaultStore {
    * @param queryParams - Record<string, any>
    */
   mergeQueryParamsWithFilters(
-    queryParams: Record<string, any>,
-  ): Record<string, any> {
+    queryParams: Record<string, unknown>,
+  ): QueryParams {
     const nonFilterParams = Object.entries(queryParams).filter(
       ([key]) => !(key in this.vaultsFilters),
     );
@@ -458,6 +459,9 @@ export default class VaultStore {
 
   private applySorting(vaults: VaultDTO[]): VaultDTO[] {
     const { user, network } = this.store;
+    const featuredVaultRank = Object.fromEntries(
+      network.network.settOrder.map((v, i) => [v, i + 1]),
+    );
 
     switch (this.vaultsFilters.sortOrder) {
       case VaultSortOrder.NAME_ASC:
@@ -497,9 +501,6 @@ export default class VaultStore {
         });
         break;
       default:
-        const featuredVaultRank = Object.fromEntries(
-          network.network.settOrder.map((v, i) => [v, i + 1]),
-        );
         // default sorting uses the following criteria:
         // 1 - balance deposited in vault
         // 2 - vault's underlying token balance

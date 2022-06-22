@@ -62,6 +62,7 @@ export class WalletStore {
     this.web3Modal.clearCachedProvider();
   }
 
+  /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   private getLibrary(provider: any): Web3Provider {
     const library = new Web3Provider(
       provider,
