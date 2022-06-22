@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import React from 'react';
 
 import VaultMetrics from '../../components-v2/vault-detail/specs/VaultMetrics';
@@ -20,8 +21,8 @@ describe('VaultMetrics', () => {
 					name: SAMPLE_VAULT.name,
 					decimals: 18,
 				},
-				new BigNumber(100 * 1e18),
-				new BigNumber(0),
+				BigNumber.from(100 * 1e18),
+				0
 			),
 		);
 		checkSnapshot(<VaultMetrics vault={SAMPLE_VAULT} />);

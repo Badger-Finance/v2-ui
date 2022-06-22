@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 
 import * as copy from 'copy-to-clipboard';
+import { BigNumber } from 'ethers';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
@@ -23,7 +24,7 @@ describe('Wallet Drawer', () => {
 			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 		);
 		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
-		jest.spyOn(UserStore.prototype, 'getTokenBalance').mockImplementation((token) => {
+		jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((token) => {
 			if (token === deploy.tokens.badger) {
 				return new TokenBalance(
 					{
@@ -32,8 +33,8 @@ describe('Wallet Drawer', () => {
 						symbol: 'Badger',
 						decimals: 18,
 					},
-					new BigNumber(1000 * 1e18),
-					new BigNumber(80),
+					BigNumber.from(1000 * 1e18),
+					80,
 				);
 			} else if (token === deploy.tokens.digg) {
 				return new TokenBalance(
@@ -43,8 +44,8 @@ describe('Wallet Drawer', () => {
 						symbol: 'DIGG',
 						decimals: 8,
 					},
-					new BigNumber(0.1 * 1e8),
-					new BigNumber(50000),
+					BigNumber.from(0.1 * 1e8),
+					50000,
 				);
 			} else {
 				return new TokenBalance(
@@ -54,8 +55,8 @@ describe('Wallet Drawer', () => {
 						symbol: 'remDIGG',
 						decimals: 8,
 					},
-					new BigNumber(0.1 * 1e8),
-					new BigNumber(50000),
+					BigNumber.from(0.1 * 1e8),
+					50000,
 				);
 			}
 		});

@@ -1,5 +1,4 @@
 import { Network } from '@badger-dao/sdk';
-import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { BigNumber, ethers } from 'ethers';
 
 import { Wallets } from './enums/wallets.enum';
@@ -60,17 +59,7 @@ export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2
 export const ONE_MIN_MS = 60 * 1000;
 export const ONE_HOUR_MS = ONE_MIN_MS * 60;
 export const ONE_DAY_MS = ONE_HOUR_MS * 24;
-export const baseRetryOptions = {
-	// delay defaults to 200 ms.
-	// delay grows exponentially by factor each attempt.
-	factor: 1.5,
-	// delay grows up until max delay.
-	maxDelay: 1000,
-	// maxAttempts to make before giving up.
-	maxAttempts: 3,
-};
-export const defaultRetryOptions: PartialAttemptOptions<void> = baseRetryOptions;
-export const getDefaultRetryOptions = <T>(): PartialAttemptOptions<T> => baseRetryOptions;
+
 export const ESTIMATED_REWARDS_FREQUENCY = process.env.REACT_APP_REWARDS_FREQUENCY || 2; // in hours
 
 // App Notification Constants

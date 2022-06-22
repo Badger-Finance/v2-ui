@@ -5,7 +5,8 @@ import React, { useContext, useEffect } from 'react';
 
 import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
 
-const NetworkURLManager: React.FC = ({ children }) => {
+// should this just be a hook or something? 
+const NetworkURLManager = (): JSX.Element => {
 	const {
 		router,
 		sdk: { config },
@@ -31,7 +32,7 @@ const NetworkURLManager: React.FC = ({ children }) => {
 		}
 	}, [chainId, wallet, router]);
 
-	return <>{children}</>;
+	return <></>;
 };
 
 export default observer(NetworkURLManager);

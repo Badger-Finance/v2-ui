@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { RouterStore } from 'mobx-router';
 import React from 'react';
 
@@ -8,7 +9,6 @@ import UserStore from '../mobx/stores/UserStore';
 import VaultStore from '../mobx/stores/VaultStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
 import { createMatchMedia } from './Utils';
-import { SAMPLE_EXCHANGES_RATES } from './utils/samples';
 import { checkSnapshot } from './utils/snapshots';
 
 /* eslint-disable */
@@ -22,7 +22,6 @@ class ResizeObserver {
 describe('Navbar', () => {
 	beforeEach(() => {
 		global.ResizeObserver = ResizeObserver;
-		store.prices.exchangeRates = SAMPLE_EXCHANGES_RATES;
 		store.network.network.deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
 
 		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
@@ -31,9 +30,8 @@ describe('Navbar', () => {
 		);
 
 		jest.spyOn(RouterStore.prototype, 'currentPath', 'get').mockReturnValue('/');
-		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
-		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(10_00));
-		jest.spyOn(PricesStore.prototype, 'getPrice').mockReturnValue(new BigNumber(80));
+		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(10_000);
+		jest.spyOn(PricesStore.prototype, 'getPrice').mockReturnValue(80);
 		jest.spyOn(VaultStore.prototype, 'protocolSummary', 'get').mockReturnValue({
 			totalValue: 1_000_000,
 			setts: [],

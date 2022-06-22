@@ -7,7 +7,6 @@ import { checkSnapshot } from './utils/snapshots';
 
 describe('CurrencyInfoCard', () => {
 	test('Renders correctly', () => {
-		const displayPrice = new BigNumber(1);
-		checkSnapshot(<CurrencyInfoCard title="Test Price" value={displayPrice} />);
+		checkSnapshot(<CurrencyInfoCard title="Test Price" value={1} />);
 	});
 });

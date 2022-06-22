@@ -1,7 +1,6 @@
 import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH } from 'config/constants';
 import { action, extendObservable } from 'mobx';
 
-import { SnackbarNotificationProps } from '../model/ui/snackbar-notification-props';
 import { RootStore } from './RootStore';
 
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
@@ -13,7 +12,6 @@ class UiStateStore {
 	public rewardsDialogOpen: boolean;
 	public sidebarOpen!: boolean;
 	public showUserBalances: boolean;
-	public notification?: SnackbarNotificationProps;
 	public txStatus?: string;
 	private showNotification: boolean;
 	private showNetworkOptions: boolean;
@@ -34,7 +32,6 @@ class UiStateStore {
 			sidebarOpen: false,
 			rewardsDialogOpen: false,
 			showUserBalances: this.showUserBalances,
-			notification: {},
 			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
 			showWalletDrawer: this.showWalletDrawer,

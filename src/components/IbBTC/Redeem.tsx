@@ -24,20 +24,22 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ActionButton = observer(({ children }): JSX.Element => {
-	const { wallet } = useContext(StoreContext);
-	const connectWallet = useConnectWallet();
+// lol same component bruh
 
-	if (!wallet.isConnected) {
-		return (
-			<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
-				Connect Wallet
-			</Button>
-		);
-	}
+// const ActionButton = observer(({ children }): JSX.Element => {
+// 	const { wallet } = useContext(StoreContext);
+// 	const connectWallet = useConnectWallet();
 
-	return <>{children}</>;
-});
+// 	if (!wallet.isConnected) {
+// 		return (
+// 			<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
+// 				Connect Wallet
+// 			</Button>
+// 		);
+// 	}
+
+// 	return <>{children}</>;
+// });
 
 export const Redeem = observer((): any => {
 	return <></>;

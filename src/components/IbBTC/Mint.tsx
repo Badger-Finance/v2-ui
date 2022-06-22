@@ -28,20 +28,20 @@ const useStyles = makeStyles({
 	},
 });
 
-const ActionButton = observer(({ children }): JSX.Element => {
-	const { wallet } = useContext(StoreContext);
-	const connectWallet = useConnectWallet();
+// const ActionButton = observer(({ children }): JSX.Element => {
+// 	const { wallet } = useContext(StoreContext);
+// 	const connectWallet = useConnectWallet();
 
-	if (!wallet.isConnected) {
-		return (
-			<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
-				Connect Wallet
-			</Button>
-		);
-	}
+// 	if (!wallet.isConnected) {
+// 		return (
+// 			<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
+// 				Connect Wallet
+// 			</Button>
+// 		);
+// 	}
 
-	return <>{children}</>;
-});
+// 	return <>{children}</>;
+// });
 
 export const Mint = observer((): JSX.Element => {
 	return <></>;

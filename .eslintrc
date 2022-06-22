@@ -6,7 +6,7 @@
 		"sourceType": "module"
 	},
 	"plugins": ["@typescript-eslint/eslint-plugin", "simple-import-sort", "import", "unused-imports"],
-	"extends": ["react-app", "react-app/jest", "plugin:prettier/recommended", "eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/recommended"],
+	"extends": ["plugin:prettier/recommended", "eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/recommended"],
 	"ignorePatterns": [".eslintrc", "generated", "contracts"],
 	"env": {
 		"es6": true,

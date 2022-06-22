@@ -133,7 +133,7 @@ describe('Boost Optimizer', () => {
 	});
 
 	it('supports no wallet mode', () => {
-		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(undefined);
+		store.wallet.address = undefined;
 		store.user.accountDetails = null;
 		jest.spyOn(rankUtils, 'calculateNativeToMatchRank').mockReturnValue(0);
 

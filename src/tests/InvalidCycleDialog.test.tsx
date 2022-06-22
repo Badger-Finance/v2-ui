@@ -9,18 +9,6 @@ import { customRender, fireEvent, screen } from './Utils';
 jest.mock('copy-to-clipboard');
 
 describe('InvalidCycleDialog', () => {
-	beforeEach(() => {
-		store.rewards.badgerTree = {
-			cycle: '123',
-			lastCycle: new Date(),
-			timeSinceLastCycle: '0h 0m',
-			proof: undefined,
-			claimableAmounts: [],
-			claims: [],
-			amounts: [],
-		};
-	});
-
 	it('displays invalid cycle dialog', () => {
 		const { baseElement } = customRender(
 			<StoreProvider value={store}>

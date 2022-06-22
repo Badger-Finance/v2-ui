@@ -3,7 +3,7 @@ import React from 'react';
 import { checkSnapshot } from 'tests/utils/snapshots';
 
 import VaultStore from '../../mobx/stores/VaultStore';
-import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from '../utils/samples';
+import { SAMPLE_VAULT } from '../utils/samples';
 
 describe('Specs Section', () => {
 	it('displays sett information', () => {
@@ -11,6 +11,6 @@ describe('Specs Section', () => {
 			depositToken: { address: SAMPLE_VAULT.underlyingToken, decimals: 18 },
 			vaultToken: { address: SAMPLE_VAULT.vaultToken, decimals: 18 },
 		});
-		checkSnapshot(<SpecsCard vault={SAMPLE_VAULT} badgerVault={SAMPLE_BADGER_SETT} />);
+		checkSnapshot(<SpecsCard vault={SAMPLE_VAULT} />);
 	});
 });

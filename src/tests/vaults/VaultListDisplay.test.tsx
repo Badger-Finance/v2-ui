@@ -9,7 +9,7 @@ import store from '../../mobx/stores/RootStore';
 import UserStore from '../../mobx/stores/UserStore';
 import VaultStore from '../../mobx/stores/VaultStore';
 import { customRender } from '../Utils';
-import { SAMPLE_EXCHANGES_RATES, SAMPLE_VAULTS } from '../utils/samples';
+import { SAMPLE_VAULTS } from '../utils/samples';
 
 const mockVaultsInformation = (vaults: VaultDTO[]) => {
 	jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
@@ -23,16 +23,11 @@ const mockVaultsInformation = (vaults: VaultDTO[]) => {
 			]),
 		),
 	);
-
-	store.vaults.getVaultMap = jest
-		.fn()
-		.mockReturnValue(Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])));
 };
 
 describe('VaultListDisplay', () => {
 	beforeEach(() => {
 		mockVaultsInformation(SAMPLE_VAULTS);
-		store.prices.exchangeRates = SAMPLE_EXCHANGES_RATES;
 	});
 
 	afterEach(() => {
@@ -86,7 +81,7 @@ describe('VaultListDisplay', () => {
 
 		mockVaultsInformation(vaults);
 
-		jest.spyOn(UserStore.prototype, 'getTokenBalance').mockImplementation((address: string) => {
+		jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((address: string) => {
 			if (address === vaults[2].vaultToken) {
 				return new TokenBalance(
 					{

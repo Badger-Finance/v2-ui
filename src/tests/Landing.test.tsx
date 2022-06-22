@@ -13,7 +13,7 @@ import { checkSnapshot } from './utils/snapshots';
 
 describe('Landing', () => {
 	beforeEach(() => {
-		store.prices.getPrice = jest.fn().mockReturnValue(new BigNumber(15e18));
+		store.prices.getPrice = jest.fn().mockReturnValue(1500);
 		store.network.network.deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
 		jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
 		jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
@@ -35,9 +35,8 @@ describe('Landing', () => {
 			diggBalance: 10,
 		};
 
-		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
-		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(1000));
-		jest.spyOn(VaultStore.prototype, 'getVaultOrder').mockReturnValue(SAMPLE_VAULTS);
+		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(1000);
+		jest.spyOn(VaultStore.prototype, 'vaultOrder', 'get').mockReturnValue(SAMPLE_VAULTS);
 
 		jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
 			new Map(

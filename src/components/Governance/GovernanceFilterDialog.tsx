@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	open: boolean;
 	onClose: () => void;
-	applyFilter: ([]) => void;
+	applyFilter: ([]: unknown[]) => void;
 }
 
 const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Element => {

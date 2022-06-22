@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { randomValue } from 'tests/utils/random';
 import { protocolTokens } from 'web3/config/token-config';
@@ -18,13 +19,13 @@ describe('token-balance', () => {
 		const scalar = Math.pow(10, token.decimals);
 		const amount = balance !== undefined ? balance : randomValue();
 		const price = cost !== undefined ? cost : randomValue(10, 35000);
-		return new TokenBalance(token, new BigNumber(amount * scalar), new BigNumber(price));
+		return new TokenBalance(token, BigNumber.from(amount * scalar), price);
 	};
 
-	const verifyScaledBalance = (mockBalance: TokenBalance, scaledBalance: TokenBalance, scalar: BigNumber): void => {
-		const expectedBalance = mockBalance.balance.multipliedBy(scalar);
-		const expectedTokenBalance = mockBalance.tokenBalance.multipliedBy(scalar);
-		const expectedValue = mockBalance.value.multipliedBy(scalar);
+	const verifyScaledBalance = (mockBalance: TokenBalance, scaledBalance: TokenBalance, scalar: number): void => {
+		const expectedBalance = mockBalance.balance * scalar
+		const expectedTokenBalance = mockBalance.tokenBalance.mul(scalar);
+		const expectedValue = mockBalance.value * scalar
 		expect(scaledBalance.balance).toEqual(expectedBalance);
 		expect(scaledBalance.tokenBalance).toEqual(expectedTokenBalance);
 		expect(scaledBalance.value).toEqual(expectedValue);
@@ -34,10 +35,10 @@ describe('token-balance', () => {
 		it('converts a visual balance string into a token balance representation', () => {
 			const mockBalance = randomTokenBalance();
 			const decimals = mockBalance.token.decimals;
-			const amount = randomValue().toFixed(decimals);
+			const amount = randomValue();
 			const balance = TokenBalance.fromBalance(mockBalance, amount);
-			const expectedTokenBalance = new BigNumber(amount).multipliedBy(Math.pow(10, decimals));
-			const expectedBalance = new BigNumber(amount);
+			const expectedTokenBalance = BigNumber.from(amount).mul(Math.pow(10, decimals));
+			const expectedBalance = BigNumber.from(amount);
 			expect(balance.tokenBalance).toEqual(expectedTokenBalance);
 			expect(balance.balance).toEqual(expectedBalance);
 		});
@@ -46,7 +47,7 @@ describe('token-balance', () => {
 	describe('value', () => {
 		it('returns the value of the represented token balance', () => {
 			const mockBalance = randomTokenBalance();
-			const expectedValue = mockBalance.balance.multipliedBy(mockBalance.price);
+			const expectedValue = mockBalance.balance * mockBalance.price;
 			expect(mockBalance.value).toMatchObject(expectedValue);
 		});
 	});
@@ -73,7 +74,7 @@ describe('token-balance', () => {
 			it('displays balance, with token decimals', () => {
 				const amount = 3.655;
 				const mockBalance = randomTokenBalance(amount);
-				const displayString = new BigNumber(amount).toFixed(mockBalance.token.decimals);
+				const displayString = amount.toFixed(mockBalance.token.decimals);
 				expect(mockBalance.balanceDisplay()).toEqual(displayString);
 			});
 		});
@@ -83,7 +84,7 @@ describe('token-balance', () => {
 				const amount = 3.655;
 				const mockBalance = randomTokenBalance(amount);
 				const decimals = 5;
-				const displayString = new BigNumber(amount).toFixed(decimals);
+				const displayString = amount.toFixed(decimals);
 				expect(mockBalance.balanceDisplay(decimals)).toEqual(displayString);
 			});
 		});
@@ -103,7 +104,7 @@ describe('token-balance', () => {
 		describe('scalar does not equal 1', () => {
 			it('scales the balance in the appropriate scalar amount', () => {
 				const mockBalance = randomTokenBalance(1);
-				const scalar = new BigNumber(randomValue(0, 2));
+				const scalar = randomValue(0, 2)
 				const scaledBalance = mockBalance.scale(scalar);
 				verifyScaledBalance(mockBalance, scaledBalance, scalar);
 			});
@@ -112,8 +113,7 @@ describe('token-balance', () => {
 		describe('scalar equals 1', () => {
 			it('does not modify the balance', () => {
 				const mockBalance = randomTokenBalance(1);
-				const scalar = new BigNumber(1);
-				const scaledBalance = mockBalance.scale(scalar);
+				const scaledBalance = mockBalance.scale(1);
 				expect(scaledBalance).toMatchObject(mockBalance);
 			});
 		});
@@ -125,7 +125,7 @@ describe('token-balance', () => {
 				const percent = randomValue(250, 500);
 				const amount = randomValue(1.01, 5);
 				const mockBalance = randomTokenBalance(amount);
-				const expectedTokenBalance = mockBalance.balance.multipliedBy(new BigNumber(percent / 100));
+				const expectedTokenBalance = mockBalance.balance * percent / 100
 				const displayString = expectedTokenBalance.toFixed(mockBalance.token.decimals);
 				expect(mockBalance.scaledBalanceDisplay(percent)).toEqual(displayString);
 			});
@@ -136,20 +136,10 @@ describe('token-balance', () => {
 				const percent = randomValue(35, 50);
 				const amount = randomValue(1.01, 5);
 				const mockBalance = randomTokenBalance(amount);
-				const expectedTokenBalance = mockBalance.balance.multipliedBy(new BigNumber(percent / 100));
+				const expectedTokenBalance = mockBalance.balance * percent / 100
 				const displayString = expectedTokenBalance.toFixed(mockBalance.token.decimals);
 				expect(mockBalance.scaledBalanceDisplay(percent)).toEqual(displayString);
 			});
-		});
-	});
-
-	describe('hasBalance', () => {
-		it.each([
-			[undefined, false],
-			[randomTokenBalance(0), false],
-			[randomTokenBalance(1), true],
-		])('given input %p returns %s', (obj, res) => {
-			expect(TokenBalance.hasBalance(obj)).toBe(res);
 		});
 	});
 
@@ -163,11 +153,11 @@ describe('token-balance', () => {
 						symbol: 'Badger',
 						decimals: 18,
 					},
-					new BigNumber(10000 * 1e18),
-					new BigNumber(0),
+					BigNumber.from(10000 * 1e18),
+					0
 				);
 				const displayString = `10000.${'0'.repeat(8)} Badger`;
-				expect(mockBalance.balanceValueDisplay(Currency.USD)).toEqual(displayString);
+				expect(mockBalance.balanceValueDisplay()).toEqual(displayString);
 			});
 		});
 	});

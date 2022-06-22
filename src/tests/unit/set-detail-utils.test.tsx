@@ -11,7 +11,7 @@ describe('sett detail utils', () => {
 			[dayjs().subtract(3, 'hours').toDate(), 3],
 			[dayjs().subtract(4, 'hours').toDate(), 4],
 		])('calculateDifferenceInHoursFromCycle(%s) returns %d', (cycle: Date, difference: number) => {
-			expect(calculateDifferenceInHoursFromCycle(cycle)).toEqual(difference);
+			expect(calculateDifferenceInHoursFromCycle(cycle.getTime())).toEqual(difference);
 		});
 	});
 
