@@ -15,14 +15,19 @@ interface AdvisoryLinkProps {
 }
 
 const AdvisoryLink = ({ href, linkText }: AdvisoryLinkProps): JSX.Element => {
-	const classes = useStyles();
-	return (
-		<div className={classes.linkContainer}>
-			<Link target="_blank" rel="noreferrer" href={href}>
-				{linkText}
-			</Link>
-		</div>
-	);
+  const classes = useStyles();
+  return (
+    <div className={classes.linkContainer}>
+      <Link
+        target="_blank"
+        rel="noreferrer"
+
+        href={href}
+      >
+        {linkText}
+      </Link>
+    </div>
+  );
 };
 
 export default AdvisoryLink;

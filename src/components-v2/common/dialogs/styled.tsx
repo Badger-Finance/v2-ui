@@ -1,4 +1,12 @@
-import { Button, CircularProgress, DialogContent, Grid, TextField, Typography, withStyles } from '@material-ui/core';
+import {
+  Button,
+  CircularProgress,
+  DialogContent,
+  Grid,
+  TextField,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
 export const ActionButton = styled(Button)(({ theme }) => ({
