@@ -5,7 +5,7 @@ import { Description } from '../../components-v2/vault-detail/description/Descri
 import { SAMPLE_VAULT } from '../utils/samples';
 
 describe('Description', () => {
-	it('displays sett description', () => {
-		checkSnapshot(<Description vault={SAMPLE_VAULT} />);
-	});
+  it('displays sett description', () => {
+    checkSnapshot(<Description vault={SAMPLE_VAULT} />);
+  });
 });

@@ -9,12 +9,17 @@ import { customRender } from './Utils';
 import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from './utils/samples';
 
 describe('Vault Withdraw', () => {
-	test('displays sett information', () => {
-		const { baseElement } = customRender(
-			<StoreProvider value={store}>
-				<VaultWithdraw open={true} vault={SAMPLE_VAULT} badgerVault={SAMPLE_BADGER_SETT} onClose={jest.fn()} />
-			</StoreProvider>,
-		);
-		expect(baseElement).toMatchSnapshot();
-	});
+  test('displays sett information', () => {
+    const { baseElement } = customRender(
+      <StoreProvider value={store}>
+        <VaultWithdraw
+          open={true}
+          vault={SAMPLE_VAULT}
+          badgerVault={SAMPLE_BADGER_SETT}
+          onClose={jest.fn()}
+        />
+      </StoreProvider>,
+    );
+    expect(baseElement).toMatchSnapshot();
+  });
 });

@@ -7,37 +7,41 @@ import MenuSubheader from '../../ui-library/MenuSubheader';
 import NetworkOption from './NetworkOption';
 
 const useStyles = makeStyles((theme) => ({
-	networkListIcon: {
-		width: 17,
-		height: 17,
-		marginRight: theme.spacing(1),
-	},
-	root: {
-		minWidth: 234,
-	},
-	active: {
-		backgroundColor: 'rgba(0, 0, 0, 0.04)',
-	},
+  networkListIcon: {
+    width: 17,
+    height: 17,
+    marginRight: theme.spacing(1),
+  },
+  root: {
+    minWidth: 234,
+  },
+  active: {
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+  },
 }));
 
 interface Props {
-	onSelect: () => void;
+  onSelect: () => void;
 }
 
 const NetworkOptions = ({ onSelect }: Props): JSX.Element => {
-	const classes = useStyles();
-	return (
-		<Menu
-			role="presentation"
-			disablePadding
-			className={classes.root}
-			subheader={<MenuSubheader>NETWORK</MenuSubheader>}
-		>
-			{supportedNetworks.map((network) => (
-				<NetworkOption key={network.symbol} network={network} onSelect={onSelect} />
-			))}
-		</Menu>
-	);
+  const classes = useStyles();
+  return (
+    <Menu
+      role="presentation"
+      disablePadding
+      className={classes.root}
+      subheader={<MenuSubheader>NETWORK</MenuSubheader>}
+    >
+      {supportedNetworks.map((network) => (
+        <NetworkOption
+          key={network.symbol}
+          network={network}
+          onSelect={onSelect}
+        />
+      ))}
+    </Menu>
+  );
 };
 
 export default NetworkOptions;

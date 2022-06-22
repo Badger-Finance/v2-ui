@@ -14,150 +14,182 @@ import { createMatchMedia, customRender, fireEvent, screen } from '../Utils';
 import { checkSnapshot } from '../utils/snapshots';
 
 describe('VaultSearchControl', () => {
-	beforeEach(() => {
-		jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
-		jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
-		config.disabled = true;
-	});
+  beforeEach(() => {
+    jest
+      .spyOn(VaultStore.prototype, 'vaultsProtocols', 'get')
+      .mockReturnValue([Protocol.Convex, Protocol.Curve]);
+    jest
+      .spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get')
+      .mockReturnValue(true);
+    config.disabled = true;
+  });
 
-	describe('desktop', () => {
-		it('renders correctly', () => {
-			checkSnapshot(<VaultsSearchControls />);
-		});
+  describe('desktop', () => {
+    it('renders correctly', () => {
+      checkSnapshot(<VaultsSearchControls />);
+    });
 
-		it('can click checkbox filters', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
+    it('can click checkbox filters', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
 
-			const onlyDepositsLabel = screen.getByRole('checkbox', { name: 'Only show deposits' });
-			const hideDustLabel = screen.getByRole('checkbox', { name: 'Hide dust' });
-			const boostedVaultsLabel = screen.getByRole('checkbox', { name: '🚀 Boosted Vaults' });
+      const onlyDepositsLabel = screen.getByRole('checkbox', {
+        name: 'Only show deposits',
+      });
+      const hideDustLabel = screen.getByRole('checkbox', { name: 'Hide dust' });
+      const boostedVaultsLabel = screen.getByRole('checkbox', {
+        name: '🚀 Boosted Vaults',
+      });
 
-			fireEvent.click(onlyDepositsLabel);
-			fireEvent.click(hideDustLabel);
-			fireEvent.click(boostedVaultsLabel);
+      fireEvent.click(onlyDepositsLabel);
+      fireEvent.click(hideDustLabel);
+      fireEvent.click(boostedVaultsLabel);
 
-			expect(onlyDepositsLabel).toBeChecked();
-			expect(hideDustLabel).toBeChecked();
-			expect(boostedVaultsLabel).toBeChecked();
-		});
+      expect(onlyDepositsLabel).toBeChecked();
+      expect(hideDustLabel).toBeChecked();
+      expect(boostedVaultsLabel).toBeChecked();
+    });
 
-		it('can select platforms', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
+    it('can select platforms', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
 
-			fireEvent.mouseDown(screen.getByLabelText('Platform'));
-			fireEvent.click(within(screen.getByRole('listbox')).getByRole('option', { name: Protocol.Convex }));
-			fireEvent.click(within(screen.getByRole('listbox')).getByRole('option', { name: Protocol.Curve }));
-			expect(screen.getByTestId('platform-selector-input')).toHaveValue(Protocol.Convex + ',' + Protocol.Curve);
-		});
+      fireEvent.mouseDown(screen.getByLabelText('Platform'));
+      fireEvent.click(
+        within(screen.getByRole('listbox')).getByRole('option', {
+          name: Protocol.Convex,
+        }),
+      );
+      fireEvent.click(
+        within(screen.getByRole('listbox')).getByRole('option', {
+          name: Protocol.Curve,
+        }),
+      );
+      expect(screen.getByTestId('platform-selector-input')).toHaveValue(
+        Protocol.Convex + ',' + Protocol.Curve,
+      );
+    });
 
-		it('can select status', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
+    it('can select status', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
 
-			fireEvent.mouseDown(screen.getByLabelText('Status'));
-			fireEvent.click(within(screen.getByRole('listbox')).getByRole('option', { name: VaultState.Guarded }));
-			fireEvent.click(within(screen.getByRole('listbox')).getByRole('option', { name: VaultState.Experimental }));
-			expect(screen.getByTestId('status-selector-input')).toHaveValue(
-				VaultState.Guarded + ',' + VaultState.Experimental,
-			);
-		});
+      fireEvent.mouseDown(screen.getByLabelText('Status'));
+      fireEvent.click(
+        within(screen.getByRole('listbox')).getByRole('option', {
+          name: VaultState.Guarded,
+        }),
+      );
+      fireEvent.click(
+        within(screen.getByRole('listbox')).getByRole('option', {
+          name: VaultState.Experimental,
+        }),
+      );
+      expect(screen.getByTestId('status-selector-input')).toHaveValue(
+        VaultState.Guarded + ',' + VaultState.Experimental,
+      );
+    });
 
-		it('can select rewards', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
+    it('can select rewards', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
 
-			fireEvent.mouseDown(screen.getByLabelText('Rewards'));
-			fireEvent.click(within(screen.getByRole('listbox')).getByRole('option', { name: VaultBehavior.DCA }));
-			fireEvent.click(
-				within(screen.getByRole('listbox')).getByRole('option', { name: VaultBehavior.Compounder }),
-			);
-			expect(screen.getByTestId('rewards-selector-input')).toHaveValue(
-				VaultBehavior.DCA + ',' + VaultBehavior.Compounder,
-			);
-		});
+      fireEvent.mouseDown(screen.getByLabelText('Rewards'));
+      fireEvent.click(
+        within(screen.getByRole('listbox')).getByRole('option', {
+          name: VaultBehavior.DCA,
+        }),
+      );
+      fireEvent.click(
+        within(screen.getByRole('listbox')).getByRole('option', {
+          name: VaultBehavior.Compounder,
+        }),
+      );
+      expect(screen.getByTestId('rewards-selector-input')).toHaveValue(
+        VaultBehavior.DCA + ',' + VaultBehavior.Compounder,
+      );
+    });
 
-		it('can type search', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
+    it('can type search', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
 
-			fireEvent.change(screen.getByRole('textbox', { name: 'Vault Search' }), {
-				target: { value: 'bitcoin convex' },
-			});
+      fireEvent.change(screen.getByRole('textbox', { name: 'Vault Search' }), {
+        target: { value: 'bitcoin convex' },
+      });
 
-			expect(screen.getByDisplayValue('bitcoin convex')).toBeInTheDocument();
-		});
+      expect(screen.getByDisplayValue('bitcoin convex')).toBeInTheDocument();
+    });
 
-		it('can select APY mode', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
+    it('can select APY mode', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
 
-			const apyButton = screen.getByRole('button', { name: 'APY' });
-			fireEvent.click(apyButton);
-			expect(apyButton).toHaveAttribute('aria-selected', 'true');
-		});
+      const apyButton = screen.getByRole('button', { name: 'APY' });
+      fireEvent.click(apyButton);
+      expect(apyButton).toHaveAttribute('aria-selected', 'true');
+    });
 
-		it('can select APR mode', () => {
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
+    it('can select APR mode', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
 
-			const aprButton = screen.getByRole('button', { name: 'APR' });
-			fireEvent.click(aprButton);
-			expect(aprButton).toHaveAttribute('aria-selected', 'true');
-		});
+      const aprButton = screen.getByRole('button', { name: 'APR' });
+      fireEvent.click(aprButton);
+      expect(aprButton).toHaveAttribute('aria-selected', 'true');
+    });
 
-		it('can clear filters', () => {
-			const clear = jest.fn();
-			store.vaults.clearFilters = action(clear);
-			customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
-			fireEvent.click(screen.getByRole('button', { name: /Clear All/i }));
-			expect(clear).toHaveBeenCalledTimes(1);
-		});
-	});
+    it('can clear filters', () => {
+      const clear = jest.fn();
+      store.vaults.clearFilters = action(clear);
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
+      fireEvent.click(screen.getByRole('button', { name: /Clear All/i }));
+      expect(clear).toHaveBeenCalledTimes(1);
+    });
+  });
 
-	describe('mobile', () => {
-		beforeEach(() => {
-			window.matchMedia = createMatchMedia(480);
-		});
+  describe('mobile', () => {
+    beforeEach(() => {
+      window.matchMedia = createMatchMedia(480);
+    });
 
-		it('renders correctly', () => {
-			checkSnapshot(<VaultsSearchControls />);
-		});
+    it('renders correctly', () => {
+      checkSnapshot(<VaultsSearchControls />);
+    });
 
-		it('opens filter dialog', () => {
-			const { baseElement } = customRender(
-				<StoreProvider value={store}>
-					<VaultsSearchControls />
-				</StoreProvider>,
-			);
-			fireEvent.click(screen.getByRole('button', { name: 'Filters' }));
-			expect(baseElement).toMatchSnapshot();
-		});
-	});
+    it('opens filter dialog', () => {
+      const { baseElement } = customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
+      fireEvent.click(screen.getByRole('button', { name: 'Filters' }));
+      expect(baseElement).toMatchSnapshot();
+    });
+  });
 });

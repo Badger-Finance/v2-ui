@@ -7,19 +7,19 @@ import VaultListDisplay from '../components-v2/landing/VaultListDisplay';
 import VaultsSearchControls from '../components-v2/VaultSearchControls';
 
 const useStyles = makeStyles({
-	root: {
-		marginTop: 48,
-	},
+  root: {
+    marginTop: 48,
+  },
 });
 
 const Landing = observer(() => {
-	const classes = useStyles();
-	return (
-		<LayoutContainer className={classes.root}>
-			<VaultsSearchControls />
-			<VaultListDisplay />
-		</LayoutContainer>
-	);
+  const classes = useStyles();
+  return (
+    <LayoutContainer className={classes.root}>
+      <VaultsSearchControls />
+      <VaultListDisplay />
+    </LayoutContainer>
+  );
 });
 
 export default Landing;

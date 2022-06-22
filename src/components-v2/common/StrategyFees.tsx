@@ -4,46 +4,56 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getVaultStrategyFee } from 'mobx/utils/fees';
 import React from 'react';
 
-import { StrategyFee, userReadableFeeNames } from '../../mobx/model/system-config/stategy-fees';
+import {
+  StrategyFee,
+  userReadableFeeNames,
+} from '../../mobx/model/system-config/stategy-fees';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles({
-	specName: {
-		fontSize: 12,
-		lineHeight: '1.66',
-	},
+  specName: {
+    fontSize: 12,
+    lineHeight: '1.66',
+  },
 });
 
 interface Props {
-	vault: VaultDTO;
-	showEmpty?: boolean;
+  vault: VaultDTO;
+  showEmpty?: boolean;
 }
 
-export const StrategyFees = ({ vault, showEmpty = false }: Props): JSX.Element => {
-	const classes = useStyles();
-	const feeKeys = Object.values(StrategyFee);
+export const StrategyFees = ({
+  vault,
+  showEmpty = false,
+}: Props): JSX.Element => {
+  const classes = useStyles();
+  const feeKeys = Object.values(StrategyFee);
 
-	const feeItems = feeKeys.map((key) => {
-		const fee = getVaultStrategyFee(vault, key);
-		if (!fee) {
-			return null;
-		}
+  const feeItems = feeKeys.map((key) => {
+    const fee = getVaultStrategyFee(vault, key);
+    if (!fee) {
+      return null;
+    }
 
-		if (fee === 0 && !showEmpty) {
-			return null;
-		}
+    if (fee === 0 && !showEmpty) {
+      return null;
+    }
 
-		return (
-			<Grid key={key} container justifyContent="space-between">
-				<Typography className={classes.specName} color="textSecondary" display="inline">
-					{userReadableFeeNames[key]}
-				</Typography>
-				<Typography display="inline" variant="subtitle2">
-					{formatStrategyFee(fee)}
-				</Typography>
-			</Grid>
-		);
-	});
+    return (
+      <Grid key={key} container justifyContent="space-between">
+        <Typography
+          className={classes.specName}
+          color="textSecondary"
+          display="inline"
+        >
+          {userReadableFeeNames[key]}
+        </Typography>
+        <Typography display="inline" variant="subtitle2">
+          {formatStrategyFee(fee)}
+        </Typography>
+      </Grid>
+    );
+  });
 
-	return <Grid container>{feeItems}</Grid>;
+  return <Grid container>{feeItems}</Grid>;
 };

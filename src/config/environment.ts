@@ -2,24 +2,24 @@
 
 // deployment stage definitions
 enum Stage {
-	Experimental = 'experimental',
-	Development = 'development',
-	Staging = 'staging',
-	Production = 'production',
+  Experimental = 'experimental',
+  Development = 'development',
+  Staging = 'staging',
+  Production = 'production',
 }
 
 // resolve deployment stage from env variable, default to development
 function getStage(stage?: string) {
-	switch (stage) {
-		case Stage.Experimental:
-			return Stage.Experimental;
-		case Stage.Staging:
-			return Stage.Staging;
-		case Stage.Production:
-			return Stage.Production;
-		default:
-			return Stage.Development;
-	}
+  switch (stage) {
+    case Stage.Experimental:
+      return Stage.Experimental;
+    case Stage.Staging:
+      return Stage.Staging;
+    case Stage.Production:
+      return Stage.Production;
+    default:
+      return Stage.Development;
+  }
 }
 
 /**
@@ -29,10 +29,10 @@ function getStage(stage?: string) {
  * staging and production apps utilize the production api integration.
  */
 function getIntegrationStage(stage: Stage) {
-	if (stage === Stage.Experimental || stage === Stage.Development) {
-		return Stage.Staging;
-	}
-	return Stage.Production;
+  if (stage === Stage.Experimental || stage === Stage.Development) {
+    return Stage.Staging;
+  }
+  return Stage.Production;
 }
 
 // expose the build env as a global constant
@@ -41,18 +41,19 @@ export const BUILD_ENV = getStage(process.env.REACT_APP_BUILD_ENV);
 export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 
 export const getApi = (): string => {
-	if (DEBUG) {
-		return 'https://staging-api.badger.com/v2';
-	}
-	return 'https://api.badger.com/v2';
+  if (DEBUG) {
+    return 'https://staging-api.badger.com/v2';
+  }
+  return 'https://api.badger.com/v2';
 };
 
 export const BADGER_API = getApi();
 
 /* App Feature Flags */
 
-const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
+const toBool = (val: string | undefined): boolean =>
+  val ? val.toLowerCase() === 'true' : false;
 
 export const FLAGS = {
-	GOVERNANCE_TIMELOCK: toBool(process.env.REACT_APP_GOVERNANCE_TIMELOCK),
+  GOVERNANCE_TIMELOCK: toBool(process.env.REACT_APP_GOVERNANCE_TIMELOCK),
 };

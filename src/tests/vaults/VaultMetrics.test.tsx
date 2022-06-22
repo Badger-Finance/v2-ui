@@ -8,23 +8,25 @@ import { SAMPLE_VAULT } from '../utils/samples';
 import { checkSnapshot } from '../utils/snapshots';
 
 describe('VaultMetrics', () => {
-	it('renders correctly', () => {
-		checkSnapshot(<VaultMetrics vault={SAMPLE_VAULT} />);
-	});
+  it('renders correctly', () => {
+    checkSnapshot(<VaultMetrics vault={SAMPLE_VAULT} />);
+  });
 
-	it('displays withdrawable tokens', () => {
-		jest.spyOn(LockedDepositsStore.prototype, 'getLockedDepositBalances').mockReturnValue(
-			new TokenBalance(
-				{
-					address: SAMPLE_VAULT.vaultToken,
-					symbol: SAMPLE_VAULT.vaultAsset,
-					name: SAMPLE_VAULT.name,
-					decimals: 18,
-				},
-				BigNumber.from(100 * 1e18),
-				0
-			),
-		);
-		checkSnapshot(<VaultMetrics vault={SAMPLE_VAULT} />);
-	});
+  it('displays withdrawable tokens', () => {
+    jest
+      .spyOn(LockedDepositsStore.prototype, 'getLockedDepositBalances')
+      .mockReturnValue(
+        new TokenBalance(
+          {
+            address: SAMPLE_VAULT.vaultToken,
+            symbol: SAMPLE_VAULT.vaultAsset,
+            name: SAMPLE_VAULT.name,
+            decimals: 18,
+          },
+          BigNumber.from(100 * 1e18),
+          0,
+        ),
+      );
+    checkSnapshot(<VaultMetrics vault={SAMPLE_VAULT} />);
+  });
 });

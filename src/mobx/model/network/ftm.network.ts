@@ -10,227 +10,230 @@ import { BadgerVault } from '../vaults/badger-vault';
 import { Network as NetworkModel } from './network';
 
 export class Fantom extends NetworkModel {
-	constructor() {
-		super(
-			'https://ftmscan.com',
-			'https://ftmscan.com/gastracker',
-			'Fantom',
-			Network.Fantom,
-			NETWORK_IDS.FTM,
-			Currency.FTM,
-			FTM_DEPLOY,
-			ftmVaults,
-		);
-	}
+  constructor() {
+    super(
+      'https://ftmscan.com',
+      'https://ftmscan.com/gastracker',
+      'Fantom',
+      Network.Fantom,
+      NETWORK_IDS.FTM,
+      Currency.FTM,
+      FTM_DEPLOY,
+      ftmVaults,
+    );
+  }
 
-	get settOrder(): string[] {
-		return [
-			this.deploy.sett_system.vaults['native.veoxd'],
-			this.deploy.sett_system.vaults['native.bveoxd-oxd'],
-			this.deploy.sett_system.vaults['native.oxsolid'],
-			// oxd vaults need to be up top or tritium will come a' knocking
-			this.deploy.sett_system.vaults['native.usdc-dei'],
-		];
-	}
+  get settOrder(): string[] {
+    return [
+      this.deploy.sett_system.vaults['native.veoxd'],
+      this.deploy.sett_system.vaults['native.bveoxd-oxd'],
+      this.deploy.sett_system.vaults['native.oxsolid'],
+      // oxd vaults need to be up top or tritium will come a' knocking
+      this.deploy.sett_system.vaults['native.usdc-dei'],
+    ];
+  }
 }
 
 export const FTM_DEPLOY: Deploy = deploy;
 
 export const ftmVaults: BadgerVault[] = [
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.wbtc-renbtc'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.wbtc-renbtc'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.wftm-sex'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.wftm-sex'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.solid-solidsex'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.solid-solidsex'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.weve-usdc'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.weve-usdc'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.oxd-usdc'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.oxd-usdc'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.wftm-crv'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.wftm-crv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.usdc-mim'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.usdc-mim'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.wftm-renbtc'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.wftm-renbtc'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.wftm-crv'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.wftm-crv-eco'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.boo-xboo'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.boo-xboo-eco'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.usdc-mim'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.usdc-mim-eco'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.wftm-scream'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.wftm-scream-eco'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.wftm-renbtc'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.wftm-renbtc-eco'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.wftm-tomb'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.wftm-tomb-eco'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.geist-g3crv'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.geist-g3crv'],
-			decimals: 18,
-		},
-		depositAdvisory: AdvisoryType.VaultLock,
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['oxd'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.veoxd'],
-			decimals: 18,
-		},
-		depositAdvisory: AdvisoryType.ConvexLock,
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.bveoxd-oxd'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.bveoxd-oxd'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['oxsolid'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.oxsolid'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: FTM_DEPLOY.tokens['solidly.usdc-dei'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: FTM_DEPLOY.sett_system.vaults['native.usdc-dei'],
-			decimals: 18,
-		},
-	},
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.wbtc-renbtc'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.wbtc-renbtc'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.wftm-sex'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.wftm-sex'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.solid-solidsex'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.solid-solidsex'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.weve-usdc'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.weve-usdc'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.oxd-usdc'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.oxd-usdc'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.wftm-crv'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.wftm-crv'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.usdc-mim'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.usdc-mim'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.wftm-renbtc'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.wftm-renbtc'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.wftm-crv'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.wftm-crv-eco'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.boo-xboo'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.boo-xboo-eco'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.usdc-mim'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.usdc-mim-eco'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.wftm-scream'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.wftm-scream-eco'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.wftm-renbtc'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.wftm-renbtc-eco'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.wftm-tomb'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.wftm-tomb-eco'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.geist-g3crv'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.geist-g3crv'],
+      decimals: 18,
+    },
+    depositAdvisory: AdvisoryType.VaultLock,
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['oxd'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.veoxd'],
+      decimals: 18,
+    },
+    depositAdvisory: AdvisoryType.ConvexLock,
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.bveoxd-oxd'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.bveoxd-oxd'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['oxsolid'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.oxsolid'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: FTM_DEPLOY.tokens['solidly.usdc-dei'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: FTM_DEPLOY.sett_system.vaults['native.usdc-dei'],
+      decimals: 18,
+    },
+  },
 ];
 
-const ftmTokens = ftmVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]);
+const ftmTokens = ftmVaults.flatMap((vault) => [
+  vault.depositToken,
+  vault.vaultToken,
+]);
 
 export const ftmProtocolTokens: ProtocolTokens = toRecord(ftmTokens, 'address');

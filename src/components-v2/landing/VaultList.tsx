@@ -6,18 +6,18 @@ import VaultStatusInformationPanel from '../VaultStatusInformationPanel';
 import EmptyVaultSearch from './EmptyVaultSearch';
 
 export interface VaultTableProps {
-	settList: JSX.Element[];
+  settList: JSX.Element[];
 }
 
 const VaultList = ({ settList }: VaultTableProps): JSX.Element => {
-	return (
-		<>
-			<VaultListHeader />
-			{settList.length > 0 ? settList : <EmptyVaultSearch />}
-			<VaultStatusInformationPanel />
-			<VaultRewardsInformationPanel />
-		</>
-	);
+  return (
+    <>
+      <VaultListHeader />
+      {settList.length > 0 ? settList : <EmptyVaultSearch />}
+      <VaultStatusInformationPanel />
+      <VaultRewardsInformationPanel />
+    </>
+  );
 };
 
 export default VaultList;

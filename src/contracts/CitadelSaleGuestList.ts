@@ -2,394 +2,515 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
-	BaseContract,
-	BigNumber,
-	BytesLike,
-	CallOverrides,
-	ContractTransaction,
-	Overrides,
-	PopulatedTransaction,
-	Signer,
-	utils,
+  BaseContract,
+  BigNumber,
+  BytesLike,
+  CallOverrides,
+  ContractTransaction,
+  Overrides,
+  PopulatedTransaction,
+  Signer,
+  utils,
 } from 'ethers';
-import type { FunctionFragment, Result, EventFragment } from '@ethersproject/abi';
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from '@ethersproject/abi';
 import type { Listener, Provider } from '@ethersproject/providers';
-import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from './common';
+import type {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  OnEvent,
+} from './common';
 
 export interface CitadelSaleGuestListInterface extends utils.Interface {
-	functions: {
-		'PAUSER_ROLE()': FunctionFragment;
-		'TECH_OPERATIONS_ROLE()': FunctionFragment;
-		'UNPAUSER_ROLE()': FunctionFragment;
-		'__GlobalAccessControlManaged_init(address)': FunctionFragment;
-		'authorized(address,bytes32[])': FunctionFragment;
-		'gac()': FunctionFragment;
-		'guestRoot()': FunctionFragment;
-		'guests(address)': FunctionFragment;
-		'initialize(address)': FunctionFragment;
-		'pause()': FunctionFragment;
-		'paused()': FunctionFragment;
-		'proveInvitation(address,bytes32[])': FunctionFragment;
-		'setGuestRoot(bytes32)': FunctionFragment;
-		'setGuests(address[],bool[])': FunctionFragment;
-		'unpause()': FunctionFragment;
-	};
+  functions: {
+    'PAUSER_ROLE()': FunctionFragment;
+    'TECH_OPERATIONS_ROLE()': FunctionFragment;
+    'UNPAUSER_ROLE()': FunctionFragment;
+    '__GlobalAccessControlManaged_init(address)': FunctionFragment;
+    'authorized(address,bytes32[])': FunctionFragment;
+    'gac()': FunctionFragment;
+    'guestRoot()': FunctionFragment;
+    'guests(address)': FunctionFragment;
+    'initialize(address)': FunctionFragment;
+    'pause()': FunctionFragment;
+    'paused()': FunctionFragment;
+    'proveInvitation(address,bytes32[])': FunctionFragment;
+    'setGuestRoot(bytes32)': FunctionFragment;
+    'setGuests(address[],bool[])': FunctionFragment;
+    'unpause()': FunctionFragment;
+  };
 
-	getFunction(
-		nameOrSignatureOrTopic:
-			| 'PAUSER_ROLE'
-			| 'TECH_OPERATIONS_ROLE'
-			| 'UNPAUSER_ROLE'
-			| '__GlobalAccessControlManaged_init'
-			| 'authorized'
-			| 'gac'
-			| 'guestRoot'
-			| 'guests'
-			| 'initialize'
-			| 'pause'
-			| 'paused'
-			| 'proveInvitation'
-			| 'setGuestRoot'
-			| 'setGuests'
-			| 'unpause',
-	): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic:
+      | 'PAUSER_ROLE'
+      | 'TECH_OPERATIONS_ROLE'
+      | 'UNPAUSER_ROLE'
+      | '__GlobalAccessControlManaged_init'
+      | 'authorized'
+      | 'gac'
+      | 'guestRoot'
+      | 'guests'
+      | 'initialize'
+      | 'pause'
+      | 'paused'
+      | 'proveInvitation'
+      | 'setGuestRoot'
+      | 'setGuests'
+      | 'unpause',
+  ): FunctionFragment;
 
-	encodeFunctionData(functionFragment: 'PAUSER_ROLE', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'TECH_OPERATIONS_ROLE', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'UNPAUSER_ROLE', values?: undefined): string;
-	encodeFunctionData(functionFragment: '__GlobalAccessControlManaged_init', values: [string]): string;
-	encodeFunctionData(functionFragment: 'authorized', values: [string, BytesLike[]]): string;
-	encodeFunctionData(functionFragment: 'gac', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'guestRoot', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'guests', values: [string]): string;
-	encodeFunctionData(functionFragment: 'initialize', values: [string]): string;
-	encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'proveInvitation', values: [string, BytesLike[]]): string;
-	encodeFunctionData(functionFragment: 'setGuestRoot', values: [BytesLike]): string;
-	encodeFunctionData(functionFragment: 'setGuests', values: [string[], boolean[]]): string;
-	encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'PAUSER_ROLE',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'TECH_OPERATIONS_ROLE',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'UNPAUSER_ROLE',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(
+    functionFragment: '__GlobalAccessControlManaged_init',
+    values: [string],
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'authorized',
+    values: [string, BytesLike[]],
+  ): string;
+  encodeFunctionData(functionFragment: 'gac', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'guestRoot', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'guests', values: [string]): string;
+  encodeFunctionData(functionFragment: 'initialize', values: [string]): string;
+  encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'proveInvitation',
+    values: [string, BytesLike[]],
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'setGuestRoot',
+    values: [BytesLike],
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'setGuests',
+    values: [string[], boolean[]],
+  ): string;
+  encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
 
-	decodeFunctionResult(functionFragment: 'PAUSER_ROLE', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'TECH_OPERATIONS_ROLE', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'UNPAUSER_ROLE', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: '__GlobalAccessControlManaged_init', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'authorized', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'gac', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'guestRoot', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'guests', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'proveInvitation', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'setGuestRoot', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'setGuests', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'PAUSER_ROLE',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'TECH_OPERATIONS_ROLE',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'UNPAUSER_ROLE',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: '__GlobalAccessControlManaged_init',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'authorized', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'gac', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'guestRoot', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'guests', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'proveInvitation',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'setGuestRoot',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'setGuests', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result;
 
-	events: {
-		'Paused(address)': EventFragment;
-		'ProveInvitation(address,bytes32)': EventFragment;
-		'SetGuestRoot(bytes32)': EventFragment;
-		'Unpaused(address)': EventFragment;
-	};
+  events: {
+    'Paused(address)': EventFragment;
+    'ProveInvitation(address,bytes32)': EventFragment;
+    'SetGuestRoot(bytes32)': EventFragment;
+    'Unpaused(address)': EventFragment;
+  };
 
-	getEvent(nameOrSignatureOrTopic: 'Paused'): EventFragment;
-	getEvent(nameOrSignatureOrTopic: 'ProveInvitation'): EventFragment;
-	getEvent(nameOrSignatureOrTopic: 'SetGuestRoot'): EventFragment;
-	getEvent(nameOrSignatureOrTopic: 'Unpaused'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Paused'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'ProveInvitation'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'SetGuestRoot'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Unpaused'): EventFragment;
 }
 
 export interface PausedEventObject {
-	account: string;
+  account: string;
 }
 export type PausedEvent = TypedEvent<[string], PausedEventObject>;
 
 export type PausedEventFilter = TypedEventFilter<PausedEvent>;
 
 export interface ProveInvitationEventObject {
-	account: string;
-	guestRoot: string;
+  account: string;
+  guestRoot: string;
 }
-export type ProveInvitationEvent = TypedEvent<[string, string], ProveInvitationEventObject>;
+export type ProveInvitationEvent = TypedEvent<
+  [string, string],
+  ProveInvitationEventObject
+>;
 
 export type ProveInvitationEventFilter = TypedEventFilter<ProveInvitationEvent>;
 
 export interface SetGuestRootEventObject {
-	guestRoot: string;
+  guestRoot: string;
 }
 export type SetGuestRootEvent = TypedEvent<[string], SetGuestRootEventObject>;
 
 export type SetGuestRootEventFilter = TypedEventFilter<SetGuestRootEvent>;
 
 export interface UnpausedEventObject {
-	account: string;
+  account: string;
 }
 export type UnpausedEvent = TypedEvent<[string], UnpausedEventObject>;
 
 export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
 export interface CitadelSaleGuestList extends BaseContract {
-	connect(signerOrProvider: Signer | Provider | string): this;
-	attach(addressOrName: string): this;
-	deployed(): Promise<this>;
+  connect(signerOrProvider: Signer | Provider | string): this;
+  attach(addressOrName: string): this;
+  deployed(): Promise<this>;
 
-	interface: CitadelSaleGuestListInterface;
+  interface: CitadelSaleGuestListInterface;
 
-	queryFilter<TEvent extends TypedEvent>(
-		event: TypedEventFilter<TEvent>,
-		fromBlockOrBlockhash?: string | number | undefined,
-		toBlock?: string | number | undefined,
-	): Promise<Array<TEvent>>;
+  queryFilter<TEvent extends TypedEvent>(
+    event: TypedEventFilter<TEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined,
+  ): Promise<Array<TEvent>>;
 
-	listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
-	listeners(eventName?: string): Array<Listener>;
-	removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
-	removeAllListeners(eventName?: string): this;
-	off: OnEvent<this>;
-	on: OnEvent<this>;
-	once: OnEvent<this>;
-	removeListener: OnEvent<this>;
+  listeners<TEvent extends TypedEvent>(
+    eventFilter?: TypedEventFilter<TEvent>,
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
+  removeAllListeners<TEvent extends TypedEvent>(
+    eventFilter: TypedEventFilter<TEvent>,
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
-	functions: {
-		PAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+  functions: {
+    PAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-		TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<[string]>;
+    TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    UNPAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    __GlobalAccessControlManaged_init(
+      _globalAccessControl: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
+
+    authorized(
+      _guest: string,
+      _merkleProof: BytesLike[],
+      overrides?: CallOverrides,
+    ): Promise<[boolean]>;
 
-		UNPAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+    gac(overrides?: CallOverrides): Promise<[string]>;
 
-		__GlobalAccessControlManaged_init(
-			_globalAccessControl: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+    guestRoot(overrides?: CallOverrides): Promise<[string]>;
 
-		authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<[boolean]>;
+    guests(arg0: string, overrides?: CallOverrides): Promise<[boolean]>;
 
-		gac(overrides?: CallOverrides): Promise<[string]>;
+    initialize(
+      _globalAccessControl: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
+
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		guestRoot(overrides?: CallOverrides): Promise<[string]>;
+    paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-		guests(arg0: string, overrides?: CallOverrides): Promise<[boolean]>;
+    proveInvitation(
+      account: string,
+      merkleProof: BytesLike[],
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		initialize(
-			_globalAccessControl: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+    setGuestRoot(
+      guestRoot_: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
+    setGuests(
+      _guests: string[],
+      _invited: boolean[],
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		paused(overrides?: CallOverrides): Promise<[boolean]>;
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
+  };
 
-		proveInvitation(
-			account: string,
-			merkleProof: BytesLike[],
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+  PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-		setGuestRoot(
-			guestRoot_: BytesLike,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+  TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<string>;
 
-		setGuests(
-			_guests: string[],
-			_invited: boolean[],
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+  UNPAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-		unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
-	};
+  __GlobalAccessControlManaged_init(
+    _globalAccessControl: string,
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
+  authorized(
+    _guest: string,
+    _merkleProof: BytesLike[],
+    overrides?: CallOverrides,
+  ): Promise<boolean>;
 
-	TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<string>;
+  gac(overrides?: CallOverrides): Promise<string>;
 
-	UNPAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
+  guestRoot(overrides?: CallOverrides): Promise<string>;
 
-	__GlobalAccessControlManaged_init(
-		_globalAccessControl: string,
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+  guests(arg0: string, overrides?: CallOverrides): Promise<boolean>;
 
-	authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<boolean>;
+  initialize(
+    _globalAccessControl: string,
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	gac(overrides?: CallOverrides): Promise<string>;
+  pause(
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	guestRoot(overrides?: CallOverrides): Promise<string>;
+  paused(overrides?: CallOverrides): Promise<boolean>;
 
-	guests(arg0: string, overrides?: CallOverrides): Promise<boolean>;
+  proveInvitation(
+    account: string,
+    merkleProof: BytesLike[],
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	initialize(
-		_globalAccessControl: string,
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+  setGuestRoot(
+    guestRoot_: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
+  setGuests(
+    _guests: string[],
+    _invited: boolean[],
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	paused(overrides?: CallOverrides): Promise<boolean>;
+  unpause(
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	proveInvitation(
-		account: string,
-		merkleProof: BytesLike[],
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+  callStatic: {
+    PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-	setGuestRoot(
-		guestRoot_: BytesLike,
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+    TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<string>;
 
-	setGuests(
-		_guests: string[],
-		_invited: boolean[],
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+    UNPAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-	unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
+    __GlobalAccessControlManaged_init(
+      _globalAccessControl: string,
+      overrides?: CallOverrides,
+    ): Promise<void>;
 
-	callStatic: {
-		PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
+    authorized(
+      _guest: string,
+      _merkleProof: BytesLike[],
+      overrides?: CallOverrides,
+    ): Promise<boolean>;
 
-		TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<string>;
+    gac(overrides?: CallOverrides): Promise<string>;
 
-		UNPAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
+    guestRoot(overrides?: CallOverrides): Promise<string>;
 
-		__GlobalAccessControlManaged_init(_globalAccessControl: string, overrides?: CallOverrides): Promise<void>;
+    guests(arg0: string, overrides?: CallOverrides): Promise<boolean>;
 
-		authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<boolean>;
+    initialize(
+      _globalAccessControl: string,
+      overrides?: CallOverrides,
+    ): Promise<void>;
 
-		gac(overrides?: CallOverrides): Promise<string>;
+    pause(overrides?: CallOverrides): Promise<void>;
 
-		guestRoot(overrides?: CallOverrides): Promise<string>;
+    paused(overrides?: CallOverrides): Promise<boolean>;
 
-		guests(arg0: string, overrides?: CallOverrides): Promise<boolean>;
+    proveInvitation(
+      account: string,
+      merkleProof: BytesLike[],
+      overrides?: CallOverrides,
+    ): Promise<void>;
 
-		initialize(_globalAccessControl: string, overrides?: CallOverrides): Promise<void>;
+    setGuestRoot(
+      guestRoot_: BytesLike,
+      overrides?: CallOverrides,
+    ): Promise<void>;
 
-		pause(overrides?: CallOverrides): Promise<void>;
+    setGuests(
+      _guests: string[],
+      _invited: boolean[],
+      overrides?: CallOverrides,
+    ): Promise<void>;
 
-		paused(overrides?: CallOverrides): Promise<boolean>;
+    unpause(overrides?: CallOverrides): Promise<void>;
+  };
 
-		proveInvitation(account: string, merkleProof: BytesLike[], overrides?: CallOverrides): Promise<void>;
+  filters: {
+    'Paused(address)'(account?: null): PausedEventFilter;
+    Paused(account?: null): PausedEventFilter;
 
-		setGuestRoot(guestRoot_: BytesLike, overrides?: CallOverrides): Promise<void>;
+    'ProveInvitation(address,bytes32)'(
+      account?: string | null,
+      guestRoot?: BytesLike | null,
+    ): ProveInvitationEventFilter;
+    ProveInvitation(
+      account?: string | null,
+      guestRoot?: BytesLike | null,
+    ): ProveInvitationEventFilter;
 
-		setGuests(_guests: string[], _invited: boolean[], overrides?: CallOverrides): Promise<void>;
+    'SetGuestRoot(bytes32)'(
+      guestRoot?: BytesLike | null,
+    ): SetGuestRootEventFilter;
+    SetGuestRoot(guestRoot?: BytesLike | null): SetGuestRootEventFilter;
 
-		unpause(overrides?: CallOverrides): Promise<void>;
-	};
+    'Unpaused(address)'(account?: null): UnpausedEventFilter;
+    Unpaused(account?: null): UnpausedEventFilter;
+  };
 
-	filters: {
-		'Paused(address)'(account?: null): PausedEventFilter;
-		Paused(account?: null): PausedEventFilter;
+  estimateGas: {
+    PAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-		'ProveInvitation(address,bytes32)'(
-			account?: string | null,
-			guestRoot?: BytesLike | null,
-		): ProveInvitationEventFilter;
-		ProveInvitation(account?: string | null, guestRoot?: BytesLike | null): ProveInvitationEventFilter;
+    TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-		'SetGuestRoot(bytes32)'(guestRoot?: BytesLike | null): SetGuestRootEventFilter;
-		SetGuestRoot(guestRoot?: BytesLike | null): SetGuestRootEventFilter;
+    UNPAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-		'Unpaused(address)'(account?: null): UnpausedEventFilter;
-		Unpaused(account?: null): UnpausedEventFilter;
-	};
+    __GlobalAccessControlManaged_init(
+      _globalAccessControl: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-	estimateGas: {
-		PAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+    authorized(
+      _guest: string,
+      _merkleProof: BytesLike[],
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>;
 
-		TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+    gac(overrides?: CallOverrides): Promise<BigNumber>;
 
-		UNPAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+    guestRoot(overrides?: CallOverrides): Promise<BigNumber>;
 
-		__GlobalAccessControlManaged_init(
-			_globalAccessControl: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<BigNumber>;
+    guests(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-		authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<BigNumber>;
+    initialize(
+      _globalAccessControl: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		gac(overrides?: CallOverrides): Promise<BigNumber>;
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		guestRoot(overrides?: CallOverrides): Promise<BigNumber>;
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-		guests(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+    proveInvitation(
+      account: string,
+      merkleProof: BytesLike[],
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		initialize(
-			_globalAccessControl: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<BigNumber>;
+    setGuestRoot(
+      guestRoot_: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
+    setGuests(
+      _guests: string[],
+      _invited: boolean[],
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		paused(overrides?: CallOverrides): Promise<BigNumber>;
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
+  };
 
-		proveInvitation(
-			account: string,
-			merkleProof: BytesLike[],
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<BigNumber>;
+  populateTransaction: {
+    PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		setGuestRoot(
-			guestRoot_: BytesLike,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<BigNumber>;
+    TECH_OPERATIONS_ROLE(
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>;
 
-		setGuests(
-			_guests: string[],
-			_invited: boolean[],
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<BigNumber>;
+    UNPAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
-	};
+    __GlobalAccessControlManaged_init(
+      _globalAccessControl: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-	populateTransaction: {
-		PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    authorized(
+      _guest: string,
+      _merkleProof: BytesLike[],
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>;
 
-		TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    gac(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		UNPAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    guestRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		__GlobalAccessControlManaged_init(
-			_globalAccessControl: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
+    guests(
+      arg0: string,
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>;
 
-		authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    initialize(
+      _globalAccessControl: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		gac(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		guestRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		guests(arg0: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    proveInvitation(
+      account: string,
+      merkleProof: BytesLike[],
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		initialize(
-			_globalAccessControl: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
+    setGuestRoot(
+      guestRoot_: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
+    setGuests(
+      _guests: string[],
+      _invited: boolean[],
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-		proveInvitation(
-			account: string,
-			merkleProof: BytesLike[],
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
-
-		setGuestRoot(
-			guestRoot_: BytesLike,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
-
-		setGuests(
-			_guests: string[],
-			_invited: boolean[],
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
-
-		unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
-	};
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
+  };
 }

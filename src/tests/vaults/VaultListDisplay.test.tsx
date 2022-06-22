@@ -12,120 +12,126 @@ import { customRender } from '../Utils';
 import { SAMPLE_VAULTS } from '../utils/samples';
 
 const mockVaultsInformation = (vaults: VaultDTO[]) => {
-	jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
-		new Map(
-			vaults.map((vault) => [
-				vault.vaultToken,
-				{
-					depositToken: { address: vault.underlyingToken, decimals: 18 },
-					vaultToken: { address: vault.vaultToken, decimals: 18 },
-				},
-			]),
-		),
-	);
+  jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
+    new Map(
+      vaults.map((vault) => [
+        vault.vaultToken,
+        {
+          depositToken: { address: vault.underlyingToken, decimals: 18 },
+          vaultToken: { address: vault.vaultToken, decimals: 18 },
+        },
+      ]),
+    ),
+  );
 };
 
 describe('VaultListDisplay', () => {
-	beforeEach(() => {
-		mockVaultsInformation(SAMPLE_VAULTS);
-	});
+  beforeEach(() => {
+    mockVaultsInformation(SAMPLE_VAULTS);
+  });
 
-	afterEach(() => {
-		jest.restoreAllMocks();
-		store.vaults.clearFilters();
-	});
+  afterEach(() => {
+    jest.restoreAllMocks();
+    store.vaults.clearFilters();
+  });
 
-	it('displays empty search message', () => {
-		mockVaultsInformation([]);
-		jest.spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get').mockReturnValue(1);
+  it('displays empty search message', () => {
+    mockVaultsInformation([]);
+    jest
+      .spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get')
+      .mockReturnValue(1);
 
-		const { container } = customRender(
-			<StoreProvider value={store}>
-				<VaultListDisplay />
-			</StoreProvider>,
-		);
+    const { container } = customRender(
+      <StoreProvider value={store}>
+        <VaultListDisplay />
+      </StoreProvider>,
+    );
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('displays no vaults message', () => {
-		mockVaultsInformation([]);
-		jest.spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get').mockReturnValue(0);
+  it('displays no vaults message', () => {
+    mockVaultsInformation([]);
+    jest
+      .spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get')
+      .mockReturnValue(0);
 
-		const { container } = customRender(
-			<StoreProvider value={store}>
-				<VaultListDisplay />
-			</StoreProvider>,
-		);
+    const { container } = customRender(
+      <StoreProvider value={store}>
+        <VaultListDisplay />
+      </StoreProvider>,
+    );
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('does not display deprecated vaults with no user balance', () => {
-		const vaults = [...SAMPLE_VAULTS].splice(0, 1);
-		vaults[0].state = VaultState.Discontinued;
+  it('does not display deprecated vaults with no user balance', () => {
+    const vaults = [...SAMPLE_VAULTS].splice(0, 1);
+    vaults[0].state = VaultState.Discontinued;
 
-		mockVaultsInformation(vaults);
+    mockVaultsInformation(vaults);
 
-		const { container } = customRender(
-			<StoreProvider value={store}>
-				<VaultListDisplay />
-			</StoreProvider>,
-		);
+    const { container } = customRender(
+      <StoreProvider value={store}>
+        <VaultListDisplay />
+      </StoreProvider>,
+    );
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 
-	it('uses default sort criteria by default', () => {
-		const vaults = [...SAMPLE_VAULTS];
+  it('uses default sort criteria by default', () => {
+    const vaults = [...SAMPLE_VAULTS];
 
-		mockVaultsInformation(vaults);
+    mockVaultsInformation(vaults);
 
-		jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((address: string) => {
-			if (address === vaults[2].vaultToken) {
-				return new TokenBalance(
-					{
-						address,
-						symbol: '',
-						decimals: 18,
-						name: '',
-					},
-					BigNumber.from(10),
-					2,
-				);
-			}
+    jest
+      .spyOn(UserStore.prototype, 'getBalance')
+      .mockImplementation((address: string) => {
+        if (address === vaults[2].vaultToken) {
+          return new TokenBalance(
+            {
+              address,
+              symbol: '',
+              decimals: 18,
+              name: '',
+            },
+            BigNumber.from(10),
+            2,
+          );
+        }
 
-			if (address === vaults[1].underlyingToken) {
-				return new TokenBalance(
-					{
-						address,
-						symbol: '',
-						decimals: 18,
-						name: '',
-					},
-					BigNumber.from(1),
-					2,
-				);
-			}
+        if (address === vaults[1].underlyingToken) {
+          return new TokenBalance(
+            {
+              address,
+              symbol: '',
+              decimals: 18,
+              name: '',
+            },
+            BigNumber.from(1),
+            2,
+          );
+        }
 
-			return new TokenBalance(
-				{
-					address,
-					symbol: '',
-					decimals: 18,
-					name: '',
-				},
-				BigNumber.from(0),
-				0,
-			);
-		});
+        return new TokenBalance(
+          {
+            address,
+            symbol: '',
+            decimals: 18,
+            name: '',
+          },
+          BigNumber.from(0),
+          0,
+        );
+      });
 
-		const { container } = customRender(
-			<StoreProvider value={store}>
-				<VaultListDisplay />
-			</StoreProvider>,
-		);
+    const { container } = customRender(
+      <StoreProvider value={store}>
+        <VaultListDisplay />
+      </StoreProvider>,
+    );
 
-		expect(container).toMatchSnapshot();
-	});
+    expect(container).toMatchSnapshot();
+  });
 });

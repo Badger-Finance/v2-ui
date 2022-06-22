@@ -2,541 +2,658 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
-	BaseContract,
-	BigNumber,
-	BigNumberish,
-	BytesLike,
-	CallOverrides,
-	ContractTransaction,
-	Overrides,
-	PopulatedTransaction,
-	Signer,
-	utils,
+  BaseContract,
+  BigNumber,
+  BigNumberish,
+  BytesLike,
+  CallOverrides,
+  ContractTransaction,
+  Overrides,
+  PopulatedTransaction,
+  Signer,
+  utils,
 } from 'ethers';
-import type { FunctionFragment, Result, EventFragment } from '@ethersproject/abi';
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from '@ethersproject/abi';
 import type { Listener, Provider } from '@ethersproject/providers';
-import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from './common';
+import type {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  OnEvent,
+} from './common';
 
 export interface IbbtcVaultZapInterface extends utils.Interface {
-	functions: {
-		'CURVE_IBBTC_DEPOSIT_ZAP()': FunctionFragment;
-		'CURVE_IBBTC_METAPOOL()': FunctionFragment;
-		'CURVE_REN_POOL()': FunctionFragment;
-		'IBBTC()': FunctionFragment;
-		'IBBTC_VAULT()': FunctionFragment;
-		'RENBTC()': FunctionFragment;
-		'RENCRV_TOKEN()': FunctionFragment;
-		'RENCRV_VAULT()': FunctionFragment;
-		'SBTC()': FunctionFragment;
-		'SETT_PEAK()': FunctionFragment;
-		'WBTC()': FunctionFragment;
-		'WIBBTC()': FunctionFragment;
-		'calcMint(uint256[4],bool)': FunctionFragment;
-		'deposit(uint256[4],uint256,bool)': FunctionFragment;
-		'expectedAmount(uint256[4])': FunctionFragment;
-		'governance()': FunctionFragment;
-		'guardian()': FunctionFragment;
-		'initialize(address,address)': FunctionFragment;
-		'pause()': FunctionFragment;
-		'paused()': FunctionFragment;
-		'setGovernance(address)': FunctionFragment;
-		'setGuardian(address)': FunctionFragment;
-		'unpause()': FunctionFragment;
-	};
+  functions: {
+    'CURVE_IBBTC_DEPOSIT_ZAP()': FunctionFragment;
+    'CURVE_IBBTC_METAPOOL()': FunctionFragment;
+    'CURVE_REN_POOL()': FunctionFragment;
+    'IBBTC()': FunctionFragment;
+    'IBBTC_VAULT()': FunctionFragment;
+    'RENBTC()': FunctionFragment;
+    'RENCRV_TOKEN()': FunctionFragment;
+    'RENCRV_VAULT()': FunctionFragment;
+    'SBTC()': FunctionFragment;
+    'SETT_PEAK()': FunctionFragment;
+    'WBTC()': FunctionFragment;
+    'WIBBTC()': FunctionFragment;
+    'calcMint(uint256[4],bool)': FunctionFragment;
+    'deposit(uint256[4],uint256,bool)': FunctionFragment;
+    'expectedAmount(uint256[4])': FunctionFragment;
+    'governance()': FunctionFragment;
+    'guardian()': FunctionFragment;
+    'initialize(address,address)': FunctionFragment;
+    'pause()': FunctionFragment;
+    'paused()': FunctionFragment;
+    'setGovernance(address)': FunctionFragment;
+    'setGuardian(address)': FunctionFragment;
+    'unpause()': FunctionFragment;
+  };
 
-	getFunction(
-		nameOrSignatureOrTopic:
-			| 'CURVE_IBBTC_DEPOSIT_ZAP'
-			| 'CURVE_IBBTC_METAPOOL'
-			| 'CURVE_REN_POOL'
-			| 'IBBTC'
-			| 'IBBTC_VAULT'
-			| 'RENBTC'
-			| 'RENCRV_TOKEN'
-			| 'RENCRV_VAULT'
-			| 'SBTC'
-			| 'SETT_PEAK'
-			| 'WBTC'
-			| 'WIBBTC'
-			| 'calcMint'
-			| 'deposit'
-			| 'expectedAmount'
-			| 'governance'
-			| 'guardian'
-			| 'initialize'
-			| 'pause'
-			| 'paused'
-			| 'setGovernance'
-			| 'setGuardian'
-			| 'unpause',
-	): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic:
+      | 'CURVE_IBBTC_DEPOSIT_ZAP'
+      | 'CURVE_IBBTC_METAPOOL'
+      | 'CURVE_REN_POOL'
+      | 'IBBTC'
+      | 'IBBTC_VAULT'
+      | 'RENBTC'
+      | 'RENCRV_TOKEN'
+      | 'RENCRV_VAULT'
+      | 'SBTC'
+      | 'SETT_PEAK'
+      | 'WBTC'
+      | 'WIBBTC'
+      | 'calcMint'
+      | 'deposit'
+      | 'expectedAmount'
+      | 'governance'
+      | 'guardian'
+      | 'initialize'
+      | 'pause'
+      | 'paused'
+      | 'setGovernance'
+      | 'setGuardian'
+      | 'unpause',
+  ): FunctionFragment;
 
-	encodeFunctionData(functionFragment: 'CURVE_IBBTC_DEPOSIT_ZAP', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'CURVE_IBBTC_METAPOOL', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'CURVE_REN_POOL', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'IBBTC', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'IBBTC_VAULT', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'RENBTC', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'RENCRV_TOKEN', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'RENCRV_VAULT', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'SBTC', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'SETT_PEAK', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'WBTC', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'WIBBTC', values?: undefined): string;
-	encodeFunctionData(
-		functionFragment: 'calcMint',
-		values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish], boolean],
-	): string;
-	encodeFunctionData(
-		functionFragment: 'deposit',
-		values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish], BigNumberish, boolean],
-	): string;
-	encodeFunctionData(
-		functionFragment: 'expectedAmount',
-		values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish]],
-	): string;
-	encodeFunctionData(functionFragment: 'governance', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'guardian', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'initialize', values: [string, string]): string;
-	encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
-	encodeFunctionData(functionFragment: 'setGovernance', values: [string]): string;
-	encodeFunctionData(functionFragment: 'setGuardian', values: [string]): string;
-	encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'CURVE_IBBTC_DEPOSIT_ZAP',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'CURVE_IBBTC_METAPOOL',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'CURVE_REN_POOL',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(functionFragment: 'IBBTC', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'IBBTC_VAULT',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(functionFragment: 'RENBTC', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'RENCRV_TOKEN',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'RENCRV_VAULT',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(functionFragment: 'SBTC', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'SETT_PEAK', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'WBTC', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'WIBBTC', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'calcMint',
+    values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish], boolean],
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'deposit',
+    values: [
+      [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      BigNumberish,
+      boolean,
+    ],
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'expectedAmount',
+    values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish]],
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'governance',
+    values?: undefined,
+  ): string;
+  encodeFunctionData(functionFragment: 'guardian', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'initialize',
+    values: [string, string],
+  ): string;
+  encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: 'setGovernance',
+    values: [string],
+  ): string;
+  encodeFunctionData(functionFragment: 'setGuardian', values: [string]): string;
+  encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
 
-	decodeFunctionResult(functionFragment: 'CURVE_IBBTC_DEPOSIT_ZAP', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'CURVE_IBBTC_METAPOOL', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'CURVE_REN_POOL', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'IBBTC', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'IBBTC_VAULT', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'RENBTC', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'RENCRV_TOKEN', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'RENCRV_VAULT', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'SBTC', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'SETT_PEAK', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'WBTC', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'WIBBTC', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'calcMint', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'deposit', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'expectedAmount', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'governance', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'guardian', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'setGovernance', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'setGuardian', data: BytesLike): Result;
-	decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'CURVE_IBBTC_DEPOSIT_ZAP',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'CURVE_IBBTC_METAPOOL',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'CURVE_REN_POOL',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'IBBTC', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'IBBTC_VAULT',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'RENBTC', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'RENCRV_TOKEN',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'RENCRV_VAULT',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'SBTC', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'SETT_PEAK', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'WBTC', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'WIBBTC', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'calcMint', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'deposit', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'expectedAmount',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'governance', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'guardian', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'setGovernance',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'setGuardian',
+    data: BytesLike,
+  ): Result;
+  decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result;
 
-	events: {
-		'GovernanceUpdated(address)': EventFragment;
-		'GuardianshipTransferred(address)': EventFragment;
-		'Paused(address)': EventFragment;
-		'Unpaused(address)': EventFragment;
-	};
+  events: {
+    'GovernanceUpdated(address)': EventFragment;
+    'GuardianshipTransferred(address)': EventFragment;
+    'Paused(address)': EventFragment;
+    'Unpaused(address)': EventFragment;
+  };
 
-	getEvent(nameOrSignatureOrTopic: 'GovernanceUpdated'): EventFragment;
-	getEvent(nameOrSignatureOrTopic: 'GuardianshipTransferred'): EventFragment;
-	getEvent(nameOrSignatureOrTopic: 'Paused'): EventFragment;
-	getEvent(nameOrSignatureOrTopic: 'Unpaused'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'GovernanceUpdated'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'GuardianshipTransferred'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Paused'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Unpaused'): EventFragment;
 }
 
 export interface GovernanceUpdatedEventObject {
-	newGovernanceAddress: string;
+  newGovernanceAddress: string;
 }
-export type GovernanceUpdatedEvent = TypedEvent<[string], GovernanceUpdatedEventObject>;
+export type GovernanceUpdatedEvent = TypedEvent<
+  [string],
+  GovernanceUpdatedEventObject
+>;
 
-export type GovernanceUpdatedEventFilter = TypedEventFilter<GovernanceUpdatedEvent>;
+export type GovernanceUpdatedEventFilter =
+  TypedEventFilter<GovernanceUpdatedEvent>;
 
 export interface GuardianshipTransferredEventObject {
-	newGuardianAddress: string;
+  newGuardianAddress: string;
 }
-export type GuardianshipTransferredEvent = TypedEvent<[string], GuardianshipTransferredEventObject>;
+export type GuardianshipTransferredEvent = TypedEvent<
+  [string],
+  GuardianshipTransferredEventObject
+>;
 
-export type GuardianshipTransferredEventFilter = TypedEventFilter<GuardianshipTransferredEvent>;
+export type GuardianshipTransferredEventFilter =
+  TypedEventFilter<GuardianshipTransferredEvent>;
 
 export interface PausedEventObject {
-	account: string;
+  account: string;
 }
 export type PausedEvent = TypedEvent<[string], PausedEventObject>;
 
 export type PausedEventFilter = TypedEventFilter<PausedEvent>;
 
 export interface UnpausedEventObject {
-	account: string;
+  account: string;
 }
 export type UnpausedEvent = TypedEvent<[string], UnpausedEventObject>;
 
 export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
 export interface IbbtcVaultZap extends BaseContract {
-	connect(signerOrProvider: Signer | Provider | string): this;
-	attach(addressOrName: string): this;
-	deployed(): Promise<this>;
+  connect(signerOrProvider: Signer | Provider | string): this;
+  attach(addressOrName: string): this;
+  deployed(): Promise<this>;
 
-	interface: IbbtcVaultZapInterface;
+  interface: IbbtcVaultZapInterface;
 
-	queryFilter<TEvent extends TypedEvent>(
-		event: TypedEventFilter<TEvent>,
-		fromBlockOrBlockhash?: string | number | undefined,
-		toBlock?: string | number | undefined,
-	): Promise<Array<TEvent>>;
+  queryFilter<TEvent extends TypedEvent>(
+    event: TypedEventFilter<TEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined,
+  ): Promise<Array<TEvent>>;
 
-	listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
-	listeners(eventName?: string): Array<Listener>;
-	removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
-	removeAllListeners(eventName?: string): this;
-	off: OnEvent<this>;
-	on: OnEvent<this>;
-	once: OnEvent<this>;
-	removeListener: OnEvent<this>;
+  listeners<TEvent extends TypedEvent>(
+    eventFilter?: TypedEventFilter<TEvent>,
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
+  removeAllListeners<TEvent extends TypedEvent>(
+    eventFilter: TypedEventFilter<TEvent>,
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
-	functions: {
-		CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<[string]>;
+  functions: {
+    CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<[string]>;
 
-		CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<[string]>;
+    CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<[string]>;
 
-		CURVE_REN_POOL(overrides?: CallOverrides): Promise<[string]>;
+    CURVE_REN_POOL(overrides?: CallOverrides): Promise<[string]>;
 
-		IBBTC(overrides?: CallOverrides): Promise<[string]>;
+    IBBTC(overrides?: CallOverrides): Promise<[string]>;
 
-		IBBTC_VAULT(overrides?: CallOverrides): Promise<[string]>;
+    IBBTC_VAULT(overrides?: CallOverrides): Promise<[string]>;
 
-		RENBTC(overrides?: CallOverrides): Promise<[string]>;
+    RENBTC(overrides?: CallOverrides): Promise<[string]>;
 
-		RENCRV_TOKEN(overrides?: CallOverrides): Promise<[string]>;
+    RENCRV_TOKEN(overrides?: CallOverrides): Promise<[string]>;
 
-		RENCRV_VAULT(overrides?: CallOverrides): Promise<[string]>;
+    RENCRV_VAULT(overrides?: CallOverrides): Promise<[string]>;
 
-		SBTC(overrides?: CallOverrides): Promise<[string]>;
+    SBTC(overrides?: CallOverrides): Promise<[string]>;
 
-		SETT_PEAK(overrides?: CallOverrides): Promise<[string]>;
+    SETT_PEAK(overrides?: CallOverrides): Promise<[string]>;
 
-		WBTC(overrides?: CallOverrides): Promise<[string]>;
+    WBTC(overrides?: CallOverrides): Promise<[string]>;
 
-		WIBBTC(overrides?: CallOverrides): Promise<[string]>;
+    WIBBTC(overrides?: CallOverrides): Promise<[string]>;
 
-		calcMint(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			_mintIbbtc: boolean,
-			overrides?: CallOverrides,
-		): Promise<[BigNumber]>;
+    calcMint(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _mintIbbtc: boolean,
+      overrides?: CallOverrides,
+    ): Promise<[BigNumber]>;
 
-		deposit(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			_minOut: BigNumberish,
-			_mintIbbtc: boolean,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+    deposit(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _minOut: BigNumberish,
+      _mintIbbtc: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		expectedAmount(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			overrides?: CallOverrides,
-		): Promise<[BigNumber] & { amount: BigNumber }>;
+    expectedAmount(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      overrides?: CallOverrides,
+    ): Promise<[BigNumber] & { amount: BigNumber }>;
 
-		governance(overrides?: CallOverrides): Promise<[string]>;
+    governance(overrides?: CallOverrides): Promise<[string]>;
 
-		guardian(overrides?: CallOverrides): Promise<[string]>;
+    guardian(overrides?: CallOverrides): Promise<[string]>;
 
-		initialize(
-			_guardian: string,
-			_governance: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+    initialize(
+      _guardian: string,
+      _governance: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		paused(overrides?: CallOverrides): Promise<[boolean]>;
+    paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-		setGovernance(
-			_governance: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+    setGovernance(
+      _governance: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		setGuardian(
-			_guardian: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<ContractTransaction>;
+    setGuardian(
+      _guardian: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
 
-		unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
-	};
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<ContractTransaction>;
+  };
 
-	CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<string>;
+  CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<string>;
 
-	CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<string>;
+  CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<string>;
 
-	CURVE_REN_POOL(overrides?: CallOverrides): Promise<string>;
+  CURVE_REN_POOL(overrides?: CallOverrides): Promise<string>;
 
-	IBBTC(overrides?: CallOverrides): Promise<string>;
+  IBBTC(overrides?: CallOverrides): Promise<string>;
 
-	IBBTC_VAULT(overrides?: CallOverrides): Promise<string>;
+  IBBTC_VAULT(overrides?: CallOverrides): Promise<string>;
 
-	RENBTC(overrides?: CallOverrides): Promise<string>;
+  RENBTC(overrides?: CallOverrides): Promise<string>;
 
-	RENCRV_TOKEN(overrides?: CallOverrides): Promise<string>;
+  RENCRV_TOKEN(overrides?: CallOverrides): Promise<string>;
 
-	RENCRV_VAULT(overrides?: CallOverrides): Promise<string>;
+  RENCRV_VAULT(overrides?: CallOverrides): Promise<string>;
 
-	SBTC(overrides?: CallOverrides): Promise<string>;
+  SBTC(overrides?: CallOverrides): Promise<string>;
 
-	SETT_PEAK(overrides?: CallOverrides): Promise<string>;
+  SETT_PEAK(overrides?: CallOverrides): Promise<string>;
 
-	WBTC(overrides?: CallOverrides): Promise<string>;
+  WBTC(overrides?: CallOverrides): Promise<string>;
 
-	WIBBTC(overrides?: CallOverrides): Promise<string>;
+  WIBBTC(overrides?: CallOverrides): Promise<string>;
 
-	calcMint(
-		_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-		_mintIbbtc: boolean,
-		overrides?: CallOverrides,
-	): Promise<BigNumber>;
+  calcMint(
+    _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+    _mintIbbtc: boolean,
+    overrides?: CallOverrides,
+  ): Promise<BigNumber>;
 
-	deposit(
-		_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-		_minOut: BigNumberish,
-		_mintIbbtc: boolean,
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+  deposit(
+    _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+    _minOut: BigNumberish,
+    _mintIbbtc: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	expectedAmount(
-		_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-		overrides?: CallOverrides,
-	): Promise<BigNumber>;
+  expectedAmount(
+    _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+    overrides?: CallOverrides,
+  ): Promise<BigNumber>;
 
-	governance(overrides?: CallOverrides): Promise<string>;
+  governance(overrides?: CallOverrides): Promise<string>;
 
-	guardian(overrides?: CallOverrides): Promise<string>;
+  guardian(overrides?: CallOverrides): Promise<string>;
 
-	initialize(
-		_guardian: string,
-		_governance: string,
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+  initialize(
+    _guardian: string,
+    _governance: string,
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
+  pause(
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	paused(overrides?: CallOverrides): Promise<boolean>;
+  paused(overrides?: CallOverrides): Promise<boolean>;
 
-	setGovernance(
-		_governance: string,
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+  setGovernance(
+    _governance: string,
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	setGuardian(
-		_guardian: string,
-		overrides?: Overrides & { from?: string | Promise<string> },
-	): Promise<ContractTransaction>;
+  setGuardian(
+    _guardian: string,
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
+  unpause(
+    overrides?: Overrides & { from?: string | Promise<string> },
+  ): Promise<ContractTransaction>;
 
-	callStatic: {
-		CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<string>;
+  callStatic: {
+    CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<string>;
 
-		CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<string>;
+    CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<string>;
 
-		CURVE_REN_POOL(overrides?: CallOverrides): Promise<string>;
+    CURVE_REN_POOL(overrides?: CallOverrides): Promise<string>;
 
-		IBBTC(overrides?: CallOverrides): Promise<string>;
+    IBBTC(overrides?: CallOverrides): Promise<string>;
 
-		IBBTC_VAULT(overrides?: CallOverrides): Promise<string>;
+    IBBTC_VAULT(overrides?: CallOverrides): Promise<string>;
 
-		RENBTC(overrides?: CallOverrides): Promise<string>;
+    RENBTC(overrides?: CallOverrides): Promise<string>;
 
-		RENCRV_TOKEN(overrides?: CallOverrides): Promise<string>;
+    RENCRV_TOKEN(overrides?: CallOverrides): Promise<string>;
 
-		RENCRV_VAULT(overrides?: CallOverrides): Promise<string>;
+    RENCRV_VAULT(overrides?: CallOverrides): Promise<string>;
 
-		SBTC(overrides?: CallOverrides): Promise<string>;
+    SBTC(overrides?: CallOverrides): Promise<string>;
 
-		SETT_PEAK(overrides?: CallOverrides): Promise<string>;
+    SETT_PEAK(overrides?: CallOverrides): Promise<string>;
 
-		WBTC(overrides?: CallOverrides): Promise<string>;
+    WBTC(overrides?: CallOverrides): Promise<string>;
 
-		WIBBTC(overrides?: CallOverrides): Promise<string>;
+    WIBBTC(overrides?: CallOverrides): Promise<string>;
 
-		calcMint(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			_mintIbbtc: boolean,
-			overrides?: CallOverrides,
-		): Promise<BigNumber>;
+    calcMint(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _mintIbbtc: boolean,
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>;
 
-		deposit(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			_minOut: BigNumberish,
-			_mintIbbtc: boolean,
-			overrides?: CallOverrides,
-		): Promise<BigNumber>;
+    deposit(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _minOut: BigNumberish,
+      _mintIbbtc: boolean,
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>;
 
-		expectedAmount(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			overrides?: CallOverrides,
-		): Promise<BigNumber>;
+    expectedAmount(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>;
 
-		governance(overrides?: CallOverrides): Promise<string>;
+    governance(overrides?: CallOverrides): Promise<string>;
 
-		guardian(overrides?: CallOverrides): Promise<string>;
+    guardian(overrides?: CallOverrides): Promise<string>;
 
-		initialize(_guardian: string, _governance: string, overrides?: CallOverrides): Promise<void>;
+    initialize(
+      _guardian: string,
+      _governance: string,
+      overrides?: CallOverrides,
+    ): Promise<void>;
 
-		pause(overrides?: CallOverrides): Promise<void>;
+    pause(overrides?: CallOverrides): Promise<void>;
 
-		paused(overrides?: CallOverrides): Promise<boolean>;
+    paused(overrides?: CallOverrides): Promise<boolean>;
 
-		setGovernance(_governance: string, overrides?: CallOverrides): Promise<void>;
+    setGovernance(
+      _governance: string,
+      overrides?: CallOverrides,
+    ): Promise<void>;
 
-		setGuardian(_guardian: string, overrides?: CallOverrides): Promise<void>;
+    setGuardian(_guardian: string, overrides?: CallOverrides): Promise<void>;
 
-		unpause(overrides?: CallOverrides): Promise<void>;
-	};
+    unpause(overrides?: CallOverrides): Promise<void>;
+  };
 
-	filters: {
-		'GovernanceUpdated(address)'(newGovernanceAddress?: string | null): GovernanceUpdatedEventFilter;
-		GovernanceUpdated(newGovernanceAddress?: string | null): GovernanceUpdatedEventFilter;
+  filters: {
+    'GovernanceUpdated(address)'(
+      newGovernanceAddress?: string | null,
+    ): GovernanceUpdatedEventFilter;
+    GovernanceUpdated(
+      newGovernanceAddress?: string | null,
+    ): GovernanceUpdatedEventFilter;
 
-		'GuardianshipTransferred(address)'(newGuardianAddress?: string | null): GuardianshipTransferredEventFilter;
-		GuardianshipTransferred(newGuardianAddress?: string | null): GuardianshipTransferredEventFilter;
+    'GuardianshipTransferred(address)'(
+      newGuardianAddress?: string | null,
+    ): GuardianshipTransferredEventFilter;
+    GuardianshipTransferred(
+      newGuardianAddress?: string | null,
+    ): GuardianshipTransferredEventFilter;
 
-		'Paused(address)'(account?: null): PausedEventFilter;
-		Paused(account?: null): PausedEventFilter;
+    'Paused(address)'(account?: null): PausedEventFilter;
+    Paused(account?: null): PausedEventFilter;
 
-		'Unpaused(address)'(account?: null): UnpausedEventFilter;
-		Unpaused(account?: null): UnpausedEventFilter;
-	};
+    'Unpaused(address)'(account?: null): UnpausedEventFilter;
+    Unpaused(account?: null): UnpausedEventFilter;
+  };
 
-	estimateGas: {
-		CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<BigNumber>;
+  estimateGas: {
+    CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<BigNumber>;
 
-		CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<BigNumber>;
+    CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<BigNumber>;
 
-		CURVE_REN_POOL(overrides?: CallOverrides): Promise<BigNumber>;
+    CURVE_REN_POOL(overrides?: CallOverrides): Promise<BigNumber>;
 
-		IBBTC(overrides?: CallOverrides): Promise<BigNumber>;
+    IBBTC(overrides?: CallOverrides): Promise<BigNumber>;
 
-		IBBTC_VAULT(overrides?: CallOverrides): Promise<BigNumber>;
+    IBBTC_VAULT(overrides?: CallOverrides): Promise<BigNumber>;
 
-		RENBTC(overrides?: CallOverrides): Promise<BigNumber>;
+    RENBTC(overrides?: CallOverrides): Promise<BigNumber>;
 
-		RENCRV_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
+    RENCRV_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
-		RENCRV_VAULT(overrides?: CallOverrides): Promise<BigNumber>;
+    RENCRV_VAULT(overrides?: CallOverrides): Promise<BigNumber>;
 
-		SBTC(overrides?: CallOverrides): Promise<BigNumber>;
+    SBTC(overrides?: CallOverrides): Promise<BigNumber>;
 
-		SETT_PEAK(overrides?: CallOverrides): Promise<BigNumber>;
+    SETT_PEAK(overrides?: CallOverrides): Promise<BigNumber>;
 
-		WBTC(overrides?: CallOverrides): Promise<BigNumber>;
+    WBTC(overrides?: CallOverrides): Promise<BigNumber>;
 
-		WIBBTC(overrides?: CallOverrides): Promise<BigNumber>;
+    WIBBTC(overrides?: CallOverrides): Promise<BigNumber>;
 
-		calcMint(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			_mintIbbtc: boolean,
-			overrides?: CallOverrides,
-		): Promise<BigNumber>;
+    calcMint(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _mintIbbtc: boolean,
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>;
 
-		deposit(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			_minOut: BigNumberish,
-			_mintIbbtc: boolean,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<BigNumber>;
+    deposit(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _minOut: BigNumberish,
+      _mintIbbtc: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		expectedAmount(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			overrides?: CallOverrides,
-		): Promise<BigNumber>;
+    expectedAmount(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>;
 
-		governance(overrides?: CallOverrides): Promise<BigNumber>;
+    governance(overrides?: CallOverrides): Promise<BigNumber>;
 
-		guardian(overrides?: CallOverrides): Promise<BigNumber>;
+    guardian(overrides?: CallOverrides): Promise<BigNumber>;
 
-		initialize(
-			_guardian: string,
-			_governance: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<BigNumber>;
+    initialize(
+      _guardian: string,
+      _governance: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		paused(overrides?: CallOverrides): Promise<BigNumber>;
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-		setGovernance(
-			_governance: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<BigNumber>;
+    setGovernance(
+      _governance: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		setGuardian(_guardian: string, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
+    setGuardian(
+      _guardian: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
 
-		unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
-	};
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<BigNumber>;
+  };
 
-	populateTransaction: {
-		CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+  populateTransaction: {
+    CURVE_IBBTC_DEPOSIT_ZAP(
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>;
 
-		CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    CURVE_IBBTC_METAPOOL(
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>;
 
-		CURVE_REN_POOL(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    CURVE_REN_POOL(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		IBBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    IBBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		IBBTC_VAULT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    IBBTC_VAULT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		RENBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    RENBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		RENCRV_TOKEN(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    RENCRV_TOKEN(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		RENCRV_VAULT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    RENCRV_VAULT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		SBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    SBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		SETT_PEAK(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    SETT_PEAK(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		WBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    WBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		WIBBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    WIBBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		calcMint(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			_mintIbbtc: boolean,
-			overrides?: CallOverrides,
-		): Promise<PopulatedTransaction>;
+    calcMint(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _mintIbbtc: boolean,
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>;
 
-		deposit(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			_minOut: BigNumberish,
-			_mintIbbtc: boolean,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
+    deposit(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _minOut: BigNumberish,
+      _mintIbbtc: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		expectedAmount(
-			_amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-			overrides?: CallOverrides,
-		): Promise<PopulatedTransaction>;
+    expectedAmount(
+      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>;
 
-		governance(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    governance(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		guardian(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    guardian(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		initialize(
-			_guardian: string,
-			_governance: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
+    initialize(
+      _guardian: string,
+      _governance: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-		setGovernance(
-			_governance: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
+    setGovernance(
+      _governance: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		setGuardian(
-			_guardian: string,
-			overrides?: Overrides & { from?: string | Promise<string> },
-		): Promise<PopulatedTransaction>;
+    setGuardian(
+      _guardian: string,
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
 
-		unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
-	};
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> },
+    ): Promise<PopulatedTransaction>;
+  };
 }
