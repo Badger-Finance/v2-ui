@@ -41,8 +41,8 @@ const mockBadgerTreeClaims: TokenBalance[] = [
       decimals: 18,
       address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
     },
-    BigNumber.from('28019610295276968'),
-    0.028019610295276968,
+    BigNumber.from('2801961'),
+    0.02801961,
   ),
   new TokenBalance(
     {
@@ -51,8 +51,8 @@ const mockBadgerTreeClaims: TokenBalance[] = [
       decimals: 18,
       address: '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305',
     },
-    BigNumber.from('24529508667974375'),
-    0.024529508667974375,
+    BigNumber.from('245295'),
+    0.0245295,
   ),
   new TokenBalance(
     {
@@ -61,8 +61,8 @@ const mockBadgerTreeClaims: TokenBalance[] = [
       decimals: 18,
       address: '0x2B5455aac8d64C14786c3a29858E43b5945819C0',
     },
-    BigNumber.from('39890071517351528'),
-    0.039890071517351528,
+    BigNumber.from('3989007'),
+    0.03989007,
   ),
 ];
 

@@ -82,7 +82,9 @@ export default class UserStore {
       if (proof) {
         this.bouncerProof = proof;
       }
-    } catch {} // ignore non 200 responses
+    } catch {
+      console.debug(`No bouncer proof found for: ${address}`);
+    } // ignore non 200 responses
   });
 
   private loadAccountDetails = action(

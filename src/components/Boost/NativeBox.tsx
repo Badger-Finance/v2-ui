@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
   assetInput: {
     marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -76,7 +77,8 @@ export const NativeBox = observer((props: Props) => {
   const bveCVXBalance = user.accountDetails?.bveCvxBalance ?? 0;
   const nftBalance = user.accountDetails?.nftBalance ?? 0;
   const nativeHoldings = user.accountDetails?.nativeBalance ?? 0;
-  const badgerDiggBalance = Math.max(
+  const diggBalance = user.accountDetails?.diggBalance ?? 0;
+  const badgerBalance = Math.max(
     nativeHoldings - nftBalance - bveCVXBalance,
     0,
   );
@@ -154,15 +156,6 @@ export const NativeBox = observer((props: Props) => {
   return (
     <Grid item className={classes.settInformation}>
       <Typography variant="h6">Native: </Typography>
-      <Typography variant="body2" color="textSecondary">
-        Badger & Digg: ${numberWithCommas(badgerDiggBalance.toFixed(3))}
-      </Typography>
-      <Typography variant="body2" color="textSecondary">
-        NFTs: ${numberWithCommas(nftBalance.toFixed(3))}
-      </Typography>
-      <Typography variant="body2" color="textSecondary">
-        bveCVX: ${numberWithCommas(bveCVXBalance.toFixed(3))}
-      </Typography>
       <HoldingAssetInput
         className={classes.assetInput}
         disabled={isLoading}
@@ -179,6 +172,18 @@ export const NativeBox = observer((props: Props) => {
         increaseAlt="increase native holdings"
         decreaseAlt="decrease native holdings"
       />
+      <Typography variant="body2" color="textSecondary">
+        Badger: ${numberWithCommas(badgerBalance.toFixed(3))}
+      </Typography>
+      <Typography variant="body2" color="textSecondary">
+        bveCVX: ${numberWithCommas(bveCVXBalance.toFixed(3))}
+      </Typography>
+      <Typography variant="body2" color="textSecondary">
+        Digg: ${numberWithCommas(diggBalance.toFixed(3))}
+      </Typography>
+      <Typography variant="body2" color="textSecondary">
+        NFTs: ${numberWithCommas(nftBalance.toFixed(3))}
+      </Typography>
       {shouldShowAmountToReachNextLevel && (
         <Grid className={classes.infoBox}>
           <Typography className={classes.infoText} color="textSecondary">
