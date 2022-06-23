@@ -15,6 +15,7 @@ const useStyles = makeStyles({
 
 //https://github.com/mui/material-ui/issues/14971#issuecomment-616791594
 interface CustomMenuItemProps extends ListItemProps {
+  /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   button?: any;
 }
 

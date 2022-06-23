@@ -9,9 +9,8 @@ import {
 } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import CurrencyDisplay from '../CurrencyDisplay';
 
@@ -66,7 +65,6 @@ interface Props {
 }
 
 const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
-  const { uiState } = useContext(StoreContext);
   const classes = useStyles();
 
   return (

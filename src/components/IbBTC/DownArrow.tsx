@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const DownArrow = (): any => {
+export const DownArrow = (): JSX.Element => {
   const classes = useStyles();
 
   return (

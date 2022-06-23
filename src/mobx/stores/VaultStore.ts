@@ -43,33 +43,7 @@ export default class VaultStore {
   };
 
   constructor(private store: RootStore) {
-    // consider figuring out how to make this auto observable
     makeAutoObservable(this);
-    // makeObservable(this, {
-    // 	tokenCache: observable,
-    // 	vaultCache: observable,
-    // 	slugCache: observable,
-    // 	protocolSummaryCache: observable,
-
-    // 	protocolTokensCache: observable,
-    // 	availableBalances: observable,
-    // 	initialized: observable,
-    // 	showVaultFilters: observable,
-    // 	showStatusInformationPanel: observable,
-    // 	showRewardsInformationPanel: observable,
-    // 	vaultsFilters: observable,
-
-    // 	vaultsDefinitions: computed,
-    // 	vaultOrder: computed,
-    // });
-
-    const { network: currentNetwork } = this.store.network;
-    const networkDeployVaults = Object.values(
-      currentNetwork.deploy.sett_system.vaults,
-    ) as string[];
-    const networkVaultsMap = Object.fromEntries(
-      currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
-    );
 
     this.refresh();
   }

@@ -72,7 +72,7 @@ export class RootStore {
     this.wallet = new WalletStore(this, config);
     this.prices = new PricesStore(this);
     this.rebase = new RebaseStore(this);
-    this.uiState = new UiStateStore(this);
+    this.uiState = new UiStateStore();
     this.vaults = new VaultStore(this);
     this.user = new UserStore(this);
     this.vaultDetail = new VaultDetailStore(this);

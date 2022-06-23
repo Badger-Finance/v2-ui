@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const VaultDetail = observer((): JSX.Element => {
-  const { vaultDetail, vaults, router } = useContext(StoreContext);
+  const { vaultDetail, router } = useContext(StoreContext);
   const classes = useStyles();
   const {
     vault,
