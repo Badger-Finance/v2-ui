@@ -53,14 +53,11 @@ const VaultListDisplay = observer(() => {
   }
 
   const settListItems = vaultOrder.flatMap((vault) => {
-    const hasNoBalance = user
-      .getBalance(vault.vaultToken)
-      .tokenBalance.eq(0);
+    const hasNoBalance = user.getBalance(vault.vaultToken).tokenBalance.eq(0);
 
     // Hide the remBadger vault from users who do not have rembadger (this default hides the sett)
     if (
-      vault.vaultToken ===
-        ETH_DEPLOY.sett_system.vaults['native.rembadger'] &&
+      vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger'] &&
       hasNoBalance
     ) {
       return [];

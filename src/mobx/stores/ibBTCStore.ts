@@ -2,21 +2,11 @@ import { Network, Token } from '@badger-dao/sdk';
 import addresses from 'config/ibBTC/addresses.json';
 import { BigNumber } from 'ethers';
 import { action, computed, extendObservable } from 'mobx';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { toast } from 'react-toastify';
 
-import * as mainnetDeploy from '../../config/deployments/mainnet.json';
 import { RootStore } from './RootStore';
-
-interface MintAmountCalculation {
-  bBTC: BigNumber;
-  fee: BigNumber;
-}
-
-interface RedeemAmountCalculation {
-  fee: BigNumber;
-  max: BigNumber;
-  sett: BigNumber;
-}
 
 class IbBTCStore {
   private readonly store: RootStore;
@@ -43,35 +33,35 @@ class IbBTCStore {
 
   @computed
   get ibBTC(): TokenBalance {
-    return this.store.user.getBalance(mainnetDeploy.tokens['ibBTC']);
+    return this.store.user.getBalance(ETH_DEPLOY.tokens['ibBTC']);
   }
 
   @computed
   get tokenBalances(): TokenBalance[] {
     return [
       this.store.user.getBalance(
-        mainnetDeploy.sett_system.vaults['native.renCrv'],
+        ETH_DEPLOY.sett_system.vaults['native.renCrv'],
       ),
-      this.store.user.getBalance(mainnetDeploy.tokens['renBTC']),
-      this.store.user.getBalance(mainnetDeploy.tokens['wBTC']),
+      this.store.user.getBalance(ETH_DEPLOY.tokens['renBTC']),
+      this.store.user.getBalance(ETH_DEPLOY.tokens['wBTC']),
       this.store.user.getBalance(
-        mainnetDeploy.sett_system.vaults['native.sbtcCrv'],
-      ),
-      this.store.user.getBalance(
-        mainnetDeploy.sett_system.vaults['native.tbtcCrv'],
-      ),
-      this.store.user.getBalance(mainnetDeploy.tokens['bWBTC']),
-      this.store.user.getBalance(
-        mainnetDeploy.sett_system.vaults['native.hbtcCrv'],
+        ETH_DEPLOY.sett_system.vaults['native.sbtcCrv'],
       ),
       this.store.user.getBalance(
-        mainnetDeploy.sett_system.vaults['native.bbtcCrv'],
+        ETH_DEPLOY.sett_system.vaults['native.tbtcCrv'],
+      ),
+      this.store.user.getBalance(ETH_DEPLOY.tokens['bWBTC']),
+      this.store.user.getBalance(
+        ETH_DEPLOY.sett_system.vaults['native.hbtcCrv'],
       ),
       this.store.user.getBalance(
-        mainnetDeploy.sett_system.vaults['native.obtcCrv'],
+        ETH_DEPLOY.sett_system.vaults['native.bbtcCrv'],
       ),
       this.store.user.getBalance(
-        mainnetDeploy.sett_system.vaults['native.pbtcCrv'],
+        ETH_DEPLOY.sett_system.vaults['native.obtcCrv'],
+      ),
+      this.store.user.getBalance(
+        ETH_DEPLOY.sett_system.vaults['native.pbtcCrv'],
       ),
     ];
   }
@@ -185,17 +175,17 @@ class IbBTCStore {
     slippage?: BigNumber,
   ): boolean {
     if (amount.tokenBalance.lte(0)) {
-      // queueNotification('Please enter a valid amount', 'error');
+      toast.error('Please enter a valid amount');
       return false;
     }
 
     if (amount.tokenBalance.gt(tokenBalance.tokenBalance)) {
-      // queueNotification(`You have insufficient balance of ${amount.token.symbol}`, 'error');
+      toast.error(`You have insufficient balance of ${amount.token.symbol}`);
       return false;
     }
 
     if (this.isZapToken(amount.token) && slippage?.lte(0)) {
-      // queueNotification('Please enter a valid slippage value', 'error');
+      toast.error('Please enter a valid slippage value');
       return false;
     }
 

@@ -200,15 +200,11 @@ export default class VaultStore {
   }
 
   get vaultOrder(): VaultDTO[] {
-    let vaults = Object.values(this.vaultMap).flatMap(
-      (vaultDefinition) => {
-        const vault =
-          this.vaultMap[
-            ethers.utils.getAddress(vaultDefinition.vaultToken)
-          ];
-        return vault ? [vault] : [];
-      },
-    );
+    let vaults = Object.values(this.vaultMap).flatMap((vaultDefinition) => {
+      const vault =
+        this.vaultMap[ethers.utils.getAddress(vaultDefinition.vaultToken)];
+      return vault ? [vault] : [];
+    });
 
     vaults = this.applyFilters(vaults);
     vaults = this.applySorting(vaults);

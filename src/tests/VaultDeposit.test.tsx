@@ -6,19 +6,14 @@ import React from 'react';
 
 import { VaultDeposit } from '../components-v2/common/dialogs/VaultDeposit';
 import store from '../mobx/stores/RootStore';
-import VaultStore from '../mobx/stores/VaultStore';
 import { customRender, screen } from './Utils';
-import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from './utils/samples';
+import { SAMPLE_VAULT } from './utils/samples';
 
 describe('Vault Deposit', () => {
   test('displays sett information', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultDeposit
-          open={true}
-          vault={SAMPLE_VAULT}
-          onClose={jest.fn()}
-        />
+        <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
       </StoreProvider>,
     );
     expect(baseElement).toMatchSnapshot();
@@ -27,11 +22,7 @@ describe('Vault Deposit', () => {
   test('can see full fees descriptions', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultDeposit
-          open={true}
-          vault={SAMPLE_VAULT}
-          onClose={jest.fn()}
-        />
+        <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
       </StoreProvider>,
     );
     userEvent.click(screen.getByTitle('Click to see full description'));
@@ -41,11 +32,7 @@ describe('Vault Deposit', () => {
   test('can go back from full fees descriptions', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultDeposit
-          open={true}
-          vault={SAMPLE_VAULT}
-          onClose={jest.fn()}
-        />
+        <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
       </StoreProvider>,
     );
     userEvent.click(screen.getByTitle('Click to see full description'));

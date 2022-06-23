@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
-import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
@@ -27,7 +26,6 @@ import {
   PercentagesContainer,
 } from './styled';
 import VaultAdvisory from './VaultAdvisory';
-import { VaultAvailableDeposit } from './VaultAvailableDeposit';
 import { VaultDialogTitle } from './VaultDialogTitle';
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +62,8 @@ export const VaultDeposit = observer(
     const store = useContext(StoreContext);
     const { user, wallet } = store;
 
-    const shouldCheckAdvisory = depositAdvisory || vault.state === VaultState.Experimental;
+    const shouldCheckAdvisory =
+      depositAdvisory || vault.state === VaultState.Experimental;
     const [accepted, setAccepted] = useState(!shouldCheckAdvisory);
     const [showFees, setShowFees] = useState(false);
     const [amount, setAmount] = useState('');
@@ -80,7 +79,7 @@ export const VaultDeposit = observer(
     );
     // const vaultCaps = user.vaultCaps[vault.vaultToken];
 
-    let canDeposit =
+    const canDeposit =
       wallet.isConnected && !!amount && depositBalance.tokenBalance.gt(0);
 
     // if (canDeposit && vaultCaps) {

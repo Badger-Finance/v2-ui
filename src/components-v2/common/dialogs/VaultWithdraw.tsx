@@ -2,7 +2,7 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Dialog, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { BadgerVault } from 'mobx/model/vaults/badger-vault';
+import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
@@ -19,7 +19,6 @@ import {
 import VaultAdvisory from './VaultAdvisory';
 import { VaultConversionAndFee } from './VaultConversionAndFee';
 import { VaultDialogTitle } from './VaultDialogTitle';
-import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 
 const useStyles = makeStyles((theme) => ({
   content: {
