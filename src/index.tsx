@@ -6,7 +6,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { StoreProvider } from 'mobx/stores/store-context';
 import { startRouter } from 'mobx-router';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ToastContainer } from 'react-toastify';
 
 import { App } from './components/App';
@@ -24,7 +24,9 @@ startRouter(routes, store, {
   notfound: () => store.router.goTo(routes.notFound),
 });
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(
   <StoreProvider value={store}>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -39,5 +41,4 @@ ReactDOM.render(
       />
     </ThemeProvider>
   </StoreProvider>,
-  document.getElementById('root'),
 );
