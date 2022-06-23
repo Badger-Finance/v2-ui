@@ -1,8 +1,6 @@
 import { Currency, Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { toRecord } from 'web3/config/token-config';
-import { Deploy } from 'web3/interface/deploy';
-import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/arbitrum.json';
 import { BadgerVault } from '../vaults/badger-vault';
@@ -117,31 +115,3 @@ export const arbitrumVaults: BadgerVault[] = [
     },
   },
 ];
-
-export const arbitrumRewards = [
-  {
-    address: ARBITRUM_DEPLOY.tokens['badger'],
-    decimals: 18,
-  },
-  {
-    address: ARBITRUM_DEPLOY.tokens['sushi'],
-    decimals: 18,
-  },
-  {
-    address: ARBITRUM_DEPLOY.sett_system.vaults['native.sushiWethSushi'],
-    decimals: 18,
-  },
-  {
-    address: ARBITRUM_DEPLOY.tokens['crv'],
-    decimals: 18,
-  },
-];
-
-const arbitrumTokens = arbitrumVaults
-  .flatMap((vault) => [vault.depositToken, vault.vaultToken])
-  .concat(arbitrumRewards);
-
-export const arbitrumProtocolTokens: ProtocolTokens = toRecord(
-  arbitrumTokens,
-  'address',
-);

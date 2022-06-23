@@ -3,7 +3,6 @@ import { BigNumber, ethers } from 'ethers';
 import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 
 import { RootStore } from './RootStore';
 
@@ -14,7 +13,6 @@ export default class UserStore {
   public bouncerProof?: MerkleProof | null = undefined;
   public accountDetails?: Account | null = undefined;
   public balances: TokenBalances = {};
-  public vaultCaps: VaultCaps = {};
   public loadingBalances = false;
 
   constructor(store: RootStore) {
@@ -84,7 +82,9 @@ export default class UserStore {
       if (proof) {
         this.bouncerProof = proof;
       }
-    } catch {} // ignore non 200 responses
+    } catch {
+      console.debug(`No bouncer proof found for: ${address}`);
+    } // ignore non 200 responses
   });
 
   private loadAccountDetails = action(

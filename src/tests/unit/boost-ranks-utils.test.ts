@@ -24,7 +24,7 @@ describe('Boost Ranks Utils', () => {
     ];
     test.each(inputTable)(
       'calculateNativeToMatchRank(%p, %p, %p) returns %p',
-      (native: any, nonNative, _name, needed, targetRank) => {
+      (native, nonNative, _name, needed, targetRank) => {
         expect(
           calculateNativeToMatchRank(
             native as number,
@@ -128,19 +128,18 @@ describe('Boost Ranks Utils', () => {
   });
 
   describe('calculateNativeToMatchBoost', () => {
-    const inputTable = [
+    test.each([
       [1, 1000, BADGER_TYPE_BOOSTS.hyper],
       [3, 1000, BADGER_TYPE_BOOSTS.neo],
       [5, 1000, BADGER_TYPE_BOOSTS.hero],
       [0, 1231212, BADGER_TYPE_BOOSTS.frenzy],
-    ];
-    test.each(inputTable)(
+    ])(
       'calculateNativeToMatchRank(%p, %p, %p) returns %p',
       (native, nonNative, desiredRank) => {
         const nativeRequired = calculateNativeToMatchRank(
-          native as number,
-          nonNative as number,
-          desiredRank as BoostRank,
+          native,
+          nonNative,
+          desiredRank,
         );
         const addedNative = nativeRequired + (native as number);
         const stakeRatio = addedNative / (nonNative as number);
@@ -152,18 +151,14 @@ describe('Boost Ranks Utils', () => {
   });
 
   describe('isValidStakeRatio', () => {
-    const inputTable = [
+    it.each([
       [0, true],
       [1, true],
       [2.1212, true],
       [-1, false],
       [Infinity, false],
-    ];
-    test.each(inputTable)(
-      'isValidStakeRatio(%p) returns %p',
-      (multiplier: any, result) => {
-        expect(isValidStakeRatio(multiplier)).toEqual(result);
-      },
-    );
+    ])('isValidStakeRatio(%p) returns %p', (multiplier, result) => {
+      expect(isValidStakeRatio(multiplier)).toEqual(result);
+    });
   });
 });

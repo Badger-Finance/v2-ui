@@ -42,7 +42,9 @@ export class TreeStore {
     // Load user claim proofs
     try {
       this.claimProof = await api.loadRewardTree(address, network);
-    } catch {} // 404 means user has no valid proof
+    } catch {
+      console.debug(`No rewards proof found for: ${address}`);
+    } // 404 means user has no valid proof
 
     // Load BadgerTree metadata
     try {

@@ -1,8 +1,6 @@
 import { Currency, Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { toRecord } from 'web3/config/token-config';
-import { Deploy } from 'web3/interface/deploy';
-import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/bsc.json';
 import { BadgerVault } from '../vaults/badger-vault';
@@ -58,10 +56,3 @@ export const bscVaults: BadgerVault[] = [
     },
   },
 ];
-
-const bscTokens = bscVaults.flatMap((vault) => [
-  vault.depositToken,
-  vault.vaultToken,
-]);
-
-export const bscProtocolTokens: ProtocolTokens = toRecord(bscTokens, 'address');

@@ -6,11 +6,15 @@ import {
   createGenerateClassName,
   StylesProvider,
 } from '@material-ui/core/styles';
-import { render as tlRender } from '@testing-library/react';
+import { render as tlRender, RenderOptions } from '@testing-library/react';
 import mediaQuery from 'css-mediaquery';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-function MyStyles({ children }: any) {
+interface Props {
+  children: React.ReactNode;
+}
+
+function MyStyles({ children }: Props) {
   // make a copy of the data because the state is mutated below in one of the tests for clicks
   // then the state is used again for comparison later, which causes tests to be dependent on execution
   // order and fail.
@@ -27,8 +31,10 @@ function MyStyles({ children }: any) {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const customRender = (ui: any, options?: any) =>
-  tlRender(ui, { wrapper: MyStyles, ...options });
+const customRender = (
+  ui: ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'>,
+) => tlRender(ui, { wrapper: MyStyles, ...options });
 
 export function createMatchMedia(width: number) {
   return (query: string): MediaQueryList => ({

@@ -58,10 +58,10 @@ const NetworkWidget = observer(({ className }: Props) => {
   const connectedNetwork = network.network;
 
   // anchorEl is the Popper reference object prop
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: any) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 

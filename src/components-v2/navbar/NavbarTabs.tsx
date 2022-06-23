@@ -50,7 +50,7 @@ export const NavbarTabs = observer((): JSX.Element => {
   const config = getNavbarConfig(network.symbol);
 
   const goToTab = (route: Route<RootStore, QueryParams>) => {
-    let queryParams: Record<string, any> = {
+    let queryParams: QueryParams = {
       chain: router.queryParams?.chain,
     };
 

@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
-import { BadgerVault } from 'mobx/model/vaults/badger-vault';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
@@ -27,7 +26,6 @@ import {
   PercentagesContainer,
 } from './styled';
 import VaultAdvisory from './VaultAdvisory';
-import { VaultAvailableDeposit } from './VaultAvailableDeposit';
 import { VaultDialogTitle } from './VaultDialogTitle';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,17 +53,17 @@ const useStyles = makeStyles((theme) => ({
 export interface VaultModalProps {
   open?: boolean;
   vault: VaultDTO;
-  badgerVault: BadgerVault;
+  depositAdvisory?: AdvisoryType;
   onClose: () => void;
 }
 
 export const VaultDeposit = observer(
-  ({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
+  ({ open = false, vault, depositAdvisory, onClose }: VaultModalProps) => {
     const store = useContext(StoreContext);
     const { user, wallet } = store;
 
     const shouldCheckAdvisory =
-      badgerVault.depositAdvisory || vault.state === VaultState.Experimental;
+      depositAdvisory || vault.state === VaultState.Experimental;
     const [accepted, setAccepted] = useState(!shouldCheckAdvisory);
     const [showFees, setShowFees] = useState(false);
     const [amount, setAmount] = useState('');
@@ -79,23 +77,23 @@ export const VaultDeposit = observer(
       userBalance,
       Number(amount ?? '0'),
     );
-    const vaultCaps = user.vaultCaps[vault.vaultToken];
+    // const vaultCaps = user.vaultCaps[vault.vaultToken];
 
-    let canDeposit =
+    const canDeposit =
       wallet.isConnected && !!amount && depositBalance.tokenBalance.gt(0);
 
-    if (canDeposit && vaultCaps) {
-      const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(
-        depositBalance.tokenBalance,
-      );
-      const userHasSpace = vaultCaps.userCap.tokenBalance.gte(
-        depositBalance.tokenBalance,
-      );
-      const userHasBalance = userBalance.tokenBalance.gte(
-        depositBalance.tokenBalance,
-      );
-      canDeposit = vaultHasSpace && userHasSpace && userHasBalance;
-    }
+    // if (canDeposit && vaultCaps) {
+    //   const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(
+    //     depositBalance.tokenBalance,
+    //   );
+    //   const userHasSpace = vaultCaps.userCap.tokenBalance.gte(
+    //     depositBalance.tokenBalance,
+    //   );
+    //   const userHasBalance = userBalance.tokenBalance.gte(
+    //     depositBalance.tokenBalance,
+    //   );
+    //   canDeposit = vaultHasSpace && userHasSpace && userHasBalance;
+    // }
 
     const handlePercentageChange = (percent: number) => {
       setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -108,7 +106,7 @@ export const VaultDeposit = observer(
     };
 
     if (!accepted && shouldCheckAdvisory) {
-      let advisory = badgerVault.depositAdvisory;
+      let advisory = depositAdvisory;
       if (!advisory) {
         advisory = AdvisoryType.Chadger;
       }
@@ -176,7 +174,6 @@ export const VaultDeposit = observer(
           />
           <VaultFees
             vault={vault}
-            showNoFees={false}
             className={classes.fees}
             onHelpClick={() => setShowFees(true)}
           />
@@ -199,11 +196,11 @@ export const VaultDeposit = observer(
             )}
           </ActionButton>
         </DialogContent>
-        {user.vaultCaps[vault.vaultToken] && (
+        {/* {user.vaultCaps[vault.vaultToken] && (
           <VaultAvailableDeposit
             vaultCapInfo={user.vaultCaps[vault.vaultToken]}
           />
-        )}
+        )} */}
       </Dialog>
     );
   },

@@ -39,6 +39,7 @@ const useButtonStyles = makeStyles((theme) => ({
 }));
 
 interface CurrencyInputProps {
+  /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   inputRef: (instance: NumberFormat<any> | null) => void;
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
@@ -122,6 +123,7 @@ export const HoldingAssetInput = ({
         ),
         classes: inputClasses,
         // the "any" is because of the onChange type handler
+        /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
         inputComponent: CurrencyInput as any,
       }}
       variant="outlined"

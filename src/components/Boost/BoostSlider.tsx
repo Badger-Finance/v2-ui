@@ -34,7 +34,7 @@ const CustomSlider = withStyles((theme) => ({
   },
 }))(Slider);
 
-function ThumbComponent(props: any) {
+function ThumbComponent(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div {...props}>
       <div className="bar" />

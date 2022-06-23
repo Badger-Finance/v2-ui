@@ -1,13 +1,12 @@
 // See https://github.com/facebook/jest/issues/9983
-import crypto from 'crypto';
 import fetchMock from 'jest-fetch-mock';
-import { TextDecoder, TextEncoder } from 'util';
 
+// import { TextDecoder, TextEncoder } from 'util';
 import { setupMockAPI } from './tests/utils/setup';
 
-Object.defineProperty(global, 'crypto', {
-  value: { getRandomValues: (arr) => crypto.randomBytes(arr.length) },
-});
+// Object.defineProperty(global, 'crypto', {
+//   value: { getRandomValues: (arr) => crypto.randomBytes(arr.length) },
+// });
 
 jest.mock('web3modal');
 
@@ -18,8 +17,8 @@ jest.mock('mobx', () => ({
   computed: jest.fn(),
 }));
 
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
+// global.TextEncoder = TextEncoder;
+// global.TextDecoder = TextDecoder;
 
 fetchMock.enableMocks();
 setupMockAPI();

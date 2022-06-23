@@ -7,7 +7,7 @@ interface Storage {
 }
 
 class InMemoryStorage implements Storage {
-  private data: Record<string, any>;
+  private data: Record<string, string>;
 
   private static instance: InMemoryStorage;
 
@@ -72,7 +72,7 @@ export function createStorage(getStorage: () => Storage) {
     return InMemoryStorage.getInstance();
   }
 
-  function getItem(key: string): any {
+  function getItem(key: string) {
     const value = selectStorage().getItem(key);
 
     if (!value) {
@@ -86,7 +86,7 @@ export function createStorage(getStorage: () => Storage) {
     }
   }
 
-  function setItem(key: string, value: any) {
+  function setItem(key: string, value: unknown) {
     selectStorage().setItem(key, JSON.stringify(value));
   }
 

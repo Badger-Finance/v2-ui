@@ -3,9 +3,9 @@ import { Currency, Network as ChainNetwork } from '@badger-dao/sdk';
 import rpc from 'config/rpc.config';
 import { getStrategies } from 'config/system/strategies';
 import { ethers } from 'ethers';
+import { Deploy } from 'web3/deploy';
 
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
-import { DeployConfig } from '../system-config/deploy-config';
 import { BadgerVault } from '../vaults/badger-vault';
 
 export abstract class Network {
@@ -20,7 +20,7 @@ export abstract class Network {
   readonly symbol: ChainNetwork;
   readonly id: number;
   readonly currency: Currency;
-  readonly deploy: DeployConfig;
+  readonly deploy: Deploy;
   readonly vaults: BadgerVault[];
   readonly strategies: StrategyNetworkConfig;
   // TODO: stop gap implementation for API messaging system - remove once available
@@ -34,7 +34,7 @@ export abstract class Network {
     symbol: ChainNetwork,
     id: number,
     currency: Currency,
-    deploy: DeployConfig,
+    deploy: Deploy,
     setts: BadgerVault[],
     notification?: string,
     notificationLink?: string,

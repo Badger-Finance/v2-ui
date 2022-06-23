@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
+import React from 'react';
 
 type ComparisonConfig = {
   toCompareValue: number;
@@ -25,7 +26,7 @@ export const getColorFromComparison = ({
 export const useAssetInputStyles = (
   currentValue: string,
   toCompare = 0,
-): ((props?: any) => ClassNameMap<'assetColor'>) => {
+): ((props?: React.CSSProperties) => ClassNameMap<'assetColor'>) => {
   return makeStyles((theme) => {
     const defaultColor = currentValue
       ? theme.palette.text.primary

@@ -42,7 +42,7 @@ const VaultListDisplay = observer(() => {
     return <Loader message={`Loading ${network.name} Setts...`} />;
   }
 
-  if (vaultOrder === null || vaults.vaultsDefinitions === null) {
+  if (vaultOrder === null) {
     return (
       <div className={classes.messageContainer}>
         <Typography variant="h4">
@@ -53,20 +53,11 @@ const VaultListDisplay = observer(() => {
   }
 
   const settListItems = vaultOrder.flatMap((vault) => {
-    const badgerVault = vaults.getVaultDefinition(vault);
-
-    if (!badgerVault) {
-      return [];
-    }
-
-    const hasNoBalance = user
-      .getBalance(badgerVault.vaultToken.address)
-      .tokenBalance.eq(0);
+    const hasNoBalance = user.getBalance(vault.vaultToken).tokenBalance.eq(0);
 
     // Hide the remBadger vault from users who do not have rembadger (this default hides the sett)
     if (
-      badgerVault.vaultToken.address ===
-        ETH_DEPLOY.sett_system.vaults['native.rembadger'] &&
+      vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger'] &&
       hasNoBalance
     ) {
       return [];

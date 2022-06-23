@@ -1,22 +1,22 @@
 import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
-import { RootStore } from 'mobx/stores/RootStore';
 
 import GovernanceTimelockAbi from '../../config/system/abis/GovernanceTimelock.json';
 import { TimelockEvent } from '../model/governance-timelock/timelock-event';
 
 // Defined for now, will be used when signature will be shown in UI
-const getParameterTypes = (signature: string) => {
-  const parametersStart = signature.indexOf('(') + 1;
-  const parametersEnd = signature.lastIndexOf(')');
-  const parameters = signature.substring(parametersStart, parametersEnd);
-  return parameters.split(',');
-};
+// const getParameterTypes = (signature: string) => {
+//   const parametersStart = signature.indexOf('(') + 1;
+//   const parametersEnd = signature.lastIndexOf(')');
+//   const parameters = signature.substring(parametersStart, parametersEnd);
+//   return parameters.split(',');
+// };
 
 export class GovernancePortalStore {
   public contractAddress: string;
   public timelockEvents?: Map<string, TimelockEvent>;
-  constructor(store: RootStore) {
+
+  constructor() {
     this.contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
     extendObservable(this, {
       timelockEvents: this.timelockEvents,
@@ -64,7 +64,8 @@ export class GovernancePortalStore {
       ...vetoResolvedEventData,
     ];
     eventData.sort(
-      (a: any, b: any) => b.blockNumber + b.id - a.blockNumber + a.id,
+      (a: ethers.Event, b: ethers.Event) =>
+        b.blockNumber + b.logIndex - a.blockNumber + a.logIndex,
     );
 
     const timelockEventMap = new Map<string, TimelockEvent>();
@@ -73,8 +74,8 @@ export class GovernancePortalStore {
       if (eventitem.args) {
         const id = eventitem.args.id;
         const blockInfo = await provider.getBlock(eventitem.blockNumber);
-        const timestamp: any = blockInfo.timestamp;
-        const date: any = new Date(timestamp * 1000);
+        const timestamp = blockInfo.timestamp;
+        const date = new Date(timestamp * 1000);
         const s = date.toUTCString();
         const utcDate = s.substring(0, s.indexOf('GMT')) + 'UTC';
         let timelockEvent = {} as TimelockEvent;

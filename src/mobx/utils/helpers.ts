@@ -4,9 +4,6 @@ export const numberWithCommas = (x: string): string => {
   return parts.join('.');
 };
 
-export const minBalance = (decimals: number): number =>
-  Number(`0.${'0'.repeat(decimals - 1)}1`);
-
 /**
  * If the parameter is a string, return an array with that string as the only element. Otherwise, return the parameter as
  * an array.

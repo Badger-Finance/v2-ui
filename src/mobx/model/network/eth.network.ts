@@ -1,8 +1,6 @@
 import { Currency, Network } from '@badger-dao/sdk';
 import { NETWORK_IDS } from 'config/constants';
-import { toRecord } from 'web3/config/token-config';
-import { Deploy } from 'web3/interface/deploy';
-import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/mainnet.json';
 import { AdvisoryType } from '../vaults/advisory-type';
@@ -431,9 +429,3 @@ export const ethRewards = [
     decimals: 18,
   },
 ];
-
-const ethTokens = ethVaults
-  .flatMap((vault) => [vault.depositToken, vault.vaultToken])
-  .concat(ethRewards);
-
-export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');

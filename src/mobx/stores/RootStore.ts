@@ -5,6 +5,7 @@ import {
   SDKProvider,
 } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
+import routes from 'config/routes';
 import { action, makeObservable, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 
@@ -14,6 +15,7 @@ import rpc from '../../config/rpc.config';
 import { Network } from '../model/network/network';
 import GasPricesStore from './GasPricesStore';
 import { GovernancePortalStore } from './GovernancePortalStore';
+import IbBTCStore from './ibBTCStore';
 import LockedCvxDelegationStore from './lockedCvxDelegationStore';
 import LockedDepositsStore from './LockedDepositsStore';
 import { NetworkStore } from './NetworkStore';
@@ -40,7 +42,7 @@ export class RootStore {
   public uiState: UiStateStore;
   public rebase: RebaseStore;
   public wallet: WalletStore;
-  // public ibBTCStore: IbBTCStore;
+  public ibBTCStore: IbBTCStore;
   public vaults: VaultStore;
   public user: UserStore;
   public prices: PricesStore;
@@ -70,15 +72,15 @@ export class RootStore {
     this.wallet = new WalletStore(this, config);
     this.prices = new PricesStore(this);
     this.rebase = new RebaseStore(this);
-    this.uiState = new UiStateStore(this);
+    this.uiState = new UiStateStore();
     this.vaults = new VaultStore(this);
     this.user = new UserStore(this);
     this.vaultDetail = new VaultDetailStore(this);
     this.vaultCharts = new VaultChartsStore(this);
     this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
     this.gasPrices = new GasPricesStore(this);
-    // this.ibBTCStore = new IbBTCStore(this);
-    this.governancePortal = new GovernancePortalStore(this);
+    this.ibBTCStore = new IbBTCStore(this);
+    this.governancePortal = new GovernancePortalStore();
     this.lockedDeposits = new LockedDepositsStore(this);
 
     // new stores
@@ -137,13 +139,11 @@ export class RootStore {
 
       updateActions.push(this.user.reloadBalances());
 
-      // this.lockedDeposits.loadLockedBalances(),
-
       if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
         // handle per page reloads, when init route is skipped
-        // if (this.router.currentRoute?.path === routes.IbBTC.path) {
-        // 	updateActions.push(this.ibBTCStore.init());
-        // }
+        if (this.router.currentRoute?.path === routes.IbBTC.path) {
+          updateActions.push(this.ibBTCStore.init());
+        }
 
         updateActions.push(this.rebase.fetchRebaseStats());
       }

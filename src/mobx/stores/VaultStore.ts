@@ -15,21 +15,16 @@ import { TokenCache } from 'mobx/model/tokens/token-cache';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { VaultCache } from 'mobx/model/vaults/vault-cache';
 import { VaultSlugCache } from 'mobx/model/vaults/vault-slug-cache';
+import { QueryParams } from 'mobx-router';
 import slugify from 'slugify';
 
 import { getUserVaultBoost } from '../../utils/componentHelpers';
 import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
-import { BadgerVault } from '../model/vaults/badger-vault';
 import { VaultMap } from '../model/vaults/vault-map';
-import {
-  VaultsDefinitionCache,
-  VaultsDefinitions,
-} from '../model/vaults/vaults-definition-cache';
 import { RootStore } from './RootStore';
 
 export default class VaultStore {
   // loading: undefined, error: null, present: object
-  private vaultDefinitionsCache: VaultsDefinitionCache = {};
   public tokenCache: TokenCache = {};
   public vaultCache: VaultCache = {};
   public slugCache: VaultSlugCache = {};
@@ -48,39 +43,7 @@ export default class VaultStore {
   };
 
   constructor(private store: RootStore) {
-    // consider figuring out how to make this auto observable
     makeAutoObservable(this);
-    // makeObservable(this, {
-    // 	tokenCache: observable,
-    // 	vaultCache: observable,
-    // 	slugCache: observable,
-    // 	protocolSummaryCache: observable,
-
-    // 	protocolTokensCache: observable,
-    // 	availableBalances: observable,
-    // 	initialized: observable,
-    // 	showVaultFilters: observable,
-    // 	showStatusInformationPanel: observable,
-    // 	showRewardsInformationPanel: observable,
-    // 	vaultsFilters: observable,
-
-    // 	vaultsDefinitions: computed,
-    // 	vaultOrder: computed,
-    // });
-
-    const { network: currentNetwork } = this.store.network;
-    const networkDeployVaults = Object.values(
-      currentNetwork.deploy.sett_system.vaults,
-    ) as string[];
-    const networkVaultsMap = Object.fromEntries(
-      currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
-    );
-    this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
-      networkDeployVaults.flatMap((vaultAddress) => {
-        const vault = networkVaultsMap[vaultAddress];
-        return vault ? [[vaultAddress, vault]] : [];
-      }),
-    );
 
     this.refresh();
   }
@@ -146,11 +109,6 @@ export default class VaultStore {
     return this.tokenCache[this.store.network.network.symbol] ?? {};
   }
 
-  get vaultsDefinitions(): VaultsDefinitions | undefined | null {
-    const { network: currentNetwork } = this.store.network;
-    return this.vaultDefinitionsCache[currentNetwork.symbol];
-  }
-
   get vaultsProtocols(): Protocol[] {
     if (!this.vaultMap) {
       return [];
@@ -175,10 +133,6 @@ export default class VaultStore {
     }
 
     return Object.values(this.vaultMap).some((vault) => vault.boost.enabled);
-  }
-
-  getVaultDefinition(vault: VaultDTO): BadgerVault | undefined | null {
-    return this.vaultsDefinitions?.get(vault.vaultToken);
   }
 
   getSlug(address: string): string {
@@ -220,23 +174,11 @@ export default class VaultStore {
   }
 
   get vaultOrder(): VaultDTO[] {
-    if (this.vaultsDefinitions === undefined) {
-      return [];
-    }
-
-    if (!this.vaultsDefinitions) {
-      return [];
-    }
-
-    let vaults = Array.from(this.vaultsDefinitions.values()).flatMap(
-      (vaultDefinition) => {
-        const vault =
-          this.vaultMap[
-            ethers.utils.getAddress(vaultDefinition.vaultToken.address)
-          ];
-        return vault ? [vault] : [];
-      },
-    );
+    let vaults = Object.values(this.vaultMap).flatMap((vaultDefinition) => {
+      const vault =
+        this.vaultMap[ethers.utils.getAddress(vaultDefinition.vaultToken)];
+      return vault ? [vault] : [];
+    });
 
     vaults = this.applyFilters(vaults);
     vaults = this.applySorting(vaults);
@@ -351,8 +293,8 @@ export default class VaultStore {
    * @param queryParams - Record<string, any>
    */
   mergeQueryParamsWithFilters(
-    queryParams: Record<string, any>,
-  ): Record<string, any> {
+    queryParams: Record<string, unknown>,
+  ): QueryParams {
     const nonFilterParams = Object.entries(queryParams).filter(
       ([key]) => !(key in this.vaultsFilters),
     );
@@ -458,6 +400,9 @@ export default class VaultStore {
 
   private applySorting(vaults: VaultDTO[]): VaultDTO[] {
     const { user, network } = this.store;
+    const featuredVaultRank = Object.fromEntries(
+      network.network.settOrder.map((v, i) => [v, i + 1]),
+    );
 
     switch (this.vaultsFilters.sortOrder) {
       case VaultSortOrder.NAME_ASC:
@@ -497,9 +442,6 @@ export default class VaultStore {
         });
         break;
       default:
-        const featuredVaultRank = Object.fromEntries(
-          network.network.settOrder.map((v, i) => [v, i + 1]),
-        );
         // default sorting uses the following criteria:
         // 1 - balance deposited in vault
         // 2 - vault's underlying token balance

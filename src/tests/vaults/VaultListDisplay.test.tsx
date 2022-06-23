@@ -1,4 +1,4 @@
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import { VaultState } from '@badger-dao/sdk';
 import { BigNumber } from 'ethers';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
@@ -11,32 +11,13 @@ import VaultStore from '../../mobx/stores/VaultStore';
 import { customRender } from '../Utils';
 import { SAMPLE_VAULTS } from '../utils/samples';
 
-const mockVaultsInformation = (vaults: VaultDTO[]) => {
-  jest.spyOn(VaultStore.prototype, 'vaultsDefinitions', 'get').mockReturnValue(
-    new Map(
-      vaults.map((vault) => [
-        vault.vaultToken,
-        {
-          depositToken: { address: vault.underlyingToken, decimals: 18 },
-          vaultToken: { address: vault.vaultToken, decimals: 18 },
-        },
-      ]),
-    ),
-  );
-};
-
 describe('VaultListDisplay', () => {
-  beforeEach(() => {
-    mockVaultsInformation(SAMPLE_VAULTS);
-  });
-
   afterEach(() => {
     jest.restoreAllMocks();
     store.vaults.clearFilters();
   });
 
   it('displays empty search message', () => {
-    mockVaultsInformation([]);
     jest
       .spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get')
       .mockReturnValue(1);
@@ -51,7 +32,6 @@ describe('VaultListDisplay', () => {
   });
 
   it('displays no vaults message', () => {
-    mockVaultsInformation([]);
     jest
       .spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get')
       .mockReturnValue(0);
@@ -69,8 +49,6 @@ describe('VaultListDisplay', () => {
     const vaults = [...SAMPLE_VAULTS].splice(0, 1);
     vaults[0].state = VaultState.Discontinued;
 
-    mockVaultsInformation(vaults);
-
     const { container } = customRender(
       <StoreProvider value={store}>
         <VaultListDisplay />
@@ -82,8 +60,6 @@ describe('VaultListDisplay', () => {
 
   it('uses default sort criteria by default', () => {
     const vaults = [...SAMPLE_VAULTS];
-
-    mockVaultsInformation(vaults);
 
     jest
       .spyOn(UserStore.prototype, 'getBalance')

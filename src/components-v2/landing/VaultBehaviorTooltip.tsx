@@ -7,6 +7,9 @@ interface Props {
 
 const VaultBehaviorTooltip = ({ vault }: Props): JSX.Element | null => {
   const { protocol, behavior, name } = vault;
+  const emittedDCA = vault.sources
+    .map((s) => s.name.replace('Rewards', '').trim())
+    .join(', ');
 
   let description = '';
   switch (behavior) {
@@ -14,9 +17,6 @@ const VaultBehaviorTooltip = ({ vault }: Props): JSX.Element | null => {
       description = `Compounds 100% of rewards into more ${name}`;
       break;
     case VaultBehavior.DCA:
-      const emittedDCA = vault.sources
-        .map((s) => s.name.replace('Rewards', '').trim())
-        .join(', ');
       description = `Compounds 100% of rewards into ${emittedDCA}`;
       break;
     case VaultBehavior.Ecosystem:

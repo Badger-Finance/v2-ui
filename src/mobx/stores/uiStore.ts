@@ -1,13 +1,9 @@
 import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH } from 'config/constants';
 import { action, extendObservable } from 'mobx';
 
-import { RootStore } from './RootStore';
-
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
 
 class UiStateStore {
-  private readonly store!: RootStore;
-  public airdropStats: any;
   public showWalletDrawer: boolean;
   public rewardsDialogOpen: boolean;
   public sidebarOpen!: boolean;
@@ -16,8 +12,7 @@ class UiStateStore {
   private showNotification: boolean;
   private showNetworkOptions: boolean;
 
-  constructor(store: RootStore) {
-    this.store = store;
+  constructor() {
     const storedBalanceDisplay = window.localStorage.getItem(
       SHOW_USER_BALANCE_KEY,
     );
@@ -27,16 +22,12 @@ class UiStateStore {
     this.showWalletDrawer = false;
     this.showNetworkOptions = false;
     this.rewardsDialogOpen = false;
-    const { network } = store.network;
 
     extendObservable(this, {
       showNotification: this.showNotification,
       sidebarOpen: false,
       rewardsDialogOpen: false,
       showUserBalances: this.showUserBalances,
-      gasPrice:
-        window.localStorage.getItem(`${network.name}-selectedGasPrice`) ||
-        'standard',
       txStatus: undefined,
       showWalletDrawer: this.showWalletDrawer,
       showNetworkOptions: this.showNetworkOptions,

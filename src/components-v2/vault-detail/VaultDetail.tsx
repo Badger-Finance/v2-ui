@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const VaultDetail = observer((): JSX.Element => {
-  const { vaultDetail, vaults, router } = useContext(StoreContext);
+  const { vaultDetail, router } = useContext(StoreContext);
   const classes = useStyles();
   const {
     vault,
@@ -42,7 +42,6 @@ export const VaultDetail = observer((): JSX.Element => {
     isDepositDialogDisplayed,
     isWithdrawDialogDisplayed,
   } = vaultDetail;
-  const badgerVault = vault ? vaults.getVaultDefinition(vault) : undefined;
 
   const goBackHome = () => {
     router.goTo(routes.home, {}, { chain: router.queryParams?.chain });
@@ -93,18 +92,16 @@ export const VaultDetail = observer((): JSX.Element => {
         )}
       </Container>
       <MobileStickyActionButtons />
-      {vault && badgerVault && (
+      {vault && (
         <>
           <DepositWidget
             open={isDepositDialogDisplayed}
             vault={vault}
-            badgerVault={badgerVault}
             onClose={() => vaultDetail.toggleDepositDialog()}
           />
           <VaultWithdraw
             open={isWithdrawDialogDisplayed}
             vault={vault}
-            badgerVault={badgerVault}
             onClose={() => vaultDetail.toggleWithdrawDialog()}
           />
         </>

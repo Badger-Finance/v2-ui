@@ -6,6 +6,7 @@ import {
   Select,
   SelectProps,
 } from '@material-ui/core';
+import { SelectInputProps } from '@material-ui/core/Select/SelectInput';
 import { makeStyles } from '@material-ui/core/styles';
 import { ComponentMeta } from '@storybook/react';
 import React, { useState } from 'react';
@@ -35,8 +36,9 @@ export const Normal = ({ color }: Props) => {
   const classes = useStyles();
   const [age, setAge] = useState('');
 
-  const handleChange = (event: any) => {
-    setAge(event.target.value);
+  const handleChange: SelectInputProps['onChange'] = (event) => {
+    // https://stackoverflow.com/questions/58675993/typescript-react-select-onchange-handler-type-error
+    setAge(event.target.value as string);
   };
 
   return (
@@ -64,8 +66,9 @@ export const Error = ({ color }: Props) => {
   const classes = useStyles();
   const [age, setAge] = useState('');
 
-  const handleChange = (event: any) => {
-    setAge(event.target.value);
+  const handleChange: SelectInputProps['onChange'] = (event) => {
+    // https://stackoverflow.com/questions/58675993/typescript-react-select-onchange-handler-type-error
+    setAge(event.target.value as string);
   };
 
   return (
