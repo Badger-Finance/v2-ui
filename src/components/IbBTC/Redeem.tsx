@@ -111,7 +111,7 @@ export const Redeem = observer((): JSX.Element => {
   ): Promise<void> => {
     const [{ sett, fee, max }, conversionRate] = await Promise.all([
       sdk.ibbtc.estimateRedeem(ibbtcBalance.tokenBalance),
-      store.ibBTCStore.getRedeemConversionRate(outTokenBalance.token),
+      store.ibBTCStore.getRedeemConversionRate(),
     ]);
 
     setMaxRedeem(max);
@@ -120,10 +120,7 @@ export const Redeem = observer((): JSX.Element => {
       redeemAmount: TokenBalance.fromBigNumber(outTokenBalance, sett),
       max: TokenBalance.fromBigNumber(ibBTC, max),
       fee: TokenBalance.fromBigNumber(ibBTC, fee),
-      conversionRate: TokenBalance.fromBigNumber(
-        outTokenBalance,
-        conversionRate,
-      ),
+      conversionRate: TokenBalance.fromBalance(outTokenBalance, conversionRate),
     });
   };
 

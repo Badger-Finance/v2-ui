@@ -18,13 +18,14 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from './common';
 
 export declare namespace CvxLocker {
   export type LockedBalanceStruct = {
-    amount: BigNumberish;
-    boosted: BigNumberish;
-    unlockTime: BigNumberish;
+    amount: PromiseOrValue<BigNumberish>;
+    boosted: PromiseOrValue<BigNumberish>;
+    unlockTime: PromiseOrValue<BigNumberish>;
   };
 
   export type LockedBalanceStructOutput = [BigNumber, BigNumber, number] & {
@@ -50,14 +51,17 @@ export interface VoteLockedDepositInterface extends utils.Interface {
       | 'lockedSupply',
   ): FunctionFragment;
 
-  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
+  encodeFunctionData(
+    functionFragment: 'balanceOf',
+    values: [PromiseOrValue<string>],
+  ): string;
   encodeFunctionData(
     functionFragment: 'lockedBalanceOf',
-    values: [string],
+    values: [PromiseOrValue<string>],
   ): string;
   encodeFunctionData(
     functionFragment: 'lockedBalances',
-    values: [string],
+    values: [PromiseOrValue<string>],
   ): string;
   encodeFunctionData(
     functionFragment: 'lockedSupply',
@@ -109,17 +113,17 @@ export interface VoteLockedDeposit extends BaseContract {
 
   functions: {
     balanceOf(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<[BigNumber] & { amount: BigNumber }>;
 
     lockedBalanceOf(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<[BigNumber] & { amount: BigNumber }>;
 
     lockedBalances(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<
       [
@@ -138,12 +142,18 @@ export interface VoteLockedDeposit extends BaseContract {
     lockedSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
-  balanceOf(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+  balanceOf(
+    _user: PromiseOrValue<string>,
+    overrides?: CallOverrides,
+  ): Promise<BigNumber>;
 
-  lockedBalanceOf(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+  lockedBalanceOf(
+    _user: PromiseOrValue<string>,
+    overrides?: CallOverrides,
+  ): Promise<BigNumber>;
 
   lockedBalances(
-    _user: string,
+    _user: PromiseOrValue<string>,
     overrides?: CallOverrides,
   ): Promise<
     [BigNumber, BigNumber, BigNumber, CvxLocker.LockedBalanceStructOutput[]] & {
@@ -157,15 +167,18 @@ export interface VoteLockedDeposit extends BaseContract {
   lockedSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
-    balanceOf(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+    balanceOf(
+      _user: PromiseOrValue<string>,
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>;
 
     lockedBalanceOf(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
     lockedBalances(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<
       [
@@ -187,15 +200,18 @@ export interface VoteLockedDeposit extends BaseContract {
   filters: {};
 
   estimateGas: {
-    balanceOf(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+    balanceOf(
+      _user: PromiseOrValue<string>,
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>;
 
     lockedBalanceOf(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
     lockedBalances(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
@@ -204,17 +220,17 @@ export interface VoteLockedDeposit extends BaseContract {
 
   populateTransaction: {
     balanceOf(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     lockedBalanceOf(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     lockedBalances(
-      _user: string,
+      _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 

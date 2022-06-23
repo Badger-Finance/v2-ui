@@ -24,6 +24,7 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from './common';
 
 export interface IbbtcVaultZapInterface extends utils.Interface {
@@ -112,19 +113,39 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
   encodeFunctionData(functionFragment: 'WIBBTC', values?: undefined): string;
   encodeFunctionData(
     functionFragment: 'calcMint',
-    values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish], boolean],
+    values: [
+      [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      PromiseOrValue<boolean>,
+    ],
   ): string;
   encodeFunctionData(
     functionFragment: 'deposit',
     values: [
-      [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      BigNumberish,
-      boolean,
+      [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<boolean>,
     ],
   ): string;
   encodeFunctionData(
     functionFragment: 'expectedAmount',
-    values: [[BigNumberish, BigNumberish, BigNumberish, BigNumberish]],
+    values: [
+      [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+    ],
   ): string;
   encodeFunctionData(
     functionFragment: 'governance',
@@ -133,15 +154,18 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
   encodeFunctionData(functionFragment: 'guardian', values?: undefined): string;
   encodeFunctionData(
     functionFragment: 'initialize',
-    values: [string, string],
+    values: [PromiseOrValue<string>, PromiseOrValue<string>],
   ): string;
   encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
   encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
   encodeFunctionData(
     functionFragment: 'setGovernance',
-    values: [string],
+    values: [PromiseOrValue<string>],
   ): string;
-  encodeFunctionData(functionFragment: 'setGuardian', values: [string]): string;
+  encodeFunctionData(
+    functionFragment: 'setGuardian',
+    values: [PromiseOrValue<string>],
+  ): string;
   encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
 
   decodeFunctionResult(
@@ -296,20 +320,35 @@ export interface IbbtcVaultZap extends BaseContract {
     WIBBTC(overrides?: CallOverrides): Promise<[string]>;
 
     calcMint(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _mintIbbtc: boolean,
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      _mintIbbtc: PromiseOrValue<boolean>,
       overrides?: CallOverrides,
     ): Promise<[BigNumber]>;
 
     deposit(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _minOut: BigNumberish,
-      _mintIbbtc: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      _minOut: PromiseOrValue<BigNumberish>,
+      _mintIbbtc: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
     expectedAmount(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
       overrides?: CallOverrides,
     ): Promise<[BigNumber] & { amount: BigNumber }>;
 
@@ -318,29 +357,29 @@ export interface IbbtcVaultZap extends BaseContract {
     guardian(overrides?: CallOverrides): Promise<[string]>;
 
     initialize(
-      _guardian: string,
-      _governance: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _guardian: PromiseOrValue<string>,
+      _governance: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
     pause(
-      overrides?: Overrides & { from?: string | Promise<string> },
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
     setGovernance(
-      _governance: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _governance: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
     setGuardian(
-      _guardian: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _guardian: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
     unpause(
-      overrides?: Overrides & { from?: string | Promise<string> },
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
   };
 
@@ -369,20 +408,35 @@ export interface IbbtcVaultZap extends BaseContract {
   WIBBTC(overrides?: CallOverrides): Promise<string>;
 
   calcMint(
-    _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-    _mintIbbtc: boolean,
+    _amounts: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+    ],
+    _mintIbbtc: PromiseOrValue<boolean>,
     overrides?: CallOverrides,
   ): Promise<BigNumber>;
 
   deposit(
-    _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-    _minOut: BigNumberish,
-    _mintIbbtc: boolean,
-    overrides?: Overrides & { from?: string | Promise<string> },
+    _amounts: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+    ],
+    _minOut: PromiseOrValue<BigNumberish>,
+    _mintIbbtc: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
   expectedAmount(
-    _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+    _amounts: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+    ],
     overrides?: CallOverrides,
   ): Promise<BigNumber>;
 
@@ -391,29 +445,29 @@ export interface IbbtcVaultZap extends BaseContract {
   guardian(overrides?: CallOverrides): Promise<string>;
 
   initialize(
-    _guardian: string,
-    _governance: string,
-    overrides?: Overrides & { from?: string | Promise<string> },
+    _guardian: PromiseOrValue<string>,
+    _governance: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
   pause(
-    overrides?: Overrides & { from?: string | Promise<string> },
+    overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
   setGovernance(
-    _governance: string,
-    overrides?: Overrides & { from?: string | Promise<string> },
+    _governance: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
   setGuardian(
-    _guardian: string,
-    overrides?: Overrides & { from?: string | Promise<string> },
+    _guardian: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
   unpause(
-    overrides?: Overrides & { from?: string | Promise<string> },
+    overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
   callStatic: {
@@ -442,20 +496,35 @@ export interface IbbtcVaultZap extends BaseContract {
     WIBBTC(overrides?: CallOverrides): Promise<string>;
 
     calcMint(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _mintIbbtc: boolean,
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      _mintIbbtc: PromiseOrValue<boolean>,
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
     deposit(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _minOut: BigNumberish,
-      _mintIbbtc: boolean,
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      _minOut: PromiseOrValue<BigNumberish>,
+      _mintIbbtc: PromiseOrValue<boolean>,
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
     expectedAmount(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
@@ -464,8 +533,8 @@ export interface IbbtcVaultZap extends BaseContract {
     guardian(overrides?: CallOverrides): Promise<string>;
 
     initialize(
-      _guardian: string,
-      _governance: string,
+      _guardian: PromiseOrValue<string>,
+      _governance: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<void>;
 
@@ -474,28 +543,31 @@ export interface IbbtcVaultZap extends BaseContract {
     paused(overrides?: CallOverrides): Promise<boolean>;
 
     setGovernance(
-      _governance: string,
+      _governance: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<void>;
 
-    setGuardian(_guardian: string, overrides?: CallOverrides): Promise<void>;
+    setGuardian(
+      _guardian: PromiseOrValue<string>,
+      overrides?: CallOverrides,
+    ): Promise<void>;
 
     unpause(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
     'GovernanceUpdated(address)'(
-      newGovernanceAddress?: string | null,
+      newGovernanceAddress?: PromiseOrValue<string> | null,
     ): GovernanceUpdatedEventFilter;
     GovernanceUpdated(
-      newGovernanceAddress?: string | null,
+      newGovernanceAddress?: PromiseOrValue<string> | null,
     ): GovernanceUpdatedEventFilter;
 
     'GuardianshipTransferred(address)'(
-      newGuardianAddress?: string | null,
+      newGuardianAddress?: PromiseOrValue<string> | null,
     ): GuardianshipTransferredEventFilter;
     GuardianshipTransferred(
-      newGuardianAddress?: string | null,
+      newGuardianAddress?: PromiseOrValue<string> | null,
     ): GuardianshipTransferredEventFilter;
 
     'Paused(address)'(account?: null): PausedEventFilter;
@@ -531,20 +603,35 @@ export interface IbbtcVaultZap extends BaseContract {
     WIBBTC(overrides?: CallOverrides): Promise<BigNumber>;
 
     calcMint(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _mintIbbtc: boolean,
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      _mintIbbtc: PromiseOrValue<boolean>,
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
     deposit(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _minOut: BigNumberish,
-      _mintIbbtc: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      _minOut: PromiseOrValue<BigNumberish>,
+      _mintIbbtc: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
     expectedAmount(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
@@ -553,29 +640,29 @@ export interface IbbtcVaultZap extends BaseContract {
     guardian(overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
-      _guardian: string,
-      _governance: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _guardian: PromiseOrValue<string>,
+      _governance: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
     pause(
-      overrides?: Overrides & { from?: string | Promise<string> },
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
     setGovernance(
-      _governance: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _governance: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
     setGuardian(
-      _guardian: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _guardian: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
     unpause(
-      overrides?: Overrides & { from?: string | Promise<string> },
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
   };
 
@@ -609,20 +696,35 @@ export interface IbbtcVaultZap extends BaseContract {
     WIBBTC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     calcMint(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _mintIbbtc: boolean,
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      _mintIbbtc: PromiseOrValue<boolean>,
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     deposit(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _minOut: BigNumberish,
-      _mintIbbtc: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
+      _minOut: PromiseOrValue<BigNumberish>,
+      _mintIbbtc: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
     expectedAmount(
-      _amounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
+      _amounts: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+      ],
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
@@ -631,29 +733,29 @@ export interface IbbtcVaultZap extends BaseContract {
     guardian(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     initialize(
-      _guardian: string,
-      _governance: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _guardian: PromiseOrValue<string>,
+      _governance: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
     pause(
-      overrides?: Overrides & { from?: string | Promise<string> },
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setGovernance(
-      _governance: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _governance: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
     setGuardian(
-      _guardian: string,
-      overrides?: Overrides & { from?: string | Promise<string> },
+      _guardian: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
     unpause(
-      overrides?: Overrides & { from?: string | Promise<string> },
+      overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
   };
 }

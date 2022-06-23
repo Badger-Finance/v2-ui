@@ -1,5 +1,6 @@
-import { Network, Token } from '@badger-dao/sdk';
+import { formatBalance, Token } from '@badger-dao/sdk';
 import addresses from 'config/ibBTC/addresses.json';
+import { BadgerPeakSwap__factory } from 'contracts';
 import { BigNumber } from 'ethers';
 import { action, computed, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
@@ -97,22 +98,11 @@ class IbBTCStore {
   }
 
   async init(): Promise<void> {
-    const { address } = this.store.wallet;
-    const { config: network } = this.store.sdk;
-
-    // kek we done did it again, the network network :gigabrain:
-    if (this.initialized || network.network !== Network.Ethereum || !address) {
-      return;
+    try {
+      await Promise.all([this.fetchConversionRates(), this.fetchFees()]);
+    } catch (err) {
+      console.error({ err, message: 'Failed to initialize ibBTC variables' });
     }
-
-    await Promise.all([this.fetchConversionRates(), this.fetchFees()]).catch(
-      (err) => {
-        if (DEBUG) {
-          console.error(err);
-        }
-        return;
-      },
-    );
   }
 
   fetchFees = action(async (): Promise<void> => {
@@ -125,7 +115,7 @@ class IbBTCStore {
     const [fetchMintRates, fetchRedeemRates] = await Promise.all([
       Promise.all(this.mintOptions.map((_o) => this.fetchMintRate())),
       Promise.all(
-        this.redeemOptions.map(({ token }) => this.fetchRedeemRate(token)),
+        this.redeemOptions.map(({ token }) => this.fetchRedeemRate()),
       ),
     ]);
 
@@ -152,12 +142,10 @@ class IbBTCStore {
     }
   });
 
-  fetchRedeemRate = action(async (token: Token): Promise<string> => {
+  fetchRedeemRate = action(async (): Promise<string> => {
     try {
-      const redeemRate = await this.getRedeemConversionRate(token);
-      return TokenBalance.fromBigNumber(this.ibBTC, redeemRate).balanceDisplay(
-        6,
-      );
+      const redeemRate = await this.getRedeemConversionRate();
+      return TokenBalance.fromBalance(this.ibBTC, redeemRate).balanceDisplay(6);
     } catch (error) {
       return '0.000';
     }
@@ -192,20 +180,20 @@ class IbBTCStore {
     return true;
   }
 
-  async getRedeemConversionRate(token: Token): Promise<BigNumber> {
-    // const { web3Instance } = this.store.wallet;
-    // if (!web3Instance) return ZERO;
-
-    // const ibBTC = new web3Instance.eth.Contract(
-    //   ibBTCConfig.abi as AbiItem[],
-    //   this.ibBTC.token.address,
-    // );
-    // const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
-
-    // return IbBTCMintZapFactory.getIbBTCZap(this.store, token).bBTCToSett(
-    //   new BigNumber(ibBTCPricePerShare),
-    // );
-    return BigNumber.from('0');
+  async getRedeemConversionRate(): Promise<number> {
+    const { sdk } = this.store;
+    const ibbtcPpfs = await sdk.ibbtc.getPricePerFullShare();
+    const { sett, swap } = await sdk.ibbtc.vaultPeak.pools(0);
+    const swapContract = BadgerPeakSwap__factory.connect(swap, sdk.provider);
+    const [vault, virtualPrice] = await Promise.all([
+      sdk.vaults.loadVault({
+        address: sett,
+        update: true,
+      }),
+      swapContract.get_virtual_price(),
+    ]);
+    const virtualSwapPrice = formatBalance(virtualPrice);
+    return ibbtcPpfs / (vault.pricePerFullShare * virtualSwapPrice);
   }
 }
 
