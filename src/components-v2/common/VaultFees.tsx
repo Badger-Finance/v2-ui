@@ -2,6 +2,7 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Divider, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
+import { ethers } from 'ethers';
 import { StrategyFee } from 'mobx/model/system-config/stategy-fees';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
