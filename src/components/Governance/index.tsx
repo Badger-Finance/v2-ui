@@ -21,6 +21,8 @@ const GovernancePortal = observer(() => {
     governancePortal.loadData();
   }, [governancePortal]);
 
+  //bruh wtf WWHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY ANY REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const applyFilter = (filters: any[]) => {
     setFilters(filters);
   };
