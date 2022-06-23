@@ -71,7 +71,8 @@ class IbBTCStore {
   get initialized(): boolean {
     const mintRatesAvailable = Object.keys(this.mintRates).length > 0;
     const redeemRatesAvailable = Object.keys(this.redeemRates).length > 0;
-    const feesAreLoaded = !!this.mintFeePercent && !!this.redeemFeePercent;
+    const feesAreLoaded =
+      this.mintFeePercent !== undefined && this.redeemFeePercent !== undefined;
     const tokensInformationIsLoaded = this.tokenBalances.every(
       (option) => !!option.token.name && !!option.token.symbol,
     );
@@ -113,10 +114,8 @@ class IbBTCStore {
 
   fetchConversionRates = action(async (): Promise<void> => {
     const [fetchMintRates, fetchRedeemRates] = await Promise.all([
-      Promise.all(this.mintOptions.map((_o) => this.fetchMintRate())),
-      Promise.all(
-        this.redeemOptions.map(({ token }) => this.fetchRedeemRate()),
-      ),
+      Promise.all(this.mintOptions.map((o) => this.fetchMintRate(o))),
+      Promise.all(this.redeemOptions.map((_o) => this.fetchRedeemRate())),
     ]);
 
     for (let i = 0; i < fetchMintRates.length; i++) {
@@ -128,7 +127,7 @@ class IbBTCStore {
     }
   });
 
-  fetchMintRate = action(async (): Promise<string> => {
+  fetchMintRate = action(async (token: TokenBalance): Promise<string> => {
     try {
       const { bbtc, fee } = await this.store.sdk.ibbtc.estimateMint(
         BigNumber.from(1),

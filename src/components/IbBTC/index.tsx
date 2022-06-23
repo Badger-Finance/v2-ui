@@ -10,15 +10,11 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import WrapTextIcon from '@material-ui/icons/WrapText';
-import PageHeader from 'components-v2/common/PageHeader';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 
-import {
-  LayoutContainer,
-  PageHeaderContainer,
-} from '../../components-v2/common/Containers';
+import { LayoutContainer } from '../../components-v2/common/Containers';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
 
@@ -64,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center',
     },
   },
+  pageContainer: {
+    marginTop: 42,
+  },
 }));
 
 export const IbBTC = observer(() => {
@@ -82,13 +81,12 @@ export const IbBTC = observer(() => {
 
   return (
     <LayoutContainer>
-      <Grid container spacing={1} justifyContent="center">
-        <PageHeaderContainer item sm={12} xs={12}>
-          <PageHeader
-            title="ibBTC"
-            subtitle="Interest Bearing Badger Bitcoin."
-          />
-        </PageHeaderContainer>
+      <Grid
+        container
+        spacing={1}
+        justifyContent="center"
+        className={classes.pageContainer}
+      >
         {network.symbol === Network.Ethereum ? (
           <div className={classes.mintContainer}>
             <Grid item xs={12} md={9} lg={7}>
