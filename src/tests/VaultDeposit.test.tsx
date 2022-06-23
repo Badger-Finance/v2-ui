@@ -11,20 +11,12 @@ import { customRender, screen } from './Utils';
 import { SAMPLE_BADGER_SETT, SAMPLE_VAULT } from './utils/samples';
 
 describe('Vault Deposit', () => {
-  beforeEach(() => {
-    jest.spyOn(VaultStore.prototype, 'getVaultDefinition').mockReturnValue({
-      depositToken: { address: SAMPLE_VAULT.underlyingToken, decimals: 18 },
-      vaultToken: { address: SAMPLE_VAULT.vaultToken, decimals: 18 },
-    });
-  });
-
   test('displays sett information', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
         <VaultDeposit
           open={true}
           vault={SAMPLE_VAULT}
-          badgerVault={SAMPLE_BADGER_SETT}
           onClose={jest.fn()}
         />
       </StoreProvider>,
@@ -38,7 +30,6 @@ describe('Vault Deposit', () => {
         <VaultDeposit
           open={true}
           vault={SAMPLE_VAULT}
-          badgerVault={SAMPLE_BADGER_SETT}
           onClose={jest.fn()}
         />
       </StoreProvider>,
@@ -53,7 +44,6 @@ describe('Vault Deposit', () => {
         <VaultDeposit
           open={true}
           vault={SAMPLE_VAULT}
-          badgerVault={SAMPLE_BADGER_SETT}
           onClose={jest.fn()}
         />
       </StoreProvider>,

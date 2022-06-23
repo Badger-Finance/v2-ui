@@ -2,8 +2,8 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Divider, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
+import { ethers } from 'ethers';
 import { StrategyFee } from 'mobx/model/system-config/stategy-fees';
-import { getVaultStrategyFee } from 'mobx/utils/fees';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -33,6 +33,25 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgba(255, 255, 255, 0.3)',
   },
 }));
+
+function getVaultStrategyFee(vault: VaultDTO, fee: StrategyFee): number {
+  const { strategy } = vault;
+  if (strategy.address === ethers.constants.AddressZero) {
+    return 0;
+  }
+  switch (fee) {
+    case StrategyFee.withdraw:
+      return strategy.withdrawFee;
+    case StrategyFee.performance:
+      return strategy.performanceFee;
+    case StrategyFee.strategistPerformance:
+      return strategy.strategistFee;
+    case StrategyFee.aumFee:
+      return strategy.aumFee;
+    default:
+      return 0;
+  }
+}
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   vault: VaultDTO;

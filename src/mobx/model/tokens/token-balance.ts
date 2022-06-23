@@ -1,6 +1,6 @@
 import { formatBalance, Token } from '@badger-dao/sdk';
 import { BigNumber, BigNumberish, ethers } from 'ethers';
-import { minBalance, numberWithCommas } from 'mobx/utils/helpers';
+import { numberWithCommas } from 'mobx/utils/helpers';
 
 export class TokenBalance {
   readonly token: Token;
@@ -62,7 +62,7 @@ export class TokenBalance {
    */
   balanceDisplay(precision?: number): string {
     const decimals = precision || this.token.decimals;
-    if (this.balance > 0 && this.balance < minBalance(decimals)) {
+    if (this.balance > 0 && this.balance < this.minBalance(decimals)) {
       return `< 0.${'0'.repeat(decimals - 1)}1`;
     }
 
@@ -98,5 +98,9 @@ export class TokenBalance {
   scaledBalanceDisplay(percent: number): string {
     const scaledBalance = this.scale(percent / 100);
     return scaledBalance.balanceDisplay(0);
+  }
+
+  private minBalance(decimals: number): number {
+    return Number(`0.${'0'.repeat(decimals - 1)}1`);
   }
 }

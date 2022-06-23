@@ -1,8 +1,8 @@
+import { Token } from '@badger-dao/sdk';
+import availableTokens from '@badger-dao/sdk-mocks/generated/ethereum/api/loadTokens.json';
 import { BigNumber } from 'ethers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { randomValue } from 'tests/utils/random';
-import availableTokens from '@badger-dao/sdk-mocks/generated/ethereum/api/loadTokens.json'
-import { Token } from '@badger-dao/sdk';
 
 describe('token-balance', () => {
   const testTokens: Record<string, Token> = availableTokens;

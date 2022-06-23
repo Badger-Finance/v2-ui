@@ -20,17 +20,11 @@ import slugify from 'slugify';
 
 import { getUserVaultBoost } from '../../utils/componentHelpers';
 import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
-import { BadgerVault } from '../model/vaults/badger-vault';
 import { VaultMap } from '../model/vaults/vault-map';
-import {
-  VaultsDefinitionCache,
-  VaultsDefinitions,
-} from '../model/vaults/vaults-definition-cache';
 import { RootStore } from './RootStore';
 
 export default class VaultStore {
   // loading: undefined, error: null, present: object
-  private vaultDefinitionsCache: VaultsDefinitionCache = {};
   public tokenCache: TokenCache = {};
   public vaultCache: VaultCache = {};
   public slugCache: VaultSlugCache = {};
@@ -75,12 +69,6 @@ export default class VaultStore {
     ) as string[];
     const networkVaultsMap = Object.fromEntries(
       currentNetwork.vaults.map((vault) => [vault.vaultToken.address, vault]),
-    );
-    this.vaultDefinitionsCache[currentNetwork.symbol] = new Map(
-      networkDeployVaults.flatMap((vaultAddress) => {
-        const vault = networkVaultsMap[vaultAddress];
-        return vault ? [[vaultAddress, vault]] : [];
-      }),
     );
 
     this.refresh();
@@ -147,11 +135,6 @@ export default class VaultStore {
     return this.tokenCache[this.store.network.network.symbol] ?? {};
   }
 
-  get vaultsDefinitions(): VaultsDefinitions | undefined | null {
-    const { network: currentNetwork } = this.store.network;
-    return this.vaultDefinitionsCache[currentNetwork.symbol];
-  }
-
   get vaultsProtocols(): Protocol[] {
     if (!this.vaultMap) {
       return [];
@@ -176,10 +159,6 @@ export default class VaultStore {
     }
 
     return Object.values(this.vaultMap).some((vault) => vault.boost.enabled);
-  }
-
-  getVaultDefinition(vault: VaultDTO): BadgerVault | undefined | null {
-    return this.vaultsDefinitions?.get(vault.vaultToken);
   }
 
   getSlug(address: string): string {
@@ -221,19 +200,11 @@ export default class VaultStore {
   }
 
   get vaultOrder(): VaultDTO[] {
-    if (this.vaultsDefinitions === undefined) {
-      return [];
-    }
-
-    if (!this.vaultsDefinitions) {
-      return [];
-    }
-
-    let vaults = Array.from(this.vaultsDefinitions.values()).flatMap(
+    let vaults = Object.values(this.vaultMap).flatMap(
       (vaultDefinition) => {
         const vault =
           this.vaultMap[
-            ethers.utils.getAddress(vaultDefinition.vaultToken.address)
+            ethers.utils.getAddress(vaultDefinition.vaultToken)
           ];
         return vault ? [vault] : [];
       },

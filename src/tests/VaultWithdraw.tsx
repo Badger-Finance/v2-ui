@@ -15,7 +15,6 @@ describe('Vault Withdraw', () => {
         <VaultWithdraw
           open={true}
           vault={SAMPLE_VAULT}
-          badgerVault={SAMPLE_BADGER_SETT}
           onClose={jest.fn()}
         />
       </StoreProvider>,

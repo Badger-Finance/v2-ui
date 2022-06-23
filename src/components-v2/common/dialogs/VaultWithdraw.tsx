@@ -19,6 +19,7 @@ import {
 import VaultAdvisory from './VaultAdvisory';
 import { VaultConversionAndFee } from './VaultConversionAndFee';
 import { VaultDialogTitle } from './VaultDialogTitle';
+import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -52,16 +53,16 @@ const useStyles = makeStyles((theme) => ({
 export interface VaultModalProps {
   open?: boolean;
   vault: VaultDTO;
-  badgerVault: BadgerVault;
+  withdrawAdvisory?: AdvisoryType;
   onClose: () => void;
 }
 
 export const VaultWithdraw = observer(
-  ({ open = false, vault, badgerVault, onClose }: VaultModalProps) => {
+  ({ open = false, vault, withdrawAdvisory, onClose }: VaultModalProps) => {
     const { wallet, user, vaults, sdk } = useContext(StoreContext);
     const classes = useStyles();
 
-    const [accepted, setAccepted] = useState(!badgerVault.withdrawAdvisory);
+    const [accepted, setAccepted] = useState(!withdrawAdvisory);
     const [amount, setAmount] = useState('0');
     const { onValidChange, inputProps } = useNumericInput();
 
@@ -71,7 +72,7 @@ export const VaultWithdraw = observer(
     const depositToken = vaults.getToken(vault.underlyingToken);
     const bToken = vaults.getToken(vault.vaultToken);
 
-    const vaultSymbol = vaults.getToken(badgerVault.vaultToken.address).symbol;
+    const vaultSymbol = vaults.getToken(vault.vaultToken).symbol;
     const depositTokenSymbol = depositToken.symbol;
     const bTokenSymbol = bToken?.symbol || '';
 
@@ -97,14 +98,14 @@ export const VaultWithdraw = observer(
       }
     };
 
-    if (!accepted && badgerVault.withdrawAdvisory) {
+    if (!accepted && withdrawAdvisory) {
       return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
           <VaultDialogTitle vault={vault} mode="Withdraw" />
           <VaultAdvisory
             vault={vault}
             accept={() => setAccepted(true)}
-            type={badgerVault.withdrawAdvisory}
+            type={withdrawAdvisory}
           />
         </Dialog>
       );

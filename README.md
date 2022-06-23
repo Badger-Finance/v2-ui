@@ -5,4 +5,3 @@
 # Badger UI
 
 The Badger UI is a react application focused on providing users access to smart contracts developed and mainted by Badger DAO.
-

@@ -1,8 +1,8 @@
+import { TokenValue } from '@badger-dao/sdk';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import { VaultTokenBalance } from '../../../mobx/model/vaults/vault-token-balance';
 import { numberWithCommas } from '../../../mobx/utils/helpers';
 import TokenLogo from '../../TokenLogo';
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  tokenBalance: VaultTokenBalance;
+  tokenBalance: TokenValue;
 }
 
 export const TokenDistributionItem = ({ tokenBalance }: Props): JSX.Element => {

@@ -12,14 +12,3 @@ export enum VaultSnapshotGranularity {
   HOUR = 'hour',
   DAY = 'day',
 }
-
-export interface VaultSnapshot {
-  address: string;
-  height: number;
-  timestamp: number;
-  balance: number;
-  supply: number;
-  ratio: number;
-  pricePerFullShare: number;
-  value: number;
-}

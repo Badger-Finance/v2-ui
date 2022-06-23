@@ -6,7 +6,7 @@ import {
 } from '@badger-dao/sdk';
 import Bridge from 'components/Bridge';
 import Governance from 'components/Governance';
-// import { IbBTC } from 'components/IbBTC';
+import { IbBTC } from 'components/IbBTC';
 import { QueryParams, Route } from 'mobx-router';
 import React from 'react';
 
@@ -55,8 +55,8 @@ const routes = {
   }),
   IbBTC: new Route<RootStore, QueryParams>({
     path: '/ibBTC',
-    component: <></>, //  <IbBTC />,
-    // onEnter: (_route, _params, store) => store.ibBTCStore.init(),
+    component: <IbBTC />,
+    onEnter: (_route, _params, store) => store.ibBTCStore.init(),
   }),
   vaultDetail: new Route<RootStore, QueryParams>({
     path: '/vault/:vaultName',
