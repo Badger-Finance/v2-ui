@@ -1,8 +1,7 @@
-import { formatBalance, VaultDTO } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MAX_FEE } from 'config/constants';
-import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { getVaultStrategyFee } from 'mobx/utils/fees';
 import { observer } from 'mobx-react-lite';
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   vault: VaultDTO;
-  balance: TokenBalance;
+  balance: number;
 }
 
 export const VaultConversionAndFee = observer(
@@ -41,11 +40,9 @@ export const VaultConversionAndFee = observer(
     const depositTokenSymbol = depositToken?.symbol || '';
     const depositTokenDecimals = depositToken?.decimals || 18;
 
-    const withdrawAmount = balance.scale(vault.pricePerFullShare);
-    const withdrawalFee = withdrawAmount.tokenBalance
-      .mul(withdrawFee)
-      .div(MAX_FEE);
-    const amountAfterFee = withdrawAmount.tokenBalance.sub(withdrawalFee);
+    const withdrawAmount = balance * vault.pricePerFullShare;
+    const withdrawalFee = (withdrawAmount * withdrawFee) / MAX_FEE;
+    const amountAfterFee = withdrawAmount - withdrawalFee;
 
     return (
       <Grid container>
@@ -60,10 +57,7 @@ export const VaultConversionAndFee = observer(
             Converted Amount
           </Typography>
           <Typography display="inline" variant="subtitle2">
-            {`${formatBalance(
-              withdrawAmount.tokenBalance,
-              depositTokenDecimals,
-            )} ${depositTokenSymbol}`}
+            {`${withdrawAmount.toFixed(6)} ${depositTokenSymbol}`}
           </Typography>
         </Grid>
         <Grid container justifyContent="space-between">
@@ -75,10 +69,7 @@ export const VaultConversionAndFee = observer(
             {`Estimated Fee (${formatStrategyFee(withdrawFee)})`}
           </Typography>
           <Typography display="inline" variant="subtitle2">
-            {`${formatBalance(
-              withdrawalFee,
-              depositTokenDecimals,
-            )} ${depositTokenSymbol}`}
+            {`${withdrawalFee.toFixed(6)} ${depositTokenSymbol}`}
           </Typography>
         </Grid>
         <Grid container justifyContent="space-between">
@@ -90,10 +81,7 @@ export const VaultConversionAndFee = observer(
             You will receive
           </Typography>
           <Typography display="inline" variant="subtitle2">
-            {`${formatBalance(
-              amountAfterFee,
-              depositTokenDecimals,
-            )} ${depositTokenSymbol}`}
+            {`${amountAfterFee.toFixed(6)} ${depositTokenSymbol}`}
           </Typography>
         </Grid>
       </Grid>

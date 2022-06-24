@@ -22,6 +22,7 @@ import { BigNumber, BigNumberish, ethers } from 'ethers';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Loader } from '../../components/Loader';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
@@ -103,7 +104,7 @@ const IbbtcVaultDepositDialog = ({
 }: VaultModalProps): JSX.Element => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { network, wallet, vaults, uiState, user } = store;
+  const { network, wallet, vaults, uiState, user, sdk } = store;
 
   // lp token getters
   const lpVault = vaults.getVault(
@@ -274,27 +275,30 @@ const IbbtcVaultDepositDialog = ({
       return;
     }
 
-    // await contracts.deposit(lpVault, lpBadgerVault, userLpTokenBalance, lpTokenDepositBalance);
+    await sdk.vaults.deposit({
+      vault: lpVault.vaultToken,
+      amount: lpTokenDepositBalance.tokenBalance,
+    });
   };
 
   const handleMultiTokenDeposit = async () => {
-    // const { web3Instance } = wallet;
+    const invalidBalance = multiTokenDepositBalances.find(
+      (depositBalance, index) => {
+        const depositOption = depositOptions[index];
+        return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
+      },
+    );
 
-    // const invalidBalance = multiTokenDepositBalances.find((depositBalance, index) => {
-    // 	const depositOption = depositOptions[index];
-    // 	return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
-    // });
+    if (invalidBalance) {
+      toast.error(
+        `Insufficient ${invalidBalance.token.symbol} balance for deposit`,
+      );
+      return;
+    }
 
-    // if (!web3Instance) return;
+    // const allowanceApprovals = [];
 
-    // if (invalidBalance) {
-    // 	uiState.queueError(`Insufficient ${invalidBalance.token.symbol} balance for deposit`);
-    // 	return;
-    // }
-
-    const allowanceApprovals = [];
-
-    // TODO DOGGY PLEASE DO NOT LEAVE THIS COMMENTED
+    // // TODO DOGGY PLEASE DO NOT LEAVE THIS COMMENTED
     // for (const depositBalance of multiTokenDepositBalances) {
     // 	const allowance = await contracts.getAllowance(depositBalance.token, mainnetDeploy.ibbtcVaultZap);
 
@@ -307,8 +311,8 @@ const IbbtcVaultDepositDialog = ({
 
     // const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, web3Instance);
 
-    // // const depositAmounts = multiTokenDepositBalances.map((balance) => balance.tokenBalance);
-    // const depositAmounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish] = ['0', '0', '0', '0'];
+    // const depositAmounts = multiTokenDepositBalances.map((balance) => balance.tokenBalance);
+    // // const depositAmounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish] = ['0', '0', '0', '0'];
     // const expectedAmount = await ibbtcVaultPeak.expectedAmount(depositAmounts);
     // const minOut = expectedAmount.mul(1 - slippage / 100);
     // const deposit = ibbtcVaultPeak.deposit(depositAmounts, minOut, false);

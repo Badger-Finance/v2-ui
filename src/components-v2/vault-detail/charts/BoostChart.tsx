@@ -1,7 +1,9 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { makeStyles } from '@material-ui/core';
 import { format } from 'd3-format';
-import React from 'react';
+import { StoreContext } from 'mobx/stores/store-context';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 import { TooltipProps } from 'recharts';
 import {
   NameType,
@@ -28,63 +30,90 @@ const yScaleFormatter = format('^.2%');
 const xScaleFormatter = (value: number): string =>
   value === 0 ? '1' : value.toString();
 
-const BoostTooltip = ({
-  active,
-  payload,
-}: TooltipProps<ValueType, NameType>) => {
-  const classes = useStyles();
-  if (!active || !payload || payload.length === 0) {
-    return null;
-  }
-  const { x, y } = payload[0].payload;
-  const xValue = x === 0 ? 1 : x;
+const BoostTooltip = observer(
+  ({ active, payload }: TooltipProps<ValueType, NameType>) => {
+    const {
+      vaults: { vaultsFilters },
+    } = useContext(StoreContext);
+    const classes = useStyles();
 
-  const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
-  return (
-    <div className={classes.tooltipContainer}>
-      <span>Badger Boost: {xValue}</span>
-      <span>Stake Ratio: {stakeRatio}</span>
-      <span>Boosted APR: {yScaleFormatter(y)}</span>
-    </div>
-  );
-};
+    if (!active || !payload || payload.length === 0) {
+      return null;
+    }
+    const { x, y } = payload[0].payload;
+    const xValue = x === 0 ? 1 : x;
+    const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
+
+    const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
+    return (
+      <div className={classes.tooltipContainer}>
+        <span>Badger Boost: {xValue}</span>
+        <span>Stake Ratio: {stakeRatio}</span>
+        <span>
+          Boosted {mode}: {yScaleFormatter(y)}
+        </span>
+      </div>
+    );
+  },
+);
 
 interface Props {
   vault: VaultDTO;
 }
 
-export const BoostChart = ({ vault }: Props): JSX.Element | null => {
-  const { sources, apr, minApr, maxApr } = vault;
+export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
+  const {
+    vaults: { vaultsFilters },
+  } = useContext(StoreContext);
 
-  if (!minApr || !maxApr) {
+  const { sources, apr, minApr, maxApr, maxApy, minApy, sourcesApy, apy } =
+    vault;
+
+  if (!minApr || !maxApr || !maxApy || !minApy) {
     return null;
   }
 
-  const boostableApr = sources
+  const base = vaultsFilters.showAPR ? apr : apy;
+  const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
+  const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
+
+  const boostableApr = boostSources
     .filter((s) => s.boostable)
     .map((s) => s.apr)
-    .reduce((total, apr) => (total += apr), 0);
-  const baseApr = apr - boostableApr;
-  const aprRange = maxApr - minApr;
+    .reduce((total, apr) => total + apr, 0);
+
+  const baseApr = base - boostableApr;
+
+  const boostableMinApr = boostSources
+    .filter((s) => s.boostable)
+    .map((s) => s.minApr)
+    .reduce((total, apr) => total + apr, 0);
+  const boostableMaxApr = boostSources
+    .filter((s) => s.boostable)
+    .map((s) => s.maxApr)
+    .reduce((total, apr) => total + apr, 0);
+
+  const range = boostableMaxApr - boostableMinApr;
+
   const boostData = boostCheckpoints.map((checkpoint) => {
-    const rangeScalar = checkpoint / MAX_BOOST;
+    const rangeScalar = (checkpoint === 0 ? 1 : checkpoint) / MAX_BOOST;
     return {
       x: checkpoint,
-      y: (baseApr + rangeScalar * aprRange) / 100,
+      y: (baseApr + rangeScalar * range) / 100,
     };
   });
 
   return (
     <BaseAreaChart
-      title={'Badger Boost APR'}
+      title={`Badger Boost ${mode}`}
       data={boostData}
       xFormatter={xScaleFormatter}
       yFormatter={yScaleFormatter}
       width="99%" // needs to be 99% see https://github.com/recharts/recharts/issues/172#issuecomment-307858843
       customTooltip={<BoostTooltip />}
       references={[
-        { value: apr / 100, label: `Baseline APR (${apr.toFixed(2)}%)` },
+        { value: apr / 100, label: `Baseline ${mode} (${apr.toFixed(2)}%)` },
       ]}
     />
   );
-};
+});

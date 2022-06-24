@@ -14,8 +14,6 @@ class IbBTCStore {
 
   public mintRates: Record<string, string> = {};
   public redeemRates: Record<string, string> = {};
-  public apyUsingLastDay?: string | null;
-  public apyUsingLastWeek?: string | null;
   public mintFeePercent?: number;
   public redeemFeePercent?: number;
 
@@ -23,8 +21,6 @@ class IbBTCStore {
     this.store = store;
 
     extendObservable(this, {
-      apyUsingLastDay: this.apyUsingLastDay,
-      apyUsingLastWeek: this.apyUsingLastWeek,
       mintFeePercent: this.mintFeePercent,
       redeemFeePercent: this.redeemFeePercent,
       mintRates: this.mintRates,
@@ -127,7 +123,7 @@ class IbBTCStore {
     }
   });
 
-  fetchMintRate = action(async (token: TokenBalance): Promise<string> => {
+  fetchMintRate = action(async (_token: TokenBalance): Promise<string> => {
     try {
       const { bbtc, fee } = await this.store.sdk.ibbtc.estimateMint(
         BigNumber.from(1),
@@ -159,7 +155,7 @@ class IbBTCStore {
   isValidAmount(
     amount: TokenBalance,
     tokenBalance: TokenBalance,
-    slippage?: BigNumber,
+    slippage?: number,
   ): boolean {
     if (amount.tokenBalance.lte(0)) {
       toast.error('Please enter a valid amount');
@@ -171,7 +167,7 @@ class IbBTCStore {
       return false;
     }
 
-    if (this.isZapToken(amount.token) && slippage?.lte(0)) {
+    if (this.isZapToken(amount.token) && slippage && slippage <= 0) {
       toast.error('Please enter a valid slippage value');
       return false;
     }
@@ -182,7 +178,7 @@ class IbBTCStore {
   async getRedeemConversionRate(): Promise<number> {
     const { sdk } = this.store;
     const ibbtcPpfs = await sdk.ibbtc.getPricePerFullShare();
-    const { sett, swap } = await sdk.ibbtc.vaultPeak.pools(0);
+    const { sett, swap } = await sdk.ibbtc.renVaultZap.pools(0);
     const swapContract = BadgerPeakSwap__factory.connect(swap, sdk.provider);
     const [vault, virtualPrice] = await Promise.all([
       sdk.vaults.loadVault({

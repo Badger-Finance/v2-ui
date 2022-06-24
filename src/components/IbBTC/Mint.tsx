@@ -198,11 +198,11 @@ export const Mint = observer((): JSX.Element => {
 
   const handleMintClick = async (): Promise<void> => {
     if (mintBalance && selectedToken) {
-      const mintSlippage = BigNumber.from(slippage || customSlippage || '');
+      const slippagePercent = Number(slippage);
       const isValidAmount = store.ibBTCStore.isValidAmount(
         mintBalance,
         selectedToken,
-        mintSlippage,
+        slippagePercent,
       );
 
       if (!isValidAmount) {
@@ -211,7 +211,11 @@ export const Mint = observer((): JSX.Element => {
 
       const token = mintBalance.token.address;
       const amount = mintBalance.tokenBalance;
-      const result = await sdk.ibbtc.mint({ token, amount });
+      const result = await sdk.ibbtc.mint({
+        token,
+        amount,
+        slippage: slippagePercent,
+      });
 
       if (result === TransactionStatus.Success) {
         resetState();
