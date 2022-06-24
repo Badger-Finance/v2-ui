@@ -100,11 +100,10 @@ enum DepositMode {
 
 const IbbtcVaultDepositDialog = ({
   open = false,
-  onClose,
 }: VaultModalProps): JSX.Element => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { network, wallet, vaults, uiState, user, sdk } = store;
+  const { network, wallet, vaults, vaultDetail, user, sdk } = store;
 
   // lp token getters
   const lpVault = vaults.getVault(
@@ -193,7 +192,7 @@ const IbbtcVaultDepositDialog = ({
   const handleClosing = () => {
     setSlippageRevertProtected(false);
     setExpectedSlippage(undefined);
-    onClose();
+    vaultDetail.toggleDepositDialog();
   };
 
   const handleModeChange = (newMode: DepositMode) => {

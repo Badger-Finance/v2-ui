@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import { BigNumber } from 'ethers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -61,33 +60,29 @@ export interface VaultModalProps {
   open?: boolean;
   vault: VaultDTO;
   depositAdvisory?: AdvisoryType;
-  onClose: () => void;
 }
 
 export const VaultDeposit = observer(
-  ({ open = false, vault, depositAdvisory, onClose }: VaultModalProps) => {
+  ({ open = false, vault, depositAdvisory }: VaultModalProps) => {
     const store = useContext(StoreContext);
-    const { user, wallet, sdk } = store;
+    const { user, wallet, sdk, vaultDetail } = store;
 
     const shouldCheckAdvisory =
       depositAdvisory || vault.state === VaultState.Experimental;
     const [accepted, setAccepted] = useState(!shouldCheckAdvisory);
     const [showFees, setShowFees] = useState(false);
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState('0');
     const { onValidChange, inputProps } = useNumericInput();
     const classes = useStyles();
 
     // TODO: update this - it wasn't working anyways
     const isLoading = false;
     const userBalance = user.getBalance(vault.underlyingToken);
-    const depositBalance = TokenBalance.fromBalance(
-      userBalance,
-      Number(amount ?? '0'),
-    );
+    const deposit = TokenBalance.fromString(userBalance, amount);
     // const vaultCaps = user.vaultCaps[vault.vaultToken];
 
     const canDeposit =
-      wallet.isConnected && !!amount && depositBalance.tokenBalance.gt(0);
+      wallet.isConnected && !!amount && deposit.tokenBalance.gt(0);
 
     // if (canDeposit && vaultCaps) {
     //   const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(
@@ -112,7 +107,7 @@ export const VaultDeposit = observer(
       }
       const result = await sdk.vaults.deposit({
         vault: vault.vaultToken,
-        amount: BigNumber.from(amount),
+        amount: deposit.tokenBalance,
         onApprovePrompt: () =>
           toast.info('Confirm approval of tokens for deposit'),
         onApproveSigned: () =>
@@ -124,7 +119,7 @@ export const VaultDeposit = observer(
             `Confirm deposit of ${formatBalance(amount).toFixed(2)} ${token}`,
           ),
         onTransferSigned: ({ token, amount }) =>
-          toast.success(
+          toast.info(
             `Submitted desposit of ${formatBalance(amount).toFixed(
               2,
             )} ${token}`,
@@ -147,7 +142,12 @@ export const VaultDeposit = observer(
         advisory = AdvisoryType.Chadger;
       }
       return (
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
+        <Dialog
+          open={open}
+          onClose={() => vaultDetail.toggleDepositDialog()}
+          fullWidth
+          maxWidth="xl"
+        >
           <VaultDialogTitle vault={vault} mode="Deposit" />
           <VaultAdvisory
             vault={vault}
@@ -160,7 +160,12 @@ export const VaultDeposit = observer(
 
     if (showFees) {
       return (
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
+        <Dialog
+          open={open}
+          onClose={() => vaultDetail.toggleDepositDialog()}
+          fullWidth
+          maxWidth="xl"
+        >
           <DepositFeesInformation
             closeIcon={
               <Button
@@ -178,7 +183,12 @@ export const VaultDeposit = observer(
     }
 
     return (
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
+      <Dialog
+        open={open}
+        onClose={() => vaultDetail.toggleDepositDialog()}
+        fullWidth
+        maxWidth="xl"
+      >
         <VaultDialogTitle vault={vault} mode="Deposit" />
         <DialogContent dividers className={classes.content}>
           {vault.state === VaultState.Guarded && (
