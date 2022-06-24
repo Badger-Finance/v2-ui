@@ -90,33 +90,27 @@ export const VaultWithdraw = observer(
         const result = await sdk.vaults.withdraw({
           vault: vault.vaultToken,
           amount: withdraw.tokenBalance,
-          onTransferPrompt: ({ token, amount }) => {
+          onTransferPrompt: ({ token, amount }) =>
             toast.info(
               `Confirm withdraw of ${formatBalance(amount).toFixed(
                 2,
               )} ${token}`,
-            );
-          },
-          onTransferSigned: ({ token, amount }) => {
+            ),
+          onTransferSigned: ({ token, amount }) =>
             toast.success(
               `Submitted withdraw of ${formatBalance(amount).toFixed(
                 2,
               )} ${token}`,
-            );
-          },
-          onTransferSuccess: ({ token, amount }) => {
+            ),
+          onTransferSuccess: ({ token, amount }) =>
             toast.success(
               `Completed withdraw of ${formatBalance(amount).toFixed(
                 2,
               )} ${token}`,
-            );
-          },
-          onError: (err) => {
-            toast.error(`Failed vault withdraw, error: ${err}`);
-          },
-          onRejection: () => {
-            toast.warn('Withdraw transaction canceled by user!');
-          },
+            ),
+          onError: (err) => toast.error(`Failed vault withdraw, error: ${err}`),
+          onRejection: () =>
+            toast.warn('Withdraw transaction canceled by user!'),
         });
         if (result === TransactionStatus.Success) {
           await user.reloadBalances();
