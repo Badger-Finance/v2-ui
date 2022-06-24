@@ -113,7 +113,7 @@ export const VaultWithdraw = observer(
         });
         if (result === TransactionStatus.Success) {
           await user.reloadBalances();
-          vaultDetail.toggleDepositDialog();
+          vaultDetail.toggleWithdrawDialog();
         }
       }
     };
@@ -122,7 +122,7 @@ export const VaultWithdraw = observer(
       return (
         <Dialog
           open={open}
-          onClose={() => vaultDetail.toggleDepositDialog()}
+          onClose={() => vaultDetail.toggleWithdrawDialog()}
           fullWidth
           maxWidth="xl"
         >
@@ -167,7 +167,7 @@ export const VaultWithdraw = observer(
     return (
       <Dialog
         open={open}
-        onClose={() => vaultDetail.toggleDepositDialog()}
+        onClose={() => vaultDetail.toggleWithdrawDialog()}
         fullWidth
         maxWidth="xl"
       >

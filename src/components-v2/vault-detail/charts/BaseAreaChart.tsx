@@ -36,7 +36,8 @@ interface Props {
   customTooltip?: React.ReactElement;
   tooltipFormatter?: (value: number) => string;
   data: ChartDataPoint[];
-  references?: Reference[];
+  xReferences?: Reference[];
+  yReferences?: Reference[];
 }
 
 const BaseAreaChart = ({
@@ -48,7 +49,8 @@ const BaseAreaChart = ({
   customTooltip,
   tooltipFormatter,
   data,
-  references,
+  yReferences,
+  xReferences,
 }: Props): JSX.Element => {
   const classes = useStyles();
 
@@ -124,15 +126,29 @@ const BaseAreaChart = ({
           separator={': '}
           cursor={{ stroke: theme.palette.primary.main, strokeWidth: 2 }}
         />
-        {references &&
-          references.map((r, i) => (
+        {yReferences &&
+          yReferences.map((r, i) => (
             <ReferenceLine
-              key={i}
+              key={`y-ref-${i}`}
               y={r.value}
               label={{
                 value: r.label,
                 fill: 'white',
                 position: 'insideTopRight',
+              }}
+              stroke="gray"
+              strokeDasharray="3 3"
+            />
+          ))}
+        {xReferences &&
+          xReferences.map((r, i) => (
+            <ReferenceLine
+              key={`x-ref-${i}`}
+              x={r.value}
+              label={{
+                value: r.label,
+                fill: 'white',
+                position: 'insideTopLeft',
               }}
               stroke="gray"
               strokeDasharray="3 3"

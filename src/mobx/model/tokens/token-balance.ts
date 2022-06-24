@@ -63,7 +63,11 @@ export class TokenBalance {
       return `< 0.${'0'.repeat(decimals - 1)}1`;
     }
 
-    return ethers.utils.formatUnits(this.tokenBalance, decimals);
+    const result = ethers.utils.formatUnits(
+      this.tokenBalance,
+      this.token.decimals,
+    );
+    return Number(result).toString();
   }
 
   balanceValueDisplay(precision?: number): string {
