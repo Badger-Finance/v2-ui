@@ -126,6 +126,7 @@ export const Mint = observer((): JSX.Element => {
     settTokenAmount: TokenBalance,
   ): Promise<void> => {
     const { bbtc, fee } = await sdk.ibbtc.estimateMint(
+      settTokenAmount.token.address,
       settTokenAmount.tokenBalance,
     );
     setMintInformation(
