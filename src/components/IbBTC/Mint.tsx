@@ -1,4 +1,4 @@
-import { TransactionStatus } from '@badger-dao/sdk';
+import { formatBalance, TransactionStatus } from '@badger-dao/sdk';
 import {
   Button,
   debounce,
@@ -19,6 +19,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
 import {
@@ -83,6 +84,7 @@ export const Mint = observer((): JSX.Element => {
     },
     wallet,
     sdk,
+    user,
   } = store;
 
   const [selectedToken, setSelectedToken] = useState<TokenBalance>();
@@ -216,10 +218,31 @@ export const Mint = observer((): JSX.Element => {
         token,
         amount,
         slippage: slippagePercent,
+        onApprovePrompt: () =>
+          toast.info('Confirm approval of tokens for mint'),
+        onApproveSigned: () =>
+          toast.info('Submitted approval of tokens for mint'),
+        onApproveSuccess: () =>
+          toast.success('Completed approval of tokens for mint'),
+        onTransferPrompt: ({ token, amount }) =>
+          toast.info(
+            `Confirm mint with ${formatBalance(amount).toFixed(2)} ${token}`,
+          ),
+        onTransferSigned: ({ token, amount }) =>
+          toast.success(
+            `Submitted mint with ${formatBalance(amount).toFixed(2)} ${token}`,
+          ),
+        onTransferSuccess: ({ token, amount }) =>
+          toast.success(
+            `Completed mint with ${formatBalance(amount).toFixed(2)} ${token}`,
+          ),
+        onError: (err) => toast.error(`Failed ibBTC mint, error: ${err}`),
+        onRejection: () => toast.warn('Mint transaction canceled by user!'),
       });
 
       if (result === TransactionStatus.Success) {
         resetState();
+        await user.reloadBalances();
       }
     }
   };

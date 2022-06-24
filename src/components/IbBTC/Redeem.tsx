@@ -1,4 +1,4 @@
-import { TransactionStatus } from '@badger-dao/sdk';
+import { formatBalance, TransactionStatus } from '@badger-dao/sdk';
 import { Button, debounce, Grid, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
@@ -7,6 +7,7 @@ import { BigNumber } from 'ethers';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
@@ -65,6 +66,7 @@ export const Redeem = observer((): JSX.Element => {
     },
     wallet,
     sdk,
+    user,
   } = store;
 
   const [selectedToken, setSelectedToken] = useState<TokenBalance>();
@@ -207,6 +209,30 @@ export const Redeem = observer((): JSX.Element => {
       const result = await sdk.ibbtc.redeem({
         amount: tokenBalance,
         token: address,
+        onApprovePrompt: () =>
+          toast.info('Confirm approval of tokens for redeem'),
+        onApproveSigned: () =>
+          toast.info('Submitted approval of tokens for redeem'),
+        onApproveSuccess: () =>
+          toast.success('Completed approval of tokens for redeem'),
+        onTransferPrompt: ({ token, amount }) =>
+          toast.info(
+            `Confirm redeem with ${formatBalance(amount).toFixed(2)} ${token}`,
+          ),
+        onTransferSigned: ({ token, amount }) =>
+          toast.success(
+            `Submitted redeem with ${formatBalance(amount).toFixed(
+              2,
+            )} ${token}`,
+          ),
+        onTransferSuccess: ({ token, amount }) =>
+          toast.success(
+            `Completed redeem with ${formatBalance(amount).toFixed(
+              2,
+            )} ${token}`,
+          ),
+        onError: (err) => toast.error(`Failed ibBTC redeem, error: ${err}`),
+        onRejection: () => toast.warn('Redeem transaction canceled by user!'),
       });
 
       if (result === TransactionStatus.Success) {
