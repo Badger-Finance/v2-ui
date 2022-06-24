@@ -123,9 +123,10 @@ class IbBTCStore {
     }
   });
 
-  fetchMintRate = action(async (_token: TokenBalance): Promise<string> => {
+  fetchMintRate = action(async ({token}: TokenBalance): Promise<string> => {
     try {
       const { bbtc, fee } = await this.store.sdk.ibbtc.estimateMint(
+        token.address,
         BigNumber.from(1),
       );
       return TokenBalance.fromBigNumber(
@@ -178,7 +179,7 @@ class IbBTCStore {
   async getRedeemConversionRate(): Promise<number> {
     const { sdk } = this.store;
     const ibbtcPpfs = await sdk.ibbtc.getPricePerFullShare();
-    const { sett, swap } = await sdk.ibbtc.renVaultZap.pools(0);
+    const { sett, swap } = await sdk.ibbtc.vaultPeak.pools(0);
     const swapContract = BadgerPeakSwap__factory.connect(swap, sdk.provider);
     const [vault, virtualPrice] = await Promise.all([
       sdk.vaults.loadVault({
