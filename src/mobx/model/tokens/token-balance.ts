@@ -15,15 +15,12 @@ export class TokenBalance {
     this.balance = formatBalance(balance, token.decimals);
   }
 
-  /**
-   * Create a token balance from a string balance of appropriate decimals.
-   * i.e.
-   *   Given token A as a defined TokenBalance.
-   *   TokenBalance.fromBalance(A, A.balanceDisplay()) = A;
-   * Above does not hold true given a balance display of balance below a
-   * a requested precision threshold (< 0.001 balance display).
-   * Does not work with digg share conversion - only fragments support.
-   */
+  static fromString(tokenBalance: TokenBalance, balance: string): TokenBalance {
+    const { token, price } = tokenBalance;
+    const amount = ethers.utils.parseUnits(balance, token.decimals);
+    return new TokenBalance(token, amount, price);
+  }
+
   static fromBalance(
     tokenBalance: TokenBalance,
     balance: number,
@@ -66,7 +63,7 @@ export class TokenBalance {
       return `< 0.${'0'.repeat(decimals - 1)}1`;
     }
 
-    return this.balance.toFixed(decimals);
+    return ethers.utils.formatUnits(this.tokenBalance, decimals);
   }
 
   balanceValueDisplay(precision?: number): string {
@@ -85,7 +82,7 @@ export class TokenBalance {
    * to effectively convert balances using ppfs as the given scalar.
    */
   scale(scalar: number, scalePrice?: boolean): TokenBalance {
-    if (this.tokenBalance.eq(0)) {
+    if (this.tokenBalance.eq(0) || scalar === 1) {
       return this;
     }
     const tokenBalance = this.tokenBalance
@@ -97,7 +94,7 @@ export class TokenBalance {
 
   scaledBalanceDisplay(percent: number): string {
     const scaledBalance = this.scale(percent / 100);
-    return scaledBalance.balanceDisplay(0);
+    return scaledBalance.balanceDisplay();
   }
 
   private minBalance(decimals: number): number {
