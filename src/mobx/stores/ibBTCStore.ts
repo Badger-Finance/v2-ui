@@ -123,7 +123,7 @@ class IbBTCStore {
     }
   });
 
-  fetchMintRate = action(async ({token}: TokenBalance): Promise<string> => {
+  fetchMintRate = action(async ({ token }: TokenBalance): Promise<string> => {
     try {
       const { bbtc, fee } = await this.store.sdk.ibbtc.estimateMint(
         token.address,
