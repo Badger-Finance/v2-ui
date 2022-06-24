@@ -113,26 +113,28 @@ export const VaultDeposit = observer(
       const result = await sdk.vaults.deposit({
         vault: vault.vaultToken,
         amount: BigNumber.from(amount),
-        onTransferPrompt: ({ token, amount }) => {
+        onApprovePrompt: () =>
+          toast.info('Confirm approval of tokens for deposit'),
+        onApproveSigned: () =>
+          toast.info('Submitted approval of tokens for deposit'),
+        onApproveSuccess: () =>
+          toast.success('Completed approval of tokens for deposit'),
+        onTransferPrompt: ({ token, amount }) =>
           toast.info(
             `Confirm deposit of ${formatBalance(amount).toFixed(2)} ${token}`,
-          );
-        },
-        onTransferSigned: ({ token, amount }) => {
+          ),
+        onTransferSigned: ({ token, amount }) =>
           toast.success(
             `Submitted desposit of ${formatBalance(amount).toFixed(
               2,
             )} ${token}`,
-          );
-        },
-        onTransferSuccess: ({ token, amount }) => {
+          ),
+        onTransferSuccess: ({ token, amount }) =>
           toast.success(
             `Completed deposit of ${formatBalance(amount).toFixed(2)} ${token}`,
-          );
-        },
-        onError: (err) => {
-          toast.error(`Failed vault deposit, error: ${err}`);
-        },
+          ),
+        onError: (err) => toast.error(`Failed vault deposit, error: ${err}`),
+        onRejection: () => toast.warn('Deposit transaction canceled by user!'),
       });
       if (result === TransactionStatus.Success) {
         await user.reloadBalances();

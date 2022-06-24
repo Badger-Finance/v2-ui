@@ -36,9 +36,7 @@ export const VaultConversionAndFee = observer(
     const classes = useStyles();
 
     const withdrawFee = getVaultStrategyFee(vault, StrategyFee.withdraw);
-    const depositToken = vaults.getToken(vault.underlyingToken);
-    const depositTokenSymbol = depositToken?.symbol || '';
-    const depositTokenDecimals = depositToken?.decimals || 18;
+    const { symbol } = vaults.getToken(vault.underlyingToken);
 
     const withdrawAmount = balance * vault.pricePerFullShare;
     const withdrawalFee = (withdrawAmount * withdrawFee) / MAX_FEE;
@@ -57,7 +55,7 @@ export const VaultConversionAndFee = observer(
             Converted Amount
           </Typography>
           <Typography display="inline" variant="subtitle2">
-            {`${withdrawAmount.toFixed(6)} ${depositTokenSymbol}`}
+            {`${withdrawAmount.toFixed(6)} ${symbol}`}
           </Typography>
         </Grid>
         <Grid container justifyContent="space-between">
@@ -69,7 +67,7 @@ export const VaultConversionAndFee = observer(
             {`Estimated Fee (${formatStrategyFee(withdrawFee)})`}
           </Typography>
           <Typography display="inline" variant="subtitle2">
-            {`${withdrawalFee.toFixed(6)} ${depositTokenSymbol}`}
+            {`${withdrawalFee.toFixed(6)} ${symbol}`}
           </Typography>
         </Grid>
         <Grid container justifyContent="space-between">
@@ -81,7 +79,7 @@ export const VaultConversionAndFee = observer(
             You will receive
           </Typography>
           <Typography display="inline" variant="subtitle2">
-            {`${amountAfterFee.toFixed(6)} ${depositTokenSymbol}`}
+            {`${amountAfterFee.toFixed(6)} ${symbol}`}
           </Typography>
         </Grid>
       </Grid>
