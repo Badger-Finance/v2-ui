@@ -1,7 +1,6 @@
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
-import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 import React from 'react';
 
 import { Loader } from '../../../components/Loader';
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  data: ChartDataPoint[] | null;
+  data: unknown[] | null;
   loading?: boolean;
   children: React.ReactNode;
 }

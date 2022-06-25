@@ -99,3 +99,12 @@ export function getTokenIconPath(token: Token): string {
 }
 
 export const isValidCalculatedValue = (value: number) => isFinite(value) && !isNaN(value);
+
+export function sliceIntoChunks<T>(arr: T[], chunkSize: number): T[][] {
+	const res = [];
+	for (let i = 0; i < arr.length; i += chunkSize) {
+		const chunk = arr.slice(i, i + chunkSize);
+		res.push(chunk);
+	}
+	return res;
+}
