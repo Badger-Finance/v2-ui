@@ -3,13 +3,11 @@ import { Card, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@ma
 import { StoreContext } from 'mobx/stores/store-context';
 import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
-import React, { MouseEvent, useContext } from 'react';
 
-import routes from '../../config/routes';
-import { useVaultInformation } from '../../hooks/useVaultInformation';
 import CurrencyDisplay from '../common/CurrencyDisplay';
-import VaultListItemTags from '../VaultListItemTags';
 import VaultItemApr from './VaultItemApr';
+import { useVaultInformation } from '../../hooks/useVaultInformation';
+import VaultListItemTags from '../VaultListItemTags';
 import VaultLogo from './VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
@@ -71,16 +69,12 @@ interface VaultListItemProps {
 
 const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | null => {
   const classes = useStyles();
-  const { router, vaults } = useContext(StoreContext);
+  const { vaults } = useContext(StoreContext);
   const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
   const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 
   const goToVaultDetail = async () => {
-    await router.goTo(
-      routes.vaultDetail,
-      { vaultName: vaults.getSlug(vault.vaultToken) },
-      { chain: router.queryParams?.chain },
-    );
+    await vaults.navigateToVaultDetail(vault);
   };
 
   const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
@@ -141,5 +135,8 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
       </Grid>
     </Grid>
   );
+import React, { MouseEvent, useContext } from 'react';
+
+import routes from '../../config/routes';
 });
 export default VaultListItem;

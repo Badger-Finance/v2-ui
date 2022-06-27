@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Divider, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from '../../mobx/store-context';
 import { VaultDTO } from '@badger-dao/sdk';
@@ -10,6 +10,7 @@ import { StyledHelpIcon } from '../vault-detail/styled';
 import { Skeleton } from '@material-ui/lab';
 import BveCvxBribeChart from '../BveCvxBribeChart';
 import ChartContent from '../vault-detail/charts/ChartContent';
+import BveCvxWithdrawalInfo from '../BveCvxWithdrawalInfo';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -41,6 +42,7 @@ interface Props {
 
 const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 	const { vaults, lockedDeposits, bveCvxInfluence } = useContext(StoreContext);
+	const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 	const classes = useStyles();
 	const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
 	const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
@@ -113,7 +115,7 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 							name={
 								<Box component="span" display="flex" justifyContent="center" alignItems="center">
 									CVX Withdrawable
-									<StyledHelpIcon />
+									<StyledHelpIcon onClick={() => setInfoDialogOpen(true)} />
 								</Box>
 							}
 							value={
@@ -125,7 +127,19 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 							}
 						/>
 						<SpecItem
-							name="% CVX Received from 10k bveCVX swap"
+							name={
+								<span>
+									% CVX Received from 10k{' '}
+									<Link
+										href="https://curve.fi/factory/52/"
+										target="_blank"
+										rel="noopener"
+										display="inline"
+									>
+										bveCVX swap
+									</Link>
+								</span>
+							}
 							value={swapPercentage ? swapPercentage : <Skeleton width={50} variant="rect" />}
 						/>
 					</Grid>
@@ -136,6 +150,7 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 					{emissions && <BveCvxBribeChart emissions={emissions} />}
 				</ChartContent>
 			</Grid>
+			<BveCvxWithdrawalInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
 		</Grid>
 	);
 };

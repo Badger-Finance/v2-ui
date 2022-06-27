@@ -17,6 +17,9 @@ import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import { VaultMap } from '../model/vaults/vault-map';
 import { RootStore } from './RootStore';
 
+import mainnetDeploy from '../../config/deployments/mainnet.json';
+import routes from '../../config/routes';
+
 export default class VaultStore {
   // loading: undefined, error: null, present: object
   public tokenCache: TokenCache = {};
@@ -295,6 +298,20 @@ export default class VaultStore {
     const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
     this.store.router.queryParams = { ...Object.fromEntries(nonFilterParams) };
   });
+
+  async navigateToVaultDetail(vault: VaultDTO) {
+    const { router } = this.store;
+    // covert to map if use-cases increase
+    if (vault.vaultToken === mainnetDeploy.sett_system.vaults['native.icvx']) {
+      return router.goTo(routes.bveCvx, {}, { chain: router.queryParams?.chain });
+    } else {
+      return router.goTo(
+        routes.vaultDetail,
+        { vaultName: this.getSlug(vault.vaultToken) },
+        { chain: router.queryParams?.chain },
+      );
+    }
+  }
 
   private applyFilters(vaults: VaultDTO[]): VaultDTO[] {
     const { user } = this.store;

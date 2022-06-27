@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { CardContainer, StyledDivider, StyledHelpIcon } from '../vault-detail/styled';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import VaultDepositedAssets from '../VaultDepositedAssets';
-import { Tokens } from '../vault-detail/specs/Tokens';
 import SpecItem from '../vault-detail/specs/SpecItem';
 import { numberWithCommas } from '../../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
@@ -11,6 +10,9 @@ import VaultDetailLinks from '../vault-detail/specs/VaultDetailLinks';
 import { VaultDTO } from '@badger-dao/sdk';
 import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
+import BveCvxWithdrawalInfo from '../BveCvxWithdrawalInfo';
+import BveCvxFrequencyInfo from '../BveCvxFrequencyInfo';
+import { VaultToken } from '../vault-detail/specs/VaultToken';
 
 interface Props {
 	vault: VaultDTO;
@@ -23,18 +25,23 @@ const useStyles = makeStyles((theme) => ({
 	specItem: {
 		marginTop: 16,
 	},
+	token: {
+		'& h6': {
+			fontSize: 12,
+			fontWeight: 400,
+		},
+		marginBottom: 0,
+	},
 	title: {
 		paddingBottom: theme.spacing(0.15),
 		fontSize: '1.25rem',
-	},
-	tokenRatio: {
-		marginTop: -8,
-		// marginBottom: 8,
 	},
 }));
 
 const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
 	const { lockedDeposits } = useContext(StoreContext);
+	const [withdrawInfoOpen, setWithdrawInfoOpen] = useState(false);
+	const [frequencyInfo, setFrequencyInfo] = useState(false);
 	const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
 	const classes = useStyles();
 	return (
@@ -49,17 +56,23 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
 					<Typography variant="body2">Assets Deposited</Typography>
 				</Grid>
 				<Grid item xs className={classes.specItem}>
-					<Tokens vault={vault} />
-					<SpecItem
-						className={classes.tokenRatio}
-						name="Token Ratio"
-						value={vault.pricePerFullShare.toFixed(4)}
-					/>
+					<Typography className={classes.title}>Tokens</Typography>
+					<StyledDivider />
+					<Grid container>
+						{vault.tokens.map((token, index) => (
+							<VaultToken
+								className={classes.token}
+								key={`${vault.name}-${token.name}-${index}`}
+								token={token}
+							/>
+						))}
+					</Grid>
+					<SpecItem name="Token Ratio" value={vault.pricePerFullShare.toFixed(4)} />
 					<SpecItem
 						name={
 							<Box component="span" display="flex" justifyContent="center" alignItems="center">
 								CVX Withdrawable
-								<StyledHelpIcon />
+								<StyledHelpIcon onClick={() => setWithdrawInfoOpen(true)} />
 							</Box>
 						}
 						value={
@@ -75,9 +88,10 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
 					<BveCvxFees vault={vault} />
 				</Grid>
 				<Grid item xs className={classes.specItem}>
-					<Typography variant="h6" className={classes.title}>
-						Reward Frequency
-					</Typography>
+					<Box display="flex" alignItems="center">
+						<Typography>Reward Frequency</Typography>
+						<StyledHelpIcon onClick={() => setFrequencyInfo(true)} />
+					</Box>
 					<StyledDivider />
 					<Grid container direction="column">
 						<SpecItem name="bveCVX, BADGER" value="Each bi-weekly bribe sale" />
@@ -88,6 +102,8 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
 					<VaultDetailLinks vault={vault} />
 				</Grid>
 			</Grid>
+			<BveCvxWithdrawalInfo open={withdrawInfoOpen} onClose={() => setWithdrawInfoOpen(false)} />
+			<BveCvxFrequencyInfo open={frequencyInfo} onClose={() => setFrequencyInfo(false)} />
 		</CardContainer>
 	);
 };
