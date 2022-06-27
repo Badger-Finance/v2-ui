@@ -12,8 +12,7 @@ import {
 } from 'recharts';
 import { format } from 'd3-format';
 import { Box, makeStyles, Typography, Paper } from '@material-ui/core';
-import { EmissionSchedule } from '@badger-dao/sdk';
-import { groupBy } from '../../utils/lodashToNative';
+import { EmissionSchedule, ONE_DAY_MS } from '@badger-dao/sdk';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { StyledDivider } from '../vault-detail/styled';
 import { sliceIntoChunks } from '../../utils/componentHelpers';
@@ -38,26 +37,72 @@ interface Props {
 	emissions: EmissionSchedule[];
 }
 
-function formatToChartEmission(emission: EmissionSchedule): BveCvxEmissionRound {
-	const badger = emission.token === '0x3472A5A71965499acd81997a54BBA8D852C6E53d' ? emission.amount : 0;
-	const bveCVX = emission.token === '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305' ? emission.amount : 0;
-	return { badger, bveCVX, start: emission.start, index: 0 };
-}
+const ROUND_ONE_START = 1632182660;
+const BADGER_TOKEN = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
+const BVE_CVX_TOKEN = '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305';
 
-function mergeEmissions(emissions: BveCvxEmissionRound[], index = 0): BveCvxEmissionRound {
-	const initialRound: BveCvxEmissionRound = {
-		...emissions[0],
-		badger: 0,
-		bveCVX: 0,
-		index,
-	};
-	return emissions.reduce((acc, curr) => {
+function bucketSchedules(schedules: EmissionSchedule[]): BveCvxEmissionRound[] {
+	const schedulesByRound: Record<number, EmissionSchedule[]> = {};
+
+	for (let schedule of schedules) {
+		let round = Math.ceil((schedule.start - ROUND_ONE_START) / (14 * (ONE_DAY_MS / 1000)));
+
+		// we have some weird schedules that are bad entries
+		if (round < 1) {
+			continue;
+		}
+
+		if (!schedulesByRound[round]) {
+			schedulesByRound[round] = [];
+		}
+
+		let maybeOverlap = schedulesByRound[round].find((e) => {
+			return e.token === schedule.token && Math.abs(e.start - schedule.start) > 12 * (ONE_DAY_MS / 1000);
+		});
+
+		while (maybeOverlap) {
+			round += 1;
+
+			if (!schedulesByRound[round]) {
+				schedulesByRound[round] = [];
+			}
+
+			maybeOverlap = schedulesByRound[round].find((e) => {
+				return e.token === schedule.token && Math.abs(e.start - schedule.start) > 12 * (ONE_DAY_MS / 1000);
+			});
+		}
+
+		schedulesByRound[round].push(schedule);
+	}
+
+	console.log(JSON.stringify(schedulesByRound));
+
+	return Object.entries(schedulesByRound).map((e) => {
+		const [round, schedules] = e;
+
+		let totalBadger = 0;
+		let totalBveCvx = 0;
+		let start = Number.MAX_SAFE_INTEGER;
+
+		for (let schedule of schedules) {
+			if (schedule.start < start) {
+				start = schedule.start;
+			}
+			if (schedule.token === BADGER_TOKEN) {
+				totalBadger += schedule.amount;
+			}
+			if (schedule.token === BVE_CVX_TOKEN) {
+				totalBveCvx += schedule.amount;
+			}
+		}
+
 		return {
-			...acc,
-			badger: acc.badger + curr.badger,
-			bveCVX: acc.bveCVX + curr.bveCVX,
+			index: Number(round),
+			badger: totalBadger,
+			bveCVX: totalBveCvx,
+			start,
 		};
-	}, initialRound);
+	});
 }
 
 const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
@@ -85,22 +130,14 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 
 const BveCvxBribeChart = ({ emissions }: Props) => {
 	const classes = useStyles();
-	const chartEmissions = emissions.map((item) => formatToChartEmission(item));
-	const emissionsByTimestamp = groupBy(chartEmissions, (item) => item.start);
-
-	// the api logs each token emission separately even if they were emitted at the same
-	// therefore we need to merge them together
-	const aggregatedEmissions = Object.values(emissionsByTimestamp).map((item) => mergeEmissions(item));
-
-	// each round consists of two weeks of emissions
-	const biWeeklyEmissions = sliceIntoChunks(aggregatedEmissions, 2);
-	const emissionRounds = biWeeklyEmissions.map((item, index) => mergeEmissions(item, index));
+	// const chartEmissions = emissions.map((item) => formatToChartEmission(item));
+	const emissionsByRound = bucketSchedules(emissions);
 
 	return (
 		<ResponsiveContainer width="99%" height={250}>
 			<BarChart
 				// in the first round only one badger was emitted, so we skip it
-				data={emissionRounds.slice(1)}
+				data={emissionsByRound}
 				className={classes.root}
 				margin={{ top: 20, bottom: 0, right: 20, left: 0 }}
 			>
