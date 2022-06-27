@@ -34,7 +34,7 @@ const BveCvxFrequencyInfo = ({ open, onClose }: Props): JSX.Element => {
 					after bribes for that round have been sold. Convex locking rewards are distributed each ~2hr cycle
 					as autocompounding{' '}
 					<Link display="inline" className={classes.link} onClick={handleLinkClick}>
-						bCvxCRV
+						bcvxCRV
 					</Link>
 					.
 				</Typography>
