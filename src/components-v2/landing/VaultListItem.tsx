@@ -6,7 +6,6 @@ import { inCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import VaultItemApr from './VaultItemApr';
 import { StoreContext } from 'mobx/store-context';
-import routes from '../../config/routes';
 import { VaultDTO } from '@badger-dao/sdk';
 import VaultLogo from './VaultLogo';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
@@ -71,17 +70,13 @@ interface VaultListItemProps {
 
 const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | null => {
 	const classes = useStyles();
-	const { router, vaults } = useContext(StoreContext);
+	const { vaults } = useContext(StoreContext);
 	const currency = vaults.vaultsFilters.currency;
 	const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
 	const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 
 	const goToVaultDetail = async () => {
-		await router.goTo(
-			routes.vaultDetail,
-			{ vaultName: vaults.getSlug(vault.vaultToken) },
-			{ chain: router.queryParams?.chain },
-		);
+		await vaults.navigateToVaultDetail(vault);
 	};
 
 	const handleStatusClick = (event: MouseEvent<HTMLElement>) => {

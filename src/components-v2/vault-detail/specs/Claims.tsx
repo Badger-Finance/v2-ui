@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Link, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +9,7 @@ import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
 import { StoreContext } from '../../../mobx/store-context';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import BveCvxFrequencyInfo from '../../BveCvxFrequencyInfo';
 
 const useStyles = makeStyles((theme) => ({
 	rewardsFrequency: {
@@ -55,6 +56,7 @@ enum DelaySeverity {
 
 export const Claims = observer((): JSX.Element => {
 	const { rewards } = React.useContext(StoreContext);
+	const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 	const classes = useStyles();
 
 	const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(rewards.badgerTree.lastCycle);
@@ -97,6 +99,7 @@ export const Claims = observer((): JSX.Element => {
 					<ChevronRightIcon className={classes.linkIcon} />
 				</div>
 			</Link>
+			<BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
 		</Grid>
 	);
 });

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { StyledDivider, StyledHelpIcon } from '../vault-detail/styled';
 import SpecItem from '../vault-detail/specs/SpecItem';
 import { getStrategyFee } from '../../mobx/utils/fees';
@@ -7,6 +7,7 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 import influenceFees from 'config/bve-cvx/vote-influence-fees.json';
+import BveCvxInfluenceFeesInfo from '../BveCvxInfluenceFeesInfo';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -32,6 +33,7 @@ interface Props {
 
 const BveCvxFees = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
+	const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw);
 
 	return (
@@ -44,7 +46,7 @@ const BveCvxFees = ({ vault }: Props): JSX.Element => {
 				<Grid item container>
 					<Typography display="inline" color="textSecondary" className={classes.spec}>
 						Vote Influence Fees
-						<StyledHelpIcon />
+						<StyledHelpIcon onClick={() => setInfoDialogOpen(true)} />
 					</Typography>
 					<Grid container direction="column">
 						{Object.entries(influenceFees).map(([key, value]) => (
@@ -53,17 +55,10 @@ const BveCvxFees = ({ vault }: Props): JSX.Element => {
 					</Grid>
 				</Grid>
 				<Grid item container justifyContent="space-between">
-					<SpecItem
-						name={
-							<Box component="span" display="flex" justifyContent="center" alignItems="center">
-								Withdrawal Fee
-								<StyledHelpIcon />
-							</Box>
-						}
-						value={formatStrategyFee(withdrawFee)}
-					/>
+					<SpecItem name="Withdrawal Fee" value={formatStrategyFee(withdrawFee)} />
 				</Grid>
 			</Grid>
+			<BveCvxInfluenceFeesInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
 		</Grid>
 	);
 };

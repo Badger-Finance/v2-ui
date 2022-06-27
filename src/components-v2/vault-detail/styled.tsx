@@ -13,7 +13,7 @@ export const CardContainer = styled(Card)({
 });
 
 export const StyledHelpIcon = styled(HelpIcon)(() => ({
-	fontSize: 12,
+	fontSize: 14,
 	marginLeft: 5,
 	cursor: 'pointer',
 	color: 'rgba(255, 255, 255, 0.3)',
