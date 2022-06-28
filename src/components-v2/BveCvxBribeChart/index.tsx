@@ -68,6 +68,8 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 	const bveCVXBreakdown = (bveCVXValue / totalValue) * 100;
 	const bcvxCrvPerHundred = bcvxCrv / hundredsOfTokens;
 	const bcvxCrvBreakdown = (bcvxCrvValue / totalValue) * 100;
+	// scale a 2 weeks earnings to human readable apr
+	// 26 2 week periods scalar + human readable conversion (scale by 100) yields 2600 scalar
 	const apr = ((totalValue * (vaultTokens / 100)) / vaultValue) * 2600;
 
 	return (
