@@ -4,7 +4,6 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
 
-import routes from '../../config/routes';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import VaultListItemTags from '../VaultListItemTags';
@@ -30,14 +29,12 @@ interface Props {
 
 const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
   const classes = useStyles();
-  const { router, vaults } = useContext(StoreContext);
+  const { vaults } = useContext(StoreContext);
   const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
 
-  const goToVaultDetail = async () => {
-    await router.goTo(routes.vaultDetail, {
-      vaultName: vaults.getSlug(vault.vaultToken),
-    });
-  };
+	const goToVaultDetail = async () => {
+		await vaults.navigateToVaultDetail(vault);
+	};
 
   const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
