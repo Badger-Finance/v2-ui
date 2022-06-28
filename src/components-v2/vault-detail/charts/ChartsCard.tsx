@@ -11,6 +11,7 @@ import { VaultChart } from './VaultChart';
 import ChartContent from './ChartContent';
 import { BoostChart } from './BoostChart';
 import { VaultDTO } from '@badger-dao/sdk';
+import { BVE_CVX_TOKEN } from 'mobx/stores/bveCvxInfluenceStore';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -41,6 +42,7 @@ const getYAxisAccessor = (mode: ChartMode) => {
 			[ChartMode.Value]: data.value,
 			[ChartMode.Ratio]: data.pricePerFullShare,
 			[ChartMode.AccountBalance]: data.value,
+			[ChartMode.Balance]: data.balance,
 		};
 
 		return optionsFromMode[mode];
