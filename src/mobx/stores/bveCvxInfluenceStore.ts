@@ -12,7 +12,7 @@ const BVE_CVX_ADDRESS = mainnetDeploy.sett_system.vaults['native.icvx'];
 const CURVE_POOL_ADDRESS = '0x04c90C198b2eFF55716079bc06d7CCc4aa4d7512';
 const ROUND_ONE_START = 1632182660;
 const BADGER_TOKEN = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
-const BVE_CVX_TOKEN = '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305';
+export const BVE_CVX_TOKEN = '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305';
 const BCVX_CRV_TOKEN = '0x2B5455aac8d64C14786c3a29858E43b5945819C0';
 
 function isOverlapping(original: EmissionSchedule, other: EmissionSchedule): boolean {

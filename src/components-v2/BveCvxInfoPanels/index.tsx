@@ -41,7 +41,7 @@ const BveCvxInfoPanels = ({ vault }: Props): JSX.Element => {
 	const { bveCvxInfluence } = useContext(StoreContext);
 	const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
 	const [mode, setMode] = useState<TabType>('performance');
-	const data = bveCvxInfluence.chartData?.map((d) => ({ x: d.timestamp.getTime(), y: d.value }));
+	const data = bveCvxInfluence.chartData?.map((d) => ({ x: d.timestamp.getTime(), y: d.balance }));
 
 	const handleTimeFrameChange = async (timeframe: VaultChartTimeframe) => {
 		setTimeframe(timeframe);
@@ -51,11 +51,15 @@ const BveCvxInfoPanels = ({ vault }: Props): JSX.Element => {
 	const valueChart = (
 		<Grid container direction="column" className={classes.content}>
 			<Grid item container alignItems="center" justifyContent="space-between" className={classes.header}>
-				<ChartsHeader mode={ChartMode.Value} timeframe={timeframe} onTimeframeChange={handleTimeFrameChange} />
+				<ChartsHeader
+					mode={ChartMode.Balance}
+					timeframe={timeframe}
+					onTimeframeChange={handleTimeFrameChange}
+				/>
 			</Grid>
 			<Grid item container xs justifyContent="center" alignItems="center">
 				<ChartContent data={data ?? null} loading={bveCvxInfluence.loadingChart}>
-					<VaultChart mode={ChartMode.Value} timeframe={timeframe} data={data ?? null} />
+					<VaultChart mode={ChartMode.Balance} timeframe={timeframe} data={data ?? null} />
 				</ChartContent>
 			</Grid>
 		</Grid>
@@ -76,7 +80,7 @@ const BveCvxInfoPanels = ({ vault }: Props): JSX.Element => {
 				value={mode}
 			>
 				<Tab onClick={() => setMode('performance')} value="performance" label="Performance" />
-				<Tab onClick={() => setMode('value')} value="value" label="Vault Value" />
+				<Tab onClick={() => setMode('value')} value="value" label="Tokens Managed" />
 			</Tabs>
 			<Grid container direction="column" className={classes.content}>
 				{mode === 'performance' && <BveCvxPerformance vault={vault} />}
