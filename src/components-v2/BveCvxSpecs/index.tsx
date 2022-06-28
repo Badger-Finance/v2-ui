@@ -71,7 +71,7 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
 					<SpecItem
 						name={
 							<Box component="span" display="flex" justifyContent="center" alignItems="center">
-								CVX Available for Withdraw
+								CVX Available for Withdrawal
 								<StyledHelpIcon onClick={() => setWithdrawInfoOpen(true)} />
 							</Box>
 						}
