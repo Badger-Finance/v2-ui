@@ -5,7 +5,6 @@ import { VaultDTO } from '@badger-dao/sdk';
 import VaultItemApr from './VaultItemApr';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
-import routes from '../../config/routes';
 import { StoreContext } from '../../mobx/store-context';
 import VaultListItemTags from '../VaultListItemTags';
 import VaultLogo from './VaultLogo';
@@ -29,11 +28,11 @@ interface Props {
 
 const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
-	const { router, vaults } = useContext(StoreContext);
+	const { vaults } = useContext(StoreContext);
 	const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
 
 	const goToVaultDetail = async () => {
-		await router.goTo(routes.vaultDetail, { vaultName: vaults.getSlug(vault.vaultToken) });
+		await vaults.navigateToVaultDetail(vault);
 	};
 
 	const handleStatusClick = (event: MouseEvent<HTMLElement>) => {

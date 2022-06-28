@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultActionButton } from '../../common/VaultActionButtons';
-import { BadgerVault } from '../../../mobx/model/vaults/badger-vault';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import DepositInfo from './DepositInfo';
@@ -30,11 +29,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
+	onDepositClick: () => void;
 }
 
-export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
+export const NoHoldings = observer(({ vault, onDepositClick }: Props): JSX.Element | null => {
 	const store = React.useContext(StoreContext);
-	const { network: networkStore, vaultDetail, user } = store;
+	const { network: networkStore, user } = store;
 	const { network } = networkStore;
 	const classes = useStyles();
 
@@ -50,12 +50,7 @@ export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
 				<DepositInfo strategy={strategy} />
 			</Grid>
 			<Grid item xs={12} sm className={classes.depositContainer}>
-				<VaultActionButton
-					color="primary"
-					variant="contained"
-					fullWidth
-					onClick={() => vaultDetail.toggleDepositDialog()}
-				>
+				<VaultActionButton color="primary" variant="contained" fullWidth onClick={onDepositClick}>
 					Deposit
 				</VaultActionButton>
 			</Grid>
