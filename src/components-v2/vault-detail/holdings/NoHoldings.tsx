@@ -31,11 +31,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   vault: VaultDTO;
+	onDepositClick: () => void;
 }
 
-export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
+export const NoHoldings = observer(({ vault, onDepositClick }: Props): JSX.Element | null => {
   const store = React.useContext(StoreContext);
-  const { chain: networkStore, vaultDetail, user } = store;
+  const { chain: networkStore, user } = store;
   const { network } = networkStore;
   const classes = useStyles();
 
@@ -44,22 +45,17 @@ export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
   }
 
   const strategy = Chain.getChain(network).strategies[vault.vaultToken];
-  return (
-    <Grid container className={classes.root} component={Paper}>
-      <Grid item xs={12} sm={8}>
-        <Typography variant="body1">{`You have no ${vault.name} in your connected wallet.`}</Typography>
-        <DepositInfo strategy={strategy} />
-      </Grid>
-      <Grid item xs={12} sm className={classes.depositContainer}>
-        <VaultActionButton
-          color="primary"
-          variant="contained"
-          fullWidth
-          onClick={() => vaultDetail.toggleDepositDialog()}
-        >
-          Deposit
-        </VaultActionButton>
-      </Grid>
-    </Grid>
-  );
+	return (
+		<Grid container className={classes.root} component={Paper}>
+			<Grid item xs={12} sm={8}>
+				<Typography variant="body1">{`You have no ${vault.name} in your connected wallet.`}</Typography>
+				<DepositInfo strategy={strategy} />
+			</Grid>
+			<Grid item xs={12} sm className={classes.depositContainer}>
+				<VaultActionButton color="primary" variant="contained" fullWidth onClick={onDepositClick}>
+					Deposit
+				</VaultActionButton>
+			</Grid>
+		</Grid>
+	);
 });

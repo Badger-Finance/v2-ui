@@ -37,7 +37,7 @@ interface Props {
 }
 
 export const MainContent = observer(({ vault }: Props): JSX.Element => {
-  const { user, wallet } = React.useContext(StoreContext);
+  const { user, wallet, vaultDetail } = React.useContext(StoreContext);
 
   const classes = useStyles();
   const userData = user.accountDetails?.data[vault.vaultToken] ?? defaultVaultBalance(vault);
@@ -46,7 +46,12 @@ export const MainContent = observer(({ vault }: Props): JSX.Element => {
     <Grid container className={classes.content}>
       {wallet.isConnected && (
         <Grid container className={classes.holdingsContainer}>
-          <Holdings vault={vault} userData={userData} />
+          <Holdings
+						vault={vault}
+						userData={userData}
+						onWithdrawClick={() => vaultDetail.toggleWithdrawDialog()}
+						onDepositClick={() => vaultDetail.toggleDepositDialog()}
+					/>
         </Grid>
       )}
       <Grid container spacing={1}>
