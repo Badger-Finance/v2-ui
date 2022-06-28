@@ -8,10 +8,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
 import { CardContainer } from '../styled';
 import { ChartModeTitles } from '../utils';
-import { BoostChart } from './BoostChart';
-import ChartContent from './ChartContent';
 import { ChartsHeader } from './ChartsHeader';
 import { VaultChart } from './VaultChart';
+import ChartContent from './ChartContent';
+import { BoostChart } from './BoostChart';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,11 +38,12 @@ const useStyles = makeStyles((theme) => ({
 
 const getYAxisAccessor = (mode: ChartMode) => {
   return (data: VaultSnapshot) => {
-    const optionsFromMode: Record<string, number> = {
-      [ChartMode.Value]: data.value,
-      [ChartMode.Ratio]: data.pricePerFullShare,
-      [ChartMode.AccountBalance]: data.value,
-    };
+		const optionsFromMode: Record<string, number> = {
+			[ChartMode.Value]: data.value,
+			[ChartMode.Ratio]: data.pricePerFullShare,
+			[ChartMode.AccountBalance]: data.value,
+			[ChartMode.Balance]: data.balance,
+		};
 
     return optionsFromMode[mode];
   };
