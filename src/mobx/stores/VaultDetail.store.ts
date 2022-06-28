@@ -1,7 +1,6 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { action, extendObservable, observe } from 'mobx';
 
-import { ETH_DEPLOY } from '../model/network/eth.network';
 import { RootStore } from './RootStore';
 
 export class VaultDetailStore {
@@ -62,25 +61,21 @@ export class VaultDetailStore {
       return false;
     }
     const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
-    const openBalance = this.store.user.getBalance(vault.vaultToken).balance;
-    const guardedBalance = this.store.user.getBalance(vault.vaultToken).balance;
+    const vaultDefinition = vault ? this.store.vaults.getVaultDefinition(vault) : undefined;
 
-    return openBalance + guardedBalance > 0;
+    if (!vaultDefinition) {
+      return false;
+    }
+
+    const openBalance = this.store.user.getBalance(BalanceNamespace.Vault, vaultDefinition).balance;
+    const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedVault, vaultDefinition).balance;
+
+    return openBalance.plus(guardedBalance).gt(0);
   }
 
   get canUserDeposit(): boolean {
-    const isConnected = this.store.wallet.isConnected;
-
-    if (!isConnected || !this.searchedVault) {
-      return false;
-    }
-
-    // rem badger does not support deposit
-    if (this.searchedVault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger']) {
-      return false;
-    }
-
-    return this.store.user.onGuestList(this.searchedVault);
+    if (!this.searchedVault) return false;
+    return this.store.vaults.canUserDeposit(this.searchedVault);
   }
 
   toggleDepositDialog(): void {
@@ -113,4 +108,10 @@ export class VaultDetailStore {
       this.searchedVault = vaults.getVaultBySlug(this.searchSlug);
     }
   }
+	get canUserWithdraw(): boolean {
+		if (!this.searchedVault) return false;
+		const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
+		if (!vault) return false;
+		return this.store.vaults.canUserWithdraw(vault);
+	}
 }
