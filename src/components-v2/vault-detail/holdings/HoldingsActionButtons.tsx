@@ -2,6 +2,7 @@ import React from 'react';
 import { VaultActionButton } from '../../common/VaultActionButtons';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from '../../../mobx/store-context';
+import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,24 +20,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	canDeposit: boolean;
+	vault: VaultDTO;
+	onDepositClick: () => void;
+	onWithdrawClick: () => void;
 }
 
-export const HoldingsActionButtons = ({ canDeposit }: Props): JSX.Element => {
-	const { vaultDetail } = React.useContext(StoreContext);
-	const { canUserDeposit, canUserWithdraw } = vaultDetail;
+export const HoldingsActionButtons = ({ vault, onDepositClick, onWithdrawClick }: Props): JSX.Element => {
+	const { vaults, wallet } = React.useContext(StoreContext);
+	const canUserDeposit = wallet.isConnected ? vaults.canUserDeposit(vault) : false;
+	const canUserWithdraw = vaults.canUserWithdraw(vault);
 	const classes = useStyles();
 
 	return (
 		<div className={classes.root}>
-			{canDeposit && (
+			{canUserDeposit && (
 				<VaultActionButton
 					fullWidth
 					className={classes.deposit}
 					color="primary"
 					variant={canUserDeposit ? 'contained' : 'outlined'}
 					disabled={!canUserDeposit}
-					onClick={() => vaultDetail.toggleDepositDialog()}
+					onClick={onDepositClick}
 				>
 					Deposit
 				</VaultActionButton>
@@ -47,7 +51,7 @@ export const HoldingsActionButtons = ({ canDeposit }: Props): JSX.Element => {
 				color="primary"
 				variant="outlined"
 				disabled={!canUserWithdraw}
-				onClick={() => vaultDetail.toggleWithdrawDialog()}
+				onClick={onWithdrawClick}
 			>
 				Withdraw
 			</VaultActionButton>

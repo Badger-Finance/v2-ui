@@ -26,19 +26,20 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	vault: VaultDTO;
 	userData: VaultData;
+	onDepositClick: () => void;
+	onWithdrawClick: () => void;
 }
 
-export const Holdings = observer(({ userData, vault }: Props): JSX.Element | null => {
-	const { user, vaults } = React.useContext(StoreContext);
+export const Holdings = observer(({ userData, vault, onDepositClick, onWithdrawClick }: Props): JSX.Element | null => {
+	const { vaults } = React.useContext(StoreContext);
 	const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 	const classes = useStyles();
-	const canDeposit = user.onGuestList(vault);
 	const { depositBalance } = useVaultInformation(vault);
 
 	if (depositBalance.tokenBalance.eq(0)) {
 		return (
 			<Grid container>
-				<NoHoldings vault={vault} />
+				<NoHoldings vault={vault} onDepositClick={onDepositClick} />
 			</Grid>
 		);
 	}
@@ -73,7 +74,11 @@ export const Holdings = observer(({ userData, vault }: Props): JSX.Element | nul
 				)}
 				{isMediumSizeScreen && (
 					<Grid item xs={12} sm>
-						<HoldingsActionButtons canDeposit={canDeposit} />
+						<HoldingsActionButtons
+							vault={vault}
+							onDepositClick={onDepositClick}
+							onWithdrawClick={onWithdrawClick}
+						/>
 					</Grid>
 				)}
 			</Grid>
