@@ -208,16 +208,19 @@ class BveCvxInfluenceStore {
 
 		baseObjects.forEach((o) => {
 			const timestamp = o.start * 1000;
-			const badgerPrice = tokenPricesSnapshots[BADGER_TOKEN][timestamp];
-			const bveCvxPrice = tokenPricesSnapshots[BVE_CVX_TOKEN][timestamp];
-			const bcvxCrvPrice = tokenPricesSnapshots[BCVX_CRV_TOKEN][timestamp];
-			o.badgerValue = o.badger * badgerPrice;
-			o.bveCVXValue = o.bveCVX * bveCvxPrice;
-			o.bcvxCrvValue = o.bcvxCrv * bcvxCrvPrice;
 
 			const vaultSnapshot = vaultSnapshotsByTimestamp[timestamp];
 			o.vaultTokens = vaultSnapshot.balance;
 			o.vaultValue = vaultSnapshot.value;
+
+			const valuePerHundred = vaultSnapshot.value / (vaultSnapshot.balance / 100);
+
+			const badgerPrice = tokenPricesSnapshots[BADGER_TOKEN][timestamp];
+			const bveCvxPrice = tokenPricesSnapshots[BVE_CVX_TOKEN][timestamp];
+			const bcvxCrvPrice = tokenPricesSnapshots[BCVX_CRV_TOKEN][timestamp];
+			o.badgerValue = (o.badger * badgerPrice) / valuePerHundred;
+			o.bveCVXValue = (o.bveCVX * bveCvxPrice) / valuePerHundred;
+			o.bcvxCrvValue = (o.bcvxCrv * bcvxCrvPrice) / valuePerHundred;
 		});
 
 		return baseObjects;
