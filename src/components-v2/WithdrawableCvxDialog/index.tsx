@@ -59,7 +59,7 @@ const WithdrawableCvxDialog = (props: Props) => {
 				<Typography variant="body2" color="textSecondary">
 					- The unlocking schedule for bveCVX can be found on this{' '}
 					<Link
-						href="https://dune.com/tianqi/Convex-Locked-CVX"
+						href="https://dune.com/tianqi/Convex-Locked-CVX-V2(Sponsored-by-Badger)"
 						target="_blank"
 						rel="noopener"
 						display="inline"
