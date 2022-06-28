@@ -3,7 +3,6 @@ import { Grid, Typography } from '@material-ui/core';
 import { Loader } from '../../../components/Loader';
 import { makeStyles } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
-import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 
 const useStyles = makeStyles((theme) => ({
 	errorMessage: {
@@ -15,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	data: ChartDataPoint[] | null;
+	data: unknown[] | null;
 	loading?: boolean;
 	children: React.ReactNode;
 }
