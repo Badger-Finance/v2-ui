@@ -12,7 +12,7 @@ import BveCvxBribeChart from '../BveCvxBribeChart';
 import ChartContent from '../vault-detail/charts/ChartContent';
 import BveCvxWithdrawalInfo from '../BveCvxWithdrawalInfo';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
 	},
@@ -33,6 +33,14 @@ const useStyles = makeStyles(() => ({
 		maxWidth: '100%',
 		flexShrink: 0,
 		justifyContent: 'center',
+	},
+	performanceChart: {
+		display: 'flex',
+		flexDirection: 'column',
+		width: '100%',
+		background: '#181818',
+		padding: theme.spacing(2),
+		borderRadius: '5px',
 	},
 }));
 
@@ -146,9 +154,14 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 				</Grid>
 			</Grid>
 			<Grid item className={classes.content}>
-				<ChartContent loading={loadingEmissions} data={emissions ?? null}>
-					{emissions && <BveCvxBribeChart emissions={emissions} />}
-				</ChartContent>
+				<div className={classes.performanceChart}>
+					<Typography align="center" variant="body2">
+						Performance By Voting Round, Tokens per 100 bveCVX
+					</Typography>
+					<ChartContent loading={loadingEmissions} data={emissions ?? null}>
+						{emissions && <BveCvxBribeChart emissions={emissions} />}
+					</ChartContent>
+				</div>
 			</Grid>
 			<BveCvxWithdrawalInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
 		</Grid>
