@@ -48,6 +48,31 @@ describe('Boost Optimizer', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('handles zero non-native balance', () => {
+    store.user.accountDetails = {
+      address: '0xC26202cd0428276cC69017Df01137161f0102e55',
+      boost: 1,
+      boostRank: 123,
+      value: 0,
+      earnedValue: 0,
+      data: {},
+      claimableBalances: {},
+      nativeBalance: 1000,
+      nonNativeBalance: 0,
+      stakeRatio: 20,
+      bveCvxBalance: 100,
+      nftBalance: 50,
+      diggBalance: 0,
+    };
+    customRender(
+      <StoreProvider value={store}>
+        <Optimizer />
+      </StoreProvider>,
+    );
+    expect(
+      screen.getByRole('heading', { name: 'Boost: 1x' }),
+    ).toBeInTheDocument();
+  });
   it('can change native and non native balances', () => {
     customRender(
       <StoreProvider value={store}>
