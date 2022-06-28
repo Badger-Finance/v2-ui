@@ -32,6 +32,8 @@ import { getUserVaultBoost } from '../../utils/componentHelpers';
 
 import mainnetDeploy from '../../config/deployments/mainnet.json';
 import routes from '../../config/routes';
+import { BalanceNamespace } from '../../web3/config/namespaces';
+import { ETH_DEPLOY } from '../model/network/eth.network';
 
 export default class VaultStore {
 	private store!: RootStore;
@@ -358,6 +360,27 @@ export default class VaultStore {
 			this.protocolSummaryCache[chain] = null;
 		}
 	});
+
+	canUserWithdraw(vault: VaultDTO): boolean {
+		const vaultDefinition = vault ? this.store.vaults.getVaultDefinition(vault) : undefined;
+
+		if (!vaultDefinition) {
+			return false;
+		}
+
+		const openBalance = this.store.user.getBalance(BalanceNamespace.Vault, vaultDefinition).balance;
+		const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedVault, vaultDefinition).balance;
+		return openBalance.plus(guardedBalance).gt(0);
+	}
+
+	canUserDeposit(vault: VaultDTO): boolean {
+		// rem badger does not support deposit
+		if (vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger']) {
+			return false;
+		}
+
+		return this.store.user.onGuestList(vault);
+	}
 
 	updateAvailableBalance = action((returnContext: ContractCallReturnContext): void => {
 		const { prices } = this.store;
