@@ -57,7 +57,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 		return null;
 	}
 
-	const { badger, badgerValue, bveCVX, bveCVXValue, bcvxCrv, bcvxCrvValue, vaultTokens, index, start } =
+	const { badger, badgerValue, bveCVX, bveCVXValue, bcvxCrv, bcvxCrvValue, vaultTokens, index, start, vaultValue } =
 		payload[0].payload;
 
 	const totalValue = badgerValue + bveCVXValue + bcvxCrvValue;
@@ -68,6 +68,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 	const bveCVXBreakdown = (bveCVXValue / totalValue) * 100;
 	const bcvxCrvPerHundred = bcvxCrv / hundredsOfTokens;
 	const bcvxCrvBreakdown = (bcvxCrvValue / totalValue) * 100;
+	const apr = ((totalValue * (vaultTokens / 100)) / vaultValue) * 2600;
 
 	return (
 		<Box component={Paper} className={classes.tooltipRoot}>
@@ -112,6 +113,10 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 					</Typography>
 				</div>
 			)}
+			<Typography variant="caption">
+				Value per 100 bveCVX: ${numberWithCommas(totalValue.toFixed())} ({numberWithCommas(apr.toFixed(2))}%
+				APR)
+			</Typography>
 		</Box>
 	);
 };
@@ -119,8 +124,8 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 const BveCvxBribeChart = ({ emissions }: Props) => {
 	return (
 		<ResponsiveContainer width="99%" height={250}>
-			{/* Fast Forward to Round 8 when we started */}
-			<BarChart data={emissions} margin={{ top: 20, bottom: 0, right: 0, left: 5 }}>
+			{/* Skip Round 1 & 2, it has bad data */}
+			<BarChart data={emissions.slice(2)} margin={{ top: 20, bottom: 0, right: 0, left: 5 }}>
 				<CartesianGrid strokeDasharray="4" vertical={false} />
 				<XAxis dataKey="index">
 					<Label value="Voting Round" position="insideBottomLeft" offset={-10} style={{ fill: 'white' }} />

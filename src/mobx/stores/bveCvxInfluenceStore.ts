@@ -213,7 +213,7 @@ class BveCvxInfluenceStore {
 			o.vaultTokens = vaultSnapshot.balance;
 			o.vaultValue = vaultSnapshot.value;
 
-			const valuePerHundred = vaultSnapshot.value / (vaultSnapshot.balance / 100);
+			const valuePerHundred = vaultSnapshot.balance / 100;
 
 			const badgerPrice = tokenPricesSnapshots[BADGER_TOKEN][timestamp];
 			const bveCvxPrice = tokenPricesSnapshots[BVE_CVX_TOKEN][timestamp];
