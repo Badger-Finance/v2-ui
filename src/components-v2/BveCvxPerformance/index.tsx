@@ -86,7 +86,7 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 						</Link>{' '}
 						for more information. Details on the timing of CVX unlocks are available on this{' '}
 						<Link
-							href="https://dune.com/tianqi/Convex-Locked-CVX"
+							href="https://dune.com/tianqi/Convex-Locked-CVX-V2(Sponsored-by-Badger)"
 							target="_blank"
 							rel="noopener"
 							display="inline"
