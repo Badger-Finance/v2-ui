@@ -9,6 +9,7 @@ import {
 	Bar,
 	ResponsiveContainer,
 	TooltipProps,
+	Label,
 } from 'recharts';
 import { format } from 'd3-format';
 import { Box, makeStyles, Typography, Paper } from '@material-ui/core';
@@ -35,6 +36,14 @@ const useStyles = makeStyles(() => ({
 	bcvxCrvAmount: {
 		color: '#808080',
 	},
+	tooltipItem: {
+		display: 'flex',
+		flexDirection: 'column',
+	},
+	subItem: {
+		fontSize: 9,
+		color: '#808080',
+	},
 }));
 
 interface Props {
@@ -48,12 +57,17 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 		return null;
 	}
 
-	const { badger, bveCVX, bcvxCrv, vaultTokens, index, start } = payload[0].payload;
+	const { badger, badgerValue, bveCVX, bveCVXValue, bcvxCrv, bcvxCrvValue, vaultTokens, index, start } =
+		payload[0].payload;
 
+	const totalValue = badgerValue + bveCVXValue + bcvxCrvValue;
 	const hundredsOfTokens = vaultTokens / 100;
 	const badgerPerHundred = badger / hundredsOfTokens;
+	const badgerBreakdown = (badgerValue / totalValue) * 100;
 	const bveCVXPerHundred = bveCVX / hundredsOfTokens;
+	const bveCVXBreakdown = (bveCVXValue / totalValue) * 100;
 	const bcvxCrvPerHundred = bcvxCrv / hundredsOfTokens;
+	const bcvxCrvBreakdown = (bcvxCrvValue / totalValue) * 100;
 
 	return (
 		<Box component={Paper} className={classes.tooltipRoot}>
@@ -63,40 +77,59 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 			</div>
 			<StyledDivider />
 			{badger > 0 && (
-				<Typography variant="body2">
-					{numberWithCommas(badgerPerHundred.toFixed(2))} <span className={classes.badgerAmount}>BADGER</span>
-					<span> per 100 bveCVX</span>
-				</Typography>
+				<div className={classes.tooltipItem}>
+					<Typography variant="body2">
+						{numberWithCommas(badgerPerHundred.toFixed(2))}{' '}
+						<span className={classes.badgerAmount}>BADGER</span>
+						<span> per 100 bveCVX</span>
+					</Typography>
+					<Typography variant="caption" className={classes.subItem}>
+						${numberWithCommas(badgerValue.toFixed())} ({badgerBreakdown.toFixed()}%)
+					</Typography>
+				</div>
 			)}
 			{bveCVX > 0 && (
-				<Typography variant="body2">
-					{numberWithCommas(bveCVXPerHundred.toFixed(2))} <span className={classes.bveCVXAmount}>bveCVX</span>
-					<span> per 100 bveCVX</span>
-				</Typography>
+				<div className={classes.tooltipItem}>
+					<Typography variant="body2">
+						{numberWithCommas(bveCVXPerHundred.toFixed(2))}{' '}
+						<span className={classes.bveCVXAmount}>bveCVX</span>
+						<span> per 100 bveCVX</span>
+					</Typography>
+					<Typography variant="caption" className={classes.subItem}>
+						${numberWithCommas(bveCVXValue.toFixed())} ({bveCVXBreakdown.toFixed()}%)
+					</Typography>
+				</div>
 			)}
 			{bcvxCrv > 0 && (
-				<Typography variant="body2">
-					{numberWithCommas(bcvxCrvPerHundred.toFixed(2))}{' '}
-					<span className={classes.bcvxCrvAmount}>bcvxCrv</span>
-					<span> per 100 bveCVX</span>
-				</Typography>
+				<div className={classes.tooltipItem}>
+					<Typography variant="body2">
+						{numberWithCommas(bcvxCrvPerHundred.toFixed(2))}{' '}
+						<span className={classes.bcvxCrvAmount}>bcvxCrv</span>
+						<span> per 100 bveCVX</span>
+					</Typography>
+					<Typography variant="caption" className={classes.subItem}>
+						${numberWithCommas(bcvxCrvValue.toFixed())} ({bcvxCrvBreakdown.toFixed()}%)
+					</Typography>
+				</div>
 			)}
 		</Box>
 	);
 };
 
 const BveCvxBribeChart = ({ emissions }: Props) => {
-	const classes = useStyles();
-
 	return (
 		<ResponsiveContainer width="99%" height={250}>
 			{/* Fast Forward to Round 8 when we started */}
-			<BarChart data={emissions} margin={{ top: 20, bottom: 0, right: 20, left: 0 }}>
+			<BarChart data={emissions} margin={{ top: 20, bottom: 0, right: 0, left: 5 }}>
 				<CartesianGrid strokeDasharray="4" vertical={false} />
-				<XAxis dataKey="index" />
-				<YAxis tickFormatter={format('^.2s')} />
+				<XAxis dataKey="index">
+					<Label value="Voting Round" position="insideBottomLeft" offset={-10} style={{ fill: 'white' }} />
+				</XAxis>
+				<YAxis tickFormatter={format('^.2s')}>
+					<Label value="$ per 100 bveCVX" style={{ fill: 'white' }} angle={-90} position="insideBottomLeft" />
+				</YAxis>
 				<Tooltip content={<CustomToolTip />} cursor={{ fill: '#3a3a3a' }} />
-				<Legend height={36} />
+				<Legend />
 				<Bar name="bveCVX" dataKey="bveCVXValue" stackId="a" fill="#A9731E" />
 				<Bar name="Badger" dataKey="badgerValue" stackId="a" fill="#F2A52B" />
 				<Bar name="bcvxCRV" dataKey="bcvxCrvValue" stackId="a" fill="#808080" />
