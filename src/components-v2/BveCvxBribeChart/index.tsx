@@ -35,6 +35,14 @@ const useStyles = makeStyles(() => ({
 	bcvxCrvAmount: {
 		color: '#808080',
 	},
+	tooltipItem: {
+		display: 'flex',
+		flexDirection: 'column',
+	},
+	subItem: {
+		fontSize: 10,
+		color: '#D3D3D3',
+	}
 }));
 
 interface Props {
@@ -48,7 +56,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 		return null;
 	}
 
-	const { badger, bveCVX, bcvxCrv, vaultTokens, index, start } = payload[0].payload;
+	const { badger, badgerValue, bveCVX, bcvxCrv, vaultTokens, index, start } = payload[0].payload;
 
 	const hundredsOfTokens = vaultTokens / 100;
 	const badgerPerHundred = badger / hundredsOfTokens;
@@ -63,10 +71,13 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 			</div>
 			<StyledDivider />
 			{badger > 0 && (
-				<Typography variant="body2">
-					{numberWithCommas(badgerPerHundred.toFixed(2))} <span className={classes.badgerAmount}>BADGER</span>
-					<span> per 100 bveCVX</span>
-				</Typography>
+				<div className={classes.tooltipItem}>
+					<Typography variant="body2">
+						{numberWithCommas(badgerPerHundred.toFixed(2))} <span className={classes.badgerAmount}>BADGER</span>
+						<span> per 100 bveCVX</span>
+					</Typography>
+					<Typography variant="caption" className={classes.subItem}>${numberWithCommas(badgerValue.toFixed())}</Typography>
+				</div>
 			)}
 			{bveCVX > 0 && (
 				<Typography variant="body2">
