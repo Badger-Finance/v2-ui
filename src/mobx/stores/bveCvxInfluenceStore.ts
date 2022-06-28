@@ -95,9 +95,8 @@ class BveCvxInfluenceStore {
 			const { badgerTreeDistributions } = await this.store.sdk.graph.loadBadgerTreeDistributions({
 				where: {
 					sett: this.vault.vaultToken.toLowerCase(),
-				}
+				},
 			});
-			const harvestEvents = await this.store.sdk.api.loadVaultHarvests(this.vault.vaultToken);
 			const harvestConvertedSchedules = badgerTreeDistributions.map((e) => ({
 				token: e.token.id.startsWith('0x0x') ? e.token.id.slice(2) : e.token.id,
 				amount: formatBalance(e.amount),
@@ -206,20 +205,17 @@ class BveCvxInfluenceStore {
 		]);
 
 		const vaultSnapshotsByTimestamp = Object.fromEntries(vaultSnapshots.map((s) => [s.timestamp, s]));
-		console.log({
-			vaultSnapshots,
-			vaultSnapshotsByTimestamp,
-		});
 
 		baseObjects.forEach((o) => {
-			const badgerPrice = tokenPricesSnapshots[BADGER_TOKEN][o.start];
-			const bveCvxPrice = tokenPricesSnapshots[BVE_CVX_TOKEN][o.start];
-			const bcvxCrvPrice = tokenPricesSnapshots[BCVX_CRV_TOKEN][o.start];
+			const timestamp = o.start * 1000;
+			const badgerPrice = tokenPricesSnapshots[BADGER_TOKEN][timestamp];
+			const bveCvxPrice = tokenPricesSnapshots[BVE_CVX_TOKEN][timestamp];
+			const bcvxCrvPrice = tokenPricesSnapshots[BCVX_CRV_TOKEN][timestamp];
 			o.badgerValue = o.badger * badgerPrice;
 			o.bveCVXValue = o.bveCVX * bveCvxPrice;
 			o.bcvxCrvValue = o.bcvxCrv * bcvxCrvPrice;
 
-			const vaultSnapshot = vaultSnapshotsByTimestamp[o.start];
+			const vaultSnapshot = vaultSnapshotsByTimestamp[timestamp];
 			o.vaultTokens = vaultSnapshot.balance;
 			o.vaultValue = vaultSnapshot.value;
 		});
