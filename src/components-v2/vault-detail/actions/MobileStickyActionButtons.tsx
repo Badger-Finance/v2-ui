@@ -3,6 +3,8 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultActionButton } from '../../common/VaultActionButtons';
 import { StoreContext } from '../../../mobx/store-context';
+import { VaultDTO } from '@badger-dao/sdk';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,10 +20,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const MobileStickyActionButtons = (): JSX.Element => {
+interface Props {
+	vault: VaultDTO;
+	onDepositClick: () => void;
+	onWithdrawClick: () => void;
+}
+
+export const MobileStickyActionButtons = observer(({ vault, onDepositClick, onWithdrawClick }: Props): JSX.Element => {
 	const classes = useStyles();
-	const { vaultDetail } = React.useContext(StoreContext);
-	const { canUserDeposit, canUserWithdraw } = vaultDetail;
+	const { vaults, wallet } = React.useContext(StoreContext);
+	const canUserDeposit = wallet.isConnected ? vaults.canUserDeposit(vault) : false;
+	const canUserWithdraw = vaults.canUserWithdraw(vault);
 
 	return (
 		<div className={classes.root}>
@@ -32,7 +41,7 @@ export const MobileStickyActionButtons = (): JSX.Element => {
 						color="primary"
 						variant={canUserDeposit ? 'contained' : 'outlined'}
 						disabled={!canUserDeposit}
-						onClick={() => vaultDetail.toggleDepositDialog()}
+						onClick={onDepositClick}
 					>
 						Deposit
 					</VaultActionButton>
@@ -43,7 +52,7 @@ export const MobileStickyActionButtons = (): JSX.Element => {
 						variant="outlined"
 						fullWidth
 						disabled={!canUserWithdraw}
-						onClick={() => vaultDetail.toggleWithdrawDialog()}
+						onClick={onWithdrawClick}
 					>
 						Withdraw
 					</VaultActionButton>
@@ -51,4 +60,4 @@ export const MobileStickyActionButtons = (): JSX.Element => {
 			</Grid>
 		</div>
 	);
-};
+});

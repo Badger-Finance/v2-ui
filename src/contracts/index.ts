@@ -2,9 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { CitadelSale } from './CitadelSale';
+export type { CitadelSaleGuestList } from './CitadelSaleGuestList';
+export type { CurveFactoryPool } from './CurveFactoryPool';
 export type { ERC20 } from './ERC20';
 export type { VoteLockedDeposit } from './VoteLockedDeposit';
 export * as factories from './factories';
 export { CitadelSale__factory } from './factories/CitadelSale__factory';
+export { CitadelSaleGuestList__factory } from './factories/CitadelSaleGuestList__factory';
+export { CurveFactoryPool__factory } from './factories/CurveFactoryPool__factory';
 export { ERC20__factory } from './factories/ERC20__factory';
 export { VoteLockedDeposit__factory } from './factories/VoteLockedDeposit__factory';

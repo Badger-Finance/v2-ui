@@ -25,6 +25,7 @@ import { FLAGS } from '../config/environment';
 import { GovernancePortalStore } from './stores/GovernancePortalStore';
 import LockedDepositsStore from './stores/LockedDepositsStore';
 import { WalletStore } from './stores/WalletStore';
+import BveCvxInfluenceStore from './stores/bveCvxInfluenceStore';
 
 export class RootStore {
 	public sdk: BadgerSDK;
@@ -46,6 +47,7 @@ export class RootStore {
 	public gasPrices: GasPricesStore;
 	public governancePortal: GovernancePortalStore;
 	public lockedDeposits: LockedDepositsStore;
+	public bveCvxInfluence: BveCvxInfluenceStore;
 
 	constructor() {
 		// this is passed as a dummy rpc - it will never be used unless required by an rpc wallet, e.g.: wallet connect
@@ -73,6 +75,7 @@ export class RootStore {
 		this.ibBTCStore = new IbBTCStore(this);
 		this.governancePortal = new GovernancePortalStore(this);
 		this.lockedDeposits = new LockedDepositsStore(this);
+		this.bveCvxInfluence = new BveCvxInfluenceStore(this);
 	}
 
 	async updateNetwork(network: number): Promise<void> {

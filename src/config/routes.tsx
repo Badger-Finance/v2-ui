@@ -11,6 +11,7 @@ import { Currency, Protocol, VaultBehavior, VaultState, VaultType } from '@badge
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
 import Bridge from 'components/Bridge';
+import BveCvxVaultDetail from '../pages/BveCvxInfluence';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -46,6 +47,13 @@ const routes = {
 		path: '/ibBTC',
 		component: <IbBTC />,
 		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
+	}),
+	bveCvx: new Route<RootStore, QueryParams>({
+		path: '/vault/convex-bvecvx',
+		component: <BveCvxVaultDetail />,
+		beforeEnter: (route, params, store) => {
+			store.bveCvxInfluence.init();
+		},
 	}),
 	vaultDetail: new Route<RootStore, QueryParams>({
 		path: '/vault/:vaultName',

@@ -30,6 +30,11 @@ import { RegistryVaultAdapter } from '../model/vaults/registry-vault-adapter';
 import { BadgerVault } from '../model/vaults/badger-vault';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
 
+import mainnetDeploy from '../../config/deployments/mainnet.json';
+import routes from '../../config/routes';
+import { BalanceNamespace } from '../../web3/config/namespaces';
+import { ETH_DEPLOY } from '../model/network/eth.network';
+
 export default class VaultStore {
 	private store!: RootStore;
 
@@ -356,6 +361,27 @@ export default class VaultStore {
 		}
 	});
 
+	canUserWithdraw(vault: VaultDTO): boolean {
+		const vaultDefinition = vault ? this.store.vaults.getVaultDefinition(vault) : undefined;
+
+		if (!vaultDefinition) {
+			return false;
+		}
+
+		const openBalance = this.store.user.getBalance(BalanceNamespace.Vault, vaultDefinition).balance;
+		const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedVault, vaultDefinition).balance;
+		return openBalance.plus(guardedBalance).gt(0);
+	}
+
+	canUserDeposit(vault: VaultDTO): boolean {
+		// rem badger does not support deposit
+		if (vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger']) {
+			return false;
+		}
+
+		return this.store.user.onGuestList(vault);
+	}
+
 	updateAvailableBalance = action((returnContext: ContractCallReturnContext): void => {
 		const { prices } = this.store;
 		const settAddress = returnContext.originalContractCallContext.contractAddress;
@@ -436,6 +462,20 @@ export default class VaultStore {
 		const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
 		this.store.router.queryParams = { ...Object.fromEntries(nonFilterParams) };
 	});
+
+	async navigateToVaultDetail(vault: VaultDTO) {
+		const { router } = this.store;
+		// covert to map if use-cases increase
+		if (vault.vaultToken === mainnetDeploy.sett_system.vaults['native.icvx']) {
+			return router.goTo(routes.bveCvx, {}, { chain: router.queryParams?.chain });
+		} else {
+			return router.goTo(
+				routes.vaultDetail,
+				{ vaultName: this.getSlug(vault.vaultToken) },
+				{ chain: router.queryParams?.chain },
+			);
+		}
+	}
 
 	/**
 	 * Fetches the vaults on chain registry using the sdk and sanitizes the default registry.

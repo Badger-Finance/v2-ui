@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, GridProps, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
@@ -27,17 +27,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-interface Props {
+interface Props extends GridProps {
 	token: VaultTokenBalance;
 }
 
-export const VaultToken = ({ token }: Props): JSX.Element => {
+export const VaultToken = ({ token, className, ...muiProps }: Props): JSX.Element => {
 	const classes = useStyles();
 	const decimalsAmount = token.balance > 1 ? 0 : 4;
 	const balanceDisplay = token.balance.toFixed(decimalsAmount);
 
 	return (
-		<Grid className={classes.tokenSpec} container justifyContent="space-between">
+		<Grid className={clsx(classes.tokenSpec, className)} container justifyContent="space-between" {...muiProps}>
 			<Box display="flex" alignItems="center">
 				<TokenLogo className={classes.tokenImage} token={token} />
 				<Typography

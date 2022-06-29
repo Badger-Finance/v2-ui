@@ -46,6 +46,9 @@ export const ChartsHeader = observer(({ mode, timeframe, onTimeframeChange }: Pr
 		case ChartMode.Value:
 			description = 'Total assets under management';
 			break;
+		case ChartMode.Balance:
+			description = 'Total tokens under management';
+			break;
 		default:
 			const boostMode = vaultsFilters.showAPR ? 'APR' : 'APY';
 			description = `Vault Boost ${boostMode} breakdown`;
