@@ -747,6 +747,15 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					userGuide:
 						'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/graviaura-vote-locked-aura',
 				},
+				[ethDeploy.sett_system.vaults['native.auraBal']]: {
+					address: ethDeploy.sett_system.strategies['native.auraBal'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(0),
+					},
+					userGuide:
+						'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/graviaura-vote-locked-aura',
+				},
 			};
 	}
 };
