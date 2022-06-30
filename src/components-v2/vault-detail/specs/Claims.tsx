@@ -1,4 +1,4 @@
-import { Grid, Link, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
@@ -83,17 +83,21 @@ export const Claims = observer((): JSX.Element => {
           ? 'This Vaults’s rewards are currently taking longer than usual.'
           : 'This Vaults’s rewards are currently being processed.'}
       </Typography>
-      <Link
-        className={classes.infoLink}
-        href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <div className={classes.linkContent}>
-          <span>See more</span>
-          <ChevronRightIcon className={classes.linkIcon} />
-        </div>
-      </Link>
+      {/*TODO: Currently in the badger docs files the vaults slugs are different from the app.
+			   Re-enable this when the badger docs are updated with the same slugs so we can just do
+			   href=docs.badger/{vault.slug}
+			 */}
+			{/*<Link*/}
+			{/*	className={classes.infoLink}*/}
+			{/*	href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"*/}
+			{/*	target="_blank"*/}
+			{/*	rel="noreferrer"*/}
+      {/*>*/}
+			{/*	<div className={classes.linkContent}>*/}
+			{/*		<span>See more</span>*/}
+			{/*		<ChevronRightIcon className={classes.linkIcon} />*/}
+			{/*	</div>*/}
+      {/*</Link>*/}
       <BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
     </Grid>
   );
