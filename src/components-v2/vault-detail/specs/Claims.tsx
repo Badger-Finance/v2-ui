@@ -87,10 +87,7 @@ export const Claims = observer((): JSX.Element => {
 					? 'This Sett’s rewards are currently taking longer than usual.'
 					: 'This Sett’s rewards are currently being processed.'}
 			</Typography>
-			{/*TODO: Currently in the badger docs files the vaults slugs are different from the app.
-			   Re-enable this when the badger docs are updated with the same slugs so we can just do
-			   href=docs.badger/{vault.slug}
-			 */}
+			{/*TODO: we currently don't have any info in the docs page about rewards frequency. Re-enable this when we have it*/}
 			{/*<Link*/}
 			{/*	className={classes.infoLink}*/}
 			{/*	href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"*/}
