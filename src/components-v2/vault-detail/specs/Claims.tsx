@@ -83,10 +83,7 @@ export const Claims = observer((): JSX.Element => {
           ? 'This Vaults’s rewards are currently taking longer than usual.'
           : 'This Vaults’s rewards are currently being processed.'}
       </Typography>
-      {/*TODO: Currently in the badger docs files the vaults slugs are different from the app.
-			   Re-enable this when the badger docs are updated with the same slugs so we can just do
-			   href=docs.badger/{vault.slug}
-			 */}
+      {/*TODO: we currently don't have any info in the docs page about rewards frequency. Re-enable this when we have it*/}
 			{/*<Link*/}
 			{/*	className={classes.infoLink}*/}
 			{/*	href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"*/}
