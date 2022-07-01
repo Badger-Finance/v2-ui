@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Link, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -8,7 +8,6 @@ import { StyledDivider } from '../styled';
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
 import { StoreContext } from '../../../mobx/store-context';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import BveCvxFrequencyInfo from '../../BveCvxFrequencyInfo';
 
 const useStyles = makeStyles((theme) => ({
@@ -88,17 +87,18 @@ export const Claims = observer((): JSX.Element => {
 					? 'This Sett’s rewards are currently taking longer than usual.'
 					: 'This Sett’s rewards are currently being processed.'}
 			</Typography>
-			<Link
-				className={classes.infoLink}
-				href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"
-				target="_blank"
-				rel="noreferrer"
-			>
-				<div className={classes.linkContent}>
-					<span>See more</span>
-					<ChevronRightIcon className={classes.linkIcon} />
-				</div>
-			</Link>
+			{/*TODO: we currently don't have any info in the docs page about rewards frequency. Re-enable this when we have it*/}
+			{/*<Link*/}
+			{/*	className={classes.infoLink}*/}
+			{/*	href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"*/}
+			{/*	target="_blank"*/}
+			{/*	rel="noreferrer"*/}
+			{/*>*/}
+			{/*	<div className={classes.linkContent}>*/}
+			{/*		<span>See more</span>*/}
+			{/*		<ChevronRightIcon className={classes.linkIcon} />*/}
+			{/*	</div>*/}
+			{/*</Link>*/}
 			<BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
 		</Grid>
 	);
