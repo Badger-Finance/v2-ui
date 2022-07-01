@@ -9,6 +9,7 @@ import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
+import TxCompletedToast from '../../TxCompletedToast';
 import { PercentageSelector } from '../PercentageSelector';
 import {
   ActionButton,
@@ -58,7 +59,7 @@ export interface VaultModalProps {
 
 export const VaultWithdraw = observer(
   ({ open = false, vault, withdrawAdvisory }: VaultModalProps) => {
-    const { wallet, user, vaults, sdk, vaultDetail } = useContext(StoreContext);
+    const { wallet, user, vaults, sdk, transactions, vaultDetail } = useContext(StoreContext);
     const classes = useStyles();
 
     const [accepted, setAccepted] = useState(!withdrawAdvisory);
@@ -86,6 +87,12 @@ export const VaultWithdraw = observer(
 
     const handleSubmit = async (): Promise<void> => {
       if (withdraw.balance > 0) {
+        const vaultToken = vaults.getToken(vault.vaultToken);
+        const toastId = `${vault.vaultToken}-withdrawal-${amount}`;
+        const withdrawalAmount = `${Number(amount).toFixed(2)} ${
+          vaultToken.symbol
+        }`;
+
         const result = await sdk.vaults.withdraw({
           vault: vault.vaultToken,
           amount: withdraw.tokenBalance,
@@ -94,22 +101,45 @@ export const VaultWithdraw = observer(
               `Confirm withdraw of ${formatBalance(amount).toFixed(
                 2,
               )} ${token}`,
+              { toastId },
             ),
-          onTransferSigned: ({ token, amount }) =>
-            toast.info(
-              `Submitted withdraw of ${formatBalance(amount).toFixed(
+          onTransferSigned: ({ token, amount, transaction }) => {
+            toast.update(toastId, {
+              type: 'info',
+              render: `Submitted withdraw of ${formatBalance(amount).toFixed(
                 2,
               )} ${token}`,
-            ),
-          onTransferSuccess: ({ token, amount }) =>
-            toast.success(
-              `Completed withdraw of ${formatBalance(amount).toFixed(
-                2,
-              )} ${token}`,
-            ),
+            });
+            if (transaction) {
+              transactions.addSignedTransaction(transaction.hash, {
+                addedTime: Date.now(),
+                name: `Withdrawal of ${withdrawalAmount}`,
+              });
+            }
+          },
+          onTransferSuccess: ({ receipt }) => {
+            if (receipt) {
+              transactions.updateCompletedTransaction(receipt);
+              toast(
+                <TxCompletedToast
+                  name={`Withdraw ${withdrawalAmount}`}
+                  receipt={receipt}
+                />,
+                {
+                  type: receipt.status === 0 ? 'error' : 'success',
+                  position: 'top-right',
+                },
+              );
+            } else {
+              toast.success(`Completed withdraw of ${withdrawalAmount}`);
+            }
+          },
           onError: (err) => toast.error(`Failed vault withdraw, error: ${err}`),
           onRejection: () =>
-            toast.warn('Withdraw transaction canceled by user!'),
+            toast.update(toastId, {
+              type: 'warning',
+              render: 'Withdraw transaction canceled by user!',
+            }),
         });
         if (result === TransactionStatus.Success) {
           await user.reloadBalances();

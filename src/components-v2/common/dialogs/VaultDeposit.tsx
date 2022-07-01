@@ -4,6 +4,7 @@ import {
   VaultDTO,
   VaultState,
 } from '@badger-dao/sdk';
+import { TokenActionCallbackInput } from '@badger-dao/sdk/lib/tokens/interfaces/token-action-callback-input.interface';
 import {
   Button,
   Dialog,
@@ -18,9 +19,10 @@ import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, UpdateOptions } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
+import TxCompletedToast from '../../TxCompletedToast';
 import { NewVaultWarning } from '../../vault-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { PercentageSelector } from '../PercentageSelector';
@@ -65,7 +67,7 @@ export interface VaultModalProps {
 export const VaultDeposit = observer(
   ({ open = false, vault, depositAdvisory }: VaultModalProps) => {
     const store = useContext(StoreContext);
-    const { user, wallet, sdk, vaultDetail } = store;
+    const { user, wallet, sdk, vaultDetail, transactions, vaults } = store;
 
     const shouldCheckAdvisory =
       depositAdvisory || vault.state === VaultState.Experimental;
@@ -105,18 +107,76 @@ export const VaultDeposit = observer(
       if (!amount) {
         return;
       }
+
+      const depositToken = vaults.getToken(vault.underlyingToken);
+      const toastId = `${vault.vaultToken}-deposit-${amount}`;
+      const approveId = `${vault.vaultToken}-approve-${amount}`;
+      const depositAmount = `${formatBalance(amount).toFixed(2)} ${
+        depositToken.symbol
+      }`;
+
+      const handleTransferSigned = ({
+        transaction,
+      }: TokenActionCallbackInput) => {
+        toast.update(toastId, {
+          type: 'info',
+          render: `Submitted deposit of ${depositAmount}`,
+        });
+        if (transaction) {
+          transactions.addSignedTransaction(transaction.hash, {
+            addedTime: Date.now(),
+            name: 'Deposit',
+            description: depositAmount,
+          });
+        }
+      };
+
+      const handleTransferCompleted = ({
+        receipt,
+      }: TokenActionCallbackInput) => {
+        let toastConfig: UpdateOptions = {
+          type: receipt?.status === 0 ? 'error' : 'success',
+          render: `Completed deposit of ${depositAmount}`,
+        };
+
+        if (receipt) {
+          transactions.updateCompletedTransaction(receipt);
+          toastConfig = {
+            position: 'top-right',
+            type: receipt.status === 0 ? 'error' : 'success',
+            render: (
+              <TxCompletedToast
+                name={`Deposit ${depositAmount}`}
+                receipt={receipt}
+              />
+            ),
+          };
+        }
+
+        toast.update(toastId, toastConfig);
+      };
+
       const result = await sdk.vaults.deposit({
         vault: vault.vaultToken,
         amount: deposit.tokenBalance,
         onApprovePrompt: () =>
-          toast.info('Confirm approval of tokens for deposit'),
+          toast.info('Confirm approval of tokens for deposit', {
+            toastId: approveId,
+          }),
         onApproveSigned: () =>
-          toast.info('Submitted approval of tokens for deposit'),
+          toast.update(approveId, {
+            type: 'info',
+            render: 'Submitted approval of tokens for deposit',
+          }),
         onApproveSuccess: () =>
-          toast.success('Completed approval of tokens for deposit'),
+          toast.update(approveId, {
+            type: 'success',
+            render: 'Completed approval of tokens for deposit',
+          }),
         onTransferPrompt: ({ token, amount }) =>
           toast.info(
             `Confirm deposit of ${formatBalance(amount).toFixed(2)} ${token}`,
+            { toastId },
           ),
         onTransferSigned: ({ token, amount }) =>
           toast.info(
@@ -124,12 +184,13 @@ export const VaultDeposit = observer(
               2,
             )} ${token}`,
           ),
-        onTransferSuccess: ({ token, amount }) =>
-          toast.success(
-            `Completed deposit of ${formatBalance(amount).toFixed(2)} ${token}`,
-          ),
+        onTransferSuccess: handleTransferCompleted,
         onError: (err) => toast.error(`Failed vault deposit, error: ${err}`),
-        onRejection: () => toast.warn('Deposit transaction canceled by user!'),
+        onRejection: () =>
+          toast.update(toastId, {
+            type: 'warning',
+            render: 'Deposit transaction canceled by user',
+          }),
       });
       if (result === TransactionStatus.Success) {
         await user.reloadBalances();
