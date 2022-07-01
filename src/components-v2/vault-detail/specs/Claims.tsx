@@ -109,10 +109,6 @@ export const Claims = observer((): JSX.Element => {
           <ChevronRightIcon className={classes.linkIcon} />
         </div>
       </Link>
-      <BveCvxFrequencyInfo
-        open={infoDialogOpen}
-        onClose={() => setInfoDialogOpen(false)}
-      />
     </Grid>
   );
 });
