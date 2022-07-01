@@ -73,36 +73,46 @@ export const Claims = observer((): JSX.Element => {
     [DelaySeverity.none]: classes.noneDelayedReward,
   };
 
-	return (
-		<Grid container>
-			<Grid container alignItems="center">
-				<Grid container item xs={7}>
-					<Typography>Reward Frequency</Typography>
-				</Grid>
-				<Grid className={classes.rewardContainer} item xs>
-					<Typography className={clsx(classes.reward, delayStyles[delaySeverity])} display="inline">
-						{`~${ESTIMATED_REWARDS_FREQUENCY} Hours`}
-					</Typography>
-				</Grid>
-			</Grid>
-			<StyledDivider />
-			<Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
-				{isDelayed
-					? 'This Sett’s rewards are currently taking longer than usual.'
-					: 'This Sett’s rewards are currently being processed.'}
-			</Typography>
-			<Link
-				className={classes.infoLink}
-				href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"
-				target="_blank"
-				rel="noreferrer"
-			>
-				<div className={classes.linkContent}>
-					<span>See more</span>
-					<ChevronRightIcon className={classes.linkIcon} />
-				</div>
-			</Link>
-			<BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
-		</Grid>
-	);
+  return (
+    <Grid container>
+      <Grid container alignItems="center">
+        <Grid container item xs={7}>
+          <Typography>Reward Frequency</Typography>
+        </Grid>
+        <Grid className={classes.rewardContainer} item xs>
+          <Typography
+            className={clsx(classes.reward, delayStyles[delaySeverity])}
+            display="inline"
+          >
+            {`~${ESTIMATED_REWARDS_FREQUENCY} Hours`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <StyledDivider />
+      <Typography
+        className={classes.frequencyDetail}
+        variant="caption"
+        color="textSecondary"
+      >
+        {isDelayed
+          ? 'This Sett’s rewards are currently taking longer than usual.'
+          : 'This Sett’s rewards are currently being processed.'}
+      </Typography>
+      <Link
+        className={classes.infoLink}
+        href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <div className={classes.linkContent}>
+          <span>See more</span>
+          <ChevronRightIcon className={classes.linkIcon} />
+        </div>
+      </Link>
+      <BveCvxFrequencyInfo
+        open={infoDialogOpen}
+        onClose={() => setInfoDialogOpen(false)}
+      />
+    </Grid>
+  );
 });
