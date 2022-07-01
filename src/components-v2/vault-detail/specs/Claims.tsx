@@ -100,7 +100,7 @@ export const Claims = observer((): JSX.Element => {
       </Typography>
       <Link
         className={classes.infoLink}
-        href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"
+        href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"
         target="_blank"
         rel="noreferrer"
       >
@@ -109,6 +109,10 @@ export const Claims = observer((): JSX.Element => {
           <ChevronRightIcon className={classes.linkIcon} />
         </div>
       </Link>
+      <BveCvxFrequencyInfo
+        open={infoDialogOpen}
+        onClose={() => setInfoDialogOpen(false)}
+      />
     </Grid>
   );
 });
