@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Link, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
@@ -83,18 +83,17 @@ export const Claims = observer((): JSX.Element => {
           ? 'This Vaults’s rewards are currently taking longer than usual.'
           : 'This Vaults’s rewards are currently being processed.'}
       </Typography>
-      {/*TODO: we currently don't have any info in the docs page about rewards frequency. Re-enable this when we have it*/}
-			{/*<Link*/}
-			{/*	className={classes.infoLink}*/}
-			{/*	href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"*/}
-			{/*	target="_blank"*/}
-			{/*	rel="noreferrer"*/}
-      {/*>*/}
-			{/*	<div className={classes.linkContent}>*/}
-			{/*		<span>See more</span>*/}
-			{/*		<ChevronRightIcon className={classes.linkIcon} />*/}
-			{/*	</div>*/}
-      {/*</Link>*/}
+      <Link
+				className={classes.infoLink}
+				href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"
+				target="_blank"
+				rel="noreferrer"
+      >
+				<div className={classes.linkContent}>
+					<span>See more</span>
+					<ChevronRightIcon className={classes.linkIcon} />
+				</div>
+      </Link>
       <BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
     </Grid>
   );
