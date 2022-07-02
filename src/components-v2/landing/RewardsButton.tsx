@@ -30,7 +30,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
   const { claimable, loadingTree, initialized } = store.tree;
 
   const totalRewardsValue = Object.keys(claimable).reduce(
-    (total, claimKey) => (total += claimable[claimKey].value),
+    (total, claimKey) => total + claimable[claimKey].value,
     0,
   );
 

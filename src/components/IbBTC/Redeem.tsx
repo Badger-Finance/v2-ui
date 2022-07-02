@@ -10,6 +10,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
+import TxCompletedToast from '../../components-v2/TransactionToast';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import {
   BalanceGrid,
@@ -64,9 +65,9 @@ export const Redeem = observer((): JSX.Element => {
       redeemRates,
       initialized,
     },
+    transactions,
     wallet,
     sdk,
-    user,
   } = store;
 
   const [selectedToken, setSelectedToken] = useState<TokenBalance>();
@@ -205,6 +206,7 @@ export const Redeem = observer((): JSX.Element => {
         tokenBalance,
         token: { address },
       } = redeemBalance;
+      const toastId = `redeem-${address}`;
 
       const result = await sdk.ibbtc.redeem({
         amount: tokenBalance,
@@ -218,19 +220,44 @@ export const Redeem = observer((): JSX.Element => {
         onTransferPrompt: ({ token, amount }) =>
           toast.info(
             `Confirm redeem with ${formatBalance(amount).toFixed(2)} ${token}`,
+            { toastId },
           ),
-        onTransferSigned: ({ token, amount }) =>
-          toast.success(
-            `Submitted redeem with ${formatBalance(amount).toFixed(
-              2,
-            )} ${token}`,
-          ),
-        onTransferSuccess: ({ token, amount }) =>
-          toast.success(
-            `Completed redeem with ${formatBalance(amount).toFixed(
-              2,
-            )} ${token}`,
-          ),
+        onTransferSigned: ({ token, amount, transaction }) => {
+          if (transaction) {
+            transactions.addSignedTransaction(transaction.hash, {
+              addedTime: Date.now(),
+              name: `Redeem with ${formatBalance(amount).toFixed(2)} ${token}`,
+            });
+            toast.update(toastId, {
+              type: 'success',
+              render: (
+                <TxCompletedToast
+                  title={`Submitted redeem for ${formatBalance(amount).toFixed(
+                    2,
+                  )} ${token}`}
+                  hash={transaction.hash}
+                />
+              ),
+            });
+          }
+        },
+        onTransferSuccess: ({ token, amount, receipt }) => {
+          if (receipt) {
+            transactions.updateCompletedTransaction(receipt);
+            toast(
+              <TxCompletedToast
+                title={`Redeem with ${formatBalance(amount).toFixed(
+                  2,
+                )} ${token}`}
+                hash={receipt.transactionHash}
+              />,
+              {
+                type: receipt.status === 0 ? 'error' : 'success',
+                position: 'top-right',
+              },
+            );
+          }
+        },
         onError: (err) => toast.error(`Failed ibBTC redeem, error: ${err}`),
         onRejection: () => toast.warn('Redeem transaction canceled by user!'),
       });

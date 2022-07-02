@@ -4,7 +4,6 @@ import {
   VaultDTO,
   VaultState,
 } from '@badger-dao/sdk';
-import { TokenActionCallbackInput } from '@badger-dao/sdk/lib/tokens/interfaces/token-action-callback-input.interface';
 import {
   Button,
   Dialog,
@@ -19,10 +18,10 @@ import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
-import { toast, UpdateOptions } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import TxCompletedToast from '../../TxCompletedToast';
+import TxCompletedToast from '../../TransactionToast';
 import { NewVaultWarning } from '../../vault-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { PercentageSelector } from '../PercentageSelector';
@@ -115,47 +114,6 @@ export const VaultDeposit = observer(
         depositToken.symbol
       }`;
 
-      const handleTransferSigned = ({
-        transaction,
-      }: TokenActionCallbackInput) => {
-        toast.update(toastId, {
-          type: 'info',
-          render: `Submitted deposit of ${depositAmount}`,
-        });
-        if (transaction) {
-          transactions.addSignedTransaction(transaction.hash, {
-            addedTime: Date.now(),
-            name: 'Deposit',
-            description: depositAmount,
-          });
-        }
-      };
-
-      const handleTransferCompleted = ({
-        receipt,
-      }: TokenActionCallbackInput) => {
-        let toastConfig: UpdateOptions = {
-          type: receipt?.status === 0 ? 'error' : 'success',
-          render: `Completed deposit of ${depositAmount}`,
-        };
-
-        if (receipt) {
-          transactions.updateCompletedTransaction(receipt);
-          toastConfig = {
-            position: 'top-right',
-            type: receipt.status === 0 ? 'error' : 'success',
-            render: (
-              <TxCompletedToast
-                name={`Deposit ${depositAmount}`}
-                receipt={receipt}
-              />
-            ),
-          };
-        }
-
-        toast.update(toastId, toastConfig);
-      };
-
       const result = await sdk.vaults.deposit({
         vault: vault.vaultToken,
         amount: deposit.tokenBalance,
@@ -178,13 +136,39 @@ export const VaultDeposit = observer(
             `Confirm deposit of ${formatBalance(amount).toFixed(2)} ${token}`,
             { toastId },
           ),
-        onTransferSigned: ({ token, amount }) =>
-          toast.info(
-            `Submitted desposit of ${formatBalance(amount).toFixed(
-              2,
-            )} ${token}`,
-          ),
-        onTransferSuccess: handleTransferCompleted,
+        onTransferSigned: ({ transaction }) => {
+          if (transaction) {
+            transactions.addSignedTransaction(transaction.hash, {
+              addedTime: Date.now(),
+              name: 'Deposit',
+              description: depositAmount,
+            });
+            toast.update(toastId, {
+              type: 'info',
+              render: (
+                <TxCompletedToast
+                  title={`Submitted deposit of ${depositAmount}`}
+                  hash={transaction.hash}
+                />
+              ),
+            });
+          }
+        },
+        onTransferSuccess: ({ receipt }) => {
+          if (receipt) {
+            transactions.updateCompletedTransaction(receipt);
+            toast(
+              <TxCompletedToast
+                title={`Deposit ${depositAmount}`}
+                hash={receipt.transactionHash}
+              />,
+              {
+                position: 'top-right',
+                type: receipt.status === 0 ? 'error' : 'success',
+              },
+            );
+          }
+        },
         onError: (err) => toast.error(`Failed vault deposit, error: ${err}`),
         onRejection: () =>
           toast.update(toastId, {

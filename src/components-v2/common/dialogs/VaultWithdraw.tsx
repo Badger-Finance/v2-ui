@@ -1,4 +1,4 @@
-import { formatBalance, TransactionStatus, VaultDTO } from '@badger-dao/sdk';
+import { TransactionStatus, VaultDTO } from '@badger-dao/sdk';
 import { Dialog, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
@@ -9,7 +9,7 @@ import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import TxCompletedToast from '../../TxCompletedToast';
+import TxCompletedToast from '../../TransactionToast';
 import { PercentageSelector } from '../PercentageSelector';
 import {
   ActionButton,
@@ -96,24 +96,22 @@ export const VaultWithdraw = observer(
         const result = await sdk.vaults.withdraw({
           vault: vault.vaultToken,
           amount: withdraw.tokenBalance,
-          onTransferPrompt: ({ token, amount }) =>
-            toast.info(
-              `Confirm withdraw of ${formatBalance(amount).toFixed(
-                2,
-              )} ${token}`,
-              { toastId },
-            ),
-          onTransferSigned: ({ token, amount, transaction }) => {
-            toast.update(toastId, {
-              type: 'info',
-              render: `Submitted withdraw of ${formatBalance(amount).toFixed(
-                2,
-              )} ${token}`,
-            });
+          onTransferPrompt: () =>
+            toast.info(`Confirm withdraw of ${withdrawalAmount}`, { toastId }),
+          onTransferSigned: ({ transaction }) => {
             if (transaction) {
               transactions.addSignedTransaction(transaction.hash, {
                 addedTime: Date.now(),
                 name: `Withdrawal of ${withdrawalAmount}`,
+              });
+              toast.update(toastId, {
+                type: 'info',
+                render: (
+                  <TxCompletedToast
+                    title={`Submitted withdraw of ${withdrawalAmount}`}
+                    hash={transaction.hash}
+                  />
+                ),
               });
             }
           },
@@ -122,16 +120,14 @@ export const VaultWithdraw = observer(
               transactions.updateCompletedTransaction(receipt);
               toast(
                 <TxCompletedToast
-                  name={`Withdraw ${withdrawalAmount}`}
-                  receipt={receipt}
+                  title={`Withdraw ${withdrawalAmount}`}
+                  hash={receipt.transactionHash}
                 />,
                 {
                   type: receipt.status === 0 ? 'error' : 'success',
                   position: 'top-right',
                 },
               );
-            } else {
-              toast.success(`Completed withdraw of ${withdrawalAmount}`);
             }
           },
           onError: (err) => toast.error(`Failed vault withdraw, error: ${err}`),

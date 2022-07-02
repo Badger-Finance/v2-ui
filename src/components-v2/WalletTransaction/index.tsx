@@ -43,7 +43,7 @@ const WalletTransaction = ({ transaction }: Props): JSX.Element => {
   return (
     <Grid container justifyContent="space-between" alignItems="center">
       <Box>
-        <Typography variant="subtitle2" color="textSecondary">
+        <Typography variant="subtitle1" color="textSecondary">
           <Link
             color="inherit"
             href={`${explorer}/tx/${transaction.hash}`}
@@ -55,7 +55,7 @@ const WalletTransaction = ({ transaction }: Props): JSX.Element => {
           </Link>
         </Typography>
         {transaction.description && (
-          <Typography variant="caption" color="textSecondary">
+          <Typography variant="subtitle2" color="textSecondary">
             {transaction.description}
           </Typography>
         )}
