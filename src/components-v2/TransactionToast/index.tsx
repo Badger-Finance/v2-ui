@@ -1,4 +1,3 @@
-import { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { Link, makeStyles, Typography } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import { observer } from 'mobx-react-lite';
@@ -21,11 +20,11 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  name: string;
-  receipt: TransactionReceipt;
+  title: string;
+  hash: string;
 }
 
-const TxCompletedToast = ({ receipt, name }: Props): JSX.Element => {
+const TransactionToast = ({ hash, title }: Props): JSX.Element => {
   const {
     network: { network },
   } = useContext(StoreContext);
@@ -33,12 +32,12 @@ const TxCompletedToast = ({ receipt, name }: Props): JSX.Element => {
 
   return (
     <div>
-      <Typography variant="body1">{name}</Typography>
+      <Typography variant="body1">{title}</Typography>
       <Link
         className={classes.link}
         variant="body2"
         color="textSecondary"
-        href={`${network.explorer}/tx/${receipt.transactionHash}`}
+        href={`${network.explorer}/tx/${hash}`}
         target="_blank"
         rel="noreferrer"
       >
@@ -49,4 +48,4 @@ const TxCompletedToast = ({ receipt, name }: Props): JSX.Element => {
   );
 };
 
-export default observer(TxCompletedToast);
+export default observer(TransactionToast);
