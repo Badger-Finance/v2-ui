@@ -80,7 +80,7 @@ export class RootStore {
     this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
     this.gasPrices = new GasPricesStore(this);
     this.ibBTCStore = new IbBTCStore(this);
-    this.governancePortal = new GovernancePortalStore();
+    this.governancePortal = new GovernancePortalStore(this);
     this.lockedDeposits = new LockedDepositsStore(this);
 
     // new stores

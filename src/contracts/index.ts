@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { BadgerPeakSwap } from './BadgerPeakSwap';
+export type { GovernanceTimelock } from './GovernanceTimelock';
 export type { IbbtcVaultZap } from './IbbtcVaultZap';
 export type { VoteLockedDeposit } from './VoteLockedDeposit';
 export * as factories from './factories';
 export { BadgerPeakSwap__factory } from './factories/BadgerPeakSwap__factory';
+export { GovernanceTimelock__factory } from './factories/GovernanceTimelock__factory';
 export { IbbtcVaultZap__factory } from './factories/IbbtcVaultZap__factory';
 export { VoteLockedDeposit__factory } from './factories/VoteLockedDeposit__factory';
