@@ -13,7 +13,7 @@ describe('Vault Deposit', () => {
   test('displays sett information', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
+        <VaultDeposit open={true} vault={SAMPLE_VAULT} />
       </StoreProvider>,
     );
     expect(baseElement).toMatchSnapshot();
@@ -22,7 +22,7 @@ describe('Vault Deposit', () => {
   test('can see full fees descriptions', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
+        <VaultDeposit open={true} vault={SAMPLE_VAULT} />
       </StoreProvider>,
     );
     userEvent.click(screen.getByTitle('Click to see full description'));
@@ -32,7 +32,7 @@ describe('Vault Deposit', () => {
   test('can go back from full fees descriptions', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
+        <VaultDeposit open={true} vault={SAMPLE_VAULT} />
       </StoreProvider>,
     );
     userEvent.click(screen.getByTitle('Click to see full description'));

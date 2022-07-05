@@ -54,12 +54,11 @@ export interface VaultModalProps {
   open?: boolean;
   vault: VaultDTO;
   withdrawAdvisory?: AdvisoryType;
-  onClose: () => void;
 }
 
 export const VaultWithdraw = observer(
-  ({ open = false, vault, withdrawAdvisory, onClose }: VaultModalProps) => {
-    const { wallet, user, vaults, sdk } = useContext(StoreContext);
+  ({ open = false, vault, withdrawAdvisory }: VaultModalProps) => {
+    const { wallet, user, vaults, sdk, vaultDetail } = useContext(StoreContext);
     const classes = useStyles();
 
     const [accepted, setAccepted] = useState(!withdrawAdvisory);
@@ -97,7 +96,7 @@ export const VaultWithdraw = observer(
               )} ${token}`,
             ),
           onTransferSigned: ({ token, amount }) =>
-            toast.success(
+            toast.info(
               `Submitted withdraw of ${formatBalance(amount).toFixed(
                 2,
               )} ${token}`,
@@ -114,13 +113,19 @@ export const VaultWithdraw = observer(
         });
         if (result === TransactionStatus.Success) {
           await user.reloadBalances();
+          vaultDetail.toggleWithdrawDialog();
         }
       }
     };
 
     if (!accepted && withdrawAdvisory) {
       return (
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
+        <Dialog
+          open={open}
+          onClose={() => vaultDetail.toggleWithdrawDialog()}
+          fullWidth
+          maxWidth="xl"
+        >
           <VaultDialogTitle vault={vault} mode="Withdraw" />
           <VaultAdvisory
             vault={vault}
@@ -160,7 +165,12 @@ export const VaultWithdraw = observer(
     );
 
     return (
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
+      <Dialog
+        open={open}
+        onClose={() => vaultDetail.toggleWithdrawDialog()}
+        fullWidth
+        maxWidth="xl"
+      >
         <VaultDialogTitle vault={vault} mode="Withdraw" />
         <VaultDialogContent dividers className={classes.content}>
           <Grid container alignItems="center">

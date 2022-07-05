@@ -124,7 +124,15 @@ export default class VaultStore {
   }
 
   get protocolTokens(): Set<string> {
-    return new Set(Object.keys(this.vaultMap));
+    return new Set(this.vaultTokens.concat(this.depositTokens));
+  }
+
+  get vaultTokens(): string[] {
+    return Object.keys(this.vaultMap);
+  }
+
+  get depositTokens(): string[] {
+    return Object.values(this.vaultMap).map((v) => v.underlyingToken);
   }
 
   get networkHasBoostVaults(): boolean {

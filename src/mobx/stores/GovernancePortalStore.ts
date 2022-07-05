@@ -1,8 +1,9 @@
+import { GovernanceTimelock__factory } from 'contracts';
 import { ethers } from 'ethers';
 import { action, extendObservable } from 'mobx';
 
-import GovernanceTimelockAbi from '../../config/system/abis/GovernanceTimelock.json';
 import { TimelockEvent } from '../model/governance-timelock/timelock-event';
+import { RootStore } from './RootStore';
 
 // Defined for now, will be used when signature will be shown in UI
 // const getParameterTypes = (signature: string) => {
@@ -16,7 +17,7 @@ export class GovernancePortalStore {
   public contractAddress: string;
   public timelockEvents?: Map<string, TimelockEvent>;
 
-  constructor() {
+  constructor(private store: RootStore) {
     this.contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
     extendObservable(this, {
       timelockEvents: this.timelockEvents,
@@ -24,34 +25,32 @@ export class GovernancePortalStore {
   }
 
   loadData = action(async (): Promise<void> => {
-    const provider = new ethers.providers.JsonRpcProvider();
-    const GovernanceContract = new ethers.Contract(
+    const { sdk } = this.store;
+    const timelock = GovernanceTimelock__factory.connect(
       this.contractAddress,
-      GovernanceTimelockAbi,
-      provider.getSigner(0),
+      sdk.provider,
     );
 
-    const proposedFilter = GovernanceContract.filters.CallScheduled();
-    const proposedEventData = await GovernanceContract.queryFilter(
+    const proposedFilter = timelock.filters.CallScheduled();
+    const proposedEventData = await timelock.queryFilter(
       proposedFilter,
       0,
       'latest',
     );
-    const vetoedFilter = GovernanceContract.filters.CallDisputed();
-    const vetoedEventData = await GovernanceContract.queryFilter(
+    const vetoedFilter = timelock.filters.CallDisputed();
+    const vetoedEventData = await timelock.queryFilter(
       vetoedFilter,
       0,
       'latest',
     );
-    const executedFilter = GovernanceContract.filters.CallExecuted();
-    const executedEventData = await GovernanceContract.queryFilter(
+    const executedFilter = timelock.filters.CallExecuted();
+    const executedEventData = await timelock.queryFilter(
       executedFilter,
       0,
       'latest',
     );
-    const vetoResolvedFilter =
-      GovernanceContract.filters.CallDisputedResolved();
-    const vetoResolvedEventData = await GovernanceContract.queryFilter(
+    const vetoResolvedFilter = timelock.filters.CallDisputedResolved();
+    const vetoResolvedEventData = await timelock.queryFilter(
       vetoResolvedFilter,
       0,
       'latest',
@@ -70,10 +69,10 @@ export class GovernancePortalStore {
 
     const timelockEventMap = new Map<string, TimelockEvent>();
 
-    for (const eventitem of eventData) {
-      if (eventitem.args) {
-        const id = eventitem.args.id;
-        const blockInfo = await provider.getBlock(eventitem.blockNumber);
+    for (const eventItem of eventData) {
+      if (eventItem.args) {
+        const id = eventItem.args.id;
+        const blockInfo = await sdk.provider.getBlock(eventItem.blockNumber);
         const timestamp = blockInfo.timestamp;
         const date = new Date(timestamp * 1000);
         const s = date.toUTCString();
@@ -81,15 +80,17 @@ export class GovernancePortalStore {
         let timelockEvent = {} as TimelockEvent;
 
         timelockEvent = timelockEventMap.get(id) || timelockEvent;
-        timelockEvent.doneBy = eventitem.args.sender || '';
-        timelockEvent.status = eventitem.args.status || '';
+        timelockEvent.doneBy = eventItem.args.sender || '';
+        timelockEvent.status = eventItem.args.status || '';
         timelockEvent.timeStamp = utcDate;
         timelockEvent.timeRemaining = 0;
-        timelockEvent.event = eventitem.event || '';
-        if (eventitem.args.status === 'Proposed') {
+        timelockEvent.event = eventItem.event || '';
+        if (eventItem.args.status === 'Proposed') {
           timelockEvent.proposer = timelockEvent.doneBy;
+          // TODO: figure out if this is correct at all
           timelockEvent.timeRemaining =
-            eventitem.args.delay - Math.round(new Date().getTime() / 1000);
+            Number(eventItem.args[6].toString()) -
+            Math.round(new Date().getTime() / 1000);
         }
         timelockEventMap.set(id, timelockEvent);
       }

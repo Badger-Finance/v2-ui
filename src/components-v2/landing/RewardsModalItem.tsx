@@ -53,7 +53,7 @@ export const RewardsModalItem = observer(
         />
         <Box display="flex" flexDirection="column" alignItems="center">
           <Typography variant="h6" className={classes.boldWeight}>
-            {claimBalance.balanceDisplay(5)}
+            {claimBalance.balanceDisplay()}
           </Typography>
           <div className={classes.currencyContainer}>
             <CurrencyDisplay

@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export { BadgerPeakSwap__factory } from './BadgerPeakSwap__factory';
+export { GovernanceTimelock__factory } from './GovernanceTimelock__factory';
 export { IbbtcVaultZap__factory } from './IbbtcVaultZap__factory';
 export { VoteLockedDeposit__factory } from './VoteLockedDeposit__factory';

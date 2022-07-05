@@ -64,6 +64,7 @@ interface Props {
 export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
   const {
     vaults: { vaultsFilters },
+    user,
   } = useContext(StoreContext);
 
   const { sources, apr, minApr, maxApr, maxApy, minApy, sourcesApy, apy } =
@@ -103,6 +104,10 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
     };
   });
 
+  const userBoost = user.accountDetails?.boost ?? 1;
+  const userRangeScalar = userBoost / MAX_BOOST;
+  const userApr = (baseApr + userRangeScalar * range) / 100;
+
   return (
     <BaseAreaChart
       title={`Badger Boost ${mode}`}
@@ -111,9 +116,11 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
       yFormatter={yScaleFormatter}
       width="99%" // needs to be 99% see https://github.com/recharts/recharts/issues/172#issuecomment-307858843
       customTooltip={<BoostTooltip />}
-      references={[
+      yReferences={[
         { value: apr / 100, label: `Baseline ${mode} (${apr.toFixed(2)}%)` },
+        { value: userApr, label: `Your ${mode} (${userApr.toFixed(2)}%)` },
       ]}
+      xReferences={[{ value: userBoost, label: 'Your Boost' }]}
     />
   );
 });

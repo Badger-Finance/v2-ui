@@ -94,16 +94,8 @@ export const VaultDetail = observer((): JSX.Element => {
       <MobileStickyActionButtons />
       {vault && (
         <>
-          <DepositWidget
-            open={isDepositDialogDisplayed}
-            vault={vault}
-            onClose={() => vaultDetail.toggleDepositDialog()}
-          />
-          <VaultWithdraw
-            open={isWithdrawDialogDisplayed}
-            vault={vault}
-            onClose={() => vaultDetail.toggleWithdrawDialog()}
-          />
+          <DepositWidget open={isDepositDialogDisplayed} vault={vault} />
+          <VaultWithdraw open={isWithdrawDialogDisplayed} vault={vault} />
         </>
       )}
     </>
