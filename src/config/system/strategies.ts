@@ -727,6 +727,24 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					userGuide:
 						'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/aurabal-helper',
 				},
+				[ethDeploy.sett_system.vaults['native.aura-wbtc-badger']]: {
+					address: ethDeploy.sett_system.strategies['native.aura-wbtc-badger'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					userGuide:
+						'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/aurabal-helper',
+				},
+				[ethDeploy.sett_system.vaults['native.aura-bb-aave-usd']]: {
+					address: ethDeploy.sett_system.strategies['native.aura-bb-aave-usd'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(0),
+					},
+					userGuide:
+						'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/aurabal-helper',
+				},
 			};
 	}
 };

@@ -26,9 +26,11 @@ export class Ethereum extends NetworkModel {
 
 	get settOrder(): string[] {
 		return [
-			this.deploy.sett_system.vaults['native.graviaura'],
-			ETH_DEPLOY.sett_system.vaults['native.auraBal'],
 			this.deploy.sett_system.vaults['native.icvx'],
+			this.deploy.sett_system.vaults['native.graviaura'],
+			this.deploy.sett_system.vaults['native.aura-wbtc-badger'],
+			this.deploy.sett_system.vaults['native.auraBal'],
+			this.deploy.sett_system.vaults['native.aura-bb-aave-usd'],
 			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.cvxCrv'],
 			this.deploy.sett_system.vaults['native.ibbtcCrv'],
@@ -393,6 +395,26 @@ const ethVaultDefinitions: BadgerVault[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.auraBal'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['balancer.wbtc-badger'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.aura-wbtc-badger'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['balancer.bb-aave-usd'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.aura-bb-aave-usd'],
 			decimals: 18,
 		},
 	},
