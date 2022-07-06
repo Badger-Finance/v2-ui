@@ -1,4 +1,4 @@
-import { formatBalance, TransactionStatus } from '@badger-dao/sdk';
+import { TransactionStatus } from '@badger-dao/sdk';
 import {
   Button,
   debounce,
@@ -19,12 +19,18 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { Id, toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
 import TxCompletedToast, {
   TX_COMPLETED_TOAST_DURATION,
 } from '../../components-v2/TransactionToast';
+import {
+  showTransferRejectedToast,
+  showTransferSignedToast,
+  showWalletPromptToast,
+  updateWalletPromptToast,
+} from '../../utils/toasts';
 import {
   BalanceGrid,
   BorderedFocusableContainerGrid,
@@ -216,64 +222,57 @@ export const Mint = observer((): JSX.Element => {
         return;
       }
 
-      const toastId = `mint-${selectedToken.token.address}`;
+      let toastId: Id = `mint-${selectedToken.token.address}`;
       const token = mintBalance.token.address;
       const amount = mintBalance.tokenBalance;
+      const mintInputAmount = `${+Number(inputAmount).toFixed(2)} ${
+        selectedToken.token.symbol
+      }`;
+
       const result = await sdk.ibbtc.mint({
         token,
         amount,
         slippage: slippagePercent,
-        onApprovePrompt: () =>
-          toast.info('Confirm approval of tokens for mint', {
-            toastId,
-            autoClose: false,
-          }),
-        onApproveSigned: () =>
-          toast.update(toastId, {
-            type: 'info',
-            render: 'Submitted approval of tokens for mint',
-            autoClose: undefined,
-          }),
-        onApproveSuccess: () => {
-          toast.dismiss(toastId);
-          toast.success('Completed approval of tokens for mint');
+        onApprovePrompt: () => {
+          toastId = showWalletPromptToast(
+            'Confirm approval of tokens for minting',
+          );
         },
-        onTransferPrompt: ({ token, amount }) =>
-          toast.info(
-            `Confirm mint with ${formatBalance(amount).toFixed(2)} ${token}`,
-            {
-              toastId,
-              autoClose: false,
-            },
+        onApproveSigned: () =>
+          updateWalletPromptToast(
+            toastId,
+            'Submitted approval of tokens for minting',
           ),
-        onTransferSigned: ({ token, amount, transaction }) => {
+        onApproveSuccess: () =>
+          toast.info('Completed approval of tokens for minting'),
+        onTransferPrompt: () => {
+          toastId = showWalletPromptToast(
+            `Confirm mint with ${mintInputAmount}`,
+          );
+        },
+        onTransferSigned: ({ transaction }) => {
           if (transaction) {
             transactions.addSignedTransaction({
               hash: transaction.hash,
               addedTime: Date.now(),
               name: `ibBTC Mint`,
-              description: `${formatBalance(amount).toFixed(2)} ${token}`,
+              description: mintInputAmount,
             });
-            toast.update(toastId, {
-              type: 'success',
-              autoClose: TX_COMPLETED_TOAST_DURATION,
-              render: (
-                <TxCompletedToast
-                  title={`Submitted mint with ${formatBalance(amount).toFixed(
-                    2,
-                  )} ${token}`}
-                  hash={transaction.hash}
-                />
-              ),
-            });
+            showTransferSignedToast(
+              toastId,
+              <TxCompletedToast
+                title={`Submitted mint with ${mintInputAmount}`}
+                hash={transaction.hash}
+              />,
+            );
           }
         },
-        onTransferSuccess: ({ token, amount, receipt }) => {
+        onTransferSuccess: ({ receipt }) => {
           if (receipt) {
             transactions.updateCompletedTransaction(receipt);
             toast(
               <TxCompletedToast
-                title={`Mint with ${formatBalance(amount).toFixed(2)} ${token}`}
+                title={`Mint with ${mintInputAmount}`}
                 hash={receipt.transactionHash}
               />,
               {
@@ -285,7 +284,11 @@ export const Mint = observer((): JSX.Element => {
         },
 
         onError: (err) => toast.error(`Failed ibBTC mint, error: ${err}`),
-        onRejection: () => toast.warn('Mint transaction canceled by user!'),
+        onRejection: () =>
+          showTransferRejectedToast(
+            toastId,
+            'Mint transaction canceled by user',
+          ),
       });
 
       if (result === TransactionStatus.Success) {

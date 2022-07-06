@@ -77,7 +77,7 @@ class TransactionsStore {
 
   private loadTransactions() {
     const persistedTransactions = localStorage.getItem('transactions');
-    if (persistedTransactions) {
+    if (persistedTransactions && persistedTransactions !== '{}') {
       const parsedMap = deserializeMap(persistedTransactions);
       if (!(parsedMap instanceof Map)) {
         console.error('Invalid persisted transactions', parsedMap);

@@ -1,4 +1,4 @@
-import { formatBalance, TransactionStatus } from '@badger-dao/sdk';
+import { TransactionStatus } from '@badger-dao/sdk';
 import { Button, debounce, Grid, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
@@ -7,11 +7,19 @@ import { BigNumber } from 'ethers';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { Id, toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import TxCompletedToast from '../../components-v2/TransactionToast';
+import TxCompletedToast, {
+  TX_COMPLETED_TOAST_DURATION,
+} from '../../components-v2/TransactionToast';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import {
+  showTransferRejectedToast,
+  showTransferSignedToast,
+  showWalletPromptToast,
+  updateWalletPromptToast,
+} from '../../utils/toasts';
 import {
   BalanceGrid,
   BorderedFocusableContainerGrid,
@@ -206,60 +214,71 @@ export const Redeem = observer((): JSX.Element => {
         tokenBalance,
         token: { address },
       } = redeemBalance;
-      const toastId = `redeem-${address}`;
+
+      const redeemAmount = `${+Number(inputAmount).toFixed(2)} ibBTC`;
+      const redeemedAmount = `${redeemBalance.balanceDisplay(2)} ${
+        redeemBalance.token.symbol
+      }`;
+
+      let toastId: Id = `redeem-${address}`;
 
       const result = await sdk.ibbtc.redeem({
         amount: tokenBalance,
         token: address,
-        onApprovePrompt: () =>
-          toast.info('Confirm approval of tokens for redeem'),
-        onApproveSigned: () =>
-          toast.info('Submitted approval of tokens for redeem'),
+        onApprovePrompt: () => {
+          toastId = showWalletPromptToast(
+            'Confirm approval of tokens for redeeming',
+          );
+        },
+        onApproveSigned: () => {
+          updateWalletPromptToast(
+            toastId,
+            'Submitted approval of tokens for redeeming',
+          );
+        },
         onApproveSuccess: () =>
-          toast.success('Completed approval of tokens for redeem'),
-        onTransferPrompt: ({ token, amount }) =>
-          toast.info(
-            `Confirm redeem with ${formatBalance(amount).toFixed(2)} ${token}`,
-            { toastId },
-          ),
-        onTransferSigned: ({ token, amount, transaction }) => {
+          toast.success('Completed approval of tokens for redeeming'),
+        onTransferPrompt: () => {
+          toastId = showWalletPromptToast(`Confirm redeem of ${redeemAmount}`);
+        },
+        onTransferSigned: ({ transaction }) => {
           if (transaction) {
             transactions.addSignedTransaction({
               hash: transaction.hash,
               addedTime: Date.now(),
-              name: `Redeem with ${formatBalance(amount).toFixed(2)} ${token}`,
+              name: `Redeem ${redeemAmount}`,
+              description: redeemedAmount,
             });
-            toast.update(toastId, {
-              type: 'success',
-              render: (
-                <TxCompletedToast
-                  title={`Submitted redeem for ${formatBalance(amount).toFixed(
-                    2,
-                  )} ${token}`}
-                  hash={transaction.hash}
-                />
-              ),
-            });
+            showTransferSignedToast(
+              toastId,
+              <TxCompletedToast
+                title={`Submitted redeem for ${redeemedAmount}`}
+                hash={transaction.hash}
+              />,
+            );
           }
         },
-        onTransferSuccess: ({ token, amount, receipt }) => {
+        onTransferSuccess: ({ receipt }) => {
           if (receipt) {
             transactions.updateCompletedTransaction(receipt);
             toast(
               <TxCompletedToast
-                title={`Redeem with ${formatBalance(amount).toFixed(
-                  2,
-                )} ${token}`}
+                title={`Redeem to ${redeemedAmount}`}
                 hash={receipt.transactionHash}
               />,
               {
                 type: receipt.status === 0 ? 'error' : 'success',
+                autoClose: TX_COMPLETED_TOAST_DURATION,
               },
             );
           }
         },
         onError: (err) => toast.error(`Failed ibBTC redeem, error: ${err}`),
-        onRejection: () => toast.warn('Redeem transaction canceled by user!'),
+        onRejection: () =>
+          showTransferRejectedToast(
+            toastId,
+            'Redeem transaction canceled by user',
+          ),
       });
 
       if (result === TransactionStatus.Success) {
