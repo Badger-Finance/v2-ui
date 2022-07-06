@@ -2,7 +2,7 @@ import { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { action, computed, makeObservable, observable } from 'mobx';
 
 import { Transaction } from '../model/ui/transaction';
-import { deserializeMap, serializeMap } from '../utils/helpers';
+import { parseStringifyMap, stringifyMap } from '../utils/helpers';
 import { RootStore } from './RootStore';
 
 type ChainTransactions = Map<string, Transaction>;
@@ -49,6 +49,7 @@ class TransactionsStore {
       this.transactions.set(chainId, new Map());
     }
 
+    // TODO: add support to persist pending transactions to local storage
     this.transactions.get(chainId)?.set(transaction.hash, transaction);
   }
 
@@ -67,7 +68,7 @@ class TransactionsStore {
     const latestTransactions = Array.from(transactions.entries()).slice(-3);
 
     cloneTransactions.set(chainId, new Map(latestTransactions));
-    localStorage.setItem('transactions', serializeMap(cloneTransactions));
+    localStorage.setItem('transactions', stringifyMap(cloneTransactions));
   }
 
   clearTransactions(): void {
@@ -78,7 +79,7 @@ class TransactionsStore {
   private loadTransactions() {
     const persistedTransactions = localStorage.getItem('transactions');
     if (persistedTransactions && persistedTransactions !== '{}') {
-      const parsedMap = deserializeMap(persistedTransactions);
+      const parsedMap = parseStringifyMap(persistedTransactions);
       if (!(parsedMap instanceof Map)) {
         console.error('Invalid persisted transactions', parsedMap);
       } else {
