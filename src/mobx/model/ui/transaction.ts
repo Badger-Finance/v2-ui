@@ -1,12 +1,7 @@
-import { TransactionReceipt } from '@ethersproject/abstract-provider';
-
-export interface TransactionMeta {
+export interface Transaction {
+  hash: string;
   addedTime: number;
   name: string;
   description?: string;
-}
-
-export interface Transaction extends TransactionMeta {
-  receipt?: TransactionReceipt;
-  hash: string;
+  status?: number;
 }

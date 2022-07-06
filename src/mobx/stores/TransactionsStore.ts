@@ -1,7 +1,8 @@
 import { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { action, computed, makeObservable, observable } from 'mobx';
 
-import { Transaction, TransactionMeta } from '../model/ui/transaction';
+import { Transaction } from '../model/ui/transaction';
+import { deserializeMap, serializeMap } from '../utils/helpers';
 import { RootStore } from './RootStore';
 
 type ChainTransactions = Map<string, Transaction>;
@@ -30,7 +31,7 @@ class TransactionsStore {
 
   get pendingTransactions(): Transaction[] {
     return Array.from(this.recentTransactions.values()).filter(
-      (transaction) => !transaction.receipt,
+      (transaction) => !transaction.status,
     );
   }
 
@@ -40,7 +41,7 @@ class TransactionsStore {
     );
   }
 
-  addSignedTransaction(hash: string, meta: TransactionMeta): void {
+  addSignedTransaction(transaction: Transaction): void {
     const chainId = String(this.store.network.network.id);
     const transactions = this.transactions.get(chainId);
 
@@ -48,23 +49,25 @@ class TransactionsStore {
       this.transactions.set(chainId, new Map());
     }
 
-    this.transactions.get(chainId)?.set(hash, {
-      hash,
-      ...meta,
-    });
+    this.transactions.get(chainId)?.set(transaction.hash, transaction);
   }
 
   updateCompletedTransaction(receipt: TransactionReceipt): void {
     const chainId = String(this.store.network.network.id);
     const transactions = this.transactions.get(chainId);
+
     if (!transactions) return;
+
     const transaction = transactions.get(receipt.transactionHash);
+
     if (!transaction) return;
-    transaction.receipt = receipt;
-    localStorage.setItem(
-      'transactions',
-      JSON.stringify(Array.from(this.transactions.entries())),
-    );
+
+    transaction.status = receipt.status;
+    const cloneTransactions = new Map(this.transactions);
+    const latestTransactions = Array.from(transactions.entries()).slice(-3);
+
+    cloneTransactions.set(chainId, new Map(latestTransactions));
+    localStorage.setItem('transactions', serializeMap(cloneTransactions));
   }
 
   clearTransactions(): void {
@@ -75,9 +78,12 @@ class TransactionsStore {
   private loadTransactions() {
     const persistedTransactions = localStorage.getItem('transactions');
     if (persistedTransactions) {
-      this.transactions = new Map(
-        Object.entries(JSON.parse(persistedTransactions)),
-      );
+      const parsedMap = deserializeMap(persistedTransactions);
+      if (!(parsedMap instanceof Map)) {
+        console.error('Invalid persisted transactions', parsedMap);
+      } else {
+        this.transactions = parsedMap;
+      }
     }
   }
 }

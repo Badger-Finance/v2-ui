@@ -224,7 +224,8 @@ export const Redeem = observer((): JSX.Element => {
           ),
         onTransferSigned: ({ token, amount, transaction }) => {
           if (transaction) {
-            transactions.addSignedTransaction(transaction.hash, {
+            transactions.addSignedTransaction({
+              hash: transaction.hash,
               addedTime: Date.now(),
               name: `Redeem with ${formatBalance(amount).toFixed(2)} ${token}`,
             });
@@ -253,7 +254,6 @@ export const Redeem = observer((): JSX.Element => {
               />,
               {
                 type: receipt.status === 0 ? 'error' : 'success',
-                position: 'top-right',
               },
             );
           }
