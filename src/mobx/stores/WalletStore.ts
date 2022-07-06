@@ -50,7 +50,7 @@ export class WalletStore {
     this.address = await this.provider.getSigner().getAddress();
 
     // sync it up
-    // this.store.network.syncUrlNetworkId();
+    this.store.network.syncUrlNetworkId();
 
     // update piece wise app components
     await this.store.updateNetwork(connectedNetwork.chainId);
