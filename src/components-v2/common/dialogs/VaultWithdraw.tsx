@@ -9,7 +9,9 @@ import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import TxCompletedToast from '../../TransactionToast';
+import TxCompletedToast, {
+  TX_COMPLETED_TOAST_DURATION,
+} from '../../TransactionToast';
 import { PercentageSelector } from '../PercentageSelector';
 import {
   ActionButton,
@@ -59,7 +61,8 @@ export interface VaultModalProps {
 
 export const VaultWithdraw = observer(
   ({ open = false, vault, withdrawAdvisory }: VaultModalProps) => {
-    const { wallet, user, vaults, sdk, transactions, vaultDetail } = useContext(StoreContext);
+    const { wallet, user, vaults, sdk, transactions, vaultDetail } =
+      useContext(StoreContext);
     const classes = useStyles();
 
     const [accepted, setAccepted] = useState(!withdrawAdvisory);
@@ -89,7 +92,7 @@ export const VaultWithdraw = observer(
       if (withdraw.balance > 0) {
         const vaultToken = vaults.getToken(vault.vaultToken);
         const toastId = `${vault.vaultToken}-withdrawal-${amount}`;
-        const withdrawalAmount = `${Number(amount).toFixed(2)} ${
+        const withdrawalAmount = `${+Number(amount).toFixed(2)} ${
           vaultToken.symbol
         }`;
 
@@ -97,15 +100,21 @@ export const VaultWithdraw = observer(
           vault: vault.vaultToken,
           amount: withdraw.tokenBalance,
           onTransferPrompt: () =>
-            toast.info(`Confirm withdraw of ${withdrawalAmount}`, { toastId }),
+            toast.info(`Confirm withdraw of ${withdrawalAmount}`, {
+              toastId,
+              autoClose: false,
+            }),
           onTransferSigned: ({ transaction }) => {
             if (transaction) {
-              transactions.addSignedTransaction(transaction.hash, {
+              transactions.addSignedTransaction({
+                hash: transaction.hash,
                 addedTime: Date.now(),
-                name: `Withdrawal of ${withdrawalAmount}`,
+                name: `Withdraw`,
+                description: withdrawalAmount,
               });
               toast.update(toastId, {
                 type: 'info',
+                autoClose: TX_COMPLETED_TOAST_DURATION,
                 render: (
                   <TxCompletedToast
                     title={`Submitted withdraw of ${withdrawalAmount}`}
@@ -124,8 +133,8 @@ export const VaultWithdraw = observer(
                   hash={receipt.transactionHash}
                 />,
                 {
+                  autoClose: TX_COMPLETED_TOAST_DURATION,
                   type: receipt.status === 0 ? 'error' : 'success',
-                  position: 'top-right',
                 },
               );
             }

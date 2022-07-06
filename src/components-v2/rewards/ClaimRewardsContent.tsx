@@ -24,7 +24,9 @@ import { toast } from 'react-toastify';
 import routes from '../../config/routes';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
-import TxCompletedToast from '../TransactionToast';
+import TxCompletedToast, {
+  TX_COMPLETED_TOAST_DURATION,
+} from '../TransactionToast';
 
 const checkboxComplementarySpace = 1.5;
 
@@ -246,7 +248,8 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
       claimAmounts,
       onSubmitted: ({ transaction }) => {
         if (transaction) {
-          transactions.addSignedTransaction(transaction.hash, {
+          transactions.addSignedTransaction({
+            hash: transaction.hash,
             addedTime: Date.now(),
             name: 'Rewards Claim',
           });
@@ -255,9 +258,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
               title="Rewards Claim Submitted"
               hash={transaction.hash}
             />,
-            {
-              position: 'top-right',
-            },
+            { autoClose: TX_COMPLETED_TOAST_DURATION },
           );
         }
       },
@@ -270,8 +271,8 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
               hash={receipt.transactionHash}
             />,
             {
-              position: 'top-right',
               type: receipt.status === 0 ? 'error' : 'success',
+              autoClose: TX_COMPLETED_TOAST_DURATION,
             },
           );
         }

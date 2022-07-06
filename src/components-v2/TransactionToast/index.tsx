@@ -19,6 +19,8 @@ const useStyles = makeStyles({
   },
 });
 
+export const TX_COMPLETED_TOAST_DURATION = 8000;
+
 interface Props {
   title: string;
   hash: string;

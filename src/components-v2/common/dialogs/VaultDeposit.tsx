@@ -1,9 +1,4 @@
-import {
-  formatBalance,
-  TransactionStatus,
-  VaultDTO,
-  VaultState,
-} from '@badger-dao/sdk';
+import { TransactionStatus, VaultDTO, VaultState } from '@badger-dao/sdk';
 import {
   Button,
   Dialog,
@@ -21,7 +16,9 @@ import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import TxCompletedToast from '../../TransactionToast';
+import TxCompletedToast, {
+  TX_COMPLETED_TOAST_DURATION,
+} from '../../TransactionToast';
 import { NewVaultWarning } from '../../vault-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { PercentageSelector } from '../PercentageSelector';
@@ -110,7 +107,7 @@ export const VaultDeposit = observer(
       const depositToken = vaults.getToken(vault.underlyingToken);
       const toastId = `${vault.vaultToken}-deposit-${amount}`;
       const approveId = `${vault.vaultToken}-approve-${amount}`;
-      const depositAmount = `${formatBalance(amount).toFixed(2)} ${
+      const depositAmount = `${+Number(amount).toFixed(2)} ${
         depositToken.symbol
       }`;
 
@@ -120,30 +117,35 @@ export const VaultDeposit = observer(
         onApprovePrompt: () =>
           toast.info('Confirm approval of tokens for deposit', {
             toastId: approveId,
+            autoClose: false,
           }),
         onApproveSigned: () =>
           toast.update(approveId, {
             type: 'info',
             render: 'Submitted approval of tokens for deposit',
+            autoClose: undefined,
           }),
-        onApproveSuccess: () =>
-          toast.update(approveId, {
-            type: 'success',
-            render: 'Completed approval of tokens for deposit',
+        onApproveSuccess: () => {
+          toast.dismiss(approveId);
+          toast.success(
+            `Completed approval of tokens for deposit of ${depositAmount}`,
+          );
+        },
+        onTransferPrompt: () =>
+          toast.info(`Confirm deposit of ${depositAmount}`, {
+            toastId,
+            autoClose: false,
           }),
-        onTransferPrompt: ({ token, amount }) =>
-          toast.info(
-            `Confirm deposit of ${formatBalance(amount).toFixed(2)} ${token}`,
-            { toastId },
-          ),
         onTransferSigned: ({ transaction }) => {
           if (transaction) {
-            transactions.addSignedTransaction(transaction.hash, {
+            transactions.addSignedTransaction({
+              hash: transaction.hash,
               addedTime: Date.now(),
               name: 'Deposit',
               description: depositAmount,
             });
             toast.update(toastId, {
+              autoClose: TX_COMPLETED_TOAST_DURATION,
               type: 'info',
               render: (
                 <TxCompletedToast
@@ -163,8 +165,8 @@ export const VaultDeposit = observer(
                 hash={receipt.transactionHash}
               />,
               {
-                position: 'top-right',
                 type: receipt.status === 0 ? 'error' : 'success',
+                autoClose: TX_COMPLETED_TOAST_DURATION,
               },
             );
           }
@@ -174,6 +176,7 @@ export const VaultDeposit = observer(
           toast.update(toastId, {
             type: 'warning',
             render: 'Deposit transaction canceled by user',
+            autoClose: undefined,
           }),
       });
       if (result === TransactionStatus.Success) {

@@ -22,6 +22,17 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: theme.palette.error.main,
   },
+  link: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    margin: 'auto 0',
+    fontSize: 14,
+  },
+  text: {
+    marginRight: 4,
+  },
 }));
 
 interface Props {
@@ -34,7 +45,7 @@ const WalletTransaction = ({ transaction }: Props): JSX.Element => {
   const explorer = network.network.explorer;
 
   const statusIcon =
-    transaction.receipt?.status === 0 ? (
+    transaction?.status === 0 ? (
       <ErrorOutlineIcon className={classes.error} />
     ) : (
       <CheckCircleOutlineIcon className={classes.success} />
@@ -45,13 +56,14 @@ const WalletTransaction = ({ transaction }: Props): JSX.Element => {
       <Box>
         <Typography variant="subtitle1" color="textSecondary">
           <Link
+            className={classes.link}
             color="inherit"
             href={`${explorer}/tx/${transaction.hash}`}
             target="_blank"
             rel="noreferrer"
           >
-            {transaction.name}
-            <CallMadeIcon />
+            <span className={classes.text}>{transaction.name}</span>
+            <CallMadeIcon className={classes.icon} />
           </Link>
         </Typography>
         {transaction.description && (
@@ -60,7 +72,7 @@ const WalletTransaction = ({ transaction }: Props): JSX.Element => {
           </Typography>
         )}
       </Box>
-      {transaction.receipt === undefined ? (
+      {transaction.status === undefined ? (
         <CircularProgress size={14} />
       ) : (
         statusIcon

@@ -47,8 +47,9 @@ const WalletTransactions = (): JSX.Element => {
           Your transactions will appear here..
         </Typography>
       ) : (
-        Object.values(recentTransactions)
+        Array.from(recentTransactions.values())
           .slice(-3)
+          .sort((a, b) => b.addedTime - a.addedTime)
           .map((transaction, index) => (
             <Grid item key={transaction.addedTime + index}>
               <WalletTransaction transaction={transaction} />
