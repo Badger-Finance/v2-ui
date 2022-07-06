@@ -22,3 +22,28 @@ export function parseQueryMultipleParams<T extends string>(
 
   return param as T[];
 }
+
+// https://stackoverflow.com/a/56150320
+export function stringifyMap(map: Map<string, unknown>): string {
+  return JSON.stringify(map, (key, value) => {
+    if (value instanceof Map) {
+      return {
+        dataType: 'Map',
+        value: Array.from(value.entries()),
+      };
+    } else {
+      return value;
+    }
+  });
+}
+
+export function parseStringifyMap(serializedMap: string) {
+  return JSON.parse(serializedMap, (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (value.dataType === 'Map') {
+        return new Map(value.value);
+      }
+    }
+    return value;
+  });
+}

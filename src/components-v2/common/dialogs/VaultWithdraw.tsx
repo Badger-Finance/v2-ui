@@ -1,4 +1,4 @@
-import { formatBalance, TransactionStatus, VaultDTO } from '@badger-dao/sdk';
+import { TransactionStatus, VaultDTO } from '@badger-dao/sdk';
 import { Dialog, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
@@ -6,9 +6,17 @@ import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
+import { Id, toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
+import {
+  showTransferRejectedToast,
+  showTransferSignedToast,
+  showWalletPromptToast,
+} from '../../../utils/toasts';
+import TxCompletedToast, {
+  TX_COMPLETED_TOAST_DURATION,
+} from '../../TransactionToast';
 import { PercentageSelector } from '../PercentageSelector';
 import {
   ActionButton,
@@ -58,7 +66,8 @@ export interface VaultModalProps {
 
 export const VaultWithdraw = observer(
   ({ open = false, vault, withdrawAdvisory }: VaultModalProps) => {
-    const { wallet, user, vaults, sdk, vaultDetail } = useContext(StoreContext);
+    const { wallet, user, vaults, sdk, transactions, vaultDetail } =
+      useContext(StoreContext);
     const classes = useStyles();
 
     const [accepted, setAccepted] = useState(!withdrawAdvisory);
@@ -86,30 +95,58 @@ export const VaultWithdraw = observer(
 
     const handleSubmit = async (): Promise<void> => {
       if (withdraw.balance > 0) {
+        const vaultToken = vaults.getToken(vault.vaultToken);
+        let toastId: Id = `${vault.vaultToken}-withdrawal-${amount}`;
+        const withdrawalAmount = `${+Number(amount).toFixed(2)} ${
+          vaultToken.symbol
+        }`;
+
         const result = await sdk.vaults.withdraw({
           vault: vault.vaultToken,
           amount: withdraw.tokenBalance,
-          onTransferPrompt: ({ token, amount }) =>
-            toast.info(
-              `Confirm withdraw of ${formatBalance(amount).toFixed(
-                2,
-              )} ${token}`,
-            ),
-          onTransferSigned: ({ token, amount }) =>
-            toast.info(
-              `Submitted withdraw of ${formatBalance(amount).toFixed(
-                2,
-              )} ${token}`,
-            ),
-          onTransferSuccess: ({ token, amount }) =>
-            toast.success(
-              `Completed withdraw of ${formatBalance(amount).toFixed(
-                2,
-              )} ${token}`,
-            ),
+          onTransferPrompt: () => {
+            toastId = showWalletPromptToast(
+              `Confirm withdraw of ${withdrawalAmount}`,
+            );
+          },
+          onTransferSigned: ({ transaction }) => {
+            if (transaction) {
+              transactions.addSignedTransaction({
+                hash: transaction.hash,
+                addedTime: Date.now(),
+                name: `Withdraw`,
+                description: withdrawalAmount,
+              });
+              showTransferSignedToast(
+                toastId,
+                <TxCompletedToast
+                  title={`Submitted withdraw of ${withdrawalAmount}`}
+                  hash={transaction.hash}
+                />,
+              );
+            }
+          },
+          onTransferSuccess: ({ receipt }) => {
+            if (receipt) {
+              transactions.updateCompletedTransaction(receipt);
+              toast(
+                <TxCompletedToast
+                  title={`Withdraw ${withdrawalAmount}`}
+                  hash={receipt.transactionHash}
+                />,
+                {
+                  autoClose: TX_COMPLETED_TOAST_DURATION,
+                  type: receipt.status === 0 ? 'error' : 'success',
+                },
+              );
+            }
+          },
           onError: (err) => toast.error(`Failed vault withdraw, error: ${err}`),
           onRejection: () =>
-            toast.warn('Withdraw transaction canceled by user!'),
+            showTransferRejectedToast(
+              toastId,
+              'Withdraw transaction canceled by user',
+            ),
         });
         if (result === TransactionStatus.Success) {
           await user.reloadBalances();

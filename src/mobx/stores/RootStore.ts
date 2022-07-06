@@ -21,6 +21,7 @@ import LockedDepositsStore from './LockedDepositsStore';
 import { NetworkStore } from './NetworkStore';
 import PricesStore from './PricesStore';
 import RebaseStore from './rebaseStore';
+import TransactionsStore from './TransactionsStore';
 import { TreeStore } from './TreeStore';
 import UiStateStore from './uiStore';
 import UserStore from './UserStore';
@@ -52,6 +53,7 @@ export class RootStore {
   public gasPrices: GasPricesStore;
   public governancePortal: GovernancePortalStore;
   public lockedDeposits: LockedDepositsStore;
+  public transactions: TransactionsStore;
 
   // New Stores
   public tree: TreeStore;
@@ -85,6 +87,7 @@ export class RootStore {
 
     // new stores
     this.tree = new TreeStore(this);
+    this.transactions = new TransactionsStore(this);
 
     makeObservable(this, {
       sdk: observable,

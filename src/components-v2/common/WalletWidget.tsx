@@ -1,4 +1,10 @@
-import { Button, makeStyles } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import useENS from 'hooks/useEns';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -21,14 +27,23 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.success.main,
   },
   walletButtonLabel: {
+    display: 'flex',
+    alignItems: 'center',
     textTransform: 'none',
+  },
+  transactionsCount: {
+    marginLeft: theme.spacing(1),
+  },
+  spinner: {
+    margin: 'auto',
   },
 }));
 
 const WalletWidget = observer(() => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { uiState, wallet } = store;
+  const { uiState, wallet, transactions } = store;
+  const { pendingTransactions } = transactions;
 
   async function connect(): Promise<void> {
     if (wallet.isConnected) {
@@ -52,6 +67,24 @@ const WalletWidget = observer(() => {
   const walletAddress = wallet.address
     ? shortenAddress(wallet.address)
     : 'Connect';
+
+  if (pendingTransactions.length > 0) {
+    return (
+      <Button
+        variant="outlined"
+        color="primary"
+        classes={{ label: classes.walletButtonLabel }}
+        onClick={connect}
+      >
+        <Box display="flex" alignContent="center">
+          <CircularProgress size={14} className={classes.spinner} />
+          <Typography display="inline" className={classes.transactionsCount}>
+            {pendingTransactions.length}
+          </Typography>
+        </Box>
+      </Button>
+    );
+  }
 
   return (
     <Button

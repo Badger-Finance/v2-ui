@@ -16,6 +16,7 @@ import React, { useContext, useState } from 'react';
 
 import useENS from '../../hooks/useEns';
 import { shortenAddress } from '../../utils/componentHelpers';
+import WalletTransactions from '../WalletTransactions';
 import CopyToClipboardIcon from './CopyToClipboardIcon';
 import CurrencyDisplay from './CurrencyDisplay';
 import WalletLiquidityPoolLinks from './WalletLiquidityPoolLinks';
@@ -80,6 +81,9 @@ const useStyles = makeStyles((theme) => ({
   },
   copyToClipboard: {
     color: theme.palette.secondary.main,
+  },
+  transactions: {
+    marginBottom: theme.spacing(4),
   },
 }));
 
@@ -174,6 +178,9 @@ const WalletDrawer = (): JSX.Element | null => {
             >
               <CopyToClipboardIcon className={classes.copyToClipboard} />
             </IconButton>
+          </Grid>
+          <Grid item container className={classes.transactions}>
+            <WalletTransactions />
           </Grid>
           <Grid item>
             <Typography

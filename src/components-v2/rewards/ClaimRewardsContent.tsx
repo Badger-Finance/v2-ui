@@ -19,10 +19,14 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import routes from '../../config/routes';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
+import TxCompletedToast, {
+  TX_COMPLETED_TOAST_DURATION,
+} from '../TransactionToast';
 
 const checkboxComplementarySpace = 1.5;
 
@@ -182,6 +186,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
     sdk,
     tree,
     uiState,
+    transactions,
     wallet: { address },
   } = useContext(StoreContext);
   const { claimable, claimProof } = tree;
@@ -205,7 +210,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
   const hasRewards = claimProof && Object.keys(claimable).length > 0;
   const totalClaimValue = Object.values(claimOptions)
     .map((c) => c.balance)
-    .reduce((total, k) => (total += k.value), 0);
+    .reduce((total, k) => total + k.value, 0);
 
   const handleClaimCheckChange = (rewardKey: string, checked: boolean) => {
     const newClaimOptions = {
@@ -241,6 +246,37 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
       cycle,
       proof,
       claimAmounts,
+      onSubmitted: ({ transaction }) => {
+        if (transaction) {
+          transactions.addSignedTransaction({
+            hash: transaction.hash,
+            addedTime: Date.now(),
+            name: 'Rewards Claim',
+          });
+          toast.success(
+            <TxCompletedToast
+              title="Rewards Claim Submitted"
+              hash={transaction.hash}
+            />,
+            { autoClose: TX_COMPLETED_TOAST_DURATION },
+          );
+        }
+      },
+      onSuccess: ({ receipt }) => {
+        if (receipt) {
+          transactions.updateCompletedTransaction(receipt);
+          toast(
+            <TxCompletedToast
+              title="Rewards Claimed"
+              hash={receipt.transactionHash}
+            />,
+            {
+              type: receipt.status === 0 ? 'error' : 'success',
+              autoClose: TX_COMPLETED_TOAST_DURATION,
+            },
+          );
+        }
+      },
       onError: (err) => {
         console.error(err);
         if (String(err).includes('execution reverted: Invalid cycle')) {
@@ -249,6 +285,8 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
           setTimeout(() => {
             setShowInvalidCycle(true);
           }, closeDialogTransitionDuration);
+        } else {
+          toast.error(`Rewards claim failed, err: ${err}`);
         }
       },
     });
