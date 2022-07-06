@@ -23,7 +23,8 @@ export function parseQueryMultipleParams<T extends string>(
   return param as T[];
 }
 
-export function serializeMap(map: Map<string, unknown>): string {
+// https://stackoverflow.com/a/56150320
+export function stringifyMap(map: Map<string, unknown>): string {
   return JSON.stringify(map, (key, value) => {
     if (value instanceof Map) {
       return {
@@ -36,7 +37,7 @@ export function serializeMap(map: Map<string, unknown>): string {
   });
 }
 
-export function deserializeMap(serializedMap: string) {
+export function parseStringifyMap(serializedMap: string) {
   return JSON.parse(serializedMap, (key, value) => {
     if (typeof value === 'object' && value !== null) {
       if (value.dataType === 'Map') {
