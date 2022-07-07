@@ -386,7 +386,7 @@ const ethVaultDefinitions: BadgerVault[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.graviaura'],
 			decimals: 18,
 		},
-		depositAdvisory: AdvisoryType.VaultLock,
+		depositAdvisory: AdvisoryType.AuraLock,
 	},
 	{
 		depositToken: {
