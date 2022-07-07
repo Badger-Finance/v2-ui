@@ -1,6 +1,7 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import React from 'react';
+import AuraLockingVaultAdvisory from './AuraLockingVaultAdivsory';
 import ChadgerVaultAdvisory from './ChadgerVaultAdvisory';
 import LockingVaultAdvisory from './LockingVaultAdivsory';
 import RemunerationVaultAdvisory from './RemunerationVaultAdvisory';
@@ -23,6 +24,9 @@ const VaultAdvisory = ({ vault, type, accept }: Props): JSX.Element | null => {
 					learnMoreLink="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
 				/>
 			);
+			break;
+		case AdvisoryType.AuraLock:
+			advisory = <AuraLockingVaultAdvisory accept={accept} vault={vault} lockingWeeks={16} />;
 			break;
 		case AdvisoryType.VaultLock:
 			advisory = <LockingVaultAdvisory vault={vault} accept={accept} lockingWeeks={16} />;
