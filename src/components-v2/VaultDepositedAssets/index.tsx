@@ -30,6 +30,8 @@ const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
 	const currencyValue = inCurrency(new BigNumber(vault.value), uiState.currency);
 	let hasCurrencyIcon = currencyValue?.includes('.png');
+
+	// TODO: we should probably include an 'influence' vault behavior
 	const isBveCvx = vault.vaultToken === BVE_CVX_TOKEN;
 
 	let currencyIcon;
@@ -48,10 +50,15 @@ const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {
 
 	return (
 		<>
-			{currencyIcon && (
+			{currencyIcon && !isBveCvx && (
 				<img src={`${currencyIcon}.png`} alt={`${currencyIcon} icon`} className={classes.currencyIcon} />
 			)}
 			<Typography className={classes.amount}>{displayValue ?? <Skeleton width={209} height={37} />}</Typography>
+			{isBveCvx && (
+				<Typography variant="subtitle1" color="textSecondary">
+					{currencyValue ?? <Skeleton width={209} height={24} />}
+				</Typography>
+			)}
 		</>
 	);
 };
