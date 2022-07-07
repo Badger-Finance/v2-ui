@@ -58,7 +58,7 @@ export class TokenBalance {
 	 * @returns string representation of balance
 	 */
 	balanceDisplay(precision?: number): string {
-		const decimals = precision || this.token.decimals;
+		const decimals = precision ?? this.token.decimals;
 		if (this.balance.gt(0) && this.balance.lt(minBalance(decimals))) {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
