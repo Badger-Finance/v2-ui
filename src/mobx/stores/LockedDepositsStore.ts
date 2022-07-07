@@ -73,15 +73,6 @@ class LockedDepositsStore {
 				await voteLockedDepositContract.balanceOf(vaultAddress),
 			]);
 
-		console.log({
-			locker: voteLockedDepositContract.address,
-			vaultAddress,
-			vaultBalance: formatBalance(vaultBalance),
-			strategyBalance: formatBalance(strategyBalance),
-			totalTokenBalanceStrategy,
-			lockedTokenBalanceStrategy,
-		});
-
 		const balance = new BigNumber(
 			vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy)._hex,
 		);
