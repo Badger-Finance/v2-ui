@@ -1,7 +1,8 @@
 export enum AdvisoryType {
-  VaultLock = 'VaultLock',
-  ConvexLock = 'ConvexLock',
-  Remuneration = 'Remuneration',
-  Chadger = 'Chadger',
-  None = 'None',
+  AuraLock = 'VaultLock',
+	VaultLock = 'VaultLock',
+	ConvexLock = 'ConvexLock',
+	Remuneration = 'Remuneration',
+	Chadger = 'Chadger',
+	None = 'None',
 }
