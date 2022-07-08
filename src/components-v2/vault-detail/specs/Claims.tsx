@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Grid, Link, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
 
 import { StyledDivider } from '../styled';
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
 import { StoreContext } from '../../../mobx/store-context';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import BveCvxFrequencyInfo from '../../BveCvxFrequencyInfo';
 
 const useStyles = makeStyles((theme) => ({
@@ -90,7 +90,7 @@ export const Claims = observer((): JSX.Element => {
 			</Typography>
 			<Link
 				className={classes.infoLink}
-				href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"
+				href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"
 				target="_blank"
 				rel="noreferrer"
 			>

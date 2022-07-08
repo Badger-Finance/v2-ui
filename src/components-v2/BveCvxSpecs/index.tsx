@@ -77,7 +77,7 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
 						}
 						value={
 							lockedBalance ? (
-								numberWithCommas(lockedBalance.balanceDisplay(5))
+								numberWithCommas(lockedBalance.balanceDisplay(0))
 							) : (
 								<Skeleton variant="text" width={30} />
 							)
