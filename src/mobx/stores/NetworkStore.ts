@@ -1,10 +1,9 @@
-import { GasFees, GasPrices, GasSpeed, getNetworkConfig } from '@badger-dao/sdk';
+import { GasFees, GasPrices, GasSpeed, getNetworkConfig, Network, NetworkConfig } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
 import { BigNumber } from 'ethers';
 import { action, makeObservable, observable } from 'mobx';
-import { Network } from 'mobx/model/network/network';
 import { RootStore } from 'mobx/stores/RootStore';
 
 import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
@@ -14,11 +13,13 @@ export class NetworkStore {
   private txGasPrice?: GasFees | number;
 
   public network: Network;
+  public config: NetworkConfig;
   public gasPrices: GasPrices | null;
 
   constructor(store: RootStore) {
     this.store = store;
     this.network = defaultNetwork;
+    this.config = getNetworkConfig(defaultNetwork);
     this.gasPrices = { rapid: 35, fast: 30, standard: 25, slow: 20 };
 
     makeObservable(this, {
@@ -34,18 +35,11 @@ export class NetworkStore {
 
   setGasPrice(gasPrice: GasFees | number) {
     this.txGasPrice = gasPrice;
-    if (typeof gasPrice === 'number') {
-      window.localStorage.setItem(`${this.network.name}-selectedGasPrice`, gasPrice.toString());
-    } else {
-      window.localStorage.setItem(`${this.network.name}-selectedGasPrice`, JSON.stringify(gasPrice));
-    }
   }
 
   setNetwork = action(async (id: number) => {
-    const network = Network.networkFromId(id);
-    if (!network) {
-      throw new Error(`${network} is not a supported network!`);
-    }
+    // const network = Chain.getChain(network.network)FromId(id);
+    const config = getNetworkConfig(id);
     // ethereum is just the injected provider (mm) as all chains are canonically ethereum
     const { ethereum } = window;
     // implementation details from:
@@ -57,7 +51,7 @@ export class NetworkStore {
           method: 'wallet_switchEthereumChain',
           params: [
             {
-              chainId: `0x${network.id.toString(16)}`,
+              chainId: `0x${config.chainId.toString(16)}`,
             },
           ],
         });
@@ -73,30 +67,31 @@ export class NetworkStore {
               method: 'wallet_addEthereumChain',
               params: [
                 {
-                  chainId: BigNumber.from(network.id).toHexString(),
-                  chainName: network.name,
+                  chainId: BigNumber.from(config.chainId).toHexString(),
+                  chainName: config.name,
                   nativeCurrency: {
-                    name: network.name,
-                    symbol: network.currency,
+                    name: config.name,
+                    symbol: config.currencySymbol,
                     decimals: 18,
                   },
-                  rpcUrls: [DEFAULT_RPC[network.symbol]],
-                  blockExplorerUrls: [network.explorer],
+                  rpcUrls: [DEFAULT_RPC[config.network]],
+                  blockExplorerUrls: [config.explorerUrl],
                 },
               ],
             });
           } catch {
             if (DEBUG) {
-              console.error(`${network.name} misconfigured, please update network configuartion parameters.`);
+              console.error(`${config.name} misconfigured, please update network configuartion parameters.`);
             }
             throw err;
           }
         }
       }
     }
-    this.network = network;
+    this.network = config.network;
+    this.config = config;
     if (!this.store.wallet.isConnected) {
-      await this.store.updateNetwork(network.id);
+      await this.store.updateNetwork(config.chainId);
     } else {
       this.store.tree.reset();
     }

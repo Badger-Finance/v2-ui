@@ -74,7 +74,7 @@ export const IbBTC = observer(() => {
   return (
     <LayoutContainer>
       <Grid container spacing={1} justifyContent="center" className={classes.pageContainer}>
-        {network.symbol === Network.Ethereum ? (
+        {network === Network.Ethereum ? (
           <div className={classes.mintContainer}>
             <Grid item xs={12} md={9} lg={7}>
               <Paper className={classes.wrapGuide}>

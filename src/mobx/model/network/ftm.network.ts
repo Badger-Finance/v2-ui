@@ -5,20 +5,11 @@ import { Deploy } from 'web3/deploy';
 import deploy from '../../../config/deployments/ftm.json';
 import { AdvisoryType } from '../vaults/advisory-type';
 import { BadgerVault } from '../vaults/badger-vault';
-import { Network as NetworkModel } from './network';
+import { Chain } from './chain';
 
-export class Fantom extends NetworkModel {
+export class Fantom extends Chain {
   constructor() {
-    super(
-      'https://ftmscan.com',
-      'https://ftmscan.com/gastracker',
-      'Fantom',
-      Network.Fantom,
-      NETWORK_IDS.FTM,
-      Currency.FTM,
-      FTM_DEPLOY,
-      ftmVaults,
-    );
+    super('https://ftmscan.com', 'Fantom', Network.Fantom, NETWORK_IDS.FTM, Currency.FTM, FTM_DEPLOY, ftmVaults);
   }
 
   get settOrder(): string[] {

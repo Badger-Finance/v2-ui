@@ -1,4 +1,5 @@
 import { action } from 'mobx';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
@@ -28,6 +29,8 @@ const mockGasPrices = {
 };
 
 describe('NetworkGasWidget', () => {
+  const expectedChain = Chain.getChain(defaultNetwork);
+
   beforeEach(() => {
     jest.spyOn(GasPricesStore.prototype, 'initialized', 'get').mockReturnValue(true);
     jest.spyOn(GasPricesStore.prototype, 'getGasPrices').mockReturnValue(mockGasPrices);
@@ -40,7 +43,7 @@ describe('NetworkGasWidget', () => {
       </StoreProvider>,
     );
     fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
-    fireEvent.mouseOver(screen.getByText(defaultNetwork.name));
+    fireEvent.mouseOver(screen.getByText(expectedChain.name));
     expect(baseElement).toMatchSnapshot();
   });
 
@@ -71,7 +74,7 @@ describe('NetworkGasWidget', () => {
       );
 
       fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
-      fireEvent.mouseOver(screen.getByText(defaultNetwork.name));
+      fireEvent.mouseOver(screen.getByText(expectedChain.name));
       fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
       expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
     });

@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -24,8 +25,10 @@ const useStyles = makeStyles((theme) => ({
 
 const NetworkNotification = observer((): JSX.Element | null => {
   const { network: networkStore } = useContext(StoreContext);
-  const { network } = networkStore;
   const classes = useStyles();
+
+  const network = Chain.getChain(networkStore.network);
+
   if (!network || !network.notification) {
     return null;
   }

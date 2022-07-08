@@ -3,21 +3,9 @@ import { VaultType } from '@badger-dao/sdk/lib/api/enums';
 
 import mainnetDeploy from '../config/deployments/mainnet.json';
 import { MAX_BOOST_RANK } from '../config/system/boost-ranks';
-import { Network } from '../mobx/model/network/network';
+import { Chain } from '../mobx/model/network/chain';
 import UserStore from '../mobx/stores/UserStore';
 import { calculateUserBoost } from './boost-ranks';
-
-// export const debounce = (n: number, fn: (...params: any[]) => any, immediate = false): any => {
-// 	let timer: any = undefined;
-// 	return function (this: any, ...args: any[]) {
-// 		if (timer === undefined && immediate) {
-// 			fn.apply(this, args);
-// 		}
-// 		clearTimeout(timer);
-// 		timer = setTimeout(() => fn.apply(this, args), n);
-// 		return timer;
-// 	};
-// };
 
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
@@ -66,7 +54,7 @@ export function shouldDisplayEarnings(vault: VaultDTO, data: VaultData): boolean
   return vaultSource.apr > 0;
 }
 
-export const getFormattedNetworkName = (network: Network): string => {
+export const getFormattedNetworkName = (network: Chain): string => {
   return network.name
     .split(' ')
     .map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))

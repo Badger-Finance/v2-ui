@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useRef, useState } from 'react';
 import MenuItem from 'ui-library/MenuItem';
 
-import { Network } from '../../mobx/model/network/network';
+import { Chain } from '../../mobx/model/network/chain';
 import MenuItemIcon from '../../ui-library/MenuItemIcon';
 import MenuItemText from '../../ui-library/MenuItemText';
 import { getNetworkIconPath } from '../../utils/network-icon';
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  network: Network;
+  network: Chain;
   onSelect: () => void;
 }
 
@@ -56,7 +56,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
   };
 
   const handleNetworkSelection = async () => {
-    const shouldTriggerNetworkChange = networkStore.network.symbol !== network.symbol;
+    const shouldTriggerNetworkChange = Chain.getChain(networkStore.network).symbol !== network.symbol;
 
     if (shouldTriggerNetworkChange) {
       const networkConfig = getNetworkConfig(network.symbol);

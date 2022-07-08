@@ -1,5 +1,6 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -31,11 +32,11 @@ interface Props {
 
 const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
   const { network: networkStore } = React.useContext(StoreContext);
-  const { network } = networkStore;
+  const { network, config } = networkStore;
   const classes = useStyles();
 
   const { vaultToken } = vault;
-  const strategy = network.strategies[vaultToken];
+  const strategy = Chain.getChain(network).strategies[vaultToken];
   const underlyingToken = vault.underlyingToken;
   const strategyAddress = vault.strategy.address;
 
@@ -46,9 +47,9 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
       {strategy.userGuide && <VaultDetailLink title="User Guide" href={strategy.userGuide} />}
       {strategy.strategyLink && <VaultDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
       {strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
-      <VaultDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultToken}`} />
-      <VaultDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
-      <VaultDetailLink title="Underlying Token Address" href={`${network.explorer}/address/${underlyingToken}`} />
+      <VaultDetailLink title="Vault Address" href={`${config.explorerUrl}/address/${vaultToken}`} />
+      <VaultDetailLink title="Strategy Address" href={`${config.explorerUrl}/address/${strategyAddress}`} />
+      <VaultDetailLink title="Underlying Token Address" href={`${config.explorerUrl}/address/${underlyingToken}`} />
     </Grid>
   );
 });

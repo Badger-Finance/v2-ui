@@ -39,7 +39,7 @@ export const NavbarTabs = observer((): JSX.Element => {
   const [selectedTab, setSelectedTab] = useState(routeTabMapping.get(getRootPath(router.currentPath)) ?? 0);
   const classes = useStyles();
   const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
-  const config = getNavbarConfig(network.symbol);
+  const config = getNavbarConfig(network);
 
   const goToTab = (route: Route<RootStore, QueryParams>) => {
     let queryParams: QueryParams = {

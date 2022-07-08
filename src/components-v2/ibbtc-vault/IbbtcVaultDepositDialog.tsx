@@ -19,6 +19,7 @@ import { ReportProblem } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 import { BigNumber, BigNumberish, ethers } from 'ethers';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -105,10 +106,14 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
 
   // lp token getters
   const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
-  const lpBadgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === lpVault?.vaultToken);
+  const lpBadgerVault = Chain.getChain(network.network).vaults.find(
+    ({ vaultToken }) => vaultToken.address === lpVault?.vaultToken,
+  );
   const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.vaultToken.address) : undefined;
   const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
-  const settStrategy = lpBadgerVault ? network.network.strategies[lpBadgerVault.vaultToken.address] : undefined;
+  const settStrategy = lpBadgerVault
+    ? Chain.getChain(network.network).strategies[lpBadgerVault.vaultToken.address]
+    : undefined;
 
   // options
   const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
@@ -301,7 +306,7 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
 
     setLpTokenDepositBalance(userLpTokenBalance);
     setMode(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
-  }, [user, vaults, network.network.vaults]);
+  }, [user, vaults, Chain.getChain(network.network).vaults]);
 
   return (
     <Dialog open={open} fullWidth maxWidth="xl" classes={{ paperWidthXl: classes.root }}>

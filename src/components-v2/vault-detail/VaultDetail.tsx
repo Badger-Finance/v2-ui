@@ -10,7 +10,6 @@ import { VaultDeposit } from '../common/dialogs/VaultDeposit';
 import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 import { MobileStickyActionButtons } from './actions/MobileStickyActionButtons';
-import { Footer } from './Footer';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
 import { TopContent } from './TopContent';
@@ -81,7 +80,6 @@ export const VaultDetail = observer((): JSX.Element => {
               <TopContent vault={vault} />
               <MainContent vault={vault} />
             </>
-            <Footer vault={vault} />
           </>
         )}
       </Container>

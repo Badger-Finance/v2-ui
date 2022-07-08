@@ -1,4 +1,4 @@
-import { NETWORK_IDS } from 'config/constants';
+import { Network } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { makeAutoObservable } from 'mobx';
 
@@ -21,7 +21,7 @@ class LockedCvxDelegationStore {
       network: { network },
     } = this.store;
 
-    if (network.id !== NETWORK_IDS.ETH || !address) {
+    if (network !== Network.Ethereum || !address) {
       return;
     }
 
