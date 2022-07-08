@@ -26,9 +26,8 @@ export const NewVaultWarning = (): JSX.Element => {
   return (
     <Grid container className={classes.guardedVault}>
       <Typography className={classes.guardedVaultText}>
-        <span className={classes.boldText}>NOTE:</span> This new vault may take
-        up to <span className={classes.boldText}>2 weeks</span> from launch to
-        reach full efficiency
+        <span className={classes.boldText}>NOTE:</span> This new vault may take up to{' '}
+        <span className={classes.boldText}>2 weeks</span> from launch to reach full efficiency
       </Typography>
     </Grid>
   );

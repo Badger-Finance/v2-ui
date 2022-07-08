@@ -19,22 +19,20 @@ interface CustomMenuItemProps extends ListItemProps {
   button?: any;
 }
 
-const MenuItem = React.forwardRef<HTMLLIElement, CustomMenuItemProps>(
-  (props, ref) => {
-    const classes = useStyles();
-    return (
-      <ListItem
-        ref={ref}
-        {...props}
-        classes={{
-          ...(props.classes ?? {}),
-          button: clsx(classes.button, props.classes?.button),
-        }}
-      >
-        {props.children}
-      </ListItem>
-    );
-  },
-);
+const MenuItem = React.forwardRef<HTMLLIElement, CustomMenuItemProps>((props, ref) => {
+  const classes = useStyles();
+  return (
+    <ListItem
+      ref={ref}
+      {...props}
+      classes={{
+        ...(props.classes ?? {}),
+        button: clsx(classes.button, props.classes?.button),
+      }}
+    >
+      {props.children}
+    </ListItem>
+  );
+});
 
 export default MenuItem;

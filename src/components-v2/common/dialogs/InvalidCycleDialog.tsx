@@ -81,24 +81,15 @@ const InvalidCycleDialog = ({ open, onClose }: Props): JSX.Element => {
       <DialogTitle className={classes.title}>
         <Box display="flex" alignItems="center">
           Invalid Cycle Detected <BugReportIcon className={classes.bugIcon} />
-          <IconButton
-            aria-label="close dialog"
-            className={classes.closeButton}
-            onClick={onClose}
-          >
+          <IconButton aria-label="close dialog" className={classes.closeButton} onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </Box>
       </DialogTitle>
       <DialogContent className={classes.content}>
-        <img
-          className={classes.logo}
-          src="/assets/icons/badger-error.png"
-          alt="badger error logo"
-        />
+        <img className={classes.logo} src="/assets/icons/badger-error.png" alt="badger error logo" />
         <DialogContentText id="alert-dialog-description" color="textPrimary">
-          The rewards could not be claimed because the current cycle is invalid.
-          Please report this in the ❓
+          The rewards could not be claimed because the current cycle is invalid. Please report this in the ❓
           <Link
             target="_blank"
             href="https://discord.com/channels/743271185751474307/767912941106233355"
@@ -110,11 +101,7 @@ const InvalidCycleDialog = ({ open, onClose }: Props): JSX.Element => {
         {tree.cycle && (
           <pre className={classes.code}>
             <Typography color="textPrimary">Cycle: {tree.cycle}</Typography>
-            <Tooltip
-              title={showCopiedText ? 'Copied!' : 'Copy to clipboard'}
-              placement="right-start"
-              arrow
-            >
+            <Tooltip title={showCopiedText ? 'Copied!' : 'Copy to clipboard'} placement="right-start" arrow>
               <IconButton
                 onClick={copyToClipboard}
                 className={classes.copyToClipboardButton}

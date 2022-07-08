@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectProps,
-} from '@material-ui/core';
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from '@material-ui/core';
 import { SelectInputProps } from '@material-ui/core/Select/SelectInput';
 import { makeStyles } from '@material-ui/core/styles';
 import { ComponentMeta } from '@storybook/react';
@@ -42,11 +35,7 @@ export const Normal = ({ color }: Props) => {
   };
 
   return (
-    <FormControl
-      variant="outlined"
-      className={classes.formControl}
-      color={color}
-    >
+    <FormControl variant="outlined" className={classes.formControl} color={color}>
       <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
       <Select
         labelId="demo-simple-select-outlined-label"
@@ -76,12 +65,7 @@ export const Error = ({ color }: Props) => {
   };
 
   return (
-    <FormControl
-      variant="outlined"
-      className={classes.formControl}
-      error
-      color={color}
-    >
+    <FormControl variant="outlined" className={classes.formControl} error color={color}>
       <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
       <Select
         labelId="demo-simple-select-outlined-label"
@@ -105,15 +89,8 @@ export const Error = ({ color }: Props) => {
 export const Disabled = ({ color }: Props) => {
   const classes = useStyles();
   return (
-    <FormControl
-      variant="outlined"
-      className={classes.formControl}
-      color={color}
-      disabled
-    >
-      <InputLabel id="demo-simple-select-outlined-disabled-label">
-        Age
-      </InputLabel>
+    <FormControl variant="outlined" className={classes.formControl} color={color} disabled>
+      <InputLabel id="demo-simple-select-outlined-disabled-label">Age</InputLabel>
       <Select
         labelId="demo-simple-select-outlined-disabled-label"
         id="demo-simple-select-outlined"

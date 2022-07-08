@@ -9,15 +9,9 @@ import { isValidCalculatedValue } from '../../utils/componentHelpers';
 import { BadgerBoostImage } from './BadgerBoostImage';
 import { getColorFromComparison } from './utils';
 
-const useComparedValuesStyles = (
-  currentRatio: number,
-  accountRatio: number,
-) => {
+const useComparedValuesStyles = (currentRatio: number, accountRatio: number) => {
   return makeStyles((theme) => {
-    if (
-      !isValidCalculatedValue(currentRatio) ||
-      !isValidCalculatedValue(accountRatio)
-    ) {
+    if (!isValidCalculatedValue(currentRatio) || !isValidCalculatedValue(accountRatio)) {
       return {
         fontColor: {
           color: theme.palette.text.primary,
@@ -87,10 +81,7 @@ export const StakeInformationHeader = ({
   isLoading = false,
 }: Props): JSX.Element => {
   const classes = useStyles();
-  const stakeRatioClasses = useComparedValuesStyles(
-    stakeRatio,
-    accountStakeRatio,
-  )();
+  const stakeRatioClasses = useComparedValuesStyles(stakeRatio, accountStakeRatio)();
   const userBoostClasses = useComparedValuesStyles(userBoost, accountBoost)();
   const stakeRatioInformation = `${Number((stakeRatio * 100).toFixed(2))}%`;
   return (
@@ -114,12 +105,7 @@ export const StakeInformationHeader = ({
             {isLoading ? (
               <Skeleton variant="text" width={30} height={24} />
             ) : (
-              <Typography
-                className={clsx(
-                  classes.informationValue,
-                  stakeRatioClasses.fontColor,
-                )}
-              >
+              <Typography className={clsx(classes.informationValue, stakeRatioClasses.fontColor)}>
                 {stakeRatioInformation}
               </Typography>
             )}
@@ -135,12 +121,7 @@ export const StakeInformationHeader = ({
             {isLoading ? (
               <Skeleton variant="text" width={30} height={24} />
             ) : (
-              <Typography
-                className={clsx(
-                  classes.informationValue,
-                  userBoostClasses.fontColor,
-                )}
-              >
+              <Typography className={clsx(classes.informationValue, userBoostClasses.fontColor)}>
                 {userBoost}x
               </Typography>
             )}

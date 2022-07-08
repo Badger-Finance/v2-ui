@@ -1,8 +1,4 @@
-import {
-  InputBase,
-  InputBaseComponentProps,
-  makeStyles,
-} from '@material-ui/core';
+import { InputBase, InputBaseComponentProps, makeStyles } from '@material-ui/core';
 import React from 'react';
 
 interface Props {

@@ -21,22 +21,13 @@ class ResizeObserver {
 describe('Navbar', () => {
   beforeEach(() => {
     global.ResizeObserver = ResizeObserver;
-    store.network.network.deploy.token =
-      '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
+    store.network.network.deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
 
-    jest
-      .spyOn(WalletStore.prototype, 'isConnected', 'get')
-      .mockReturnValue(true);
-    jest
-      .spyOn(WalletStore.prototype, 'address', 'get')
-      .mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
 
-    jest
-      .spyOn(RouterStore.prototype, 'currentPath', 'get')
-      .mockReturnValue('/');
-    jest
-      .spyOn(UserStore.prototype, 'portfolioValue', 'get')
-      .mockReturnValue(10_000);
+    jest.spyOn(RouterStore.prototype, 'currentPath', 'get').mockReturnValue('/');
+    jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(10_000);
     jest.spyOn(PricesStore.prototype, 'getPrice').mockReturnValue(80);
     jest.spyOn(VaultStore.prototype, 'protocolSummary', 'get').mockReturnValue({
       totalValue: 1_000_000,

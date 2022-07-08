@@ -25,14 +25,7 @@ export const DownArrow = (): JSX.Element => {
         d="M6.5 15.2138L11.6295 10L13 11.3931L6.5 18L-6.08938e-08 11.3931L1.37054 10L6.5 15.2138Z"
         fill="white"
       />
-      <line
-        x1="6.5"
-        y1="16"
-        x2="6.5"
-        y2="4.37114e-08"
-        stroke="white"
-        strokeWidth="2"
-      />
+      <line x1="6.5" y1="16" x2="6.5" y2="4.37114e-08" stroke="white" strokeWidth="2" />
     </svg>
   );
 };

@@ -42,14 +42,7 @@ const GenericVaultAdvisory = ({ children, accept }: Props): JSX.Element => {
     <div className={classes.vaultAdvisoryContainer}>
       <div className={classes.childContainer}>{children}</div>
       <FormControlLabel
-        control={
-          <Checkbox
-            name="read"
-            onClick={() => setRead(!read)}
-            size="small"
-            color="primary"
-          />
-        }
+        control={<Checkbox name="read" onClick={() => setRead(!read)} size="small" color="primary" />}
         label="I have read and understand the above vault advisory"
       />
       <ActionButton

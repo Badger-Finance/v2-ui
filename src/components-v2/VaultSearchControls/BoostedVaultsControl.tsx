@@ -1,9 +1,4 @@
-import {
-  Checkbox,
-  FormControlLabel,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Checkbox, FormControlLabel, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -15,11 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BoostedVaultsControl = ({
-  checked,
-  onChange,
-  ...muiProps
-}: CheckboxControlProps): JSX.Element => {
+const BoostedVaultsControl = ({ checked, onChange, ...muiProps }: CheckboxControlProps): JSX.Element => {
   const classes = useStyles();
 
   const handleBoostedVaults = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,13 +21,7 @@ const BoostedVaultsControl = ({
     <FormControlLabel
       {...muiProps}
       className={clsx(classes.label, muiProps.className)}
-      control={
-        <Checkbox
-          checked={checked}
-          color="primary"
-          onChange={handleBoostedVaults}
-        />
-      }
+      control={<Checkbox checked={checked} color="primary" onChange={handleBoostedVaults} />}
       label={<Typography variant="body2">🚀 Boosted Vaults</Typography>}
     />
   );

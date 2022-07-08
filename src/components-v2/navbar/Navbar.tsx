@@ -1,9 +1,4 @@
-import {
-  Divider,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { Divider, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 

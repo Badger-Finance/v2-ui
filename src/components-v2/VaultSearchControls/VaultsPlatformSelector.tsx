@@ -1,13 +1,5 @@
 import { Protocol } from '@badger-dao/sdk';
-import {
-  Checkbox,
-  FormControl,
-  InputLabel,
-  ListItemText,
-  makeStyles,
-  MenuItem,
-  Select,
-} from '@material-ui/core';
+import { Checkbox, FormControl, InputLabel, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -27,10 +19,7 @@ interface Props {
   onChange: (platforms: Protocol[]) => void;
 }
 
-const VaultsPlatformSelector = ({
-  platforms = [],
-  onChange,
-}: Props): JSX.Element => {
+const VaultsPlatformSelector = ({ platforms = [], onChange }: Props): JSX.Element => {
   const {
     vaults: { vaultsProtocols },
   } = useContext(StoreContext);
@@ -41,11 +30,7 @@ const VaultsPlatformSelector = ({
   };
 
   return (
-    <FormControl
-      variant="outlined"
-      className={classes.formControl}
-      color="primary"
-    >
+    <FormControl variant="outlined" className={classes.formControl} color="primary">
       <InputLabel id="platform-selector-id-label">Platform</InputLabel>
       <Select
         multiple
@@ -61,15 +46,8 @@ const VaultsPlatformSelector = ({
           <em>Platform</em>
         </MenuItem>
         {vaultsProtocols.map((protocol: Protocol) => (
-          <MenuItem
-            className={classes.capitalized}
-            key={protocol}
-            value={protocol}
-          >
-            <Checkbox
-              color="primary"
-              checked={platforms.indexOf(protocol) > -1}
-            />
+          <MenuItem className={classes.capitalized} key={protocol} value={protocol}>
+            <Checkbox color="primary" checked={platforms.indexOf(protocol) > -1} />
             <ListItemText primary={protocol} />
           </MenuItem>
         ))}

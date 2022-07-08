@@ -1,11 +1,5 @@
 import { VaultBehavior, VaultDTO, VaultState } from '@badger-dao/sdk';
-import {
-  Chip,
-  Grid,
-  GridProps,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Chip, Grid, GridProps, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { MouseEvent } from 'react';
 
@@ -51,19 +45,12 @@ const VaultListItemTags = ({
             <Typography
               display="inline"
               variant={'caption'}
-              className={clsx(
-                classes.label,
-                onStatusClick && classes.clickableLabel,
-              )}
+              className={clsx(classes.label, onStatusClick && classes.clickableLabel)}
             >
               Status:
             </Typography>
           )}
-          <Chip
-            size="small"
-            label={vault.state}
-            className={clsx(classes.tag, onStatusClick && classes.clickableTag)}
-          />
+          <Chip size="small" label={vault.state} className={clsx(classes.tag, onStatusClick && classes.clickableTag)} />
         </Grid>
       )}
       {vault.behavior !== VaultBehavior.None && (
@@ -72,10 +59,7 @@ const VaultListItemTags = ({
             <Typography
               display="inline"
               variant={'caption'}
-              className={clsx(
-                classes.label,
-                onRewardsClick && classes.clickableLabel,
-              )}
+              className={clsx(classes.label, onRewardsClick && classes.clickableLabel)}
             >
               Rewards:
             </Typography>
@@ -83,20 +67,13 @@ const VaultListItemTags = ({
           <Chip
             size="small"
             label={vault.behavior}
-            className={clsx(
-              classes.tag,
-              onRewardsClick && classes.clickableTag,
-            )}
+            className={clsx(classes.tag, onRewardsClick && classes.clickableTag)}
           />
         </Grid>
       )}
       <Grid item xs="auto">
         {showLabels && (
-          <Typography
-            display="inline"
-            variant={'caption'}
-            className={classes.label}
-          >
+          <Typography display="inline" variant={'caption'} className={classes.label}>
             Platform:
           </Typography>
         )}
@@ -105,11 +82,7 @@ const VaultListItemTags = ({
       {vault.boost.enabled && (
         <Grid item xs="auto">
           {showLabels && (
-            <Typography
-              display="inline"
-              variant={'caption'}
-              className={classes.label}
-            >
+            <Typography display="inline" variant={'caption'} className={classes.label}>
               Boost:
             </Typography>
           )}

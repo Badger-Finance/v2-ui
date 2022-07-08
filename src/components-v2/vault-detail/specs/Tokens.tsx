@@ -23,10 +23,7 @@ export const Tokens = ({ vault }: Props): JSX.Element => {
       <StyledDivider />
       <Grid container>
         {vault.tokens.map((token, index) => (
-          <VaultToken
-            key={`${vault.name}-${token.name}-${index}`}
-            token={token}
-          />
+          <VaultToken key={`${vault.name}-${token.name}-${index}`} token={token} />
         ))}
       </Grid>
     </Grid>

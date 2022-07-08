@@ -70,29 +70,16 @@ export const NonNativeBox = observer((props: Props) => {
   const { user } = React.useContext(StoreContext);
   const nonNativeHoldings = user.accountDetails?.nonNativeBalance;
 
-  const {
-    showMessageBounce,
-    nonNativeBalance,
-    isLoading,
-    onChange,
-    onIncrement,
-    onReduction,
-    onBounceAnimationEnd,
-  } = props;
+  const { showMessageBounce, nonNativeBalance, isLoading, onChange, onIncrement, onReduction, onBounceAnimationEnd } =
+    props;
 
   const classes = useStyles();
   const theme = useTheme();
   const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
-  const nonNativeAssetClasses = useAssetInputStyles(
-    nonNativeBalance,
-    nonNativeHoldings,
-  )();
+  const nonNativeAssetClasses = useAssetInputStyles(nonNativeBalance, nonNativeHoldings)();
 
   const showEmptyNonNativeMessage = Number(nonNativeBalance) === 0;
-  const showReducedNonNativeMessage = useValueIsGreater(
-    nonNativeHoldings?.toFixed(4),
-    nonNativeBalance,
-  );
+  const showReducedNonNativeMessage = useValueIsGreater(nonNativeHoldings?.toFixed(4), nonNativeBalance);
 
   const handleIncrement = () => {
     if (!isLoading) {
@@ -128,8 +115,7 @@ export const NonNativeBox = observer((props: Props) => {
       {showReducedNonNativeMessage && (
         <Grid className={classes.infoBox}>
           <Typography className={classes.infoText} color="textSecondary">
-            While reducing Non-Native may increase your boost, your gross yield
-            will be smaller
+            While reducing Non-Native may increase your boost, your gross yield will be smaller
           </Typography>
         </Grid>
       )}

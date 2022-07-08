@@ -5,8 +5,7 @@ import { Provider } from './provider.config';
 const rpc: Record<string, string> = {
   [Network.Ethereum]: process.env.REACT_APP_ETH_RPC || Provider.Cloudflare,
   [Network.Local]: process.env.REACT_APP_ETH_RPC || Provider.Local,
-  [Network.BinanceSmartChain]:
-    process.env.REACT_APP_BSC_RPC || Provider.Binance,
+  [Network.BinanceSmartChain]: process.env.REACT_APP_BSC_RPC || Provider.Binance,
   [Network.Polygon]: process.env.REACT_APP_MATIC_RPC || Provider.Quicknode,
   [Network.Arbitrum]: process.env.REACT_APP_ARBITRUM_RPC || Provider.Arbitrum,
   [Network.Fantom]: process.env.REACT_APP_FANTOM_RPC || Provider.Fantom,

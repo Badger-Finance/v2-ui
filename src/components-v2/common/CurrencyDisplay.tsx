@@ -1,16 +1,7 @@
-import {
-  Box,
-  GridJustification,
-  makeStyles,
-  useTheme,
-} from '@material-ui/core';
+import { Box, GridJustification, makeStyles, useTheme } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
-import {
-  Typography,
-  TypographyProps,
-  TypographyVariant,
-} from 'ui-library/Typography';
+import { Typography, TypographyProps, TypographyVariant } from 'ui-library/Typography';
 
 // this will make sure that the icon has the same size of the typography variant
 const useCurrencyIconStyles = (typographyVariant: TypographyVariant) => {
@@ -46,33 +37,18 @@ export interface CurrencyDisplayProps {
 }
 
 const CurrencyDisplay = (props: CurrencyDisplayProps): JSX.Element => {
-  const {
-    displayValue,
-    variant,
-    justifyContent,
-    disabled = false,
-    TypographyProps = {},
-  } = props;
-  const [icon, displayAmount] = displayValue
-    ? displayValue.split('.png')
-    : [undefined, undefined];
+  const { displayValue, variant, justifyContent, disabled = false, TypographyProps = {} } = props;
+  const [icon, displayAmount] = displayValue ? displayValue.split('.png') : [undefined, undefined];
   const hasCurrencyIcon = displayAmount !== undefined;
   const iconClasses = useCurrencyIconStyles(variant)();
 
   return (
-    <Box
-      display="inline-flex"
-      justifyContent={justifyContent}
-      alignItems="center"
-    >
+    <Box display="inline-flex" justifyContent={justifyContent} alignItems="center">
       {hasCurrencyIcon && (
         <img
           alt={`${displayAmount}`}
           src={`${icon}.png`}
-          className={clsx(
-            iconClasses.currencyIcon,
-            disabled && iconClasses.disabledIcon,
-          )}
+          className={clsx(iconClasses.currencyIcon, disabled && iconClasses.disabledIcon)}
         />
       )}
       <Typography {...TypographyProps} variant={variant}>

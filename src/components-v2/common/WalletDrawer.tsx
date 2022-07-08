@@ -1,12 +1,4 @@
-import {
-  Button,
-  Drawer,
-  Grid,
-  IconButton,
-  makeStyles,
-  Typography,
-  useTheme,
-} from '@material-ui/core';
+import { Button, Drawer, Grid, IconButton, makeStyles, Typography, useTheme } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 import copy from 'copy-to-clipboard';
@@ -92,8 +84,7 @@ const WalletDrawer = (): JSX.Element | null => {
   const { uiState, user, network, wallet } = useContext(StoreContext);
   const { ensName } = useENS(wallet.address);
   const classes = useStyles();
-  const closeDialogTransitionDuration =
-    useTheme().transitions.duration.leavingScreen;
+  const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
   const handleCopy = () => {
     if (!wallet.address) return;
@@ -112,57 +103,27 @@ const WalletDrawer = (): JSX.Element | null => {
     return null;
   }
 
-  const tokenBalances = Object.keys(network.network.deploy.tokens).flatMap(
-    (token) => {
-      const isBadgerToken = ['badger', 'digg'].includes(token.toLowerCase());
-      return isBadgerToken
-        ? [user.getBalance(network.network.deploy.tokens[token])]
-        : [];
-    },
-  );
+  const tokenBalances = Object.keys(network.network.deploy.tokens).flatMap((token) => {
+    const isBadgerToken = ['badger', 'digg'].includes(token.toLowerCase());
+    return isBadgerToken ? [user.getBalance(network.network.deploy.tokens[token])] : [];
+  });
 
   const sortedBalances = tokenBalances.sort((a, b) => b.value - a.value);
-  const totalBalance = tokenBalances.reduce(
-    (total, next) => (total += next.value),
-    0,
-  );
+  const totalBalance = tokenBalances.reduce((total, next) => (total += next.value), 0);
 
   return (
-    <Drawer
-      open={uiState.showWalletDrawer}
-      anchor="right"
-      onClose={() => uiState.toggleWalletDrawer()}
-    >
-      <Grid
-        container
-        direction="column"
-        className={classes.root}
-        justifyContent="space-between"
-      >
+    <Drawer open={uiState.showWalletDrawer} anchor="right" onClose={() => uiState.toggleWalletDrawer()}>
+      <Grid container direction="column" className={classes.root} justifyContent="space-between">
         <Grid item>
-          <Grid
-            item
-            container
-            justifyContent="space-between"
-            alignItems="center"
-            className={classes.titleRow}
-          >
+          <Grid item container justifyContent="space-between" alignItems="center" className={classes.titleRow}>
             <Typography variant="h6" display="inline" className={classes.title}>
               Wallet
             </Typography>
-            <IconButton
-              className={classes.closeButton}
-              onClick={() => uiState.toggleWalletDrawer()}
-            >
+            <IconButton className={classes.closeButton} onClick={() => uiState.toggleWalletDrawer()}>
               <CloseIcon />
             </IconButton>
           </Grid>
-          <Grid
-            item
-            container
-            alignItems="center"
-            className={classes.addressRow}
-          >
+          <Grid item container alignItems="center" className={classes.addressRow}>
             <Typography
               className={clsx(!ensName && classes.address)}
               variant="subtitle2"
@@ -171,11 +132,7 @@ const WalletDrawer = (): JSX.Element | null => {
             >
               {ensName || shortenAddress(wallet.address)}
             </Typography>
-            <IconButton
-              onClick={handleCopy}
-              aria-label="copy wallet address"
-              className={classes.copyWalletButton}
-            >
+            <IconButton onClick={handleCopy} aria-label="copy wallet address" className={classes.copyWalletButton}>
               <CopyToClipboardIcon className={classes.copyToClipboard} />
             </IconButton>
           </Grid>
@@ -183,11 +140,7 @@ const WalletDrawer = (): JSX.Element | null => {
             <WalletTransactions />
           </Grid>
           <Grid item>
-            <Typography
-              className={classes.balanceText}
-              variant="subtitle2"
-              color="textSecondary"
-            >
+            <Typography className={classes.balanceText} variant="subtitle2" color="textSecondary">
               Balance:
             </Typography>
             <CurrencyDisplay
@@ -199,10 +152,7 @@ const WalletDrawer = (): JSX.Element | null => {
           </Grid>
           <Grid item container className={classes.balancesList}>
             {sortedBalances.map((tokenBalance) => (
-              <WalletTokenBalance
-                key={tokenBalance.token.address}
-                balance={tokenBalance}
-              />
+              <WalletTokenBalance key={tokenBalance.token.address} balance={tokenBalance} />
             ))}
           </Grid>
           <Grid item container className={classes.lpLinks}>
@@ -227,19 +177,11 @@ const WalletDrawer = (): JSX.Element | null => {
         </Grid>
       </Grid>
       {showCopiedMessage && (
-        <Grid
-          container
-          className={classes.copiedMessage}
-          alignItems="center"
-          justifyContent="space-between"
-        >
+        <Grid container className={classes.copiedMessage} alignItems="center" justifyContent="space-between">
           <Typography variant="subtitle2" display="inline">
             Wallet Address Copied
           </Typography>
-          <IconButton
-            onClick={() => setShowCopiedMessage(false)}
-            aria-label="dismiss copied address message"
-          >
+          <IconButton onClick={() => setShowCopiedMessage(false)} aria-label="dismiss copied address message">
             <CloseIcon />
           </IconButton>
         </Grid>

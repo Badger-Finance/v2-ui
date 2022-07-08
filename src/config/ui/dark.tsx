@@ -128,8 +128,7 @@ export const darkTheme = createTheme({
       },
       containedPrimary: {
         '&:hover': {
-          background:
-            'linear-gradient(0deg, rgba(18, 18, 18, 0.3), rgba(18, 18, 18, 0.3)), #FFB84D',
+          background: 'linear-gradient(0deg, rgba(18, 18, 18, 0.3), rgba(18, 18, 18, 0.3)), #FFB84D',
           boxShadow:
             '1px 1px 10px 5px rgba(0, 0, 0, 0.2), 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12)',
         },

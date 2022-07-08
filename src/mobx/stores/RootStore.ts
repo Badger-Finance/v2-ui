@@ -1,9 +1,4 @@
-import {
-  BadgerAPI,
-  BadgerSDK,
-  getNetworkConfig,
-  SDKProvider,
-} from '@badger-dao/sdk';
+import { BadgerAPI, BadgerSDK, getNetworkConfig, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import routes from 'config/routes';
 import { action, makeObservable, observable } from 'mobx';
@@ -111,11 +106,7 @@ export class RootStore {
 
     this.tree.reset();
 
-    const refreshData = [
-      this.network.updateGasPrices(),
-      this.vaults.refresh(),
-      this.prices.loadPrices(),
-    ];
+    const refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
     await Promise.all(refreshData);
   }

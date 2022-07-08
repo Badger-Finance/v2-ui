@@ -15,12 +15,8 @@ import { checkSnapshot } from '../utils/snapshots';
 
 describe('VaultSearchControl', () => {
   beforeEach(() => {
-    jest
-      .spyOn(VaultStore.prototype, 'vaultsProtocols', 'get')
-      .mockReturnValue([Protocol.Convex, Protocol.Curve]);
-    jest
-      .spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get')
-      .mockReturnValue(true);
+    jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
+    jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
     config.disabled = true;
   });
 
@@ -71,9 +67,7 @@ describe('VaultSearchControl', () => {
           name: Protocol.Curve,
         }),
       );
-      expect(screen.getByTestId('platform-selector-input')).toHaveValue(
-        Protocol.Convex + ',' + Protocol.Curve,
-      );
+      expect(screen.getByTestId('platform-selector-input')).toHaveValue(Protocol.Convex + ',' + Protocol.Curve);
     });
 
     it('can select status', () => {

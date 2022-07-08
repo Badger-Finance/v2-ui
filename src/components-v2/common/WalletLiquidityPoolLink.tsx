@@ -20,12 +20,7 @@ interface Props {
 const WalletLiquidityPoolLink = ({ name, link }: Props): JSX.Element => {
   const classes = useStyles();
   return (
-    <Link
-      className={classes.link}
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <Link className={classes.link} href={link} target="_blank" rel="noopener noreferrer">
       <Typography variant="inherit" className={classes.linkText}>
         {name}
       </Typography>

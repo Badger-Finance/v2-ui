@@ -22,9 +22,7 @@ interface NumericInputProps {
     type: HTMLInputElement['type'];
     style: CSSProperties;
   };
-  onValidChange: (
-    onChange: ChangeHandler,
-  ) => (event: ChangeEvent<{ value: unknown }>) => void;
+  onValidChange: (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => void;
 }
 
 function isValidChange(input: string): boolean {
@@ -40,15 +38,14 @@ function isValidChange(input: string): boolean {
  * @return {NumericInputProps} input props
  */
 export const useNumericInput = (styles?: CSSProperties): NumericInputProps => {
-  const onValidChange =
-    (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => {
-      // replace commas with periods
-      const input = (event.target.value as string).replace(/,/g, '.');
+  const onValidChange = (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => {
+    // replace commas with periods
+    const input = (event.target.value as string).replace(/,/g, '.');
 
-      if (input === '' || isValidChange(input)) {
-        onChange(input);
-      }
-    };
+    if (input === '' || isValidChange(input)) {
+      onChange(input);
+    }
+  };
 
   return {
     inputProps: {

@@ -20,21 +20,9 @@ export const NavbarInfoRow = (): JSX.Element => {
   const classes = useStyles();
   return (
     <Grid container alignItems="center" justifyContent="space-between">
-      <Grid
-        item
-        container
-        xs={9}
-        md={8}
-        lg={9}
-        alignItems="center"
-        onClick={() => window.open('https://badger.com')}
-      >
+      <Grid item container xs={9} md={8} lg={9} alignItems="center" onClick={() => window.open('https://badger.com')}>
         <Grid item className={classes.badgerIconContainer}>
-          <img
-            className={classes.badgerIcon}
-            alt="Badger Logo"
-            src={'/assets/icons/badger_head.svg'}
-          />
+          <img className={classes.badgerIcon} alt="Badger Logo" src={'/assets/icons/badger_head.svg'} />
         </Grid>
         <Grid item xs>
           <NavbarStats />

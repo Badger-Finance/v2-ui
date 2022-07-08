@@ -68,15 +68,10 @@ export class TreeStore {
       // Caculate user claimable
       try {
         const { tokens, cumulativeAmounts } = this.claimProof;
-        const claimedFor = await sdk.rewards.badgerTree.getClaimedFor(
-          address,
-          tokens,
-        );
+        const claimedFor = await sdk.rewards.badgerTree.getClaimedFor(address, tokens);
         const claimedAmounts = claimedFor[1];
 
-        const claimCumulativeAmounts = cumulativeAmounts
-          .slice()
-          .map((a) => BigNumber.from(a));
+        const claimCumulativeAmounts = cumulativeAmounts.slice().map((a) => BigNumber.from(a));
         // handle rewards team bad proof amounts...
         for (let i = 0; i < claimedAmounts.length; i++) {
           const claimed = claimedAmounts[i];
@@ -86,11 +81,7 @@ export class TreeStore {
           }
         }
 
-        const claimableFor = await sdk.rewards.badgerTree.getClaimableFor(
-          address,
-          tokens,
-          claimCumulativeAmounts,
-        );
+        const claimableFor = await sdk.rewards.badgerTree.getClaimableFor(address, tokens, claimCumulativeAmounts);
 
         const claimableTokens = claimableFor[0];
         const claimableAmounts = claimableFor[1];
@@ -100,11 +91,7 @@ export class TreeStore {
           const token = tokenInformation[claimableTokens[i]];
           const amount = claimableAmounts[i];
           const price = prices.getPrice(token.address);
-          this.claimable[token.address] = new TokenBalance(
-            token,
-            amount,
-            price,
-          );
+          this.claimable[token.address] = new TokenBalance(token, amount, price);
         }
       } catch (err) {
         console.error({
@@ -127,13 +114,10 @@ export class TreeStore {
 
   async reportInvalidCycle() {
     const { network } = this.store.network;
-    const webhookUrl =
-      process.env.REACT_APP_FRONTEND_ALERTS_DISCORD_WEBHOOK_URL;
+    const webhookUrl = process.env.REACT_APP_FRONTEND_ALERTS_DISCORD_WEBHOOK_URL;
 
     if (!webhookUrl) {
-      console.error(
-        'Error: No Discord alerts webhook url was found in the environment',
-      );
+      console.error('Error: No Discord alerts webhook url was found in the environment');
       return;
     }
 
@@ -151,8 +135,7 @@ export class TreeStore {
               title: 'Invalid Cycle Detected',
               color: 16721408,
               content: '<@&804147406043086850>',
-              description:
-                'An invalid cycle has been detected during rewards claiming.',
+              description: 'An invalid cycle has been detected during rewards claiming.',
               timestamp: new Date(),
               fields: [
                 {

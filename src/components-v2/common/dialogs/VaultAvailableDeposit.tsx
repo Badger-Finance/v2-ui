@@ -31,20 +31,15 @@ export interface DepositLimitProps {
   vaultCapInfo: VaultCap;
 }
 
-export const VaultAvailableDeposit = (
-  props: DepositLimitProps,
-): JSX.Element | null => {
+export const VaultAvailableDeposit = (props: DepositLimitProps): JSX.Element | null => {
   const displayDecimals = 4;
   const classes = useStyles();
   const { vaultCapInfo } = props;
   if (!vaultCapInfo) {
     return null;
   }
-  const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } =
-    vaultCapInfo;
-  const displayUserCap = vaultCap.tokenBalance.lte(userCap.tokenBalance)
-    ? vaultCap
-    : userCap;
+  const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } = vaultCapInfo;
+  const displayUserCap = vaultCap.tokenBalance.lte(userCap.tokenBalance) ? vaultCap : userCap;
   const isMaxUserCap = totalUserCap.tokenBalance.eq(MAX);
   const isMaxTotalCap = vaultCap.tokenBalance.eq(MAX);
 
@@ -59,15 +54,10 @@ export const VaultAvailableDeposit = (
           <Typography align="center" variant="body2" color="textSecondary">
             User Deposit Limit Remaining:{' '}
           </Typography>
-          <Typography
-            align="center"
-            variant="body2"
-            color="textSecondary"
-            component="div"
-          >
-            {`${displayUserCap.balanceDisplay(
+          <Typography align="center" variant="body2" color="textSecondary" component="div">
+            {`${displayUserCap.balanceDisplay(displayDecimals)} / ${totalUserCap.balanceDisplay(
               displayDecimals,
-            )} / ${totalUserCap.balanceDisplay(displayDecimals)} ${asset}`}
+            )} ${asset}`}
           </Typography>
         </div>
       )}
@@ -76,15 +66,8 @@ export const VaultAvailableDeposit = (
           <Typography align="center" variant="body2" color="textSecondary">
             Total Deposit Limit Remaining:{' '}
           </Typography>
-          <Typography
-            align="center"
-            variant="body2"
-            color="textSecondary"
-            component="div"
-          >
-            {`${vaultCap.balanceDisplay(
-              displayDecimals,
-            )} / ${totalVaultCap.balanceDisplay(displayDecimals)} ${asset}`}
+          <Typography align="center" variant="body2" color="textSecondary" component="div">
+            {`${vaultCap.balanceDisplay(displayDecimals)} / ${totalVaultCap.balanceDisplay(displayDecimals)} ${asset}`}
           </Typography>
         </div>
       )}

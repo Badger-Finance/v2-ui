@@ -13,19 +13,9 @@ import type {
   Signer,
   utils,
 } from 'ethers';
-import type {
-  FunctionFragment,
-  Result,
-  EventFragment,
-} from '@ethersproject/abi';
+import type { FunctionFragment, Result, EventFragment } from '@ethersproject/abi';
 import type { Listener, Provider } from '@ethersproject/providers';
-import type {
-  TypedEventFilter,
-  TypedEvent,
-  TypedListener,
-  OnEvent,
-  PromiseOrValue,
-} from './common';
+import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent, PromiseOrValue } from './common';
 
 export interface IbbtcVaultZapInterface extends utils.Interface {
   functions: {
@@ -81,32 +71,14 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
       | 'unpause',
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: 'CURVE_IBBTC_DEPOSIT_ZAP',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'CURVE_IBBTC_METAPOOL',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'CURVE_REN_POOL',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'CURVE_IBBTC_DEPOSIT_ZAP', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'CURVE_IBBTC_METAPOOL', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'CURVE_REN_POOL', values?: undefined): string;
   encodeFunctionData(functionFragment: 'IBBTC', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'IBBTC_VAULT',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'IBBTC_VAULT', values?: undefined): string;
   encodeFunctionData(functionFragment: 'RENBTC', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'RENCRV_TOKEN',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'RENCRV_VAULT',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'RENCRV_TOKEN', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'RENCRV_VAULT', values?: undefined): string;
   encodeFunctionData(functionFragment: 'SBTC', values?: undefined): string;
   encodeFunctionData(functionFragment: 'SETT_PEAK', values?: undefined): string;
   encodeFunctionData(functionFragment: 'WBTC', values?: undefined): string;
@@ -147,76 +119,37 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
       ],
     ],
   ): string;
-  encodeFunctionData(
-    functionFragment: 'governance',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'governance', values?: undefined): string;
   encodeFunctionData(functionFragment: 'guardian', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'initialize',
-    values: [PromiseOrValue<string>, PromiseOrValue<string>],
-  ): string;
+  encodeFunctionData(functionFragment: 'initialize', values: [PromiseOrValue<string>, PromiseOrValue<string>]): string;
   encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
   encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'setGovernance',
-    values: [PromiseOrValue<string>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'setGuardian',
-    values: [PromiseOrValue<string>],
-  ): string;
+  encodeFunctionData(functionFragment: 'setGovernance', values: [PromiseOrValue<string>]): string;
+  encodeFunctionData(functionFragment: 'setGuardian', values: [PromiseOrValue<string>]): string;
   encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
 
-  decodeFunctionResult(
-    functionFragment: 'CURVE_IBBTC_DEPOSIT_ZAP',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'CURVE_IBBTC_METAPOOL',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'CURVE_REN_POOL',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'CURVE_IBBTC_DEPOSIT_ZAP', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'CURVE_IBBTC_METAPOOL', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'CURVE_REN_POOL', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'IBBTC', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'IBBTC_VAULT',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'IBBTC_VAULT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'RENBTC', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'RENCRV_TOKEN',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'RENCRV_VAULT',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'RENCRV_TOKEN', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'RENCRV_VAULT', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'SBTC', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'SETT_PEAK', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'WBTC', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'WIBBTC', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'calcMint', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'deposit', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'expectedAmount',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'expectedAmount', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'governance', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'guardian', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'setGovernance',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'setGuardian',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'setGovernance', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setGuardian', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result;
 
   events: {
@@ -235,24 +168,16 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
 export interface GovernanceUpdatedEventObject {
   newGovernanceAddress: string;
 }
-export type GovernanceUpdatedEvent = TypedEvent<
-  [string],
-  GovernanceUpdatedEventObject
->;
+export type GovernanceUpdatedEvent = TypedEvent<[string], GovernanceUpdatedEventObject>;
 
-export type GovernanceUpdatedEventFilter =
-  TypedEventFilter<GovernanceUpdatedEvent>;
+export type GovernanceUpdatedEventFilter = TypedEventFilter<GovernanceUpdatedEvent>;
 
 export interface GuardianshipTransferredEventObject {
   newGuardianAddress: string;
 }
-export type GuardianshipTransferredEvent = TypedEvent<
-  [string],
-  GuardianshipTransferredEventObject
->;
+export type GuardianshipTransferredEvent = TypedEvent<[string], GuardianshipTransferredEventObject>;
 
-export type GuardianshipTransferredEventFilter =
-  TypedEventFilter<GuardianshipTransferredEvent>;
+export type GuardianshipTransferredEventFilter = TypedEventFilter<GuardianshipTransferredEvent>;
 
 export interface PausedEventObject {
   account: string;
@@ -281,13 +206,9 @@ export interface IbbtcVaultZap extends BaseContract {
     toBlock?: string | number | undefined,
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>,
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>,
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -362,9 +283,7 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
-    pause(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    pause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
@@ -378,9 +297,7 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
-    unpause(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    unpause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
   };
 
   CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<string>;
@@ -450,9 +367,7 @@ export interface IbbtcVaultZap extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
-  pause(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  pause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
@@ -466,9 +381,7 @@ export interface IbbtcVaultZap extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
-  unpause(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  unpause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
   callStatic: {
     CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<string>;
@@ -542,33 +455,21 @@ export interface IbbtcVaultZap extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    setGovernance(
-      _governance: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    setGovernance(_governance: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
 
-    setGuardian(
-      _guardian: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    setGuardian(_guardian: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
 
     unpause(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
-    'GovernanceUpdated(address)'(
-      newGovernanceAddress?: PromiseOrValue<string> | null,
-    ): GovernanceUpdatedEventFilter;
-    GovernanceUpdated(
-      newGovernanceAddress?: PromiseOrValue<string> | null,
-    ): GovernanceUpdatedEventFilter;
+    'GovernanceUpdated(address)'(newGovernanceAddress?: PromiseOrValue<string> | null): GovernanceUpdatedEventFilter;
+    GovernanceUpdated(newGovernanceAddress?: PromiseOrValue<string> | null): GovernanceUpdatedEventFilter;
 
     'GuardianshipTransferred(address)'(
       newGuardianAddress?: PromiseOrValue<string> | null,
     ): GuardianshipTransferredEventFilter;
-    GuardianshipTransferred(
-      newGuardianAddress?: PromiseOrValue<string> | null,
-    ): GuardianshipTransferredEventFilter;
+    GuardianshipTransferred(newGuardianAddress?: PromiseOrValue<string> | null): GuardianshipTransferredEventFilter;
 
     'Paused(address)'(account?: null): PausedEventFilter;
     Paused(account?: null): PausedEventFilter;
@@ -645,9 +546,7 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
-    pause(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    pause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -661,19 +560,13 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
-    unpause(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    unpause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    CURVE_IBBTC_DEPOSIT_ZAP(
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    CURVE_IBBTC_DEPOSIT_ZAP(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    CURVE_IBBTC_METAPOOL(
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    CURVE_IBBTC_METAPOOL(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     CURVE_REN_POOL(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -738,9 +631,7 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
-    pause(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    pause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -754,8 +645,6 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
-    unpause(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    unpause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
   };
 }

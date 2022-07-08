@@ -10,17 +10,8 @@ type TokenListProps = {
   onTokenSelect: (token: TokenBalance) => void;
 };
 
-export const OptionTokens = ({
-  balances,
-  selected,
-  onTokenSelect,
-}: TokenListProps): JSX.Element => (
-  <Select
-    aria-label="token options"
-    variant="outlined"
-    color="primary"
-    value={selected.token.address}
-  >
+export const OptionTokens = ({ balances, selected, onTokenSelect }: TokenListProps): JSX.Element => (
+  <Select aria-label="token options" variant="outlined" color="primary" value={selected.token.address}>
     {balances.map((balance) => (
       <MenuItem
         aria-label={balance.token.symbol}

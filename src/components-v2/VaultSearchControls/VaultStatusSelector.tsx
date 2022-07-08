@@ -1,13 +1,5 @@
 import { VaultState } from '@badger-dao/sdk';
-import {
-  Checkbox,
-  FormControl,
-  InputLabel,
-  ListItemText,
-  makeStyles,
-  MenuItem,
-  Select,
-} from '@material-ui/core';
+import { Checkbox, FormControl, InputLabel, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -25,10 +17,7 @@ interface Props {
   onChange: (statuses: VaultState[]) => void;
 }
 
-const VaultStatusSelector = ({
-  statuses = [],
-  onChange,
-}: Props): JSX.Element => {
+const VaultStatusSelector = ({ statuses = [], onChange }: Props): JSX.Element => {
   const classes = useStyles();
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -36,11 +25,7 @@ const VaultStatusSelector = ({
   };
 
   return (
-    <FormControl
-      variant="outlined"
-      className={classes.formControl}
-      color="primary"
-    >
+    <FormControl variant="outlined" className={classes.formControl} color="primary">
       <InputLabel id="status-selector-id-label">Status</InputLabel>
       <Select
         multiple

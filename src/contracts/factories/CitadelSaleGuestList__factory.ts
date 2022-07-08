@@ -4,10 +4,7 @@
 
 import { Contract, Signer, utils } from 'ethers';
 import type { Provider } from '@ethersproject/providers';
-import type {
-  CitadelSaleGuestList,
-  CitadelSaleGuestListInterface,
-} from '../CitadelSaleGuestList';
+import type { CitadelSaleGuestList, CitadelSaleGuestListInterface } from '../CitadelSaleGuestList';
 
 const _abi = [
   {
@@ -285,14 +282,7 @@ export class CitadelSaleGuestList__factory {
   static createInterface(): CitadelSaleGuestListInterface {
     return new utils.Interface(_abi) as CitadelSaleGuestListInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider,
-  ): CitadelSaleGuestList {
-    return new Contract(
-      address,
-      _abi,
-      signerOrProvider,
-    ) as CitadelSaleGuestList;
+  static connect(address: string, signerOrProvider: Signer | Provider): CitadelSaleGuestList {
+    return new Contract(address, _abi, signerOrProvider) as CitadelSaleGuestList;
   }
 }

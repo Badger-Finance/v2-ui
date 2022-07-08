@@ -23,10 +23,7 @@ export class VaultChartsStore {
    * @param vault
    * @param timeframe
    */
-  async search(
-    vault: VaultDTO,
-    timeframe: VaultChartTimeframe,
-  ): Promise<VaultSnapshot[]> {
+  async search(vault: VaultDTO, timeframe: VaultChartTimeframe): Promise<VaultSnapshot[]> {
     const vaultCache = this.cache.get(vault.underlyingToken);
 
     if (!vaultCache) {
@@ -49,10 +46,7 @@ export class VaultChartsStore {
     return timeFrameCache;
   }
 
-  private async fetchVaultChart(
-    vault: VaultDTO,
-    timeframe: VaultChartTimeframe,
-  ): Promise<VaultSnapshot[]> {
+  private async fetchVaultChart(vault: VaultDTO, timeframe: VaultChartTimeframe): Promise<VaultSnapshot[]> {
     const {
       config: { network },
     } = this.store.sdk;
@@ -67,9 +61,7 @@ export class VaultChartsStore {
     const isDayTimeFrame = timeframe === VaultChartTimeframe.Day;
 
     // if timeframe is just one day then we want the granularity to be hours
-    const granularity = isDayTimeFrame
-      ? ChartGranularity.HOUR
-      : ChartGranularity.DAY;
+    const granularity = isDayTimeFrame ? ChartGranularity.HOUR : ChartGranularity.DAY;
 
     const now = dayjs().utc(); // query until current date
     const from = dayjs(now).subtract(timeframeDays, 'days').utc();

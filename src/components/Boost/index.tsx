@@ -5,10 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-import {
-  LayoutContainer,
-  PageHeaderContainer,
-} from '../../components-v2/common/Containers';
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
 import PageHeader from '../../components-v2/common/PageHeader';
 import { Optimizer } from './Optimizer';
 
@@ -60,12 +57,7 @@ export const BoostOptimizer = observer(() => {
           className={classes.userGuide}
           severity="info"
           iconMapping={{
-            info: (
-              <BookOutlinedIcon
-                fontSize="inherit"
-                className={classes.userGuideIcon}
-              />
-            ),
+            info: <BookOutlinedIcon fontSize="inherit" className={classes.userGuideIcon} />,
           }}
         >
           Not sure where to start? Check out the

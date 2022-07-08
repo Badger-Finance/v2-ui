@@ -53,10 +53,7 @@ export const VaultActionButtons = ({
       </Grid>
       <Grid item>
         <VaultActionButton
-          className={clsx(
-            classes.button,
-            !isWithdrawDisabled && classes.withdrawActive,
-          )}
+          className={clsx(classes.button, !isWithdrawDisabled && classes.withdrawActive)}
           color="primary"
           variant="contained"
           disabled={isWithdrawDisabled}

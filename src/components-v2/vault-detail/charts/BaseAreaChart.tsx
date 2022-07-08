@@ -1,15 +1,7 @@
 import { makeStyles, useTheme } from '@material-ui/core';
 import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 import React from 'react';
-import {
-  Area,
-  AreaChart,
-  ReferenceLine,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Area, AreaChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const useStyles = makeStyles(() => ({
   chartContainer: {
@@ -92,16 +84,8 @@ const BaseAreaChart = ({
       <AreaChart data={data}>
         <defs>
           <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-            <stop
-              offset="5%"
-              stopColor={theme.palette.primary.main}
-              stopOpacity={0.5}
-            />
-            <stop
-              offset="95%"
-              stopColor={theme.palette.primary.main}
-              stopOpacity={0.05}
-            />
+            <stop offset="5%" stopColor={theme.palette.primary.main} stopOpacity={0.5} />
+            <stop offset="95%" stopColor={theme.palette.primary.main} stopOpacity={0.05} />
           </linearGradient>
         </defs>
         <XAxis
@@ -112,12 +96,7 @@ const BaseAreaChart = ({
           tick={{ fill: 'white' }}
           tickCount={Math.max(7, data.length / 3)}
         />
-        <YAxis
-          type="number"
-          domain={['auto', 'auto']}
-          tickFormatter={yFormatter}
-          tick={{ fill: 'white' }}
-        />
+        <YAxis type="number" domain={['auto', 'auto']} tickFormatter={yFormatter} tick={{ fill: 'white' }} />
         <Tooltip
           content={customTooltip}
           formatter={formatTooltip}
@@ -154,13 +133,7 @@ const BaseAreaChart = ({
               strokeDasharray="3 3"
             />
           ))}
-        <Area
-          type="monotone"
-          dataKey="y"
-          stroke={theme.palette.primary.main}
-          fillOpacity={1}
-          fill="url(#gradient)"
-        />
+        <Area type="monotone" dataKey="y" stroke={theme.palette.primary.main} fillOpacity={1} fill="url(#gradient)" />
       </AreaChart>
     </ResponsiveContainer>
   );

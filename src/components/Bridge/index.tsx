@@ -1,18 +1,8 @@
-import {
-  Grid,
-  Link,
-  List,
-  makeStyles,
-  Paper,
-  Typography,
-} from '@material-ui/core';
+import { Grid, Link, List, makeStyles, Paper, Typography } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
 import React from 'react';
 
-import {
-  LayoutContainer,
-  PageHeaderContainer,
-} from '../../components-v2/common/Containers';
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
   guideContainer: {
@@ -46,8 +36,7 @@ const BridgeList = () => {
           <PageHeader title="Bridges" subtitle="Move BTC Between Chains" />
         </PageHeaderContainer>
         <Typography className={classes.bridgeInfo}>
-          The Badger Bridge is under maintenance. You can use the below bridges
-          to move BTC to and from EVM chains.
+          The Badger Bridge is under maintenance. You can use the below bridges to move BTC to and from EVM chains.
         </Typography>
         <Grid item xs={8}>
           <Paper className={classes.guideContainer}>
@@ -65,9 +54,8 @@ const BridgeList = () => {
                   </Link>
                 </Grid>
                 <Grid item xs={9} md={10} className={classes.bridgeDescription}>
-                  Crosschain exchange built on top of renVM and zeroP2P enabling
-                  gasless bridging to and from many other assets. More
-                  information available at{' '}
+                  Crosschain exchange built on top of renVM and zeroP2P enabling gasless bridging to and from many other
+                  assets. More information available at{' '}
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
@@ -93,8 +81,7 @@ const BridgeList = () => {
                   </Link>
                 </Grid>
                 <Grid item xs={9} md={10}>
-                  Ren Bridge is a simple bridge for moving renBTC to and from
-                  the BTC blockchain.
+                  Ren Bridge is a simple bridge for moving renBTC to and from the BTC blockchain.
                 </Grid>
               </Grid>
             </List>

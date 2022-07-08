@@ -1,13 +1,5 @@
 import { Network } from '@badger-dao/sdk';
-import {
-  Card,
-  Container,
-  Grid,
-  Link,
-  Paper,
-  Tab,
-  Tabs,
-} from '@material-ui/core';
+import { Card, Container, Grid, Link, Paper, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -81,21 +73,13 @@ export const IbBTC = observer(() => {
 
   return (
     <LayoutContainer>
-      <Grid
-        container
-        spacing={1}
-        justifyContent="center"
-        className={classes.pageContainer}
-      >
+      <Grid container spacing={1} justifyContent="center" className={classes.pageContainer}>
         {network.symbol === Network.Ethereum ? (
           <div className={classes.mintContainer}>
             <Grid item xs={12} md={9} lg={7}>
               <Paper className={classes.wrapGuide}>
                 <div className={classes.guideContainer}>
-                  <WrapTextIcon
-                    fontSize="inherit"
-                    className={classes.wrapGuideIcon}
-                  />
+                  <WrapTextIcon fontSize="inherit" className={classes.wrapGuideIcon} />
                   <span>
                     Wrap your ibBTC to deposit into Curve. Read our{' '}
                     <Link
@@ -108,10 +92,7 @@ export const IbBTC = observer(() => {
                 </div>
                 <span>
                   View the{' '}
-                  <Link
-                    href="https://wrap.badger.com"
-                    className={classes.wrapGuideLink}
-                  >
+                  <Link href="https://wrap.badger.com" className={classes.wrapGuideLink}>
                     Badger ibBTC Wrapper
                   </Link>
                 </span>
@@ -127,16 +108,8 @@ export const IbBTC = observer(() => {
                   indicatorColor="primary"
                   value={activeTab}
                 >
-                  <Tab
-                    onClick={() => setActiveTab('Mint')}
-                    value={'Mint'}
-                    label={'Mint'}
-                  />
-                  <Tab
-                    onClick={() => setActiveTab('Redeem')}
-                    value={'Redeem'}
-                    label={'Redeem'}
-                  />
+                  <Tab onClick={() => setActiveTab('Mint')} value={'Mint'} label={'Mint'} />
+                  <Tab onClick={() => setActiveTab('Redeem')} value={'Redeem'} label={'Redeem'} />
                 </Tabs>
                 {content}
               </Card>

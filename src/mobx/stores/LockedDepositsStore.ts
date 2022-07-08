@@ -13,10 +13,7 @@ type LockedDepositBalancesMap = Map<string, TokenBalance>;
 
 class LockedDepositsStore {
   private readonly store: RootStore;
-  private networksLockedDeposits = new Map<
-    Network['id'],
-    LockedDepositBalancesMap
-  >();
+  private networksLockedDeposits = new Map<Network['id'], LockedDepositBalancesMap>();
 
   constructor(store: RootStore) {
     this.store = store;
@@ -27,9 +24,7 @@ class LockedDepositsStore {
   }
 
   getLockedDepositBalances(address: string): TokenBalance | undefined {
-    return this.networksLockedDeposits
-      .get(this.store.network.network.id)
-      ?.get(ethers.utils.getAddress(address));
+    return this.networksLockedDeposits.get(this.store.network.network.id)?.get(ethers.utils.getAddress(address));
   }
 
   async loadLockedBalances(): Promise<void> {
@@ -44,9 +39,7 @@ class LockedDepositsStore {
       return;
     }
 
-    const balances = await Promise.all(
-      tokens.map(this.getLockedDepositBalance),
-    );
+    const balances = await Promise.all(tokens.map(this.getLockedDepositBalance));
     this.networksLockedDeposits.set(network.id, new Map(balances.flat()));
   }
 
@@ -65,37 +58,18 @@ class LockedDepositsStore {
     }
 
     const token = this.store.vaults.getToken(underlyingTokenAddress);
-    const tokenContract = Erc20__factory.connect(
-      underlyingTokenAddress,
-      provider,
-    );
-    const voteLockedDepositContract = VoteLockedDeposit__factory.connect(
-      lockingContractAddress,
-      provider,
-    );
+    const tokenContract = Erc20__factory.connect(underlyingTokenAddress, provider);
+    const voteLockedDepositContract = VoteLockedDeposit__factory.connect(lockingContractAddress, provider);
 
-    const [
-      vaultBalance,
-      strategyBalance,
-      totalTokenBalanceStrategy,
-      lockedTokenBalanceStrategy,
-    ] = await Promise.all([
+    const [vaultBalance, strategyBalance, totalTokenBalanceStrategy, lockedTokenBalanceStrategy] = await Promise.all([
       await tokenContract.balanceOf(vaultAddress),
       await tokenContract.balanceOf(strategyAddress),
       await voteLockedDepositContract.lockedBalanceOf(vaultAddress),
       await voteLockedDepositContract.balanceOf(vaultAddress),
     ]);
 
-    const balance = vaultBalance
-      .add(strategyBalance)
-      .add(totalTokenBalanceStrategy)
-      .sub(lockedTokenBalanceStrategy);
-    return [
-      [
-        ethers.utils.getAddress(underlyingTokenAddress),
-        new TokenBalance(token, balance, 0),
-      ],
-    ];
+    const balance = vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy);
+    return [[ethers.utils.getAddress(underlyingTokenAddress), new TokenBalance(token, balance, 0)]];
   };
 }
 

@@ -1,12 +1,4 @@
-import {
-  Grid,
-  IconButton,
-  makeStyles,
-  Paper,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { Grid, IconButton, makeStyles, Paper, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import clsx from 'clsx';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -142,14 +134,7 @@ const VaultListHeader = observer((): JSX.Element => {
     <Grid item container className={classes.root} component={Paper}>
       <Grid container spacing={2}>
         <Grid item xs="auto" className={classes.spacingItem} />
-        <Grid
-          item
-          xs
-          lg={4}
-          container
-          alignItems="center"
-          className={clsx(classes.title, classes.columnTitle)}
-        >
+        <Grid item xs lg={4} container alignItems="center" className={clsx(classes.title, classes.columnTitle)}>
           <Typography
             className={classes.title}
             variant="body2"
@@ -158,39 +143,22 @@ const VaultListHeader = observer((): JSX.Element => {
           >
             Vault
           </Typography>
-          {sortOrder !== VaultSortOrder.NAME_ASC &&
-            sortOrder !== VaultSortOrder.NAME_DESC && (
-              <IconButton
-                className={clsx(classes.sortIcon, classes.nonSetSort)}
-                onClick={handleSortByName}
-                aria-label="sort descending by name"
-              >
-                <img
-                  src="/assets/icons/vaults-sort-icon.svg"
-                  alt="sort-icon"
-                  className={classes.sortIcon}
-                />
-              </IconButton>
-            )}
-          {sortOrder === VaultSortOrder.NAME_DESC && (
+          {sortOrder !== VaultSortOrder.NAME_ASC && sortOrder !== VaultSortOrder.NAME_DESC && (
             <IconButton
-              className={classes.sortIcon}
+              className={clsx(classes.sortIcon, classes.nonSetSort)}
               onClick={handleSortByName}
-              aria-label="sort ascending by name"
+              aria-label="sort descending by name"
             >
-              <img
-                src="/assets/icons/vaults-sort-icon.svg"
-                alt="sort-icon"
-                className={classes.sortIcon}
-              />
+              <img src="/assets/icons/vaults-sort-icon.svg" alt="sort-icon" className={classes.sortIcon} />
+            </IconButton>
+          )}
+          {sortOrder === VaultSortOrder.NAME_DESC && (
+            <IconButton className={classes.sortIcon} onClick={handleSortByName} aria-label="sort ascending by name">
+              <img src="/assets/icons/vaults-sort-icon.svg" alt="sort-icon" className={classes.sortIcon} />
             </IconButton>
           )}
           {sortOrder === VaultSortOrder.NAME_ASC && (
-            <IconButton
-              className={classes.sortIcon}
-              onClick={handleSortByName}
-              aria-label="reset sort by name"
-            >
+            <IconButton className={classes.sortIcon} onClick={handleSortByName} aria-label="reset sort by name">
               <img
                 src="/assets/icons/vaults-sort-icon.svg"
                 className={clsx(classes.sortUp, classes.sortIcon)}
@@ -207,46 +175,25 @@ const VaultListHeader = observer((): JSX.Element => {
           justifyContent={isMobile ? undefined : 'flex-end'}
           className={clsx(classes.title, classes.columnTitle)}
         >
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            onClick={isMobile ? handleSortByApr : undefined}
-          >
+          <Typography variant="body2" color="textSecondary" onClick={isMobile ? handleSortByApr : undefined}>
             {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
           </Typography>
-          {sortOrder !== VaultSortOrder.APR_ASC &&
-            sortOrder !== VaultSortOrder.APR_DESC && (
-              <IconButton
-                className={clsx(classes.sortIcon, classes.nonSetSort)}
-                onClick={handleSortByApr}
-                aria-label="sort descending by APR"
-              >
-                <img
-                  src="/assets/icons/vaults-sort-icon.svg"
-                  alt="sort-icon"
-                  className={classes.sortIcon}
-                />
-              </IconButton>
-            )}
-          {sortOrder === VaultSortOrder.APR_DESC && (
+          {sortOrder !== VaultSortOrder.APR_ASC && sortOrder !== VaultSortOrder.APR_DESC && (
             <IconButton
-              className={classes.sortIcon}
+              className={clsx(classes.sortIcon, classes.nonSetSort)}
               onClick={handleSortByApr}
-              aria-label="sort ascending by APR"
+              aria-label="sort descending by APR"
             >
-              <img
-                src="/assets/icons/vaults-sort-icon.svg"
-                alt="sort-icon"
-                className={classes.sortIcon}
-              />
+              <img src="/assets/icons/vaults-sort-icon.svg" alt="sort-icon" className={classes.sortIcon} />
+            </IconButton>
+          )}
+          {sortOrder === VaultSortOrder.APR_DESC && (
+            <IconButton className={classes.sortIcon} onClick={handleSortByApr} aria-label="sort ascending by APR">
+              <img src="/assets/icons/vaults-sort-icon.svg" alt="sort-icon" className={classes.sortIcon} />
             </IconButton>
           )}
           {sortOrder === VaultSortOrder.APR_ASC && (
-            <IconButton
-              className={classes.sortIcon}
-              onClick={handleSortByApr}
-              aria-label="reset sort by APR"
-            >
+            <IconButton className={classes.sortIcon} onClick={handleSortByApr} aria-label="reset sort by APR">
               <img
                 src="/assets/icons/vaults-sort-icon.svg"
                 className={clsx(classes.sortUp, classes.sortIcon)}
@@ -263,46 +210,29 @@ const VaultListHeader = observer((): JSX.Element => {
           justifyContent={isMobile ? undefined : 'flex-end'}
           className={clsx(classes.title, classes.columnTitle)}
         >
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            onClick={isMobile ? handleSortByBalance : undefined}
-          >
+          <Typography variant="body2" color="textSecondary" onClick={isMobile ? handleSortByBalance : undefined}>
             My Deposits
           </Typography>
-          {sortOrder !== VaultSortOrder.BALANCE_ASC &&
-            sortOrder !== VaultSortOrder.BALANCE_DESC && (
-              <IconButton
-                className={clsx(classes.sortIcon, classes.nonSetSort)}
-                onClick={handleSortByBalance}
-                aria-label="sort descending by balance"
-              >
-                <img
-                  src="/assets/icons/vaults-sort-icon.svg"
-                  alt="sort-icon"
-                  className={classes.sortIcon}
-                />
-              </IconButton>
-            )}
+          {sortOrder !== VaultSortOrder.BALANCE_ASC && sortOrder !== VaultSortOrder.BALANCE_DESC && (
+            <IconButton
+              className={clsx(classes.sortIcon, classes.nonSetSort)}
+              onClick={handleSortByBalance}
+              aria-label="sort descending by balance"
+            >
+              <img src="/assets/icons/vaults-sort-icon.svg" alt="sort-icon" className={classes.sortIcon} />
+            </IconButton>
+          )}
           {sortOrder === VaultSortOrder.BALANCE_DESC && (
             <IconButton
               className={classes.sortIcon}
               onClick={handleSortByBalance}
               aria-label="sort ascending by balance"
             >
-              <img
-                src="/assets/icons/vaults-sort-icon.svg"
-                alt="sort-icon"
-                className={classes.sortIcon}
-              />
+              <img src="/assets/icons/vaults-sort-icon.svg" alt="sort-icon" className={classes.sortIcon} />
             </IconButton>
           )}
           {sortOrder === VaultSortOrder.BALANCE_ASC && (
-            <IconButton
-              className={classes.sortIcon}
-              onClick={handleSortByBalance}
-              aria-label="reset sort by balance"
-            >
+            <IconButton className={classes.sortIcon} onClick={handleSortByBalance} aria-label="reset sort by balance">
               <img
                 src="/assets/icons/vaults-sort-icon.svg"
                 className={clsx(classes.sortUp, classes.sortIcon)}
@@ -317,48 +247,27 @@ const VaultListHeader = observer((): JSX.Element => {
           xs
           justifyContent={isMobile ? undefined : 'flex-end'}
           alignItems="center"
-          className={clsx(
-            classes.title,
-            classes.columnTitle,
-            classes.tvlColumn,
-          )}
+          className={clsx(classes.title, classes.columnTitle, classes.tvlColumn)}
         >
           <Typography variant="body2" color="textSecondary">
             TVL
           </Typography>
-          {sortOrder !== VaultSortOrder.TVL_ASC &&
-            sortOrder !== VaultSortOrder.TVL_DESC && (
-              <IconButton
-                className={clsx(classes.sortIcon, classes.nonSetSort)}
-                onClick={handleSortByTvl}
-                aria-label="sort descending by TVL"
-              >
-                <img
-                  src="/assets/icons/vaults-sort-icon.svg"
-                  alt="sort-icon"
-                  className={classes.sortIcon}
-                />
-              </IconButton>
-            )}
-          {sortOrder === VaultSortOrder.TVL_DESC && (
+          {sortOrder !== VaultSortOrder.TVL_ASC && sortOrder !== VaultSortOrder.TVL_DESC && (
             <IconButton
-              className={classes.sortIcon}
+              className={clsx(classes.sortIcon, classes.nonSetSort)}
               onClick={handleSortByTvl}
-              aria-label="sort ascending by TVL"
+              aria-label="sort descending by TVL"
             >
-              <img
-                src="/assets/icons/vaults-sort-icon.svg"
-                alt="sort-icon"
-                className={classes.sortIcon}
-              />
+              <img src="/assets/icons/vaults-sort-icon.svg" alt="sort-icon" className={classes.sortIcon} />
+            </IconButton>
+          )}
+          {sortOrder === VaultSortOrder.TVL_DESC && (
+            <IconButton className={classes.sortIcon} onClick={handleSortByTvl} aria-label="sort ascending by TVL">
+              <img src="/assets/icons/vaults-sort-icon.svg" alt="sort-icon" className={classes.sortIcon} />
             </IconButton>
           )}
           {sortOrder === VaultSortOrder.TVL_ASC && (
-            <IconButton
-              className={classes.sortIcon}
-              onClick={handleSortByTvl}
-              aria-label="reset sort by TVL"
-            >
+            <IconButton className={classes.sortIcon} onClick={handleSortByTvl} aria-label="reset sort by TVL">
               <img
                 src="/assets/icons/vaults-sort-icon.svg"
                 className={clsx(classes.sortUp, classes.sortIcon)}

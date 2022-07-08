@@ -21,21 +21,13 @@ export class TokenBalance {
     return new TokenBalance(token, amount, price);
   }
 
-  static fromBalance(
-    tokenBalance: TokenBalance,
-    balance: number,
-  ): TokenBalance {
+  static fromBalance(tokenBalance: TokenBalance, balance: number): TokenBalance {
     const { token, price } = tokenBalance;
-    const amount = BigNumber.from(
-      (Math.pow(10, token.decimals) * balance).toString(),
-    );
+    const amount = BigNumber.from((Math.pow(10, token.decimals) * balance).toString());
     return new TokenBalance(token, amount, price);
   }
 
-  static fromBigNumber(
-    tokenBalance: TokenBalance,
-    balance: BigNumber,
-  ): TokenBalance {
+  static fromBigNumber(tokenBalance: TokenBalance, balance: BigNumber): TokenBalance {
     const { token, price } = tokenBalance;
     return new TokenBalance(token, balance, price);
   }
@@ -63,10 +55,7 @@ export class TokenBalance {
       return `< 0.${'0'.repeat(decimals - 1)}1`;
     }
 
-    const result = ethers.utils.formatUnits(
-      this.tokenBalance,
-      this.token.decimals,
-    );
+    const result = ethers.utils.formatUnits(this.tokenBalance, this.token.decimals);
     return Number(result).toString();
   }
 

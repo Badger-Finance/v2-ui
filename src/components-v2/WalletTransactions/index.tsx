@@ -21,13 +21,7 @@ const WalletTransactions = (): JSX.Element => {
 
   return (
     <Grid container direction="column">
-      <Grid
-        item
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        className={classes.title}
-      >
+      <Grid item container justifyContent="space-between" alignItems="center" className={classes.title}>
         <Typography variant="subtitle2" color="textSecondary" display="inline">
           Recent Transactions
         </Typography>

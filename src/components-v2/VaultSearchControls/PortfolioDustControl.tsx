@@ -3,11 +3,7 @@ import React from 'react';
 
 import { CheckboxControlProps } from './types';
 
-const PortfolioDustControl = ({
-  checked,
-  onChange,
-  ...muiProps
-}: CheckboxControlProps): JSX.Element => {
+const PortfolioDustControl = ({ checked, onChange, ...muiProps }: CheckboxControlProps): JSX.Element => {
   const handleDustChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);
   };
@@ -15,13 +11,7 @@ const PortfolioDustControl = ({
   return (
     <FormControlLabel
       {...muiProps}
-      control={
-        <Checkbox
-          checked={checked}
-          color="primary"
-          onChange={handleDustChange}
-        />
-      }
+      control={<Checkbox checked={checked} color="primary" onChange={handleDustChange} />}
       label={<Typography variant="body2">Hide dust</Typography>}
     />
   );

@@ -30,14 +30,8 @@ const WalletLiquidityPoolLinks = (): JSX.Element | null => {
   } = useContext(StoreContext);
   const classes = useStyles();
 
-  const badgerPools =
-    NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][
-      LiquidityPoolLinkToken.BADGER
-    ];
-  const diggPools =
-    NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][
-      LiquidityPoolLinkToken.DIGG
-    ];
+  const badgerPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][LiquidityPoolLinkToken.BADGER];
+  const diggPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][LiquidityPoolLinkToken.DIGG];
 
   if (!badgerPools && !diggPools) {
     return null;
@@ -52,16 +46,11 @@ const WalletLiquidityPoolLinks = (): JSX.Element | null => {
               Buy Badger:
             </Typography>
             <Grid container spacing={3}>
-              {(Object.keys(badgerPools) as Protocol[]).map(
-                (poolKey, index) => (
-                  <Grid item key={`badger_${poolKey}_${index}`}>
-                    <WalletLiquidityPoolLink
-                      name={poolKey}
-                      link={badgerPools[poolKey] ?? ''}
-                    />
-                  </Grid>
-                ),
-              )}
+              {(Object.keys(badgerPools) as Protocol[]).map((poolKey, index) => (
+                <Grid item key={`badger_${poolKey}_${index}`}>
+                  <WalletLiquidityPoolLink name={poolKey} link={badgerPools[poolKey] ?? ''} />
+                </Grid>
+              ))}
             </Grid>
           </Grid>
         )}
@@ -73,10 +62,7 @@ const WalletLiquidityPoolLinks = (): JSX.Element | null => {
             <Grid container spacing={3}>
               {(Object.keys(diggPools) as Protocol[]).map((poolKey, index) => (
                 <Grid item key={`digg_${poolKey}_${index}`}>
-                  <WalletLiquidityPoolLink
-                    name={poolKey}
-                    link={diggPools[poolKey] ?? ''}
-                  />
+                  <WalletLiquidityPoolLink name={poolKey} link={diggPools[poolKey] ?? ''} />
                 </Grid>
               ))}
             </Grid>

@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectProps,
-} from '@material-ui/core';
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from '@material-ui/core';
 import { SelectInputProps } from '@material-ui/core/Select/SelectInput';
 import { makeStyles } from '@material-ui/core/styles';
 import { ComponentMeta } from '@storybook/react';
@@ -72,12 +65,7 @@ export const Error = ({ color }: Props) => {
   };
 
   return (
-    <FormControl
-      variant="filled"
-      className={classes.formControl}
-      error
-      color={color}
-    >
+    <FormControl variant="filled" className={classes.formControl} error color={color}>
       <InputLabel id="demo-simple-select-filled-label">Age</InputLabel>
       <Select
         labelId="demo-simple-select-filled-label"
@@ -101,19 +89,9 @@ export const Error = ({ color }: Props) => {
 export const Disabled = ({ color }: Props) => {
   const classes = useStyles();
   return (
-    <FormControl
-      variant="filled"
-      className={classes.formControl}
-      color={color}
-      disabled
-    >
+    <FormControl variant="filled" className={classes.formControl} color={color} disabled>
       <InputLabel id="demo-simple-select-filled-disabled-label">Age</InputLabel>
-      <Select
-        labelId="demo-simple-select-filled-disabled-label"
-        id="demo-simple-select-filled"
-        value={20}
-        label="Age"
-      >
+      <Select labelId="demo-simple-select-filled-disabled-label" id="demo-simple-select-filled" value={20} label="Age">
         <MenuItem value="">
           <em>None</em>
         </MenuItem>

@@ -41,8 +41,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
   const boostMultiplier = user.accountDetails?.boost ?? 1;
   const sourceApr = source.boostable
-    ? source.minApr +
-      (source.maxApr - source.minApr) * (boostMultiplier / maxBoost)
+    ? source.minApr + (source.maxApr - source.minApr) * (boostMultiplier / maxBoost)
     : source.apr;
 
   const handleGoToCalculator = async () => {
@@ -55,9 +54,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
         <Grid item container justifyContent="space-between">
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(
-                source.maxApr.toFixed(2),
-              )}%)`}
+              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr.toFixed(2))}%)`}
             </Typography>
           </Grid>
           <Grid item>
@@ -76,17 +73,8 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
             <Typography variant="body2" display="inline" color="textSecondary">
               {`My Boost: ${boostMultiplier}x`}
             </Typography>
-            <Link
-              color="primary"
-              onClick={handleGoToCalculator}
-              className={classes.link}
-            >
-              <Typography
-                variant="body2"
-                display="inline"
-                color="inherit"
-                className={classes.calculatorLink}
-              >
+            <Link color="primary" onClick={handleGoToCalculator} className={classes.link}>
+              <Typography variant="body2" display="inline" color="inherit" className={classes.calculatorLink}>
                 Go To Boost
               </Typography>
             </Link>

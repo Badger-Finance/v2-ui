@@ -8,7 +8,7 @@ import { DelaySeverity } from '../../mobx/model/vaults/vault-rewards';
 dayjs.extend(utc);
 
 export const ChartModeTitles: Record<string, string> = {
-  [ChartMode.Value]: 'Sett Value',
+  [ChartMode.Value]: 'Vault Value',
   [ChartMode.Ratio]: 'Token Ratio',
   [ChartMode.AccountBalance]: 'My Holdings',
   [ChartMode.BoostMultiplier]: 'Badger Boost',
@@ -16,23 +16,23 @@ export const ChartModeTitles: Record<string, string> = {
 
 export const calculateDelaySeverity = (delay: number): DelaySeverity => {
   if (delay >= 4) {
-    return DelaySeverity.high;
+    return DelaySeverity.High;
   }
 
   if (delay >= 2) {
-    return DelaySeverity.medium;
+    return DelaySeverity.Medium;
   }
 
-  return DelaySeverity.none;
+  return DelaySeverity.None;
 };
 
-export const calculateDifferenceInHoursFromCycle = (
-  lastUpdateTimestamp?: number,
-): number => {
+export const calculateDifferenceInHoursFromCycle = (lastUpdateTimestamp?: number): number => {
   if (!lastUpdateTimestamp) {
     return 0;
   }
-  return Math.abs(dayjs(lastUpdateTimestamp).diff(dayjs(), 'hours'));
+  const now = Date.now() / 1000;
+  // convert second differential into hour differential
+  return Math.abs(now - lastUpdateTimestamp) / 3600;
 };
 
 export function defaultVaultBalance(vault: VaultDTO): VaultData {

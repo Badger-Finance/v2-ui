@@ -98,41 +98,26 @@ enum DepositMode {
   LiquidityToken = 'liquidity-token',
 }
 
-const IbbtcVaultDepositDialog = ({
-  open = false,
-}: VaultModalProps): JSX.Element => {
+const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element => {
   const classes = useStyles();
   const store = useContext(StoreContext);
   const { network, wallet, vaults, vaultDetail, user, sdk } = store;
 
   // lp token getters
-  const lpVault = vaults.getVault(
-    mainnetDeploy.sett_system.vaults['native.ibbtcCrv'],
-  );
-  const lpBadgerVault = network.network.vaults.find(
-    ({ vaultToken }) => vaultToken.address === lpVault?.vaultToken,
-  );
-  const userLpTokenBalance = lpBadgerVault
-    ? user.getBalance(lpBadgerVault.vaultToken.address)
-    : undefined;
+  const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
+  const lpBadgerVault = network.network.vaults.find(({ vaultToken }) => vaultToken.address === lpVault?.vaultToken);
+  const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.vaultToken.address) : undefined;
   const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
-  const settStrategy = lpBadgerVault
-    ? network.network.strategies[lpBadgerVault.vaultToken.address]
-    : undefined;
+  const settStrategy = lpBadgerVault ? network.network.strategies[lpBadgerVault.vaultToken.address] : undefined;
 
   // options
-  const [mode, setMode] = useState(
-    userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens,
-  );
+  const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
   const [depositOptions, setDepositOptions] = useState<TokenBalance[]>([]);
 
   // user inputs
   const [slippage, setSlippage] = useState(0.3);
-  const [multiTokenDepositBalances, setMultiTokenDepositBalances] = useState<
-    TokenBalance[]
-  >([]);
-  const [lpTokenDepositBalance, setLpTokenDepositBalance] =
-    useState<TokenBalance>();
+  const [multiTokenDepositBalances, setMultiTokenDepositBalances] = useState<TokenBalance[]>([]);
+  const [lpTokenDepositBalance, setLpTokenDepositBalance] = useState<TokenBalance>();
 
   // calculations
   const [slippageRevertProtected, setSlippageRevertProtected] = useState(false);
@@ -149,8 +134,7 @@ const IbbtcVaultDepositDialog = ({
   );
 
   const multiTokenDisabled = totalDeposit.isZero() || slippageRevertProtected;
-  const lpTokenDisabled =
-    !lpTokenDepositBalance || lpTokenDepositBalance.tokenBalance.isZero();
+  const lpTokenDisabled = !lpTokenDepositBalance || lpTokenDepositBalance.tokenBalance.isZero();
 
   const resetCalculatedInformation = useCallback(() => {
     setMultiTokenDepositBalances(depositOptions);
@@ -171,12 +155,7 @@ const IbbtcVaultDepositDialog = ({
 
       // TODO: FIX ME!!! THIS SHOULD NOT STILL BE THERE
       // IF YOU SKIP THIS REVIEWING YOU ARE JUST A BAD DOG AS JINTAO
-      const depositAmounts: [
-        BigNumberish,
-        BigNumberish,
-        BigNumberish,
-        BigNumberish,
-      ] = ['0', '0', '0', '0'];
+      const depositAmounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish] = ['0', '0', '0', '0'];
 
       // const [calculatedMint, expectedAmount] = await Promise.all([
       // 	ibbtcVaultPeak.calcMint(depositAmounts, false),
@@ -205,34 +184,21 @@ const IbbtcVaultDepositDialog = ({
       return;
     }
 
-    const [calculatedMint, expectedAmount] = await getCalculations(
-      multiTokenDepositBalances,
-    );
+    const [calculatedMint, expectedAmount] = await getCalculations(multiTokenDepositBalances);
     const minOut = expectedAmount.mul(1 - newSlippage / 100);
-    const calculatedSlippage = expectedAmount
-      .sub(calculatedMint)
-      .mul(100)
-      .div(expectedAmount);
+    const calculatedSlippage = expectedAmount.sub(calculatedMint).mul(100).div(expectedAmount);
 
     setSlippage(newSlippage);
     setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
-    setExpectedPoolTokens(
-      TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint),
-    );
+    setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint));
     setSlippageRevertProtected(calculatedMint.lt(minOut));
     setExpectedSlippage(calculatedSlippage);
   };
 
-  const handleDepositBalanceChange = async (
-    tokenBalance: TokenBalance,
-    index: number,
-  ) => {
+  const handleDepositBalanceChange = async (tokenBalance: TokenBalance, index: number) => {
     const balances = [...multiTokenDepositBalances];
     balances[index] = tokenBalance;
-    const totalDeposit = balances.reduce(
-      (total, balance) => total.add(balance.tokenBalance),
-      ethers.constants.Zero,
-    );
+    const totalDeposit = balances.reduce((total, balance) => total.add(balance.tokenBalance), ethers.constants.Zero);
 
     if (totalDeposit.isZero()) {
       setMultiTokenDepositBalances(balances);
@@ -245,17 +211,12 @@ const IbbtcVaultDepositDialog = ({
 
     const [calculatedMint, expectedAmount] = await getCalculations(balances);
     // formula: slippage = [(expectedAmount - calculatedMint) * 100] / expectedAmount
-    const calculatedSlippage = expectedAmount
-      .sub(calculatedMint)
-      .mul(100)
-      .div(expectedAmount);
+    const calculatedSlippage = expectedAmount.sub(calculatedMint).mul(100).div(expectedAmount);
     const minOut = expectedAmount.mul(1 - slippage / 100);
 
     if (userLpTokenBalance) {
       setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
-      setExpectedPoolTokens(
-        TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint),
-      );
+      setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint));
     }
 
     // this will protect users from submitting tx that will be reverted because of slippage
@@ -265,12 +226,7 @@ const IbbtcVaultDepositDialog = ({
   };
 
   const handleLpTokenDeposit = async () => {
-    if (
-      !lpTokenDepositBalance ||
-      !userLpTokenBalance ||
-      !lpVault ||
-      !lpBadgerVault
-    ) {
+    if (!lpTokenDepositBalance || !userLpTokenBalance || !lpVault || !lpBadgerVault) {
       return;
     }
 
@@ -281,17 +237,13 @@ const IbbtcVaultDepositDialog = ({
   };
 
   const handleMultiTokenDeposit = async () => {
-    const invalidBalance = multiTokenDepositBalances.find(
-      (depositBalance, index) => {
-        const depositOption = depositOptions[index];
-        return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
-      },
-    );
+    const invalidBalance = multiTokenDepositBalances.find((depositBalance, index) => {
+      const depositOption = depositOptions[index];
+      return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
+    });
 
     if (invalidBalance) {
-      toast.error(
-        `Insufficient ${invalidBalance.token.symbol} balance for deposit`,
-      );
+      toast.error(`Insufficient ${invalidBalance.token.symbol} balance for deposit`);
       return;
     }
 
@@ -338,9 +290,7 @@ const IbbtcVaultDepositDialog = ({
   }, [user]);
 
   useEffect(() => {
-    const lpVault = vaults.getVault(
-      mainnetDeploy.sett_system.vaults['native.ibbtcCrv'],
-    );
+    const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
     const userLpTokenBalance = user.getBalance(lpVault.vaultToken);
 
     if (userLpTokenBalance.balance === 0) {
@@ -350,18 +300,11 @@ const IbbtcVaultDepositDialog = ({
     const userHasLpTokenBalance = userLpTokenBalance.tokenBalance.gt(0);
 
     setLpTokenDepositBalance(userLpTokenBalance);
-    setMode(
-      userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens,
-    );
+    setMode(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
   }, [user, vaults, network.network.vaults]);
 
   return (
-    <Dialog
-      open={open}
-      fullWidth
-      maxWidth="xl"
-      classes={{ paperWidthXl: classes.root }}
-    >
+    <Dialog open={open} fullWidth maxWidth="xl" classes={{ paperWidthXl: classes.root }}>
       <DialogTitle className={classes.title}>
         Deposit Tokens
         <IconButton className={classes.closeButton} onClick={handleClosing}>
@@ -401,35 +344,17 @@ const IbbtcVaultDepositDialog = ({
                 onChange={(e, newMode) => handleModeChange(newMode)}
                 aria-label="wrapped label tabs example"
               >
-                <Tab
-                  className={classes.tab}
-                  value={DepositMode.Tokens}
-                  label="ibBTC, renBTC, WBTC & sBTC"
-                />
-                <Tab
-                  className={classes.tab}
-                  value={DepositMode.LiquidityToken}
-                  label="LP Token"
-                />
+                <Tab className={classes.tab} value={DepositMode.Tokens} label="ibBTC, renBTC, WBTC & sBTC" />
+                <Tab className={classes.tab} value={DepositMode.LiquidityToken} label="LP Token" />
               </Tabs>
-              <Grid
-                container
-                direction="column"
-                className={classes.inputsContainer}
-              >
+              <Grid container direction="column" className={classes.inputsContainer}>
                 {mode === DepositMode.Tokens ? (
                   <>
                     {depositOptions.map((tokenBalance, index) => (
-                      <Grid
-                        item
-                        key={`${tokenBalance.token.address}_${index}`}
-                        className={classes.inputRow}
-                      >
+                      <Grid item key={`${tokenBalance.token.address}_${index}`} className={classes.inputRow}>
                         <BalanceInput
                           tokenBalance={tokenBalance}
-                          onChange={(change) =>
-                            handleDepositBalanceChange(change, index)
-                          }
+                          onChange={(change) => handleDepositBalanceChange(change, index)}
                         />
                       </Grid>
                     ))}
@@ -444,9 +369,7 @@ const IbbtcVaultDepositDialog = ({
                       <RadioGroup
                         row
                         value={slippage}
-                        onChange={(event) =>
-                          handleSlippageChange(Number(event.target.value))
-                        }
+                        onChange={(event) => handleSlippageChange(Number(event.target.value))}
                       >
                         {[0.15, 0.3, 0.5, 1].map((slippageOption, index) => (
                           <FormControlLabel
@@ -471,57 +394,31 @@ const IbbtcVaultDepositDialog = ({
                 )}
               </Grid>
             </Grid>
-            <Grid
-              item
-              container
-              direction="column"
-              className={clsx(classes.inputRow, classes.estimations)}
-            >
+            <Grid item container direction="column" className={clsx(classes.inputRow, classes.estimations)}>
               {expectedPoolTokens && (
                 <Grid item container justifyContent="space-between">
-                  <Typography variant="body2">
-                    Expected Pool Tokens Received:
-                  </Typography>
-                  <Typography variant="body2">
-                    {expectedPoolTokens.balanceDisplay(4)}
-                  </Typography>
+                  <Typography variant="body2">Expected Pool Tokens Received:</Typography>
+                  <Typography variant="body2">{expectedPoolTokens.balanceDisplay(4)}</Typography>
                 </Grid>
               )}
               {minPoolTokens && (
                 <Grid item container justifyContent="space-between">
-                  <Typography variant="body2">
-                    Min Pool tokens Received:
-                  </Typography>
-                  <Typography variant="body2">
-                    {minPoolTokens.balanceDisplay(4)}
-                  </Typography>
+                  <Typography variant="body2">Min Pool tokens Received:</Typography>
+                  <Typography variant="body2">{minPoolTokens.balanceDisplay(4)}</Typography>
                 </Grid>
               )}
               {expectedSlippage && (
                 <Grid item>
-                  <SlippageMessage
-                    limitSlippage={slippage}
-                    calculatedSlippage={expectedSlippage}
-                  />
+                  <SlippageMessage limitSlippage={slippage} calculatedSlippage={expectedSlippage} />
                 </Grid>
               )}
             </Grid>
             {slippageRevertProtected && (
-              <Grid
-                item
-                container
-                direction="row"
-                alignItems="center"
-                className={classes.slippageProtectionContainer}
-              >
-                <Typography
-                  variant="subtitle2"
-                  className={classes.slippageProtectionMessage}
-                >
+              <Grid item container direction="row" alignItems="center" className={classes.slippageProtectionContainer}>
+                <Typography variant="subtitle2" className={classes.slippageProtectionMessage}>
                   <ReportProblem className={classes.warningIcon} />
-                  With your current slippage selection the transaction will be
-                  reverted, please adjust either slippage limit or deposit
-                  amount.
+                  With your current slippage selection the transaction will be reverted, please adjust either slippage
+                  limit or deposit amount.
                 </Typography>
               </Grid>
             )}
@@ -534,14 +431,8 @@ const IbbtcVaultDepositDialog = ({
           variant="contained"
           color="primary"
           className={classes.depositButton}
-          disabled={
-            mode === DepositMode.Tokens ? multiTokenDisabled : lpTokenDisabled
-          }
-          onClick={
-            mode === DepositMode.Tokens
-              ? handleMultiTokenDeposit
-              : handleLpTokenDeposit
-          }
+          disabled={mode === DepositMode.Tokens ? multiTokenDisabled : lpTokenDisabled}
+          onClick={mode === DepositMode.Tokens ? handleMultiTokenDeposit : handleLpTokenDeposit}
         >
           {slippageRevertProtected ? 'Slippage out of range' : 'Deposit'}
         </Button>

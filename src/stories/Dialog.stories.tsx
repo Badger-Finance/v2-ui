@@ -1,11 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-} from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogContentText, DialogTitle, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ComponentMeta } from '@storybook/react';
 import React from 'react';
@@ -32,11 +25,7 @@ export const ExtraSmall = () => {
           <Button color="primary" variant="text">
             Action
           </Button>
-          <Button
-            color="primary"
-            variant="text"
-            className={classes.rightButton}
-          >
+          <Button color="primary" variant="text" className={classes.rightButton}>
             Action
           </Button>
         </Grid>
@@ -56,11 +45,7 @@ export const Small = () => {
           <Button color="primary" variant="text">
             Action
           </Button>
-          <Button
-            color="primary"
-            variant="text"
-            className={classes.rightButton}
-          >
+          <Button color="primary" variant="text" className={classes.rightButton}>
             Action
           </Button>
         </Grid>
@@ -80,11 +65,7 @@ export const Medium = () => {
           <Button color="primary" variant="text">
             Action
           </Button>
-          <Button
-            color="primary"
-            variant="text"
-            className={classes.rightButton}
-          >
+          <Button color="primary" variant="text" className={classes.rightButton}>
             Action
           </Button>
         </Grid>
@@ -104,11 +85,7 @@ export const Large = () => {
           <Button color="primary" variant="text">
             Action
           </Button>
-          <Button
-            color="primary"
-            variant="text"
-            className={classes.rightButton}
-          >
+          <Button color="primary" variant="text" className={classes.rightButton}>
             Action
           </Button>
         </Grid>
@@ -128,11 +105,7 @@ export const ExtraLarge = () => {
           <Button color="primary" variant="text">
             Action
           </Button>
-          <Button
-            color="primary"
-            variant="text"
-            className={classes.rightButton}
-          >
+          <Button color="primary" variant="text" className={classes.rightButton}>
             Action
           </Button>
         </Grid>

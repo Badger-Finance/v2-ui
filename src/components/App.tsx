@@ -58,21 +58,13 @@ export const App = (): JSX.Element => {
   });
 
   return (
-    <div
-      className={clsx(
-        classes.rootContainer,
-        classes.flexContainer,
-        classes.columnContainer,
-      )}
-    >
+    <div className={clsx(classes.rootContainer, classes.flexContainer, classes.columnContainer)}>
       <NetworkNotification />
       <RewardsDialog />
       <div className={clsx(classes.appContainer, classes.flexContainer)}>
         <Sidebar />
         <WalletDrawer />
-        <main
-          className={clsx(classes.contentContainer, classes.columnContainer)}
-        >
+        <main className={clsx(classes.contentContainer, classes.columnContainer)}>
           <main className={classes.content}>
             {!isMobile && <Announcements />}
             <Navbar />

@@ -1,9 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  ButtonGroupProps,
-  makeStyles,
-} from '@material-ui/core';
+import { Button, ButtonGroup, ButtonGroupProps, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -21,11 +16,7 @@ interface Props extends ButtonGroupProps {
   onShowAPRChange: (showAPR: boolean) => void;
 }
 
-const VaultsAprControl = ({
-  showAPR,
-  onShowAPRChange,
-  ...muiProps
-}: Props): JSX.Element => {
+const VaultsAprControl = ({ showAPR, onShowAPRChange, ...muiProps }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (

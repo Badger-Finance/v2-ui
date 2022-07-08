@@ -36,10 +36,7 @@ export const Harvests = (): JSX.Element => {
       <StyledDivider />
       <Grid container alignItems="center">
         <Grid item container xs={7}>
-          <Typography
-            className={classes.harvestFrequency}
-            color="textSecondary"
-          >
+          <Typography className={classes.harvestFrequency} color="textSecondary">
             Harvest Frequency
           </Typography>
           <Link className={classes.infoLink}>See Sett Harvest Stats</Link>

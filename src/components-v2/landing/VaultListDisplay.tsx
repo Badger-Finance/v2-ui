@@ -1,10 +1,5 @@
 import { VaultState } from '@badger-dao/sdk';
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { Loader } from 'components/Loader';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -34,9 +29,7 @@ const VaultListDisplay = observer(() => {
   } = store;
 
   const { initialized, vaultOrder } = vaults;
-  const showDeprecated = vaults.vaultsFilters.statuses?.includes(
-    VaultState.Discontinued,
-  );
+  const showDeprecated = vaults.vaultsFilters.statuses?.includes(VaultState.Discontinued);
 
   if (!initialized) {
     return <Loader message={`Loading ${network.name} Setts...`} />;
@@ -45,9 +38,7 @@ const VaultListDisplay = observer(() => {
   if (vaultOrder === null) {
     return (
       <div className={classes.messageContainer}>
-        <Typography variant="h4">
-          There was an issue loading setts. Try refreshing.
-        </Typography>
+        <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>
       </div>
     );
   }
@@ -56,19 +47,12 @@ const VaultListDisplay = observer(() => {
     const hasNoBalance = user.getBalance(vault.vaultToken).tokenBalance.eq(0);
 
     // Hide the remBadger vault from users who do not have rembadger (this default hides the sett)
-    if (
-      vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger'] &&
-      hasNoBalance
-    ) {
+    if (vault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger'] && hasNoBalance) {
       return [];
     }
 
     // Hide deprecated vaults that the user is not deposited into
-    if (
-      !showDeprecated &&
-      vault.state === VaultState.Discontinued &&
-      hasNoBalance
-    ) {
+    if (!showDeprecated && vault.state === VaultState.Discontinued && hasNoBalance) {
       return [];
     }
 

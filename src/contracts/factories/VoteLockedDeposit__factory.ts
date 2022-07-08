@@ -4,10 +4,7 @@
 
 import { Contract, Signer, utils } from 'ethers';
 import type { Provider } from '@ethersproject/providers';
-import type {
-  VoteLockedDeposit,
-  VoteLockedDepositInterface,
-} from '../VoteLockedDeposit';
+import type { VoteLockedDeposit, VoteLockedDepositInterface } from '../VoteLockedDeposit';
 
 const _abi = [
   {
@@ -119,10 +116,7 @@ export class VoteLockedDeposit__factory {
   static createInterface(): VoteLockedDepositInterface {
     return new utils.Interface(_abi) as VoteLockedDepositInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider,
-  ): VoteLockedDeposit {
+  static connect(address: string, signerOrProvider: Signer | Provider): VoteLockedDeposit {
     return new Contract(address, _abi, signerOrProvider) as VoteLockedDeposit;
   }
 }

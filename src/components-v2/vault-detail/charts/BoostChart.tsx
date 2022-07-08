@@ -5,10 +5,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { TooltipProps } from 'recharts';
-import {
-  NameType,
-  ValueType,
-} from 'recharts/types/component/DefaultTooltipContent';
+import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
 import { MAX_BOOST } from '../../../config/system/boost-ranks';
 import { calculateUserStakeRatio } from '../../../utils/boost-ranks';
@@ -27,35 +24,32 @@ const boostCheckpoints = Array.from(Array(61)).map((_, i) => i * 50);
 
 const yScaleFormatter = format('^.2%');
 // short visual trick to just show 1 as min boost instead of 0 graph wise - there is no impact
-const xScaleFormatter = (value: number): string =>
-  value === 0 ? '1' : value.toString();
+const xScaleFormatter = (value: number): string => (value === 0 ? '1' : value.toString());
 
-const BoostTooltip = observer(
-  ({ active, payload }: TooltipProps<ValueType, NameType>) => {
-    const {
-      vaults: { vaultsFilters },
-    } = useContext(StoreContext);
-    const classes = useStyles();
+const BoostTooltip = observer(({ active, payload }: TooltipProps<ValueType, NameType>) => {
+  const {
+    vaults: { vaultsFilters },
+  } = useContext(StoreContext);
+  const classes = useStyles();
 
-    if (!active || !payload || payload.length === 0) {
-      return null;
-    }
-    const { x, y } = payload[0].payload;
-    const xValue = x === 0 ? 1 : x;
-    const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
+  if (!active || !payload || payload.length === 0) {
+    return null;
+  }
+  const { x, y } = payload[0].payload;
+  const xValue = x === 0 ? 1 : x;
+  const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
 
-    const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
-    return (
-      <div className={classes.tooltipContainer}>
-        <span>Badger Boost: {xValue}</span>
-        <span>Stake Ratio: {stakeRatio}</span>
-        <span>
-          Boosted {mode}: {yScaleFormatter(y)}
-        </span>
-      </div>
-    );
-  },
-);
+  const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
+  return (
+    <div className={classes.tooltipContainer}>
+      <span>Badger Boost: {xValue}</span>
+      <span>Stake Ratio: {stakeRatio}</span>
+      <span>
+        Boosted {mode}: {yScaleFormatter(y)}
+      </span>
+    </div>
+  );
+});
 
 interface Props {
   vault: VaultDTO;
@@ -67,8 +61,7 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
     user,
   } = useContext(StoreContext);
 
-  const { sources, apr, minApr, maxApr, maxApy, minApy, sourcesApy, apy } =
-    vault;
+  const { sources, apr, minApr, maxApr, maxApy, minApy, sourcesApy, apy } = vault;
 
   if (!minApr || !maxApr || !maxApy || !minApy) {
     return null;

@@ -1,9 +1,4 @@
-import {
-  GasFees,
-  GasPrices,
-  GasSpeed,
-  getNetworkConfig,
-} from '@badger-dao/sdk';
+import { GasFees, GasPrices, GasSpeed, getNetworkConfig } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
@@ -40,15 +35,9 @@ export class NetworkStore {
   setGasPrice(gasPrice: GasFees | number) {
     this.txGasPrice = gasPrice;
     if (typeof gasPrice === 'number') {
-      window.localStorage.setItem(
-        `${this.network.name}-selectedGasPrice`,
-        gasPrice.toString(),
-      );
+      window.localStorage.setItem(`${this.network.name}-selectedGasPrice`, gasPrice.toString());
     } else {
-      window.localStorage.setItem(
-        `${this.network.name}-selectedGasPrice`,
-        JSON.stringify(gasPrice),
-      );
+      window.localStorage.setItem(`${this.network.name}-selectedGasPrice`, JSON.stringify(gasPrice));
     }
   }
 
@@ -98,9 +87,7 @@ export class NetworkStore {
             });
           } catch {
             if (DEBUG) {
-              console.error(
-                `${network.name} misconfigured, please update network configuartion parameters.`,
-              );
+              console.error(`${network.name} misconfigured, please update network configuartion parameters.`);
             }
             throw err;
           }

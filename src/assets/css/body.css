@@ -27,8 +27,7 @@ body::-webkit-scrollbar-thumb {
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('/src/assets/fonts/Satoshi-Variable.woff2')
-      format('woff2 supports variations'),
+  src: url('/src/assets/fonts/Satoshi-Variable.woff2') format('woff2 supports variations'),
     url('/src/assets/fonts/Satoshi-Variable.woff2') format('woff2-variations');
   font-weight: 100 1000;
   font-stretch: 25% 151%;

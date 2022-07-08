@@ -40,8 +40,7 @@ export const MainContent = observer(({ vault }: Props): JSX.Element => {
   const { user, wallet } = React.useContext(StoreContext);
 
   const classes = useStyles();
-  const userData =
-    user.accountDetails?.data[vault.vaultToken] ?? defaultVaultBalance(vault);
+  const userData = user.accountDetails?.data[vault.vaultToken] ?? defaultVaultBalance(vault);
 
   return (
     <Grid container className={classes.content}>

@@ -41,23 +41,12 @@ export const TokenDistributionItem = ({ tokenBalance }: Props): JSX.Element => {
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <div className={classes.tokenNameContainer}>
-        <TokenLogo
-          className={classes.tokenIconContainer}
-          token={tokenBalance}
-        />
-        <Typography
-          display="inline"
-          variant="body1"
-          className={classes.tokenInfo}
-        >
+        <TokenLogo className={classes.tokenIconContainer} token={tokenBalance} />
+        <Typography display="inline" variant="body1" className={classes.tokenInfo}>
           {tokenBalance.symbol}
         </Typography>
       </div>
-      <Typography
-        display="inline"
-        variant="body1"
-        className={classes.tokenInfo}
-      >
+      <Typography display="inline" variant="body1" className={classes.tokenInfo}>
         {displayAmount}
       </Typography>
     </Grid>

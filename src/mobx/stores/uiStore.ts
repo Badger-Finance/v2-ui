@@ -13,9 +13,7 @@ class UiStateStore {
   private showNetworkOptions: boolean;
 
   constructor() {
-    const storedBalanceDisplay = window.localStorage.getItem(
-      SHOW_USER_BALANCE_KEY,
-    );
+    const storedBalanceDisplay = window.localStorage.getItem(SHOW_USER_BALANCE_KEY);
     this.showUserBalances = storedBalanceDisplay === 'true';
 
     this.showNotification = this.notificationClosingThreshold < 3;
@@ -34,10 +32,7 @@ class UiStateStore {
     });
 
     if (APP_NEWS_STORAGE_HASH) {
-      window.localStorage.setItem(
-        APP_NEWS_STORAGE_HASH,
-        String(this.notificationClosingThreshold + 1),
-      );
+      window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
     }
   }
 
@@ -46,9 +41,7 @@ class UiStateStore {
   }
 
   get notificationClosingThreshold(): number {
-    return APP_NEWS_STORAGE_HASH
-      ? Number(window.localStorage.getItem(APP_NEWS_STORAGE_HASH))
-      : 0;
+    return APP_NEWS_STORAGE_HASH ? Number(window.localStorage.getItem(APP_NEWS_STORAGE_HASH)) : 0;
   }
 
   get shouldShowNotification(): boolean {
@@ -73,10 +66,7 @@ class UiStateStore {
   });
 
   setShowUserBalances = action((shouldShowUserBalance: boolean) => {
-    window.localStorage.setItem(
-      SHOW_USER_BALANCE_KEY,
-      `${shouldShowUserBalance}`,
-    );
+    window.localStorage.setItem(SHOW_USER_BALANCE_KEY, `${shouldShowUserBalance}`);
     this.showUserBalances = shouldShowUserBalance;
   });
 

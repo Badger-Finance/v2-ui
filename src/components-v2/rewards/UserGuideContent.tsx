@@ -17,10 +17,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import {
-  limitVaultType,
-  useFormatExampleList,
-} from '../../utils/componentHelpers';
+import { limitVaultType, useFormatExampleList } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -123,11 +120,7 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
     <>
       <DialogTitle className={classes.title} disableTypography>
         <Box display="flex" alignItems="center">
-          <IconButton
-            aria-label="exit guide mode"
-            className={classes.arrowBack}
-            onClick={onGoBack}
-          >
+          <IconButton aria-label="exit guide mode" className={classes.arrowBack} onClick={onGoBack}>
             <ArrowBackIosOutlined fontSize="inherit" />
           </IconButton>
           <Typography variant="h6" className={classes.boldWeight}>
@@ -140,46 +133,22 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
           <Grid item>
             <ul className={classes.rewardsOptions}>
               <li>
-                <Typography variant="body2">
-                  Staking 50% non native tokens
-                </Typography>
+                <Typography variant="body2">Staking 50% non native tokens</Typography>
               </li>
               <li>
-                <Typography variant="body2">
-                  Holding and/or Staking 50% BadgerDAO tokens
-                </Typography>
+                <Typography variant="body2">Holding and/or Staking 50% BadgerDAO tokens</Typography>
               </li>
             </ul>
           </Grid>
-          <Grid
-            item
-            container
-            direction="column"
-            xs={12}
-            className={classes.tokensSection}
-          >
+          <Grid item container direction="column" xs={12} className={classes.tokensSection}>
             <Grid item>
-              <Typography variant="subtitle2">
-                Badger has 3 types of tokens:
-              </Typography>
+              <Typography variant="subtitle2">Badger has 3 types of tokens:</Typography>
             </Grid>
-            <Grid
-              container
-              spacing={isMobile ? 2 : 4}
-              className={classes.userGuideTokens}
-            >
+            <Grid container spacing={isMobile ? 2 : 4} className={classes.userGuideTokens}>
               <Grid item>
-                <Grid
-                  container
-                  direction="column"
-                  className={classes.userGuideToken}
-                >
+                <Grid container direction="column" className={classes.userGuideToken}>
                   <Grid item>
-                    <Typography
-                      className={classes.tokenName}
-                      variant="body2"
-                      color="textSecondary"
-                    >
+                    <Typography className={classes.tokenName} variant="body2" color="textSecondary">
                       BADGERDAO TOKENS:
                     </Typography>
                   </Grid>
@@ -202,25 +171,14 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
                 </Grid>
               </Grid>
               <Grid item>
-                <Grid
-                  item
-                  container
-                  direction="column"
-                  className={classes.userGuideToken}
-                >
+                <Grid item container direction="column" className={classes.userGuideToken}>
                   <Grid item>
-                    <Typography
-                      className={classes.tokenName}
-                      variant="body2"
-                      color="textSecondary"
-                    >
+                    <Typography className={classes.tokenName} variant="body2" color="textSecondary">
                       BOOSTED TOKENS:
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="subtitle2">
-                      {boostedTokensExamples}
-                    </Typography>
+                    <Typography variant="subtitle2">{boostedTokensExamples}</Typography>
                   </Grid>
                   <Grid item xs container direction="column-reverse">
                     <Button
@@ -238,25 +196,14 @@ const UserGuideContent = ({ onGoBack, onClose }: Props): JSX.Element => {
                 </Grid>
               </Grid>
               <Grid item>
-                <Grid
-                  item
-                  container
-                  direction="column"
-                  className={classes.userGuideToken}
-                >
+                <Grid item container direction="column" className={classes.userGuideToken}>
                   <Grid item>
-                    <Typography
-                      className={classes.tokenName}
-                      variant="body2"
-                      color="textSecondary"
-                    >
+                    <Typography className={classes.tokenName} variant="body2" color="textSecondary">
                       NON-BOOSTED TOKENS:
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="subtitle2">
-                      All other tokens (e.g. {nonBoostedTokenExamples}...)
-                    </Typography>
+                    <Typography variant="subtitle2">All other tokens (e.g. {nonBoostedTokenExamples}...)</Typography>
                   </Grid>
                   <Grid item xs container direction="column-reverse">
                     <Button

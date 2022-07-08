@@ -18,9 +18,7 @@ describe('VaultListDisplay', () => {
   });
 
   it('displays empty search message', () => {
-    jest
-      .spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get')
-      .mockReturnValue(1);
+    jest.spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get').mockReturnValue(1);
 
     const { container } = customRender(
       <StoreProvider value={store}>
@@ -32,9 +30,7 @@ describe('VaultListDisplay', () => {
   });
 
   it('displays no vaults message', () => {
-    jest
-      .spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get')
-      .mockReturnValue(0);
+    jest.spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get').mockReturnValue(0);
 
     const { container } = customRender(
       <StoreProvider value={store}>
@@ -61,35 +57,8 @@ describe('VaultListDisplay', () => {
   it('uses default sort criteria by default', () => {
     const vaults = [...SAMPLE_VAULTS];
 
-    jest
-      .spyOn(UserStore.prototype, 'getBalance')
-      .mockImplementation((address: string) => {
-        if (address === vaults[2].vaultToken) {
-          return new TokenBalance(
-            {
-              address,
-              symbol: '',
-              decimals: 18,
-              name: '',
-            },
-            BigNumber.from(10),
-            2,
-          );
-        }
-
-        if (address === vaults[1].underlyingToken) {
-          return new TokenBalance(
-            {
-              address,
-              symbol: '',
-              decimals: 18,
-              name: '',
-            },
-            BigNumber.from(1),
-            2,
-          );
-        }
-
+    jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((address: string) => {
+      if (address === vaults[2].vaultToken) {
         return new TokenBalance(
           {
             address,
@@ -97,10 +66,35 @@ describe('VaultListDisplay', () => {
             decimals: 18,
             name: '',
           },
-          BigNumber.from(0),
-          0,
+          BigNumber.from(10),
+          2,
         );
-      });
+      }
+
+      if (address === vaults[1].underlyingToken) {
+        return new TokenBalance(
+          {
+            address,
+            symbol: '',
+            decimals: 18,
+            name: '',
+          },
+          BigNumber.from(1),
+          2,
+        );
+      }
+
+      return new TokenBalance(
+        {
+          address,
+          symbol: '',
+          decimals: 18,
+          name: '',
+        },
+        BigNumber.from(0),
+        0,
+      );
+    });
 
     const { container } = customRender(
       <StoreProvider value={store}>

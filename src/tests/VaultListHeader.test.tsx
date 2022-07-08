@@ -20,39 +20,33 @@ describe('Vault List Header', () => {
         [undefined, VaultSortOrder.APR_DESC],
         [VaultSortOrder.APR_DESC, VaultSortOrder.APR_ASC],
         [VaultSortOrder.APR_ASC, undefined],
-      ])(
-        'cycle from %p to %p',
-        (
-          startSortOrder: SortTestingOptions,
-          endSortOrder: SortTestingOptions,
-        ) => {
-          store.vaults.vaultsFilters.sortOrder = startSortOrder;
+      ])('cycle from %p to %p', (startSortOrder: SortTestingOptions, endSortOrder: SortTestingOptions) => {
+        store.vaults.vaultsFilters.sortOrder = startSortOrder;
 
-          let altText: string;
+        let altText: string;
 
-          switch (startSortOrder) {
-            case VaultSortOrder.APR_DESC:
-              altText = 'sort ascending by APR';
-              break;
-            case VaultSortOrder.APR_ASC:
-              altText = 'reset sort by APR';
-              break;
-            default:
-              altText = 'sort descending by APR';
-              break;
-          }
+        switch (startSortOrder) {
+          case VaultSortOrder.APR_DESC:
+            altText = 'sort ascending by APR';
+            break;
+          case VaultSortOrder.APR_ASC:
+            altText = 'reset sort by APR';
+            break;
+          default:
+            altText = 'sort descending by APR';
+            break;
+        }
 
-          customRender(
-            <StoreProvider value={store}>
-              <VaultListHeader />,
-            </StoreProvider>,
-          );
+        customRender(
+          <StoreProvider value={store}>
+            <VaultListHeader />,
+          </StoreProvider>,
+        );
 
-          fireEvent.click(screen.getByLabelText(altText));
+        fireEvent.click(screen.getByLabelText(altText));
 
-          expect(store.vaults.vaultsFilters.sortOrder).toBe(endSortOrder);
-        },
-      );
+        expect(store.vaults.vaultsFilters.sortOrder).toBe(endSortOrder);
+      });
     });
 
     describe('by TVL', () => {
@@ -60,39 +54,33 @@ describe('Vault List Header', () => {
         [undefined, VaultSortOrder.TVL_DESC],
         [VaultSortOrder.TVL_DESC, VaultSortOrder.TVL_ASC],
         [VaultSortOrder.TVL_ASC, undefined],
-      ])(
-        'cycle from %p to %p',
-        (
-          startSortOrder: SortTestingOptions,
-          endSortOrder: SortTestingOptions,
-        ) => {
-          store.vaults.vaultsFilters.sortOrder = startSortOrder;
+      ])('cycle from %p to %p', (startSortOrder: SortTestingOptions, endSortOrder: SortTestingOptions) => {
+        store.vaults.vaultsFilters.sortOrder = startSortOrder;
 
-          let altText: string;
+        let altText: string;
 
-          switch (startSortOrder) {
-            case VaultSortOrder.TVL_DESC:
-              altText = 'sort ascending by TVL';
-              break;
-            case VaultSortOrder.TVL_ASC:
-              altText = 'reset sort by TVL';
-              break;
-            default:
-              altText = 'sort descending by TVL';
-              break;
-          }
+        switch (startSortOrder) {
+          case VaultSortOrder.TVL_DESC:
+            altText = 'sort ascending by TVL';
+            break;
+          case VaultSortOrder.TVL_ASC:
+            altText = 'reset sort by TVL';
+            break;
+          default:
+            altText = 'sort descending by TVL';
+            break;
+        }
 
-          customRender(
-            <StoreProvider value={store}>
-              <VaultListHeader />,
-            </StoreProvider>,
-          );
+        customRender(
+          <StoreProvider value={store}>
+            <VaultListHeader />,
+          </StoreProvider>,
+        );
 
-          fireEvent.click(screen.getByLabelText(altText));
+        fireEvent.click(screen.getByLabelText(altText));
 
-          expect(store.vaults.vaultsFilters.sortOrder).toBe(endSortOrder);
-        },
-      );
+        expect(store.vaults.vaultsFilters.sortOrder).toBe(endSortOrder);
+      });
     });
 
     describe('by balance', () => {
@@ -100,39 +88,33 @@ describe('Vault List Header', () => {
         [undefined, VaultSortOrder.BALANCE_DESC],
         [VaultSortOrder.BALANCE_DESC, VaultSortOrder.BALANCE_ASC],
         [VaultSortOrder.BALANCE_ASC, undefined],
-      ])(
-        'cycle from %p to %p',
-        (
-          startSortOrder: SortTestingOptions,
-          endSortOrder: SortTestingOptions,
-        ) => {
-          store.vaults.vaultsFilters.sortOrder = startSortOrder;
+      ])('cycle from %p to %p', (startSortOrder: SortTestingOptions, endSortOrder: SortTestingOptions) => {
+        store.vaults.vaultsFilters.sortOrder = startSortOrder;
 
-          let altText: string;
+        let altText: string;
 
-          switch (startSortOrder) {
-            case VaultSortOrder.BALANCE_DESC:
-              altText = 'sort ascending by balance';
-              break;
-            case VaultSortOrder.BALANCE_ASC:
-              altText = 'reset sort by balance';
-              break;
-            default:
-              altText = 'sort descending by balance';
-              break;
-          }
+        switch (startSortOrder) {
+          case VaultSortOrder.BALANCE_DESC:
+            altText = 'sort ascending by balance';
+            break;
+          case VaultSortOrder.BALANCE_ASC:
+            altText = 'reset sort by balance';
+            break;
+          default:
+            altText = 'sort descending by balance';
+            break;
+        }
 
-          customRender(
-            <StoreProvider value={store}>
-              <VaultListHeader />,
-            </StoreProvider>,
-          );
+        customRender(
+          <StoreProvider value={store}>
+            <VaultListHeader />,
+          </StoreProvider>,
+        );
 
-          fireEvent.click(screen.getByLabelText(altText));
+        fireEvent.click(screen.getByLabelText(altText));
 
-          expect(store.vaults.vaultsFilters.sortOrder).toBe(endSortOrder);
-        },
-      );
+        expect(store.vaults.vaultsFilters.sortOrder).toBe(endSortOrder);
+      });
     });
   });
 });

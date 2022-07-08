@@ -13,13 +13,7 @@ import type {
 } from 'ethers';
 import type { FunctionFragment, Result } from '@ethersproject/abi';
 import type { Listener, Provider } from '@ethersproject/providers';
-import type {
-  TypedEventFilter,
-  TypedEvent,
-  TypedListener,
-  OnEvent,
-  PromiseOrValue,
-} from './common';
+import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent, PromiseOrValue } from './common';
 
 export declare namespace CvxLocker {
   export type LockedBalanceStruct = {
@@ -44,43 +38,18 @@ export interface VoteLockedDepositInterface extends utils.Interface {
   };
 
   getFunction(
-    nameOrSignatureOrTopic:
-      | 'balanceOf'
-      | 'lockedBalanceOf'
-      | 'lockedBalances'
-      | 'lockedSupply',
+    nameOrSignatureOrTopic: 'balanceOf' | 'lockedBalanceOf' | 'lockedBalances' | 'lockedSupply',
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: 'balanceOf',
-    values: [PromiseOrValue<string>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'lockedBalanceOf',
-    values: [PromiseOrValue<string>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'lockedBalances',
-    values: [PromiseOrValue<string>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'lockedSupply',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'balanceOf', values: [PromiseOrValue<string>]): string;
+  encodeFunctionData(functionFragment: 'lockedBalanceOf', values: [PromiseOrValue<string>]): string;
+  encodeFunctionData(functionFragment: 'lockedBalances', values: [PromiseOrValue<string>]): string;
+  encodeFunctionData(functionFragment: 'lockedSupply', values?: undefined): string;
 
   decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'lockedBalanceOf',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'lockedBalances',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'lockedSupply',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'lockedBalanceOf', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'lockedBalances', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'lockedSupply', data: BytesLike): Result;
 
   events: {};
 }
@@ -98,13 +67,9 @@ export interface VoteLockedDeposit extends BaseContract {
     toBlock?: string | number | undefined,
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>,
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>,
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -112,10 +77,7 @@ export interface VoteLockedDeposit extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    balanceOf(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<[BigNumber] & { amount: BigNumber }>;
+    balanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<[BigNumber] & { amount: BigNumber }>;
 
     lockedBalanceOf(
       _user: PromiseOrValue<string>,
@@ -126,12 +88,7 @@ export interface VoteLockedDeposit extends BaseContract {
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<
-      [
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        CvxLocker.LockedBalanceStructOutput[],
-      ] & {
+      [BigNumber, BigNumber, BigNumber, CvxLocker.LockedBalanceStructOutput[]] & {
         total: BigNumber;
         unlockable: BigNumber;
         locked: BigNumber;
@@ -142,15 +99,9 @@ export interface VoteLockedDeposit extends BaseContract {
     lockedSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
-  balanceOf(
-    _user: PromiseOrValue<string>,
-    overrides?: CallOverrides,
-  ): Promise<BigNumber>;
+  balanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>;
 
-  lockedBalanceOf(
-    _user: PromiseOrValue<string>,
-    overrides?: CallOverrides,
-  ): Promise<BigNumber>;
+  lockedBalanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>;
 
   lockedBalances(
     _user: PromiseOrValue<string>,
@@ -167,26 +118,15 @@ export interface VoteLockedDeposit extends BaseContract {
   lockedSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
-    balanceOf(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    balanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>;
 
-    lockedBalanceOf(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    lockedBalanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>;
 
     lockedBalances(
       _user: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<
-      [
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        CvxLocker.LockedBalanceStructOutput[],
-      ] & {
+      [BigNumber, BigNumber, BigNumber, CvxLocker.LockedBalanceStructOutput[]] & {
         total: BigNumber;
         unlockable: BigNumber;
         locked: BigNumber;
@@ -200,39 +140,21 @@ export interface VoteLockedDeposit extends BaseContract {
   filters: {};
 
   estimateGas: {
-    balanceOf(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    balanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>;
 
-    lockedBalanceOf(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    lockedBalanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>;
 
-    lockedBalances(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    lockedBalances(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<BigNumber>;
 
     lockedSupply(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    balanceOf(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    balanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    lockedBalanceOf(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    lockedBalanceOf(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    lockedBalances(
-      _user: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    lockedBalances(_user: PromiseOrValue<string>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     lockedSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };

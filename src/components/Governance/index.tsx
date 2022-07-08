@@ -3,10 +3,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
 
-import {
-  LayoutContainer,
-  PageHeaderContainer,
-} from '../../components-v2/common/Containers';
+import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common/Containers';
 import PageHeader from '../../components-v2/common/PageHeader';
 import AddressInfoCard from './AddressInfoCard';
 import EventsTable from './EventsTable';
@@ -33,19 +30,14 @@ const GovernancePortal = observer(() => {
     <LayoutContainer style={{ width: '100vw' }}>
       <Grid container item xs={12} spacing={1}>
         <PageHeaderContainer item xs={12} sm={8}>
-          <PageHeader
-            title="Governance Portal"
-            subtitle="Review recent activity from the DAO."
-          />
+          <PageHeader title="Governance Portal" subtitle="Review recent activity from the DAO." />
         </PageHeaderContainer>
 
         <PageHeaderContainer item xs={6} sm={2}>
           <AddressInfoCard
             title="Timelock Contract"
             address={governancePortal.contractAddress}
-            linkAddress={
-              'https://etherscan.io/address/' + governancePortal.contractAddress
-            }
+            linkAddress={'https://etherscan.io/address/' + governancePortal.contractAddress}
           />
         </PageHeaderContainer>
 
@@ -64,11 +56,7 @@ const GovernancePortal = observer(() => {
         </IconButton>
       </Grid>
 
-      <GovernanceFilterDialog
-        open={showGovernanceFilters}
-        onClose={toggleShowDialog}
-        applyFilter={applyFilter}
-      />
+      <GovernanceFilterDialog open={showGovernanceFilters} onClose={toggleShowDialog} applyFilter={applyFilter} />
 
       <EventsTable events={governancePortal.timelockEvents} filters={filters} />
     </LayoutContainer>

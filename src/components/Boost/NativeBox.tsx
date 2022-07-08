@@ -1,10 +1,4 @@
-import {
-  Grid,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -78,10 +72,7 @@ export const NativeBox = observer((props: Props) => {
   const nftBalance = user.accountDetails?.nftBalance ?? 0;
   const nativeHoldings = user.accountDetails?.nativeBalance ?? 0;
   const diggBalance = user.accountDetails?.diggBalance ?? 0;
-  const badgerBalance = Math.max(
-    nativeHoldings - nftBalance - bveCVXBalance,
-    0,
-  );
+  const badgerBalance = Math.max(nativeHoldings - nftBalance - bveCVXBalance, 0);
 
   const {
     nativeToAdd,
@@ -99,14 +90,10 @@ export const NativeBox = observer((props: Props) => {
   const classes = useStyles();
   const theme = useTheme();
   const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
-  const nativeAssetClasses = useAssetInputStyles(
-    nativeBalance,
-    nativeHoldings,
-  )();
+  const nativeAssetClasses = useAssetInputStyles(nativeBalance, nativeHoldings)();
 
   const isValidNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
-  const showNativeToAdd =
-    isValidNativeToAdd && isValidStakeRatio(currentStakeRatio);
+  const showNativeToAdd = isValidNativeToAdd && isValidStakeRatio(currentStakeRatio);
 
   const currentRank = getHighestRankFromStakeRatio(currentStakeRatio);
   const nextBoostLevel = getNextBoostRank(currentRank);
@@ -124,8 +111,7 @@ export const NativeBox = observer((props: Props) => {
 
     const nextUserBoost = calculateUserBoost(nextBoostLevel.stakeRatioBoundary);
     const native = Number(nativeBalance);
-    shouldShowAmountToReachNextLevel =
-      native !== 0 && amountToReachNextLevel > 0;
+    shouldShowAmountToReachNextLevel = native !== 0 && amountToReachNextLevel > 0;
     nextStepText = `${nextUserBoost}x`;
   }
 
@@ -188,40 +174,22 @@ export const NativeBox = observer((props: Props) => {
         <Grid className={classes.infoBox}>
           <Typography className={classes.infoText} color="textSecondary">
             Deposit
-            <Tooltip
-              enterTouchDelay={0}
-              title="Apply"
-              arrow
-              placement="top"
-              color="primary"
-            >
-              <span
-                className={classes.amountToNextLevel}
-                onClick={handleNextLevelAmountClick}
-              >{` $${numberWithCommas(
+            <Tooltip enterTouchDelay={0} title="Apply" arrow placement="top" color="primary">
+              <span className={classes.amountToNextLevel} onClick={handleNextLevelAmountClick}>{` $${numberWithCommas(
                 amountToReachNextLevel.toFixed(3),
               )} `}</span>
             </Tooltip>
-            more Native to reach next multiplier:{' '}
-            <span className={classes.nextLevelName}>{nextStepText}</span>
+            more Native to reach next multiplier: <span className={classes.nextLevelName}>{nextStepText}</span>
           </Typography>
         </Grid>
       )}
       {nativeToAdd && showNativeToAdd && (
-        <Grid
-          className={classes.valueToAddContainer}
-          container
-          direction="column"
-        >
-          <Typography className={classes.valueToAddText}>
-            Value to Add
-          </Typography>
+        <Grid className={classes.valueToAddContainer} container direction="column">
+          <Typography className={classes.valueToAddText}>Value to Add</Typography>
           <Typography
             className={clsx(classes.valueToAddText, classes.amountToAdd)}
             onClick={handleApplyNativeToAdd}
-          >{`+$${numberWithCommas(
-            Number(nativeToAdd).toFixed(3),
-          )}`}</Typography>
+          >{`+$${numberWithCommas(Number(nativeToAdd).toFixed(3))}`}</Typography>
         </Grid>
       )}
     </Grid>

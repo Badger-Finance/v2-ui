@@ -30,15 +30,11 @@ class TransactionsStore {
   }
 
   get pendingTransactions(): Transaction[] {
-    return Array.from(this.recentTransactions.values()).filter(
-      (transaction) => !transaction.status,
-    );
+    return Array.from(this.recentTransactions.values()).filter((transaction) => !transaction.status);
   }
 
   get recentTransactions(): ChainTransactions {
-    return (
-      this.transactions.get(String(this.store.network.network.id)) ?? new Map()
-    );
+    return this.transactions.get(String(this.store.network.network.id)) ?? new Map();
   }
 
   addSignedTransaction(transaction: Transaction): void {

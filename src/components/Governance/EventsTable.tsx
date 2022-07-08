@@ -111,17 +111,10 @@ const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
       </Grid>
 
       <List className={classes.list}>
-        {eventListShow &&
-          eventListShow.map((event, i) => (
-            <EventsTableItem event={event} key={'event-' + i} />
-          ))}
+        {eventListShow && eventListShow.map((event, i) => <EventsTableItem event={event} key={'event-' + i} />)}
       </List>
 
-      <Pagination
-        page={page}
-        totalPages={totalPages}
-        handlePagination={handlePages}
-      />
+      <Pagination page={page} totalPages={totalPages} handlePagination={handlePages} />
     </Grid>
   );
 };

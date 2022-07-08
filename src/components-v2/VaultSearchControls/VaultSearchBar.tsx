@@ -1,9 +1,4 @@
-import {
-  IconButton,
-  InputAdornment,
-  makeStyles,
-  TextField,
-} from '@material-ui/core';
+import { IconButton, InputAdornment, makeStyles, TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import React from 'react';
 
@@ -29,11 +24,7 @@ const VaultSearchBar = ({ search = '', onChange }: Props): JSX.Element => {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton
-              size="small"
-              aria-label="search"
-              className={classes.icon}
-            >
+            <IconButton size="small" aria-label="search" className={classes.icon}>
               <SearchIcon />
             </IconButton>
           </InputAdornment>

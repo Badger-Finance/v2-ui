@@ -23,11 +23,7 @@ const mockClaimProof = {
     '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305',
     '0x2B5455aac8d64C14786c3a29858E43b5945819C0',
   ],
-  cumulativeAmounts: [
-    '28019610295276968',
-    '24529508667974375',
-    '39890071517351528',
-  ],
+  cumulativeAmounts: ['28019610295276968', '24529508667974375', '39890071517351528'],
   proof: ['0x0000000000000000000000000000000000000001'],
   node: '0x0000000000000000000000000000000000000001',
   boost: BigNumber.from(1),
@@ -68,12 +64,8 @@ const mockBadgerTreeClaims: TokenBalance[] = [
 
 describe('Rewards Dialog', () => {
   beforeEach(() => {
-    jest
-      .spyOn(WalletStore.prototype, 'isConnected', 'get')
-      .mockReturnValue(true);
-    jest
-      .spyOn(WalletStore.prototype, 'address', 'get')
-      .mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
     store.uiState.rewardsDialogOpen = true;
     store.tree.claimProof = mockClaimProof;
     store.tree.loadBadgerTree = action(jest.fn());
@@ -107,9 +99,7 @@ describe('Rewards Dialog', () => {
         decimals: 18,
         address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
       });
-      store.tree.claimable = Object.fromEntries(
-        mockBadgerTreeClaims.map((t) => [t.token.address, t]),
-      );
+      store.tree.claimable = Object.fromEntries(mockBadgerTreeClaims.map((t) => [t.token.address, t]));
     });
 
     it('displays rewards amount in rewards button', () => {
@@ -176,23 +166,17 @@ describe('Rewards Dialog', () => {
       });
 
       it('can go to native vaults', () => {
-        fireEvent.click(
-          screen.getByRole('button', { name: 'view badger dao tokens' }),
-        );
+        fireEvent.click(screen.getByRole('button', { name: 'view badger dao tokens' }));
         expect(store.vaults.vaultsFilters.types).toEqual([VaultType.Native]);
       });
 
       it('can go to non-boosted vaults', () => {
-        fireEvent.click(
-          screen.getByRole('button', { name: 'view non-boosted tokens' }),
-        );
+        fireEvent.click(screen.getByRole('button', { name: 'view non-boosted tokens' }));
         expect(store.vaults.vaultsFilters.types).toEqual([VaultType.Standard]);
       });
 
       it('can go to boosted vaults', () => {
-        fireEvent.click(
-          screen.getByRole('button', { name: 'view boosted tokens' }),
-        );
+        fireEvent.click(screen.getByRole('button', { name: 'view boosted tokens' }));
         expect(store.vaults.vaultsFilters.types).toEqual([VaultType.Boosted]);
       });
     });

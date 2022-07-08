@@ -4,10 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getVaultStrategyFee } from 'mobx/utils/fees';
 import React from 'react';
 
-import {
-  StrategyFee,
-  userReadableFeeNames,
-} from '../../mobx/model/system-config/stategy-fees';
+import { StrategyFee, userReadableFeeNames } from '../../mobx/model/system-config/stategy-fees';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles({
@@ -22,10 +19,7 @@ interface Props {
   showEmpty?: boolean;
 }
 
-export const StrategyFees = ({
-  vault,
-  showEmpty = false,
-}: Props): JSX.Element => {
+export const StrategyFees = ({ vault, showEmpty = false }: Props): JSX.Element => {
   const classes = useStyles();
   const feeKeys = Object.values(StrategyFee);
 
@@ -41,11 +35,7 @@ export const StrategyFees = ({
 
     return (
       <Grid key={key} container justifyContent="space-between">
-        <Typography
-          className={classes.specName}
-          color="textSecondary"
-          display="inline"
-        >
+        <Typography className={classes.specName} color="textSecondary" display="inline">
           {userReadableFeeNames[key]}
         </Typography>
         <Typography display="inline" variant="subtitle2">

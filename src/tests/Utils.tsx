@@ -2,10 +2,7 @@
  * RTL Wrapper to disable MUI's dynammic JSS classes generation
  * Credits: @lookfirst
  */
-import {
-  createGenerateClassName,
-  StylesProvider,
-} from '@material-ui/core/styles';
+import { createGenerateClassName, StylesProvider } from '@material-ui/core/styles';
 import { render as tlRender, RenderOptions } from '@testing-library/react';
 import mediaQuery from 'css-mediaquery';
 import React, { ReactElement } from 'react';
@@ -23,18 +20,12 @@ function MyStyles({ children }: Props) {
     productionPrefix: 'test',
   });
 
-  return (
-    <StylesProvider generateClassName={generateClassName}>
-      {children}
-    </StylesProvider>
-  );
+  return <StylesProvider generateClassName={generateClassName}>{children}</StylesProvider>;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const customRender = (
-  ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>,
-) => tlRender(ui, { wrapper: MyStyles, ...options });
+const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
+  tlRender(ui, { wrapper: MyStyles, ...options });
 
 export function createMatchMedia(width: number) {
   return (query: string): MediaQueryList => ({

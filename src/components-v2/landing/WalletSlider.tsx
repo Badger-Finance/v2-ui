@@ -20,11 +20,7 @@ const WalletSlider = observer(() => {
   return (
     <FormControlLabel
       control={
-        <Switch
-          checked={showUserBalances}
-          onChange={() => setShowUserBalances(!showUserBalances)}
-          color="primary"
-        />
+        <Switch checked={showUserBalances} onChange={() => setShowUserBalances(!showUserBalances)} color="primary" />
       }
       label="Portfolio View"
       className={classes.walletSlider}

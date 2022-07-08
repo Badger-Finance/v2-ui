@@ -5,12 +5,7 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint/eslint-plugin",
-    "simple-import-sort",
-    "import",
-    "unused-imports"
-  ],
+  "plugins": ["@typescript-eslint/eslint-plugin", "simple-import-sort", "import", "unused-imports"],
   "extends": [
     "plugin:prettier/recommended",
     "eslint:recommended",

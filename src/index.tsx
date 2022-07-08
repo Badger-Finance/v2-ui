@@ -34,13 +34,7 @@ root.render(
       <CssBaseline />
       <NetworkURLManager />
       <App />
-      <ToastContainer
-        position="bottom-right"
-        newestOnTop={true}
-        closeOnClick
-        theme="dark"
-        draggable
-      />
+      <ToastContainer position="bottom-right" newestOnTop={true} closeOnClick theme="dark" draggable />
     </ThemeProvider>
   </StoreProvider>,
 );

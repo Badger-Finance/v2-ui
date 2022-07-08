@@ -12,12 +12,8 @@ import { customRender, screen } from '../Utils';
 
 describe('Boost Optimizer', () => {
   beforeEach(() => {
-    jest
-      .spyOn(WalletStore.prototype, 'isConnected', 'get')
-      .mockReturnValue(true);
-    jest
-      .spyOn(WalletStore.prototype, 'address', 'get')
-      .mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
     store.user.accountDetails = {
       address: '0xC26202cd0428276cC69017Df01137161f0102e55',
       boost: 1,
@@ -69,9 +65,7 @@ describe('Boost Optimizer', () => {
         <Optimizer />
       </StoreProvider>,
     );
-    expect(
-      screen.getByRole('heading', { name: 'Boost: 1x' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Boost: 1x' })).toBeInTheDocument();
   });
   it('can change native and non native balances', () => {
     customRender(
@@ -93,12 +87,8 @@ describe('Boost Optimizer', () => {
     userEvent.type(nativeInput, '2000');
     userEvent.type(nonNativeInput, '1000');
 
-    expect(
-      screen.getByRole('textbox', { name: 'native holdings amount' }),
-    ).toHaveValue('$2,000');
-    expect(
-      screen.getByRole('textbox', { name: 'non native holdings amount' }),
-    ).toHaveValue('$1,000');
+    expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$2,000');
+    expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$1,000');
   });
 
   it('can increase balances through the increase button', () => {
@@ -118,12 +108,8 @@ describe('Boost Optimizer', () => {
     userEvent.click(increaseNativeButton);
     userEvent.click(increaseNonNativeButton);
 
-    expect(
-      screen.getByRole('textbox', { name: 'native holdings amount' }),
-    ).toHaveValue('$2,000');
-    expect(
-      screen.getByRole('textbox', { name: 'non native holdings amount' }),
-    ).toHaveValue('$1,500');
+    expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$2,000');
+    expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$1,500');
   });
 
   it('can decrease balances through the increase button', () => {
@@ -143,12 +129,8 @@ describe('Boost Optimizer', () => {
     userEvent.click(decreaseNativeButton);
     userEvent.click(decreaseNonNativeButton);
 
-    expect(
-      screen.getByRole('textbox', { name: 'native holdings amount' }),
-    ).toHaveValue('$0');
-    expect(
-      screen.getByRole('textbox', { name: 'non native holdings amount' }),
-    ).toHaveValue('$0');
+    expect(screen.getByRole('textbox', { name: 'native holdings amount' })).toHaveValue('$0');
+    expect(screen.getByRole('textbox', { name: 'non native holdings amount' })).toHaveValue('$0');
   });
 
   it('can jump to rank', () => {
@@ -183,9 +165,7 @@ describe('Boost Optimizer', () => {
     userEvent.clear(nonNativeInput);
 
     expect(
-      screen.getByText(
-        'While reducing Non-Native may increase your boost, your gross yield will be smaller',
-      ),
+      screen.getByText('While reducing Non-Native may increase your boost, your gross yield will be smaller'),
     ).toBeInTheDocument();
   });
 

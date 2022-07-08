@@ -1,12 +1,4 @@
-import {
-  BouncerType,
-  Protocol,
-  VaultBehavior,
-  VaultDTO,
-  VaultState,
-  VaultType,
-  VaultVersion,
-} from '@badger-dao/sdk';
+import { BouncerType, Protocol, VaultBehavior, VaultDTO, VaultState, VaultType, VaultVersion } from '@badger-dao/sdk';
 import React from 'react';
 import { SAMPLE_VAULT } from 'tests/utils/samples';
 
@@ -85,9 +77,7 @@ const normalVault: VaultDTO = {
 describe('VaultItemApr', () => {
   describe('No APR Vaults', () => {
     it('renders zero APR', () => {
-      checkSnapshot(
-        <VaultItemApr boost={0} vault={{ ...normalVault, apr: 0 }} />,
-      );
+      checkSnapshot(<VaultItemApr boost={0} vault={{ ...normalVault, apr: 0 }} />);
     });
   });
 
@@ -99,9 +89,7 @@ describe('VaultItemApr', () => {
     const mockUserBoost = 10;
 
     it('displays correct APR and boost information', () => {
-      checkSnapshot(
-        <VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} />,
-      );
+      checkSnapshot(<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} />);
     });
   });
 });

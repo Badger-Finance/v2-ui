@@ -26,11 +26,7 @@ interface Props {
   logoPosition: number;
 }
 
-const ComposableTokenLogo = ({
-  token,
-  totalLogos,
-  logoPosition,
-}: Props): JSX.Element => {
+const ComposableTokenLogo = ({ token, totalLogos, logoPosition }: Props): JSX.Element => {
   const classes = useLogoStyles(logoPosition, totalLogos)();
   return <TokenLogo token={token} className={classes.position} />;
 };

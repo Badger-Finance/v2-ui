@@ -25,11 +25,7 @@ interface Props {
   accountStakeRatio: number;
 }
 
-export const RankProgressBarSlice = ({
-  rank,
-  currentStakeRatio,
-  accountStakeRatio,
-}: Props): JSX.Element => {
+export const RankProgressBarSlice = ({ rank, currentStakeRatio, accountStakeRatio }: Props): JSX.Element => {
   const classes = useStyles();
   const nextLevel = getNextBoostRank(rank) || rank;
   return (

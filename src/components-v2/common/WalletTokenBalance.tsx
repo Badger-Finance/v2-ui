@@ -46,11 +46,7 @@ const WalletTokenBalance = ({ balance }: Props): JSX.Element => {
       <Grid item container justifyContent="space-between" alignItems="center">
         <div className={classes.tokenNameAndIcon}>
           <TokenLogo className={classes.icon} token={token} />
-          <Typography
-            variant="body1"
-            display="inline"
-            className={classes.tokenName}
-          >
+          <Typography variant="body1" display="inline" className={classes.tokenName}>
             {balance.token.symbol}
           </Typography>
         </div>
@@ -60,17 +56,8 @@ const WalletTokenBalance = ({ balance }: Props): JSX.Element => {
           </Typography>
         </Box>
       </Grid>
-      <Grid
-        item
-        container
-        justifyContent="flex-end"
-        className={classes.balanceDisplayValue}
-      >
-        <Typography
-          className={classes.balance}
-          variant="subtitle2"
-          color="textSecondary"
-        >
+      <Grid item container justifyContent="flex-end" className={classes.balanceDisplayValue}>
+        <Typography className={classes.balance} variant="subtitle2" color="textSecondary">
           {balance.balanceValueDisplay(6)}
         </Typography>
       </Grid>

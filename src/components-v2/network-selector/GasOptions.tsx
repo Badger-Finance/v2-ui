@@ -30,18 +30,10 @@ const GasOptions = ({ gasOptions, onSelect }: Props): JSX.Element | null => {
           // uses the following simple heuristic to calculate the recommended Max Fee for any given Base Fee
           // and Max Priority Fee combination:
           // Max Fee = (2 * Base Fee) + Max Priority Fee
-          const displayValue =
-            typeof value === 'number' ? value : value.maxFeePerGas / 2;
+          const displayValue = typeof value === 'number' ? value : value.maxFeePerGas / 2;
           return (
-            <MenuItem
-              key={`${key}_${index}`}
-              button
-              onClick={() => onSelect(value)}
-            >
-              <MenuItemText>
-                {' '}
-                {displayValue ? displayValue.toFixed(0) : 10}
-              </MenuItemText>
+            <MenuItem key={`${key}_${index}`} button onClick={() => onSelect(value)}>
+              <MenuItemText> {displayValue ? displayValue.toFixed(0) : 10}</MenuItemText>
             </MenuItem>
           );
         })}

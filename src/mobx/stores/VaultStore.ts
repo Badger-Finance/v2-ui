@@ -1,11 +1,4 @@
-import {
-  Network,
-  Protocol,
-  ProtocolSummary,
-  TokenConfiguration,
-  VaultDTO,
-  VaultState,
-} from '@badger-dao/sdk';
+import { Network, Protocol, ProtocolSummary, TokenConfiguration, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
@@ -55,17 +48,11 @@ export default class VaultStore {
       count++;
     }
 
-    if (
-      this.vaultsFilters.behaviors &&
-      this.vaultsFilters.behaviors.length > 0
-    ) {
+    if (this.vaultsFilters.behaviors && this.vaultsFilters.behaviors.length > 0) {
       count++;
     }
 
-    if (
-      this.vaultsFilters.protocols &&
-      this.vaultsFilters.protocols.length > 0
-    ) {
+    if (this.vaultsFilters.protocols && this.vaultsFilters.protocols.length > 0) {
       count++;
     }
 
@@ -164,9 +151,9 @@ export default class VaultStore {
       return undefined;
     }
 
-    const settBySlug = Object.entries(
-      this.slugCache[currentNetwork.symbol],
-    ).find(({ 1: cachedSlug }) => cachedSlug === slug);
+    const settBySlug = Object.entries(this.slugCache[currentNetwork.symbol]).find(
+      ({ 1: cachedSlug }) => cachedSlug === slug,
+    );
 
     if (!settBySlug) {
       return null;
@@ -176,15 +163,12 @@ export default class VaultStore {
   }
 
   getVaultMapByState(state: VaultState): VaultMap {
-    return Object.fromEntries(
-      Object.entries(this.vaultMap).filter((entry) => entry[1].state === state),
-    );
+    return Object.fromEntries(Object.entries(this.vaultMap).filter((entry) => entry[1].state === state));
   }
 
   get vaultOrder(): VaultDTO[] {
     let vaults = Object.values(this.vaultMap).flatMap((vaultDefinition) => {
-      const vault =
-        this.vaultMap[ethers.utils.getAddress(vaultDefinition.vaultToken)];
+      const vault = this.vaultMap[ethers.utils.getAddress(vaultDefinition.vaultToken)];
       return vault ? [vault] : [];
     });
 
@@ -233,9 +217,7 @@ export default class VaultStore {
   loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
     try {
       const vaults = await this.store.api.loadVaults();
-      this.vaultCache[chain] = Object.fromEntries(
-        vaults.map((vault) => [vault.vaultToken, vault]),
-      );
+      this.vaultCache[chain] = Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault]));
       this.slugCache[chain] = this.getVaultsSlugCache(vaults);
     } catch (error) {
       console.error({
@@ -267,17 +249,14 @@ export default class VaultStore {
     }
   });
 
-  setVaultsFilter = action(
-    <T extends keyof VaultsFilters>(filter: T, value: VaultsFilters[T]) => {
-      const { queryParams = {} } = this.store.router;
-      this.vaultsFilters = {
-        ...this.vaultsFilters,
-        [filter]: value,
-      };
-      this.store.router.queryParams =
-        this.mergeQueryParamsWithFilters(queryParams);
-    },
-  );
+  setVaultsFilter = action(<T extends keyof VaultsFilters>(filter: T, value: VaultsFilters[T]) => {
+    const { queryParams = {} } = this.store.router;
+    this.vaultsFilters = {
+      ...this.vaultsFilters,
+      [filter]: value,
+    };
+    this.store.router.queryParams = this.mergeQueryParamsWithFilters(queryParams);
+  });
 
   openStatusInformationPanel = action(() => {
     this.showStatusInformationPanel = true;
@@ -300,15 +279,9 @@ export default class VaultStore {
    * also in the vaultsFilters object are replaced with the value of the vaultsFilters object
    * @param queryParams - Record<string, any>
    */
-  mergeQueryParamsWithFilters(
-    queryParams: Record<string, unknown>,
-  ): QueryParams {
-    const nonFilterParams = Object.entries(queryParams).filter(
-      ([key]) => !(key in this.vaultsFilters),
-    );
-    const validParams = Object.entries(this.vaultsFilters).filter(
-      ([, value]) => !!value,
-    );
+  mergeQueryParamsWithFilters(queryParams: Record<string, unknown>): QueryParams {
+    const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
+    const validParams = Object.entries(this.vaultsFilters).filter(([, value]) => !!value);
     return {
       ...Object.fromEntries(nonFilterParams),
       ...Object.fromEntries(validParams),
@@ -328,24 +301,15 @@ export default class VaultStore {
       statuses: undefined,
       behaviors: undefined,
     };
-    const nonFilterParams = Object.entries(queryParams).filter(
-      ([key]) => !(key in this.vaultsFilters),
-    );
+    const nonFilterParams = Object.entries(queryParams).filter(([key]) => !(key in this.vaultsFilters));
     this.store.router.queryParams = { ...Object.fromEntries(nonFilterParams) };
   });
 
   private applyFilters(vaults: VaultDTO[]): VaultDTO[] {
     const { user } = this.store;
 
-    const {
-      protocols,
-      search,
-      statuses,
-      behaviors,
-      onlyBoostedVaults,
-      onlyDeposits,
-      hidePortfolioDust,
-    } = this.vaultsFilters;
+    const { protocols, search, statuses, behaviors, onlyBoostedVaults, onlyDeposits, hidePortfolioDust } =
+      this.vaultsFilters;
 
     if (hidePortfolioDust) {
       // TODO: MAKE SURE TO UPDATE THIS TO USE USD RATES WE WILL CACHE
@@ -366,9 +330,7 @@ export default class VaultStore {
     }
 
     if (onlyDeposits) {
-      vaults = vaults.filter(
-        (vault) => user.getBalance(vault.vaultToken).value > 0,
-      );
+      vaults = vaults.filter((vault) => user.getBalance(vault.vaultToken).value > 0);
     }
 
     if (onlyBoostedVaults && this.networkHasBoostVaults) {
@@ -408,9 +370,7 @@ export default class VaultStore {
 
   private applySorting(vaults: VaultDTO[]): VaultDTO[] {
     const { user, network } = this.store;
-    const featuredVaultRank = Object.fromEntries(
-      network.network.settOrder.map((v, i) => [v, i + 1]),
-    );
+    const featuredVaultRank = Object.fromEntries(network.network.settOrder.map((v, i) => [v, i + 1]));
 
     switch (this.vaultsFilters.sortOrder) {
       case VaultSortOrder.NAME_ASC:
@@ -420,14 +380,10 @@ export default class VaultStore {
         vaults = vaults.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case VaultSortOrder.APR_ASC:
-        vaults = vaults.sort(
-          (a, b) => this.getVaultYield(a) - this.getVaultYield(b),
-        );
+        vaults = vaults.sort((a, b) => this.getVaultYield(a) - this.getVaultYield(b));
         break;
       case VaultSortOrder.APR_DESC:
-        vaults = vaults.sort(
-          (a, b) => this.getVaultYield(b) - this.getVaultYield(a),
-        );
+        vaults = vaults.sort((a, b) => this.getVaultYield(b) - this.getVaultYield(a));
         break;
       case VaultSortOrder.TVL_ASC:
         vaults = vaults.sort((a, b) => a.value - b.value);
@@ -474,16 +430,10 @@ export default class VaultStore {
           const rankA = featuredVaultRank[a.vaultToken];
           const rankB = featuredVaultRank[b.vaultToken];
           if (rankA || rankB) {
-            return (
-              (rankA ?? Number.MAX_SAFE_INTEGER) -
-              (rankB ?? Number.MAX_SAFE_INTEGER)
-            );
+            return (rankA ?? Number.MAX_SAFE_INTEGER) - (rankB ?? Number.MAX_SAFE_INTEGER);
           }
 
-          if (
-            b.state === VaultState.Featured ||
-            a.state === VaultState.Featured
-          ) {
+          if (b.state === VaultState.Featured || a.state === VaultState.Featured) {
             const isVaultBNew = b.state === VaultState.Featured;
             const isVaultANew = a.state === VaultState.Featured;
             return Number(isVaultBNew) - Number(isVaultANew);
@@ -532,10 +482,7 @@ export default class VaultStore {
 
         occurrences[sanitizedVaultName] = appearances + 1;
 
-        return [
-          vault.vaultToken,
-          slugify(`${vault.protocol}-${slugStoreName}`, { lower: true }),
-        ];
+        return [vault.vaultToken, slugify(`${vault.protocol}-${slugStoreName}`, { lower: true })];
       }),
     );
   }

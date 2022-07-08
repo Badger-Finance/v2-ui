@@ -45,13 +45,5 @@ function ThumbComponent(props: React.HTMLAttributes<HTMLDivElement>) {
 }
 
 export const BoostSlider = observer(() => {
-  return (
-    <CustomSlider
-      orientation="vertical"
-      ThumbComponent={ThumbComponent}
-      min={1}
-      max={100}
-      defaultValue={1}
-    />
-  );
+  return <CustomSlider orientation="vertical" ThumbComponent={ThumbComponent} min={1} max={100} defaultValue={1} />;
 });

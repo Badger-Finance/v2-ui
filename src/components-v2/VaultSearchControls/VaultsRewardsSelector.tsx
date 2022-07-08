@@ -1,13 +1,5 @@
 import { VaultBehavior } from '@badger-dao/sdk';
-import {
-  Checkbox,
-  FormControl,
-  InputLabel,
-  ListItemText,
-  makeStyles,
-  MenuItem,
-  Select,
-} from '@material-ui/core';
+import { Checkbox, FormControl, InputLabel, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -25,10 +17,7 @@ interface Props {
   onChange: (vaultBehaviors: VaultBehavior[]) => void;
 }
 
-const VaultsRewardsSelector = ({
-  rewards = [],
-  onChange,
-}: Props): JSX.Element => {
+const VaultsRewardsSelector = ({ rewards = [], onChange }: Props): JSX.Element => {
   const classes = useStyles();
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -36,11 +25,7 @@ const VaultsRewardsSelector = ({
   };
 
   return (
-    <FormControl
-      variant="outlined"
-      className={classes.formControl}
-      color="primary"
-    >
+    <FormControl variant="outlined" className={classes.formControl} color="primary">
       <InputLabel id="rewards-selector-id-label">Rewards</InputLabel>
       <Select
         multiple

@@ -73,12 +73,8 @@ export abstract class Network {
 
   private checksumVaults(vaults: BadgerVault[]): BadgerVault[] {
     return vaults.map((vault) => {
-      vault.depositToken.address = ethers.utils.getAddress(
-        vault.depositToken.address,
-      );
-      vault.vaultToken.address = ethers.utils.getAddress(
-        vault.vaultToken.address,
-      );
+      vault.depositToken.address = ethers.utils.getAddress(vault.depositToken.address);
+      vault.vaultToken.address = ethers.utils.getAddress(vault.vaultToken.address);
       if (vault.geyser) {
         vault.geyser = ethers.utils.getAddress(vault.geyser);
       }

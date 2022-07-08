@@ -17,9 +17,7 @@ interface Props {
   settBalance: VaultData;
 }
 
-export const TokenDistributionIcon = ({
-  settBalance,
-}: Props): JSX.Element | null => {
+export const TokenDistributionIcon = ({ settBalance }: Props): JSX.Element | null => {
   const classes = useStyles();
 
   if (settBalance.tokens.length === 0) {

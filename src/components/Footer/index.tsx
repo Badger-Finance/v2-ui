@@ -37,12 +37,7 @@ export const Footer = (): JSX.Element => {
       <Container style={{ padding: '8rem 1rem 5rem' }}>
         <Grid container spacing={4}>
           <Grid item sm={12} lg={3} style={{ margin: '.5rem 0' }}>
-            <img
-              alt="Score Logo"
-              src={'assets/8bit/badger score.png'}
-              height="80px"
-              style={{ marginBottom: '1rem' }}
-            />
+            <img alt="Score Logo" src={'assets/8bit/badger score.png'} height="80px" style={{ marginBottom: '1rem' }} />
             <br />
             <Button
               aria-label="Get Coverage"
@@ -59,49 +54,21 @@ export const Footer = (): JSX.Element => {
               Badger finance
             </Typography>
 
-            <div
-              className={classes.link}
-              onClick={() =>
-                window.open('https://www.twitter.com/badgerdao', '_blank')
-              }
-            >
+            <div className={classes.link} onClick={() => window.open('https://www.twitter.com/badgerdao', '_blank')}>
               <div className={classes.iconContainer}>
-                <img
-                  alt="Twitter Logo"
-                  src={'assets/twitter.svg'}
-                  height="24px"
-                  className={classes.icon}
-                />
+                <img alt="Twitter Logo" src={'assets/twitter.svg'} height="24px" className={classes.icon} />
               </div>
               <Typography variant="body1">Twitter</Typography>
             </div>
-            <div
-              className={classes.link}
-              onClick={() =>
-                window.open('https://badgerdao.medium.com', '_blank')
-              }
-            >
+            <div className={classes.link} onClick={() => window.open('https://badgerdao.medium.com', '_blank')}>
               <div className={classes.iconContainer}>
-                <img
-                  alt="Medium Logo"
-                  src={'assets/medium.svg'}
-                  height="24px"
-                  className={classes.icon}
-                />
+                <img alt="Medium Logo" src={'assets/medium.svg'} height="24px" className={classes.icon} />
               </div>
               <Typography variant="body1">Medium</Typography>
             </div>
-            <div
-              className={classes.link}
-              onClick={() => window.open('https://t.me/badger_dao', '_blank')}
-            >
+            <div className={classes.link} onClick={() => window.open('https://t.me/badger_dao', '_blank')}>
               <div className={classes.iconContainer}>
-                <img
-                  alt="Telegram Logo"
-                  src={'assets/telegram.svg'}
-                  height="24px"
-                  className={classes.icon}
-                />
+                <img alt="Telegram Logo" src={'assets/telegram.svg'} height="24px" className={classes.icon} />
               </div>
               <Typography variant="body1">Telegram</Typography>
             </div>
@@ -110,63 +77,28 @@ export const Footer = (): JSX.Element => {
             <Typography variant="h6" style={{ marginBottom: '.5rem' }}>
               Community
             </Typography>
-            <div
-              className={classes.link}
-              onClick={() =>
-                window.open('https://discord.com/invite/xSPFHHS', '_blank')
-              }
-            >
+            <div className={classes.link} onClick={() => window.open('https://discord.com/invite/xSPFHHS', '_blank')}>
               <div className={classes.iconContainer}>
-                <img
-                  alt="Discord Logo"
-                  src={'assets/discord.svg'}
-                  height="24px"
-                  className={classes.icon}
-                />
+                <img alt="Discord Logo" src={'assets/discord.svg'} height="24px" className={classes.icon} />
               </div>
               <Typography variant="body1">Discord</Typography>
             </div>
-            <div
-              className={classes.link}
-              onClick={() =>
-                window.open('https://github.com/Badger-Finance', '_blank')
-              }
-            >
+            <div className={classes.link} onClick={() => window.open('https://github.com/Badger-Finance', '_blank')}>
               <div className={classes.iconContainer}>
-                <img
-                  alt="Github Logo"
-                  src={'assets/github.svg'}
-                  height="24px"
-                  className={classes.icon}
-                />
+                <img alt="Github Logo" src={'assets/github.svg'} height="24px" className={classes.icon} />
               </div>
               <Typography variant="body1">Github</Typography>
             </div>
             <div
               className={classes.link}
-              onClick={() =>
-                window.open(
-                  'https://app.gitbook.com/@badger-finance/s/badger-finance/',
-                  '_blank',
-                )
-              }
+              onClick={() => window.open('https://app.gitbook.com/@badger-finance/s/badger-finance/', '_blank')}
             >
               <div className={classes.iconContainer}>
-                <img
-                  alt="Gitbook Logo"
-                  src={'assets/github.svg'}
-                  height="24px"
-                  className={classes.icon}
-                />
+                <img alt="Gitbook Logo" src={'assets/github.svg'} height="24px" className={classes.icon} />
               </div>
               <Typography variant="body1">Docs</Typography>
             </div>
-            <div
-              className={classes.link}
-              onClick={() =>
-                window.open('https://forum.badger.finance/', '_blank')
-              }
-            >
+            <div className={classes.link} onClick={() => window.open('https://forum.badger.finance/', '_blank')}>
               <div className={classes.iconContainer}>
                 <ForumIcon height="24px" className={classes.icon} />
               </div>
@@ -180,10 +112,7 @@ export const Footer = (): JSX.Element => {
             <div
               className={classes.link}
               onClick={() =>
-                window.open(
-                  'https://badgerdao.medium.com/badger-developer-program-3bf0cb2cc5f1',
-                  '_blank',
-                )
+                window.open('https://badgerdao.medium.com/badger-developer-program-3bf0cb2cc5f1', '_blank')
               }
             >
               <div className={classes.iconContainer}>

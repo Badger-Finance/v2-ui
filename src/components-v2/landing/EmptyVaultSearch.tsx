@@ -27,19 +27,11 @@ const EmptyVaultSearch = (): JSX.Element => {
   };
 
   return (
-    <Grid
-      container
-      component={Card}
-      className={classes.root}
-      justifyContent="center"
-    >
+    <Grid container component={Card} className={classes.root} justifyContent="center">
       <Grid container item xs={10} sm={6} md={3} className={classes.content}>
         <Grid container direction="column" justifyContent="center" spacing={1}>
           <Grid item>
-            <img
-              src="/assets/icons/empty-vaults-search.svg"
-              alt="vault search is empty"
-            />
+            <img src="/assets/icons/empty-vaults-search.svg" alt="vault search is empty" />
           </Grid>
           <Grid item>
             <Typography variant="h6" color="textSecondary">
@@ -49,28 +41,17 @@ const EmptyVaultSearch = (): JSX.Element => {
         </Grid>
         <Grid container justifyContent="center">
           <Typography variant="body2">
-            {
-              "We couldn't find any matches for your selected filters. Try other filters?"
-            }
+            {"We couldn't find any matches for your selected filters. Try other filters?"}
           </Typography>
         </Grid>
         <Grid container>
           <Grid item xs={12}>
-            <Button
-              variant="contained"
-              onClick={handleOpenFilter}
-              color="primary"
-              className={classes.filtersButton}
-            >
+            <Button variant="contained" onClick={handleOpenFilter} color="primary" className={classes.filtersButton}>
               Filters
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Button
-              variant="text"
-              color="primary"
-              onClick={() => vaults.clearFilters()}
-            >
+            <Button variant="text" color="primary" onClick={() => vaults.clearFilters()}>
               Go Back To All Vaults
             </Button>
           </Grid>

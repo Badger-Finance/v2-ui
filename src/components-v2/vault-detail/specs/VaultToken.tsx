@@ -37,18 +37,10 @@ export const VaultToken = ({ token }: Props): JSX.Element => {
   const balanceDisplay = token.balance.toFixed(decimalsAmount);
 
   return (
-    <Grid
-      className={classes.tokenSpec}
-      container
-      justifyContent="space-between"
-    >
+    <Grid className={classes.tokenSpec} container justifyContent="space-between">
       <Box display="flex" alignItems="center">
         <TokenLogo className={classes.tokenImage} token={token} />
-        <Typography
-          display="inline"
-          color="textSecondary"
-          className={clsx(classes.specName, classes.tokenName)}
-        >
+        <Typography display="inline" color="textSecondary" className={clsx(classes.specName, classes.tokenName)}>
           {token.name}
         </Typography>
       </Box>
