@@ -54,16 +54,14 @@ export const MAX_FEE = 1e4;
 export const MAX = ethers.constants.MaxUint256;
 export const METAMASK_REJECTED__SIGNATURE_ERROR_CODE = 4001;
 
-export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS =
-  '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
+export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 
 // time constants
 export const ONE_MIN_MS = 60 * 1000;
 export const ONE_HOUR_MS = ONE_MIN_MS * 60;
 export const ONE_DAY_MS = ONE_HOUR_MS * 24;
 
-export const ESTIMATED_REWARDS_FREQUENCY =
-  process.env.REACT_APP_REWARDS_FREQUENCY || 2; // in hours
+export const ESTIMATED_REWARDS_FREQUENCY = process.env.REACT_APP_REWARDS_FREQUENCY || 2; // in hours
 
 // App Notification Constants
 
@@ -85,10 +83,8 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE =
-  'Limited Time Bootstrapping emissions on  graviAURA: ';
+export const APP_NEWS_MESSAGE = 'Limited Time Bootstrapping emissions on  graviAURA: ';
 // Text & URL should be defined or explicitly undefined.
 export const APP_NEWS_URL_TEXT = 'Learn More';
-export const APP_NEWS_URL =
-  'https://badger.com/gravity-news/graviaura-bootstrapping';
+export const APP_NEWS_URL = 'https://badger.com/gravity-news/graviaura-bootstrapping';
 export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);
