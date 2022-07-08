@@ -1,10 +1,7 @@
 import { Button, ButtonGroup } from '@material-ui/core';
 import React from 'react';
 
-import {
-  ChartMode,
-  VaultChartTimeframe,
-} from '../../../mobx/model/vaults/vault-charts';
+import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
 
 interface Props {
   mode: ChartMode;
@@ -12,16 +9,8 @@ interface Props {
   onChange: (timeframe: VaultChartTimeframe) => void;
 }
 
-export const ChartTimeframeControls = ({
-  mode,
-  value,
-  onChange,
-}: Props): JSX.Element => (
-  <ButtonGroup
-    variant="outlined"
-    size="small"
-    aria-label="chart timeframe controls"
-  >
+export const ChartTimeframeControls = ({ mode, value, onChange }: Props): JSX.Element => (
+  <ButtonGroup variant="outlined" size="small" aria-label="chart timeframe controls">
     {mode !== ChartMode.Ratio && (
       <Button
         disableElevation

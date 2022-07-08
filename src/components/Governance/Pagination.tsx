@@ -24,8 +24,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: `${theme.palette.background.paper}`,
   },
   sides: {
-    boxShadow:
-      'transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.18) 0px 2px 4px',
+    boxShadow: 'transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.18) 0px 2px 4px',
   },
 }));
 export interface Props {
@@ -33,11 +32,7 @@ export interface Props {
   totalPages: number;
   handlePagination: (page: number) => void;
 }
-export const PaginationComponent: React.FC<Props> = ({
-  page,
-  totalPages,
-  handlePagination,
-}) => {
+export const PaginationComponent: React.FC<Props> = ({ page, totalPages, handlePagination }) => {
   const classes = useStyles();
   const pageJsx: JSX.Element[] = [];
   for (let i = 1; i <= totalPages; i++) {

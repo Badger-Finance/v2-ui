@@ -37,12 +37,8 @@ const VaultDeprecationWarning = ({ vault }: Props): JSX.Element => {
     network: { network },
   } = useContext(StoreContext);
   const classes = useStyles();
-  const migratingVaultAddress = DEPRECATED_VAULTS_MIGRATIONS_MAPPING.get(
-    network.symbol,
-  )?.get(vault.vaultToken);
-  const migratingVault = migratingVaultAddress
-    ? vaults.getVault(migratingVaultAddress)
-    : null;
+  const migratingVaultAddress = DEPRECATED_VAULTS_MIGRATIONS_MAPPING.get(network.symbol)?.get(vault.vaultToken);
+  const migratingVault = migratingVaultAddress ? vaults.getVault(migratingVaultAddress) : null;
 
   const handleLinkClick = async () => {
     if (migratingVault) {
@@ -53,12 +49,7 @@ const VaultDeprecationWarning = ({ vault }: Props): JSX.Element => {
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      className={classes.root}
-      onClick={handleLinkClick}
-    >
+    <Grid container direction="column" className={classes.root} onClick={handleLinkClick}>
       <Grid item container alignItems="center">
         <Typography variant="h6" display="inline">
           Vault Discontinued

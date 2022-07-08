@@ -1,11 +1,4 @@
-import {
-  Box,
-  ButtonBase,
-  Divider,
-  Grid,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Box, ButtonBase, Divider, Grid, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { Fragment, useEffect, useState } from 'react';
 
@@ -57,13 +50,7 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 
   const handleApplyPercentage = (percentage: number) => {
     setInputValue(((balance * percentage) / 100).toString());
-    onChange(
-      new TokenBalance(
-        token,
-        tokenBalance.tokenBalance.mul(percentage).div(100),
-        price,
-      ),
-    );
+    onChange(new TokenBalance(token, tokenBalance.tokenBalance.mul(percentage).div(100), price));
   };
 
   const percentages = (
@@ -78,12 +65,7 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
             <Typography variant="caption">{`${percentage}%`}</Typography>
           </ButtonBase>
           {index !== total.length - 1 && (
-            <Divider
-              className={classes.divider}
-              orientation="vertical"
-              variant="middle"
-              flexItem
-            />
+            <Divider className={classes.divider} orientation="vertical" variant="middle" flexItem />
           )}
         </Fragment>
       ))}
@@ -113,16 +95,9 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
             onChange={onValidChange(handleInputChange)}
           />
         </Box>
-        <Grid
-          container
-          alignItems="center"
-          justifyContent="space-between"
-          className={classes.balances}
-        >
+        <Grid container alignItems="center" justifyContent="space-between" className={classes.balances}>
           <Box>
-            <Typography variant="caption">{`BALANCE: ${tokenBalance.balanceDisplay(
-              6,
-            )}`}</Typography>
+            <Typography variant="caption">{`BALANCE: ${tokenBalance.balanceDisplay(6)}`}</Typography>
           </Box>
           {percentages}
         </Grid>

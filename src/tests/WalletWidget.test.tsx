@@ -63,12 +63,8 @@ describe('WalletWidget', () => {
   });
 
   test('Connected address is properly displayed', async () => {
-    jest
-      .spyOn(WalletStore.prototype, 'isConnected', 'get')
-      .mockReturnValue(true);
-    jest
-      .spyOn(WalletStore.prototype, 'address', 'get')
-      .mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
     const { container } = customRender(
       <StoreProvider value={testStore}>
         <WalletWidget />

@@ -391,10 +391,7 @@ export class IbbtcVaultZap__factory {
   static createInterface(): IbbtcVaultZapInterface {
     return new utils.Interface(_abi) as IbbtcVaultZapInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider,
-  ): IbbtcVaultZap {
+  static connect(address: string, signerOrProvider: Signer | Provider): IbbtcVaultZap {
     return new Contract(address, _abi, signerOrProvider) as IbbtcVaultZap;
   }
 }

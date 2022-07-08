@@ -73,11 +73,7 @@ interface Props {
   applyFilter: (filters: unknown[]) => void;
 }
 
-const GovernanceFilterDialog = ({
-  open,
-  onClose,
-  applyFilter,
-}: Props): JSX.Element => {
+const GovernanceFilterDialog = ({ open, onClose, applyFilter }: Props): JSX.Element => {
   const classes = useStyles();
   const empty = new Set<string>();
   const [filters, setFilters] = useState<Set<string>>(empty);
@@ -109,11 +105,7 @@ const GovernanceFilterDialog = ({
         <Typography variant="h6" className={classes.titleText}>
           Filters
         </Typography>
-        <IconButton
-          aria-label="close vault filters"
-          className={classes.closeButton}
-          onClick={handleClose}
-        >
+        <IconButton aria-label="close vault filters" className={classes.closeButton} onClick={handleClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -137,10 +129,7 @@ const GovernanceFilterDialog = ({
                   }
                   label={
                     <div className={classes.checkboxLabel}>
-                      <Typography
-                        variant="body1"
-                        className={classes.formControlLabelText}
-                      >
+                      <Typography variant="body1" className={classes.formControlLabelText}>
                         Proposed
                       </Typography>
                     </div>
@@ -160,10 +149,7 @@ const GovernanceFilterDialog = ({
                   }
                   label={
                     <div className={classes.checkboxLabel}>
-                      <Typography
-                        variant="body1"
-                        className={classes.formControlLabelText}
-                      >
+                      <Typography variant="body1" className={classes.formControlLabelText}>
                         Vetoed
                       </Typography>
                     </div>
@@ -183,10 +169,7 @@ const GovernanceFilterDialog = ({
                   }
                   label={
                     <div className={classes.checkboxLabel}>
-                      <Typography
-                        variant="body1"
-                        className={classes.formControlLabelText}
-                      >
+                      <Typography variant="body1" className={classes.formControlLabelText}>
                         Executed
                       </Typography>
                     </div>
@@ -198,22 +181,12 @@ const GovernanceFilterDialog = ({
         </Grid>
         <Grid container className={classes.actionButtons} spacing={4}>
           <Grid item>
-            <Button
-              variant="text"
-              onClick={handleClearAll}
-              color="primary"
-              className={classes.clearButton}
-            >
+            <Button variant="text" onClick={handleClearAll} color="primary" className={classes.clearButton}>
               Clear All
             </Button>
           </Grid>
           <Grid item>
-            <Button
-              variant="contained"
-              onClick={handleSave}
-              color="primary"
-              className={classes.applyFilter}
-            >
+            <Button variant="contained" onClick={handleSave} color="primary" className={classes.applyFilter}>
               Apply Filters
             </Button>
           </Grid>

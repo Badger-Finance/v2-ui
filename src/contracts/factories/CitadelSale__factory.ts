@@ -562,10 +562,7 @@ export class CitadelSale__factory {
   static createInterface(): CitadelSaleInterface {
     return new utils.Interface(_abi) as CitadelSaleInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider,
-  ): CitadelSale {
+  static connect(address: string, signerOrProvider: Signer | Provider): CitadelSale {
     return new Contract(address, _abi, signerOrProvider) as CitadelSale;
   }
 }

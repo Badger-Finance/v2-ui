@@ -20,10 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SlippageMessage = ({
-  calculatedSlippage,
-  limitSlippage,
-}: Props): JSX.Element => {
+const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Element => {
   const classes = useStyles();
 
   if (calculatedSlippage.isNegative()) {
@@ -61,12 +58,8 @@ const SlippageMessage = ({
 
   return (
     <Grid container alignItems="center" justifyContent="space-between">
-      <Typography variant="body2">
-        Estimated slippage (incl. pricing):
-      </Typography>
-      <Typography variant="body2">{`${calculatedSlippage
-        .toNumber()
-        .toFixed(4)}%`}</Typography>
+      <Typography variant="body2">Estimated slippage (incl. pricing):</Typography>
+      <Typography variant="body2">{`${calculatedSlippage.toNumber().toFixed(4)}%`}</Typography>
     </Grid>
   );
 };

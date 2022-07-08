@@ -55,13 +55,10 @@ const VaultFiltersDialog = () => {
   const { vaults } = useContext(StoreContext);
   const classes = useStyles();
   const { vaultsFilters, networkHasBoostVaults } = vaults;
-  const closeDialogTransitionDuration =
-    useTheme().transitions.duration.leavingScreen;
+  const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
   const [onlyDeposits, setOnlyDeposits] = useState(vaultsFilters.onlyDeposits);
   const [showAPR, setShowAPR] = useState(vaultsFilters.showAPR);
-  const [boostedVaults, setBoostedVaults] = useState(
-    vaultsFilters.onlyBoostedVaults,
-  );
+  const [boostedVaults, setBoostedVaults] = useState(vaultsFilters.onlyBoostedVaults);
   const [hideDust, setHideDust] = useState(vaultsFilters.hidePortfolioDust);
   const [statuses, setStatuses] = useState(vaultsFilters.statuses);
   const [platforms, setPlatforms] = useState(vaultsFilters.protocols);
@@ -115,22 +112,13 @@ const VaultFiltersDialog = () => {
   }, [vaultsFilters, syncPersistedFiltersValues]);
 
   return (
-    <Dialog
-      open={vaults.showVaultFilters}
-      onClose={handleClose}
-      maxWidth="xl"
-      fullWidth
-    >
+    <Dialog open={vaults.showVaultFilters} onClose={handleClose} maxWidth="xl" fullWidth>
       <DialogTitle disableTypography className={classes.title}>
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography variant="h5" display="inline">
             Filter & Search
           </Typography>
-          <IconButton
-            aria-label="close vault filters"
-            className={classes.closeButton}
-            onClick={handleClose}
-          >
+          <IconButton aria-label="close vault filters" className={classes.closeButton} onClick={handleClose}>
             <CloseIcon />
           </IconButton>
         </Grid>
@@ -139,60 +127,36 @@ const VaultFiltersDialog = () => {
         <Divider className={classes.topDivider} />
         <Grid container direction="column">
           <Grid item>
-            <OnlyDepositsControl
-              checked={onlyDeposits}
-              onChange={(check) => setOnlyDeposits(check)}
-            />
+            <OnlyDepositsControl checked={onlyDeposits} onChange={(check) => setOnlyDeposits(check)} />
           </Grid>
           <Grid item>
-            <PortfolioDustControl
-              checked={hideDust}
-              onChange={(check) => setHideDust(check)}
-            />
+            <PortfolioDustControl checked={hideDust} onChange={(check) => setHideDust(check)} />
           </Grid>
           {networkHasBoostVaults && (
             <Grid item>
-              <BoostedVaultsControl
-                checked={boostedVaults}
-                onChange={(check) => setBoostedVaults(check)}
-              />
+              <BoostedVaultsControl checked={boostedVaults} onChange={(check) => setBoostedVaults(check)} />
             </Grid>
           )}
         </Grid>
         <Divider className={classes.divider} />
         <Grid container direction="column">
           <Grid item className={classes.select}>
-            <VaultStatusSelector
-              statuses={statuses}
-              onChange={(status) => setStatuses(status)}
-            />
+            <VaultStatusSelector statuses={statuses} onChange={(status) => setStatuses(status)} />
           </Grid>
           <Grid item className={classes.select}>
-            <VaultsPlatformSelector
-              platforms={platforms}
-              onChange={(platform) => setPlatforms(platform)}
-            />
+            <VaultsPlatformSelector platforms={platforms} onChange={(platform) => setPlatforms(platform)} />
           </Grid>
           <Grid item className={classes.select}>
-            <VaultsRewardsSelector
-              rewards={rewards}
-              onChange={(rewards) => setRewards(rewards)}
-            />
+            <VaultsRewardsSelector rewards={rewards} onChange={(rewards) => setRewards(rewards)} />
           </Grid>
           <Grid item>
-            <VaultSearchBar
-              search={search}
-              onChange={(change) => setSearch(change)}
-            />
+            <VaultSearchBar search={search} onChange={(change) => setSearch(change)} />
           </Grid>
         </Grid>
         <Divider className={classes.divider} />
         <Grid container>
           <Grid item className={classes.apr}>
-            <VaultsAprControl
-              showAPR={showAPR}
-              onShowAPRChange={(checked) => setShowAPR(checked)}
-            />
+            <VaultsAprControl showAPR={showAPR} onShowAPRChange={(checked) => setShowAPR(checked)} />
           </Grid>
         </Grid>
         <Divider className={classes.divider} />

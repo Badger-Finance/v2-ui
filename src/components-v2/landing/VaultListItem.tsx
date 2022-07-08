@@ -1,12 +1,5 @@
 import { VaultDTO } from '@badger-dao/sdk';
-import {
-  Card,
-  Grid,
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { Card, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
@@ -76,98 +69,77 @@ interface VaultListItemProps {
   vault: VaultDTO;
 }
 
-const VaultListItem = observer(
-  ({ vault }: VaultListItemProps): JSX.Element | null => {
-    const classes = useStyles();
-    const { router, vaults } = useContext(StoreContext);
-    const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
-    const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
+const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | null => {
+  const classes = useStyles();
+  const { router, vaults } = useContext(StoreContext);
+  const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
+  const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 
-    const goToVaultDetail = async () => {
-      await router.goTo(
-        routes.vaultDetail,
-        { vaultName: vaults.getSlug(vault.vaultToken) },
-        { chain: router.queryParams?.chain },
-      );
-    };
+  const goToVaultDetail = async () => {
+    await router.goTo(
+      routes.vaultDetail,
+      { vaultName: vaults.getSlug(vault.vaultToken) },
+      { chain: router.queryParams?.chain },
+    );
+  };
 
-    const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
-      event.stopPropagation();
-      vaults.openStatusInformationPanel();
-    };
+  const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    vaults.openStatusInformationPanel();
+  };
 
-    const handleRewardsClick = (event: MouseEvent<HTMLElement>) => {
-      event.stopPropagation();
-      vaults.openRewardsInformationPanel();
-    };
+  const handleRewardsClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    vaults.openRewardsInformationPanel();
+  };
 
-    return (
-      <Grid
-        container
-        direction="column"
-        component={Card}
-        className={classes.root}
-        onClick={goToVaultDetail}
-      >
-        <Grid item container spacing={2}>
-          {!isTablet && (
-            <Grid
-              item
-              container
-              xs="auto"
-              className={classes.iconBadgeContainer}
-            >
-              <VaultLogo tokens={vault.tokens} />
-            </Grid>
-          )}
-          <Grid item xs lg={4}>
-            <Typography variant="subtitle1" className={classes.vaultName}>
-              {vault.name}
-            </Typography>
+  return (
+    <Grid container direction="column" component={Card} className={classes.root} onClick={goToVaultDetail}>
+      <Grid item container spacing={2}>
+        {!isTablet && (
+          <Grid item container xs="auto" className={classes.iconBadgeContainer}>
+            <VaultLogo tokens={vault.tokens} />
           </Grid>
-          <Grid item xs container justifyContent="flex-end">
-            <VaultItemApr vault={vault} boost={vaultBoost} />
-          </Grid>
-          <Grid item xs container justifyContent="flex-end">
-            <CurrencyDisplay
-              displayValue={depositBalanceDisplay}
-              variant="body1"
-              justifyContent="flex-start"
-              TypographyProps={{ className: classes.itemText }}
-            />
-          </Grid>
-          <Grid item xs container justifyContent="flex-end">
-            <CurrencyDisplay
-              displayValue={`$${numberWithCommas(vault.value.toFixed())}`}
-              variant="body1"
-              justifyContent="flex-start"
-              TypographyProps={{ className: classes.itemText }}
-            />
-          </Grid>
+        )}
+        <Grid item xs lg={4}>
+          <Typography variant="subtitle1" className={classes.vaultName}>
+            {vault.name}
+          </Typography>
         </Grid>
-        <Grid
-          item
-          container
-          className={classes.tagsContainer}
-          spacing={2}
-          alignItems="center"
-        >
-          <Grid item xs="auto" className={classes.iconBadgeContainer}>
-            {isTablet && (
-              <VaultLogo tokens={vault.tokens} className={classes.tabletLogo} />
-            )}
-          </Grid>
-          <Grid item xs>
-            <VaultListItemTags
-              vault={vault}
-              showLabels
-              onStatusClick={handleStatusClick}
-              onRewardsClick={handleRewardsClick}
-            />
-          </Grid>
+        <Grid item xs container justifyContent="flex-end">
+          <VaultItemApr vault={vault} boost={vaultBoost} />
+        </Grid>
+        <Grid item xs container justifyContent="flex-end">
+          <CurrencyDisplay
+            displayValue={depositBalanceDisplay}
+            variant="body1"
+            justifyContent="flex-start"
+            TypographyProps={{ className: classes.itemText }}
+          />
+        </Grid>
+        <Grid item xs container justifyContent="flex-end">
+          <CurrencyDisplay
+            displayValue={`$${numberWithCommas(vault.value.toFixed())}`}
+            variant="body1"
+            justifyContent="flex-start"
+            TypographyProps={{ className: classes.itemText }}
+          />
         </Grid>
       </Grid>
-    );
-  },
-);
+      <Grid item container className={classes.tagsContainer} spacing={2} alignItems="center">
+        <Grid item xs="auto" className={classes.iconBadgeContainer}>
+          {isTablet && <VaultLogo tokens={vault.tokens} className={classes.tabletLogo} />}
+        </Grid>
+        <Grid item xs>
+          <VaultListItemTags
+            vault={vault}
+            showLabels
+            onStatusClick={handleStatusClick}
+            onRewardsClick={handleRewardsClick}
+          />
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+});
 export default VaultListItem;

@@ -44,12 +44,7 @@ export const NavbarSocialContact = (): JSX.Element => {
       </Grid>
       <Grid item>
         <Typography variant="helperText">
-          <Link
-            color="inherit"
-            href="https://docs.badger.com/"
-            target="_blank"
-            rel="noopener"
-          >
+          <Link color="inherit" href="https://docs.badger.com/" target="_blank" rel="noopener">
             DOCS
           </Link>
         </Typography>
@@ -58,11 +53,7 @@ export const NavbarSocialContact = (): JSX.Element => {
         <Typography variant="helperText">
           <Link
             color="inherit"
-            href={
-              FLAGS.GOVERNANCE_TIMELOCK
-                ? '/governance'
-                : 'https://snapshot.org/#/badgerdao.eth'
-            }
+            href={FLAGS.GOVERNANCE_TIMELOCK ? '/governance' : 'https://snapshot.org/#/badgerdao.eth'}
             target={FLAGS.GOVERNANCE_TIMELOCK ? undefined : '_blank'}
             rel="noopener"
           >
@@ -72,12 +63,7 @@ export const NavbarSocialContact = (): JSX.Element => {
       </Grid>
       <Grid item>
         <Typography variant="helperText">
-          <Link
-            color="inherit"
-            href="https://forum.badger.finance"
-            target="_blank"
-            rel="noopener"
-          >
+          <Link color="inherit" href="https://forum.badger.finance" target="_blank" rel="noopener">
             FORUM
           </Link>
         </Typography>

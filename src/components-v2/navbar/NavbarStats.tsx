@@ -66,16 +66,11 @@ export const NavbarStats = observer((): JSX.Element => {
   const [hasReachedScrollEnd, setHasReachedScrollEnd] = useState(false);
   const classes = useStyles();
 
-  const badgerToken =
-    network.deploy.token.length > 0 ? network.deploy.token : undefined;
+  const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
   const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
-  const totalValueLocked = protocolSummary
-    ? protocolSummary.totalValue
-    : undefined;
+  const totalValueLocked = protocolSummary ? protocolSummary.totalValue : undefined;
   const chainName = getFormattedNetworkName(network);
-  const valuePlaceholder = (
-    <Skeleton animation="wave" width={32} className={classes.loader} />
-  );
+  const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 
   const handleScrollClick = () => {
     if (barRef.current) {
@@ -93,16 +88,14 @@ export const NavbarStats = observer((): JSX.Element => {
 
     const sizeObserver = new ResizeObserver((entries) => {
       const target = entries[0].target as HTMLDivElement;
-      const hasReachedEnd =
-        target.scrollLeft + target.offsetWidth === target.scrollWidth;
+      const hasReachedEnd = target.scrollLeft + target.offsetWidth === target.scrollWidth;
       setHasScrollableContent(target.scrollWidth > target.clientWidth);
       setHasReachedScrollEnd(hasReachedEnd);
     });
 
     function updateScrollPosition(event: Event) {
       const target = event.target as HTMLDivElement;
-      const hasReachedEnd =
-        target.scrollLeft + target.offsetWidth === target.scrollWidth;
+      const hasReachedEnd = target.scrollLeft + target.offsetWidth === target.scrollWidth;
       setHasReachedScrollEnd(hasReachedEnd);
     }
 
@@ -121,10 +114,7 @@ export const NavbarStats = observer((): JSX.Element => {
   return (
     <>
       {hasScrollableContent && !hasReachedScrollEnd && (
-        <div
-          className={classes.arrowRightContainer}
-          onClick={handleScrollClick}
-        >
+        <div className={classes.arrowRightContainer} onClick={handleScrollClick}>
           <ChevronRightIcon />
         </div>
       )}

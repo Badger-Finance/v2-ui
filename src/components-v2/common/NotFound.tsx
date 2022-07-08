@@ -20,11 +20,7 @@ export const NotFound = (): JSX.Element => {
 
   return (
     <div className={classes.root}>
-      <img
-        className={classes.image}
-        src="/assets/icons/not-found-404.png"
-        alt="not-found"
-      />
+      <img className={classes.image} src="/assets/icons/not-found-404.png" alt="not-found" />
     </div>
   );
 };

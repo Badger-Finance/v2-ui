@@ -18,10 +18,7 @@
         "address": "0x27Fb47B9Fb32B9cF660C4E0128bE0f4e883f3df1"
       },
       "TokenZap": {
-        "supportedTokens": [
-          "0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D",
-          "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
-        ],
+        "supportedTokens": ["0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D", "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"],
         "address": "0xe8E40093017A3A55B5c2BC3E9CA6a4d208c07734"
       }
     }

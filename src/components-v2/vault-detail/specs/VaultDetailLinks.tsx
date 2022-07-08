@@ -43,33 +43,12 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
     <Grid container className={classes.linksContainer}>
       <Typography>Links</Typography>
       <StyledDivider />
-      {strategy.userGuide && (
-        <VaultDetailLink title="User Guide" href={strategy.userGuide} />
-      )}
-      {strategy.strategyLink && (
-        <VaultDetailLink
-          title="Strategy Diagram"
-          href={strategy.strategyLink}
-        />
-      )}
-      {strategy.depositLink && (
-        <VaultDetailLink
-          title="Get Deposit Token"
-          href={strategy.depositLink}
-        />
-      )}
-      <VaultDetailLink
-        title="Vault Address"
-        href={`${network.explorer}/address/${vaultToken}`}
-      />
-      <VaultDetailLink
-        title="Strategy Address"
-        href={`${network.explorer}/address/${strategyAddress}`}
-      />
-      <VaultDetailLink
-        title="Underlying Token Address"
-        href={`${network.explorer}/address/${underlyingToken}`}
-      />
+      {strategy.userGuide && <VaultDetailLink title="User Guide" href={strategy.userGuide} />}
+      {strategy.strategyLink && <VaultDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
+      {strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
+      <VaultDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultToken}`} />
+      <VaultDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
+      <VaultDetailLink title="Underlying Token Address" href={`${network.explorer}/address/${underlyingToken}`} />
     </Grid>
   );
 });

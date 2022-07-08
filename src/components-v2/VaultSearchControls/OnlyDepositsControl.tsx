@@ -4,11 +4,7 @@ import React from 'react';
 
 import { CheckboxControlProps } from './types';
 
-const OnlyDepositsControl = ({
-  checked,
-  onChange,
-  ...muiProps
-}: CheckboxControlProps): JSX.Element => {
+const OnlyDepositsControl = ({ checked, onChange, ...muiProps }: CheckboxControlProps): JSX.Element => {
   const handleDepositChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);
   };
@@ -16,13 +12,7 @@ const OnlyDepositsControl = ({
   return (
     <FormControlLabel
       {...muiProps}
-      control={
-        <Checkbox
-          checked={checked}
-          color="primary"
-          onChange={handleDepositChange}
-        />
-      }
+      control={<Checkbox checked={checked} color="primary" onChange={handleDepositChange} />}
       label={<Typography variant="body2">Only show deposits</Typography>}
     />
   );

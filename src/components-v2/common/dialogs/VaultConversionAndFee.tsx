@@ -30,59 +30,45 @@ interface Props {
   balance: number;
 }
 
-export const VaultConversionAndFee = observer(
-  ({ vault, balance }: Props): JSX.Element => {
-    const { vaults } = React.useContext(StoreContext);
-    const classes = useStyles();
+export const VaultConversionAndFee = observer(({ vault, balance }: Props): JSX.Element => {
+  const { vaults } = React.useContext(StoreContext);
+  const classes = useStyles();
 
-    const withdrawFee = getVaultStrategyFee(vault, StrategyFee.withdraw);
-    const { symbol } = vaults.getToken(vault.underlyingToken);
+  const withdrawFee = getVaultStrategyFee(vault, StrategyFee.withdraw);
+  const { symbol } = vaults.getToken(vault.underlyingToken);
 
-    const withdrawAmount = balance * vault.pricePerFullShare;
-    const withdrawalFee = (withdrawAmount * withdrawFee) / MAX_FEE;
-    const amountAfterFee = withdrawAmount - withdrawalFee;
+  const withdrawAmount = balance * vault.pricePerFullShare;
+  const withdrawalFee = (withdrawAmount * withdrawFee) / MAX_FEE;
+  const amountAfterFee = withdrawAmount - withdrawalFee;
 
-    return (
-      <Grid container>
-        <Typography>Fees</Typography>
-        <Divider className={classes.divider} />
-        <Grid container justifyContent="space-between">
-          <Typography
-            className={classes.specName}
-            color="textSecondary"
-            display="inline"
-          >
-            Converted Amount
-          </Typography>
-          <Typography display="inline" variant="subtitle2">
-            {`${withdrawAmount.toFixed(6)} ${symbol}`}
-          </Typography>
-        </Grid>
-        <Grid container justifyContent="space-between">
-          <Typography
-            className={classes.specName}
-            color="textSecondary"
-            display="inline"
-          >
-            {`Estimated Fee (${formatStrategyFee(withdrawFee)})`}
-          </Typography>
-          <Typography display="inline" variant="subtitle2">
-            {`${withdrawalFee.toFixed(6)} ${symbol}`}
-          </Typography>
-        </Grid>
-        <Grid container justifyContent="space-between">
-          <Typography
-            className={classes.specName}
-            color="textSecondary"
-            display="inline"
-          >
-            You will receive
-          </Typography>
-          <Typography display="inline" variant="subtitle2">
-            {`${amountAfterFee.toFixed(6)} ${symbol}`}
-          </Typography>
-        </Grid>
+  return (
+    <Grid container>
+      <Typography>Fees</Typography>
+      <Divider className={classes.divider} />
+      <Grid container justifyContent="space-between">
+        <Typography className={classes.specName} color="textSecondary" display="inline">
+          Converted Amount
+        </Typography>
+        <Typography display="inline" variant="subtitle2">
+          {`${withdrawAmount.toFixed(6)} ${symbol}`}
+        </Typography>
       </Grid>
-    );
-  },
-);
+      <Grid container justifyContent="space-between">
+        <Typography className={classes.specName} color="textSecondary" display="inline">
+          {`Estimated Fee (${formatStrategyFee(withdrawFee)})`}
+        </Typography>
+        <Typography display="inline" variant="subtitle2">
+          {`${withdrawalFee.toFixed(6)} ${symbol}`}
+        </Typography>
+      </Grid>
+      <Grid container justifyContent="space-between">
+        <Typography className={classes.specName} color="textSecondary" display="inline">
+          You will receive
+        </Typography>
+        <Typography display="inline" variant="subtitle2">
+          {`${amountAfterFee.toFixed(6)} ${symbol}`}
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+});

@@ -1,9 +1,4 @@
-import {
-  BOOST_RANKS,
-  MAX_BOOST_RANK,
-  MIN_BOOST,
-  MIN_BOOST_RANK,
-} from '../config/system/boost-ranks';
+import { BOOST_RANKS, MAX_BOOST_RANK, MIN_BOOST, MIN_BOOST_RANK } from '../config/system/boost-ranks';
 import { BoostRank } from '../mobx/model/boost/leaderboard-rank';
 import { restrictToRange } from './componentHelpers';
 
@@ -11,19 +6,12 @@ import { restrictToRange } from './componentHelpers';
  * checks that a give multiplier value is within global boost levels multiplier boundaries
  */
 export const isValidStakeRatio = (multiplier: number): boolean => {
-  return (
-    multiplier >= MIN_BOOST_RANK.stakeRatioBoundary &&
-    multiplier <= MAX_BOOST_RANK.stakeRatioBoundary
-  );
+  return multiplier >= MIN_BOOST_RANK.stakeRatioBoundary && multiplier <= MAX_BOOST_RANK.stakeRatioBoundary;
 };
 
 /* Restricts the stake ratio to the minimum and maximum stake ratio boundaries. */
 export const clampStakeRatio = (stakeRatio: number): number => {
-  return restrictToRange(
-    stakeRatio,
-    MIN_BOOST_RANK.stakeRatioBoundary,
-    MAX_BOOST_RANK.stakeRatioBoundary,
-  );
+  return restrictToRange(stakeRatio, MIN_BOOST_RANK.stakeRatioBoundary, MAX_BOOST_RANK.stakeRatioBoundary);
 };
 
 /**
@@ -33,11 +21,7 @@ export const clampStakeRatio = (stakeRatio: number): number => {
  * @param {BoostRank} desiredRank - The rank you want to achieve.
  * @returns The amount of non-native currency required to reach the desired rank.
  */
-export const calculateNativeToMatchRank = (
-  native: number,
-  nonNative: number,
-  desiredRank: BoostRank,
-): number => {
+export const calculateNativeToMatchRank = (native: number, nonNative: number, desiredRank: BoostRank): number => {
   const currentStakeRatio = native / nonNative;
   const desiredRankStakeRatio = desiredRank.stakeRatioBoundary;
 
@@ -47,9 +31,7 @@ export const calculateNativeToMatchRank = (
 
   // buffer to prevent users from being leveled down due to price changes
   const safeLevelingBuffer = desiredRankStakeRatio - currentStakeRatio / 2;
-  return (
-    nonNative * (desiredRankStakeRatio - currentStakeRatio) + safeLevelingBuffer
-  );
+  return nonNative * (desiredRankStakeRatio - currentStakeRatio) + safeLevelingBuffer;
 };
 
 /**
@@ -70,9 +52,7 @@ export const getHighestRankFromStakeRatio = (stakeRatio: number): BoostRank => {
  * @param {BoostRank} currentRank - BoostRank - The current boost rank of the user.
  * @returns The next boost rank.
  */
-export const getNextBoostRank = (
-  currentRank: BoostRank,
-): BoostRank | undefined => {
+export const getNextBoostRank = (currentRank: BoostRank): BoostRank | undefined => {
   const currentBoostLevelIndex = BOOST_RANKS.findIndex(
     (rank) => rank.stakeRatioBoundary === currentRank.stakeRatioBoundary,
   );

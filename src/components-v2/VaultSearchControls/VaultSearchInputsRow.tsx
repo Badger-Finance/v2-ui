@@ -45,10 +45,7 @@ const VaultSearchInputsRow = (): JSX.Element => {
         />
       </Grid>
       <Grid item xs md lg={6}>
-        <VaultSearchBar
-          search={vaultsFilters.search}
-          onChange={(change) => setVaultsFilter('search', change)}
-        />
+        <VaultSearchBar search={vaultsFilters.search} onChange={(change) => setVaultsFilter('search', change)} />
       </Grid>
       <Grid item xs="auto">
         <Button fullWidth color="primary" variant="text" onClick={clearFilters}>

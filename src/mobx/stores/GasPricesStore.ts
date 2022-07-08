@@ -12,9 +12,7 @@ class GasPricesStore {
   private pricesCache: GasPricesSummary;
 
   constructor(private store: RootStore) {
-    this.gasNetworks = supportedNetworks.filter(
-      (network) => network.id !== NETWORK_IDS.LOCAL,
-    );
+    this.gasNetworks = supportedNetworks.filter((network) => network.id !== NETWORK_IDS.LOCAL);
     this.pricesCache = {};
 
     extendObservable(this, {

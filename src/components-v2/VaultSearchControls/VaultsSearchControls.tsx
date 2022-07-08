@@ -1,10 +1,4 @@
-import {
-  Grid,
-  makeStyles,
-  Paper,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { Grid, makeStyles, Paper, useMediaQuery, useTheme } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -63,12 +57,7 @@ const VaultsSearchControls = () => {
 
   return (
     <Paper className={classes.paper}>
-      <Grid
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        className={classes.firstRow}
-      >
+      <Grid container justifyContent="space-between" alignItems="center" className={classes.firstRow}>
         <div>
           <OnlyDepositsControl
             className={classes.checkbox}
@@ -78,16 +67,12 @@ const VaultsSearchControls = () => {
           <PortfolioDustControl
             className={classes.checkbox}
             checked={vaultsFilters.hidePortfolioDust}
-            onChange={(checked) =>
-              setVaultsFilter('hidePortfolioDust', checked)
-            }
+            onChange={(checked) => setVaultsFilter('hidePortfolioDust', checked)}
           />
           {networkHasBoostVaults && (
             <BoostedVaultsControl
               checked={vaultsFilters.onlyBoostedVaults}
-              onChange={(checked) =>
-                setVaultsFilter('onlyBoostedVaults', checked)
-              }
+              onChange={(checked) => setVaultsFilter('onlyBoostedVaults', checked)}
             />
           )}
         </div>

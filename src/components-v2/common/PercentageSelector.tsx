@@ -1,9 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  ButtonGroupProps,
-  ButtonProps,
-} from '@material-ui/core';
+import { Button, ButtonGroup, ButtonGroupProps, ButtonProps } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React from 'react';

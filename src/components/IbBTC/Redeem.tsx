@@ -10,9 +10,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Id, toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import TxCompletedToast, {
-  TX_COMPLETED_TOAST_DURATION,
-} from '../../components-v2/TransactionToast';
+import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../../components-v2/TransactionToast';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import {
   showTransferRejectedToast,
@@ -66,13 +64,7 @@ export const Redeem = observer((): JSX.Element => {
   const classes = useStyles();
 
   const {
-    ibBTCStore: {
-      redeemOptions,
-      ibBTC,
-      redeemFeePercent,
-      redeemRates,
-      initialized,
-    },
+    ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, redeemRates, initialized },
     transactions,
     wallet,
     sdk,
@@ -89,9 +81,7 @@ export const Redeem = observer((): JSX.Element => {
   const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
   const { onValidChange, inputProps } = useNumericInput();
 
-  const redeemBalanceRedeemRate = selectedToken
-    ? redeemRates[selectedToken.token.address]
-    : undefined;
+  const redeemBalanceRedeemRate = selectedToken ? redeemRates[selectedToken.token.address] : undefined;
 
   const resetState = () => {
     setInputAmount('');
@@ -102,13 +92,7 @@ export const Redeem = observer((): JSX.Element => {
     setTotalRedeem('0.000');
   };
 
-  const setRedeemInformation = ({
-    inputAmount,
-    redeemAmount,
-    max,
-    fee,
-    conversionRate,
-  }: RedeemInformation): void => {
+  const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation): void => {
     setIsEnoughToRedeem(max.tokenBalance.gte(inputAmount.tokenBalance));
     setOutputAmount(redeemAmount.balanceDisplay(6));
     setFee(fee.balanceDisplay(6));
@@ -116,10 +100,7 @@ export const Redeem = observer((): JSX.Element => {
     setConversionRate(conversionRate.balanceDisplay(6));
   };
 
-  const calculateRedeem = async (
-    ibbtcBalance: TokenBalance,
-    outTokenBalance: TokenBalance,
-  ): Promise<void> => {
+  const calculateRedeem = async (ibbtcBalance: TokenBalance, outTokenBalance: TokenBalance): Promise<void> => {
     const [{ sett, fee, max }, conversionRate] = await Promise.all([
       sdk.ibbtc.estimateRedeem(ibbtcBalance.tokenBalance),
       store.ibBTCStore.getRedeemConversionRate(),
@@ -158,10 +139,7 @@ export const Redeem = observer((): JSX.Element => {
         return;
       }
 
-      await calculateRedeem(
-        TokenBalance.fromBalance(ibBTC, change),
-        selectedToken,
-      );
+      await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
     }, 200),
     [selectedToken],
   );
@@ -187,24 +165,16 @@ export const Redeem = observer((): JSX.Element => {
     await calculateRedeem(limitBalance, selectedToken);
   };
 
-  const handleTokenChange = async (
-    tokenBalance: TokenBalance,
-  ): Promise<void> => {
+  const handleTokenChange = async (tokenBalance: TokenBalance): Promise<void> => {
     setSelectedToken(tokenBalance);
     if (inputAmount) {
-      await calculateRedeem(
-        TokenBalance.fromBalance(ibBTC, Number(inputAmount)),
-        tokenBalance,
-      );
+      await calculateRedeem(TokenBalance.fromBalance(ibBTC, Number(inputAmount)), tokenBalance);
     }
   };
 
   const handleRedeemClick = async (): Promise<void> => {
     if (redeemBalance && selectedToken) {
-      const isValidAmount = store.ibBTCStore.isValidAmount(
-        redeemBalance,
-        ibBTC,
-      );
+      const isValidAmount = store.ibBTCStore.isValidAmount(redeemBalance, ibBTC);
 
       if (!isValidAmount) {
         return;
@@ -216,9 +186,7 @@ export const Redeem = observer((): JSX.Element => {
       } = redeemBalance;
 
       const redeemAmount = `${+Number(inputAmount).toFixed(2)} ibBTC`;
-      const redeemedAmount = `${redeemBalance.balanceDisplay(2)} ${
-        redeemBalance.token.symbol
-      }`;
+      const redeemedAmount = `${redeemBalance.balanceDisplay(2)} ${redeemBalance.token.symbol}`;
 
       let toastId: Id = `redeem-${address}`;
 
@@ -226,18 +194,12 @@ export const Redeem = observer((): JSX.Element => {
         amount: tokenBalance,
         token: address,
         onApprovePrompt: () => {
-          toastId = showWalletPromptToast(
-            'Confirm approval of tokens for redeeming',
-          );
+          toastId = showWalletPromptToast('Confirm approval of tokens for redeeming');
         },
         onApproveSigned: () => {
-          updateWalletPromptToast(
-            toastId,
-            'Submitted approval of tokens for redeeming',
-          );
+          updateWalletPromptToast(toastId, 'Submitted approval of tokens for redeeming');
         },
-        onApproveSuccess: () =>
-          toast.success('Completed approval of tokens for redeeming'),
+        onApproveSuccess: () => toast.success('Completed approval of tokens for redeeming'),
         onTransferPrompt: () => {
           toastId = showWalletPromptToast(`Confirm redeem of ${redeemAmount}`);
         },
@@ -251,34 +213,21 @@ export const Redeem = observer((): JSX.Element => {
             });
             showTransferSignedToast(
               toastId,
-              <TxCompletedToast
-                title={`Submitted redeem for ${redeemedAmount}`}
-                hash={transaction.hash}
-              />,
+              <TxCompletedToast title={`Submitted redeem for ${redeemedAmount}`} hash={transaction.hash} />,
             );
           }
         },
         onTransferSuccess: ({ receipt }) => {
           if (receipt) {
             transactions.updateCompletedTransaction(receipt);
-            toast(
-              <TxCompletedToast
-                title={`Redeem to ${redeemedAmount}`}
-                hash={receipt.transactionHash}
-              />,
-              {
-                type: receipt.status === 0 ? 'error' : 'success',
-                autoClose: TX_COMPLETED_TOAST_DURATION,
-              },
-            );
+            toast(<TxCompletedToast title={`Redeem to ${redeemedAmount}`} hash={receipt.transactionHash} />, {
+              type: receipt.status === 0 ? 'error' : 'success',
+              autoClose: TX_COMPLETED_TOAST_DURATION,
+            });
           }
         },
         onError: (err) => toast.error(`Failed ibBTC redeem, error: ${err}`),
-        onRejection: () =>
-          showTransferRejectedToast(
-            toastId,
-            'Redeem transaction canceled by user',
-          ),
+        onRejection: () => showTransferRejectedToast(toastId, 'Redeem transaction canceled by user'),
       });
 
       if (result === TransactionStatus.Success) {
@@ -318,11 +267,7 @@ export const Redeem = observer((): JSX.Element => {
             {initialized ? (
               <>
                 <Grid item>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={handleApplyMaxBalance}
-                  >
+                  <Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
                     max
                   </Button>
                 </Grid>
@@ -342,9 +287,7 @@ export const Redeem = observer((): JSX.Element => {
       <Grid container className={classes.outputContent}>
         <OutputContentGrid container item xs={12}>
           <Grid item xs={12} sm={7} md={12} lg={7}>
-            <OutputAmountText variant="h3">
-              {outputAmount || '0.000'}
-            </OutputAmountText>
+            <OutputAmountText variant="h3">{outputAmount || '0.000'}</OutputAmountText>
           </Grid>
           <OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
             {initialized ? (
@@ -374,32 +317,22 @@ export const Redeem = observer((): JSX.Element => {
                     placement="top"
                     onClick={() => handleLimitClick(maxRedeem)}
                   >
-                    <span>
-                      {TokenBalance.fromBigNumber(
-                        ibBTC,
-                        maxRedeem,
-                      ).balanceDisplay(6)}
-                    </span>
+                    <span>{TokenBalance.fromBigNumber(ibBTC, maxRedeem).balanceDisplay(6)}</span>
                   </Tooltip>
                   <span>
                     {' '}
-                    {ibBTC.token.symbol} can be redeemed for{' '}
-                    {selectedToken.token.symbol}.
+                    {ibBTC.token.symbol} can be redeemed for {selectedToken.token.symbol}.
                   </span>
                 </ErrorText>
               </Grid>
             )}
             <Grid item xs={12} container justifyContent="space-between">
               <Grid item xs={6}>
-                <Typography variant="subtitle1">
-                  Current Conversion Rate:{' '}
-                </Typography>
+                <Typography variant="subtitle1">Current Conversion Rate: </Typography>
               </Grid>
               <Grid item xs={6}>
                 <EndAlignText variant="body1">
-                  1 {ibBTC.token.symbol} :{' '}
-                  {conversionRate || redeemBalanceRedeemRate}{' '}
-                  {selectedToken.token.symbol}
+                  1 {ibBTC.token.symbol} : {conversionRate || redeemBalanceRedeemRate} {selectedToken.token.symbol}
                 </EndAlignText>
               </Grid>
             </Grid>
@@ -426,9 +359,7 @@ export const Redeem = observer((): JSX.Element => {
             </Grid>
             <Grid item xs={12} container justifyContent="space-between">
               <Grid item xs={6}>
-                <Typography variant="subtitle1">
-                  Total Redeem Amount:{' '}
-                </Typography>
+                <Typography variant="subtitle1">Total Redeem Amount: </Typography>
               </Grid>
               <Grid item xs={6}>
                 <EndAlignText variant="body1">{`${totalRedeem} ${selectedToken.token.symbol}`}</EndAlignText>

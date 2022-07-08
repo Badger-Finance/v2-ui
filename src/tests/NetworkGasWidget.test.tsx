@@ -29,12 +29,8 @@ const mockGasPrices = {
 
 describe('NetworkGasWidget', () => {
   beforeEach(() => {
-    jest
-      .spyOn(GasPricesStore.prototype, 'initialized', 'get')
-      .mockReturnValue(true);
-    jest
-      .spyOn(GasPricesStore.prototype, 'getGasPrices')
-      .mockReturnValue(mockGasPrices);
+    jest.spyOn(GasPricesStore.prototype, 'initialized', 'get').mockReturnValue(true);
+    jest.spyOn(GasPricesStore.prototype, 'getGasPrices').mockReturnValue(mockGasPrices);
   });
 
   it('displays network options', () => {
@@ -43,9 +39,7 @@ describe('NetworkGasWidget', () => {
         <NetworkGasWidget />
       </StoreProvider>,
     );
-    fireEvent.click(
-      screen.getByRole('button', { name: 'open network selector' }),
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
     fireEvent.mouseOver(screen.getByText(defaultNetwork.name));
     expect(baseElement).toMatchSnapshot();
   });
@@ -60,14 +54,9 @@ describe('NetworkGasWidget', () => {
       </StoreProvider>,
     );
 
-    fireEvent.click(
-      screen.getByRole('button', { name: 'open network selector' }),
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
     fireEvent.click(screen.getByText(supportedNetworks[2].name));
-    expect(mockSelectNetwork).toHaveBeenNthCalledWith(
-      1,
-      supportedNetworks[2].id,
-    );
+    expect(mockSelectNetwork).toHaveBeenNthCalledWith(1, supportedNetworks[2].id);
   });
 
   describe('in desktop mode', () => {
@@ -81,13 +70,9 @@ describe('NetworkGasWidget', () => {
         </StoreProvider>,
       );
 
-      fireEvent.click(
-        screen.getByRole('button', { name: 'open network selector' }),
-      );
+      fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
       fireEvent.mouseOver(screen.getByText(defaultNetwork.name));
-      fireEvent.click(
-        screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)),
-      );
+      fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
       expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
     });
   });
@@ -104,15 +89,9 @@ describe('NetworkGasWidget', () => {
         </StoreProvider>,
       );
 
-      fireEvent.click(
-        screen.getByRole('button', { name: 'open network selector' }),
-      );
-      fireEvent.click(
-        screen.getAllByRole('button', { name: 'show gas options' })[0],
-      );
-      fireEvent.click(
-        screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)),
-      );
+      fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
+      fireEvent.click(screen.getAllByRole('button', { name: 'show gas options' })[0]);
+      fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
       expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
     });
   });

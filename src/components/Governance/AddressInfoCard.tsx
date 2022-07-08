@@ -21,33 +21,27 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const AddressInfoCard: React.FC<AddressInfoCardProps> = observer(
-  (props: AddressInfoCardProps) => {
-    const classes = useStyles();
-    const { title, address, linkAddress } = props;
-    return (
-      <div>
-        <Typography variant="subtitle2" color="textSecondary">
-          {title}
-        </Typography>
+const AddressInfoCard: React.FC<AddressInfoCardProps> = observer((props: AddressInfoCardProps) => {
+  const classes = useStyles();
+  const { title, address, linkAddress } = props;
+  return (
+    <div>
+      <Typography variant="subtitle2" color="textSecondary">
+        {title}
+      </Typography>
 
-        <Grid container justifyContent="flex-start">
-          <Grid item className={classes.address}>
-            <Typography noWrap>{address}</Typography>
-          </Grid>
-          <Grid item>
-            <Link
-              className={classes.linkIcon}
-              href={linkAddress}
-              target="_blank"
-            >
-              <ArrowUpward />
-            </Link>
-          </Grid>
+      <Grid container justifyContent="flex-start">
+        <Grid item className={classes.address}>
+          <Typography noWrap>{address}</Typography>
         </Grid>
-      </div>
-    );
-  },
-);
+        <Grid item>
+          <Link className={classes.linkIcon} href={linkAddress} target="_blank">
+            <ArrowUpward />
+          </Link>
+        </Grid>
+      </Grid>
+    </div>
+  );
+});
 
 export default AddressInfoCard;

@@ -1,11 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Grid,
-  Link,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Box, CircularProgress, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
@@ -72,11 +65,7 @@ const WalletTransaction = ({ transaction }: Props): JSX.Element => {
           </Typography>
         )}
       </Box>
-      {transaction.status === undefined ? (
-        <CircularProgress size={14} />
-      ) : (
-        statusIcon
-      )}
+      {transaction.status === undefined ? <CircularProgress size={14} /> : statusIcon}
     </Grid>
   );
 };

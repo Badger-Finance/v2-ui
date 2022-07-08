@@ -19,12 +19,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const MintError = ({
-  token,
-  amount,
-  limits,
-  onUserLimitClick,
-}: Props): JSX.Element | null => {
+export const MintError = ({ token, amount, limits, onUserLimitClick }: Props): JSX.Element | null => {
   const classes = useStyles();
   const { userLimit, individualLimit, globalLimit, allUsersLimit } = limits;
 
@@ -65,18 +60,14 @@ export const MintError = ({
           placement="top"
           onClick={() => onUserLimitClick(allUsersLimit)}
         >
-          <span>{`${TokenBalance.fromBigNumber(
-            token,
-            allUsersLimit,
-          ).balanceDisplay(6)}`}</span>
+          <span>{`${TokenBalance.fromBigNumber(token, allUsersLimit).balanceDisplay(6)}`}</span>
         </Tooltip>
         <span> {token.token.symbol}.</span>
       </ErrorText>
       <ErrorText variant="subtitle1">
-        {`Global total mint amount is currently ${TokenBalance.fromBigNumber(
-          token,
-          globalLimit,
-        ).balanceDisplay(6)} ${token.token.symbol}.`}
+        {`Global total mint amount is currently ${TokenBalance.fromBigNumber(token, globalLimit).balanceDisplay(6)} ${
+          token.token.symbol
+        }.`}
       </ErrorText>
     </Grid>
   );

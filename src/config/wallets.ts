@@ -15,9 +15,7 @@ export function isSupportedNetwork(chainId?: number): boolean {
   try {
     // verify sdk support for given chain
     const config = getNetworkConfig(chainId);
-    return new Set(supportedNetworks.map((network) => network.id)).has(
-      config.chainId,
-    );
+    return new Set(supportedNetworks.map((network) => network.id)).has(config.chainId);
   } catch {
     return false;
   }
@@ -25,9 +23,7 @@ export function isSupportedNetwork(chainId?: number): boolean {
 
 export function getWeb3ModalProviders(config: NetworkConfig) {
   // wallet connect / portis network names are different from ours, and they throw an error if they don't match
-  const network = Object.values(CHAIN_DATA_LIST).find(
-    (network) => network.chainId === config.chainId,
-  )?.network;
+  const network = Object.values(CHAIN_DATA_LIST).find((network) => network.chainId === config.chainId)?.network;
   const networkRPC = rpc[config.network];
   return {
     walletconnect: {

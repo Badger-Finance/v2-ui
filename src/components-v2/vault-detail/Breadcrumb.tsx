@@ -29,10 +29,7 @@ export const Breadcrumb = ({ vault }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <Breadcrumbs
-      separator={<NavigateNextIcon fontSize="small" />}
-      aria-label="breadcrumb"
-    >
+    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
       <Link
         color="inherit"
         className={clsx(classes.link, classes.breadcrumbsItem)}

@@ -37,10 +37,7 @@ const RewardsDialog = (): JSX.Element => {
         open={uiState.rewardsDialogOpen}
         onClose={() => uiState.toggleRewardsDialog()}
       >
-        <UserGuideContent
-          onGoBack={() => setGuideMode(false)}
-          onClose={() => uiState.toggleRewardsDialog()}
-        />
+        <UserGuideContent onGoBack={() => setGuideMode(false)} onClose={() => uiState.toggleRewardsDialog()} />
       </Dialog>
     );
   }

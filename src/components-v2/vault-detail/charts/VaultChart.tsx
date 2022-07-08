@@ -3,10 +3,7 @@ import { timeFormat } from 'd3-time-format';
 import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 import React from 'react';
 
-import {
-  ChartMode,
-  VaultChartTimeframe,
-} from '../../../mobx/model/vaults/vault-charts';
+import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
 import { ChartModeTitles } from '../utils';
 import BaseAreaChart from './BaseAreaChart';
 
@@ -29,10 +26,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
     [ChartMode.AccountBalance]: format('^$.3s'),
   };
 
-  const xSxcaleFormatter =
-    timeframe === VaultChartTimeframe.Day
-      ? timeFormat('%H:%M')
-      : timeFormat('%m-%d');
+  const xSxcaleFormatter = timeframe === VaultChartTimeframe.Day ? timeFormat('%H:%M') : timeFormat('%m-%d');
   const yScaleFormatter = yScaleFormatterByMode[mode];
   return (
     <BaseAreaChart

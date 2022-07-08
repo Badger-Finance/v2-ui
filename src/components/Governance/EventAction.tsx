@@ -18,9 +18,7 @@ const EventAction = ({ event }: EventActionProps): JSX.Element => {
   const classes = useStyles();
 
   const getTooltipContent = (event: TimelockEvent, ind: number) => {
-    return event.decodedParameters
-      ? (Object.values(event.decodedParameters)[ind] as string)
-      : 'Could not decode';
+    return event.decodedParameters ? (Object.values(event.decodedParameters)[ind] as string) : 'Could not decode';
   };
 
   if (!event.parameterTypes) {
@@ -32,15 +30,10 @@ const EventAction = ({ event }: EventActionProps): JSX.Element => {
       <span>(</span>
       {event.parameterTypes.map((param, ind) => (
         <span key={'param-' + ind}>
-          <Tooltip
-            className={classes.tooltipWrap}
-            title={getTooltipContent(event, ind)}
-          >
+          <Tooltip className={classes.tooltipWrap} title={getTooltipContent(event, ind)}>
             <span>{param}</span>
           </Tooltip>
-          {event.parameterTypes &&
-            event.parameterTypes.length - 1 > ind &&
-            ', '}
+          {event.parameterTypes && event.parameterTypes.length - 1 > ind && ', '}
         </span>
       ))}
       <span>)</span>

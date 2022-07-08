@@ -2,10 +2,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import {
-  ChartMode,
-  VaultChartTimeframe,
-} from '../../../mobx/model/vaults/vault-charts';
+import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
 import { ChartModeTitles } from '../utils';
 import { ChartTimeframeControls } from './ChartTimeframeControls';
 
@@ -30,11 +27,7 @@ interface Props {
   onTimeframeChange: (timeframe: VaultChartTimeframe) => void;
 }
 
-export const ChartsHeader = ({
-  mode,
-  timeframe,
-  onTimeframeChange,
-}: Props): JSX.Element => {
+export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX.Element => {
   const classes = useStyles();
 
   let description;
@@ -54,14 +47,7 @@ export const ChartsHeader = ({
 
   return (
     <Grid container alignItems="center" justifyContent="space-between">
-      <Grid
-        container
-        item
-        xs={12}
-        sm={6}
-        direction="column"
-        className={classes.titleText}
-      >
+      <Grid container item xs={12} sm={6} direction="column" className={classes.titleText}>
         <Typography variant="h6">{ChartModeTitles[mode]}</Typography>
         <Typography variant="body2" color="textSecondary">
           {description}
@@ -69,11 +55,7 @@ export const ChartsHeader = ({
       </Grid>
       {mode !== ChartMode.BoostMultiplier && (
         <Grid item xs={12} sm={6} className={classes.buttonGroupContainer}>
-          <ChartTimeframeControls
-            mode={mode}
-            value={timeframe}
-            onChange={onTimeframeChange}
-          />
+          <ChartTimeframeControls mode={mode} value={timeframe} onChange={onTimeframeChange} />
         </Grid>
       )}
     </Grid>

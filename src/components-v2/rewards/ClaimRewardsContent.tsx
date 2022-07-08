@@ -24,9 +24,7 @@ import { toast } from 'react-toastify';
 import routes from '../../config/routes';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
-import TxCompletedToast, {
-  TX_COMPLETED_TOAST_DURATION,
-} from '../TransactionToast';
+import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../TransactionToast';
 
 const checkboxComplementarySpace = 1.5;
 
@@ -139,19 +137,11 @@ const useStyles = makeStyles((theme: Theme) =>
     // we do this because we need extra space for the checkboxes hover animation. we remove the space from
     // the container's spacing but complement it with padding in the children
     checkboxesSpacing: {
-      paddingRight: `${
-        theme.spacing(8) / 2 - theme.spacing(checkboxComplementarySpace)
-      }px !important`,
-      paddingLeft: `${
-        theme.spacing(8) / 2 - theme.spacing(checkboxComplementarySpace)
-      }px !important`,
+      paddingRight: `${theme.spacing(8) / 2 - theme.spacing(checkboxComplementarySpace)}px !important`,
+      paddingLeft: `${theme.spacing(8) / 2 - theme.spacing(checkboxComplementarySpace)}px !important`,
       [theme.breakpoints.down('xs')]: {
-        paddingRight: `${
-          theme.spacing(6) / 2 - theme.spacing(checkboxComplementarySpace)
-        }px !important`,
-        paddingLeft: `${
-          theme.spacing(6) / 2 - theme.spacing(checkboxComplementarySpace)
-        }px !important`,
+        paddingRight: `${theme.spacing(6) / 2 - theme.spacing(checkboxComplementarySpace)}px !important`,
+        paddingLeft: `${theme.spacing(6) / 2 - theme.spacing(checkboxComplementarySpace)}px !important`,
       },
     },
     contentPadding: {
@@ -191,8 +181,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
   } = useContext(StoreContext);
   const { claimable, claimProof } = tree;
 
-  const closeDialogTransitionDuration =
-    useTheme().transitions.duration.leavingScreen;
+  const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
   const [showInvalidCycle, setShowInvalidCycle] = useState(false);
   const [claimOptions, setClaimOptions] = useState<ClaimOptions>(
@@ -221,9 +210,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
       newClaimOptions[rewardKey].balance.tokenBalance = BigNumber.from(0);
     } else {
       newClaimOptions[rewardKey].balance.balance = claimable[rewardKey].balance;
-      newClaimOptions[rewardKey].balance.tokenBalance = BigNumber.from(
-        claimable[rewardKey].tokenBalance.toString(),
-      );
+      newClaimOptions[rewardKey].balance.tokenBalance = BigNumber.from(claimable[rewardKey].tokenBalance.toString());
     }
     setClaimOptions(newClaimOptions);
   };
@@ -234,9 +221,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
     }
 
     const tokens = Object.keys(claimOptions);
-    const claimAmounts = Object.values(claimOptions).map(
-      (c) => c.balance.tokenBalance,
-    );
+    const claimAmounts = Object.values(claimOptions).map((c) => c.balance.tokenBalance);
     const { index, cycle, proof, cumulativeAmounts } = tree.claimProof;
 
     await sdk.rewards.claim({
@@ -253,28 +238,18 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
             addedTime: Date.now(),
             name: 'Rewards Claim',
           });
-          toast.success(
-            <TxCompletedToast
-              title="Rewards Claim Submitted"
-              hash={transaction.hash}
-            />,
-            { autoClose: TX_COMPLETED_TOAST_DURATION },
-          );
+          toast.success(<TxCompletedToast title="Rewards Claim Submitted" hash={transaction.hash} />, {
+            autoClose: TX_COMPLETED_TOAST_DURATION,
+          });
         }
       },
       onSuccess: ({ receipt }) => {
         if (receipt) {
           transactions.updateCompletedTransaction(receipt);
-          toast(
-            <TxCompletedToast
-              title="Rewards Claimed"
-              hash={receipt.transactionHash}
-            />,
-            {
-              type: receipt.status === 0 ? 'error' : 'success',
-              autoClose: TX_COMPLETED_TOAST_DURATION,
-            },
-          );
+          toast(<TxCompletedToast title="Rewards Claimed" hash={receipt.transactionHash} />, {
+            type: receipt.status === 0 ? 'error' : 'success',
+            autoClose: TX_COMPLETED_TOAST_DURATION,
+          });
         }
       },
       onError: (err) => {
@@ -294,73 +269,38 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
 
   return (
     <>
-      <InvalidCycleDialog
-        open={showInvalidCycle}
-        onClose={() => setShowInvalidCycle(false)}
-      />
+      <InvalidCycleDialog open={showInvalidCycle} onClose={() => setShowInvalidCycle(false)} />
       <DialogTitle className={classes.title} disableTypography>
         <Typography variant="h6" className={classes.titleText}>
           My Rewards
         </Typography>
-        <IconButton
-          className={classes.closeButton}
-          onClick={() => uiState.toggleRewardsDialog()}
-        >
+        <IconButton className={classes.closeButton} onClick={() => uiState.toggleRewardsDialog()}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent className={classes.content}>
-        <Grid
-          container
-          spacing={isMobile ? 6 : 8}
-          className={classes.contentGrid}
-        >
-          <Grid
-            item
-            xs={12}
-            sm={hasRewards ? 6 : 4}
-            className={clsx(hasRewards && classes.checkboxesSpacing)}
-          >
+        <Grid container spacing={isMobile ? 6 : 8} className={classes.contentGrid}>
+          <Grid item xs={12} sm={hasRewards ? 6 : 4} className={clsx(hasRewards && classes.checkboxesSpacing)}>
             {hasRewards ? (
-              <Grid
-                container
-                direction="column"
-                className={classes.contentPadding}
-              >
+              <Grid container direction="column" className={classes.contentPadding}>
                 <Grid item container className={classes.optionsContainer}>
                   {Object.values(claimOptions)
                     .filter((o) => o.hasBalance)
                     .map((option, index) => {
                       return (
-                        <Grid
-                          key={`${option.balance.token.address}_${index}`}
-                          item
-                          className={classes.claimRow}
-                        >
+                        <Grid key={`${option.balance.token.address}_${index}`} item className={classes.claimRow}>
                           <RewardsModalItem
                             checked={option.balance.tokenBalance.gt(0)}
                             claimBalance={option.balance}
-                            onChange={(checked) =>
-                              handleClaimCheckChange(
-                                option.balance.token.address,
-                                checked,
-                              )
-                            }
+                            onChange={(checked) => handleClaimCheckChange(option.balance.token.address, checked)}
                           />
                         </Grid>
                       );
                     })}
                 </Grid>
                 <Divider className={classes.divider} />
-                <Grid
-                  item
-                  container
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Typography variant="body2">
-                    Total Claimable Rewards
-                  </Typography>
+                <Grid item container alignItems="center" justifyContent="space-between">
+                  <Typography variant="body2">Total Claimable Rewards</Typography>
                   <CurrencyDisplay
                     variant="h6"
                     justifyContent="flex-end"
@@ -383,11 +323,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
             ) : (
               <Grid container direction="column">
                 <div className={classes.noRewardsAmount}>
-                  <img
-                    className={classes.rewardsIcon}
-                    src="/assets/icons/rewards-gift.svg"
-                    alt="rewards icon"
-                  />
+                  <img className={classes.rewardsIcon} src="/assets/icons/rewards-gift.svg" alt="rewards icon" />
                   <CurrencyDisplay
                     variant="h6"
                     justifyContent="flex-end"
@@ -403,11 +339,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
           </Grid>
           <Grid item xs={12} sm={hasRewards ? 6 : 8}>
             <Grid className={classes.moreRewardsSection}>
-              <Grid
-                container
-                direction="column"
-                className={classes.moreRewardsInformation}
-              >
+              <Grid container direction="column" className={classes.moreRewardsInformation}>
                 <Grid item>
                   <Typography variant="h6" className={classes.titleText}>
                     Want more rewards ?
@@ -415,16 +347,11 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
                 </Grid>
                 <Grid item className={classes.moreRewardsDescription}>
                   <Typography variant="body2">
-                    Boost your rewards and support the BadgerDAO ecosystem, by
-                    holding and staking Badger tokens.
+                    Boost your rewards and support the BadgerDAO ecosystem, by holding and staking Badger tokens.
                   </Typography>
                 </Grid>
                 <Grid item className={classes.rewardsGuideLinkContainer}>
-                  <Link
-                    className={classes.rewardsGuide}
-                    color="primary"
-                    onClick={onGuideModeSelection}
-                  >
+                  <Link className={classes.rewardsGuide} color="primary" onClick={onGuideModeSelection}>
                     Rewards User Guide
                   </Link>
                 </Grid>

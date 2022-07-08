@@ -25,11 +25,7 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'variant'> {
  * TODO: upgrade to MUI v5 to add custom variants through Typescript
  * @see https://github.com/mui/material-ui/issues/22257#issuecomment-776300833
  */
-export const Typography = ({
-  variant,
-  className,
-  ...props
-}: TypographyProps): JSX.Element => {
+export const Typography = ({ variant, className, ...props }: TypographyProps): JSX.Element => {
   // idk matieral ui is stupid
   // eslint-disable-next-line @typescript-eslint/ban-types
   const classes = useStyles() as Record<string, {}>;

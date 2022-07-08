@@ -1,16 +1,5 @@
-import {
-  getNetworkConfig,
-  Network as ChainNetworkSymbol,
-} from '@badger-dao/sdk';
-import {
-  Button,
-  List,
-  ListItem,
-  makeStyles,
-  Paper,
-  Popper,
-  Typography,
-} from '@material-ui/core';
+import { getNetworkConfig, Network as ChainNetworkSymbol } from '@badger-dao/sdk';
+import { Button, List, ListItem, makeStyles, Paper, Popper, Typography } from '@material-ui/core';
 import { ArrowDropDown } from '@material-ui/icons';
 import clsx from 'clsx';
 import { supportedNetworks } from 'config/networks.config';
@@ -90,13 +79,7 @@ const NetworkWidget = observer(({ className }: Props) => {
       >
         <NetworkOption network={connectedNetwork} />
       </Button>
-      <Popper
-        style={{ zIndex: 100000 }}
-        placement="bottom-end"
-        id={'popper'}
-        open={open}
-        anchorEl={anchorEl}
-      >
+      <Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
         <Paper onMouseLeave={() => setAnchorEl(null)}>
           <List>
             {options.map((network) => {

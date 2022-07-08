@@ -54,21 +54,12 @@ interface Props {
   onClose: () => void;
 }
 
-const VaultApyInformation = ({
-  open,
-  onClose,
-  boost,
-  vault,
-}: Props): JSX.Element => {
+const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Element => {
   const { vaults, router } = useContext(StoreContext);
   const classes = useStyles();
-  const sources = vaults.vaultsFilters.showAPR
-    ? vault.sources
-    : vault.sourcesApy;
+  const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
   //make sure boost sources are always the last one
-  const sortedSources = sources
-    .slice()
-    .sort((source) => (source.boostable ? 1 : -1));
+  const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -92,12 +83,7 @@ const VaultApyInformation = ({
     >
       <DialogTitle disableTypography className={classes.title}>
         <Grid container direction="column">
-          <Grid
-            item
-            container
-            justifyContent="space-between"
-            alignItems="center"
-          >
+          <Grid item container justifyContent="space-between" alignItems="center">
             <Grid item xs="auto">
               <Typography variant="h5" display="inline">
                 {vault.name}
@@ -118,20 +104,12 @@ const VaultApyInformation = ({
         <Grid container direction="column">
           <Grid item container justifyContent="space-between">
             <Grid item>
-              <Typography
-                variant="subtitle1"
-                display="inline"
-                color="textSecondary"
-              >
+              <Typography variant="subtitle1" display="inline" color="textSecondary">
                 {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
               </Typography>
             </Grid>
             <Grid item>
-              <Typography
-                variant="subtitle1"
-                display="inline"
-                color="textSecondary"
-              >
+              <Typography variant="subtitle1" display="inline" color="textSecondary">
                 {`${numberWithCommas(boost.toFixed(2))}%`}
               </Typography>
             </Grid>
@@ -144,12 +122,7 @@ const VaultApyInformation = ({
             </React.Fragment>
           ))}
           <Grid item className={classes.button}>
-            <Button
-              color="primary"
-              variant="contained"
-              fullWidth
-              onClick={handleGoToVault}
-            >
+            <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
               GO TO VAULT
             </Button>
           </Grid>

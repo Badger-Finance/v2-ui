@@ -21,11 +21,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const ChartContent = ({
-  data,
-  loading = true,
-  children,
-}: Props): JSX.Element => {
+const ChartContent = ({ data, loading = true, children }: Props): JSX.Element => {
   const classes = useStyles();
 
   if (loading) {
@@ -34,12 +30,7 @@ const ChartContent = ({
 
   if (!data) {
     return (
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Grid container direction="column" justifyContent="center" alignItems="center">
         <ErrorIcon className={classes.errorIcon} />
         <Typography variant="body1" className={classes.errorMessage}>
           Something went wrong, please refresh the page.
@@ -50,12 +41,7 @@ const ChartContent = ({
 
   if (data.length <= 1) {
     return (
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Grid container direction="column" justifyContent="center" alignItems="center">
         <ErrorIcon className={classes.errorIcon} />
         <Typography variant="body1" className={classes.errorMessage}>
           Chart data not available. Try again shortly.

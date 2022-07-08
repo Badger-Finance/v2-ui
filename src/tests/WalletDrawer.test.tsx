@@ -20,50 +20,44 @@ jest.mock('copy-to-clipboard', () => {
 describe('Wallet Drawer', () => {
   beforeEach(() => {
     store.uiState.showWalletDrawer = true;
-    jest
-      .spyOn(WalletStore.prototype, 'address', 'get')
-      .mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
-    jest
-      .spyOn(WalletStore.prototype, 'isConnected', 'get')
-      .mockReturnValue(true);
-    jest
-      .spyOn(UserStore.prototype, 'getBalance')
-      .mockImplementation((token) => {
-        if (token === deploy.tokens.badger) {
-          return new TokenBalance(
-            {
-              address: deploy.tokens.badger,
-              name: 'Badger',
-              symbol: 'Badger',
-              decimals: 18,
-            },
-            BigNumber.from(1000 * 1e18),
-            80,
-          );
-        } else if (token === deploy.tokens.digg) {
-          return new TokenBalance(
-            {
-              address: deploy.tokens.digg,
-              name: 'Digg',
-              symbol: 'DIGG',
-              decimals: 8,
-            },
-            BigNumber.from(0.1 * 1e8),
-            50000,
-          );
-        } else {
-          return new TokenBalance(
-            {
-              address: deploy.tokens.remdigg,
-              name: 'remDigg',
-              symbol: 'remDIGG',
-              decimals: 8,
-            },
-            BigNumber.from(0.1 * 1e8),
-            50000,
-          );
-        }
-      });
+    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+    jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((token) => {
+      if (token === deploy.tokens.badger) {
+        return new TokenBalance(
+          {
+            address: deploy.tokens.badger,
+            name: 'Badger',
+            symbol: 'Badger',
+            decimals: 18,
+          },
+          BigNumber.from(1000 * 1e18),
+          80,
+        );
+      } else if (token === deploy.tokens.digg) {
+        return new TokenBalance(
+          {
+            address: deploy.tokens.digg,
+            name: 'Digg',
+            symbol: 'DIGG',
+            decimals: 8,
+          },
+          BigNumber.from(0.1 * 1e8),
+          50000,
+        );
+      } else {
+        return new TokenBalance(
+          {
+            address: deploy.tokens.remdigg,
+            name: 'remDigg',
+            symbol: 'remDIGG',
+            decimals: 8,
+          },
+          BigNumber.from(0.1 * 1e8),
+          50000,
+        );
+      }
+    });
   });
 
   afterEach(() => {
@@ -103,9 +97,7 @@ describe('Wallet Drawer', () => {
       </StoreProvider>,
     );
 
-    fireEvent.click(
-      screen.getByRole('button', { name: 'copy wallet address' }),
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'copy wallet address' }));
     expect(screen.getByText('Wallet Address Copied')).toBeInTheDocument();
   });
 
@@ -118,12 +110,8 @@ describe('Wallet Drawer', () => {
       </StoreProvider>,
     );
 
-    fireEvent.click(
-      screen.getByRole('button', { name: 'copy wallet address' }),
-    );
-    fireEvent.click(
-      screen.getByRole('button', { name: 'dismiss copied address message' }),
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'copy wallet address' }));
+    fireEvent.click(screen.getByRole('button', { name: 'dismiss copied address message' }));
     expect(screen.queryByText('Wallet Address Copied')).not.toBeInTheDocument();
   });
 });

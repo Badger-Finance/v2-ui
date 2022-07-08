@@ -1,11 +1,5 @@
 import { GasFees, getNetworkConfig } from '@badger-dao/sdk';
-import {
-  Grid,
-  IconButton,
-  Popper,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { Grid, IconButton, Popper, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -62,8 +56,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
   };
 
   const handleNetworkSelection = async () => {
-    const shouldTriggerNetworkChange =
-      networkStore.network.symbol !== network.symbol;
+    const shouldTriggerNetworkChange = networkStore.network.symbol !== network.symbol;
 
     if (shouldTriggerNetworkChange) {
       const networkConfig = getNetworkConfig(network.symbol);
@@ -94,13 +87,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
       className={clsx(open && classes.hoveredButton)}
     >
       <Grid container>
-        <Grid
-          item
-          xs
-          container
-          alignItems="center"
-          onClick={isMobile ? handleNetworkSelection : undefined}
-        >
+        <Grid item xs container alignItems="center" onClick={isMobile ? handleNetworkSelection : undefined}>
           <MenuItemIcon>
             <img
               className={classes.networkListIcon}
@@ -117,11 +104,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
               onClick={isMobile ? toggleOpen : undefined}
               aria-label="show gas options"
             >
-              <img
-                ref={ref}
-                src="/assets/icons/network-selector-arrow.svg"
-                alt="display gas options icon"
-              />
+              <img ref={ref} src="/assets/icons/network-selector-arrow.svg" alt="display gas options icon" />
             </IconButton>
             <Popper
               className={classes.popper}
@@ -142,10 +125,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
                 },
               }}
             >
-              <GasOptions
-                gasOptions={gasOptions}
-                onSelect={handleGasSelection}
-              />
+              <GasOptions gasOptions={gasOptions} onSelect={handleGasSelection} />
             </Popper>
           </Grid>
         )}

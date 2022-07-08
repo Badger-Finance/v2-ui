@@ -43,13 +43,7 @@ interface Props {
   helpIcon?: React.ReactNode;
 }
 
-export const HoldingItem = ({
-  vault,
-  name,
-  balance,
-  value,
-  helpIcon,
-}: Props): JSX.Element => {
+export const HoldingItem = ({ vault, name, balance, value, helpIcon }: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <Paper className={classes.cardContainer}>

@@ -50,37 +50,21 @@ const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      component={Card}
-      onClick={goToVaultDetail}
-      className={classes.root}
-    >
+    <Grid container direction="column" component={Card} onClick={goToVaultDetail} className={classes.root}>
       <Grid item container>
         <VaultLogo tokens={vault.tokens} />
-        <Typography
-          variant="subtitle1"
-          display="inline"
-          className={classes.name}
-        >
+        <Typography variant="subtitle1" display="inline" className={classes.name}>
           {vault.name}
         </Typography>
       </Grid>
       <Grid item container className={classes.info}>
         <Grid item xs container direction="column">
-          <Typography>
-            {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
-          </Typography>
+          <Typography>{vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}</Typography>
           <VaultItemApr vault={vault} boost={vaultBoost} />
         </Grid>
         <Grid item xs container direction="column">
           <Typography>My Deposits</Typography>
-          <CurrencyDisplay
-            displayValue={depositBalanceDisplay}
-            variant="body1"
-            justifyContent="flex-start"
-          />
+          <CurrencyDisplay displayValue={depositBalanceDisplay} variant="body1" justifyContent="flex-start" />
         </Grid>
       </Grid>
       <Grid item>

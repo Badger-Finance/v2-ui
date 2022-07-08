@@ -11,13 +11,7 @@ describe('Banner', () => {
   });
 
   it('uses correct link', () => {
-    checkSnapshot(
-      <Banner
-        message={'This is an important message'}
-        link="https://badger.com"
-        linkText="view more"
-      />,
-    );
+    checkSnapshot(<Banner message={'This is an important message'} link="https://badger.com" linkText="view more" />);
   });
 
   it('can trigger close action', () => {
@@ -27,14 +21,10 @@ describe('Banner', () => {
         message={'This is an important message'}
         link="https://badger.com"
         linkText="view more"
-        closeElement={
-          <BannerCloseActionButton text="dismiss" onClose={closeMock} />
-        }
+        closeElement={<BannerCloseActionButton text="dismiss" onClose={closeMock} />}
       />,
     );
-    fireEvent.click(
-      screen.getByRole('button', { name: 'dismiss', exact: false }),
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'dismiss', exact: false }));
     expect(closeMock).toHaveBeenCalledTimes(1);
   });
 });

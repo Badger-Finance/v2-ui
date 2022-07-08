@@ -24,12 +24,7 @@ interface Props {
   onRankClick: (rank: BoostRank) => void;
 }
 
-export const RankItem = ({
-  accountStakeRatio,
-  currentStakeRatio,
-  onRankClick,
-  rank,
-}: Props): JSX.Element => {
+export const RankItem = ({ accountStakeRatio, currentStakeRatio, onRankClick, rank }: Props): JSX.Element => {
   const rankStartBoundary = rank.stakeRatioBoundary;
   const isOwned = accountStakeRatio > rankStartBoundary;
   const hasBeenReached = currentStakeRatio >= rankStartBoundary;
@@ -37,11 +32,7 @@ export const RankItem = ({
   return (
     <Grid container alignItems="flex-end">
       <Grid item className={classes.root}>
-        <RankProgressBarSlice
-          accountStakeRatio={accountStakeRatio}
-          currentStakeRatio={currentStakeRatio}
-          rank={rank}
-        />
+        <RankProgressBarSlice accountStakeRatio={accountStakeRatio} currentStakeRatio={currentStakeRatio} rank={rank} />
       </Grid>
       <Tooltip
         enterTouchDelay={0}
@@ -55,11 +46,7 @@ export const RankItem = ({
         key={`${rank.name}_${rank.signatureColor}`}
       >
         <Grid item xs>
-          <ButtonBase
-            className={classes.buttonBase}
-            onClick={() => onRankClick(rank)}
-            aria-label={`${rank.name} Rank`}
-          >
+          <ButtonBase className={classes.buttonBase} onClick={() => onRankClick(rank)} aria-label={`${rank.name} Rank`}>
             <RankLevel
               name={rank.name}
               signatureColor={rank.signatureColor}

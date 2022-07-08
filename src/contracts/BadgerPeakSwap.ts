@@ -13,19 +13,9 @@ import type {
   Signer,
   utils,
 } from 'ethers';
-import type {
-  FunctionFragment,
-  Result,
-  EventFragment,
-} from '@ethersproject/abi';
+import type { FunctionFragment, Result, EventFragment } from '@ethersproject/abi';
 import type { Listener, Provider } from '@ethersproject/providers';
-import type {
-  TypedEventFilter,
-  TypedEvent,
-  TypedListener,
-  OnEvent,
-  PromiseOrValue,
-} from './common';
+import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent, PromiseOrValue } from './common';
 
 export interface BadgerPeakSwapInterface extends utils.Interface {
   functions: {
@@ -108,39 +98,22 @@ export interface BadgerPeakSwapInterface extends utils.Interface {
   ): FunctionFragment;
 
   encodeFunctionData(functionFragment: 'A', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'get_virtual_price',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'get_virtual_price', values?: undefined): string;
   encodeFunctionData(
     functionFragment: 'calc_token_amount',
-    values: [
-      [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
-      PromiseOrValue<boolean>,
-    ],
+    values: [[PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>], PromiseOrValue<boolean>],
   ): string;
   encodeFunctionData(
     functionFragment: 'add_liquidity',
-    values: [
-      [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
-      PromiseOrValue<BigNumberish>,
-    ],
+    values: [[PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>], PromiseOrValue<BigNumberish>],
   ): string;
   encodeFunctionData(
     functionFragment: 'get_dy',
-    values: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-    ],
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
   ): string;
   encodeFunctionData(
     functionFragment: 'get_dy_underlying',
-    values: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-    ],
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
   ): string;
   encodeFunctionData(
     functionFragment: 'exchange',
@@ -153,17 +126,11 @@ export interface BadgerPeakSwapInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: 'remove_liquidity',
-    values: [
-      PromiseOrValue<BigNumberish>,
-      [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
-    ],
+    values: [PromiseOrValue<BigNumberish>, [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]],
   ): string;
   encodeFunctionData(
     functionFragment: 'remove_liquidity_imbalance',
-    values: [
-      [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
-      PromiseOrValue<BigNumberish>,
-    ],
+    values: [[PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>], PromiseOrValue<BigNumberish>],
   ): string;
   encodeFunctionData(
     functionFragment: 'calc_withdraw_one_coin',
@@ -171,160 +138,60 @@ export interface BadgerPeakSwapInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: 'remove_liquidity_one_coin',
-    values: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-    ],
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
   ): string;
   encodeFunctionData(
     functionFragment: 'ramp_A',
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
   ): string;
-  encodeFunctionData(
-    functionFragment: 'stop_ramp_A',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'stop_ramp_A', values?: undefined): string;
   encodeFunctionData(
     functionFragment: 'commit_new_fee',
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>],
   ): string;
-  encodeFunctionData(
-    functionFragment: 'apply_new_fee',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'revert_new_parameters',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'commit_transfer_ownership',
-    values: [PromiseOrValue<string>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'apply_transfer_ownership',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'revert_transfer_ownership',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'withdraw_admin_fees',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'apply_new_fee', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'revert_new_parameters', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'commit_transfer_ownership', values: [PromiseOrValue<string>]): string;
+  encodeFunctionData(functionFragment: 'apply_transfer_ownership', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'revert_transfer_ownership', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'withdraw_admin_fees', values?: undefined): string;
   encodeFunctionData(functionFragment: 'kill_me', values?: undefined): string;
   encodeFunctionData(functionFragment: 'unkill_me', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'coins',
-    values: [PromiseOrValue<BigNumberish>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'balances',
-    values: [PromiseOrValue<BigNumberish>],
-  ): string;
+  encodeFunctionData(functionFragment: 'coins', values: [PromiseOrValue<BigNumberish>]): string;
+  encodeFunctionData(functionFragment: 'balances', values: [PromiseOrValue<BigNumberish>]): string;
   encodeFunctionData(functionFragment: 'fee', values?: undefined): string;
   encodeFunctionData(functionFragment: 'admin_fee', values?: undefined): string;
   encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
   encodeFunctionData(functionFragment: 'initial_A', values?: undefined): string;
   encodeFunctionData(functionFragment: 'future_A', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'initial_A_time',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'future_A_time',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'admin_actions_deadline',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'transfer_ownership_deadline',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'future_fee',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'future_admin_fee',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'future_owner',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'initial_A_time', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'future_A_time', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'admin_actions_deadline', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'transfer_ownership_deadline', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'future_fee', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'future_admin_fee', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'future_owner', values?: undefined): string;
 
   decodeFunctionResult(functionFragment: 'A', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'get_virtual_price',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'calc_token_amount',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'add_liquidity',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'get_virtual_price', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'calc_token_amount', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'add_liquidity', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'get_dy', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'get_dy_underlying',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'get_dy_underlying', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'exchange', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'remove_liquidity',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'remove_liquidity_imbalance',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'calc_withdraw_one_coin',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'remove_liquidity_one_coin',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'remove_liquidity', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'remove_liquidity_imbalance', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'calc_withdraw_one_coin', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'remove_liquidity_one_coin', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'ramp_A', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'stop_ramp_A',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'commit_new_fee',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'apply_new_fee',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'revert_new_parameters',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'commit_transfer_ownership',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'apply_transfer_ownership',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'revert_transfer_ownership',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'withdraw_admin_fees',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'stop_ramp_A', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'commit_new_fee', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'apply_new_fee', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'revert_new_parameters', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'commit_transfer_ownership', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'apply_transfer_ownership', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'revert_transfer_ownership', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'withdraw_admin_fees', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'kill_me', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'unkill_me', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'coins', data: BytesLike): Result;
@@ -334,31 +201,13 @@ export interface BadgerPeakSwapInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'initial_A', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'future_A', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'initial_A_time',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'future_A_time',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'admin_actions_deadline',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'transfer_ownership_deadline',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'initial_A_time', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'future_A_time', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'admin_actions_deadline', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'transfer_ownership_deadline', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'future_fee', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'future_admin_fee',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'future_owner',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'future_admin_fee', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'future_owner', data: BytesLike): Result;
 
   events: {
     'TokenExchange(address,int128,uint256,int128,uint256)': EventFragment;
@@ -409,13 +258,7 @@ export interface AddLiquidityEventObject {
   token_supply: BigNumber;
 }
 export type AddLiquidityEvent = TypedEvent<
-  [
-    string,
-    [BigNumber, BigNumber],
-    [BigNumber, BigNumber],
-    BigNumber,
-    BigNumber,
-  ],
+  [string, [BigNumber, BigNumber], [BigNumber, BigNumber], BigNumber, BigNumber],
   AddLiquidityEventObject
 >;
 
@@ -439,13 +282,9 @@ export interface RemoveLiquidityOneEventObject {
   token_amount: BigNumber;
   coin_amount: BigNumber;
 }
-export type RemoveLiquidityOneEvent = TypedEvent<
-  [string, BigNumber, BigNumber],
-  RemoveLiquidityOneEventObject
->;
+export type RemoveLiquidityOneEvent = TypedEvent<[string, BigNumber, BigNumber], RemoveLiquidityOneEventObject>;
 
-export type RemoveLiquidityOneEventFilter =
-  TypedEventFilter<RemoveLiquidityOneEvent>;
+export type RemoveLiquidityOneEventFilter = TypedEventFilter<RemoveLiquidityOneEvent>;
 
 export interface RemoveLiquidityImbalanceEventObject {
   provider: string;
@@ -455,27 +294,17 @@ export interface RemoveLiquidityImbalanceEventObject {
   token_supply: BigNumber;
 }
 export type RemoveLiquidityImbalanceEvent = TypedEvent<
-  [
-    string,
-    [BigNumber, BigNumber],
-    [BigNumber, BigNumber],
-    BigNumber,
-    BigNumber,
-  ],
+  [string, [BigNumber, BigNumber], [BigNumber, BigNumber], BigNumber, BigNumber],
   RemoveLiquidityImbalanceEventObject
 >;
 
-export type RemoveLiquidityImbalanceEventFilter =
-  TypedEventFilter<RemoveLiquidityImbalanceEvent>;
+export type RemoveLiquidityImbalanceEventFilter = TypedEventFilter<RemoveLiquidityImbalanceEvent>;
 
 export interface CommitNewAdminEventObject {
   deadline: BigNumber;
   admin: string;
 }
-export type CommitNewAdminEvent = TypedEvent<
-  [BigNumber, string],
-  CommitNewAdminEventObject
->;
+export type CommitNewAdminEvent = TypedEvent<[BigNumber, string], CommitNewAdminEventObject>;
 
 export type CommitNewAdminEventFilter = TypedEventFilter<CommitNewAdminEvent>;
 
@@ -491,10 +320,7 @@ export interface CommitNewFeeEventObject {
   fee: BigNumber;
   admin_fee: BigNumber;
 }
-export type CommitNewFeeEvent = TypedEvent<
-  [BigNumber, BigNumber, BigNumber],
-  CommitNewFeeEventObject
->;
+export type CommitNewFeeEvent = TypedEvent<[BigNumber, BigNumber, BigNumber], CommitNewFeeEventObject>;
 
 export type CommitNewFeeEventFilter = TypedEventFilter<CommitNewFeeEvent>;
 
@@ -512,10 +338,7 @@ export interface RampAEventObject {
   initial_time: BigNumber;
   future_time: BigNumber;
 }
-export type RampAEvent = TypedEvent<
-  [BigNumber, BigNumber, BigNumber, BigNumber],
-  RampAEventObject
->;
+export type RampAEvent = TypedEvent<[BigNumber, BigNumber, BigNumber, BigNumber], RampAEventObject>;
 
 export type RampAEventFilter = TypedEventFilter<RampAEvent>;
 
@@ -523,10 +346,7 @@ export interface StopRampAEventObject {
   A: BigNumber;
   t: BigNumber;
 }
-export type StopRampAEvent = TypedEvent<
-  [BigNumber, BigNumber],
-  StopRampAEventObject
->;
+export type StopRampAEvent = TypedEvent<[BigNumber, BigNumber], StopRampAEventObject>;
 
 export type StopRampAEventFilter = TypedEventFilter<StopRampAEvent>;
 
@@ -543,13 +363,9 @@ export interface BadgerPeakSwap extends BaseContract {
     toBlock?: string | number | undefined,
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>,
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>,
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -626,9 +442,7 @@ export interface BadgerPeakSwap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
-    stop_ramp_A(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    stop_ramp_A(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
     commit_new_fee(
       new_fee: PromiseOrValue<BigNumberish>,
@@ -636,48 +450,28 @@ export interface BadgerPeakSwap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
-    apply_new_fee(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    apply_new_fee(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-    revert_new_parameters(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    revert_new_parameters(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
     commit_transfer_ownership(
       _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
-    apply_transfer_ownership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    apply_transfer_ownership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-    revert_transfer_ownership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    revert_transfer_ownership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-    withdraw_admin_fees(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    withdraw_admin_fees(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-    kill_me(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    kill_me(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-    unkill_me(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
+    unkill_me(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-    coins(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<[string]>;
+    coins(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<[string]>;
 
-    balances(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<[BigNumber]>;
+    balances(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     fee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -695,9 +489,7 @@ export interface BadgerPeakSwap extends BaseContract {
 
     admin_actions_deadline(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    transfer_ownership_deadline(
-      overrides?: CallOverrides,
-    ): Promise<[BigNumber]>;
+    transfer_ownership_deadline(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     future_fee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -775,9 +567,7 @@ export interface BadgerPeakSwap extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
-  stop_ramp_A(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  stop_ramp_A(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
   commit_new_fee(
     new_fee: PromiseOrValue<BigNumberish>,
@@ -785,48 +575,28 @@ export interface BadgerPeakSwap extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
-  apply_new_fee(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  apply_new_fee(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-  revert_new_parameters(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  revert_new_parameters(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
   commit_transfer_ownership(
     _owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
-  apply_transfer_ownership(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  apply_transfer_ownership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-  revert_transfer_ownership(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  revert_transfer_ownership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-  withdraw_admin_fees(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  withdraw_admin_fees(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-  kill_me(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  kill_me(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-  unkill_me(
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
+  unkill_me(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
-  coins(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides,
-  ): Promise<string>;
+  coins(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<string>;
 
-  balances(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides,
-  ): Promise<BigNumber>;
+  balances(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<BigNumber>;
 
   fee(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -934,10 +704,7 @@ export interface BadgerPeakSwap extends BaseContract {
 
     revert_new_parameters(overrides?: CallOverrides): Promise<void>;
 
-    commit_transfer_ownership(
-      _owner: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    commit_transfer_ownership(_owner: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
 
     apply_transfer_ownership(overrides?: CallOverrides): Promise<void>;
 
@@ -949,15 +716,9 @@ export interface BadgerPeakSwap extends BaseContract {
 
     unkill_me(overrides?: CallOverrides): Promise<void>;
 
-    coins(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<string>;
+    coins(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<string>;
 
-    balances(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    balances(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<BigNumber>;
 
     fee(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1063,9 +824,7 @@ export interface BadgerPeakSwap extends BaseContract {
       admin?: PromiseOrValue<string> | null,
     ): CommitNewAdminEventFilter;
 
-    'NewAdmin(address)'(
-      admin?: PromiseOrValue<string> | null,
-    ): NewAdminEventFilter;
+    'NewAdmin(address)'(admin?: PromiseOrValue<string> | null): NewAdminEventFilter;
     NewAdmin(admin?: PromiseOrValue<string> | null): NewAdminEventFilter;
 
     'CommitNewFee(uint256,uint256,uint256)'(
@@ -1073,11 +832,7 @@ export interface BadgerPeakSwap extends BaseContract {
       fee?: null,
       admin_fee?: null,
     ): CommitNewFeeEventFilter;
-    CommitNewFee(
-      deadline?: PromiseOrValue<BigNumberish> | null,
-      fee?: null,
-      admin_fee?: null,
-    ): CommitNewFeeEventFilter;
+    CommitNewFee(deadline?: PromiseOrValue<BigNumberish> | null, fee?: null, admin_fee?: null): CommitNewFeeEventFilter;
 
     'NewFee(uint256,uint256)'(fee?: null, admin_fee?: null): NewFeeEventFilter;
     NewFee(fee?: null, admin_fee?: null): NewFeeEventFilter;
@@ -1088,12 +843,7 @@ export interface BadgerPeakSwap extends BaseContract {
       initial_time?: null,
       future_time?: null,
     ): RampAEventFilter;
-    RampA(
-      old_A?: null,
-      new_A?: null,
-      initial_time?: null,
-      future_time?: null,
-    ): RampAEventFilter;
+    RampA(old_A?: null, new_A?: null, initial_time?: null, future_time?: null): RampAEventFilter;
 
     'StopRampA(uint256,uint256)'(A?: null, t?: null): StopRampAEventFilter;
     StopRampA(A?: null, t?: null): StopRampAEventFilter;
@@ -1169,9 +919,7 @@ export interface BadgerPeakSwap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
-    stop_ramp_A(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    stop_ramp_A(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
     commit_new_fee(
       new_fee: PromiseOrValue<BigNumberish>,
@@ -1179,48 +927,28 @@ export interface BadgerPeakSwap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
-    apply_new_fee(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    apply_new_fee(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
-    revert_new_parameters(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    revert_new_parameters(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
     commit_transfer_ownership(
       _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
-    apply_transfer_ownership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    apply_transfer_ownership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
-    revert_transfer_ownership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    revert_transfer_ownership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
-    withdraw_admin_fees(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    withdraw_admin_fees(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
-    kill_me(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    kill_me(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
-    unkill_me(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
+    unkill_me(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
-    coins(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    coins(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<BigNumber>;
 
-    balances(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    balances(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<BigNumber>;
 
     fee(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1317,9 +1045,7 @@ export interface BadgerPeakSwap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
-    stop_ramp_A(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    stop_ramp_A(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
     commit_new_fee(
       new_fee: PromiseOrValue<BigNumberish>,
@@ -1327,48 +1053,28 @@ export interface BadgerPeakSwap extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
-    apply_new_fee(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    apply_new_fee(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
-    revert_new_parameters(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    revert_new_parameters(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
     commit_transfer_ownership(
       _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
-    apply_transfer_ownership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    apply_transfer_ownership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
-    revert_transfer_ownership(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    revert_transfer_ownership(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
-    withdraw_admin_fees(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    withdraw_admin_fees(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
-    kill_me(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    kill_me(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
-    unkill_me(
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
+    unkill_me(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
-    coins(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    coins(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    balances(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    balances(arg0: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     fee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1384,13 +1090,9 @@ export interface BadgerPeakSwap extends BaseContract {
 
     future_A_time(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    admin_actions_deadline(
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    admin_actions_deadline(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    transfer_ownership_deadline(
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    transfer_ownership_deadline(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     future_fee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

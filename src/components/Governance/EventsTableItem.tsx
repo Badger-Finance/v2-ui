@@ -1,10 +1,4 @@
-import {
-  Grid,
-  Link,
-  ListItem,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Grid, Link, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { ArrowUpward } from '@material-ui/icons';
 import clsx from 'clsx';
 
@@ -77,26 +71,16 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
       <Grid container item xs={12} className={classes.root} spacing={2}>
         <Grid item xs={3}>
           <div>{event.timeStamp}</div>
-          {event.timeRemaining > 0 && (
-            <div>{event.timeRemaining} secs remaining</div>
-          )}
+          {event.timeRemaining > 0 && <div>{event.timeRemaining} secs remaining</div>}
         </Grid>
         <Grid item xs={3} className={classes.arrowbox}>
-          <Typography
-            className={classes.address}
-            variant="body2"
-            color="textSecondary"
-            noWrap
-          >
+          <Typography className={classes.address} variant="body2" color="textSecondary" noWrap>
             <div className={status_class}>
               <b>{status}</b>
             </div>
             by {event.doneBy}
           </Typography>
-          <Link
-            href={'https://etherscan.io/address/' + event.doneBy}
-            target="_blank"
-          >
+          <Link href={'https://etherscan.io/address/' + event.doneBy} target="_blank">
             <ArrowUpward className={classes.arrow} />
           </Link>
         </Grid>
@@ -104,18 +88,10 @@ const EventsTableItem = ({ event }: EventTableProps): JSX.Element => {
           {event.event}
         </Grid>
         <Grid item xs={3} className={classes.arrowbox}>
-          <Typography
-            className={classes.address}
-            variant="body2"
-            color={'textSecondary'}
-            noWrap
-          >
+          <Typography className={classes.address} variant="body2" color={'textSecondary'} noWrap>
             {event.proposer}
           </Typography>
-          <Link
-            href={'https://etherscan.io/address/' + event.proposer}
-            target="_blank"
-          >
+          <Link href={'https://etherscan.io/address/' + event.proposer} target="_blank">
             <ArrowUpward className={classes.arrow} />
           </Link>
         </Grid>

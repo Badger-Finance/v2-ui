@@ -21,12 +21,7 @@ interface Props {
 const BannerCloseActionButton = ({ text, onClose }: Props): JSX.Element => {
   const classes = useStyles();
   return (
-    <Button
-      variant="text"
-      className={classes.actionButton}
-      classes={{ label: classes.actionLabel }}
-      onClick={onClose}
-    >
+    <Button variant="text" className={classes.actionButton} classes={{ label: classes.actionLabel }} onClick={onClose}>
       {text}
     </Button>
   );

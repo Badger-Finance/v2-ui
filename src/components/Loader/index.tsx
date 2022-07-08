@@ -31,9 +31,7 @@ export const Loader = (props: LoaderProps): JSX.Element => {
   const { message, size } = props;
 
   return (
-    <div
-      className={clsx(classes.loaderContainer, size && classes.customSizing)}
-    >
+    <div className={clsx(classes.loaderContainer, size && classes.customSizing)}>
       <CircularProgress size={size || 60} />
       {message && (
         <Typography variant="body1" className={classes.loaderMessage}>

@@ -26,46 +26,19 @@ export class GovernancePortalStore {
 
   loadData = action(async (): Promise<void> => {
     const { sdk } = this.store;
-    const timelock = GovernanceTimelock__factory.connect(
-      this.contractAddress,
-      sdk.provider,
-    );
+    const timelock = GovernanceTimelock__factory.connect(this.contractAddress, sdk.provider);
 
     const proposedFilter = timelock.filters.CallScheduled();
-    const proposedEventData = await timelock.queryFilter(
-      proposedFilter,
-      0,
-      'latest',
-    );
+    const proposedEventData = await timelock.queryFilter(proposedFilter, 0, 'latest');
     const vetoedFilter = timelock.filters.CallDisputed();
-    const vetoedEventData = await timelock.queryFilter(
-      vetoedFilter,
-      0,
-      'latest',
-    );
+    const vetoedEventData = await timelock.queryFilter(vetoedFilter, 0, 'latest');
     const executedFilter = timelock.filters.CallExecuted();
-    const executedEventData = await timelock.queryFilter(
-      executedFilter,
-      0,
-      'latest',
-    );
+    const executedEventData = await timelock.queryFilter(executedFilter, 0, 'latest');
     const vetoResolvedFilter = timelock.filters.CallDisputedResolved();
-    const vetoResolvedEventData = await timelock.queryFilter(
-      vetoResolvedFilter,
-      0,
-      'latest',
-    );
+    const vetoResolvedEventData = await timelock.queryFilter(vetoResolvedFilter, 0, 'latest');
 
-    const eventData = [
-      ...proposedEventData,
-      ...vetoedEventData,
-      ...executedEventData,
-      ...vetoResolvedEventData,
-    ];
-    eventData.sort(
-      (a: ethers.Event, b: ethers.Event) =>
-        b.blockNumber + b.logIndex - a.blockNumber + a.logIndex,
-    );
+    const eventData = [...proposedEventData, ...vetoedEventData, ...executedEventData, ...vetoResolvedEventData];
+    eventData.sort((a: ethers.Event, b: ethers.Event) => b.blockNumber + b.logIndex - a.blockNumber + a.logIndex);
 
     const timelockEventMap = new Map<string, TimelockEvent>();
 
@@ -88,9 +61,7 @@ export class GovernancePortalStore {
         if (eventItem.args.status === 'Proposed') {
           timelockEvent.proposer = timelockEvent.doneBy;
           // TODO: figure out if this is correct at all
-          timelockEvent.timeRemaining =
-            Number(eventItem.args[6].toString()) -
-            Math.round(new Date().getTime() / 1000);
+          timelockEvent.timeRemaining = Number(eventItem.args[6].toString()) - Math.round(new Date().getTime() / 1000);
         }
         timelockEventMap.set(id, timelockEvent);
       }

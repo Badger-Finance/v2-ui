@@ -12,18 +12,9 @@ import type {
   Signer,
   utils,
 } from 'ethers';
-import type {
-  FunctionFragment,
-  Result,
-  EventFragment,
-} from '@ethersproject/abi';
+import type { FunctionFragment, Result, EventFragment } from '@ethersproject/abi';
 import type { Listener, Provider } from '@ethersproject/providers';
-import type {
-  TypedEventFilter,
-  TypedEvent,
-  TypedListener,
-  OnEvent,
-} from './common';
+import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from './common';
 
 export interface CitadelSaleGuestListInterface extends utils.Interface {
   functions: {
@@ -63,62 +54,26 @@ export interface CitadelSaleGuestListInterface extends utils.Interface {
       | 'unpause',
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: 'PAUSER_ROLE',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'TECH_OPERATIONS_ROLE',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'UNPAUSER_ROLE',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: '__GlobalAccessControlManaged_init',
-    values: [string],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'authorized',
-    values: [string, BytesLike[]],
-  ): string;
+  encodeFunctionData(functionFragment: 'PAUSER_ROLE', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'TECH_OPERATIONS_ROLE', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'UNPAUSER_ROLE', values?: undefined): string;
+  encodeFunctionData(functionFragment: '__GlobalAccessControlManaged_init', values: [string]): string;
+  encodeFunctionData(functionFragment: 'authorized', values: [string, BytesLike[]]): string;
   encodeFunctionData(functionFragment: 'gac', values?: undefined): string;
   encodeFunctionData(functionFragment: 'guestRoot', values?: undefined): string;
   encodeFunctionData(functionFragment: 'guests', values: [string]): string;
   encodeFunctionData(functionFragment: 'initialize', values: [string]): string;
   encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
   encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'proveInvitation',
-    values: [string, BytesLike[]],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'setGuestRoot',
-    values: [BytesLike],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'setGuests',
-    values: [string[], boolean[]],
-  ): string;
+  encodeFunctionData(functionFragment: 'proveInvitation', values: [string, BytesLike[]]): string;
+  encodeFunctionData(functionFragment: 'setGuestRoot', values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: 'setGuests', values: [string[], boolean[]]): string;
   encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
 
-  decodeFunctionResult(
-    functionFragment: 'PAUSER_ROLE',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'TECH_OPERATIONS_ROLE',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'UNPAUSER_ROLE',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: '__GlobalAccessControlManaged_init',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'PAUSER_ROLE', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'TECH_OPERATIONS_ROLE', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'UNPAUSER_ROLE', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: '__GlobalAccessControlManaged_init', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'authorized', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'gac', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'guestRoot', data: BytesLike): Result;
@@ -126,14 +81,8 @@ export interface CitadelSaleGuestListInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'proveInvitation',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'setGuestRoot',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'proveInvitation', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setGuestRoot', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'setGuests', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result;
 
@@ -161,10 +110,7 @@ export interface ProveInvitationEventObject {
   account: string;
   guestRoot: string;
 }
-export type ProveInvitationEvent = TypedEvent<
-  [string, string],
-  ProveInvitationEventObject
->;
+export type ProveInvitationEvent = TypedEvent<[string, string], ProveInvitationEventObject>;
 
 export type ProveInvitationEventFilter = TypedEventFilter<ProveInvitationEvent>;
 
@@ -195,13 +141,9 @@ export interface CitadelSaleGuestList extends BaseContract {
     toBlock?: string | number | undefined,
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>,
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>,
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -220,11 +162,7 @@ export interface CitadelSaleGuestList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
-    authorized(
-      _guest: string,
-      _merkleProof: BytesLike[],
-      overrides?: CallOverrides,
-    ): Promise<[boolean]>;
+    authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<[boolean]>;
 
     gac(overrides?: CallOverrides): Promise<[string]>;
 
@@ -237,9 +175,7 @@ export interface CitadelSaleGuestList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
-    pause(
-      overrides?: Overrides & { from?: string | Promise<string> },
-    ): Promise<ContractTransaction>;
+    pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
@@ -260,9 +196,7 @@ export interface CitadelSaleGuestList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<ContractTransaction>;
 
-    unpause(
-      overrides?: Overrides & { from?: string | Promise<string> },
-    ): Promise<ContractTransaction>;
+    unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
   };
 
   PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -276,11 +210,7 @@ export interface CitadelSaleGuestList extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
-  authorized(
-    _guest: string,
-    _merkleProof: BytesLike[],
-    overrides?: CallOverrides,
-  ): Promise<boolean>;
+  authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<boolean>;
 
   gac(overrides?: CallOverrides): Promise<string>;
 
@@ -293,9 +223,7 @@ export interface CitadelSaleGuestList extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
-  pause(
-    overrides?: Overrides & { from?: string | Promise<string> },
-  ): Promise<ContractTransaction>;
+  pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
@@ -316,9 +244,7 @@ export interface CitadelSaleGuestList extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> },
   ): Promise<ContractTransaction>;
 
-  unpause(
-    overrides?: Overrides & { from?: string | Promise<string> },
-  ): Promise<ContractTransaction>;
+  unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
   callStatic: {
     PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -327,16 +253,9 @@ export interface CitadelSaleGuestList extends BaseContract {
 
     UNPAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    __GlobalAccessControlManaged_init(
-      _globalAccessControl: string,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    __GlobalAccessControlManaged_init(_globalAccessControl: string, overrides?: CallOverrides): Promise<void>;
 
-    authorized(
-      _guest: string,
-      _merkleProof: BytesLike[],
-      overrides?: CallOverrides,
-    ): Promise<boolean>;
+    authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<boolean>;
 
     gac(overrides?: CallOverrides): Promise<string>;
 
@@ -344,31 +263,17 @@ export interface CitadelSaleGuestList extends BaseContract {
 
     guests(arg0: string, overrides?: CallOverrides): Promise<boolean>;
 
-    initialize(
-      _globalAccessControl: string,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    initialize(_globalAccessControl: string, overrides?: CallOverrides): Promise<void>;
 
     pause(overrides?: CallOverrides): Promise<void>;
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    proveInvitation(
-      account: string,
-      merkleProof: BytesLike[],
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    proveInvitation(account: string, merkleProof: BytesLike[], overrides?: CallOverrides): Promise<void>;
 
-    setGuestRoot(
-      guestRoot_: BytesLike,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    setGuestRoot(guestRoot_: BytesLike, overrides?: CallOverrides): Promise<void>;
 
-    setGuests(
-      _guests: string[],
-      _invited: boolean[],
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    setGuests(_guests: string[], _invited: boolean[], overrides?: CallOverrides): Promise<void>;
 
     unpause(overrides?: CallOverrides): Promise<void>;
   };
@@ -381,14 +286,9 @@ export interface CitadelSaleGuestList extends BaseContract {
       account?: string | null,
       guestRoot?: BytesLike | null,
     ): ProveInvitationEventFilter;
-    ProveInvitation(
-      account?: string | null,
-      guestRoot?: BytesLike | null,
-    ): ProveInvitationEventFilter;
+    ProveInvitation(account?: string | null, guestRoot?: BytesLike | null): ProveInvitationEventFilter;
 
-    'SetGuestRoot(bytes32)'(
-      guestRoot?: BytesLike | null,
-    ): SetGuestRootEventFilter;
+    'SetGuestRoot(bytes32)'(guestRoot?: BytesLike | null): SetGuestRootEventFilter;
     SetGuestRoot(guestRoot?: BytesLike | null): SetGuestRootEventFilter;
 
     'Unpaused(address)'(account?: null): UnpausedEventFilter;
@@ -407,11 +307,7 @@ export interface CitadelSaleGuestList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
-    authorized(
-      _guest: string,
-      _merkleProof: BytesLike[],
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<BigNumber>;
 
     gac(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -424,9 +320,7 @@ export interface CitadelSaleGuestList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
-    pause(
-      overrides?: Overrides & { from?: string | Promise<string> },
-    ): Promise<BigNumber>;
+    pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -447,17 +341,13 @@ export interface CitadelSaleGuestList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<BigNumber>;
 
-    unpause(
-      overrides?: Overrides & { from?: string | Promise<string> },
-    ): Promise<BigNumber>;
+    unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
   };
 
   populateTransaction: {
     PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    TECH_OPERATIONS_ROLE(
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    TECH_OPERATIONS_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     UNPAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -466,29 +356,20 @@ export interface CitadelSaleGuestList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
-    authorized(
-      _guest: string,
-      _merkleProof: BytesLike[],
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    authorized(_guest: string, _merkleProof: BytesLike[], overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     gac(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     guestRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    guests(
-      arg0: string,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    guests(arg0: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     initialize(
       _globalAccessControl: string,
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
-    pause(
-      overrides?: Overrides & { from?: string | Promise<string> },
-    ): Promise<PopulatedTransaction>;
+    pause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -509,8 +390,6 @@ export interface CitadelSaleGuestList extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> },
     ): Promise<PopulatedTransaction>;
 
-    unpause(
-      overrides?: Overrides & { from?: string | Promise<string> },
-    ): Promise<PopulatedTransaction>;
+    unpause(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
   };
 }

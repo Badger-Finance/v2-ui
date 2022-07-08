@@ -14,19 +14,9 @@ import type {
   Signer,
   utils,
 } from 'ethers';
-import type {
-  FunctionFragment,
-  Result,
-  EventFragment,
-} from '@ethersproject/abi';
+import type { FunctionFragment, Result, EventFragment } from '@ethersproject/abi';
 import type { Listener, Provider } from '@ethersproject/providers';
-import type {
-  TypedEventFilter,
-  TypedEvent,
-  TypedListener,
-  OnEvent,
-  PromiseOrValue,
-} from './common';
+import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent, PromiseOrValue } from './common';
 
 export interface GovernanceTimelockInterface extends utils.Interface {
   functions: {
@@ -98,51 +88,20 @@ export interface GovernanceTimelockInterface extends utils.Interface {
       | 'updateDelay',
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: 'CANCELLOR_ROLE',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'EXECUTOR_ROLE',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'PROPOSER_ROLE',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'SUPREMECOURT_ROLE',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'TIMELOCK_ADMIN_ROLE',
-    values?: undefined,
-  ): string;
+  encodeFunctionData(functionFragment: 'CANCELLOR_ROLE', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'DEFAULT_ADMIN_ROLE', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'EXECUTOR_ROLE', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'PROPOSER_ROLE', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'SUPREMECOURT_ROLE', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'TIMELOCK_ADMIN_ROLE', values?: undefined): string;
   encodeFunctionData(functionFragment: 'VETO_ROLE', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: '_disputed',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'callDispute',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
+  encodeFunctionData(functionFragment: '_disputed', values: [PromiseOrValue<BytesLike>]): string;
+  encodeFunctionData(functionFragment: 'callDispute', values: [PromiseOrValue<BytesLike>]): string;
   encodeFunctionData(
     functionFragment: 'callDisputeResolve',
-    values: [
-      PromiseOrValue<BytesLike>,
-      PromiseOrValue<boolean>,
-      PromiseOrValue<BytesLike>,
-    ],
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<boolean>, PromiseOrValue<BytesLike>],
   ): string;
-  encodeFunctionData(
-    functionFragment: 'cancel',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
+  encodeFunctionData(functionFragment: 'cancel', values: [PromiseOrValue<BytesLike>]): string;
   encodeFunctionData(
     functionFragment: 'execute',
     values: [
@@ -163,30 +122,15 @@ export interface GovernanceTimelockInterface extends utils.Interface {
       PromiseOrValue<BytesLike>,
     ],
   ): string;
-  encodeFunctionData(
-    functionFragment: 'getDisputeStatus',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'getMinDelay',
-    values?: undefined,
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'getRoleAdmin',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'getTimestamp',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
+  encodeFunctionData(functionFragment: 'getDisputeStatus', values: [PromiseOrValue<BytesLike>]): string;
+  encodeFunctionData(functionFragment: 'getMinDelay', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'getRoleAdmin', values: [PromiseOrValue<BytesLike>]): string;
+  encodeFunctionData(functionFragment: 'getTimestamp', values: [PromiseOrValue<BytesLike>]): string;
   encodeFunctionData(
     functionFragment: 'grantRole',
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>],
   ): string;
-  encodeFunctionData(
-    functionFragment: 'hasRole',
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>],
-  ): string;
+  encodeFunctionData(functionFragment: 'hasRole', values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]): string;
   encodeFunctionData(
     functionFragment: 'hashOperation',
     values: [
@@ -207,22 +151,10 @@ export interface GovernanceTimelockInterface extends utils.Interface {
       PromiseOrValue<BytesLike>,
     ],
   ): string;
-  encodeFunctionData(
-    functionFragment: 'isOperation',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'isOperationDone',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'isOperationPending',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'isOperationReady',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
+  encodeFunctionData(functionFragment: 'isOperation', values: [PromiseOrValue<BytesLike>]): string;
+  encodeFunctionData(functionFragment: 'isOperationDone', values: [PromiseOrValue<BytesLike>]): string;
+  encodeFunctionData(functionFragment: 'isOperationPending', values: [PromiseOrValue<BytesLike>]): string;
+  encodeFunctionData(functionFragment: 'isOperationReady', values: [PromiseOrValue<BytesLike>]): string;
   encodeFunctionData(
     functionFragment: 'renounceRole',
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>],
@@ -253,115 +185,40 @@ export interface GovernanceTimelockInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
     ],
   ): string;
-  encodeFunctionData(
-    functionFragment: 'supportsInterface',
-    values: [PromiseOrValue<BytesLike>],
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'updateDelay',
-    values: [PromiseOrValue<BigNumberish>],
-  ): string;
+  encodeFunctionData(functionFragment: 'supportsInterface', values: [PromiseOrValue<BytesLike>]): string;
+  encodeFunctionData(functionFragment: 'updateDelay', values: [PromiseOrValue<BigNumberish>]): string;
 
-  decodeFunctionResult(
-    functionFragment: 'CANCELLOR_ROLE',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'EXECUTOR_ROLE',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'PROPOSER_ROLE',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'SUPREMECOURT_ROLE',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'TIMELOCK_ADMIN_ROLE',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'CANCELLOR_ROLE', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'DEFAULT_ADMIN_ROLE', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'EXECUTOR_ROLE', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'PROPOSER_ROLE', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'SUPREMECOURT_ROLE', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'TIMELOCK_ADMIN_ROLE', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'VETO_ROLE', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: '_disputed', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'callDispute',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'callDisputeResolve',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'callDispute', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'callDisputeResolve', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'cancel', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'execute', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'executeBatch',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'getDisputeStatus',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'getMinDelay',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'getRoleAdmin',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'getTimestamp',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'executeBatch', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getDisputeStatus', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getMinDelay', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getRoleAdmin', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getTimestamp', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'hashOperation',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'hashOperationBatch',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'isOperation',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'isOperationDone',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'isOperationPending',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'isOperationReady',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'renounceRole',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'hashOperation', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'hashOperationBatch', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'isOperation', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'isOperationDone', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'isOperationPending', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'isOperationReady', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'renounceRole', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'schedule', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'scheduleBatch',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'supportsInterface',
-    data: BytesLike,
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'updateDelay',
-    data: BytesLike,
-  ): Result;
+  decodeFunctionResult(functionFragment: 'scheduleBatch', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'supportsInterface', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'updateDelay', data: BytesLike): Result;
 
   events: {
     'CallDisputed(bytes32,address,string)': EventFragment;
@@ -391,10 +248,7 @@ export interface CallDisputedEventObject {
   sender: string;
   status: string;
 }
-export type CallDisputedEvent = TypedEvent<
-  [string, string, string],
-  CallDisputedEventObject
->;
+export type CallDisputedEvent = TypedEvent<[string, string, string], CallDisputedEventObject>;
 
 export type CallDisputedEventFilter = TypedEventFilter<CallDisputedEvent>;
 
@@ -410,8 +264,7 @@ export type CallDisputedResolvedEvent = TypedEvent<
   CallDisputedResolvedEventObject
 >;
 
-export type CallDisputedResolvedEventFilter =
-  TypedEventFilter<CallDisputedResolvedEvent>;
+export type CallDisputedResolvedEventFilter = TypedEventFilter<CallDisputedResolvedEvent>;
 
 export interface CallExecutedEventObject {
   id: string;
@@ -441,17 +294,7 @@ export interface CallScheduledEventObject {
   status: string;
 }
 export type CallScheduledEvent = TypedEvent<
-  [
-    string,
-    BigNumber,
-    string,
-    BigNumber,
-    string,
-    string,
-    BigNumber,
-    string,
-    string,
-  ],
+  [string, BigNumber, string, BigNumber, string, string, BigNumber, string, string],
   CallScheduledEventObject
 >;
 
@@ -462,10 +305,7 @@ export interface CancelledEventObject {
   sender: string;
   status: string;
 }
-export type CancelledEvent = TypedEvent<
-  [string, string, string],
-  CancelledEventObject
->;
+export type CancelledEvent = TypedEvent<[string, string, string], CancelledEventObject>;
 
 export type CancelledEventFilter = TypedEventFilter<CancelledEvent>;
 
@@ -473,10 +313,7 @@ export interface MinDelayChangeEventObject {
   oldDuration: BigNumber;
   newDuration: BigNumber;
 }
-export type MinDelayChangeEvent = TypedEvent<
-  [BigNumber, BigNumber],
-  MinDelayChangeEventObject
->;
+export type MinDelayChangeEvent = TypedEvent<[BigNumber, BigNumber], MinDelayChangeEventObject>;
 
 export type MinDelayChangeEventFilter = TypedEventFilter<MinDelayChangeEvent>;
 
@@ -485,23 +322,16 @@ export interface RoleAdminChangedEventObject {
   previousAdminRole: string;
   newAdminRole: string;
 }
-export type RoleAdminChangedEvent = TypedEvent<
-  [string, string, string],
-  RoleAdminChangedEventObject
->;
+export type RoleAdminChangedEvent = TypedEvent<[string, string, string], RoleAdminChangedEventObject>;
 
-export type RoleAdminChangedEventFilter =
-  TypedEventFilter<RoleAdminChangedEvent>;
+export type RoleAdminChangedEventFilter = TypedEventFilter<RoleAdminChangedEvent>;
 
 export interface RoleGrantedEventObject {
   role: string;
   account: string;
   sender: string;
 }
-export type RoleGrantedEvent = TypedEvent<
-  [string, string, string],
-  RoleGrantedEventObject
->;
+export type RoleGrantedEvent = TypedEvent<[string, string, string], RoleGrantedEventObject>;
 
 export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>;
 
@@ -510,10 +340,7 @@ export interface RoleRevokedEventObject {
   account: string;
   sender: string;
 }
-export type RoleRevokedEvent = TypedEvent<
-  [string, string, string],
-  RoleRevokedEventObject
->;
+export type RoleRevokedEvent = TypedEvent<[string, string, string], RoleRevokedEventObject>;
 
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
@@ -530,13 +357,9 @@ export interface GovernanceTimelock extends BaseContract {
     toBlock?: string | number | undefined,
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>,
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>,
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -558,10 +381,7 @@ export interface GovernanceTimelock extends BaseContract {
 
     VETO_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    _disputed(
-      arg0: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[number]>;
+    _disputed(arg0: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[number]>;
 
     callDispute(
       id: PromiseOrValue<BytesLike>,
@@ -603,14 +423,9 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<[number] & { disputed: number }>;
 
-    getMinDelay(
-      overrides?: CallOverrides,
-    ): Promise<[BigNumber] & { duration: BigNumber }>;
+    getMinDelay(overrides?: CallOverrides): Promise<[BigNumber] & { duration: BigNumber }>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[string]>;
+    getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[string]>;
 
     getTimestamp(
       id: PromiseOrValue<BytesLike>,
@@ -647,25 +462,16 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<[string] & { hash: string }>;
 
-    isOperation(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[boolean] & { pending: boolean }>;
+    isOperation(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[boolean] & { pending: boolean }>;
 
-    isOperationDone(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[boolean] & { done: boolean }>;
+    isOperationDone(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[boolean] & { done: boolean }>;
 
     isOperationPending(
       id: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides,
     ): Promise<[boolean] & { pending: boolean }>;
 
-    isOperationReady(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[boolean] & { ready: boolean }>;
+    isOperationReady(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[boolean] & { ready: boolean }>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -699,10 +505,7 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[boolean]>;
+    supportsInterface(interfaceId: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<[boolean]>;
 
     updateDelay(
       newDelay: PromiseOrValue<BigNumberish>,
@@ -724,10 +527,7 @@ export interface GovernanceTimelock extends BaseContract {
 
   VETO_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  _disputed(
-    arg0: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<number>;
+  _disputed(arg0: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<number>;
 
   callDispute(
     id: PromiseOrValue<BytesLike>,
@@ -764,22 +564,13 @@ export interface GovernanceTimelock extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
-  getDisputeStatus(
-    id: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<number>;
+  getDisputeStatus(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<number>;
 
   getMinDelay(overrides?: CallOverrides): Promise<BigNumber>;
 
-  getRoleAdmin(
-    role: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<string>;
+  getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<string>;
 
-  getTimestamp(
-    id: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<BigNumber>;
+  getTimestamp(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -811,25 +602,13 @@ export interface GovernanceTimelock extends BaseContract {
     overrides?: CallOverrides,
   ): Promise<string>;
 
-  isOperation(
-    id: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<boolean>;
+  isOperation(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
-  isOperationDone(
-    id: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<boolean>;
+  isOperationDone(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
-  isOperationPending(
-    id: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<boolean>;
+  isOperationPending(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
-  isOperationReady(
-    id: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<boolean>;
+  isOperationReady(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
   renounceRole(
     role: PromiseOrValue<BytesLike>,
@@ -863,10 +642,7 @@ export interface GovernanceTimelock extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
-  supportsInterface(
-    interfaceId: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<boolean>;
+  supportsInterface(interfaceId: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
   updateDelay(
     newDelay: PromiseOrValue<BigNumberish>,
@@ -888,15 +664,9 @@ export interface GovernanceTimelock extends BaseContract {
 
     VETO_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    _disputed(
-      arg0: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<number>;
+    _disputed(arg0: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<number>;
 
-    callDispute(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    callDispute(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<void>;
 
     callDisputeResolve(
       id: PromiseOrValue<BytesLike>,
@@ -905,10 +675,7 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<void>;
 
-    cancel(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    cancel(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<void>;
 
     execute(
       target: PromiseOrValue<string>,
@@ -928,22 +695,13 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<void>;
 
-    getDisputeStatus(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<number>;
+    getDisputeStatus(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<number>;
 
     getMinDelay(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<string>;
+    getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<string>;
 
-    getTimestamp(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    getTimestamp(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -975,25 +733,13 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<string>;
 
-    isOperation(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<boolean>;
+    isOperation(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
-    isOperationDone(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<boolean>;
+    isOperationDone(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
-    isOperationPending(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<boolean>;
+    isOperationPending(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
-    isOperationReady(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<boolean>;
+    isOperationReady(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -1027,15 +773,9 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<void>;
 
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<boolean>;
+    supportsInterface(interfaceId: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<boolean>;
 
-    updateDelay(
-      newDelay: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    updateDelay(newDelay: PromiseOrValue<BigNumberish>, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -1044,11 +784,7 @@ export interface GovernanceTimelock extends BaseContract {
       sender?: null,
       status?: null,
     ): CallDisputedEventFilter;
-    CallDisputed(
-      id?: PromiseOrValue<BytesLike> | null,
-      sender?: null,
-      status?: null,
-    ): CallDisputedEventFilter;
+    CallDisputed(id?: PromiseOrValue<BytesLike> | null, sender?: null, status?: null): CallDisputedEventFilter;
 
     'CallDisputedResolved(bytes32,bool,bytes,address,string)'(
       id?: PromiseOrValue<BytesLike> | null,
@@ -1112,20 +848,10 @@ export interface GovernanceTimelock extends BaseContract {
       sender?: null,
       status?: null,
     ): CancelledEventFilter;
-    Cancelled(
-      id?: PromiseOrValue<BytesLike> | null,
-      sender?: null,
-      status?: null,
-    ): CancelledEventFilter;
+    Cancelled(id?: PromiseOrValue<BytesLike> | null, sender?: null, status?: null): CancelledEventFilter;
 
-    'MinDelayChange(uint256,uint256)'(
-      oldDuration?: null,
-      newDuration?: null,
-    ): MinDelayChangeEventFilter;
-    MinDelayChange(
-      oldDuration?: null,
-      newDuration?: null,
-    ): MinDelayChangeEventFilter;
+    'MinDelayChange(uint256,uint256)'(oldDuration?: null, newDuration?: null): MinDelayChangeEventFilter;
+    MinDelayChange(oldDuration?: null, newDuration?: null): MinDelayChangeEventFilter;
 
     'RoleAdminChanged(bytes32,bytes32,bytes32)'(
       role?: PromiseOrValue<BytesLike> | null,
@@ -1176,10 +902,7 @@ export interface GovernanceTimelock extends BaseContract {
 
     VETO_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    _disputed(
-      arg0: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    _disputed(arg0: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
     callDispute(
       id: PromiseOrValue<BytesLike>,
@@ -1216,22 +939,13 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
-    getDisputeStatus(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    getDisputeStatus(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
     getMinDelay(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
-    getTimestamp(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    getTimestamp(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1263,25 +977,13 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
-    isOperation(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    isOperation(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
-    isOperationDone(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    isOperationDone(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
-    isOperationPending(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    isOperationPending(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
-    isOperationReady(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    isOperationReady(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -1315,10 +1017,7 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>;
+    supportsInterface(interfaceId: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<BigNumber>;
 
     updateDelay(
       newDelay: PromiseOrValue<BigNumberish>,
@@ -1329,9 +1028,7 @@ export interface GovernanceTimelock extends BaseContract {
   populateTransaction: {
     CANCELLOR_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    DEFAULT_ADMIN_ROLE(
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     EXECUTOR_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1339,16 +1036,11 @@ export interface GovernanceTimelock extends BaseContract {
 
     SUPREMECOURT_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    TIMELOCK_ADMIN_ROLE(
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    TIMELOCK_ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     VETO_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    _disputed(
-      arg0: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    _disputed(arg0: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     callDispute(
       id: PromiseOrValue<BytesLike>,
@@ -1385,22 +1077,13 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
-    getDisputeStatus(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    getDisputeStatus(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getMinDelay(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    getRoleAdmin(role: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getTimestamp(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    getTimestamp(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1432,25 +1115,13 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
-    isOperation(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    isOperation(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    isOperationDone(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    isOperationDone(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    isOperationPending(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    isOperationPending(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    isOperationReady(
-      id: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    isOperationReady(id: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -1484,10 +1155,7 @@ export interface GovernanceTimelock extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>;
+    supportsInterface(interfaceId: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     updateDelay(
       newDelay: PromiseOrValue<BigNumberish>,

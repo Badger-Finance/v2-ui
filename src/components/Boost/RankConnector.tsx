@@ -19,10 +19,7 @@ interface Props {
   isMain?: boolean;
 }
 
-export const RankConnector = ({
-  signatureColor,
-  isMain = false,
-}: Props): JSX.Element => {
+export const RankConnector = ({ signatureColor, isMain = false }: Props): JSX.Element => {
   const classes = useRankConnectorStyles(signatureColor, isMain)();
   return <div className={classes.connector} />;
 };

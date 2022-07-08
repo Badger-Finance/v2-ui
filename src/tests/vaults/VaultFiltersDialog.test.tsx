@@ -14,12 +14,8 @@ import { customRender, fireEvent, screen } from '../Utils';
 
 describe('VaultFiltersDialog', () => {
   beforeEach(() => {
-    jest
-      .spyOn(VaultStore.prototype, 'vaultsProtocols', 'get')
-      .mockReturnValue([Protocol.Convex, Protocol.Curve]);
-    jest
-      .spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get')
-      .mockReturnValue(true);
+    jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
+    jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
     store.vaults.showVaultFilters = true;
     config.disabled = true;
   });
@@ -75,9 +71,7 @@ describe('VaultFiltersDialog', () => {
         name: Protocol.Curve,
       }),
     );
-    expect(screen.getByTestId('platform-selector-input')).toHaveValue(
-      Protocol.Convex + ',' + Protocol.Curve,
-    );
+    expect(screen.getByTestId('platform-selector-input')).toHaveValue(Protocol.Convex + ',' + Protocol.Curve);
   });
 
   it('can select status', () => {
@@ -98,9 +92,7 @@ describe('VaultFiltersDialog', () => {
         name: VaultState.Experimental,
       }),
     );
-    expect(screen.getByTestId('status-selector-input')).toHaveValue(
-      VaultState.Guarded + ',' + VaultState.Experimental,
-    );
+    expect(screen.getByTestId('status-selector-input')).toHaveValue(VaultState.Guarded + ',' + VaultState.Experimental);
   });
 
   it('can select rewards', () => {
@@ -165,12 +157,8 @@ describe('VaultFiltersDialog', () => {
   });
 
   it('can apply filters', async () => {
-    jest
-      .spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get')
-      .mockReturnValue(true);
-    jest
-      .spyOn(VaultStore.prototype, 'vaultsProtocols', 'get')
-      .mockReturnValue([Protocol.Convex, Protocol.Curve]);
+    jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
+    jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
 
     customRender(
       <StoreProvider value={store}>
@@ -178,13 +166,9 @@ describe('VaultFiltersDialog', () => {
       </StoreProvider>,
     );
 
-    fireEvent.click(
-      screen.getByRole('checkbox', { name: 'Only show deposits' }),
-    );
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Only show deposits' }));
     fireEvent.click(screen.getByRole('checkbox', { name: 'Hide dust' }));
-    fireEvent.click(
-      screen.getByRole('checkbox', { name: '🚀 Boosted Vaults' }),
-    );
+    fireEvent.click(screen.getByRole('checkbox', { name: '🚀 Boosted Vaults' }));
 
     fireEvent.mouseDown(screen.getByLabelText('Platform'));
     fireEvent.click(

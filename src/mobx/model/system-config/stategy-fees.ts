@@ -16,7 +16,6 @@ export const userReadableFeeNames: Record<StrategyFee, string> = {
   [StrategyFee.yearnPerformance]: 'Yearn Performance Fee',
   [StrategyFee.yearnManagement]: 'Yearn Management Fee',
   [StrategyFee.harvestPerformance]: 'Harvest Performance Fee',
-  [StrategyFee.harvestStrategistPerformance]:
-    'Harvest Strategist Performance Fee',
+  [StrategyFee.harvestStrategistPerformance]: 'Harvest Strategist Performance Fee',
   [StrategyFee.aumFee]: 'Management Fee',
 };

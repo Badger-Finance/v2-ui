@@ -70,11 +70,7 @@ export const Optimizer = observer((): JSX.Element => {
     const numberNewNative = Number(newNative);
     const numericNewNonNative = Number(newNonNative);
 
-    if (
-      isNaN(numberNewNative) ||
-      isNaN(numericNewNonNative) ||
-      numericNewNonNative === 0
-    ) {
+    if (isNaN(numberNewNative) || isNaN(numericNewNonNative) || numericNewNonNative === 0) {
       setStakeRatio(0);
       return;
     }
@@ -111,13 +107,7 @@ export const Optimizer = observer((): JSX.Element => {
       return;
     }
 
-    setNativeToAdd(
-      calculateNativeToMatchRank(
-        numericNative,
-        numericNonNative,
-        targetRank,
-      ).toString(),
-    );
+    setNativeToAdd(calculateNativeToMatchRank(numericNative, numericNonNative, targetRank).toString());
   };
 
   const handleNativeChange = (change: string) => {
@@ -159,12 +149,7 @@ export const Optimizer = observer((): JSX.Element => {
   return (
     <Grid container spacing={2}>
       <Grid container item xs={12} lg>
-        <Grid
-          container
-          direction="column"
-          component={Paper}
-          className={classes.calculatorContainer}
-        >
+        <Grid container direction="column" component={Paper} className={classes.calculatorContainer}>
           <Grid item>
             <OptimizerHeader stakeRatio={stakeRatio} onReset={handleReset} />
           </Grid>
@@ -184,11 +169,7 @@ export const Optimizer = observer((): JSX.Element => {
         </Grid>
       </Grid>
       <Grid item xs={12} className={classes.stakeInformationCardContainer}>
-        <StakeInformation
-          native={native}
-          nonNative={nonNative}
-          onRankClick={handleRankClick}
-        />
+        <StakeInformation native={native} nonNative={nonNative} onRankClick={handleRankClick} />
       </Grid>
     </Grid>
   );

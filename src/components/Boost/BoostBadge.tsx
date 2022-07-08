@@ -19,17 +19,8 @@ export const BoostBadge = observer(() => {
   const classes = useStyles();
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      className={classes.root}
-    >
-      <img
-        alt="Badger Logo"
-        src={'assets/badger-logo.png'}
-        className={classes.logo}
-      />
+    <Box display="flex" alignItems="center" justifyContent="center" className={classes.root}>
+      <img alt="Badger Logo" src={'assets/badger-logo.png'} className={classes.logo} />
     </Box>
   );
 });

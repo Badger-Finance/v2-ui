@@ -47,26 +47,12 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
   }
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      onClick={handleApyInfoClick}
-      className={classes.root}
-    >
+    <Box display="flex" alignItems="center" onClick={handleApyInfoClick} className={classes.root}>
       <Typography variant="body1" color={'textPrimary'} display="inline">
         {`${numberWithCommas(boost.toFixed(2))}%`}
       </Typography>
-      <img
-        src="/assets/icons/apy-info.svg"
-        className={classes.apyInfo}
-        alt="apy info icon"
-      />
-      <VaultApyInformation
-        open={showApyInfo}
-        vault={vault}
-        boost={boost}
-        onClose={handleClose}
-      />
+      <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
+      <VaultApyInformation open={showApyInfo} vault={vault} boost={boost} onClose={handleClose} />
     </Box>
   );
 };

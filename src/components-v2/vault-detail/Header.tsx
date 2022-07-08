@@ -35,11 +35,7 @@ export const Header = (): JSX.Element => {
 
   return (
     <PageHeaderContainer container className={classes.root}>
-      <Link
-        component="button"
-        className={classes.links}
-        onClick={() => router.goTo(routes.home)}
-      >
+      <Link component="button" className={classes.links} onClick={() => router.goTo(routes.home)}>
         <ArrowBackIcon className={classes.backArrow} />
         Back to All Vaults
       </Link>

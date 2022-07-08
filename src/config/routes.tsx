@@ -1,9 +1,4 @@
-import {
-  Protocol,
-  VaultBehavior,
-  VaultState,
-  VaultType,
-} from '@badger-dao/sdk';
+import { Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
 import Bridge from 'components/Bridge';
 import Governance from 'components/Governance';
 import { IbBTC } from 'components/IbBTC';
@@ -31,16 +26,10 @@ const routes = {
           onlyBoostedVaults: Boolean(queryParams['onlyBoostedVaults']),
           sortOrder: (queryParams['sortOrder'] as VaultSortOrder) ?? undefined,
           search: (queryParams['search'] as string) ?? undefined,
-          protocols: parseQueryMultipleParams<Protocol>(
-            queryParams['protocols'],
-          ),
+          protocols: parseQueryMultipleParams<Protocol>(queryParams['protocols']),
           types: parseQueryMultipleParams<VaultType>(queryParams['types']),
-          statuses: parseQueryMultipleParams<VaultState>(
-            queryParams['statuses'],
-          ),
-          behaviors: parseQueryMultipleParams<VaultBehavior>(
-            queryParams['behaviors'],
-          ),
+          statuses: parseQueryMultipleParams<VaultState>(queryParams['statuses']),
+          behaviors: parseQueryMultipleParams<VaultBehavior>(queryParams['behaviors']),
         };
       }
     },

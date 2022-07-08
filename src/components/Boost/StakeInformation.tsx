@@ -6,10 +6,7 @@ import React from 'react';
 
 import { MIN_BOOST, MIN_BOOST_RANK } from '../../config/system/boost-ranks';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
-import {
-  calculateUserBoost,
-  getHighestRankFromStakeRatio,
-} from '../../utils/boost-ranks';
+import { calculateUserBoost, getHighestRankFromStakeRatio } from '../../utils/boost-ranks';
 import { isValidCalculatedValue } from '../../utils/componentHelpers';
 import { RankList } from './RankList';
 import { StakeInformationHeader } from './StakeInformationHeader';
@@ -57,62 +54,47 @@ interface Props {
   onRankClick: (rank: BoostRank) => void;
 }
 
-export const StakeInformation = observer(
-  ({ native, nonNative, onRankClick }: Props): JSX.Element => {
-    const {
-      user: { accountDetails },
-      wallet,
-    } = React.useContext(StoreContext);
+export const StakeInformation = observer(({ native, nonNative, onRankClick }: Props): JSX.Element => {
+  const {
+    user: { accountDetails },
+    wallet,
+  } = React.useContext(StoreContext);
 
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const isLoading = wallet.isConnected && accountDetails === undefined;
-    const accountNative = accountDetails?.nativeBalance;
-    const accountNonNative = accountDetails?.nonNativeBalance;
+  const isLoading = wallet.isConnected && accountDetails === undefined;
+  const accountNative = accountDetails?.nativeBalance;
+  const accountNonNative = accountDetails?.nonNativeBalance;
 
-    const calculatedStakeRatio = Number(native) / Number(nonNative);
-    const calculatedAccountRatio =
-      Number(accountNative) / Number(accountNonNative);
+  const calculatedStakeRatio = Number(native) / Number(nonNative);
+  const calculatedAccountRatio = Number(accountNative) / Number(accountNonNative);
 
-    const isValidStakeRatio = isValidCalculatedValue(calculatedStakeRatio);
-    const isValidAccountRatio = isValidCalculatedValue(calculatedAccountRatio);
+  const isValidStakeRatio = isValidCalculatedValue(calculatedStakeRatio);
+  const isValidAccountRatio = isValidCalculatedValue(calculatedAccountRatio);
 
-    const stakeRatio = isValidStakeRatio
-      ? calculatedStakeRatio
-      : MIN_BOOST_RANK.stakeRatioBoundary;
-    const accountStakeRatio = isValidAccountRatio
-      ? calculatedAccountRatio
-      : MIN_BOOST_RANK.stakeRatioBoundary;
+  const stakeRatio = isValidStakeRatio ? calculatedStakeRatio : MIN_BOOST_RANK.stakeRatioBoundary;
+  const accountStakeRatio = isValidAccountRatio ? calculatedAccountRatio : MIN_BOOST_RANK.stakeRatioBoundary;
 
-    const currentRank = getHighestRankFromStakeRatio(stakeRatio);
-    const userBoost = isValidStakeRatio
-      ? calculateUserBoost(calculatedStakeRatio)
-      : MIN_BOOST;
-    const accountBoost = isValidAccountRatio
-      ? calculateUserBoost(calculatedAccountRatio)
-      : MIN_BOOST;
+  const currentRank = getHighestRankFromStakeRatio(stakeRatio);
+  const userBoost = isValidStakeRatio ? calculateUserBoost(calculatedStakeRatio) : MIN_BOOST;
+  const accountBoost = isValidAccountRatio ? calculateUserBoost(calculatedAccountRatio) : MIN_BOOST;
 
-    return (
-      <Grid container component={Paper} className={classes.root}>
-        <StakeInformationHeader
-          accountBoost={accountBoost}
-          userBoost={userBoost}
-          isLoading={isLoading}
-          currentRank={currentRank}
-          stakeRatio={stakeRatio}
-          accountStakeRatio={accountStakeRatio}
-        />
-        <Divider className={classes.divider} />
-        <Grid container>
-          <Grid item xs>
-            <RankList
-              currentStakeRatio={stakeRatio}
-              accountStakeRatio={accountStakeRatio}
-              onRankClick={onRankClick}
-            />
-          </Grid>
+  return (
+    <Grid container component={Paper} className={classes.root}>
+      <StakeInformationHeader
+        accountBoost={accountBoost}
+        userBoost={userBoost}
+        isLoading={isLoading}
+        currentRank={currentRank}
+        stakeRatio={stakeRatio}
+        accountStakeRatio={accountStakeRatio}
+      />
+      <Divider className={classes.divider} />
+      <Grid container>
+        <Grid item xs>
+          <RankList currentStakeRatio={stakeRatio} accountStakeRatio={accountStakeRatio} onRankClick={onRankClick} />
         </Grid>
       </Grid>
-    );
-  },
-);
+    </Grid>
+  );
+});

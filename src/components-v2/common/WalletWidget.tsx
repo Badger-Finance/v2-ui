@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Box, Button, CircularProgress, makeStyles, Typography } from '@material-ui/core';
 import useENS from 'hooks/useEns';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -53,9 +47,7 @@ const WalletWidget = observer(() => {
         await wallet.connect();
       } catch (error) {
         const isModalClosed = String(error).includes('User closed modal');
-        const isEmptyAccounts = String(error).includes(
-          'Error: accounts received is empty',
-        );
+        const isEmptyAccounts = String(error).includes('Error: accounts received is empty');
         if (!isModalClosed && !isEmptyAccounts) {
           console.error(error);
         }
@@ -64,18 +56,11 @@ const WalletWidget = observer(() => {
   }
 
   const { ensName } = useENS(wallet.address);
-  const walletAddress = wallet.address
-    ? shortenAddress(wallet.address)
-    : 'Connect';
+  const walletAddress = wallet.address ? shortenAddress(wallet.address) : 'Connect';
 
   if (pendingTransactions.length > 0) {
     return (
-      <Button
-        variant="outlined"
-        color="primary"
-        classes={{ label: classes.walletButtonLabel }}
-        onClick={connect}
-      >
+      <Button variant="outlined" color="primary" classes={{ label: classes.walletButtonLabel }} onClick={connect}>
         <Box display="flex" alignContent="center">
           <CircularProgress size={14} className={classes.spinner} />
           <Typography display="inline" className={classes.transactionsCount}>

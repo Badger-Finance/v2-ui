@@ -46,12 +46,8 @@ const Sidebar = observer(() => {
     tree: { claimable },
   } = store;
 
-  const claimableRewards = Object.values(claimable).reduce(
-    (total, v) => (total += v.value),
-    0,
-  );
-  const closeDialogTransitionDuration =
-    useTheme().transitions.duration.leavingScreen;
+  const claimableRewards = Object.values(claimable).reduce((total, v) => (total += v.value), 0);
+  const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
   const handleRewardsClick = () => {
     closeSidebar();
@@ -89,19 +85,13 @@ const Sidebar = observer(() => {
         <MenuItem button onClick={handleRewardsClick}>
           Rewards ({claimableRewards.toFixed(2)})
         </MenuItem>
-        <MenuItem
-          button
-          onClick={() => window.open('https://docs.badger.com/')}
-        >
+        <MenuItem button onClick={() => window.open('https://docs.badger.com/')}>
           Wiki
         </MenuItem>
         <MenuItem button onClick={() => store.router.goTo(routes.governance)}>
           Governance
         </MenuItem>
-        <MenuItem
-          button
-          onClick={() => window.open('https://forum.badger.finance')}
-        >
+        <MenuItem button onClick={() => window.open('https://forum.badger.finance')}>
           Forum
         </MenuItem>
       </Menu>

@@ -28,9 +28,7 @@ export const useAssetInputStyles = (
   toCompare = 0,
 ): ((props?: React.CSSProperties) => ClassNameMap<'assetColor'>) => {
   return makeStyles((theme) => {
-    const defaultColor = currentValue
-      ? theme.palette.text.primary
-      : theme.palette.text.secondary;
+    const defaultColor = currentValue ? theme.palette.text.primary : theme.palette.text.secondary;
     const fontColor = getColorFromComparison({
       toCompareValue: Number(currentValue),
       toBeComparedValue: toCompare,

@@ -54,43 +54,18 @@ const useStyles = makeStyles({
   },
 });
 
-const Banner = ({
-  message,
-  link,
-  linkText,
-  closeElement = null,
-}: BannerProps): JSX.Element => {
+const Banner = ({ message, link, linkText, closeElement = null }: BannerProps): JSX.Element => {
   const classes = useStyles();
   return (
-    <Grid
-      container
-      alignItems="center"
-      className={classes.root}
-      justifyContent="space-between"
-    >
-      <Grid
-        item
-        container
-        xs
-        alignItems="center"
-        className={classes.messageLinkContainer}
-      >
+    <Grid container alignItems="center" className={classes.root} justifyContent="space-between">
+      <Grid item container xs alignItems="center" className={classes.messageLinkContainer}>
         <Grid item>
           <Typography className={classes.message}>{message}</Typography>
         </Grid>
         {link && linkText && (
           <Grid item>
-            <Link
-              href={link}
-              rel="noreferrer"
-              target="_blank"
-              className={classes.link}
-            >
-              <img
-                className={classes.linkIcon}
-                src="/assets/icons/banner-link-icon.svg"
-                alt="banner link icon"
-              />
+            <Link href={link} rel="noreferrer" target="_blank" className={classes.link}>
+              <img className={classes.linkIcon} src="/assets/icons/banner-link-icon.svg" alt="banner link icon" />
               {linkText}
             </Link>
           </Grid>

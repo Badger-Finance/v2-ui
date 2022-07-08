@@ -1,10 +1,4 @@
-import {
-  Button,
-  DialogContent,
-  Grid,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Button, DialogContent, Grid, IconButton, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -59,51 +53,41 @@ interface Props {
   claimedRewards: TokenBalance[];
 }
 
-const ClaimedRewardsContent = observer(
-  ({ claimedRewards }: Props): JSX.Element => {
-    const classes = useStyles();
-    const { uiState } = useContext(StoreContext);
+const ClaimedRewardsContent = observer(({ claimedRewards }: Props): JSX.Element => {
+  const classes = useStyles();
+  const { uiState } = useContext(StoreContext);
 
-    return (
-      <>
-        <DialogContent className={classes.content}>
-          <Grid container direction="column" className={classes.centeredText}>
-            <IconButton
-              className={classes.closeButton}
-              onClick={() => uiState.toggleRewardsDialog()}
-            >
-              <CloseIcon />
-            </IconButton>
-            <Grid item className={classes.successIconContainer}>
-              <img
-                src="/assets/icons/rewards-claim-success.svg"
-                alt="rewards success icon"
-              />
-            </Grid>
-            <Typography variant="h4" className={classes.rewardsTitle}>
-              Rewards Claimed
-            </Typography>
-            <Typography variant="subtitle2">
-              Rewards claimed for tokens:
-            </Typography>
-            {claimedRewards.map(({ token }) => (
-              <Typography variant="subtitle2" key={token.address}>
-                {token.symbol}
-              </Typography>
-            ))}
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.goBackButton}
-              onClick={() => uiState.toggleRewardsDialog()}
-            >
-              Go Back To My Rewards
-            </Button>
+  return (
+    <>
+      <DialogContent className={classes.content}>
+        <Grid container direction="column" className={classes.centeredText}>
+          <IconButton className={classes.closeButton} onClick={() => uiState.toggleRewardsDialog()}>
+            <CloseIcon />
+          </IconButton>
+          <Grid item className={classes.successIconContainer}>
+            <img src="/assets/icons/rewards-claim-success.svg" alt="rewards success icon" />
           </Grid>
-        </DialogContent>
-      </>
-    );
-  },
-);
+          <Typography variant="h4" className={classes.rewardsTitle}>
+            Rewards Claimed
+          </Typography>
+          <Typography variant="subtitle2">Rewards claimed for tokens:</Typography>
+          {claimedRewards.map(({ token }) => (
+            <Typography variant="subtitle2" key={token.address}>
+              {token.symbol}
+            </Typography>
+          ))}
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.goBackButton}
+            onClick={() => uiState.toggleRewardsDialog()}
+          >
+            Go Back To My Rewards
+          </Button>
+        </Grid>
+      </DialogContent>
+    </>
+  );
+});
 
 export default ClaimedRewardsContent;

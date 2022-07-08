@@ -35,22 +35,19 @@ export const DepositFeesInformation = ({ closeIcon }: Props): JSX.Element => {
       </Grid>
       <div className={classes.content}>
         <Typography variant="body1" color="textSecondary">
-          Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO
-          treasury, or shared with the strategist who wrote the vault strategy.
+          Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO treasury, or shared with the strategist
+          who wrote the vault strategy.
         </Typography>
         <Divider className={classes.divider} />
         <div>
           <Typography variant="body2" color="textSecondary">
-            - Performance Fees are assessed on the profit that the strategy
-            creates
+            - Performance Fees are assessed on the profit that the strategy creates
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            - Management Fees are charged on the entire principal over the
-            course of a year
+            - Management Fees are charged on the entire principal over the course of a year
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            - Both Performance and Management Fees are factored into all ROI
-            calculations
+            - Both Performance and Management Fees are factored into all ROI calculations
           </Typography>
         </div>
       </div>

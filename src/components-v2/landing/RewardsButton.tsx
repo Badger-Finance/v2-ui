@@ -29,38 +29,25 @@ export const RewardsButton = observer((): JSX.Element | null => {
   const { wallet } = store;
   const { claimable, loadingTree, initialized } = store.tree;
 
-  const totalRewardsValue = Object.keys(claimable).reduce(
-    (total, claimKey) => total + claimable[claimKey].value,
-    0,
-  );
+  const totalRewardsValue = Object.keys(claimable).reduce((total, claimKey) => total + claimable[claimKey].value, 0);
 
   if (!wallet.isConnected) {
     return (
       <Button
-        startIcon={
-          <img src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
-        }
+        startIcon={<img src="/assets/icons/rewards-spark.svg" alt="rewards icon" />}
         aria-label="open rewards dialog"
         color="primary"
         variant="outlined"
         onClick={() => store.uiState.toggleRewardsDialog()}
       >
-        <CurrencyDisplay
-          displayValue={'0'}
-          variant="body2"
-          justifyContent="center"
-        />
+        <CurrencyDisplay displayValue={'0'} variant="body2" justifyContent="center" />
       </Button>
     );
   }
 
   if (!initialized || loadingTree) {
     return (
-      <Button
-        variant="outlined"
-        color="primary"
-        className={clsx(classes.button, classes.loadingRewardsButton)}
-      >
+      <Button variant="outlined" color="primary" className={clsx(classes.button, classes.loadingRewardsButton)}>
         <Loader size={15} />
       </Button>
     );
@@ -71,9 +58,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
   return (
     <>
       <Button
-        startIcon={
-          <img src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
-        }
+        startIcon={<img src="/assets/icons/rewards-spark.svg" alt="rewards icon" />}
         aria-label="open rewards dialog"
         color="primary"
         variant="outlined"

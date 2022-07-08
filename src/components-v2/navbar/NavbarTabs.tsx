@@ -1,10 +1,4 @@
-import {
-  makeStyles,
-  Tab,
-  Tabs,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { makeStyles, Tab, Tabs, useMediaQuery, useTheme } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { QueryParams, Route } from 'mobx-router';
@@ -42,9 +36,7 @@ export const NavbarTabs = observer((): JSX.Element => {
     vaults,
     network: { network },
   } = useContext(StoreContext);
-  const [selectedTab, setSelectedTab] = useState(
-    routeTabMapping.get(getRootPath(router.currentPath)) ?? 0,
-  );
+  const [selectedTab, setSelectedTab] = useState(routeTabMapping.get(getRootPath(router.currentPath)) ?? 0);
   const classes = useStyles();
   const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
   const config = getNavbarConfig(network.symbol);
@@ -76,11 +68,7 @@ export const NavbarTabs = observer((): JSX.Element => {
       onChange={handleChange}
       classes={{ indicator: classes.indicator }}
     >
-      <Tab
-        classes={{ root: classes.tab }}
-        label="VAULTS"
-        onClick={() => goToTab(routes.home)}
-      />
+      <Tab classes={{ root: classes.tab }} label="VAULTS" onClick={() => goToTab(routes.home)} />
       {config.boost && (
         <Tab
           classes={{ root: classes.tab }}
@@ -89,13 +77,7 @@ export const NavbarTabs = observer((): JSX.Element => {
           onClick={() => goToTab(routes.boostOptimizer)}
         />
       )}
-      {config.ibBTC && (
-        <Tab
-          classes={{ root: classes.tab }}
-          label="IBBTC"
-          onClick={() => goToTab(routes.IbBTC)}
-        />
-      )}
+      {config.ibBTC && <Tab classes={{ root: classes.tab }} label="IBBTC" onClick={() => goToTab(routes.IbBTC)} />}
     </Tabs>
   );
 });

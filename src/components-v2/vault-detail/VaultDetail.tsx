@@ -35,13 +35,7 @@ const useStyles = makeStyles((theme) => ({
 export const VaultDetail = observer((): JSX.Element => {
   const { vaultDetail, router } = useContext(StoreContext);
   const classes = useStyles();
-  const {
-    vault,
-    isLoading,
-    isNotFound,
-    isDepositDialogDisplayed,
-    isWithdrawDialogDisplayed,
-  } = vaultDetail;
+  const { vault, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = vaultDetail;
 
   const goBackHome = () => {
     router.goTo(routes.home, {}, { chain: router.queryParams?.chain });

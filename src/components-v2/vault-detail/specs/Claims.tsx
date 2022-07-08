@@ -2,16 +2,14 @@ import { Grid, Link, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
+import { DelaySeverity } from 'mobx/model/vaults/vault-rewards';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
 import { StyledDivider } from '../styled';
-import {
-  calculateDelaySeverity,
-  calculateDifferenceInHoursFromCycle,
-} from '../utils';
+import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   rewardsFrequency: {
@@ -50,27 +48,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-enum DelaySeverity {
-  none = 'none',
-  medium = 'medium',
-  high = 'high',
-}
-
 export const Claims = observer((): JSX.Element => {
   const { tree } = React.useContext(StoreContext);
   const classes = useStyles();
 
-  const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(
-    tree.lastUpdateTimestamp,
-  );
+  const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(tree.lastUpdateTimestamp);
   const delaySeverity = calculateDelaySeverity(differenceInHoursFromCycle);
 
-  const isDelayed = delaySeverity !== DelaySeverity.none;
+  const isDelayed = delaySeverity !== DelaySeverity.None;
 
   const delayStyles = {
-    [DelaySeverity.high]: classes.highlyDelayedReward,
-    [DelaySeverity.medium]: classes.mediumDelayedReward,
-    [DelaySeverity.none]: classes.noneDelayedReward,
+    [DelaySeverity.High]: classes.highlyDelayedReward,
+    [DelaySeverity.Medium]: classes.mediumDelayedReward,
+    [DelaySeverity.None]: classes.noneDelayedReward,
   };
 
   return (
@@ -80,23 +70,16 @@ export const Claims = observer((): JSX.Element => {
           <Typography>Reward Frequency</Typography>
         </Grid>
         <Grid className={classes.rewardContainer} item xs>
-          <Typography
-            className={clsx(classes.reward, delayStyles[delaySeverity])}
-            display="inline"
-          >
+          <Typography className={clsx(classes.reward, delayStyles[delaySeverity])} display="inline">
             {`~${ESTIMATED_REWARDS_FREQUENCY} Hours`}
           </Typography>
         </Grid>
       </Grid>
       <StyledDivider />
-      <Typography
-        className={classes.frequencyDetail}
-        variant="caption"
-        color="textSecondary"
-      >
+      <Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
         {isDelayed
-          ? 'This Sett’s rewards are currently taking longer than usual.'
-          : 'This Sett’s rewards are currently being processed.'}
+          ? 'This Vaults’s rewards are currently taking longer than usual.'
+          : 'This Vaults’s rewards are currently being processed.'}
       </Typography>
       <Link
         className={classes.infoLink}

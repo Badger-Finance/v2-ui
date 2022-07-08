@@ -40,10 +40,7 @@ export default class UserStore {
 
   get portfolioValue(): number {
     const { tree } = this.store;
-    const rewardsValue = Object.values(tree.claimable).reduce(
-      (total, c) => (total += c.value),
-      0,
-    );
+    const rewardsValue = Object.values(tree.claimable).reduce((total, c) => (total += c.value), 0);
     const walletValue = Object.values(this.balances)
       .filter((t) => this.store.vaults.protocolTokens?.has(t.token.address))
       .reduce((total, token) => (total += token.value), 0);
@@ -54,10 +51,7 @@ export default class UserStore {
     const { wallet } = this.store;
 
     if (wallet.address) {
-      await Promise.all([
-        this.updateBalances(),
-        this.loadAccountDetails(wallet.address),
-      ]);
+      await Promise.all([this.updateBalances(), this.loadAccountDetails(wallet.address)]);
     }
   }
 
@@ -87,14 +81,12 @@ export default class UserStore {
     } // ignore non 200 responses
   });
 
-  private loadAccountDetails = action(
-    async (address: string): Promise<void> => {
-      const accountDetails = await this.store.api.loadAccount(address);
-      if (accountDetails) {
-        this.accountDetails = accountDetails;
-      }
-    },
-  );
+  private loadAccountDetails = action(async (address: string): Promise<void> => {
+    const accountDetails = await this.store.api.loadAccount(address);
+    if (accountDetails) {
+      this.accountDetails = accountDetails;
+    }
+  });
 
   private updateBalances = action(async (): Promise<void> => {
     const { vaults, prices, sdk } = this.store;
@@ -111,9 +103,7 @@ export default class UserStore {
     this.loadingBalances = true;
 
     try {
-      const balances = await sdk.tokens.loadBalances([
-        ...vaults.protocolTokens,
-      ]);
+      const balances = await sdk.tokens.loadBalances([...vaults.protocolTokens]);
       this.balances = Object.fromEntries(
         Object.entries(balances).map((b) => {
           const [token, balance] = b;

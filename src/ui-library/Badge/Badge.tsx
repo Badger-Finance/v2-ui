@@ -43,45 +43,15 @@ export function Badge({ type }: BadgeProps): JSX.Element | null {
 
   switch (type) {
     case BadgeType.FEATURED:
-      return (
-        <Chip
-          label="Featured"
-          className={clsx(classes.tag, classes.newTag)}
-          size="small"
-        />
-      );
+      return <Chip label="Featured" className={clsx(classes.tag, classes.newTag)} size="small" />;
     case BadgeType.GUARDED:
-      return (
-        <Chip
-          className={clsx(classes.tag, classes.guardedTag)}
-          size="small"
-          label="Guarded"
-        />
-      );
+      return <Chip className={clsx(classes.tag, classes.guardedTag)} size="small" label="Guarded" />;
     case BadgeType.DISCONTINUED:
-      return (
-        <Chip
-          className={clsx(classes.tag, classes.obsoleteTag)}
-          size="small"
-          label="Discontinued"
-        />
-      );
+      return <Chip className={clsx(classes.tag, classes.obsoleteTag)} size="small" label="Discontinued" />;
     case BadgeType.EXECUTED:
-      return (
-        <Chip
-          className={clsx(classes.tag, classes.executedTag)}
-          size="small"
-          label="Executed"
-        />
-      );
+      return <Chip className={clsx(classes.tag, classes.executedTag)} size="small" label="Executed" />;
     case BadgeType.EXPERIMENTAL:
-      return (
-        <Chip
-          className={clsx(classes.tag, classes.experimentalTag)}
-          size="small"
-          label="Experimental"
-        />
-      );
+      return <Chip className={clsx(classes.tag, classes.experimentalTag)} size="small" label="Experimental" />;
     default:
       return null;
   }

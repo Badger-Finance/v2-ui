@@ -1,11 +1,4 @@
-import {
-  Button,
-  Grid,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@material-ui/core';
+import { Button, Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
 import clsx from 'clsx';
@@ -14,10 +7,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import { calculateUserBoost } from '../../utils/boost-ranks';
-import {
-  isValidCalculatedValue,
-  roundWithPrecision,
-} from '../../utils/componentHelpers';
+import { isValidCalculatedValue, roundWithPrecision } from '../../utils/componentHelpers';
 import { getColorFromComparison } from './utils';
 
 const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
@@ -25,15 +15,9 @@ const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
   color: 'rgba(255, 255, 255, 0.3)',
 }));
 
-const useStakeRatioClasses = (
-  currentStakeRatio: number,
-  accountStakeRatio = 0,
-) => {
+const useStakeRatioClasses = (currentStakeRatio: number, accountStakeRatio = 0) => {
   return makeStyles((theme) => {
-    if (
-      !isValidCalculatedValue(currentStakeRatio) ||
-      !isValidCalculatedValue(accountStakeRatio)
-    ) {
+    if (!isValidCalculatedValue(currentStakeRatio) || !isValidCalculatedValue(accountStakeRatio)) {
       return {
         fontColor: {
           color: theme.palette.text.primary,
@@ -91,24 +75,15 @@ const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const accountStakeRatio = accountDetails
-    ? accountDetails.nativeBalance / accountDetails.nonNativeBalance
-    : 0;
+  const accountStakeRatio = accountDetails ? accountDetails.nativeBalance / accountDetails.nonNativeBalance : 0;
   const boostClasses = useStakeRatioClasses(stakeRatio, accountStakeRatio)();
   const currentBoost = calculateUserBoost(stakeRatio);
   return (
-    <Grid
-      container
-      spacing={isMobile ? 2 : 0}
-      className={classes.header}
-      alignItems="center"
-    >
+    <Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
       <Grid item className={classes.boostSectionContainer}>
         <Typography display="inline" variant="h6" className={classes.boostText}>
           Boost:
-          <span className={clsx(classes.boostValue, boostClasses.fontColor)}>
-            {`${currentBoost}x`}
-          </span>
+          <span className={clsx(classes.boostValue, boostClasses.fontColor)}>{`${currentBoost}x`}</span>
         </Typography>
         <Tooltip
           enterTouchDelay={0}
@@ -123,12 +98,7 @@ const OptimizerHeader = ({ stakeRatio, onReset }: Props): JSX.Element => {
         </Tooltip>
       </Grid>
       <Grid item>
-        <Button
-          color="primary"
-          variant="outlined"
-          size="small"
-          onClick={onReset}
-        >
+        <Button color="primary" variant="outlined" size="small" onClick={onReset}>
           Reset Calculations
         </Button>
       </Grid>

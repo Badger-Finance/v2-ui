@@ -76,10 +76,7 @@ export class VaultDetailStore {
     }
 
     // rem badger does not support deposit
-    if (
-      this.searchedVault.vaultToken ===
-      ETH_DEPLOY.sett_system.vaults['native.rembadger']
-    ) {
+    if (this.searchedVault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger']) {
       return false;
     }
 

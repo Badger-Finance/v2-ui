@@ -7,9 +7,7 @@ interface Props {
 
 const VaultBehaviorTooltip = ({ vault }: Props): JSX.Element | null => {
   const { protocol, behavior, name } = vault;
-  const emittedDCA = vault.sources
-    .map((s) => s.name.replace('Rewards', '').trim())
-    .join(', ');
+  const emittedDCA = vault.sources.map((s) => s.name.replace('Rewards', '').trim()).join(', ');
 
   let description = '';
   switch (behavior) {

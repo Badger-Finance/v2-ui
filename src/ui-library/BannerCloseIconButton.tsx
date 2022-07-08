@@ -19,12 +19,7 @@ interface Props {
 const BannerCloseIconButton = ({ onClose }: Props): JSX.Element => {
   const classes = useStyles();
   return (
-    <IconButton
-      onClick={onClose}
-      className={classes.closeIcon}
-      size="medium"
-      aria-label="close banner"
-    >
+    <IconButton onClick={onClose} className={classes.closeIcon} size="medium" aria-label="close banner">
       <CloseIcon />
     </IconButton>
   );

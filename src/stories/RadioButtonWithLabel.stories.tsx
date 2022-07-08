@@ -20,12 +20,7 @@ export const Primary = ({ label }: StoryProps) => {
     setChecked(event.target.checked);
   };
   return (
-    <FormControlLabel
-      control={
-        <Radio color="primary" checked={checked} onChange={handleChange} />
-      }
-      label={label}
-    />
+    <FormControlLabel control={<Radio color="primary" checked={checked} onChange={handleChange} />} label={label} />
   );
 };
 
@@ -35,12 +30,7 @@ export const Secondary = ({ label }: StoryProps) => {
     setChecked(event.target.checked);
   };
   return (
-    <FormControlLabel
-      control={
-        <Radio color="secondary" checked={checked} onChange={handleChange} />
-      }
-      label={label}
-    />
+    <FormControlLabel control={<Radio color="secondary" checked={checked} onChange={handleChange} />} label={label} />
   );
 };
 
@@ -50,12 +40,7 @@ export const Indeterminate = ({ label }: StoryProps) => {
     setChecked(event.target.checked);
   };
   return (
-    <FormControlLabel
-      control={
-        <Radio color="primary" checked={checked} onChange={handleChange} />
-      }
-      label={label}
-    />
+    <FormControlLabel control={<Radio color="primary" checked={checked} onChange={handleChange} />} label={label} />
   );
 };
 
@@ -64,11 +49,5 @@ export const Disabled = ({ label }: StoryProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-  return (
-    <FormControlLabel
-      control={<Radio checked={checked} onChange={handleChange} />}
-      label={label}
-      disabled
-    />
-  );
+  return <FormControlLabel control={<Radio checked={checked} onChange={handleChange} />} label={label} disabled />;
 };

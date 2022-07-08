@@ -1,10 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import {
-  percentageBetweenRange,
-  roundWithPrecision,
-} from '../../utils/componentHelpers';
+import { percentageBetweenRange, roundWithPrecision } from '../../utils/componentHelpers';
 import { getColorFromComparison } from './utils';
 
 const useStyles = makeStyles(() => ({
@@ -24,31 +21,20 @@ const useProgressStyles = (
 ) => {
   return makeStyles((theme) => {
     // we select the highest number as this will decide the bar height
-    const highestMultiplierPoint = Math.max(
-      currentStakeRatio,
-      accountStakeRatio,
-    );
+    const highestMultiplierPoint = Math.max(currentStakeRatio, accountStakeRatio);
 
-    const rawBarHeight = percentageBetweenRange(
-      highestMultiplierPoint,
-      rangeEnd,
-      rangeStart,
-    );
+    const rawBarHeight = percentageBetweenRange(highestMultiplierPoint, rangeEnd, rangeStart);
     const sanitizedBarHeight = Math.min(rawBarHeight, 100); // don't exceed container height
 
     const isAlreadyOwned = accountStakeRatio > rangeEnd;
     const isStillOwned = currentStakeRatio > rangeEnd;
 
     // no need to show progress for already acquired levels
-    const greaterCaseColor = isAlreadyOwned
-      ? theme.palette.primary.main
-      : '#74D189';
+    const greaterCaseColor = isAlreadyOwned ? theme.palette.primary.main : '#74D189';
 
     // even if current boost is less than account boost, if it's still greater than the start of this level
     // then it means it still owns it
-    const lessCaseColor = isStillOwned
-      ? theme.palette.primary.main
-      : theme.palette.error.main;
+    const lessCaseColor = isStillOwned ? theme.palette.primary.main : theme.palette.error.main;
 
     const differenceColor = getColorFromComparison({
       toCompareValue: roundWithPrecision(currentStakeRatio, 4),
@@ -77,19 +63,9 @@ interface Props {
   rangeEnd: number;
 }
 
-export const RankProgressBar = ({
-  currentStakeRatio,
-  accountStakeRatio,
-  rangeStart,
-  rangeEnd,
-}: Props): JSX.Element => {
+export const RankProgressBar = ({ currentStakeRatio, accountStakeRatio, rangeStart, rangeEnd }: Props): JSX.Element => {
   const classes = useStyles();
-  const progressClasses = useProgressStyles(
-    currentStakeRatio,
-    accountStakeRatio,
-    rangeStart,
-    rangeEnd,
-  )();
+  const progressClasses = useProgressStyles(currentStakeRatio, accountStakeRatio, rangeStart, rangeEnd)();
   return (
     <div className={classes.rankBar}>
       <div className={progressClasses.progressBar} />

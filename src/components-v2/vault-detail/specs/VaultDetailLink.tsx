@@ -25,12 +25,7 @@ const VaultDetailLink = ({ title, href }: Props): JSX.Element => {
   return (
     <Grid container alignItems="center" className={classes.linkContainer}>
       <LinkIcon color="primary" className={classes.icon} />
-      <Link
-        className={classes.link}
-        target="_blank"
-        rel="noreferrer"
-        href={href}
-      >
+      <Link className={classes.link} target="_blank" rel="noreferrer" href={href}>
         {title}
       </Link>
     </Grid>

@@ -36,30 +36,16 @@ class IbBTCStore {
   @computed
   get tokenBalances(): TokenBalance[] {
     return [
-      this.store.user.getBalance(
-        ETH_DEPLOY.sett_system.vaults['native.renCrv'],
-      ),
+      this.store.user.getBalance(ETH_DEPLOY.sett_system.vaults['native.renCrv']),
       this.store.user.getBalance(ETH_DEPLOY.tokens['renBTC']),
       this.store.user.getBalance(ETH_DEPLOY.tokens['wBTC']),
-      this.store.user.getBalance(
-        ETH_DEPLOY.sett_system.vaults['native.sbtcCrv'],
-      ),
-      this.store.user.getBalance(
-        ETH_DEPLOY.sett_system.vaults['native.tbtcCrv'],
-      ),
+      this.store.user.getBalance(ETH_DEPLOY.sett_system.vaults['native.sbtcCrv']),
+      this.store.user.getBalance(ETH_DEPLOY.sett_system.vaults['native.tbtcCrv']),
       this.store.user.getBalance(ETH_DEPLOY.tokens['bWBTC']),
-      this.store.user.getBalance(
-        ETH_DEPLOY.sett_system.vaults['native.hbtcCrv'],
-      ),
-      this.store.user.getBalance(
-        ETH_DEPLOY.sett_system.vaults['native.bbtcCrv'],
-      ),
-      this.store.user.getBalance(
-        ETH_DEPLOY.sett_system.vaults['native.obtcCrv'],
-      ),
-      this.store.user.getBalance(
-        ETH_DEPLOY.sett_system.vaults['native.pbtcCrv'],
-      ),
+      this.store.user.getBalance(ETH_DEPLOY.sett_system.vaults['native.hbtcCrv']),
+      this.store.user.getBalance(ETH_DEPLOY.sett_system.vaults['native.bbtcCrv']),
+      this.store.user.getBalance(ETH_DEPLOY.sett_system.vaults['native.obtcCrv']),
+      this.store.user.getBalance(ETH_DEPLOY.sett_system.vaults['native.pbtcCrv']),
     ];
   }
 
@@ -67,18 +53,12 @@ class IbBTCStore {
   get initialized(): boolean {
     const mintRatesAvailable = Object.keys(this.mintRates).length > 0;
     const redeemRatesAvailable = Object.keys(this.redeemRates).length > 0;
-    const feesAreLoaded =
-      this.mintFeePercent !== undefined && this.redeemFeePercent !== undefined;
+    const feesAreLoaded = this.mintFeePercent !== undefined && this.redeemFeePercent !== undefined;
     const tokensInformationIsLoaded = this.tokenBalances.every(
       (option) => !!option.token.name && !!option.token.symbol,
     );
 
-    return (
-      mintRatesAvailable &&
-      redeemRatesAvailable &&
-      feesAreLoaded &&
-      tokensInformationIsLoaded
-    );
+    return mintRatesAvailable && redeemRatesAvailable && feesAreLoaded && tokensInformationIsLoaded;
   }
 
   get mintOptions(): TokenBalance[] {
@@ -88,9 +68,7 @@ class IbBTCStore {
   // currently, the zap contract does not support redeem
   get redeemOptions(): TokenBalance[] {
     return this.tokenBalances.filter(({ token }) =>
-      addresses.mainnet.contracts.RenVaultZap.supportedTokens.includes(
-        token.address,
-      ),
+      addresses.mainnet.contracts.RenVaultZap.supportedTokens.includes(token.address),
     );
   }
 
@@ -125,14 +103,8 @@ class IbBTCStore {
 
   fetchMintRate = action(async ({ token }: TokenBalance): Promise<string> => {
     try {
-      const { bbtc, fee } = await this.store.sdk.ibbtc.estimateMint(
-        token.address,
-        BigNumber.from(1),
-      );
-      return TokenBalance.fromBigNumber(
-        this.ibBTC,
-        bbtc.add(fee),
-      ).balanceDisplay(6);
+      const { bbtc, fee } = await this.store.sdk.ibbtc.estimateMint(token.address, BigNumber.from(1));
+      return TokenBalance.fromBigNumber(this.ibBTC, bbtc.add(fee)).balanceDisplay(6);
     } catch (error) {
       return '0.000';
     }
@@ -148,16 +120,10 @@ class IbBTCStore {
   });
 
   isZapToken(token: Token): boolean {
-    return !addresses.mainnet.contracts.RenVaultZap.supportedTokens.includes(
-      token.address,
-    );
+    return !addresses.mainnet.contracts.RenVaultZap.supportedTokens.includes(token.address);
   }
 
-  isValidAmount(
-    amount: TokenBalance,
-    tokenBalance: TokenBalance,
-    slippage?: number,
-  ): boolean {
+  isValidAmount(amount: TokenBalance, tokenBalance: TokenBalance, slippage?: number): boolean {
     if (amount.tokenBalance.lte(0)) {
       toast.error('Please enter a valid amount');
       return false;

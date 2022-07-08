@@ -4,10 +4,7 @@
 
 import { Contract, Signer, utils } from 'ethers';
 import type { Provider } from '@ethersproject/providers';
-import type {
-  BadgerPeakSwap,
-  BadgerPeakSwapInterface,
-} from '../BadgerPeakSwap';
+import type { BadgerPeakSwap, BadgerPeakSwapInterface } from '../BadgerPeakSwap';
 
 const _abi = [
   {
@@ -830,10 +827,7 @@ export class BadgerPeakSwap__factory {
   static createInterface(): BadgerPeakSwapInterface {
     return new utils.Interface(_abi) as BadgerPeakSwapInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider,
-  ): BadgerPeakSwap {
+  static connect(address: string, signerOrProvider: Signer | Provider): BadgerPeakSwap {
     return new Contract(address, _abi, signerOrProvider) as BadgerPeakSwap;
   }
 }

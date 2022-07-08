@@ -1,12 +1,4 @@
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { observer } from 'mobx-react-lite';
@@ -81,11 +73,7 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
         <Typography variant="h6" className={classes.titleText}>
           My Rewards
         </Typography>
-        <IconButton
-          aria-label="go back to rewards"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
+        <IconButton aria-label="go back to rewards" className={classes.closeButton} onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -94,11 +82,7 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
           <Grid item container direction="column" xs={12} sm={6}>
             <Grid item>
               <Box display="flex" alignItems="center">
-                <img
-                  className={classes.noRewardsIcon}
-                  src="/assets/icons/no-rewards-icon.svg"
-                  alt="no rewards icon"
-                />
+                <img className={classes.noRewardsIcon} src="/assets/icons/no-rewards-icon.svg" alt="no rewards icon" />
                 <CurrencyDisplay
                   variant="h6"
                   justifyContent="flex-start"
@@ -114,14 +98,10 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
               <Grid item>
                 <ul className={classes.rewardsOptions}>
                   <li>
-                    <Typography variant="body2">
-                      Staking 50% non native tokens
-                    </Typography>
+                    <Typography variant="body2">Staking 50% non native tokens</Typography>
                   </li>
                   <li>
-                    <Typography variant="body2">
-                      Holding and/or Staking 50% BadgerDAO tokens
-                    </Typography>
+                    <Typography variant="body2">Holding and/or Staking 50% BadgerDAO tokens</Typography>
                   </li>
                 </ul>
               </Grid>
@@ -133,9 +113,7 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
               <Typography variant="body2" color="textSecondary">
                 BADGERDAO TOKENS:
               </Typography>
-              <Typography variant="body1">
-                Badger, bBadger, Digg, bDigg
-              </Typography>
+              <Typography variant="body1">Badger, bBadger, Digg, bDigg</Typography>
               {/*<Box display="flex" alignItems="center">*/}
               {/*	<ArrowRightAltIcon color="primary" />*/}
               {/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}

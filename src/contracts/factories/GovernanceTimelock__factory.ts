@@ -4,10 +4,7 @@
 
 import { Contract, Signer, utils } from 'ethers';
 import type { Provider } from '@ethersproject/providers';
-import type {
-  GovernanceTimelock,
-  GovernanceTimelockInterface,
-} from '../GovernanceTimelock';
+import type { GovernanceTimelock, GovernanceTimelockInterface } from '../GovernanceTimelock';
 
 const _abi = [
   {
@@ -983,10 +980,7 @@ export class GovernanceTimelock__factory {
   static createInterface(): GovernanceTimelockInterface {
     return new utils.Interface(_abi) as GovernanceTimelockInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider,
-  ): GovernanceTimelock {
+  static connect(address: string, signerOrProvider: Signer | Provider): GovernanceTimelock {
     return new Contract(address, _abi, signerOrProvider) as GovernanceTimelock;
   }
 }

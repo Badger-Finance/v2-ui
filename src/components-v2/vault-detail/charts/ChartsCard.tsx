@@ -5,10 +5,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
-import {
-  ChartMode,
-  VaultChartTimeframe,
-} from '../../../mobx/model/vaults/vault-charts';
+import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
 import { CardContainer } from '../styled';
 import { ChartModeTitles } from '../utils';
 import { BoostChart } from './BoostChart';
@@ -62,16 +59,12 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
 
   const classes = useStyles();
   const [settChartData, setVaultChartData] = useState<VaultSnapshot[]>([]);
-  const [mode, setMode] = useState(
-    isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value,
-  );
+  const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
   const [loading, setLoading] = useState(!isBoostable);
   const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
 
   const yAxisAccessor = getYAxisAccessor(mode);
-  const chartData = settChartData
-    ? settChartData.map((d) => ({ x: d.timestamp, y: yAxisAccessor(d) }))
-    : null;
+  const chartData = settChartData ? settChartData.map((d) => ({ x: d.timestamp, y: yAxisAccessor(d) })) : null;
 
   const handleFetch = (fetchedData: VaultSnapshot[]) => {
     setVaultChartData(fetchedData);
@@ -91,10 +84,7 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
 
   useEffect(() => {
     setLoading(true);
-    vaultCharts
-      .search(vault, timeframe)
-      .then(handleFetch)
-      .catch(handleFetchError);
+    vaultCharts.search(vault, timeframe).then(handleFetch).catch(handleFetchError);
   }, [vault, timeframe, vaultCharts]);
 
   return (
@@ -126,28 +116,14 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
         />
       </Tabs>
       <Grid container direction="column" className={classes.content}>
-        <Grid
-          item
-          container
-          alignItems="center"
-          justifyContent="space-between"
-          className={classes.header}
-        >
-          <ChartsHeader
-            mode={mode}
-            timeframe={timeframe}
-            onTimeframeChange={setTimeframe}
-          />
+        <Grid item container alignItems="center" justifyContent="space-between" className={classes.header}>
+          <ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
         </Grid>
         <Grid item xs className={classes.chartContainer}>
           <ChartContent data={chartData} loading={loading}>
             <>
               {mode === ChartMode.Value || mode === ChartMode.Ratio ? (
-                <VaultChart
-                  mode={mode}
-                  timeframe={timeframe}
-                  data={chartData}
-                />
+                <VaultChart mode={mode} timeframe={timeframe} data={chartData} />
               ) : (
                 <BoostChart vault={vault} />
               )}

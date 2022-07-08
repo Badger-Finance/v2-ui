@@ -19,12 +19,9 @@ describe('Component Helpers', () => {
       [Infinity, 1231, 20222, 20222],
       [0, 100, 210, 100],
       [-Infinity, 0, 100, 0],
-    ])(
-      'restrictToRange(%f,%f,%f) returns %f',
-      (val, min, max, restiricetedValue) => {
-        expect(restrictToRange(val, min, max)).toEqual(restiricetedValue);
-      },
-    );
+    ])('restrictToRange(%f,%f,%f) returns %f', (val, min, max, restiricetedValue) => {
+      expect(restrictToRange(val, min, max)).toEqual(restiricetedValue);
+    });
   });
 
   describe('roundWithDecimals', () => {
@@ -32,12 +29,9 @@ describe('Component Helpers', () => {
       [12.1322, 1, 12.1],
       [100.123121, 2, 100.12],
       [81.6712, 3, 81.671],
-    ])(
-      'roundWithDecimals(%f,%f,%f) returns %f',
-      (num, decimals, roundedValue) => {
-        expect(roundWithPrecision(num, decimals)).toEqual(roundedValue);
-      },
-    );
+    ])('roundWithDecimals(%f,%f,%f) returns %f', (num, decimals, roundedValue) => {
+      expect(roundWithPrecision(num, decimals)).toEqual(roundedValue);
+    });
   });
 
   describe('getFormattedNetworkName', () => {
@@ -53,12 +47,7 @@ describe('Component Helpers', () => {
 
   describe('getUserVaultBoost', () => {
     test.each([
-      [
-        'with deprecated vault',
-        0,
-        0,
-        { ...SAMPLE_VAULT, state: VaultState.Discontinued },
-      ],
+      ['with deprecated vault', 0, 0, { ...SAMPLE_VAULT, state: VaultState.Discontinued }],
       [
         'with non deprecated vault',
         0.0294,
@@ -183,13 +172,8 @@ describe('Component Helpers', () => {
           ],
         },
       ],
-    ])(
-      'getUserVaultBoost(%s, %d) returns %p',
-      (_testCaseName, boost, calculatedBoost, vault) => {
-        expect(getUserVaultBoost(vault, boost).toFixed(5)).toEqual(
-          calculatedBoost.toFixed(5),
-        );
-      },
-    );
+    ])('getUserVaultBoost(%s, %d) returns %p', (_testCaseName, boost, calculatedBoost, vault) => {
+      expect(getUserVaultBoost(vault, boost).toFixed(5)).toEqual(calculatedBoost.toFixed(5));
+    });
   });
 });

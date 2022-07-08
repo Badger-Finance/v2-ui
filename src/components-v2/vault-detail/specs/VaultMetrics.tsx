@@ -73,9 +73,7 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
 
   const [showMore, setShowMore] = useState(true);
   const expandText = showMore ? 'Hide' : 'Show More';
-  const shownBalance = lockedDeposits.getLockedDepositBalances(
-    vault.underlyingToken,
-  );
+  const shownBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
 
   return (
     <Grid container className={classes.root}>
@@ -84,21 +82,12 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
       </Typography>
       <StyledDivider />
       {currencyIcon && (
-        <img
-          src={`${currencyIcon}.png`}
-          alt={`${currencyIcon} icon`}
-          className={classes.currencyIcon}
-        />
+        <img src={`${currencyIcon}.png`} alt={`${currencyIcon} icon`} className={classes.currencyIcon} />
       )}
-      <Typography className={classes.amount}>
-        {displayValue ?? <Skeleton width={209} height={37} />}
-      </Typography>
+      <Typography className={classes.amount}>{displayValue ?? <Skeleton width={209} height={37} />}</Typography>
       <Typography variant="body2">Assets Deposited</Typography>
       <div className={classes.showMoreContainer}>
-        <div
-          className={classes.showMore}
-          onClick={() => setShowMore(!showMore)}
-        >
+        <div className={classes.showMore} onClick={() => setShowMore(!showMore)}>
           {expandText}
         </div>
       </div>
@@ -115,8 +104,6 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
           <div className={classes.submetric}>
             <Typography variant="body1" className={classes.submetricValue}>
               {numberWithCommas(shownBalance.balanceDisplay(5))}
-              {/* TODO: replace w/ api values once available */}
-              {/* vault.available.toFixed(4) */}
             </Typography>
             <Typography variant="caption" className={classes.submetricType}>
               tokens withdrawable

@@ -2,10 +2,7 @@ import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import {
-  MAX_BOOST_RANK,
-  MIN_BOOST_RANK,
-} from '../../config/system/boost-ranks';
+import { MAX_BOOST_RANK, MIN_BOOST_RANK } from '../../config/system/boost-ranks';
 import { getHighestRankFromStakeRatio } from '../../utils/boost-ranks';
 import { percentageBetweenRange } from '../../utils/componentHelpers';
 
@@ -75,11 +72,7 @@ type BoostBadgeProps = {
 const useAnimatedStyles = (stakeRatio: number) => {
   const firstMultiplier = MIN_BOOST_RANK.stakeRatioBoundary;
   const lastMultiplier = MAX_BOOST_RANK.stakeRatioBoundary;
-  const score = percentageBetweenRange(
-    stakeRatio,
-    lastMultiplier,
-    firstMultiplier,
-  );
+  const score = percentageBetweenRange(stakeRatio, lastMultiplier, firstMultiplier);
 
   const scale = 0.75 + score / 40;
   const rank = getHighestRankFromStakeRatio(stakeRatio);
@@ -101,43 +94,15 @@ const useAnimatedStyles = (stakeRatio: number) => {
   }));
 };
 
-export const BoostBadgerAnimation = ({
-  stakeRatio,
-}: BoostBadgeProps): JSX.Element => {
+export const BoostBadgerAnimation = ({ stakeRatio }: BoostBadgeProps): JSX.Element => {
   const classes = useStyles();
   const animatedClasses = useAnimatedStyles(stakeRatio)();
-  const eyesImage = (
-    <img
-      src={'assets/badger-eyes.png'}
-      alt="Badger Eyes"
-      className={classes.boostEyeStar}
-    />
-  );
+  const eyesImage = <img src={'assets/badger-eyes.png'} alt="Badger Eyes" className={classes.boostEyeStar} />;
   return (
     <Box className={[classes.root, animatedClasses.container].join(' ')}>
-      <div
-        className={[
-          classes.boostEye,
-          classes.boostLeft,
-          animatedClasses.eyes,
-        ].join(' ')}
-      >
-        {eyesImage}
-      </div>
-      <img
-        alt="Badger Logo"
-        src={'assets/badger-transparent.png'}
-        className={classes.boostImage}
-      />
-      <div
-        className={[
-          classes.boostEye,
-          classes.boostRight,
-          animatedClasses.eyes,
-        ].join(' ')}
-      >
-        {eyesImage}
-      </div>
+      <div className={[classes.boostEye, classes.boostLeft, animatedClasses.eyes].join(' ')}>{eyesImage}</div>
+      <img alt="Badger Logo" src={'assets/badger-transparent.png'} className={classes.boostImage} />
+      <div className={[classes.boostEye, classes.boostRight, animatedClasses.eyes].join(' ')}>{eyesImage}</div>
     </Box>
   );
 };

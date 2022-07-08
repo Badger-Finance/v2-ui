@@ -22,9 +22,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Id, toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
 
-import TxCompletedToast, {
-  TX_COMPLETED_TOAST_DURATION,
-} from '../../components-v2/TransactionToast';
+import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../../components-v2/TransactionToast';
 import {
   showTransferRejectedToast,
   showTransferSignedToast,
@@ -83,14 +81,7 @@ export const Mint = observer((): JSX.Element => {
   const classes = useStyles();
 
   const {
-    ibBTCStore: {
-      ibBTC,
-      mintFeePercent,
-      mintOptions,
-      mintRates,
-      tokenBalances,
-      initialized,
-    },
+    ibBTCStore: { ibBTC, mintFeePercent, mintOptions, mintRates, tokenBalances, initialized },
     transactions,
     wallet,
     sdk,
@@ -106,13 +97,9 @@ export const Mint = observer((): JSX.Element => {
   const [slippage, setSlippage] = useState<string | undefined>('1');
   const [customSlippage, setCustomSlippage] = useState<string>();
   const { onValidChange, inputProps } = useNumericInput();
-  const showSlippage = mintBalance
-    ? store.ibBTCStore.isZapToken(mintBalance.token)
-    : false;
+  const showSlippage = mintBalance ? store.ibBTCStore.isZapToken(mintBalance.token) : false;
 
-  const mintBalanceRate = mintBalance
-    ? mintRates[mintBalance.token.address]
-    : undefined;
+  const mintBalanceRate = mintBalance ? mintRates[mintBalance.token.address] : undefined;
 
   const selectedTokenBalance = tokenBalances.find(
     (tokenBalance) => tokenBalance.token.address === mintBalance?.token.address,
@@ -124,23 +111,14 @@ export const Mint = observer((): JSX.Element => {
     setTotalMint('0.000');
   };
 
-  const setMintInformation = (
-    inputAmount: TokenBalance,
-    outputAmount: TokenBalance,
-    fee: TokenBalance,
-  ): void => {
+  const setMintInformation = (inputAmount: TokenBalance, outputAmount: TokenBalance, fee: TokenBalance): void => {
     setFee(fee.balanceDisplay(6));
     setTotalMint(outputAmount.balanceDisplay(6));
     setOutputAmount(outputAmount.balanceDisplay(6));
   };
 
-  const calculateMintInformation = async (
-    settTokenAmount: TokenBalance,
-  ): Promise<void> => {
-    const { bbtc, fee } = await sdk.ibbtc.estimateMint(
-      settTokenAmount.token.address,
-      settTokenAmount.tokenBalance,
-    );
+  const calculateMintInformation = async (settTokenAmount: TokenBalance): Promise<void> => {
+    const { bbtc, fee } = await sdk.ibbtc.estimateMint(settTokenAmount.token.address, settTokenAmount.tokenBalance);
     setMintInformation(
       settTokenAmount,
       TokenBalance.fromBigNumber(ibBTC, bbtc),
@@ -183,9 +161,7 @@ export const Mint = observer((): JSX.Element => {
         return;
       }
 
-      await calculateMintInformation(
-        TokenBalance.fromBalance(selectedToken, Number(change)),
-      );
+      await calculateMintInformation(TokenBalance.fromBalance(selectedToken, Number(change)));
     }, 200),
     [selectedToken],
   );
@@ -200,9 +176,7 @@ export const Mint = observer((): JSX.Element => {
     await calculateMintInformation(selectedToken);
   };
 
-  const handleTokenChange = async (
-    tokenBalance: TokenBalance,
-  ): Promise<void> => {
+  const handleTokenChange = async (tokenBalance: TokenBalance): Promise<void> => {
     setInputAmount(tokenBalance.balanceDisplay(6));
     setSelectedToken(tokenBalance);
     setMintBalance(tokenBalance);
@@ -212,11 +186,7 @@ export const Mint = observer((): JSX.Element => {
   const handleMintClick = async (): Promise<void> => {
     if (mintBalance && selectedToken) {
       const slippagePercent = Number(slippage);
-      const isValidAmount = store.ibBTCStore.isValidAmount(
-        mintBalance,
-        selectedToken,
-        slippagePercent,
-      );
+      const isValidAmount = store.ibBTCStore.isValidAmount(mintBalance, selectedToken, slippagePercent);
 
       if (!isValidAmount) {
         return;
@@ -225,30 +195,19 @@ export const Mint = observer((): JSX.Element => {
       let toastId: Id = `mint-${selectedToken.token.address}`;
       const token = mintBalance.token.address;
       const amount = mintBalance.tokenBalance;
-      const mintInputAmount = `${+Number(inputAmount).toFixed(2)} ${
-        selectedToken.token.symbol
-      }`;
+      const mintInputAmount = `${+Number(inputAmount).toFixed(2)} ${selectedToken.token.symbol}`;
 
       const result = await sdk.ibbtc.mint({
         token,
         amount,
         slippage: slippagePercent,
         onApprovePrompt: () => {
-          toastId = showWalletPromptToast(
-            'Confirm approval of tokens for minting',
-          );
+          toastId = showWalletPromptToast('Confirm approval of tokens for minting');
         },
-        onApproveSigned: () =>
-          updateWalletPromptToast(
-            toastId,
-            'Submitted approval of tokens for minting',
-          ),
-        onApproveSuccess: () =>
-          toast.info('Completed approval of tokens for minting'),
+        onApproveSigned: () => updateWalletPromptToast(toastId, 'Submitted approval of tokens for minting'),
+        onApproveSuccess: () => toast.info('Completed approval of tokens for minting'),
         onTransferPrompt: () => {
-          toastId = showWalletPromptToast(
-            `Confirm mint with ${mintInputAmount}`,
-          );
+          toastId = showWalletPromptToast(`Confirm mint with ${mintInputAmount}`);
         },
         onTransferSigned: ({ transaction }) => {
           if (transaction) {
@@ -260,35 +219,22 @@ export const Mint = observer((): JSX.Element => {
             });
             showTransferSignedToast(
               toastId,
-              <TxCompletedToast
-                title={`Submitted mint with ${mintInputAmount}`}
-                hash={transaction.hash}
-              />,
+              <TxCompletedToast title={`Submitted mint with ${mintInputAmount}`} hash={transaction.hash} />,
             );
           }
         },
         onTransferSuccess: ({ receipt }) => {
           if (receipt) {
             transactions.updateCompletedTransaction(receipt);
-            toast(
-              <TxCompletedToast
-                title={`Mint with ${mintInputAmount}`}
-                hash={receipt.transactionHash}
-              />,
-              {
-                type: receipt.status === 0 ? 'error' : 'success',
-                autoClose: TX_COMPLETED_TOAST_DURATION,
-              },
-            );
+            toast(<TxCompletedToast title={`Mint with ${mintInputAmount}`} hash={receipt.transactionHash} />, {
+              type: receipt.status === 0 ? 'error' : 'success',
+              autoClose: TX_COMPLETED_TOAST_DURATION,
+            });
           }
         },
 
         onError: (err) => toast.error(`Failed ibBTC mint, error: ${err}`),
-        onRejection: () =>
-          showTransferRejectedToast(
-            toastId,
-            'Mint transaction canceled by user',
-          ),
+        onRejection: () => showTransferRejectedToast(toastId, 'Mint transaction canceled by user'),
       });
 
       if (result === TransactionStatus.Success) {
@@ -330,21 +276,11 @@ export const Mint = observer((): JSX.Element => {
               onChange={onValidChange(handleInputChange)}
             />
           </Grid>
-          <InputTokenActionButtonsGrid
-            item
-            container
-            spacing={1}
-            xs={12}
-            sm={7}
-          >
+          <InputTokenActionButtonsGrid item container spacing={1} xs={12} sm={7}>
             {initialized ? (
               <>
                 <Grid item>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={handleApplyMaxBalance}
-                  >
+                  <Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
                     max
                   </Button>
                 </Grid>
@@ -372,16 +308,8 @@ export const Mint = observer((): JSX.Element => {
               value={slippage || ''}
               onChange={handleSlippageChange}
             >
-              <FormControlLabel
-                value="0.5"
-                control={<Radio color="primary" />}
-                label="0.5%"
-              />
-              <FormControlLabel
-                value="1"
-                control={<Radio color="primary" />}
-                label="1%"
-              />
+              <FormControlLabel value="0.5" control={<Radio color="primary" />} label="0.5%" />
+              <FormControlLabel value="1" control={<Radio color="primary" />} label="1%" />
             </StyledRadioGroup>
             <OutlinedInput
               value={customSlippage || ''}
@@ -403,9 +331,7 @@ export const Mint = observer((): JSX.Element => {
         </Grid>
         <OutputContentGrid container item xs={12}>
           <Grid item xs={12} sm={9} md={12} lg={10}>
-            <OutputAmountText variant="h3">
-              {outputAmount || '0.000'}
-            </OutputAmountText>
+            <OutputAmountText variant="h3">{outputAmount || '0.000'}</OutputAmountText>
           </Grid>
           <OutputTokenGrid item container xs={12} sm={3} md={12} lg={2}>
             <OptionToken token={ibBTC.token} />
@@ -417,14 +343,11 @@ export const Mint = observer((): JSX.Element => {
           <SummaryGrid>
             <Grid item xs={12} container justifyContent="space-between">
               <Grid item xs={6}>
-                <Typography variant="subtitle1">
-                  Current Conversion Rate:{' '}
-                </Typography>
+                <Typography variant="subtitle1">Current Conversion Rate: </Typography>
               </Grid>
               <Grid item xs={6}>
                 <EndAlignText variant="body1">
-                  1 {selectedToken.token.symbol} :{' '}
-                  {mintBalanceRate || <Skeleton className={classes.loader} />}{' '}
+                  1 {selectedToken.token.symbol} : {mintBalanceRate || <Skeleton className={classes.loader} />}{' '}
                   {ibBTC.token.symbol}
                 </EndAlignText>
               </Grid>
