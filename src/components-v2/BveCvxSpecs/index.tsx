@@ -94,8 +94,8 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
 					</Box>
 					<StyledDivider />
 					<Grid container direction="column">
-						<SpecItem name="bveCVX, BADGER" value="Each bi-weekly bribe sale" />
-						<SpecItem name="bcvxCRV" value="Each ~2hr cycle" />
+						<SpecItem name="bveCVX, BADGER" value="Bi-Weekly" />
+						<SpecItem name="bcvxCRV" value="Per Harvest, ~5 days" />
 					</Grid>
 				</Grid>
 				<Grid item xs className={classes.specItem}>
