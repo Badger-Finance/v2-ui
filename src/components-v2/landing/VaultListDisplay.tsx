@@ -32,7 +32,7 @@ const VaultListDisplay = observer(() => {
   const showDeprecated = vaults.vaultsFilters.statuses?.includes(VaultState.Discontinued);
 
   if (!initialized) {
-    return <Loader message={`Loading ${network.name} Setts...`} />;
+    return <Loader message={`Loading ${network} Setts...`} />;
   }
 
   if (vaultOrder === null) {
@@ -64,7 +64,7 @@ const VaultListDisplay = observer(() => {
   });
 
   if (settListItems.length === 0 && vaults.vaultsFiltersCount === 0) {
-    return <NoVaults network={network.name} />;
+    return <NoVaults network={network} />;
   }
 
   return <VaultList settList={settListItems} />;

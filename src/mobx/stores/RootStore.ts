@@ -1,13 +1,11 @@
-import { BadgerAPI, BadgerSDK, getNetworkConfig, SDKProvider } from '@badger-dao/sdk';
+import { BadgerAPI, BadgerSDK, getNetworkConfig, Network, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import routes from 'config/routes';
 import { action, makeObservable, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 
-import { NETWORK_IDS } from '../../config/constants';
 import { BADGER_API } from '../../config/environment';
 import rpc from '../../config/rpc.config';
-import { Network } from '../model/network/network';
 import GasPricesStore from './GasPricesStore';
 import { GovernancePortalStore } from './GovernancePortalStore';
 import IbBTCStore from './ibBTCStore';
@@ -55,15 +53,15 @@ export class RootStore {
 
   constructor() {
     this.sdk = new BadgerSDK({
-      network: defaultNetwork.id,
-      provider: rpc[defaultNetwork.symbol],
+      network: defaultNetwork,
+      provider: rpc[defaultNetwork],
       baseURL: BADGER_API,
     });
     this.api = new BadgerAPI({
-      network: defaultNetwork.id,
+      network: defaultNetwork,
       baseURL: BADGER_API,
     });
-    const config = getNetworkConfig(defaultNetwork.id);
+    const config = getNetworkConfig(defaultNetwork);
     this.router = new RouterStore<RootStore>(this);
     this.network = new NetworkStore(this);
     this.wallet = new WalletStore(this, config);
@@ -92,11 +90,11 @@ export class RootStore {
   }
 
   async updateNetwork(network: number): Promise<void> {
-    const appNetwork = Network.networkFromId(network);
+    const config = getNetworkConfig(network);
 
     // push network state to app
-    if (this.network.network.id !== network) {
-      this.network.network = appNetwork;
+    if (this.network.network !== config.network) {
+      this.network.network = config.network;
     }
 
     this.api = new BadgerAPI({
@@ -116,7 +114,7 @@ export class RootStore {
     const { network } = this.network;
 
     this.sdk = new BadgerSDK({
-      network: network.id,
+      network: network,
       provider,
       baseURL: BADGER_API,
     });
@@ -133,7 +131,7 @@ export class RootStore {
 
       updateActions.push(this.user.reloadBalances());
 
-      if (network.id === NETWORK_IDS.ETH || network.id === NETWORK_IDS.LOCAL) {
+      if (network === Network.Ethereum || network === Network.Local) {
         // handle per page reloads, when init route is skipped
         if (this.router.currentRoute?.path === routes.IbBTC.path) {
           updateActions.push(this.ibBTCStore.init());

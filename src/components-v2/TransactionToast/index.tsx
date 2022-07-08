@@ -28,7 +28,7 @@ interface Props {
 
 const TransactionToast = ({ hash, title }: Props): JSX.Element => {
   const {
-    network: { network },
+    network: { config },
   } = useContext(StoreContext);
   const classes = useStyles();
 
@@ -39,7 +39,7 @@ const TransactionToast = ({ hash, title }: Props): JSX.Element => {
         className={classes.link}
         variant="body2"
         color="textSecondary"
-        href={`${network.explorer}/tx/${hash}`}
+        href={`${config.explorerUrl}/tx/${hash}`}
         target="_blank"
         rel="noreferrer"
       >

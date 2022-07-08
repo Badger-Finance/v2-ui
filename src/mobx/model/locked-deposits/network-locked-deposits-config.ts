@@ -1,6 +1,6 @@
-import { Network } from '../network/network';
 import { LockedContractInfo } from './locked-contract-info';
 
+// TODO: this should be moved to some interface or types folder
 export interface NetworkLockedDepositsConfig {
-  [networkId: Network['id']]: LockedContractInfo[];
+  [chain: string]: LockedContractInfo[];
 }

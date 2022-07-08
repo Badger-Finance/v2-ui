@@ -3,7 +3,7 @@ import { Button, List, ListItem, makeStyles, Paper, Popper, Typography } from '@
 import { ArrowDropDown } from '@material-ui/icons';
 import clsx from 'clsx';
 import { supportedNetworks } from 'config/networks.config';
-import { Network } from 'mobx/model/network/network';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
@@ -44,7 +44,7 @@ const NetworkWidget = observer(({ className }: Props) => {
   const classes = useStyles();
   const store = useContext(StoreContext);
   const { network } = store;
-  const connectedNetwork = network.network;
+  const connectedNetwork = network.config;
 
   // anchorEl is the Popper reference object prop
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -65,7 +65,7 @@ const NetworkWidget = observer(({ className }: Props) => {
   };
 
   const options = Object.values(supportedNetworks).filter(
-    (network: Network) => network.symbol !== connectedNetwork.symbol,
+    (network: Chain) => network.symbol !== connectedNetwork.currencySymbol,
   );
 
   return (
@@ -77,7 +77,7 @@ const NetworkWidget = observer(({ className }: Props) => {
         onClick={handleClick}
         className={clsx(classes.selectButton, className)}
       >
-        <NetworkOption network={connectedNetwork} />
+        <NetworkOption chain={Chain.getChain(network.network)} />
       </Button>
       <Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
         <Paper onMouseLeave={() => setAnchorEl(null)}>
@@ -90,7 +90,7 @@ const NetworkWidget = observer(({ className }: Props) => {
                   onClick={async () => await optionClicked(network.symbol)}
                   key={network.symbol}
                 >
-                  <NetworkOption network={network} />
+                  <NetworkOption chain={network} />
                 </ListItem>
               );
             })}
@@ -101,9 +101,9 @@ const NetworkWidget = observer(({ className }: Props) => {
   );
 });
 
-const NetworkOption = (props: { network: Network }) => {
+const NetworkOption = (props: { chain: Chain }) => {
   const classes = useStyles();
-  const displayName = networkAbbreviationBySymbol[props.network.symbol];
+  const displayName = networkAbbreviationBySymbol[props.chain.symbol];
 
   return (
     <div className={classes.networkOption}>

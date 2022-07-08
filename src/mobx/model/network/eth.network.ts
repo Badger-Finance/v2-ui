@@ -5,13 +5,12 @@ import { Deploy } from 'web3/deploy';
 import deploy from '../../../config/deployments/mainnet.json';
 import { AdvisoryType } from '../vaults/advisory-type';
 import { BadgerVault } from '../vaults/badger-vault';
-import { Network as NetworkModel } from './network';
+import { Chain } from './chain';
 
-export class Ethereum extends NetworkModel {
+export class Ethereum extends Chain {
   constructor() {
     super(
       'https://etherscan.io',
-      'https://www.gasnow.org/',
       'Ethereum',
       Network.Ethereum,
       NETWORK_IDS.ETH,

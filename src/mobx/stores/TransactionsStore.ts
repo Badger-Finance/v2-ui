@@ -1,5 +1,6 @@
 import { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { action, computed, makeObservable, observable } from 'mobx';
+import { Chain } from 'mobx/model/network/chain';
 
 import { Transaction } from '../model/ui/transaction';
 import { parseStringifyMap, stringifyMap } from '../utils/helpers';
@@ -34,11 +35,11 @@ class TransactionsStore {
   }
 
   get recentTransactions(): ChainTransactions {
-    return this.transactions.get(String(this.store.network.network.id)) ?? new Map();
+    return this.transactions.get(String(Chain.getChain(this.store.network.network).id)) ?? new Map();
   }
 
   addSignedTransaction(transaction: Transaction): void {
-    const chainId = String(this.store.network.network.id);
+    const chainId = String(Chain.getChain(this.store.network.network).id);
     const transactions = this.transactions.get(chainId);
 
     if (!transactions) {
@@ -50,7 +51,7 @@ class TransactionsStore {
   }
 
   updateCompletedTransaction(receipt: TransactionReceipt): void {
-    const chainId = String(this.store.network.network.id);
+    const chainId = String(Chain.getChain(this.store.network.network).id);
     const transactions = this.transactions.get(chainId);
 
     if (!transactions) return;
@@ -68,7 +69,7 @@ class TransactionsStore {
   }
 
   clearTransactions(): void {
-    this.transactions.get(String(this.store.network.network.id))?.clear();
+    this.transactions.get(String(Chain.getChain(this.store.network.network).id))?.clear();
     localStorage.setItem('transactions', JSON.stringify({}));
   }
 

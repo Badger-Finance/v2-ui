@@ -4,13 +4,12 @@ import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/arbitrum.json';
 import { BadgerVault } from '../vaults/badger-vault';
-import { Network as NetworkModel } from './network';
+import { Chain } from './chain';
 
-export class Arbitrum extends NetworkModel {
+export class Arbitrum extends Chain {
   constructor() {
     super(
       'https://arbiscan.io/',
-      'https://portal.arbitrum.one/',
       'Arbitrum',
       Network.Arbitrum,
       NETWORK_IDS.ARB,

@@ -2,6 +2,7 @@ import { Button, Drawer, Grid, IconButton, makeStyles, Typography, useTheme } fr
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 import copy from 'copy-to-clipboard';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
@@ -103,9 +104,10 @@ const WalletDrawer = (): JSX.Element | null => {
     return null;
   }
 
-  const tokenBalances = Object.keys(network.network.deploy.tokens).flatMap((token) => {
+  const tokenList = Chain.getChain(network.network).deploy.tokens;
+  const tokenBalances = Object.keys(tokenList).flatMap((token) => {
     const isBadgerToken = ['badger', 'digg'].includes(token.toLowerCase());
-    return isBadgerToken ? [user.getBalance(network.network.deploy.tokens[token])] : [];
+    return isBadgerToken ? [user.getBalance(tokenList[token])] : [];
   });
 
   const sortedBalances = tokenBalances.sort((a, b) => b.value - a.value);

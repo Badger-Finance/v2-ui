@@ -1,6 +1,7 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Skeleton } from '@material-ui/lab';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
@@ -66,10 +67,11 @@ export const NavbarStats = observer((): JSX.Element => {
   const [hasReachedScrollEnd, setHasReachedScrollEnd] = useState(false);
   const classes = useStyles();
 
-  const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
+  const chain = Chain.getChain(network);
+  const badgerToken = chain.deploy.token.length > 0 ? chain.deploy.token : undefined;
   const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
   const totalValueLocked = protocolSummary ? protocolSummary.totalValue : undefined;
-  const chainName = getFormattedNetworkName(network);
+  const chainName = getFormattedNetworkName(chain);
   const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 
   const handleScrollClick = () => {

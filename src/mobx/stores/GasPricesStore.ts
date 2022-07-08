@@ -2,17 +2,14 @@ import { GasPrices, Network } from '@badger-dao/sdk';
 import { computed, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/stores/RootStore';
 
-import { NETWORK_IDS, ONE_MIN_MS } from '../../config/constants';
+import { ONE_MIN_MS } from '../../config/constants';
 import { supportedNetworks } from '../../config/networks.config';
-import { Network as BadgerNetwork } from '../../mobx/model/network/network';
 import { GasPricesSummary } from '../model/network/gas-prices-summary';
 
 class GasPricesStore {
-  private gasNetworks: BadgerNetwork[];
   private pricesCache: GasPricesSummary;
 
   constructor(private store: RootStore) {
-    this.gasNetworks = supportedNetworks.filter((network) => network.id !== NETWORK_IDS.LOCAL);
     this.pricesCache = {};
 
     extendObservable(this, {
@@ -36,7 +33,7 @@ class GasPricesStore {
     const pricesCache: GasPricesSummary = {};
 
     await Promise.all(
-      this.gasNetworks.map(async (network) => {
+      supportedNetworks.map(async (network) => {
         const prices = await this.store.sdk.api.loadGasPrices(network.symbol);
         pricesCache[network.id] = prices;
         pricesCache[network.symbol] = prices;

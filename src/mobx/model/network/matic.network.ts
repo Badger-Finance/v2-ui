@@ -4,13 +4,12 @@ import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/matic.json';
 import { BadgerVault } from '../vaults/badger-vault';
-import { Network as NetworkModel } from './network';
+import { Chain } from './chain';
 
-export class Polygon extends NetworkModel {
+export class Polygon extends Chain {
   constructor() {
     super(
       'https://polygonscan.com/',
-      'https://polygonscan.com/gastracker',
       'Polygon',
       Network.Polygon,
       NETWORK_IDS.MATIC,

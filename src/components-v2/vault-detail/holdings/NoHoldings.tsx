@@ -1,6 +1,7 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -42,7 +43,7 @@ export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
     return null;
   }
 
-  const strategy = network.strategies[vault.vaultToken];
+  const strategy = Chain.getChain(network).strategies[vault.vaultToken];
   return (
     <Grid container className={classes.root} component={Paper}>
       <Grid item xs={12} sm={8}>

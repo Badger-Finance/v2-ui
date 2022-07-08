@@ -4,13 +4,12 @@ import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/local.json';
 import { BadgerVault } from '../vaults/badger-vault';
-import { Network as NetworkModel } from './network';
+import { Chain } from './chain';
 
-export class Local extends NetworkModel {
+export class Local extends Chain {
   constructor() {
     super(
       'https://etherscan.io',
-      'https://www.gasnow.org/',
       'Local',
       Network.Local,
       NETWORK_IDS.LOCAL,

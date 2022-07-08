@@ -2,6 +2,7 @@ import { Network, Protocol, ProtocolSummary, TokenConfiguration, VaultDTO, Vault
 import { ethers } from 'ethers';
 import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
+import { Chain } from 'mobx/model/network/chain';
 import { ProtocolSummaryCache } from 'mobx/model/system-config/protocol-summary-cache';
 import { Token } from 'mobx/model/tokens/token';
 import { TokenCache } from 'mobx/model/tokens/token-cache';
@@ -81,7 +82,7 @@ export default class VaultStore {
 
   get vaultMap(): VaultMap {
     const { network } = this.store.network;
-    const vaults = this.vaultCache[network.symbol];
+    const vaults = this.vaultCache[network];
     if (!vaults) {
       return {};
     }
@@ -89,11 +90,11 @@ export default class VaultStore {
   }
 
   get protocolSummary(): ProtocolSummary | undefined | null {
-    return this.protocolSummaryCache[this.store.network.network.symbol];
+    return this.protocolSummaryCache[this.store.network.network];
   }
 
   get tokenConfig(): TokenConfigRecord {
-    return this.tokenCache[this.store.network.network.symbol] ?? {};
+    return this.tokenCache[this.store.network.network] ?? {};
   }
 
   get vaultsProtocols(): Protocol[] {
@@ -133,7 +134,7 @@ export default class VaultStore {
   getSlug(address: string): string {
     const { network: currentNetwork } = this.store.network;
 
-    return this.slugCache[currentNetwork.symbol][address];
+    return this.slugCache[currentNetwork][address];
   }
 
   getVault(address: string): VaultDTO {
@@ -151,9 +152,7 @@ export default class VaultStore {
       return undefined;
     }
 
-    const settBySlug = Object.entries(this.slugCache[currentNetwork.symbol]).find(
-      ({ 1: cachedSlug }) => cachedSlug === slug,
-    );
+    const settBySlug = Object.entries(this.slugCache[currentNetwork]).find(({ 1: cachedSlug }) => cachedSlug === slug);
 
     if (!settBySlug) {
       return null;
@@ -179,7 +178,7 @@ export default class VaultStore {
 
   getTokenConfigs(): TokenConfiguration {
     const { network } = this.store.network;
-    const tokenConfig = this.tokenCache[network.symbol];
+    const tokenConfig = this.tokenCache[network];
     if (!tokenConfig) {
       return {};
     }
@@ -188,7 +187,7 @@ export default class VaultStore {
 
   getToken(address: string): Token {
     const { network } = this.store.network;
-    const tokens = this.tokenCache[network.symbol];
+    const tokens = this.tokenCache[network];
     const tokenAddress = ethers.utils.getAddress(address);
     if (!tokens || !tokens[tokenAddress]) {
       return {
@@ -205,11 +204,7 @@ export default class VaultStore {
     const { network } = this.store.network;
     if (network) {
       this.initialized = false;
-      await Promise.all([
-        this.loadVaults(network.symbol),
-        this.loadTokens(network.symbol),
-        this.loadAssets(network.symbol),
-      ]);
+      await Promise.all([this.loadVaults(network), this.loadTokens(network), this.loadAssets(network)]);
       this.initialized = true;
     }
   }
@@ -370,7 +365,8 @@ export default class VaultStore {
 
   private applySorting(vaults: VaultDTO[]): VaultDTO[] {
     const { user, network } = this.store;
-    const featuredVaultRank = Object.fromEntries(network.network.settOrder.map((v, i) => [v, i + 1]));
+    const chain = Chain.getChain(network.network);
+    const featuredVaultRank = Object.fromEntries(chain.vaultOrder.map((v, i) => [v, i + 1]));
 
     switch (this.vaultsFilters.sortOrder) {
       case VaultSortOrder.NAME_ASC:

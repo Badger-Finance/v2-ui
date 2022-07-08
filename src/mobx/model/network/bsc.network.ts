@@ -4,13 +4,12 @@ import { Deploy } from 'web3/deploy';
 
 import deploy from '../../../config/deployments/bsc.json';
 import { BadgerVault } from '../vaults/badger-vault';
-import { Network as NetworkModel } from './network';
+import { Chain } from './chain';
 
-export class BinanceSmartChain extends NetworkModel {
+export class BinanceSmartChain extends Chain {
   constructor() {
     super(
       'https://bscscan.com',
-      'https://bscscan.com/gastracker',
       'Binance Smart Chain',
       Network.BinanceSmartChain,
       NETWORK_IDS.BSC,

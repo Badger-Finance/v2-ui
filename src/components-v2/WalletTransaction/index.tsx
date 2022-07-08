@@ -33,9 +33,11 @@ interface Props {
 }
 
 const WalletTransaction = ({ transaction }: Props): JSX.Element => {
-  const { network } = useContext(StoreContext);
+  const {
+    network: { config },
+  } = useContext(StoreContext);
   const classes = useStyles();
-  const explorer = network.network.explorer;
+  const explorer = config.explorerUrl;
 
   const statusIcon =
     transaction?.status === 0 ? (

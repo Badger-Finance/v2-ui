@@ -5,7 +5,7 @@ import { extendObservable } from 'mobx';
 import { NETWORKS_LOCKED_DEPOSITS_CONFIG } from '../../config/networks-locked-deposits';
 import { VoteLockedDeposit__factory } from '../../contracts';
 import { LockedContractInfo } from '../model/locked-deposits/locked-contract-info';
-import { Network } from '../model/network/network';
+import { Chain } from '../model/network/chain';
 import { TokenBalance } from '../model/tokens/token-balance';
 import { RootStore } from './RootStore';
 
@@ -13,7 +13,7 @@ type LockedDepositBalancesMap = Map<string, TokenBalance>;
 
 class LockedDepositsStore {
   private readonly store: RootStore;
-  private networksLockedDeposits = new Map<Network['id'], LockedDepositBalancesMap>();
+  private networksLockedDeposits = new Map<Chain['id'], LockedDepositBalancesMap>();
 
   constructor(store: RootStore) {
     this.store = store;
@@ -24,23 +24,25 @@ class LockedDepositsStore {
   }
 
   getLockedDepositBalances(address: string): TokenBalance | undefined {
-    return this.networksLockedDeposits.get(this.store.network.network.id)?.get(ethers.utils.getAddress(address));
+    return this.networksLockedDeposits
+      .get(Chain.getChain(this.store.network.network).id)
+      ?.get(ethers.utils.getAddress(address));
   }
 
   async loadLockedBalances(): Promise<void> {
     const {
-      network: { network },
+      network: { config },
       sdk: { provider },
     } = this.store;
 
-    const tokens = NETWORKS_LOCKED_DEPOSITS_CONFIG[network.id];
+    const tokens = NETWORKS_LOCKED_DEPOSITS_CONFIG[config.chainId];
 
     if (!provider || !tokens) {
       return;
     }
 
     const balances = await Promise.all(tokens.map(this.getLockedDepositBalance));
-    this.networksLockedDeposits.set(network.id, new Map(balances.flat()));
+    this.networksLockedDeposits.set(config.chainId, new Map(balances.flat()));
   }
 
   private getLockedDepositBalance = async ({

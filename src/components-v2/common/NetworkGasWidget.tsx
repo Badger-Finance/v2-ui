@@ -42,7 +42,7 @@ const NetworkGasWidget = (): JSX.Element => {
         >
           <img
             className={classes.selectedNetworkIcon}
-            src={getNetworkIconPath(networkStore.network.symbol)}
+            src={getNetworkIconPath(networkStore.network)}
             alt="selected network icon"
           />
         </Button>

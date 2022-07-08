@@ -30,8 +30,8 @@ const WalletLiquidityPoolLinks = (): JSX.Element | null => {
   } = useContext(StoreContext);
   const classes = useStyles();
 
-  const badgerPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][LiquidityPoolLinkToken.BADGER];
-  const diggPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork.symbol][LiquidityPoolLinkToken.DIGG];
+  const badgerPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork][LiquidityPoolLinkToken.BADGER];
+  const diggPools = NETWORKS_LIQUIDITY_POOL_LINKS[currentNetwork][LiquidityPoolLinkToken.DIGG];
 
   if (!badgerPools && !diggPools) {
     return null;
