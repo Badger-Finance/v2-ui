@@ -56,7 +56,10 @@
     "curve.frax-3crv": "0xd632f22692FaC7611d2AA1C0D552930D43CAEd3B",
     "remdigg": "0x99F39D495C6A5237f43602f3Ab5F49786E46c9B0",
     "curve.badger": "0x137469B55D1f15651BA46A89D0588e97dD0B6562",
-    "aura": "0xC0c293ce456fF0ED870ADd98a0828Dd4d2903DBF"
+    "aura": "0xC0c293ce456fF0ED870ADd98a0828Dd4d2903DBF",
+    "balancer.auraBAL": "0x616e8BfA43F920657B3497DBf40D6b1A02D4608d",
+    "balancer.wbtc-badger": "0xb460DAa847c45f1C4a41cb05BFB3b51c92e41B36",
+    "balancer.bb-aave-usd": "0x7B50775383d3D6f0215A8F290f2C9e2eEBBEceb2"
   },
   "logic": {
     "SmartVesting": "0x07c0E4f4C977a29c46Fb26597ea8C9105ca50b42",
@@ -135,7 +138,10 @@
       "native.mim-3crv": "0x19E4d89e0cB807ea21B8CEF02df5eAA99A110dA5",
       "native.frax-3crv": "0x15cBC4ac1e81c97667780fE6DAdeDd04a6EEB47B",
       "native.badgerCrv": "0xeC1c717A3b02582A4Aa2275260C583095536b613",
-      "native.graviaura": "0xBA485b556399123261a5F9c95d413B4f93107407"
+      "native.graviaura": "0xBA485b556399123261a5F9c95d413B4f93107407",
+      "native.auraBal": "0x37d9D2C6035b744849C15F1BFEE8F268a20fCBd8",
+      "native.aura-wbtc-badger": "0x63ad745506BD6a3E57F764409A47ed004BEc40b1",
+      "native.aura-bb-aave-usd": "0x06D756861De0724FAd5B5636124e0f252d3C1404"
     },
     "strategies": {
       "native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",
@@ -168,7 +174,10 @@
       "native.mim-3crv": "0x8DE00c817C595BD5D8caD37c4bE65ed1bB11502F",
       "native.frax-3crv": "0xA4772a2504aCCBEd8Db04F393A21BfA621AC621D",
       "native.badgerCrv": "0x1905FD2D2D09792eE058C2b46a05F11630a1EcA1",
-      "native.graviaura": "0x3c0989eF27e3e3fAb87a2d7C38B35880C90E63b5"
+      "native.graviaura": "0x3c0989eF27e3e3fAb87a2d7C38B35880C90E63b5",
+      "native.auraBal": "0xfB490b5beA343ABAe0E71B61bBdfd4301F5e4df9",
+      "native.aura-wbtc-badger": "0xe43857fE16D18b6633A663389934d6c64D5E81FD",
+      "native.aura-bb-aave-usd": "0x2eDc46AC0eE850081e14a6E6cF09d69A29D61563"
     },
     "strategy_artifacts": {
       "native.badger": "StrategyBadgerRewards",

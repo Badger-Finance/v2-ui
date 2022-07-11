@@ -20,10 +20,13 @@ export class Ethereum extends Chain {
     );
   }
 
-  get settOrder(): string[] {
+  vaultOrder(): string[] {
     return [
-      this.deploy.sett_system.vaults['native.graviaura'],
       this.deploy.sett_system.vaults['native.icvx'],
+      this.deploy.sett_system.vaults['native.graviaura'],
+      this.deploy.sett_system.vaults['native.aura-wbtc-badger'],
+      this.deploy.sett_system.vaults['native.auraBal'],
+      this.deploy.sett_system.vaults['native.aura-bb-aave-usd'],
       this.deploy.sett_system.vaults['native.bveCVXCVX'],
       this.deploy.sett_system.vaults['native.cvxCrv'],
       this.deploy.sett_system.vaults['native.ibbtcCrv'],

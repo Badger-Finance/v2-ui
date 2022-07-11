@@ -166,11 +166,7 @@ export default class VaultStore {
   }
 
   get vaultOrder(): VaultDTO[] {
-    let vaults = Object.values(this.vaultMap).flatMap((vaultDefinition) => {
-      const vault = this.vaultMap[ethers.utils.getAddress(vaultDefinition.vaultToken)];
-      return vault ? [vault] : [];
-    });
-
+    let vaults = Object.values(this.vaultMap).slice();
     vaults = this.applyFilters(vaults);
     vaults = this.applySorting(vaults);
     return vaults;
@@ -366,7 +362,7 @@ export default class VaultStore {
   private applySorting(vaults: VaultDTO[]): VaultDTO[] {
     const { user, network } = this.store;
     const chain = Chain.getChain(network.network);
-    const featuredVaultRank = Object.fromEntries(chain.vaultOrder.map((v, i) => [v, i + 1]));
+    const featuredVaultRank = Object.fromEntries(chain.vaultOrder().map((v, i) => [v, i + 1]));
 
     switch (this.vaultsFilters.sortOrder) {
       case VaultSortOrder.NAME_ASC:

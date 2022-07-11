@@ -44,9 +44,13 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
     <Grid container className={classes.linksContainer}>
       <Typography>Links</Typography>
       <StyledDivider />
-      {strategy.userGuide && <VaultDetailLink title="User Guide" href={strategy.userGuide} />}
-      {strategy.strategyLink && <VaultDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
-      {strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
+      {strategy && (
+        <>
+          {strategy.userGuide && <VaultDetailLink title="User Guide" href={strategy.userGuide} />}
+          {strategy.strategyLink && <VaultDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
+          {strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
+        </>
+      )}
       <VaultDetailLink title="Vault Address" href={`${config.explorerUrl}/address/${vaultToken}`} />
       <VaultDetailLink title="Strategy Address" href={`${config.explorerUrl}/address/${strategyAddress}`} />
       <VaultDetailLink title="Underlying Token Address" href={`${config.explorerUrl}/address/${underlyingToken}`} />
