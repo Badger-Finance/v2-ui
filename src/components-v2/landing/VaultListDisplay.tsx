@@ -43,7 +43,6 @@ const VaultListDisplay = observer(() => {
     );
   }
 
-  console.log(vaultOrder);
   const settListItems = vaultOrder.flatMap((vault) => {
     const hasNoBalance = user.getBalance(vault.vaultToken).tokenBalance.eq(0);
 
