@@ -103,7 +103,7 @@ export default class UserStore {
     this.loadingBalances = true;
 
     try {
-      const balances = await sdk.tokens.loadBalances([...vaults.protocolTokens]);
+      const balances = await sdk.tokens.loadBalances(Object.keys(vaults.tokenConfig));
       this.balances = Object.fromEntries(
         Object.entries(balances).map((b) => {
           const [token, balance] = b;
