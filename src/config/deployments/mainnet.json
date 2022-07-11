@@ -141,7 +141,8 @@
       "native.graviaura": "0xBA485b556399123261a5F9c95d413B4f93107407",
       "native.auraBal": "0x37d9D2C6035b744849C15F1BFEE8F268a20fCBd8",
       "native.aura-wbtc-badger": "0x63ad745506BD6a3E57F764409A47ed004BEc40b1",
-      "native.aura-bb-aave-usd": "0x06D756861De0724FAd5B5636124e0f252d3C1404"
+      "native.aura-bb-aave-usd": "0x06D756861De0724FAd5B5636124e0f252d3C1404",
+      "native.graviaura-aurabal-weth": "0xf8f5677B6bCecdb9be94AE8f6770a05a6C53C378"
     },
     "strategies": {
       "native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",
