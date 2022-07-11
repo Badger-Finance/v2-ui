@@ -28,9 +28,6 @@ export class TreeStore {
       wallet: { address },
       prices,
     } = this.store;
-    const {
-      config: { network },
-    } = sdk;
 
     if (!address) {
       return;
@@ -41,7 +38,7 @@ export class TreeStore {
 
     // Load user claim proofs
     try {
-      this.claimProof = await api.loadRewardTree(address, network);
+      this.claimProof = await api.loadRewardTree(address);
     } catch {
       console.debug(`No rewards proof found for: ${address}`);
     } // 404 means user has no valid proof

@@ -106,14 +106,10 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
 
   // lp token getters
   const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
-  const lpBadgerVault = Chain.getChain(network.network).vaults.find(
-    ({ vaultToken }) => vaultToken.address === lpVault?.vaultToken,
-  );
-  const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.vaultToken.address) : undefined;
+  const lpBadgerVault = vaults.vaultOrder.find(({ vaultToken }) => vaultToken === lpVault?.vaultToken);
+  const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.vaultToken) : undefined;
   const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
-  const settStrategy = lpBadgerVault
-    ? Chain.getChain(network.network).strategies[lpBadgerVault.vaultToken.address]
-    : undefined;
+  const settStrategy = lpBadgerVault ? Chain.getChain(network.network).strategies[lpBadgerVault.vaultToken] : undefined;
 
   // options
   const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
@@ -306,7 +302,7 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
 
     setLpTokenDepositBalance(userLpTokenBalance);
     setMode(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
-  }, [user, vaults, Chain.getChain(network.network).vaults]);
+  }, [user, vaults, vaults.vaultOrder]);
 
   return (
     <Dialog open={open} fullWidth maxWidth="xl" classes={{ paperWidthXl: classes.root }}>

@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  strategy: StrategyConfig;
+  strategy?: StrategyConfig;
 }
 
 const DepositInfo: React.FC<Props> = ({ strategy }: Props) => {
   const classes = useStyles();
 
-  if (!strategy.userGuide) {
+  if (!strategy || !strategy.userGuide) {
     return null;
   }
 

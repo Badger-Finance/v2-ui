@@ -18,7 +18,7 @@ export abstract class Chain {
   readonly id: number;
   readonly currency: Currency;
   readonly deploy: Deploy;
-  readonly vaults: BadgerVault[];
+  // readonly vaults: BadgerVault[];
   readonly strategies: StrategyNetworkConfig;
   // TODO: stop gap implementation for API messaging system - remove once available
   readonly notification?: string;
@@ -42,7 +42,7 @@ export abstract class Chain {
     this.id = id;
     this.currency = currency;
     this.deploy = deploy;
-    this.vaults = vaults;
+    // this.vaults = vaults;
     this.strategies = getStrategies(symbol);
     this.notification = notification;
     this.notificationLink = notificationLink;
@@ -53,7 +53,7 @@ export abstract class Chain {
     return Chain.chains[network];
   }
 
-  get vaultOrder(): string[] {
-    return this.vaults.map((s) => s.vaultToken.address);
+  vaultOrder(): string[] {
+    return [];
   }
 }
