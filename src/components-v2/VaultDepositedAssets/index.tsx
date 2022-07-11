@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js';
 import { Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
-import { BVE_CVX_TOKEN } from 'mobx/stores/bveCvxInfluenceStore';
+import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 
 const useStyles = makeStyles((theme) => ({
 	amount: {
@@ -31,13 +31,12 @@ const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {
 	const currencyValue = inCurrency(new BigNumber(vault.value), uiState.currency);
 	let hasCurrencyIcon = currencyValue?.includes('.png');
 
-	// TODO: we should probably include an 'influence' vault behavior
-	const isBveCvx = vault.vaultToken === BVE_CVX_TOKEN;
+	const isAInfluenceVault = isInfluenceVault(vault.vaultToken);
 
 	let currencyIcon;
 	let displayValue;
 
-	if (isBveCvx) {
+	if (isAInfluenceVault) {
 		hasCurrencyIcon = false;
 		displayValue = `${numberWithCommas(vault.balance.toFixed())} ${vault.asset}`;
 	} else {
@@ -50,11 +49,11 @@ const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {
 
 	return (
 		<>
-			{currencyIcon && !isBveCvx && (
+			{currencyIcon && !isAInfluenceVault && (
 				<img src={`${currencyIcon}.png`} alt={`${currencyIcon} icon`} className={classes.currencyIcon} />
 			)}
 			<Typography className={classes.amount}>{displayValue ?? <Skeleton width={209} height={37} />}</Typography>
-			{isBveCvx && (
+			{isAInfluenceVault && (
 				<Typography variant="subtitle1" color="textSecondary">
 					{currencyValue ?? <Skeleton width={209} height={24} />}
 				</Typography>

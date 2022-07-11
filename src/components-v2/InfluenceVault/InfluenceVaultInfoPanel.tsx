@@ -3,7 +3,7 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { CardContainer } from '../vault-detail/styled';
 import { makeStyles } from '@material-ui/core/styles';
-import BveCvxPerformance from '../BveCvxPerformance';
+import InfluenceVaultPerfomanceTab from './InfluenceVaultPerfomanceTab';
 import { ChartMode, VaultChartTimeframe } from '../../mobx/model/vaults/vault-charts';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
@@ -36,16 +36,17 @@ interface Props {
 
 type TabType = 'performance' | 'value';
 
-const BveCvxInfoPanels = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultInfoPanel = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
-	const { bveCvxInfluence } = useContext(StoreContext);
+	const { influenceVaultStore } = useContext(StoreContext);
+	const influenceVault = influenceVaultStore.getInfluenceVault(vault.vaultToken);
 	const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
 	const [mode, setMode] = useState<TabType>('performance');
-	const data = bveCvxInfluence.chartData?.map((d) => ({ x: d.timestamp.getTime(), y: d.balance }));
+	const data = influenceVault?.vaultChartData?.map((d) => ({ x: d.timestamp.getTime(), y: d.balance }));
 
 	const handleTimeFrameChange = async (timeframe: VaultChartTimeframe) => {
 		setTimeframe(timeframe);
-		await bveCvxInfluence.loadChartInfo(timeframe);
+		await influenceVaultStore.loadChartInfo(timeframe, vault);
 	};
 
 	const valueChart = (
@@ -58,7 +59,7 @@ const BveCvxInfoPanels = ({ vault }: Props): JSX.Element => {
 				/>
 			</Grid>
 			<Grid item container xs justifyContent="center" alignItems="center">
-				<ChartContent data={data ?? null} loading={bveCvxInfluence.loadingChart}>
+				<ChartContent data={data ?? null} loading={influenceVault.processingChartData}>
 					<VaultChart mode={ChartMode.Balance} timeframe={timeframe} data={data ?? null} />
 				</ChartContent>
 			</Grid>
@@ -66,8 +67,8 @@ const BveCvxInfoPanels = ({ vault }: Props): JSX.Element => {
 	);
 
 	useEffect(() => {
-		bveCvxInfluence.init();
-	}, [bveCvxInfluence]);
+		influenceVaultStore.init(vault.vaultToken);
+	}, [influenceVaultStore]);
 
 	return (
 		<CardContainer className={classes.root}>
@@ -83,11 +84,11 @@ const BveCvxInfoPanels = ({ vault }: Props): JSX.Element => {
 				<Tab onClick={() => setMode('value')} value="value" label="Tokens Managed" />
 			</Tabs>
 			<Grid container direction="column" className={classes.content}>
-				{mode === 'performance' && <BveCvxPerformance vault={vault} />}
+				{mode === 'performance' && <InfluenceVaultPerfomanceTab vault={vault} />}
 				{mode === 'value' && valueChart}
 			</Grid>
 		</CardContainer>
 	);
 };
 
-export default observer(BveCvxInfoPanels);
+export default observer(InfluenceVaultInfoPanel);

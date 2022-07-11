@@ -1,15 +1,22 @@
-export interface BveCvxEmissionRound {
-	// TODO: consider making this actually generic and usable
-	badger: number;
-	badgerValue: number;
-	bveCVX: number;
-	bveCVXValue: number;
-	bcvxCrv: number;
-	bcvxCrvValue: number;
-
+export interface InfluenceVaultEmissionRound {
+	tokens: EmissionRoundToken[];
+	graph: Graph;
 	vaultTokens: number;
 	vaultValue: number;
 
 	start: number;
 	index: number;
+	diviserTokenSymbol: string;
+}
+
+export interface Graph {
+	value1: number;
+	value2: number;
+	value3: number;
+}
+
+export interface EmissionRoundToken {
+	symbol: string;
+	balance: number;
+	value: number;
 }

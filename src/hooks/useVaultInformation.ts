@@ -30,7 +30,6 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
 	const depositBalanceDisplay = depositBalance.tokenBalance.gt(0)
 		? depositBalance.balanceValueDisplay(vaults.vaultsFilters.currency)
 		: `${currencyConfiguration[vaults.vaultsFilters.currency].prefix}-`;
-
 	return {
 		vaultBoost,
 		boostContribution,

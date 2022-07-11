@@ -9,7 +9,6 @@ import { StyledDivider } from '../styled';
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
 import { StoreContext } from '../../../mobx/store-context';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
-import BveCvxFrequencyInfo from '../../BveCvxFrequencyInfo';
 
 const useStyles = makeStyles((theme) => ({
 	rewardsFrequency: {
@@ -99,7 +98,7 @@ export const Claims = observer((): JSX.Element => {
 					<ChevronRightIcon className={classes.linkIcon} />
 				</div>
 			</Link>
-			<BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
+			{/* <BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} /> */}
 		</Grid>
 	);
 });
