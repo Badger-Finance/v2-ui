@@ -68,6 +68,7 @@ export const Redeem = observer((): JSX.Element => {
     transactions,
     wallet,
     sdk,
+    user,
   } = store;
 
   const [selectedToken, setSelectedToken] = useState<TokenBalance>();
@@ -232,6 +233,7 @@ export const Redeem = observer((): JSX.Element => {
 
       if (result === TransactionStatus.Success) {
         resetState();
+        await user.reloadBalances();
       }
     }
   };
