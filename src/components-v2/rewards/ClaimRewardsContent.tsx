@@ -22,6 +22,7 @@ import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import routes from '../../config/routes';
+import { showTransferRejectedToast, showWalletPromptToast } from '../../utils/toasts';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
 import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../TransactionToast';
@@ -224,6 +225,8 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
     const claimAmounts = Object.values(claimOptions).map((c) => c.balance.tokenBalance);
     const { index, cycle, proof, cumulativeAmounts } = tree.claimProof;
 
+    const toastId = showWalletPromptToast('Sign claim transaction');
+
     await sdk.rewards.claim({
       tokens,
       cumulativeAmounts,
@@ -252,6 +255,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
           });
         }
       },
+      onRejection: () => showTransferRejectedToast(toastId, 'Transaction Rejected'),
       onError: (err) => {
         console.error(err);
         if (String(err).includes('execution reverted: Invalid cycle')) {
