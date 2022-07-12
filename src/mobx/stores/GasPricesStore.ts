@@ -33,12 +33,14 @@ class GasPricesStore {
     const pricesCache: GasPricesSummary = {};
 
     await Promise.all(
-      supportedNetworks.filter((c) => c.network !== Network.Local).map(async (chain) => {
-        const prices = await this.store.sdk.api.loadGasPrices(chain.network);
-        pricesCache[chain.id] = prices;
-        pricesCache[chain.network] = prices;
-        pricesCache[chain.name] = prices;
-      }),
+      supportedNetworks
+        .filter((c) => c.network !== Network.Local)
+        .map(async (chain) => {
+          const prices = await this.store.sdk.api.loadGasPrices(chain.network);
+          pricesCache[chain.id] = prices;
+          pricesCache[chain.network] = prices;
+          pricesCache[chain.name] = prices;
+        }),
     );
 
     this.pricesCache = pricesCache;
