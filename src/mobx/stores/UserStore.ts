@@ -1,4 +1,4 @@
-import { Account, BouncerType, MerkleProof, VaultDTO } from '@badger-dao/sdk';
+import { Account, BouncerType, MerkleProof, VaultCaps, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { BigNumber, ethers } from 'ethers';
 import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
@@ -13,6 +13,7 @@ export default class UserStore {
   public bouncerProof?: MerkleProof | null = undefined;
   public accountDetails?: Account | null = undefined;
   public balances: TokenBalances = {};
+  public vaultCaps: Record<string, VaultCaps> = {};
   public loadingBalances = false;
 
   constructor(store: RootStore) {
@@ -114,7 +115,14 @@ export default class UserStore {
         }),
       );
 
-      // TODO: add vault caps checks + guest list look ups
+      const targetVaults = this.store.vaults.vaultOrder
+        .slice()
+        .filter((v) => v.state === VaultState.Guarded || v.state === VaultState.Experimental);
+      await Promise.all(
+        targetVaults.map(async (v) => {
+          this.vaultCaps[v.vaultToken] = await this.store.sdk.vaults.getDepositCaps(v.vaultToken);
+        }),
+      );
 
       this.loadingBalances = false;
     } catch (err) {

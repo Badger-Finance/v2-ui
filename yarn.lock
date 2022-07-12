@@ -1403,10 +1403,10 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@badger-dao/sdk-mocks@^1.15.15":
-  version "1.15.15"
-  resolved "https://registry.yarnpkg.com/@badger-dao/sdk-mocks/-/sdk-mocks-1.15.15.tgz#b949e35f2d4a3d2b41fa1424377dc94a8e1c423c"
-  integrity sha512-vpchp4l2N6N5STDLyg+zv+n+w9ws6IsRgBltJle4j3q4sLLXDey2JSK33EvGLuSsCUbzLkqUXtZacMd04wOoHA==
+"@badger-dao/sdk-mocks@^1.15.16":
+  version "1.15.16"
+  resolved "https://registry.yarnpkg.com/@badger-dao/sdk-mocks/-/sdk-mocks-1.15.16.tgz#752a56bf177d7dc3cdb223859efbb2c6880fd751"
+  integrity sha512-MvC9C4eJOifpL5MZTsJcHnHRIY9MZwdagfsVsi60GVzjQXIOqLXLRmOdYROI8o2hnEUNudnvSiVjVg+ONGainA==
   dependencies:
     "@types/jest" "27.0.2"
     "@typescript-eslint/eslint-plugin" "5.0.0"

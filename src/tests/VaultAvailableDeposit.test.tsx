@@ -43,12 +43,12 @@ describe('VaultAvailableDeposit', () => {
 
     checkSnapshot(
       <VaultAvailableDeposit
-        vaultCapInfo={{
-          vaultCap: mockCap,
-          totalVaultCap: mockCap,
-          userCap: mockCap,
-          totalUserCap: mockCap,
-          asset: 'DIGG',
+        asset="DIGG"
+        vaultCaps={{
+          totalDepositCap: mockCap.tokenBalance,
+          remainingDepositCap: mockCap.tokenBalance,
+          userDepositCap: mockCap.tokenBalance,
+          remainingUserDepositCap: mockCap.tokenBalance,
         }}
       />,
     );
@@ -68,12 +68,12 @@ describe('VaultAvailableDeposit', () => {
 
     checkSnapshot(
       <VaultAvailableDeposit
-        vaultCapInfo={{
-          vaultCap: normalCap,
-          totalVaultCap: normalCap,
-          userCap: maxCap,
-          totalUserCap: maxCap,
-          asset: 'imBTC',
+        asset="inBTC"
+        vaultCaps={{
+          totalDepositCap: normalCap.tokenBalance,
+          remainingDepositCap: normalCap.tokenBalance,
+          userDepositCap: maxCap.tokenBalance,
+          remainingUserDepositCap: maxCap.tokenBalance,
         }}
       />,
     );
@@ -82,12 +82,12 @@ describe('VaultAvailableDeposit', () => {
   it('does not show vault limits if limit is max cap', () => {
     checkSnapshot(
       <VaultAvailableDeposit
-        vaultCapInfo={{
-          vaultCap: maxCap,
-          totalVaultCap: maxCap,
-          userCap: normalCap,
-          totalUserCap: normalCap,
-          asset: 'imBTC',
+        asset="inBTC"
+        vaultCaps={{
+          totalDepositCap: maxCap.tokenBalance,
+          remainingDepositCap: maxCap.tokenBalance,
+          userDepositCap: normalCap.tokenBalance,
+          remainingUserDepositCap: normalCap.tokenBalance,
         }}
       />,
     );
@@ -96,12 +96,12 @@ describe('VaultAvailableDeposit', () => {
   it('does not show any limits if both user and vault limits are max cap', () => {
     checkSnapshot(
       <VaultAvailableDeposit
-        vaultCapInfo={{
-          vaultCap: maxCap,
-          totalVaultCap: maxCap,
-          userCap: maxCap,
-          totalUserCap: maxCap,
-          asset: 'imBTC',
+        asset="inBTC"
+        vaultCaps={{
+          totalDepositCap: maxCap.tokenBalance,
+          remainingDepositCap: maxCap.tokenBalance,
+          userDepositCap: maxCap.tokenBalance,
+          remainingUserDepositCap: maxCap.tokenBalance,
         }}
       />,
     );
