@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import React from 'react';
 
 interface Props {
@@ -20,8 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Element => {
+const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Element | null => {
   const classes = useStyles();
+
+  const formattedSlippage = `${Math.abs(Number(utils.formatEther(calculatedSlippage))).toFixed(4)}%`;
 
   if (calculatedSlippage.isNegative()) {
     return (
@@ -37,20 +39,20 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
           </Typography>
         </Box>
         <Typography variant="body2" className={classes.positiveSlippage}>
-          {`${calculatedSlippage.abs().toNumber().toFixed(4)}%`}
+          {formattedSlippage}
         </Typography>
       </Grid>
     );
   }
 
-  if (calculatedSlippage.gt(limitSlippage)) {
+  if (calculatedSlippage.gt(utils.parseEther(limitSlippage.toString()))) {
     return (
       <Grid container alignItems="center" justifyContent="space-between">
         <Typography variant="body2" className={classes.negativeSlippage}>
           Slippage higher than expected (incl. pricing):
         </Typography>
         <Typography variant="body2" className={classes.negativeSlippage}>
-          {`${calculatedSlippage.toNumber().toFixed(4)}%`}
+          {formattedSlippage}
         </Typography>
       </Grid>
     );
@@ -59,7 +61,7 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
   return (
     <Grid container alignItems="center" justifyContent="space-between">
       <Typography variant="body2">Estimated slippage (incl. pricing):</Typography>
-      <Typography variant="body2">{`${calculatedSlippage.toNumber().toFixed(4)}%`}</Typography>
+      <Typography variant="body2">{formattedSlippage}</Typography>
     </Grid>
   );
 };
