@@ -122,6 +122,7 @@ export default class UserStore {
         targetVaults.map(async (v) => {
           this.vaultCaps[v.vaultToken] = await this.store.sdk.vaults.getDepositCaps({
             address: v.vaultToken,
+            user: sdk.address,
           });
         }),
       );
