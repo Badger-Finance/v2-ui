@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NetworkNotification = observer((): JSX.Element | null => {
-  const { network: networkStore } = useContext(StoreContext);
+  const { chain: networkStore } = useContext(StoreContext);
   const classes = useStyles();
 
   const network = Chain.getChain(networkStore.network);

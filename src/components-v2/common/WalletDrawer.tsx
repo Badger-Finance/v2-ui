@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
 const WalletDrawer = (): JSX.Element | null => {
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
-  const { uiState, user, network, wallet } = useContext(StoreContext);
+  const { uiState, user, chain, wallet } = useContext(StoreContext);
   const { ensName } = useENS(wallet.address);
   const classes = useStyles();
   const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
@@ -104,7 +104,7 @@ const WalletDrawer = (): JSX.Element | null => {
     return null;
   }
 
-  const tokenList = Chain.getChain(network.network).deploy.tokens;
+  const tokenList = Chain.getChain(chain.network).deploy.tokens;
   const tokenBalances = Object.keys(tokenList).flatMap((token) => {
     const isBadgerToken = ['badger', 'digg'].includes(token.toLowerCase());
     return isBadgerToken ? [user.getBalance(tokenList[token])] : [];

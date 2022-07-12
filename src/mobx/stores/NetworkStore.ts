@@ -104,7 +104,7 @@ export class NetworkStore {
   syncUrlNetworkId = action(() => {
     const {
       router,
-      network: networkStore,
+      chain: networkStore,
       sdk: { config },
     } = this.store;
     const chainId = config.chainId;

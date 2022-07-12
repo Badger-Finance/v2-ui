@@ -43,8 +43,8 @@ interface Props {
 const NetworkWidget = observer(({ className }: Props) => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { network } = store;
-  const connectedNetwork = network.config;
+  const { chain } = store;
+  const connectedNetwork = chain.config;
 
   // anchorEl is the Popper reference object prop
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -57,7 +57,7 @@ const NetworkWidget = observer(({ className }: Props) => {
   const optionClicked = async (option: string) => {
     const networkConfig = getNetworkConfig(option);
     try {
-      await network.setNetwork(networkConfig.chainId);
+      await chain.setNetwork(networkConfig.chainId);
     } catch (e) {
       console.error(e);
     }
@@ -65,7 +65,7 @@ const NetworkWidget = observer(({ className }: Props) => {
   };
 
   const options = Object.values(supportedNetworks).filter(
-    (network: Chain) => network.symbol !== connectedNetwork.currencySymbol,
+    (chain: Chain) => chain.network !== connectedNetwork.currencySymbol,
   );
 
   return (
@@ -77,7 +77,7 @@ const NetworkWidget = observer(({ className }: Props) => {
         onClick={handleClick}
         className={clsx(classes.selectButton, className)}
       >
-        <NetworkOption chain={Chain.getChain(network.network)} />
+        <NetworkOption chain={Chain.getChain(chain.network)} />
       </Button>
       <Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
         <Paper onMouseLeave={() => setAnchorEl(null)}>
@@ -87,8 +87,8 @@ const NetworkWidget = observer(({ className }: Props) => {
                 <ListItem
                   className={classes.listItem}
                   button
-                  onClick={async () => await optionClicked(network.symbol)}
-                  key={network.symbol}
+                  onClick={async () => await optionClicked(chain.network)}
+                  key={chain.network}
                 >
                   <NetworkOption chain={network} />
                 </ListItem>
@@ -103,7 +103,7 @@ const NetworkWidget = observer(({ className }: Props) => {
 
 const NetworkOption = (props: { chain: Chain }) => {
   const classes = useStyles();
-  const displayName = networkAbbreviationBySymbol[props.chain.symbol];
+  const displayName = networkAbbreviationBySymbol[props.chain.network];
 
   return (
     <div className={classes.networkOption}>

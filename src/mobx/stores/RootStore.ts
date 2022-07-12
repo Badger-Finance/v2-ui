@@ -32,7 +32,7 @@ export class RootStore {
   public router: RouterStore<RootStore>;
 
   // Stores
-  public network: NetworkStore;
+  public chain: NetworkStore;
   public uiState: UiStateStore;
   public rebase: RebaseStore;
   public wallet: WalletStore;
@@ -63,7 +63,7 @@ export class RootStore {
     });
     const config = getNetworkConfig(defaultNetwork);
     this.router = new RouterStore<RootStore>(this);
-    this.network = new NetworkStore(this);
+    this.chain = new NetworkStore(this);
     this.wallet = new WalletStore(this, config);
     this.prices = new PricesStore(this);
     this.rebase = new RebaseStore(this);
@@ -93,8 +93,8 @@ export class RootStore {
     const config = getNetworkConfig(network);
 
     // push network state to app
-    if (this.network.network !== config.network) {
-      this.network.network = config.network;
+    if (this.chain.network !== config.network) {
+      this.chain.network = config.network;
     }
 
     this.api = new BadgerAPI({
@@ -104,14 +104,14 @@ export class RootStore {
 
     this.tree.reset();
 
-    const refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
+    const refreshData = [this.chain.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
     await Promise.all(refreshData);
   }
 
   async updateProvider(provider: SDKProvider): Promise<void> {
     this.tree.reset();
-    const { network } = this.network;
+    const { network } = this.chain;
 
     this.sdk = new BadgerSDK({
       network: network,

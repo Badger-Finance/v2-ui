@@ -1,4 +1,4 @@
-import { Currency, Network as ChainNetwork, Network } from '@badger-dao/sdk';
+import { Currency, Network } from '@badger-dao/sdk';
 import rpc from 'config/rpc.config';
 import { getStrategies } from 'config/system/strategies';
 import { Deploy } from 'web3/deploy';
@@ -14,7 +14,7 @@ export abstract class Chain {
   // disabled for new lint - out of scope
   /* eslint-disable-next-line no-restricted-globals */
   readonly name: string;
-  readonly symbol: ChainNetwork;
+  readonly network: Network;
   readonly id: number;
   readonly currency: Currency;
   readonly deploy: Deploy;
@@ -27,7 +27,7 @@ export abstract class Chain {
   constructor(
     explorer: string,
     name: string,
-    symbol: ChainNetwork,
+    network: Network,
     id: number,
     currency: Currency,
     deploy: Deploy,
@@ -35,18 +35,18 @@ export abstract class Chain {
     notification?: string,
     notificationLink?: string,
   ) {
-    this.rpc = rpc[symbol];
+    this.rpc = rpc[network];
     this.explorer = explorer;
     this.name = name;
-    this.symbol = symbol;
+    this.network = network;
     this.id = id;
     this.currency = currency;
     this.deploy = deploy;
     // this.vaults = vaults;
-    this.strategies = getStrategies(symbol);
+    this.strategies = getStrategies(network);
     this.notification = notification;
     this.notificationLink = notificationLink;
-    Chain.chains[symbol] = this;
+    Chain.chains[network] = this;
   }
 
   static getChain(network: Network) {
