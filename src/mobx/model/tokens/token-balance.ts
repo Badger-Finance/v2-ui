@@ -56,7 +56,7 @@ export class TokenBalance {
     }
 
     const result = ethers.utils.formatUnits(this.tokenBalance, this.token.decimals);
-    return Number(result).toString();
+    return Number(result).toFixed(precision);
   }
 
   balanceValueDisplay(precision?: number): string {

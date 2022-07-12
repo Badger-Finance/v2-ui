@@ -1,3 +1,4 @@
+import { TransactionStatus } from '@badger-dao/sdk';
 import {
   Box,
   Button,
@@ -18,19 +19,28 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ReportProblem } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
-import { BigNumber, BigNumberish, ethers } from 'ethers';
-import { Chain } from 'mobx/model/network/chain';
+import { BigNumber, ethers, utils } from 'ethers';
+import { formatEther, parseEther } from 'ethers/lib/utils';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { Id, toast } from 'react-toastify';
 
 import { Loader } from '../../components/Loader';
+import { METAMASK_REJECTED__SIGNATURE_ERROR_CODE } from '../../config/constants';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
+import { IbbtcVaultZap__factory } from '../../contracts';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import {
+  showTransferRejectedToast,
+  showTransferSignedToast,
+  showWalletPromptToast,
+  updateWalletPromptToast,
+} from '../../utils/toasts';
 import { VaultModalProps } from '../common/dialogs/VaultDeposit';
 import { StrategyFees } from '../common/StrategyFees';
 import VaultLogo from '../landing/VaultLogo';
+import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../TransactionToast';
 import BalanceInput from './BalanceInput';
 import SlippageMessage from './SlippageMessage';
 
@@ -102,14 +112,13 @@ enum DepositMode {
 const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { network, wallet, vaults, vaultDetail, user, sdk } = store;
+  const { wallet, vaults, vaultDetail, user, sdk, transactions } = store;
 
   // lp token getters
   const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
   const lpBadgerVault = vaults.vaultOrder.find(({ vaultToken }) => vaultToken === lpVault?.vaultToken);
-  const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.vaultToken) : undefined;
+  const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.underlyingToken) : undefined;
   const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
-  const settStrategy = lpBadgerVault ? Chain.getChain(network.network).strategies[lpBadgerVault.vaultToken] : undefined;
 
   // options
   const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
@@ -147,24 +156,14 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
 
   const getCalculations = useCallback(
     async (balances: TokenBalance[]): Promise<BigNumber[]> => {
-      // if (!wallet.web3Instance) return [];
-      // const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, wallet.web3Instance);
-      // if (balances.length !== 4) {
-      // 	throw new Error('dafuq');
-      // }
-      // const depositAmounts = balances.map((balance) => toHex(balance.tokenBalance));
-
-      // TODO: FIX ME!!! THIS SHOULD NOT STILL BE THERE
-      // IF YOU SKIP THIS REVIEWING YOU ARE JUST A BAD DOG AS JINTAO
-      const depositAmounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish] = ['0', '0', '0', '0'];
-
-      // const [calculatedMint, expectedAmount] = await Promise.all([
-      // 	ibbtcVaultPeak.calcMint(depositAmounts, false),
-      // 	ibbtcVaultPeak.expectedAmount(depositAmounts),
-      // ]);
-
-      // return [calculatedMint, expectedAmount];
-      return [];
+      const { provider } = sdk;
+      const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, provider);
+      const tokenBalances = balances.map((balance) => balance.tokenBalance);
+      const [calculatedMint, expectedAmount] = await Promise.all([
+        ibbtcVaultPeak.calcMint([tokenBalances[0], tokenBalances[1], tokenBalances[2], tokenBalances[3]], false),
+        ibbtcVaultPeak.expectedAmount([tokenBalances[0], tokenBalances[1], tokenBalances[2], tokenBalances[3]]),
+      ]);
+      return [calculatedMint, expectedAmount];
     },
     [wallet],
   );
@@ -181,13 +180,20 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
   };
 
   const handleSlippageChange = async (newSlippage: number) => {
-    if (!userLpTokenBalance) {
+    const totalDeposit = multiTokenDepositBalances.reduce(
+      (total, balance) => total.add(balance.tokenBalance),
+      ethers.constants.Zero,
+    );
+
+    if (!userLpTokenBalance || totalDeposit.isZero()) {
+      setSlippage(newSlippage);
       return;
     }
 
     const [calculatedMint, expectedAmount] = await getCalculations(multiTokenDepositBalances);
-    const minOut = expectedAmount.mul(1 - newSlippage / 100);
-    const calculatedSlippage = expectedAmount.sub(calculatedMint).mul(100).div(expectedAmount);
+    const calculatedMinOut = +formatEther(expectedAmount) * (1 - slippage / 100);
+    const minOut = parseEther(calculatedMinOut.toString());
+    const calculatedSlippage = expectedAmount.sub(calculatedMint).mul(utils.parseEther('100')).div(expectedAmount);
 
     setSlippage(newSlippage);
     setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
@@ -212,8 +218,9 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
 
     const [calculatedMint, expectedAmount] = await getCalculations(balances);
     // formula: slippage = [(expectedAmount - calculatedMint) * 100] / expectedAmount
-    const calculatedSlippage = expectedAmount.sub(calculatedMint).mul(100).div(expectedAmount);
-    const minOut = expectedAmount.mul(1 - slippage / 100);
+    const calculatedSlippage = expectedAmount.sub(calculatedMint).mul(utils.parseEther('100')).div(expectedAmount);
+    const calculatedMinOut = +formatEther(expectedAmount) * (1 - slippage / 100);
+    const minOut = parseEther(calculatedMinOut.toString());
 
     if (userLpTokenBalance) {
       setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
@@ -231,13 +238,62 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
       return;
     }
 
-    await sdk.vaults.deposit({
+    if (lpTokenDepositBalance.tokenBalance.gt(userLpTokenBalance.tokenBalance)) {
+      toast.error('You do not have enough LP tokens to deposit this amount');
+      return;
+    }
+
+    const depositAmount = `${lpTokenDepositBalance.balanceDisplay(2)} ${lpTokenDepositBalance.token.symbol}`;
+    let toastId: Id = 'deposit-lp-token-toast';
+
+    const result = await sdk.vaults.deposit({
       vault: lpVault.vaultToken,
       amount: lpTokenDepositBalance.tokenBalance,
+      onApprovePrompt: () => {
+        toastId = showWalletPromptToast('Confirm approval of tokens for deposit');
+      },
+      onApproveSigned: () => updateWalletPromptToast(toastId, 'Submitted approval of tokens for deposit'),
+      onApproveSuccess: () => {
+        toast.info(`Completed approval of tokens for deposit of ${depositAmount}`);
+      },
+      onTransferPrompt: () => {
+        toastId = showWalletPromptToast(`Confirm deposit of ${lpTokenDepositBalance.token.symbol}`);
+      },
+      onTransferSigned: ({ transaction }) => {
+        if (transaction) {
+          transactions.addSignedTransaction({
+            hash: transaction.hash,
+            addedTime: Date.now(),
+            name: 'Deposit',
+            description: depositAmount,
+          });
+          showTransferSignedToast(
+            toastId,
+            <TxCompletedToast title={`Submitted deposit of ${depositAmount}`} hash={transaction.hash} />,
+          );
+        }
+      },
+      onTransferSuccess: ({ receipt }) => {
+        if (receipt) {
+          transactions.updateCompletedTransaction(receipt);
+          toast(<TxCompletedToast title={`Deposit ${depositAmount}`} hash={receipt.transactionHash} />, {
+            type: receipt.status === 0 ? 'error' : 'success',
+            autoClose: TX_COMPLETED_TOAST_DURATION,
+          });
+        }
+      },
+      onError: (err) => toast.error(`Failed vault deposit, error: ${err}`),
+      onRejection: () => showTransferRejectedToast(toastId, 'Deposit transaction canceled by user'),
     });
+
+    if (result === TransactionStatus.Success) {
+      await user.reloadBalances();
+    }
   };
 
   const handleMultiTokenDeposit = async () => {
+    if (!sdk.signer) return;
+
     const invalidBalance = multiTokenDepositBalances.find((depositBalance, index) => {
       const depositOption = depositOptions[index];
       return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
@@ -248,37 +304,89 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
       return;
     }
 
-    // const allowanceApprovals = [];
+    const nonZeroBalances = multiTokenDepositBalances.filter((depositBalance) => !depositBalance.tokenBalance.isZero());
+    let canContinue = true;
+    let approvalId: Id = 'deposit';
 
-    // // TODO DOGGY PLEASE DO NOT LEAVE THIS COMMENTED
-    // for (const depositBalance of multiTokenDepositBalances) {
-    // 	const allowance = await contracts.getAllowance(depositBalance.token, mainnetDeploy.ibbtcVaultZap);
+    await Promise.all(
+      nonZeroBalances.map((depositBalance) =>
+        sdk.tokens.verifyOrIncreaseAllowance({
+          spender: mainnetDeploy.ibbtcVaultZap,
+          token: depositBalance.token.address,
+          amount: depositBalance.tokenBalance,
+          onApprovePrompt: () => {
+            approvalId = showWalletPromptToast(`Approve ${depositBalance.token.symbol} deposit`);
+          },
+          onApproveSigned: () =>
+            updateWalletPromptToast(approvalId, `Submitted approval of ${depositBalance.token.symbol}`),
+          onRejection: () => {
+            canContinue = false;
+            showTransferRejectedToast(approvalId, 'Approval rejected by user');
+          },
+          onError: (err) => {
+            canContinue = false;
+            toast.update(approvalId, {
+              type: 'error',
+              render: `Approval of balance failed: ${err}`,
+              autoClose: undefined,
+            });
+          },
+        }),
+      ),
+    );
 
-    // 	if (allowance.tokenBalance.lt(depositBalance.tokenBalance)) {
-    // 		allowanceApprovals.push(contracts.increaseAllowance(depositBalance.token, mainnetDeploy.ibbtcVaultZap));
-    // 	}
-    // }
+    // we don't want to continue if any of the approvals failed
+    if (!canContinue) {
+      return;
+    }
 
-    // await Promise.all(allowanceApprovals);
+    const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, sdk.signer);
+    const tokenBalances = multiTokenDepositBalances.map((balance) => balance.tokenBalance);
+    const tokensUsed = multiTokenDepositBalances.filter((balance) => !balance.tokenBalance.isZero());
 
-    // const ibbtcVaultPeak = IbbtcVaultZap__factory.connect(mainnetDeploy.ibbtcVaultZap, web3Instance);
+    const expectedAmount = await ibbtcVaultPeak.expectedAmount([
+      tokenBalances[0],
+      tokenBalances[1],
+      tokenBalances[2],
+      tokenBalances[3],
+    ]);
 
-    // const depositAmounts = multiTokenDepositBalances.map((balance) => balance.tokenBalance);
-    // // const depositAmounts: [BigNumberish, BigNumberish, BigNumberish, BigNumberish] = ['0', '0', '0', '0'];
-    // const expectedAmount = await ibbtcVaultPeak.expectedAmount(depositAmounts);
-    // const minOut = expectedAmount.mul(1 - slippage / 100);
-    // const deposit = ibbtcVaultPeak.deposit(depositAmounts, minOut, false);
-    // const options = await contracts.getMethodSendOptions(deposit);
+    const calculatedMinOut = +formatEther(expectedAmount) * (1 - slippage / 100);
+    const minOut = parseEther(calculatedMinOut.toString());
+    const depositToastId = showWalletPromptToast('Approve deposit');
 
-    // uiState.queueNotification('Sign transaction to execute deposit', 'info');
-
-    // await sendContractMethod(
-    // 	store,
-    // 	deposit,
-    // 	options,
-    // 	'Deposit transaction submitted',
-    // 	'Deposit processed successfully',
-    // );
+    try {
+      const depositTx = await ibbtcVaultPeak.deposit(
+        [tokenBalances[0], tokenBalances[1], tokenBalances[2], tokenBalances[3]],
+        minOut,
+        false,
+      );
+      transactions.addSignedTransaction({
+        hash: depositTx.hash,
+        addedTime: Date.now(),
+        name: 'Deposit',
+        description: tokensUsed
+          .map((tokenBalance) => `${tokenBalance.balanceDisplay(2)} ${tokenBalance.token.symbol}`)
+          .join(', '),
+      });
+      showTransferSignedToast(depositToastId, <TxCompletedToast title="Submitted deposit" hash={depositTx.hash} />);
+      const receipt = await depositTx.wait();
+      transactions.updateCompletedTransaction(receipt);
+      toast(<TxCompletedToast title={`Deposit ${lpVault.name}`} hash={receipt.transactionHash} />, {
+        type: receipt.status === 0 ? 'error' : 'success',
+        autoClose: TX_COMPLETED_TOAST_DURATION,
+      });
+    } catch (err) {
+      if (err.code === METAMASK_REJECTED__SIGNATURE_ERROR_CODE) {
+        showTransferRejectedToast(depositToastId, 'Deposit rejected by user');
+      } else {
+        toast.update(depositToastId, {
+          type: 'error',
+          render: `Deposit failed: ${err}`,
+          autoClose: undefined,
+        });
+      }
+    }
   };
 
   useEffect(() => {
@@ -305,7 +413,7 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
   }, [user, vaults, vaults.vaultOrder]);
 
   return (
-    <Dialog open={open} fullWidth maxWidth="xl" classes={{ paperWidthXl: classes.root }}>
+    <Dialog open={open} fullWidth maxWidth="xl" onClose={handleClosing} classes={{ paperWidthXl: classes.root }}>
       <DialogTitle className={classes.title}>
         Deposit Tokens
         <IconButton className={classes.closeButton} onClick={handleClosing}>
@@ -376,7 +484,7 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
                           <FormControlLabel
                             key={`${slippageOption}_${index}`}
                             control={<Radio color="primary" />}
-                            label={`${slippageOption}%`}
+                            label={`${slippageOption} % `}
                             value={slippageOption}
                           />
                         ))}
@@ -395,25 +503,27 @@ const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element
                 )}
               </Grid>
             </Grid>
-            <Grid item container direction="column" className={clsx(classes.inputRow, classes.estimations)}>
-              {expectedPoolTokens && (
-                <Grid item container justifyContent="space-between">
-                  <Typography variant="body2">Expected Pool Tokens Received:</Typography>
-                  <Typography variant="body2">{expectedPoolTokens.balanceDisplay(4)}</Typography>
-                </Grid>
-              )}
-              {minPoolTokens && (
-                <Grid item container justifyContent="space-between">
-                  <Typography variant="body2">Min Pool tokens Received:</Typography>
-                  <Typography variant="body2">{minPoolTokens.balanceDisplay(4)}</Typography>
-                </Grid>
-              )}
-              {expectedSlippage && (
-                <Grid item>
-                  <SlippageMessage limitSlippage={slippage} calculatedSlippage={expectedSlippage} />
-                </Grid>
-              )}
-            </Grid>
+            {mode === DepositMode.Tokens && (
+              <Grid item container direction="column" className={clsx(classes.inputRow, classes.estimations)}>
+                {expectedPoolTokens && (
+                  <Grid item container justifyContent="space-between">
+                    <Typography variant="body2">Expected Pool Tokens Received:</Typography>
+                    <Typography variant="body2">{expectedPoolTokens.balanceDisplay(4)}</Typography>
+                  </Grid>
+                )}
+                {minPoolTokens && (
+                  <Grid item container justifyContent="space-between">
+                    <Typography variant="body2">Min Pool tokens Received:</Typography>
+                    <Typography variant="body2">{minPoolTokens.balanceDisplay(4)}</Typography>
+                  </Grid>
+                )}
+                {expectedSlippage && (
+                  <Grid item>
+                    <SlippageMessage limitSlippage={slippage} calculatedSlippage={expectedSlippage} />
+                  </Grid>
+                )}
+              </Grid>
+            )}
             {slippageRevertProtected && (
               <Grid item container direction="row" alignItems="center" className={classes.slippageProtectionContainer}>
                 <Typography variant="subtitle2" className={classes.slippageProtectionMessage}>

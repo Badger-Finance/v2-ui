@@ -52,6 +52,7 @@ export const ZERO = ethers.constants.Zero;
 export const TEN = BigNumber.from(10);
 export const MAX_FEE = 1e4;
 export const MAX = ethers.constants.MaxUint256;
+export const METAMASK_REJECTED__SIGNATURE_ERROR_CODE = 4001;
 
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 
