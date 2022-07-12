@@ -50,13 +50,18 @@ export class TokenBalance {
    * @returns string representation of balance
    */
   balanceDisplay(precision?: number): string {
-    const decimals = precision || this.token.decimals;
+    const decimals = precision ?? this.token.decimals;
     if (this.balance > 0 && this.balance < this.minBalance(decimals)) {
       return `< 0.${'0'.repeat(decimals - 1)}1`;
     }
 
     const result = ethers.utils.formatUnits(this.tokenBalance, this.token.decimals);
-    return Number(result).toFixed(precision);
+
+    if (decimals === this.token.decimals) {
+      return result;
+    }
+
+    return Number(result).toFixed(decimals);
   }
 
   balanceValueDisplay(precision?: number): string {

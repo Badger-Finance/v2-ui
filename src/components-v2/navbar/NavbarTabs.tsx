@@ -34,7 +34,7 @@ export const NavbarTabs = observer((): JSX.Element => {
   const {
     router,
     vaults,
-    network: { network },
+    chain: { network },
   } = useContext(StoreContext);
   const [selectedTab, setSelectedTab] = useState(routeTabMapping.get(getRootPath(router.currentPath)) ?? 0);
   const classes = useStyles();

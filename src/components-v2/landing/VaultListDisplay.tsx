@@ -24,7 +24,7 @@ const VaultListDisplay = observer(() => {
   const store = useContext(StoreContext);
   const {
     vaults,
-    network: { network },
+    chain: { network },
     user,
   } = store;
 

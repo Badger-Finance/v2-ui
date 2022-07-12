@@ -35,7 +35,7 @@ interface Props {
 
 export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
   const store = React.useContext(StoreContext);
-  const { network: networkStore, vaultDetail, user } = store;
+  const { chain: networkStore, vaultDetail, user } = store;
   const { network } = networkStore;
   const classes = useStyles();
 

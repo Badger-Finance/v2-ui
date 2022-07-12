@@ -110,7 +110,7 @@ export class TreeStore {
   }
 
   async reportInvalidCycle() {
-    const { config } = this.store.network;
+    const { config } = this.store.chain;
     const webhookUrl = process.env.REACT_APP_FRONTEND_ALERTS_DISCORD_WEBHOOK_URL;
 
     if (!webhookUrl) {

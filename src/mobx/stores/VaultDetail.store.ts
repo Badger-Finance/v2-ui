@@ -24,7 +24,7 @@ export class VaultDetailStore {
       shouldShowWithdrawDialog: this.shouldShowWithdrawDialog,
     });
 
-    observe(store.network, 'network', () => {
+    observe(store.chain, 'network', () => {
       this.searchSlugInformation();
     });
 

@@ -81,7 +81,7 @@ export default class VaultStore {
   }
 
   get vaultMap(): VaultMap {
-    const { network } = this.store.network;
+    const { network } = this.store.chain;
     const vaults = this.vaultCache[network];
     if (!vaults) {
       return {};
@@ -90,11 +90,11 @@ export default class VaultStore {
   }
 
   get protocolSummary(): ProtocolSummary | undefined | null {
-    return this.protocolSummaryCache[this.store.network.network];
+    return this.protocolSummaryCache[this.store.chain.network];
   }
 
   get tokenConfig(): TokenConfigRecord {
-    return this.tokenCache[this.store.network.network] ?? {};
+    return this.tokenCache[this.store.chain.network] ?? {};
   }
 
   get vaultsProtocols(): Protocol[] {
@@ -132,7 +132,7 @@ export default class VaultStore {
   }
 
   getSlug(address: string): string {
-    const { network: currentNetwork } = this.store.network;
+    const { network: currentNetwork } = this.store.chain;
 
     return this.slugCache[currentNetwork][address];
   }
@@ -146,7 +146,7 @@ export default class VaultStore {
   }
 
   getVaultBySlug(slug: string): VaultDTO | undefined | null {
-    const { network: currentNetwork } = this.store.network;
+    const { network: currentNetwork } = this.store.chain;
 
     if (!this.vaultMap) {
       return undefined;
@@ -173,7 +173,7 @@ export default class VaultStore {
   }
 
   getTokenConfigs(): TokenConfiguration {
-    const { network } = this.store.network;
+    const { network } = this.store.chain;
     const tokenConfig = this.tokenCache[network];
     if (!tokenConfig) {
       return {};
@@ -182,7 +182,7 @@ export default class VaultStore {
   }
 
   getToken(address: string): Token {
-    const { network } = this.store.network;
+    const { network } = this.store.chain;
     const tokens = this.tokenCache[network];
     const tokenAddress = ethers.utils.getAddress(address);
     if (!tokens || !tokens[tokenAddress]) {
@@ -197,7 +197,7 @@ export default class VaultStore {
   }
 
   async refresh(): Promise<void> {
-    const { network } = this.store.network;
+    const { network } = this.store.chain;
     if (network) {
       this.initialized = false;
       await Promise.all([this.loadVaults(network), this.loadTokens(network), this.loadAssets(network)]);
@@ -213,7 +213,7 @@ export default class VaultStore {
     } catch (error) {
       console.error({
         error,
-        message: `Error loading vaults for ${this.store.network.network}`,
+        message: `Error loading vaults for ${this.store.chain.network}`,
       });
     }
   });
@@ -360,9 +360,9 @@ export default class VaultStore {
   }
 
   private applySorting(vaults: VaultDTO[]): VaultDTO[] {
-    const { user, network } = this.store;
-    const chain = Chain.getChain(network.network);
-    const featuredVaultRank = Object.fromEntries(chain.vaultOrder().map((v, i) => [v, i + 1]));
+    const { user, chain } = this.store;
+    const chainDefinition = Chain.getChain(chain.network);
+    const featuredVaultRank = Object.fromEntries(chainDefinition.vaultOrder().map((v, i) => [v, i + 1]));
 
     switch (this.vaultsFilters.sortOrder) {
       case VaultSortOrder.NAME_ASC:

@@ -39,29 +39,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  network: Chain;
+  chain: Chain;
   onSelect: () => void;
 }
 
-const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
-  const { network: networkStore, gasPrices } = useContext(StoreContext);
+const NetworkOption = ({ chain: selectedChain, onSelect }: Props): JSX.Element => {
+  const { chain, gasPrices } = useContext(StoreContext);
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   const ref = useRef<HTMLImageElement | null>(null);
   const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-  const gasOptions = gasPrices.getGasPrices(network.symbol);
+  const gasOptions = gasPrices.getGasPrices(chain.network);
 
   const toggleOpen = () => {
     setOpen(!open);
   };
 
   const handleNetworkSelection = async () => {
-    const shouldTriggerNetworkChange = Chain.getChain(networkStore.network).symbol !== network.symbol;
+    const shouldTriggerNetworkChange = selectedChain.network !== chain.network;
 
     if (shouldTriggerNetworkChange) {
-      const networkConfig = getNetworkConfig(network.symbol);
+      const networkConfig = getNetworkConfig(selectedChain.network);
       try {
-        await networkStore.setNetwork(networkConfig.chainId);
+        await chain.setNetwork(networkConfig.chainId);
       } catch (e) {
         console.error(e);
       }
@@ -71,7 +71,7 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
   };
 
   const handleGasSelection = async (gas: number | GasFees) => {
-    networkStore.setGasPrice(gas);
+    chain.setGasPrice(gas);
     await handleNetworkSelection();
   };
 
@@ -91,11 +91,11 @@ const NetworkOption = ({ network, onSelect }: Props): JSX.Element => {
           <MenuItemIcon>
             <img
               className={classes.networkListIcon}
-              src={getNetworkIconPath(network.symbol)}
-              alt={`${network.name} icon`}
+              src={getNetworkIconPath(selectedChain.network)}
+              alt={`${selectedChain.name} icon`}
             />
           </MenuItemIcon>
-          <MenuItemText>{network.name}</MenuItemText>
+          <MenuItemText>{selectedChain.name}</MenuItemText>
         </Grid>
         {gasOptions && (
           <Grid item xs="auto">

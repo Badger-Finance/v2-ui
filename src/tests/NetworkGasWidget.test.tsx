@@ -49,7 +49,7 @@ describe('NetworkGasWidget', () => {
 
   it('can select a network', () => {
     const mockSelectNetwork = jest.fn();
-    store.network.setNetwork = action(mockSelectNetwork);
+    store.chain.setNetwork = action(mockSelectNetwork);
 
     customRender(
       <StoreProvider value={store}>
@@ -65,7 +65,7 @@ describe('NetworkGasWidget', () => {
   describe('in desktop mode', () => {
     it('can select gas options', () => {
       const mockSetGasPrice = jest.fn();
-      store.network.setGasPrice = action(mockSetGasPrice);
+      store.chain.setGasPrice = action(mockSetGasPrice);
 
       customRender(
         <StoreProvider value={store}>
@@ -83,7 +83,7 @@ describe('NetworkGasWidget', () => {
   describe('in mobile mode', () => {
     it('can select gas options', () => {
       const mockSetGasPrice = jest.fn();
-      store.network.setGasPrice = action(mockSetGasPrice);
+      store.chain.setGasPrice = action(mockSetGasPrice);
       window.matchMedia = createMatchMedia(480);
 
       customRender(

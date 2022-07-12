@@ -25,13 +25,13 @@ class LockedDepositsStore {
 
   getLockedDepositBalances(address: string): TokenBalance | undefined {
     return this.networksLockedDeposits
-      .get(Chain.getChain(this.store.network.network).id)
+      .get(Chain.getChain(this.store.chain.network).id)
       ?.get(ethers.utils.getAddress(address));
   }
 
   async loadLockedBalances(): Promise<void> {
     const {
-      network: { config },
+      chain: { config },
       sdk: { provider },
     } = this.store;
 

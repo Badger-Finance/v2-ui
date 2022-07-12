@@ -34,7 +34,7 @@ interface Props {
 
 const WalletTransaction = ({ transaction }: Props): JSX.Element => {
   const {
-    network: { config },
+    chain: { config },
   } = useContext(StoreContext);
   const classes = useStyles();
   const explorer = config.explorerUrl;

@@ -52,7 +52,7 @@ export const App = (): JSX.Element => {
   // network data updating
   useEffect(() => {
     const networkInterval = setInterval(async () => {
-      await store.network.updateGasPrices();
+      await store.chain.updateGasPrices();
     }, ONE_MIN_MS / 2);
     return () => clearInterval(networkInterval);
   });
