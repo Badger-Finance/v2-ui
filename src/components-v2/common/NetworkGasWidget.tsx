@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 const NetworkGasWidget = (): JSX.Element => {
   const classes = useStyles();
   const {
-    network: networkStore,
+    chain: networkStore,
     uiState: { areNetworkOptionsOpen, openNetworkOptions, closeNetworkOptions },
   } = useContext(StoreContext);
   const ref = useRef<HTMLButtonElement | null>(null);

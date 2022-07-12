@@ -15,7 +15,7 @@ import { checkSnapshot } from './utils/snapshots';
 describe('Landing', () => {
   beforeEach(() => {
     store.prices.getPrice = jest.fn().mockReturnValue(1500);
-    Chain.getChain(store.network.network).deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
+    Chain.getChain(store.chain.network).deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
     jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
     jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
     store.user.accountDetails = {

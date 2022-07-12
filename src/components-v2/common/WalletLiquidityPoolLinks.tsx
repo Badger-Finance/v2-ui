@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const WalletLiquidityPoolLinks = (): JSX.Element | null => {
   const {
-    network: { network: currentNetwork },
+    chain: { network: currentNetwork },
   } = useContext(StoreContext);
   const classes = useStyles();
 

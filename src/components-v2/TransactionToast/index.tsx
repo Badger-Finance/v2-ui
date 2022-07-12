@@ -28,7 +28,7 @@ interface Props {
 
 const TransactionToast = ({ hash, title }: Props): JSX.Element => {
   const {
-    network: { config },
+    chain: { config },
   } = useContext(StoreContext);
   const classes = useStyles();
 

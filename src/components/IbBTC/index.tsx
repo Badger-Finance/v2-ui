@@ -62,7 +62,7 @@ export const IbBTC = observer(() => {
   const [activeTab, setActiveTab] = useState<TABS>('Mint');
 
   const store = useContext(StoreContext);
-  const { network } = store.network;
+  const { network } = store.chain;
 
   const content = (
     <Container className={classes.content} maxWidth="lg">

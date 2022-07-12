@@ -1,4 +1,4 @@
-import { BadgerAPI, BadgerSDK, getNetworkConfig, Network, SDKProvider } from '@badger-dao/sdk';
+import { BadgerAPI, BadgerSDK, getNetworkConfig, LogLevel, Network, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import routes from 'config/routes';
 import { action, makeObservable, observable } from 'mobx';
@@ -9,7 +9,6 @@ import rpc from '../../config/rpc.config';
 import GasPricesStore from './GasPricesStore';
 import { GovernancePortalStore } from './GovernancePortalStore';
 import IbBTCStore from './ibBTCStore';
-import LockedCvxDelegationStore from './lockedCvxDelegationStore';
 import LockedDepositsStore from './LockedDepositsStore';
 import { NetworkStore } from './NetworkStore';
 import PricesStore from './PricesStore';
@@ -32,7 +31,7 @@ export class RootStore {
   public router: RouterStore<RootStore>;
 
   // Stores
-  public network: NetworkStore;
+  public chain: NetworkStore;
   public uiState: UiStateStore;
   public rebase: RebaseStore;
   public wallet: WalletStore;
@@ -42,7 +41,6 @@ export class RootStore {
   public prices: PricesStore;
   public vaultDetail: VaultDetailStore;
   public vaultCharts: VaultChartsStore;
-  public lockedCvxDelegation: LockedCvxDelegationStore;
   public gasPrices: GasPricesStore;
   public governancePortal: GovernancePortalStore;
   public lockedDeposits: LockedDepositsStore;
@@ -56,6 +54,7 @@ export class RootStore {
       network: defaultNetwork,
       provider: rpc[defaultNetwork],
       baseURL: BADGER_API,
+      logLevel: LogLevel.Debug,
     });
     this.api = new BadgerAPI({
       network: defaultNetwork,
@@ -63,7 +62,7 @@ export class RootStore {
     });
     const config = getNetworkConfig(defaultNetwork);
     this.router = new RouterStore<RootStore>(this);
-    this.network = new NetworkStore(this);
+    this.chain = new NetworkStore(this);
     this.wallet = new WalletStore(this, config);
     this.prices = new PricesStore(this);
     this.rebase = new RebaseStore(this);
@@ -72,7 +71,6 @@ export class RootStore {
     this.user = new UserStore(this);
     this.vaultDetail = new VaultDetailStore(this);
     this.vaultCharts = new VaultChartsStore(this);
-    this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
     this.gasPrices = new GasPricesStore(this);
     this.ibBTCStore = new IbBTCStore(this);
     this.governancePortal = new GovernancePortalStore(this);
@@ -93,8 +91,8 @@ export class RootStore {
     const config = getNetworkConfig(network);
 
     // push network state to app
-    if (this.network.network !== config.network) {
-      this.network.network = config.network;
+    if (this.chain.network !== config.network) {
+      this.chain.network = config.network;
     }
 
     this.api = new BadgerAPI({
@@ -104,19 +102,20 @@ export class RootStore {
 
     this.tree.reset();
 
-    const refreshData = [this.network.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
+    const refreshData = [this.chain.updateGasPrices(), this.vaults.refresh(), this.prices.loadPrices()];
 
     await Promise.all(refreshData);
   }
 
   async updateProvider(provider: SDKProvider): Promise<void> {
     this.tree.reset();
-    const { network } = this.network;
+    const { network } = this.chain;
 
     this.sdk = new BadgerSDK({
       network: network,
       provider,
       baseURL: BADGER_API,
+      logLevel: LogLevel.Debug,
     });
     await this.sdk.ready();
 

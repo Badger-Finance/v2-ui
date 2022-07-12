@@ -31,7 +31,7 @@ interface Props {
 }
 
 const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
-  const { network: networkStore } = React.useContext(StoreContext);
+  const { chain: networkStore } = React.useContext(StoreContext);
   const { network, config } = networkStore;
   const classes = useStyles();
 

@@ -33,8 +33,8 @@ const NetworkOptions = ({ onSelect }: Props): JSX.Element => {
       className={classes.root}
       subheader={<MenuSubheader>NETWORK</MenuSubheader>}
     >
-      {supportedNetworks.map((network) => (
-        <NetworkOption key={network.symbol} network={network} onSelect={onSelect} />
+      {supportedNetworks.map((chain) => (
+        <NetworkOption key={chain.network} chain={chain} onSelect={onSelect} />
       ))}
     </Menu>
   );

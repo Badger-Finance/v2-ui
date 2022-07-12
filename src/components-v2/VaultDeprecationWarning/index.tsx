@@ -34,7 +34,7 @@ const VaultDeprecationWarning = ({ vault }: Props): JSX.Element => {
   const {
     vaults,
     router,
-    network: { network },
+    chain: { network },
   } = useContext(StoreContext);
   const classes = useStyles();
   const migratingVaultAddress = DEPRECATED_VAULTS_MIGRATIONS_MAPPING.get(network)?.get(vault.vaultToken);

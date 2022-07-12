@@ -23,6 +23,7 @@ import { PercentageSelector } from '../PercentageSelector';
 import { VaultFees } from '../VaultFees';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } from './styled';
 import VaultAdvisory from './VaultAdvisory';
+import { VaultAvailableDeposit } from './VaultAvailableDeposit';
 import { VaultDialogTitle } from './VaultDialogTitle';
 
 const useStyles = makeStyles((theme) => ({
@@ -68,22 +69,16 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory }: 
   const isLoading = false;
   const userBalance = user.getBalance(vault.underlyingToken);
   const deposit = TokenBalance.fromString(userBalance, amount);
-  // const vaultCaps = user.vaultCaps[vault.vaultToken];
+  const vaultCaps = user.vaultCaps[vault.vaultToken];
 
-  const canDeposit = wallet.isConnected && !!amount && deposit.tokenBalance.gt(0);
+  let canDeposit = wallet.isConnected && !!amount && deposit.tokenBalance.gt(0);
 
-  // if (canDeposit && vaultCaps) {
-  //   const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(
-  //     depositBalance.tokenBalance,
-  //   );
-  //   const userHasSpace = vaultCaps.userCap.tokenBalance.gte(
-  //     depositBalance.tokenBalance,
-  //   );
-  //   const userHasBalance = userBalance.tokenBalance.gte(
-  //     depositBalance.tokenBalance,
-  //   );
-  //   canDeposit = vaultHasSpace && userHasSpace && userHasBalance;
-  // }
+  if (canDeposit && vaultCaps) {
+    const vaultHasSpace = vaultCaps.totalDepositCap.gte(deposit.tokenBalance);
+    const userHasSpace = vaultCaps.userDepositCap.gte(deposit.tokenBalance);
+    const userHasBalance = userBalance.tokenBalance.gte(deposit.tokenBalance);
+    canDeposit = vaultHasSpace && userHasSpace && userHasBalance;
+  }
 
   const handlePercentageChange = (percent: number) => {
     setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -217,11 +212,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory }: 
           )}
         </ActionButton>
       </DialogContent>
-      {/* {user.vaultCaps[vault.vaultToken] && (
-          <VaultAvailableDeposit
-            vaultCapInfo={user.vaultCaps[vault.vaultToken]}
-          />
-        )} */}
+      {vaultCaps && <VaultAvailableDeposit asset={vault.asset} vaultCaps={vaultCaps} />}
     </Dialog>
   );
 });

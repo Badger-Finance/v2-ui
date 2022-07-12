@@ -1,5 +1,5 @@
+import { formatBalance, VaultCaps } from '@badger-dao/sdk';
 import { makeStyles, Typography } from '@material-ui/core';
-import { VaultCap } from 'mobx/model/vaults/vault-cap';
 import React from 'react';
 
 import { MAX } from '../../../config/constants';
@@ -28,20 +28,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface DepositLimitProps {
-  vaultCapInfo: VaultCap;
+  asset: string;
+  vaultCaps: VaultCaps;
 }
 
 export const VaultAvailableDeposit = (props: DepositLimitProps): JSX.Element | null => {
   const displayDecimals = 4;
   const classes = useStyles();
-  const { vaultCapInfo } = props;
-  if (!vaultCapInfo) {
+  const { vaultCaps, asset } = props;
+  if (!vaultCaps) {
     return null;
   }
-  const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } = vaultCapInfo;
-  const displayUserCap = vaultCap.tokenBalance.lte(userCap.tokenBalance) ? vaultCap : userCap;
-  const isMaxUserCap = totalUserCap.tokenBalance.eq(MAX);
-  const isMaxTotalCap = vaultCap.tokenBalance.eq(MAX);
+  const { totalDepositCap, userDepositCap, remainingDepositCap, remainingUserDepositCap } = vaultCaps;
+  const displayUserCap = remainingDepositCap.lte(userDepositCap) ? remainingUserDepositCap : userDepositCap;
+  const isMaxUserCap = userDepositCap.eq(MAX);
+  const isMaxTotalCap = remainingDepositCap.eq(MAX);
 
   if (isMaxTotalCap && isMaxUserCap) {
     return null;
@@ -55,9 +56,7 @@ export const VaultAvailableDeposit = (props: DepositLimitProps): JSX.Element | n
             User Deposit Limit Remaining:{' '}
           </Typography>
           <Typography align="center" variant="body2" color="textSecondary" component="div">
-            {`${displayUserCap.balanceDisplay(displayDecimals)} / ${totalUserCap.balanceDisplay(
-              displayDecimals,
-            )} ${asset}`}
+            {`${formatBalance(displayUserCap).toFixed(5)} / ${formatBalance(userDepositCap).toFixed(5)} ${asset}`}
           </Typography>
         </div>
       )}
@@ -67,7 +66,7 @@ export const VaultAvailableDeposit = (props: DepositLimitProps): JSX.Element | n
             Total Deposit Limit Remaining:{' '}
           </Typography>
           <Typography align="center" variant="body2" color="textSecondary" component="div">
-            {`${vaultCap.balanceDisplay(displayDecimals)} / ${totalVaultCap.balanceDisplay(displayDecimals)} ${asset}`}
+            {`${formatBalance(remainingDepositCap).toFixed(5)} / ${formatBalance(totalDepositCap).toFixed(5)} ${asset}`}
           </Typography>
         </div>
       )}

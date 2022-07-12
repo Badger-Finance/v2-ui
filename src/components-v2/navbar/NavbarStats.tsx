@@ -57,7 +57,7 @@ export const NavbarStats = observer((): JSX.Element => {
   const {
     prices,
     user: { portfolioValue },
-    network: { network },
+    chain: { network },
     tree,
     vaults: { protocolSummary },
   } = useContext(StoreContext);
