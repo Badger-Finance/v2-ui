@@ -21,7 +21,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 import { BigNumber, ethers, utils } from 'ethers';
 import { formatEther, parseEther } from 'ethers/lib/utils';
-import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -113,14 +112,13 @@ enum DepositMode {
 const IbbtcVaultDepositDialog = ({ open = false }: VaultModalProps): JSX.Element => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { network, wallet, vaults, vaultDetail, user, sdk, transactions } = store;
+  const { wallet, vaults, vaultDetail, user, sdk, transactions } = store;
 
   // lp token getters
   const lpVault = vaults.getVault(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
   const lpBadgerVault = vaults.vaultOrder.find(({ vaultToken }) => vaultToken === lpVault?.vaultToken);
-  const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.vaultToken) : undefined;
+  const userLpTokenBalance = lpBadgerVault ? user.getBalance(lpBadgerVault.underlyingToken) : undefined;
   const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
-  const settStrategy = lpBadgerVault ? Chain.getChain(network.network).strategies[lpBadgerVault.vaultToken] : undefined;
 
   // options
   const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
