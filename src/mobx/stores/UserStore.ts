@@ -120,7 +120,9 @@ export default class UserStore {
         .filter((v) => v.state === VaultState.Guarded || v.state === VaultState.Experimental);
       await Promise.all(
         targetVaults.map(async (v) => {
-          this.vaultCaps[v.vaultToken] = await this.store.sdk.vaults.getDepositCaps(v.vaultToken);
+          this.vaultCaps[v.vaultToken] = await this.store.sdk.vaults.getDepositCaps({
+            address: v.vaultToken,
+          });
         }),
       );
 
