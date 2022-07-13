@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTO, VaultVersion } from '@badger-dao/sdk';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
@@ -10,6 +10,7 @@ interface VaultInformation {
   boostContribution: number | null;
   depositBalance: TokenBalance;
   depositBalanceDisplay: string;
+  projectedVaultBoost: number | null;
 }
 
 export function useVaultInformation(vault: VaultDTO): VaultInformation {
@@ -17,9 +18,18 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
   const { showAPR } = vaults.vaultsFilters;
   const depositBalance = user.getBalance(vault.vaultToken);
   let vaultBoost = showAPR ? vault.apr : vault.apy;
+  let projectedVaultBoost =
+    vault.version === VaultVersion.v1_5
+      ? showAPR
+        ? vault.yieldProjection.harvestApr
+        : vault.yieldProjection.harvestApy
+      : null;
 
   if (user.accountDetails?.boost) {
     vaultBoost = getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
+    
+    // Calculate boosted projection
+    // projectedVaultBoost = 
   }
 
   const boostContribution =
@@ -34,5 +44,6 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
     boostContribution,
     depositBalance,
     depositBalanceDisplay,
+    projectedVaultBoost,
   };
 }

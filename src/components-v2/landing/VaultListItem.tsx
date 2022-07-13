@@ -71,7 +71,7 @@ interface VaultListItemProps {
 const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | null => {
   const classes = useStyles();
   const { vaults } = useContext(StoreContext);
-  const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
+  const { vaultBoost, depositBalanceDisplay, projectedVaultBoost } = useVaultInformation(vault);
   const isTablet = useMediaQuery(useTheme().breakpoints.only('md'));
 
   const goToVaultDetail = async () => {
@@ -96,13 +96,13 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
             <VaultLogo tokens={vault.tokens} />
           </Grid>
         )}
-        <Grid item xs lg={4}>
+        <Grid item xs container lg={4} alignItems="center">
           <Typography variant="subtitle1" className={classes.vaultName}>
             {vault.name}
           </Typography>
         </Grid>
         <Grid item xs container justifyContent="flex-end">
-          <VaultItemApr vault={vault} boost={vaultBoost} />
+          <VaultItemApr vault={vault} boost={vaultBoost} projectedBoost={projectedVaultBoost} />
         </Grid>
         <Grid item xs container justifyContent="flex-end">
           <CurrencyDisplay

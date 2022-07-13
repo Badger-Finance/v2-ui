@@ -17,15 +17,20 @@ const useStyles = makeStyles({
   apyInfo: {
     marginLeft: 5,
   },
+  projectedApr: {
+    fontSize: 12,
+    marginTop: 5,
+  },
 });
 
 interface Props {
   vault: VaultDTO;
   boost: number;
   isDisabled?: boolean;
+  projectedBoost: number | null;
 }
 
-const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
+const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
   const classes = useStyles();
   const [showApyInfo, setShowApyInfo] = useState(false);
 
@@ -47,12 +52,33 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
   }
 
   return (
-    <Box display="flex" alignItems="center" onClick={handleApyInfoClick} className={classes.root}>
-      <Typography variant="body1" color={'textPrimary'} display="inline">
-        {`${numberWithCommas(boost.toFixed(2))}%`}
-      </Typography>
-      <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
-      <VaultApyInformation open={showApyInfo} vault={vault} boost={boost} onClose={handleClose} />
+    <Box
+      display="flex"
+      alignItems="flex-start"
+      flexDirection="column"
+      onClick={handleApyInfoClick}
+      className={classes.root}
+    >
+      <Box display="flex">
+        <Typography variant="body1" color={'textPrimary'} display="inline">
+          {`${numberWithCommas(boost.toFixed(2))}%`}
+        </Typography>
+        <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
+      </Box>
+      {projectedBoost !== null && (
+        <Box display="flex">
+          <Typography className={classes.projectedApr}>
+            Proj. {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
+          </Typography>
+        </Box>
+      )}
+      <VaultApyInformation
+        open={showApyInfo}
+        vault={vault}
+        boost={boost}
+        projectedBoost={projectedBoost}
+        onClose={handleClose}
+      />
     </Box>
   );
 };
