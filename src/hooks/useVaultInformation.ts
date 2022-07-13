@@ -18,7 +18,7 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
   const { showAPR } = vaults.vaultsFilters;
   const depositBalance = user.getBalance(vault.vaultToken);
   let vaultBoost = showAPR ? vault.apr : vault.apy;
-  let projectedVaultBoost =
+  const projectedVaultBoost =
     vault.version === VaultVersion.v1_5
       ? showAPR
         ? vault.yieldProjection.harvestApr
@@ -27,9 +27,9 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
 
   if (user.accountDetails?.boost) {
     vaultBoost = getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
-    
+
     // Calculate boosted projection
-    // projectedVaultBoost = 
+    // projectedVaultBoost =
   }
 
   const boostContribution =
