@@ -3,7 +3,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
 
-import { getUserVaultBoost } from '../utils/componentHelpers';
+import { getProjectedVaultBoost, getUserVaultBoost } from '../utils/componentHelpers';
 
 interface VaultInformation {
   vaultBoost: number;
@@ -18,7 +18,7 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
   const { showAPR } = vaults.vaultsFilters;
   const depositBalance = user.getBalance(vault.vaultToken);
   let vaultBoost = showAPR ? vault.apr : vault.apy;
-  const projectedVaultBoost =
+  let projectedVaultBoost =
     vault.version === VaultVersion.v1_5
       ? showAPR
         ? vault.yieldProjection.harvestApr
@@ -29,7 +29,9 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
     vaultBoost = getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
 
     // Calculate boosted projection
-    // projectedVaultBoost =
+    if (projectedVaultBoost) {
+      projectedVaultBoost = projectedVaultBoost + getProjectedVaultBoost(vault, user.accountDetails.boost, showAPR);
+    }
   }
 
   const boostContribution =
