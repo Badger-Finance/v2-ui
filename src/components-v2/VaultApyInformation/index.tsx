@@ -106,8 +106,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
           <Grid item container justifyContent="space-between">
             <Grid item>
               <Typography variant="subtitle1" display="inline" color="textSecondary">
-                {/* {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'} */}
-                Badger Projected yield
+                Historic {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
               </Typography>
             </Grid>
             <Grid item>
@@ -128,7 +127,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
               <Grid item container justifyContent="space-between">
                 <Grid item>
                   <Typography variant="body2" display="inline" color="textSecondary">
-                    Spot yield
+                    Projected {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
                   </Typography>
                 </Grid>
                 <Grid item>
