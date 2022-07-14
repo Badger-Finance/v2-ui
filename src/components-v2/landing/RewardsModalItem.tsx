@@ -33,7 +33,7 @@ export const RewardsModalItem = observer((props: RewardsModalItemProps): JSX.Ele
       />
       <Box display="flex" flexDirection="column" alignItems="center">
         <Typography variant="h6" className={classes.boldWeight}>
-          {claimBalance.balanceDisplay()}
+          {claimBalance.balanceDisplay(6)}
         </Typography>
         <div className={classes.currencyContainer}>
           <CurrencyDisplay
