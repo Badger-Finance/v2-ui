@@ -12,7 +12,7 @@ describe('Vault Withdraw', () => {
   test('displays sett information', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultWithdraw open={true} vault={SAMPLE_VAULT} />
+        <VaultWithdraw open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
       </StoreProvider>,
     );
     expect(baseElement).toMatchSnapshot();

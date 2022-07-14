@@ -33,7 +33,6 @@ export interface DepositLimitProps {
 }
 
 export const VaultAvailableDeposit = (props: DepositLimitProps): JSX.Element | null => {
-  const displayDecimals = 4;
   const classes = useStyles();
   const { vaultCaps, asset } = props;
   if (!vaultCaps) {

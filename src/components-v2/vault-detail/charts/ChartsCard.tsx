@@ -42,6 +42,7 @@ const getYAxisAccessor = (mode: ChartMode) => {
       [ChartMode.Value]: data.value,
       [ChartMode.Ratio]: data.pricePerFullShare,
       [ChartMode.AccountBalance]: data.value,
+      [ChartMode.Balance]: data.balance,
     };
 
     return optionsFromMode[mode];

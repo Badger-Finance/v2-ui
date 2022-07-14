@@ -11,11 +11,25 @@ describe('Holdings', () => {
   });
 
   it('displays holdings with no balance', () => {
-    checkSnapshot(<Holdings vault={SAMPLE_VAULT} userData={SAMPLE_VAULT_BALANCE} />);
+    checkSnapshot(
+      <Holdings
+        vault={SAMPLE_VAULT}
+        userData={SAMPLE_VAULT_BALANCE}
+        onDepositClick={jest.fn()}
+        onWithdrawClick={jest.fn()}
+      />,
+    );
   });
 
   it('displays holdings with balance', () => {
     jest.spyOn(UserStore.prototype, 'getBalance').mockReturnValue(SAMPLE_TOKEN_BALANCE);
-    checkSnapshot(<Holdings vault={SAMPLE_VAULT} userData={SAMPLE_VAULT_BALANCE} />);
+    checkSnapshot(
+      <Holdings
+        vault={SAMPLE_VAULT}
+        userData={SAMPLE_VAULT_BALANCE}
+        onDepositClick={jest.fn()}
+        onWithdrawClick={jest.fn()}
+      />,
+    );
   });
 });

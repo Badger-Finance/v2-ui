@@ -51,10 +51,11 @@ const useStyles = makeStyles((theme) => ({
 export interface VaultModalProps {
   open?: boolean;
   vault: VaultDTO;
+  onClose: () => void;
   depositAdvisory?: AdvisoryType;
 }
 
-export const VaultDeposit = observer(({ open = false, vault, depositAdvisory }: VaultModalProps) => {
+export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, onClose }: VaultModalProps) => {
   const store = useContext(StoreContext);
   const { user, wallet, sdk, vaultDetail, transactions, vaults } = store;
 
@@ -166,7 +167,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory }: 
   }
 
   return (
-    <Dialog open={open} onClose={() => vaultDetail.toggleDepositDialog()} fullWidth maxWidth="xl">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
       <VaultDialogTitle vault={vault} mode="Deposit" />
       <DialogContent dividers className={classes.content}>
         {vault.state === VaultState.Guarded && (

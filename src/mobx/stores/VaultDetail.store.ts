@@ -1,7 +1,6 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { action, extendObservable, observe } from 'mobx';
 
-import { ETH_DEPLOY } from '../model/network/eth.network';
 import { RootStore } from './RootStore';
 
 export class VaultDetailStore {
@@ -33,10 +32,6 @@ export class VaultDetailStore {
     });
   }
 
-  get shouldShowDirectAccountInformation(): boolean {
-    return this.comesFromPortfolioView;
-  }
-
   get vault(): VaultDTO | undefined | null {
     return this.searchedVault;
   }
@@ -57,42 +52,12 @@ export class VaultDetailStore {
     return this.shouldShowWithdrawDialog;
   }
 
-  get canUserWithdraw(): boolean {
-    if (!this.searchedVault) {
-      return false;
-    }
-    const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
-    const openBalance = this.store.user.getBalance(vault.vaultToken).balance;
-    const guardedBalance = this.store.user.getBalance(vault.vaultToken).balance;
-
-    return openBalance + guardedBalance > 0;
-  }
-
-  get canUserDeposit(): boolean {
-    const isConnected = this.store.wallet.isConnected;
-
-    if (!isConnected || !this.searchedVault) {
-      return false;
-    }
-
-    // rem badger does not support deposit
-    if (this.searchedVault.vaultToken === ETH_DEPLOY.sett_system.vaults['native.rembadger']) {
-      return false;
-    }
-
-    return this.store.user.onGuestList(this.searchedVault);
-  }
-
   toggleDepositDialog(): void {
     this.shouldShowDepositDialog = !this.shouldShowDepositDialog;
   }
 
   toggleWithdrawDialog(): void {
     this.shouldShowWithdrawDialog = !this.shouldShowWithdrawDialog;
-  }
-
-  setAccountViewMode(): void {
-    this.comesFromPortfolioView = true;
   }
 
   setSearchSlug = action((slug: string) => {

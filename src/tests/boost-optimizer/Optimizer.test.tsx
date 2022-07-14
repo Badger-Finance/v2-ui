@@ -67,6 +67,7 @@ describe('Boost Optimizer', () => {
     );
     expect(screen.getByRole('heading', { name: 'Boost: 1x' })).toBeInTheDocument();
   });
+
   it('can change native and non native balances', () => {
     customRender(
       <StoreProvider value={store}>

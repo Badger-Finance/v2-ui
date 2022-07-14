@@ -5,9 +5,10 @@ import clsx from 'clsx';
 import { DelaySeverity } from 'mobx/model/vaults/vault-rewards';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
+import BveCvxFrequencyInfo from '../../BveCvxFrequencyInfo';
 import { StyledDivider } from '../styled';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
 
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Claims = observer((): JSX.Element => {
   const { tree } = React.useContext(StoreContext);
+  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
   const classes = useStyles();
 
   const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(tree.lastUpdateTimestamp);
@@ -92,6 +94,7 @@ export const Claims = observer((): JSX.Element => {
           <ChevronRightIcon className={classes.linkIcon} />
         </div>
       </Link>
+      <BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
     </Grid>
   );
 });

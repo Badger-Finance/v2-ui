@@ -11,6 +11,7 @@ import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
 import { RootStore } from '../mobx/stores/RootStore';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
+import BveCvxVaultDetail from '../pages/BveCvxInfluence';
 import Landing from '../pages/Landing';
 
 const routes = {
@@ -46,6 +47,13 @@ const routes = {
     path: '/ibBTC',
     component: <IbBTC />,
     onEnter: (_route, _params, store) => store.ibBTCStore.init(),
+  }),
+  bveCvx: new Route<RootStore, QueryParams>({
+    path: '/vault/convex-bvecvx',
+    component: <BveCvxVaultDetail />,
+    beforeEnter: (route, params, store) => {
+      store.bveCvxInfluence.init();
+    },
   }),
   vaultDetail: new Route<RootStore, QueryParams>({
     path: '/vault/:vaultName',

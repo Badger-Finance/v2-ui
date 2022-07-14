@@ -1,12 +1,12 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Collapse, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 
 import { numberWithCommas } from '../../../mobx/utils/helpers';
+import VaultDepositedAssets from '../../VaultDepositedAssets';
 import { StyledDivider } from '../styled';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,16 +61,6 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
   const { lockedDeposits } = React.useContext(StoreContext);
   const classes = useStyles();
 
-  const currencyValue = numberWithCommas(vault.value.toFixed());
-  const hasCurrencyIcon = currencyValue?.includes('.png');
-
-  let currencyIcon;
-  let displayValue = currencyValue;
-
-  if (currencyValue && hasCurrencyIcon) {
-    [currencyIcon, displayValue] = currencyValue.split('.png');
-  }
-
   const [showMore, setShowMore] = useState(true);
   const expandText = showMore ? 'Hide' : 'Show More';
   const shownBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
@@ -81,10 +71,7 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
         Vault Details
       </Typography>
       <StyledDivider />
-      {currencyIcon && (
-        <img src={`${currencyIcon}.png`} alt={`${currencyIcon} icon`} className={classes.currencyIcon} />
-      )}
-      <Typography className={classes.amount}>{displayValue ?? <Skeleton width={209} height={37} />}</Typography>
+      <VaultDepositedAssets vault={vault} />
       <Typography variant="body2">Assets Deposited</Typography>
       <div className={classes.showMoreContainer}>
         <div className={classes.showMore} onClick={() => setShowMore(!showMore)}>

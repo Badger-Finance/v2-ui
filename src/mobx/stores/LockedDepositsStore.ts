@@ -1,4 +1,3 @@
-import { Erc20__factory } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { extendObservable } from 'mobx';
 
@@ -48,30 +47,33 @@ class LockedDepositsStore {
   private getLockedDepositBalance = async ({
     vaultAddress,
     lockingContractAddress,
-    underlyingTokenAddress,
-    strategyAddress,
   }: LockedContractInfo): Promise<[string, TokenBalance][]> => {
     const {
-      sdk: { provider },
+      sdk: { provider, tokens },
     } = this.store;
 
     if (!provider) {
       return [];
     }
 
-    const token = this.store.vaults.getToken(underlyingTokenAddress);
-    const tokenContract = Erc20__factory.connect(underlyingTokenAddress, provider);
+    const vault = this.store.vaults.getVault(vaultAddress);
+
+    if (!vault) {
+      return [];
+    }
+
+    const token = this.store.vaults.getToken(vault.underlyingToken);
     const voteLockedDepositContract = VoteLockedDeposit__factory.connect(lockingContractAddress, provider);
 
     const [vaultBalance, strategyBalance, totalTokenBalanceStrategy, lockedTokenBalanceStrategy] = await Promise.all([
-      await tokenContract.balanceOf(vaultAddress),
-      await tokenContract.balanceOf(strategyAddress),
+      await tokens.loadBalance(vault.underlyingToken, vault.vaultToken),
+      await tokens.loadBalance(vault.underlyingToken, vault.strategy.address),
       await voteLockedDepositContract.lockedBalanceOf(vaultAddress),
       await voteLockedDepositContract.balanceOf(vaultAddress),
     ]);
 
     const balance = vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy);
-    return [[ethers.utils.getAddress(underlyingTokenAddress), new TokenBalance(token, balance, 0)]];
+    return [[vault.underlyingToken, new TokenBalance(token, balance, 0)]];
   };
 }
 

@@ -12,6 +12,7 @@ export const ChartModeTitles: Record<string, string> = {
   [ChartMode.Ratio]: 'Token Ratio',
   [ChartMode.AccountBalance]: 'My Holdings',
   [ChartMode.BoostMultiplier]: 'Badger Boost',
+  [ChartMode.Balance]: 'Tokens Managed',
 };
 
 export const calculateDelaySeverity = (delay: number): DelaySeverity => {

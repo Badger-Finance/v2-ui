@@ -24,6 +24,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
     [ChartMode.Value]: format('^$.3s'),
     [ChartMode.Ratio]: format('^.5f'),
     [ChartMode.AccountBalance]: format('^$.3s'),
+    [ChartMode.Balance]: format('^.4s'),
   };
 
   const xSxcaleFormatter = timeframe === VaultChartTimeframe.Day ? timeFormat('%H:%M') : timeFormat('%m-%d');

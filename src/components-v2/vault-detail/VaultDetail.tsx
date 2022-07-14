@@ -53,7 +53,7 @@ export const VaultDetail = observer((): JSX.Element => {
   if (isNotFound) {
     return (
       <Container>
-        <Grid container direction="column" justify="center" alignItems="center">
+        <Grid container direction="column" justifyContent="center" alignItems="center">
           <Grid item className={classes.notFoundImage}>
             <img src="/assets/icons/not-found-404.png" alt="not-found" />
           </Grid>
@@ -83,11 +83,25 @@ export const VaultDetail = observer((): JSX.Element => {
           </>
         )}
       </Container>
-      <MobileStickyActionButtons />
+      {vault && (
+        <MobileStickyActionButtons
+          vault={vault}
+          onDepositClick={() => vaultDetail.toggleDepositDialog()}
+          onWithdrawClick={() => vaultDetail.toggleWithdrawDialog()}
+        />
+      )}
       {vault && (
         <>
-          <DepositWidget open={isDepositDialogDisplayed} vault={vault} />
-          <VaultWithdraw open={isWithdrawDialogDisplayed} vault={vault} />
+          <DepositWidget
+            open={isDepositDialogDisplayed}
+            vault={vault}
+            onClose={() => vaultDetail.toggleDepositDialog()}
+          />
+          <VaultWithdraw
+            open={isWithdrawDialogDisplayed}
+            vault={vault}
+            onClose={() => vaultDetail.toggleWithdrawDialog()}
+          />
         </>
       )}
     </>

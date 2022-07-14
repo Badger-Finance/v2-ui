@@ -6,6 +6,7 @@ import { RouterStore } from 'mobx-router';
 
 import { BADGER_API } from '../../config/environment';
 import rpc from '../../config/rpc.config';
+import BveCvxInfluenceStore from './bveCvxInfluenceStore';
 import GasPricesStore from './GasPricesStore';
 import { GovernancePortalStore } from './GovernancePortalStore';
 import IbBTCStore from './ibBTCStore';
@@ -45,6 +46,7 @@ export class RootStore {
   public governancePortal: GovernancePortalStore;
   public lockedDeposits: LockedDepositsStore;
   public transactions: TransactionsStore;
+  public bveCvxInfluence: BveCvxInfluenceStore;
 
   // New Stores
   public tree: TreeStore;
@@ -75,6 +77,7 @@ export class RootStore {
     this.ibBTCStore = new IbBTCStore(this);
     this.governancePortal = new GovernancePortalStore(this);
     this.lockedDeposits = new LockedDepositsStore(this);
+    this.bveCvxInfluence = new BveCvxInfluenceStore(this);
 
     // new stores
     this.tree = new TreeStore(this);
@@ -122,7 +125,7 @@ export class RootStore {
     const { signer, address } = this.sdk;
 
     if (signer && address) {
-      const updateActions = [];
+      const updateActions = [this.lockedDeposits.loadLockedBalances()];
 
       if (this.sdk.rewards.hasBadgerTree()) {
         updateActions.push(this.tree.loadBadgerTree());

@@ -31,11 +31,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   vault: VaultDTO;
+  onDepositClick: () => void;
 }
 
-export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
+export const NoHoldings = observer(({ vault, onDepositClick }: Props): JSX.Element | null => {
   const store = React.useContext(StoreContext);
-  const { chain: networkStore, vaultDetail, user } = store;
+  const { chain: networkStore, user } = store;
   const { network } = networkStore;
   const classes = useStyles();
 
@@ -51,12 +52,7 @@ export const NoHoldings = observer(({ vault }: Props): JSX.Element | null => {
         <DepositInfo strategy={strategy} />
       </Grid>
       <Grid item xs={12} sm className={classes.depositContainer}>
-        <VaultActionButton
-          color="primary"
-          variant="contained"
-          fullWidth
-          onClick={() => vaultDetail.toggleDepositDialog()}
-        >
+        <VaultActionButton color="primary" variant="contained" fullWidth onClick={onDepositClick}>
           Deposit
         </VaultActionButton>
       </Grid>

@@ -385,6 +385,16 @@ const ethVaultDefinitions: BadgerVault[] = [
     },
     depositAdvisory: AdvisoryType.VaultLock,
   },
+  {
+    depositToken: {
+      address: ETH_DEPLOY.tokens['balancer.auraBAL'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: ETH_DEPLOY.sett_system.vaults['native.auraBal'],
+      decimals: 18,
+    },
+  },
 ];
 
 export const ethVaults = ethVaultDefinitions;

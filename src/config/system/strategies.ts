@@ -322,6 +322,12 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
           userGuide:
             'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/graviaura-vote-locked-aura',
         },
+        [ethDeploy.sett_system.vaults['native.aura-wbtc-badger']]: {
+          userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/aurabal-helper',
+        },
+        [ethDeploy.sett_system.vaults['native.aura-bb-aave-usd']]: {
+          userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/aurabal-helper',
+        },
       };
   }
 };
