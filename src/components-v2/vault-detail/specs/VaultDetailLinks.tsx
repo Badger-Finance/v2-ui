@@ -35,9 +35,8 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
   const { network, config } = networkStore;
   const classes = useStyles();
 
-  const { vaultToken } = vault;
+  const { vaultToken, underlyingToken } = vault;
   const strategy = Chain.getChain(network).strategies[vaultToken];
-  const underlyingToken = vault.underlyingToken;
   const strategyAddress = vault.strategy.address;
 
   return (
@@ -54,6 +53,10 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
       <VaultDetailLink title="Vault Address" href={`${config.explorerUrl}/address/${vaultToken}`} />
       <VaultDetailLink title="Strategy Address" href={`${config.explorerUrl}/address/${strategyAddress}`} />
       <VaultDetailLink title="Underlying Token Address" href={`${config.explorerUrl}/address/${underlyingToken}`} />
+      <VaultDetailLink
+        title="Ninja Analytics"
+        href={`https://badger-ninja.vercel.app/vault/${network}/${vaultToken}`}
+      />
     </Grid>
   );
 });
