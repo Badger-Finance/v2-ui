@@ -1,4 +1,5 @@
 import { Network, Protocol, ProtocolSummary, TokenConfiguration, VaultDTO, VaultState } from '@badger-dao/sdk';
+import mainnetDeploy from 'config/deployments/mainnet.json';
 import { ethers } from 'ethers';
 import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
@@ -12,15 +13,11 @@ import { VaultSlugCache } from 'mobx/model/vaults/vault-slug-cache';
 import { QueryParams } from 'mobx-router';
 import slugify from 'slugify';
 
+import routes from '../../config/routes';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
 import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import { VaultMap } from '../model/vaults/vault-map';
 import { RootStore } from './RootStore';
-
-import mainnetDeploy from '../../config/deployments/mainnet.json';
-import routes from '../../config/routes';
-import { BalanceNamespace } from '../../web3/config/namespaces';
-import { ETH_DEPLOY } from '../model/network/eth.network';
 
 export default class VaultStore {
   // loading: undefined, error: null, present: object
@@ -201,12 +198,32 @@ export default class VaultStore {
     return tokens[tokenAddress];
   }
 
+  canUserWithdraw(vault: VaultDTO): boolean {
+    const openBalance = this.store.user.getBalance(vault.vaultToken).balance;
+    const guardedBalance = this.store.user.getBalance(vault.vaultToken).balance;
+    return openBalance + guardedBalance > 0;
+  }
+
   async refresh(): Promise<void> {
     const { network } = this.store.chain;
     if (network) {
       this.initialized = false;
       await Promise.all([this.loadVaults(network), this.loadTokens(network), this.loadAssets(network)]);
       this.initialized = true;
+    }
+  }
+
+  async navigateToVaultDetail(vault: VaultDTO) {
+    const { router } = this.store;
+    // covert to map if use-cases increase
+    if (vault.vaultToken === mainnetDeploy.sett_system.vaults['native.icvx']) {
+      return router.goTo(routes.bveCvx, {}, { chain: router.queryParams?.chain });
+    } else {
+      return router.goTo(
+        routes.vaultDetail,
+        { vaultName: this.getSlug(vault.vaultToken) },
+        { chain: router.queryParams?.chain },
+      );
     }
   }
 

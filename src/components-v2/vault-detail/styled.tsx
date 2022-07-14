@@ -1,6 +1,6 @@
 import { Card, Divider } from '@material-ui/core';
-import HelpIcon from '@material-ui/icons/Help';
 import { styled } from '@material-ui/core/styles';
+import HelpIcon from '@material-ui/icons/Help';
 
 export const StyledDivider = styled(Divider)(({ theme }) => ({
   width: '100%',

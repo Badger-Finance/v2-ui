@@ -50,9 +50,10 @@ export interface VaultModalProps {
   open?: boolean;
   vault: VaultDTO;
   withdrawAdvisory?: AdvisoryType;
+  onClose: () => void;
 }
 
-export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory }: VaultModalProps) => {
+export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, onClose }: VaultModalProps) => {
   const { wallet, user, vaults, sdk, transactions, vaultDetail } = useContext(StoreContext);
   const classes = useStyles();
 
@@ -158,7 +159,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory }
   );
 
   return (
-    <Dialog open={open} onClose={() => vaultDetail.toggleWithdrawDialog()} fullWidth maxWidth="xl">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
       <VaultDialogTitle vault={vault} mode="Withdraw" />
       <VaultDialogContent dividers className={classes.content}>
         <Grid container alignItems="center">

@@ -52,7 +52,7 @@ export class TokenBalance {
   balanceDisplay(precision?: number): string {
     const decimals = precision ?? this.token.decimals;
     if (this.balance > 0 && this.balance < this.minBalance(decimals)) {
-      return `< 0.${'0'.repeat(decimals - 1)}1`;
+      return `< 0.${'0'.repeat(Math.max(decimals - 1, 0))}1`;
     }
 
     const result = ethers.utils.formatUnits(this.tokenBalance, this.token.decimals);
@@ -96,7 +96,7 @@ export class TokenBalance {
   }
 
   private minBalance(decimals: number): number {
-    return Number(`0.${'0'.repeat(decimals - 1)}1`);
+    return Number(`0.${'0'.repeat(Math.max(decimals - 1, 0))}1`);
   }
 
   private minBalance(decimals: number): number {

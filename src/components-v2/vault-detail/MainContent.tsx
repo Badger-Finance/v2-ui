@@ -47,11 +47,11 @@ export const MainContent = observer(({ vault }: Props): JSX.Element => {
       {wallet.isConnected && (
         <Grid container className={classes.holdingsContainer}>
           <Holdings
-						vault={vault}
-						userData={userData}
-						onWithdrawClick={() => vaultDetail.toggleWithdrawDialog()}
-						onDepositClick={() => vaultDetail.toggleDepositDialog()}
-					/>
+            vault={vault}
+            userData={userData}
+            onWithdrawClick={() => vaultDetail.toggleWithdrawDialog()}
+            onDepositClick={() => vaultDetail.toggleDepositDialog()}
+          />
         </Grid>
       )}
       <Grid container spacing={1}>

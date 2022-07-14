@@ -18,12 +18,7 @@ const AdvisoryLink = ({ href, linkText }: AdvisoryLinkProps): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={classes.linkContainer}>
-      <Link
-        target="_blank"
-        rel="noreferrer"
-
-        href={href}
-      >
+      <Link target="_blank" rel="noreferrer" href={href}>
         {linkText}
       </Link>
     </div>

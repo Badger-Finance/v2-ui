@@ -3,7 +3,7 @@ export enum ChartMode {
   Ratio = 'ratio',
   AccountBalance = 'accountBalance',
   BoostMultiplier = 'boostMultiplier',
-	Balance = 'balance',
+  Balance = 'balance',
 }
 
 export enum VaultChartTimeframe {

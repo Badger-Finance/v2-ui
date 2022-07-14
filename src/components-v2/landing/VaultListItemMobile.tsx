@@ -32,9 +32,9 @@ const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
   const { vaults } = useContext(StoreContext);
   const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
 
-	const goToVaultDetail = async () => {
-		await vaults.navigateToVaultDetail(vault);
-	};
+  const goToVaultDetail = async () => {
+    await vaults.navigateToVaultDetail(vault);
+  };
 
   const handleStatusClick = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();

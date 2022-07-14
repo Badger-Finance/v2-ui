@@ -27,9 +27,9 @@ const VaultAdvisory = ({ vault, type, accept }: Props): JSX.Element | null => {
       );
       break;
     case AdvisoryType.AuraLock:
-			advisory = <AuraLockingVaultAdvisory accept={accept} vault={vault} lockingWeeks={16} />;
-			break;
-		case AdvisoryType.VaultLock:
+      advisory = <AuraLockingVaultAdvisory accept={accept} vault={vault} lockingWeeks={16} />;
+      break;
+    case AdvisoryType.VaultLock:
       advisory = <LockingVaultAdvisory vault={vault} accept={accept} lockingWeeks={16} />;
       break;
     case AdvisoryType.Remuneration:
