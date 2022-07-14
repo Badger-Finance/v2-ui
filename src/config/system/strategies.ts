@@ -329,7 +329,8 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/b20wbtc-80badger',
         },
         [ethDeploy.sett_system.vaults['native.graviaura-aurabal-weth']]: {
-          userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/b33aurabal-33graviaura-33weth',
+          userGuide:
+            'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/b33aurabal-33graviaura-33weth',
         },
         [ethDeploy.sett_system.vaults['native.aura-bb-aave-usd']]: {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/bbb-a-usd',
