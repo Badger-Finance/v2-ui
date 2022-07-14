@@ -29,15 +29,20 @@ const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {
   // TODO: we should probably include an 'influence' vault behavior
   const isBveCvx = vault.vaultToken === BVE_CVX_TOKEN;
 
-  let displayValue;
-
   if (isBveCvx) {
-    displayValue = `${numberWithCommas(vault.balance.toFixed())} ${vault.asset}`;
-  } else {
-    displayValue = `$${numberWithCommas(vault.value.toFixed())}`;
+    return (
+      <>
+        <Typography variant="body2" className={classes.amount}>
+          {numberWithCommas(vault.balance.toFixed())} ${vault.asset}
+        </Typography>
+        <Typography variant="subtitle1" color="textSecondary">
+          ${numberWithCommas(vault.value.toFixed())}
+        </Typography>
+      </>
+    );
   }
 
-  return <Typography className={classes.amount}>{displayValue}</Typography>;
+  return <Typography className={classes.amount}>${numberWithCommas(vault.value.toFixed())}</Typography>;
 };
 
 export default observer(VaultDepositedAssets);
