@@ -32,10 +32,6 @@ export class VaultDetailStore {
     });
   }
 
-  get shouldShowDirectAccountInformation(): boolean {
-    return this.comesFromPortfolioView;
-  }
-
   get vault(): VaultDTO | undefined | null {
     return this.searchedVault;
   }
@@ -56,27 +52,12 @@ export class VaultDetailStore {
     return this.shouldShowWithdrawDialog;
   }
 
-  get canUserWithdraw(): boolean {
-    if (!this.searchedVault) return false;
-    const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
-    return this.store.vaults.canUserWithdraw(vault);
-  }
-
-  get canUserDeposit(): boolean {
-    if (!this.searchedVault) return false;
-    return this.store.vaults.canUserDeposit(this.searchedVault);
-  }
-
   toggleDepositDialog(): void {
     this.shouldShowDepositDialog = !this.shouldShowDepositDialog;
   }
 
   toggleWithdrawDialog(): void {
     this.shouldShowWithdrawDialog = !this.shouldShowWithdrawDialog;
-  }
-
-  setAccountViewMode(): void {
-    this.comesFromPortfolioView = true;
   }
 
   setSearchSlug = action((slug: string) => {
