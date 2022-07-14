@@ -1,4 +1,3 @@
-import { Erc20__factory } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { extendObservable } from 'mobx';
 
@@ -50,7 +49,7 @@ class LockedDepositsStore {
     lockingContractAddress,
   }: LockedContractInfo): Promise<[string, TokenBalance][]> => {
     const {
-      sdk: { provider },
+      sdk: { provider, tokens },
     } = this.store;
 
     if (!provider) {
@@ -64,12 +63,11 @@ class LockedDepositsStore {
     }
 
     const token = this.store.vaults.getToken(vault.underlyingToken);
-    const tokenContract = Erc20__factory.connect(vault.underlyingToken, provider);
     const voteLockedDepositContract = VoteLockedDeposit__factory.connect(lockingContractAddress, provider);
 
     const [vaultBalance, strategyBalance, totalTokenBalanceStrategy, lockedTokenBalanceStrategy] = await Promise.all([
-      await tokenContract.balanceOf(vault.vaultToken),
-      await tokenContract.balanceOf(vault.strategy.address),
+      await tokens.loadBalance(vault.underlyingToken, vault.vaultToken),
+      await tokens.loadBalance(vault.underlyingToken, vault.strategy.address),
       await voteLockedDepositContract.lockedBalanceOf(vaultAddress),
       await voteLockedDepositContract.balanceOf(vaultAddress),
     ]);
