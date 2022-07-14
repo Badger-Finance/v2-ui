@@ -189,7 +189,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
       Object.entries(claimable).map((e) => {
         const options = {
           hasBalance: e[1].tokenBalance.gt(0),
-          balance: TokenBalance.fromBalance(e[1], e[1].balance),
+          balance: TokenBalance.fromBigNumber(e[1], e[1].tokenBalance),
         };
         return [e[0], options];
       }),
