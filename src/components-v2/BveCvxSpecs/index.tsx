@@ -1,7 +1,6 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { toJS } from 'mobx';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useReducer } from 'react';
@@ -45,7 +44,6 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
   const [withdrawInfoDisplayed, toggleWithdrawInfo] = useReducer((previous) => !previous, false);
   const [frequencyInfoDisplayed, toggleFrequencyInfo] = useReducer((previous) => !previous, false);
   const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
-  console.log('lockedBalance', toJS(lockedBalance));
   const classes = useStyles();
   return (
     <CardContainer>

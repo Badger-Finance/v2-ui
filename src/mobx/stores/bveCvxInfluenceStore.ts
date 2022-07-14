@@ -1,7 +1,7 @@
 import { EmissionSchedule, formatBalance, ONE_DAY_MS, VaultDTO, VaultSnapshot } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
-import { computed, extendObservable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { BveCvxEmissionRound } from 'mobx/model/charts/bve-cvx-emission-round';
 
 import mainnetDeploy from '../../config/deployments/mainnet.json';
@@ -23,22 +23,24 @@ function isOverlapping(original: EmissionSchedule, other: EmissionSchedule): boo
 class BveCvxInfluenceStore {
   private readonly store: RootStore;
   private vault: VaultDTO | undefined;
-  private vaultChartData?: VaultSnapshot[] | null;
-  private curveSwapPercentage = '';
-  private emissionsSchedules?: BveCvxEmissionRound[] | null = null;
-  private processingChartData = true;
-  private processingEmissions = true;
+  public chartData?: VaultSnapshot[] | null;
+  public swapPercentage = '';
+  public emissions?: BveCvxEmissionRound[] | null = null;
+  public loadingChart = true;
+  public loadingEmissions = true;
 
   constructor(store: RootStore) {
     this.store = store;
 
-    extendObservable(this, {
-      vault: this.vault,
-      vaultChartData: this.vaultChartData,
-      processingChartData: this.processingChartData,
-      processingEmissions: this.processingEmissions,
-      curveSwapPercentage: this.curveSwapPercentage,
-      emissionsSchedules: this.emissionsSchedules,
+    makeObservable(this, {
+      loadingChart: observable,
+      loadingEmissions: observable,
+      emissions: observable,
+      chartData: observable,
+      swapPercentage: observable,
+      loadSwapPercentage: action,
+      loadChartInfo: action,
+      loadEmissionsSchedules: action,
     });
   }
 
@@ -51,40 +53,15 @@ class BveCvxInfluenceStore {
     ]);
   }
 
-  @computed
-  get loadingChart() {
-    return this.processingChartData;
-  }
-
-  @computed
-  get loadingEmissions() {
-    return this.processingEmissions;
-  }
-
-  @computed
-  get emissions() {
-    return this.emissionsSchedules;
-  }
-
-  @computed
-  get chartData() {
-    return this.vaultChartData;
-  }
-
-  @computed
-  get swapPercentage() {
-    return this.curveSwapPercentage;
-  }
-
   async loadChartInfo(timeframe: VaultChartTimeframe) {
     if (!this.vault) return;
     try {
-      this.processingChartData = true;
-      this.vaultChartData = await this.store.vaultCharts.search(this.vault, timeframe);
+      this.loadingChart = true;
+      this.chartData = await this.store.vaultCharts.search(this.vault, timeframe);
     } catch (error) {
       console.error(error);
     } finally {
-      this.processingChartData = false;
+      this.loadingChart = false;
     }
   }
 
@@ -92,7 +69,7 @@ class BveCvxInfluenceStore {
     if (!this.vault) return;
     const vault = this.vault;
     try {
-      this.processingEmissions = true;
+      this.loadingEmissions = true;
       const treeSchedules = await this.store.sdk.api.loadSchedule(this.vault.vaultToken, false);
       const { badgerTreeDistributions } = await this.store.sdk.graph.loadBadgerTreeDistributions({
         where: {
@@ -107,24 +84,24 @@ class BveCvxInfluenceStore {
         beneficiary: vault.vaultToken,
         compPercent: 100,
       }));
-      this.emissionsSchedules = await this.bucketSchedules(treeSchedules.concat(harvestConvertedSchedules));
+      this.emissions = await this.bucketSchedules(treeSchedules.concat(harvestConvertedSchedules));
     } catch (error) {
       console.error(error);
     } finally {
-      this.processingEmissions = false;
+      this.loadingEmissions = false;
     }
   }
 
   async loadSwapPercentage() {
     const { provider } = this.store.sdk;
-    if (!provider || this.curveSwapPercentage) return;
+    if (!provider || this.swapPercentage) return;
     const curvePool = CurveFactoryPool__factory.connect(CURVE_POOL_ADDRESS, provider);
     const swapAmount = 10_000; // 10k bveCVX;
     // in the pool each token is represented by an index 0 is bveCVX and 1 is CVX
     const estimatedSwap = await curvePool.get_dy(1, 0, parseUnits(String(swapAmount), 'ether'));
     const swap = Number(formatUnits(estimatedSwap, 'ether'));
     const percentage = swap / swapAmount;
-    this.curveSwapPercentage = `${(percentage * 100).toFixed(2)}%`;
+    this.swapPercentage = `${(percentage * 100).toFixed(2)}%`;
   }
 
   private async bucketSchedules(schedules: EmissionSchedule[]): Promise<BveCvxEmissionRound[]> {
