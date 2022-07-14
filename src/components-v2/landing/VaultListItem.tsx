@@ -3,11 +3,12 @@ import { Card, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@ma
 import { StoreContext } from 'mobx/stores/store-context';
 import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
+import React, { MouseEvent, useContext } from 'react';
 
-import CurrencyDisplay from '../common/CurrencyDisplay';
-import VaultItemApr from './VaultItemApr';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 import VaultListItemTags from '../VaultListItemTags';
+import VaultItemApr from './VaultItemApr';
 import VaultLogo from './VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
@@ -135,8 +136,5 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
       </Grid>
     </Grid>
   );
-import React, { MouseEvent, useContext } from 'react';
-
-import routes from '../../config/routes';
 });
 export default VaultListItem;

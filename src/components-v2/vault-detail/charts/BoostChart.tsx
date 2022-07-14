@@ -28,27 +28,27 @@ const xScaleFormatter = (value: number): string => (value === 0 ? '1' : value.to
 
 const BoostTooltip = observer(({ active, payload }: TooltipProps<ValueType, NameType>) => {
   const {
-		vaults: { vaultsFilters },
-	} = useContext(StoreContext);
-	const classes = useStyles();
+    vaults: { vaultsFilters },
+  } = useContext(StoreContext);
+  const classes = useStyles();
 
-	if (!active || !payload || payload.length === 0) {
-		return null;
-	}
-	const { x, y } = payload[0].payload;
-	const xValue = x === 0 ? 1 : x;
-	const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
+  if (!active || !payload || payload.length === 0) {
+    return null;
+  }
+  const { x, y } = payload[0].payload;
+  const xValue = x === 0 ? 1 : x;
+  const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
 
-	const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
-	return (
-		<div className={classes.tooltipContainer}>
-			<span>Badger Boost: {xValue}</span>
-			<span>Stake Ratio: {stakeRatio}</span>
-			<span>
-				Boosted {mode}: {yScaleFormatter(y)}
-			</span>
-		</div>
-	);
+  const stakeRatio = `${(calculateUserStakeRatio(xValue) * 100).toFixed(2)}%`;
+  return (
+    <div className={classes.tooltipContainer}>
+      <span>Badger Boost: {xValue}</span>
+      <span>Stake Ratio: {stakeRatio}</span>
+      <span>
+        Boosted {mode}: {yScaleFormatter(y)}
+      </span>
+    </div>
+  );
 });
 
 interface Props {
@@ -68,30 +68,29 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
   }
 
   const base = vaultsFilters.showAPR ? apr : apy;
-	const base = vaultsFilters.showAPR ? apr : apy;
   const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
-	const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
+  const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
 
   const boostableApr = boostSources
     .filter((s) => s.boostable)
     .map((s) => s.apr)
     .reduce((total, apr) => total + apr, 0);
 
-	const baseApr = base - boostableApr;
+  const baseApr = base - boostableApr;
 
-	const boostableMinApr = boostSources
-		.filter((s) => s.boostable)
-		.map((s) => s.minApr)
-		.reduce((total, apr) => total + apr, 0);
-	const boostableMaxApr = boostSources
-		.filter((s) => s.boostable)
-		.map((s) => s.maxApr)
-		.reduce((total, apr) => total + apr, 0);
+  const boostableMinApr = boostSources
+    .filter((s) => s.boostable)
+    .map((s) => s.minApr)
+    .reduce((total, apr) => total + apr, 0);
+  const boostableMaxApr = boostSources
+    .filter((s) => s.boostable)
+    .map((s) => s.maxApr)
+    .reduce((total, apr) => total + apr, 0);
 
-	const range = boostableMaxApr - boostableMinApr;
+  const range = boostableMaxApr - boostableMinApr;
 
-	const boostData = boostCheckpoints.map((checkpoint) => {
-		const rangeScalar = (checkpoint === 0 ? 1 : checkpoint) / MAX_BOOST;
+  const boostData = boostCheckpoints.map((checkpoint) => {
+    const rangeScalar = (checkpoint === 0 ? 1 : checkpoint) / MAX_BOOST;
     return {
       x: checkpoint,
       y: (baseApr + rangeScalar * range) / 100,

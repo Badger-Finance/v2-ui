@@ -1,8 +1,8 @@
 import { VaultDTO } from '@badger-dao/sdk';
-import { observer } from 'mobx-react-lite';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { VaultActionButton } from '../../common/VaultActionButtons';

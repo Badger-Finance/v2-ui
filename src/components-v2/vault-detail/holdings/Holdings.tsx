@@ -1,8 +1,6 @@
 import { VaultData, VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { useVaultInformation } from 'hooks/useVaultInformation';
-import { StoreContext } from 'mobx/stores/store-context';
-import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
@@ -31,11 +29,9 @@ interface Props {
   onWithdrawClick: () => void;
 }
 
-export const Holdings = observer(({ userData, vault, onDepositClick, onWithdrawClick }: Props): JSX.Element | null => {
-  const { user } = React.useContext(StoreContext);
+export const Holdings = ({ userData, vault, onDepositClick, onWithdrawClick }: Props): JSX.Element | null => {
   const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
   const classes = useStyles();
-  const canDeposit = user.onGuestList(vault);
   const { depositBalance } = useVaultInformation(vault);
 
   if (depositBalance.tokenBalance.eq(0)) {
@@ -82,4 +78,4 @@ export const Holdings = observer(({ userData, vault, onDepositClick, onWithdrawC
       </Grid>
     </Grid>
   );
-});
+};

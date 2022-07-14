@@ -1,12 +1,12 @@
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
 import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
 import { ChartModeTitles } from '../utils';
 import { ChartTimeframeControls } from './ChartTimeframeControls';
-import { StoreContext } from 'mobx/stores/store-context';
 
 const useStyles = makeStyles((theme) => ({
   titleText: {
@@ -35,6 +35,7 @@ export const ChartsHeader = observer(({ mode, timeframe, onTimeframeChange }: Pr
   } = useContext(StoreContext);
 
   const classes = useStyles();
+  const boostMode = vaultsFilters.showAPR ? 'APR' : 'APY';
 
   let description;
   switch (mode) {
@@ -48,12 +49,11 @@ export const ChartsHeader = observer(({ mode, timeframe, onTimeframeChange }: Pr
       description = 'Total assets under management';
       break;
     case ChartMode.Balance:
-			description = 'Total tokens under management';
-			break;
-		default:
-			const boostMode = vaultsFilters.showAPR ? 'APR' : 'APY';
-			description = `Vault Boost ${boostMode} breakdown`;
-	}
+      description = 'Total tokens under management';
+      break;
+    default:
+      description = `Vault Boost ${boostMode} breakdown`;
+  }
 
   return (
     <Grid container alignItems="center" justifyContent="space-between">

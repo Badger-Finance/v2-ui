@@ -1,11 +1,9 @@
+import { VaultDTO } from '@badger-dao/sdk';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
 
 import { VaultActionButton } from '../../common/VaultActionButtons';
-import { makeStyles } from '@material-ui/core/styles';
-import { StoreContext } from '../../../mobx/store-context';
-import { VaultDTO } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,14 +22,14 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   vault: VaultDTO;
-	onDepositClick: () => void;
-	onWithdrawClick: () => void;
+  onDepositClick: () => void;
+  onWithdrawClick: () => void;
 }
 
 export const HoldingsActionButtons = ({ vault, onDepositClick, onWithdrawClick }: Props): JSX.Element => {
   const { vaults, wallet } = React.useContext(StoreContext);
   const canUserDeposit = wallet.isConnected ? vaults.canUserDeposit(vault) : false;
-	const canUserWithdraw = vaults.canUserWithdraw(vault);
+  const canUserWithdraw = vaults.canUserWithdraw(vault);
   const classes = useStyles();
 
   return (

@@ -57,20 +57,9 @@ export class VaultDetailStore {
   }
 
   get canUserWithdraw(): boolean {
-    if (!this.searchedVault) {
-      return false;
-    }
+    if (!this.searchedVault) return false;
     const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
-    const vaultDefinition = vault ? this.store.vaults.getVaultDefinition(vault) : undefined;
-
-    if (!vaultDefinition) {
-      return false;
-    }
-
-    const openBalance = this.store.user.getBalance(BalanceNamespace.Vault, vaultDefinition).balance;
-    const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedVault, vaultDefinition).balance;
-
-    return openBalance.plus(guardedBalance).gt(0);
+    return this.store.vaults.canUserWithdraw(vault);
   }
 
   get canUserDeposit(): boolean {
@@ -108,11 +97,4 @@ export class VaultDetailStore {
       this.searchedVault = vaults.getVaultBySlug(this.searchSlug);
     }
   }
-	get canUserWithdraw(): boolean {
-		if (!this.searchedVault) return false;
-		const vault = this.store.vaults.getVault(this.searchedVault.vaultToken);
-		const openBalance = this.store.user.getBalance(vault.vaultToken).balance;
-		const guardedBalance = this.store.user.getBalance(vault.vaultToken).balance;
-		return openBalance + guardedBalance > 0;
-	}
 }

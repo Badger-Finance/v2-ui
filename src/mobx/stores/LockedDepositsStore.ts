@@ -8,7 +8,6 @@ import { LockedContractInfo } from '../model/locked-deposits/locked-contract-inf
 import { Chain } from '../model/network/chain';
 import { TokenBalance } from '../model/tokens/token-balance';
 import { RootStore } from './RootStore';
-import { formatBalance } from '@badger-dao/sdk';
 
 type LockedDepositBalancesMap = Map<string, TokenBalance>;
 
@@ -46,12 +45,12 @@ class LockedDepositsStore {
     this.networksLockedDeposits.set(config.chainId, new Map(balances.flat()));
   }
 
-	private getLockedDepositBalance = async ({
-		vaultAddress,
-		lockingContractAddress,
-	}: LockedContractInfo): Promise<[string, TokenBalance][]> => {
-		const {
-			sdk: { provider },
+  private getLockedDepositBalance = async ({
+    vaultAddress,
+    lockingContractAddress,
+  }: LockedContractInfo): Promise<[string, TokenBalance][]> => {
+    const {
+      sdk: { provider },
     } = this.store;
 
     if (!provider) {
@@ -60,11 +59,11 @@ class LockedDepositsStore {
 
     const vault = this.store.vaults.getVault(vaultAddress);
 
-		if (!vault) {
-			return [];
-		}
+    if (!vault) {
+      return [];
+    }
 
-		const token = this.store.vaults.getToken(vault.underlyingToken);
+    const token = this.store.vaults.getToken(vault.underlyingToken);
     const tokenContract = Erc20__factory.connect(vault.underlyingToken, provider);
     const voteLockedDepositContract = VoteLockedDeposit__factory.connect(lockingContractAddress, provider);
 
@@ -75,7 +74,7 @@ class LockedDepositsStore {
       await voteLockedDepositContract.balanceOf(vaultAddress),
     ]);
 
-		const balance = vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy);
+    const balance = vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy);
     return [[vault.underlyingToken, new TokenBalance(token, balance, 0)]];
   };
 }

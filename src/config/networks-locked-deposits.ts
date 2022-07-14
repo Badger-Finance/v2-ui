@@ -8,11 +8,11 @@ export const NETWORKS_LOCKED_DEPOSITS_CONFIG: NetworkLockedDepositsConfig = {
     {
       vaultAddress: mainnet.sett_system.vaults['native.icvx'],
       lockingContractAddress: mainnet.cvxLocker,
-		},
-	],
-	[NETWORK_IDS.FTM]: [
-		{
-			vaultAddress: fantom.sett_system.vaults['native.veoxd'],
+    },
+  ],
+  [NETWORK_IDS.FTM]: [
+    {
+      vaultAddress: fantom.sett_system.vaults['native.veoxd'],
       lockingContractAddress: fantom.veoxdLocker,
     },
   ],

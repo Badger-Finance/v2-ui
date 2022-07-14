@@ -98,8 +98,4 @@ export class TokenBalance {
   private minBalance(decimals: number): number {
     return Number(`0.${'0'.repeat(Math.max(decimals - 1, 0))}1`);
   }
-
-  private minBalance(decimals: number): number {
-    return Number(`0.${'0'.repeat(decimals - 1)}1`);
-  }
 }

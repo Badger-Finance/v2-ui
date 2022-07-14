@@ -15,6 +15,7 @@ import slugify from 'slugify';
 
 import routes from '../../config/routes';
 import { getUserVaultBoost } from '../../utils/componentHelpers';
+import { ETH_DEPLOY } from '../model/network/eth.network';
 import { VaultsFilters, VaultSortOrder } from '../model/ui/vaults-filters';
 import { VaultMap } from '../model/vaults/vault-map';
 import { RootStore } from './RootStore';
@@ -213,20 +214,6 @@ export default class VaultStore {
     }
   }
 
-  async navigateToVaultDetail(vault: VaultDTO) {
-    const { router } = this.store;
-    // covert to map if use-cases increase
-    if (vault.vaultToken === mainnetDeploy.sett_system.vaults['native.icvx']) {
-      return router.goTo(routes.bveCvx, {}, { chain: router.queryParams?.chain });
-    } else {
-      return router.goTo(
-        routes.vaultDetail,
-        { vaultName: this.getSlug(vault.vaultToken) },
-        { chain: router.queryParams?.chain },
-      );
-    }
-  }
-
   loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
     try {
       const vaults = await this.store.api.loadVaults();
@@ -261,18 +248,6 @@ export default class VaultStore {
       this.protocolSummaryCache[chain] = null;
     }
   });
-
-  canUserWithdraw(vault: VaultDTO): boolean {
-    const vaultDefinition = vault ? this.store.vaults.getVaultDefinition(vault) : undefined;
-
-    if (!vaultDefinition) {
-      return false;
-    }
-
-    const openBalance = this.store.user.getBalance(BalanceNamespace.Vault, vaultDefinition).balance;
-    const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedVault, vaultDefinition).balance;
-    return openBalance.plus(guardedBalance).gt(0);
-  }
 
   canUserDeposit(vault: VaultDTO): boolean {
     // rem badger does not support deposit
