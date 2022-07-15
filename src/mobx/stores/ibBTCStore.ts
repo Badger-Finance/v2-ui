@@ -2,7 +2,7 @@ import { formatBalance, Token } from '@badger-dao/sdk';
 import addresses from 'config/ibBTC/addresses.json';
 import { BadgerPeakSwap__factory } from 'contracts';
 import { BigNumber } from 'ethers';
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { toast } from 'react-toastify';
@@ -19,20 +19,7 @@ class IbBTCStore {
 
   constructor(store: RootStore) {
     this.store = store;
-
-    makeObservable(this, {
-      mintFeePercent: observable,
-      redeemFeePercent: observable,
-      mintRates: observable,
-      redeemRates: observable,
-      ibBTC: computed,
-      tokenBalances: computed,
-      initialized: computed,
-      mintOptions: computed,
-      redeemOptions: computed,
-      fetchFees: action,
-      fetchConversionRates: action,
-    });
+    makeAutoObservable(this);
   }
 
   get ibBTC(): TokenBalance {

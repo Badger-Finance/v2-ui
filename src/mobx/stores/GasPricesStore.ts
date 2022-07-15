@@ -1,5 +1,5 @@
 import { GasPrices, Network } from '@badger-dao/sdk';
-import { computed, makeObservable, observable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { RootStore } from 'mobx/stores/RootStore';
 
 import { ONE_MIN_MS } from '../../config/constants';
@@ -12,10 +12,7 @@ class GasPricesStore {
   constructor(private store: RootStore) {
     this.pricesCache = {};
 
-    makeObservable(this, {
-      pricesCache: observable,
-      initialized: computed,
-    });
+    makeAutoObservable(this);
 
     setInterval(async () => this.updateGasPrices(), ONE_MIN_MS / 2);
     this.updateGasPrices();
