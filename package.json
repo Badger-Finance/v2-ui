@@ -40,6 +40,7 @@
     "https-browserify": "^1.0.0",
     "husky": "^8.0.1",
     "jest": "^28.1.1",
+    "jest-fetch-mock": "^3.0.3",
     "mobx": "^6.6.0",
     "mobx-react-lite": "^3.4.0",
     "mobx-router": "^1.0.0",
@@ -96,9 +97,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "jest-fetch-mock": "^3.0.3"
   },
   "jest": {
     "transformIgnorePatterns": [
