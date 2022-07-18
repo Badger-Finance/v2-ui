@@ -4,7 +4,7 @@ import { Grid, Tab, Tabs } from '@material-ui/core';
 import { CardContainer } from '../vault-detail/styled';
 import { makeStyles } from '@material-ui/core/styles';
 import InfluenceVaultPerfomanceTab from './InfluenceVaultPerfomanceTab';
-import { ChartMode, VaultChartTimeframe } from '../../mobx/model/vaults/vault-charts';
+import { ChartMode, VaultChartData, VaultChartTimeframe } from '../../mobx/model/vaults/vault-charts';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { ChartsHeader } from '../vault-detail/charts/ChartsHeader';
@@ -42,7 +42,10 @@ const InfluenceVaultInfoPanel = ({ vault }: Props): JSX.Element => {
 	const influenceVault = influenceVaultStore.getInfluenceVault(vault.vaultToken);
 	const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
 	const [mode, setMode] = useState<TabType>('performance');
-	const data = influenceVault?.vaultChartData?.map((d) => ({ x: d.timestamp.getTime(), y: d.balance }));
+	const data = influenceVault?.vaultChartData?.map((d: VaultChartData) => ({
+		x: d.timestamp.getTime(),
+		y: d.balance,
+	}));
 
 	const handleTimeFrameChange = async (timeframe: VaultChartTimeframe) => {
 		setTimeframe(timeframe);

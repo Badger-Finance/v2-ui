@@ -50,7 +50,7 @@ export const vaults = [
 			{
 				name: 'bcvxCRV',
 				value: 'Per Harvest, ~5 days',
-			}
+			},
 		],
 		rewardFrequenciesModalInfo: {
 			title: 'Reward Frequency',
@@ -84,19 +84,17 @@ export const vaults = [
 			],
 		},
 		perfomanceInfo: {
-			body: [
-				[
-					'This vault locks 100% of deposited Convex tokens for rolling periods of 16 weeks. Badger will use vlCVX to vote for bribes during each voting round, sell them, and emit the proceeds back to holders in the form of bveCVX (autocompounded), and claimable BADGER and bcvxCRV.',
-				],
-				[
-					'Unlike other Badger Vaults, bveCVX limits the times when users may withdraw their funds. Limited pre-unlock liquidity is available through this ',
-					'[Curve Pool](https://curve.fi/factory/52/)',
-					'. Please carefully read the ',
-					'[User Guide](https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/vote-locked-cvx)',
-					' for more information. Details on the timing of CVX unlocks are available on this ',
-					'[Dune dashboard](https://dune.com/tianqi/Convex-Locked-CVX-V2(Sponsored-by-Badger))',
-					'.',
-				],
+			body1: [
+				'This vault locks 100% of deposited Convex tokens for rolling periods of 16 weeks. Badger will use vlCVX to vote for bribes during each voting round, sell them, and emit the proceeds back to holders in the form of bveCVX (autocompounded), and claimable BADGER and bcvxCRV.',
+			],
+			body2: [
+				'Unlike other Badger Vaults, bveCVX limits the times when users may withdraw their funds. Limited pre-unlock liquidity is available through this ',
+				'[Curve Pool](https://curve.fi/factory/52/)',
+				'. Please carefully read the ',
+				'[User Guide](https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/vote-locked-cvx)',
+				' for more information. Details on the timing of CVX unlocks are available on this ',
+				'[Dune dashboard](https://dune.com/tianqi/Convex-Locked-CVX-V2(Sponsored-by-Badger))',
+				'.',
 			],
 			liquity: [['% CVX Received from 10k '], ['[bveCVX swap](https://curve.fi/factory/52/)']],
 		},

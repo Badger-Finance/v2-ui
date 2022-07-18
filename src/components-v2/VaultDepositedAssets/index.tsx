@@ -31,12 +31,12 @@ const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {
 	const currencyValue = inCurrency(new BigNumber(vault.value), uiState.currency);
 	let hasCurrencyIcon = currencyValue?.includes('.png');
 
-	const isAInfluenceVault = isInfluenceVault(vault.vaultToken);
+	const isAnInfluenceVault = isInfluenceVault(vault.vaultToken);
 
 	let currencyIcon;
 	let displayValue;
 
-	if (isAInfluenceVault) {
+	if (isAnInfluenceVault) {
 		hasCurrencyIcon = false;
 		displayValue = `${numberWithCommas(vault.balance.toFixed())} ${vault.asset}`;
 	} else {
@@ -49,11 +49,11 @@ const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {
 
 	return (
 		<>
-			{currencyIcon && !isAInfluenceVault && (
+			{currencyIcon && !isAnInfluenceVault && (
 				<img src={`${currencyIcon}.png`} alt={`${currencyIcon} icon`} className={classes.currencyIcon} />
 			)}
 			<Typography className={classes.amount}>{displayValue ?? <Skeleton width={209} height={37} />}</Typography>
-			{isAInfluenceVault && (
+			{isAnInfluenceVault && (
 				<Typography variant="subtitle1" color="textSecondary">
 					{currencyValue ?? <Skeleton width={209} height={24} />}
 				</Typography>

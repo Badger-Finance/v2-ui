@@ -203,7 +203,6 @@ class InfluenceVaultStore {
 			o.vaultValue = vaultSnapshot.value;
 
 			const valuePerHundred = vaultSnapshot.balance / 100;
-			console.log(o.tokens);
 			sourceTokens.forEach((sourceToken: string, index: number) => {
 				const value =
 					(o.tokens[index].balance * tokenPricesSnapshots[sourceToken][timestamp]) / valuePerHundred;

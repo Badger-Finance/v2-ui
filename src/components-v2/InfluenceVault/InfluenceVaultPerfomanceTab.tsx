@@ -79,10 +79,10 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 					<Typography variant="body1">Strategy Summary</Typography>
 					<Divider className={classes.divider} />
 					<Typography className={classes.firstParagraph} variant="body2" color="textSecondary">
-						{parseText(info.perfomanceInfo.body[0], createLink)}
+						{parseText(info.perfomanceInfo.body1, createLink)}
 					</Typography>
 					<Typography variant="body2" color="textSecondary">
-						{parseText(info.perfomanceInfo.body[1], createLink)}
+						{parseText(info.perfomanceInfo.body2, createLink)}
 					</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>

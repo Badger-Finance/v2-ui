@@ -9,7 +9,7 @@ import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUti
 export const VaultDetailWrapper = observer((): JSX.Element => {
 	const { vaultDetail } = useContext(StoreContext);
 	const { vault } = vaultDetail;
-	const isAInfluenceVault = vault && isInfluenceVault(vault.vaultToken);
+	const isAnInfluenceVault = vault && isInfluenceVault(vault.vaultToken);
 
-	return <>{isAInfluenceVault ? <InfluenceVaultDetail /> : <VaultDetail />}</>;
+	return <>{isAnInfluenceVault ? <InfluenceVaultDetail /> : <VaultDetail />}</>;
 });

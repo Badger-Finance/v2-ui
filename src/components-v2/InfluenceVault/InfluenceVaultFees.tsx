@@ -6,7 +6,6 @@ import { getStrategyFee } from '../../mobx/utils/fees';
 import { VaultDTO } from '@badger-dao/sdk';
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
 import { formatStrategyFee } from '../../utils/componentHelpers';
-// import influenceFees from 'config/bve-cvx/vote-influence-fees.json';
 import InfluenceVaultModal from './InfluenceVaultModal';
 import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
 

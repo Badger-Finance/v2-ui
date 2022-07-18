@@ -5,7 +5,6 @@ import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
 import routes from '../../config/routes';
 import { Container, Grid, makeStyles } from '@material-ui/core';
 import { Header } from '../vault-detail/Header';
-import mainnetDeploy from 'config/deployments/mainnet.json';
 import { Footer } from '../vault-detail/Footer';
 import { TopContent } from '../vault-detail/TopContent';
 import { Loader } from '../../components/Loader';
@@ -49,7 +48,7 @@ const InfluenceVaultDetail = (): JSX.Element => {
 		wallet,
 	} = useContext(StoreContext);
 
-	const { vault, isLoading, isNotFound } = vaultDetail;
+	const { vault } = vaultDetail;
 
 	const classes = useStyles();
 	const badgerVault = vault ? vaults.getVaultDefinition(vault) : undefined;
