@@ -78,6 +78,18 @@ export function getUserVaultBoost(vault: VaultDTO, boost: number, apr = false): 
     .reduce((total, apr) => total + apr, 0);
 }
 
+export function getProjectedVaultBoost(vault: VaultDTO, boost: number, apr = false): number {
+  const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
+  return (apr ? vault.sources : vault.sourcesApy)
+    .map((source) => {
+      if (source.name.includes('Badger Rewards')) {
+        return source.minApr + (source.maxApr - source.minApr) * (boost / maxBoost);
+      }
+      return 0;
+    })
+    .reduce((total, apr) => total + apr, 0);
+}
+
 export const limitVaultType = (vaults: VaultDTO[], type: VaultType, max = 3): VaultDTO[] => {
   return vaults
     .sort((a, b) => b.value - a.value) // sort by TVL

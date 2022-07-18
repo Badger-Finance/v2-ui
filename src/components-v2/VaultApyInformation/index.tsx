@@ -52,9 +52,10 @@ interface Props {
   vault: VaultDTO;
   boost: number;
   onClose: () => void;
+  projectedBoost: number | null;
 }
 
-const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Element => {
+const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Props): JSX.Element => {
   const { vaults, router } = useContext(StoreContext);
   const classes = useStyles();
   const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
@@ -105,7 +106,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
           <Grid item container justifyContent="space-between">
             <Grid item>
               <Typography variant="subtitle1" display="inline" color="textSecondary">
-                {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
+                Historic {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
               </Typography>
             </Grid>
             <Grid item>
@@ -121,6 +122,22 @@ const VaultApyInformation = ({ open, onClose, boost, vault }: Props): JSX.Elemen
               <Divider className={classes.divider} />
             </React.Fragment>
           ))}
+          {projectedBoost !== null && (
+            <>
+              <Grid item container justifyContent="space-between">
+                <Grid item>
+                  <Typography variant="body2" display="inline" color="textSecondary">
+                    Projected {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2" display="inline" color="textSecondary">
+                    {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </>
+          )}
           <Grid item className={classes.button}>
             <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
               GO TO VAULT
