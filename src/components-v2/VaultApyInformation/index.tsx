@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: 34,
   },
+  projectedAPY: {
+    paddingTop: 10,
+  },
 }));
 
 interface Props {
@@ -124,18 +127,36 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
           ))}
           {projectedBoost !== null && (
             <>
-              <Grid item container justifyContent="space-between">
+              <Grid className={classes.projectedAPY} item container justifyContent="space-between">
                 <Grid item>
-                  <Typography variant="body2" display="inline" color="textSecondary">
+                  <Typography variant="subtitle1" display="inline" color="textSecondary">
                     Projected {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body2" display="inline" color="textSecondary">
+                  <Typography variant="subtitle1" display="inline" color="textSecondary">
                     {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
                   </Typography>
                 </Grid>
               </Grid>
+              <Divider className={classes.divider} />
+              {vault.yieldProjection.harvestTokens.map((token) => (
+                <>
+                  <Grid item container justifyContent="space-between">
+                    <Grid item>
+                      <Typography variant="body2" display="inline" color="textSecondary">
+                        {token.name}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body2" display="inline" color="textSecondary">
+                        {`${numberWithCommas(token.apr.toFixed(2))}%`}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Divider className={classes.divider} />
+                </>
+              ))}
             </>
           )}
           <Grid item className={classes.button}>
