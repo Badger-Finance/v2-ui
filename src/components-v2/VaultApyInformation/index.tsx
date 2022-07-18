@@ -46,8 +46,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 34,
   },
   projectedAPY: {
-    paddingTop: 10
-  }
+    paddingTop: 10,
+  },
 }));
 
 interface Props {
