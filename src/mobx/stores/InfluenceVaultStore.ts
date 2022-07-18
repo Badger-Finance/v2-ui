@@ -104,7 +104,7 @@ class InfluenceVaultStore {
 		const config = getInfluenceVaultConfig(vault.vaultToken);
 		const { provider } = this.store.wallet;
 		if (!provider || this.influenceVaults[vault.vaultToken].swapPercentage === '') return;
-		const curvePool = CurveFactoryPool__factory.connect(config.graph.poolToken, provider);
+		const curvePool = CurveFactoryPool__factory.connect(config.poolToken, provider);
 		const swapAmount = 10_000; // 10k bveCVX;
 		// in the pool each token is represented by an index 0 is bveCVX and 1 is CVX
 		// We might need to store this in config if ratio's change for other ivaults with curve pools.
@@ -120,9 +120,9 @@ class InfluenceVaultStore {
 	): Promise<InfluenceVaultEmissionRound[]> {
 		const schedulesByRound: Record<number, EmissionSchedule[]> = {};
 		const config = getInfluenceVaultConfig(vault.vaultToken);
-		const sourceTokens = config.chart.sources;
+		const sourceTokens = config.sources;
 		for (let schedule of schedules) {
-			let round = Math.ceil((schedule.start - config.chart.roundStart) / (14 * (ONE_DAY_MS / 1000)));
+			let round = Math.ceil((schedule.start - config.roundStart) / (14 * (ONE_DAY_MS / 1000)));
 
 			// we have some weird schedules that are bad entries
 			if (round < 1) {

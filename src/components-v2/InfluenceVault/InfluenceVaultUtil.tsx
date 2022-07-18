@@ -1,3 +1,4 @@
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
 
 export const parseText = (text: string[], createLink: (a: string, b: string) => JSX.Element) => {
@@ -12,36 +13,35 @@ export const parseText = (text: string[], createLink: (a: string, b: string) => 
 					return t;
 				}
 			})}
+			x
 		</>
 	);
 };
 
 export const isInfluenceVault = (address: string): boolean => {
-	return vaults.map((vault) => vault.chart.influenceVaultToken).includes(address);
+	return vaults.map((vault) => vault.influenceVaultToken).includes(address);
 };
 
-export const getInfluenceVaultConfig = (address: string): any => {
-	return vaults.find((vault) => vault.chart.influenceVaultToken === address);
+export const getInfluenceVaultConfig = (address: string): InfluenceVaultConfig => {
+	return vaults.find((vault) => vault.influenceVaultToken === address)!!;
 };
 
 export const getAllInfluenceVaults = (): string[] => {
-	return vaults.map((vault) => vault.chart.influenceVaultToken);
+	return vaults.map((vault) => vault.influenceVaultToken);
 };
 
-export const vaults = [
+export const vaults: InfluenceVaultConfig[] = [
 	{
-		chart: {
-			influenceVaultToken: mainnetDeploy.sett_system.vaults['native.icvx'], // bveCVX
-			badgerToken: mainnetDeploy.tokens['badger'],
-			poolToken: mainnetDeploy.tokens['bveCVXCVX'],
-			vaultToken: mainnetDeploy.sett_system.vaults['native.cvxCrv'], //bvecrvCVX
-			roundStart: 1632182660,
-			sources: [
-				mainnetDeploy.sett_system.vaults['native.icvx'],
-				mainnetDeploy.tokens['badger'],
-				mainnetDeploy.sett_system.vaults['native.cvxCrv'],
-			],
-		},
+		influenceVaultToken: mainnetDeploy.sett_system.vaults['native.icvx'], // bveCVX
+		poolToken: mainnetDeploy.tokens['bveCVXCVX'],
+		vaultToken: mainnetDeploy.sett_system.vaults['native.cvxCrv'], //bvecrvCVX
+		roundStart: 1632182660,
+		sources: [
+			mainnetDeploy.sett_system.vaults['native.icvx'],
+			mainnetDeploy.tokens['badger'],
+			mainnetDeploy.sett_system.vaults['native.cvxCrv'],
+		],
+
 		rewardFrequencies: [
 			{
 				name: 'bveCVX, BADGER',
