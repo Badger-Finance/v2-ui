@@ -15,7 +15,7 @@ import { format } from 'd3-format';
 import { Box, makeStyles, Typography, Paper } from '@material-ui/core';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { StyledDivider } from '../vault-detail/styled';
-import { InfluenceVaultEmissionRound, EmissionRoundToken } from '../../mobx/model/charts/bve-cvx-emission-round';
+import { InfluenceVaultEmissionRound, EmissionRoundToken } from '../../mobx/model/charts/influence-vaults-graph';
 import { numberWithCommas } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles(() => ({
@@ -103,6 +103,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 };
 
 const InfluenceVaultChart = ({ emissions }: Props) => {
+	const colors = ['#A9731E', '#F2A52B', '#808080'];
 	return (
 		<ResponsiveContainer width="99%" height={250}>
 			{/* Skip Round 1 & 2, it has bad data */}
@@ -121,9 +122,15 @@ const InfluenceVaultChart = ({ emissions }: Props) => {
 				</YAxis>
 				<Tooltip content={<CustomToolTip />} cursor={{ fill: '#3a3a3a' }} />
 				<Legend />
-				<Bar name={emissions[0].tokens[0].symbol} dataKey="graph.value1" stackId="a" fill="#A9731E" />
-				<Bar name={emissions[0].tokens[1].symbol} dataKey="graph.value2" stackId="a" fill="#F2A52B" />
-				<Bar name={emissions[0].tokens[2].symbol} dataKey="graph.value3" stackId="a" fill="#808080" />
+				{emissions[0].tokens.map((token, index) => (
+					<Bar
+						key={index}
+						name={token.symbol}
+						dataKey={`graph.${index}`}
+						stackId="a"
+						fill={colors[index % 3]}
+					/>
+				))}
 			</BarChart>
 		</ResponsiveContainer>
 	);

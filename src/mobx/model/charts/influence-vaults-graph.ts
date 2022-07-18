@@ -1,6 +1,6 @@
 export interface InfluenceVaultEmissionRound {
 	tokens: EmissionRoundToken[];
-	graph: Graph;
+	graph: GraphObject;
 	vaultTokens: number;
 	vaultValue: number;
 
@@ -9,14 +9,12 @@ export interface InfluenceVaultEmissionRound {
 	diviserTokenSymbol: string;
 }
 
-export interface Graph {
-	value1: number;
-	value2: number;
-	value3: number;
-}
-
 export interface EmissionRoundToken {
 	symbol: string;
 	balance: number;
 	value: number;
+}
+
+export interface GraphObject {
+	[key: string]: number;
 }

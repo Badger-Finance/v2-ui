@@ -1,5 +1,5 @@
 import { VaultDTO } from '@badger-dao/sdk';
-import { InfluenceVaultEmissionRound } from '../charts/bve-cvx-emission-round';
+import { InfluenceVaultEmissionRound } from '../charts/influence-vaults-graph';
 import { VaultChartData } from './vault-charts';
 
 export interface InfluenceVaultData {

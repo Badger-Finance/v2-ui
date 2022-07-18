@@ -5,7 +5,7 @@ import { EmissionSchedule, formatBalance, ONE_DAY_MS, VaultDTO } from '@badger-d
 import { CurveFactoryPool__factory } from '../../contracts';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { ethers } from 'ethers';
-import { InfluenceVaultEmissionRound, EmissionRoundToken } from 'mobx/model/charts/bve-cvx-emission-round';
+import { InfluenceVaultEmissionRound, EmissionRoundToken, GraphObject } from 'mobx/model/charts/influence-vaults-graph';
 import { InfluenceVaultData } from 'mobx/model/vaults/influence-vault-data';
 import { getInfluenceVaultConfig } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 
@@ -171,14 +171,12 @@ class InfluenceVaultStore {
 				});
 			}
 
+			let graph: GraphObject = {};
+
 			// set up objects with initial unused params - they will be filled in later
 			return {
 				tokens: tokens,
-				graph: {
-					value1: 0,
-					value2: 0,
-					value3: 0,
-				},
+				graph: graph,
 				vaultTokens: 0,
 				vaultValue: 0,
 
@@ -207,18 +205,10 @@ class InfluenceVaultStore {
 			const valuePerHundred = vaultSnapshot.balance / 100;
 			console.log(o.tokens);
 			sourceTokens.forEach((sourceToken: string, index: number) => {
-				o.tokens[index].value =
+				const value =
 					(o.tokens[index].balance * tokenPricesSnapshots[sourceToken][timestamp]) / valuePerHundred;
-				if (index === 0) {
-					o.graph.value1 =
-						(o.tokens[index].balance * tokenPricesSnapshots[sourceToken][timestamp]) / valuePerHundred;
-				} else if (index === 1) {
-					o.graph.value2 =
-						(o.tokens[index].balance * tokenPricesSnapshots[sourceToken][timestamp]) / valuePerHundred;
-				} else {
-					o.graph.value3 =
-						(o.tokens[index].balance * tokenPricesSnapshots[sourceToken][timestamp]) / valuePerHundred;
-				}
+				o.tokens[index].value = value;
+				o.graph[`${index}`] = value;
 			});
 		});
 		return baseObjects;
