@@ -12,7 +12,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
 import { VaultToken } from '../vault-detail/specs/VaultToken';
-import { info } from './InfluenceVaultUtil';
+import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
 
 interface Props {
 	vault: VaultDTO;
@@ -44,6 +44,7 @@ const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
 	const [frequencyInfoOpen, setFrequencyInfoOpen] = useState(false);
 	const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
 	const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
+	const info = getInfluenceVaultConfig(vault.vaultToken);
 	const classes = useStyles();
 
 	return (
@@ -96,7 +97,7 @@ const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
 					</Box>
 					<StyledDivider />
 					<Grid container direction="column">
-						{info.rewardFrequencies.map(({ name, value }, index: number) => (
+						{info.rewardFrequencies.map(({ name, value }: any, index: number) => (
 							<SpecItem key={index} name={name} value={value} />
 						))}
 					</Grid>
