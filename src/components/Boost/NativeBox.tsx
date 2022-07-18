@@ -72,7 +72,7 @@ export const NativeBox = observer((props: Props) => {
   const nftBalance = user.accountDetails?.nftBalance ?? 0;
   const nativeHoldings = user.accountDetails?.nativeBalance ?? 0;
   const diggBalance = user.accountDetails?.diggBalance ?? 0;
-  const badgerBalance = Math.max(nativeHoldings - nftBalance - bveCVXBalance, 0);
+  const badgerBalance = Math.max(nativeHoldings - nftBalance - bveCVXBalance - diggBalance, 0);
 
   const {
     nativeToAdd,
