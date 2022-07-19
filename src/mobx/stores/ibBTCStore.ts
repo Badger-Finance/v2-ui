@@ -1,7 +1,7 @@
 import { formatBalance, Token } from '@badger-dao/sdk';
 import addresses from 'config/ibBTC/addresses.json';
 import { BadgerPeakSwap__factory } from 'contracts';
-import { BigNumber } from 'ethers';
+import { parseUnits } from 'ethers/lib/utils';
 import { action, makeAutoObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
@@ -94,7 +94,7 @@ class IbBTCStore {
 
   fetchMintRate = action(async ({ token }: TokenBalance): Promise<string> => {
     try {
-      const { bbtc, fee } = await this.store.sdk.ibbtc.estimateMint(token.address, BigNumber.from(1));
+      const { bbtc, fee } = await this.store.sdk.ibbtc.estimateMint(token.address, parseUnits('1', token.decimals));
       return TokenBalance.fromBigNumber(this.ibBTC, bbtc.add(fee)).balanceDisplay(6);
     } catch (error) {
       return '0.000';
