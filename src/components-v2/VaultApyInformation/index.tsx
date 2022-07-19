@@ -19,8 +19,6 @@ import routes from '../../config/routes';
 import { numberWithCommas } from '../../mobx/utils/helpers';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
-import { calculateUserBoost } from 'utils/boost-ranks';
-import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
   root: {
