@@ -10,9 +10,11 @@ import { StyledHelpIcon } from '../vault-detail/styled';
 import { Skeleton } from '@material-ui/lab';
 import InfluenceVaultChart from './InfluenceVaultChart';
 import ChartContent from '../vault-detail/charts/ChartContent';
-import { parseText } from './InfluenceVaultUtil';
 import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
+import MarkupText from 'components-v2/common/MarkupText';
+import routes from '../../config/routes';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
@@ -63,13 +65,9 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 	const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
 	const info = getInfluenceVaultConfig(vault.vaultToken);
 	const diviserToken = vaults.getToken(vault.vaultToken).symbol;
-
-	const createLink = (text: string, link: string) => {
-		return (
-			<Link href={link} key={link} target="_blank" rel="noopener" display="inline">
-				{text}
-			</Link>
-		);
+	const { router } = useContext(StoreContext);
+	const handleLinkClick = (link: string) => {
+		router.goTo(routes.vaultDetail, { vaultName: link }, { chain: router.queryParams?.chain });
 	};
 
 	return (
@@ -79,10 +77,10 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 					<Typography variant="body1">Strategy Summary</Typography>
 					<Divider className={classes.divider} />
 					<Typography className={classes.firstParagraph} variant="body2" color="textSecondary">
-						{parseText(info.perfomanceInfo.body1, createLink)}
+						<MarkupText text={info.perfomanceInfo.body1} onClick={handleLinkClick} />
 					</Typography>
 					<Typography variant="body2" color="textSecondary">
-						{parseText(info.perfomanceInfo.body2, createLink)}
+						<MarkupText text={info.perfomanceInfo.body2} onClick={handleLinkClick} />
 					</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -124,7 +122,11 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 							}
 						/>
 						<SpecItem
-							name={<span>{parseText(info.perfomanceInfo.liquity[0], createLink)}</span>}
+							name={
+								<span>
+									<MarkupText text={info.perfomanceInfo.liquity[0]} onClick={handleLinkClick} />
+								</span>
+							}
 							value={swapPercentage ? swapPercentage : <Skeleton width={50} variant="rect" />}
 						/>
 					</Grid>

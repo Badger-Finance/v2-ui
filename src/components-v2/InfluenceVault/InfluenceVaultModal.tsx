@@ -3,7 +3,7 @@ import { Grid, makeStyles, Typography, Link } from '@material-ui/core';
 import { StoreContext } from '../../mobx/store-context';
 import { InfoDialog } from './InfoDialog';
 import routes from '../../config/routes';
-import { parseText } from './InfluenceVaultUtil';
+import MarkupText from 'components-v2/common/MarkupText';
 
 const useStyles = makeStyles(() => ({
 	feeSpec: {
@@ -33,20 +33,6 @@ const InfluenceVaultModal = ({ open, onClose, info }: Props): JSX.Element => {
 		router.goTo(routes.vaultDetail, { vaultName: link }, { chain: router.queryParams?.chain });
 	};
 
-	const createLink = (text: string, link: string) => {
-		if (link.includes('http')) {
-			return (
-				<Link href={link} target="_blank" rel="noopener" display="inline">
-					{text}
-				</Link>
-			);
-		}
-		return (
-			<Link display="inline" className={classes.link} onClick={() => handleLinkClick(link)}>
-				{text}
-			</Link>
-		);
-	};
 	return (
 		<InfoDialog open={open} onClose={onClose}>
 			<InfoDialog.Title onClose={onClose} title="Vote Influence Fees" />
@@ -59,10 +45,10 @@ const InfluenceVaultModal = ({ open, onClose, info }: Props): JSX.Element => {
 					{info.points.map((point: any, index: number) => (
 						<Grid item key={index} className={classes.feeSpec}>
 							<Typography className={classes.specTitle} variant="body2" color="textSecondary">
-								{parseText(point.title, createLink)}
+								<MarkupText text={point.title} onClick={handleLinkClick} />
 							</Typography>
 							<Typography variant="body2" color="textSecondary">
-								{parseText(point.body, createLink)}
+								<MarkupText text={point.body} onClick={handleLinkClick} />
 							</Typography>
 						</Grid>
 					))}

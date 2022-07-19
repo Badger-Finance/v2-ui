@@ -1,23 +1,6 @@
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
 
-export const parseText = (text: string[], createLink: (a: string, b: string) => JSX.Element) => {
-	return (
-		<>
-			{text.map((t) => {
-				if (t.startsWith('[')) {
-					const name = t.substring(1, t.indexOf(']'));
-					const link = t.substring(t.indexOf('(') + 1, t.length - 1);
-					return createLink(name, link);
-				} else {
-					return t;
-				}
-			})}
-			x
-		</>
-	);
-};
-
 export const isInfluenceVault = (address: string): boolean => {
 	return vaults.map((vault) => vault.influenceVaultToken).includes(address);
 };
