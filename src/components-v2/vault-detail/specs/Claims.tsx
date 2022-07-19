@@ -55,7 +55,6 @@ enum DelaySeverity {
 
 export const Claims = observer((): JSX.Element => {
 	const { rewards } = React.useContext(StoreContext);
-	const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 	const classes = useStyles();
 
 	const differenceInHoursFromCycle = calculateDifferenceInHoursFromCycle(rewards.badgerTree.lastCycle);
@@ -98,7 +97,6 @@ export const Claims = observer((): JSX.Element => {
 					<ChevronRightIcon className={classes.linkIcon} />
 				</div>
 			</Link>
-			{/* <BveCvxFrequencyInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} /> */}
 		</Grid>
 	);
 });
