@@ -38,7 +38,7 @@ export interface InfluenceVaultModalInfo {
 export interface InfluenceVaultPerfomanceInfo {
 	body1: string[];
 	body2: string[];
-	liquity: string[][];
+	liquity: string[];
 }
 
 export interface InfluenceVaultFeeInfo {

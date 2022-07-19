@@ -67,7 +67,6 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 	const apr = ((totalValue * (vaultTokens / 100)) / vaultValue) * 2600;
 
 	const colors = [classes.color2, classes.color1, classes.color3];
-
 	return (
 		<Box component={Paper} className={classes.tooltipRoot} key={index}>
 			<div className={classes.header}>
@@ -75,14 +74,14 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 				<Typography variant="caption">{new Date(start * 1000).toDateString()}</Typography>
 			</div>
 			<StyledDivider />
-			{tokens.map((token: EmissionRoundToken, index: number) => {
+			{tokens.map((token: EmissionRoundToken, i: number) => {
 				return (
 					<>
 						{token.balance > 0 && (
-							<div className={classes.tooltipItem} key={index}>
+							<div className={classes.tooltipItem} key={i}>
 								<Typography variant="body2">
 									{numberWithCommas((token.balance / hundredsOfTokens).toFixed(2))}{' '}
-									<span className={colors[index % 3]}>{token.symbol}</span>
+									<span className={colors[i % 3]}>{token.symbol}</span>
 									<span> per 100 {diviserTokenSymbol}</span>
 								</Typography>
 								<Typography variant="caption" className={classes.subItem}>

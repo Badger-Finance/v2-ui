@@ -103,7 +103,7 @@ class InfluenceVaultStore {
 	async loadSwapPercentage(vault: VaultDTO) {
 		const config = getInfluenceVaultConfig(vault.vaultToken);
 		const { provider } = this.store.wallet;
-		if (!provider || this.influenceVaults[vault.vaultToken].swapPercentage === '') return;
+		if (!provider || this.influenceVaults[vault.vaultToken].swapPercentage !== '') return;
 		const curvePool = CurveFactoryPool__factory.connect(config.poolToken, provider);
 		const swapAmount = 10_000; // 10k bveCVX;
 		// in the pool each token is represented by an index 0 is bveCVX and 1 is CVX

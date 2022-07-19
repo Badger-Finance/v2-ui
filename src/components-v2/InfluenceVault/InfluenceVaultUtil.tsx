@@ -79,7 +79,7 @@ export const vaults: InfluenceVaultConfig[] = [
 				'[Dune dashboard](https://dune.com/tianqi/Convex-Locked-CVX-V2(Sponsored-by-Badger))',
 				'.',
 			],
-			liquity: [['% CVX Received from 10k '], ['[bveCVX swap](https://curve.fi/factory/52/)']],
+			liquity: ['% CVX Received from 10k ', '[bveCVX swap](https://curve.fi/factory/52/)'],
 		},
 		feeInfo: {
 			fees: [

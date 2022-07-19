@@ -29,7 +29,6 @@ const MarkupText = ({ text, onClick }: Props): JSX.Element => {
 						return t;
 					}
 				})}
-				x
 			</>
 		);
 	};
