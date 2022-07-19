@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { Loader } from 'components/Loader';
 import { StoreContext } from 'mobx/stores/store-context';
+import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
@@ -65,7 +66,7 @@ export const RewardsButton = observer((): JSX.Element | null => {
         onClick={() => store.uiState.toggleRewardsDialog()}
       >
         <CurrencyDisplay
-          displayValue={totalRewardsValue.toFixed(widgetButtonDecimals)}
+          displayValue={`$${numberWithCommas(totalRewardsValue.toFixed(widgetButtonDecimals))}`}
           variant="body2"
           justifyContent="center"
           TypographyProps={{ className: classes.label }}

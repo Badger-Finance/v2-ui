@@ -1,4 +1,5 @@
 import { formatBalance, Token } from '@badger-dao/sdk';
+import { DIGG_ADDRESS, DIGG_SHARES_PER_FRAGMENT } from '@badger-dao/sdk/lib/digg/digg.service';
 import { BigNumber, BigNumberish, ethers } from 'ethers';
 import { numberWithCommas } from 'mobx/utils/helpers';
 
@@ -10,6 +11,11 @@ export class TokenBalance {
 
   constructor(token: Token, balance: BigNumberish, price: number) {
     this.token = token;
+
+    if (token.address === DIGG_ADDRESS) {
+      balance = BigNumber.from(balance).div(DIGG_SHARES_PER_FRAGMENT);
+    }
+
     this.tokenBalance = BigNumber.from(balance);
     this.price = price;
     this.balance = formatBalance(balance, token.decimals);
