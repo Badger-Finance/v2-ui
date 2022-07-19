@@ -42,9 +42,9 @@ export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 
 export const getApi = (): string => {
   if (DEBUG) {
-    return 'https://staging-api.badger.com/v2';
+    return 'https://staging-api.badger.com';
   }
-  return 'https://api.badger.com/v2';
+  return 'https://api.badger.com';
 };
 
 export const BADGER_API = getApi();

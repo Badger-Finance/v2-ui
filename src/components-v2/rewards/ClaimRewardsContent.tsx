@@ -17,6 +17,7 @@ import InvalidCycleDialog from 'components-v2/common/dialogs/InvalidCycleDialog'
 import { BigNumber } from 'ethers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
+import { numberWithCommas } from 'mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -308,7 +309,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
                   <CurrencyDisplay
                     variant="h6"
                     justifyContent="flex-end"
-                    displayValue={totalClaimValue.toFixed(2)}
+                    displayValue={`$${numberWithCommas(totalClaimValue.toFixed(2))}`}
                     TypographyProps={{ className: classes.titleText }}
                   />
                 </Grid>
