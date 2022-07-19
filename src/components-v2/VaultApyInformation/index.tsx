@@ -19,6 +19,8 @@ import routes from '../../config/routes';
 import { numberWithCommas } from '../../mobx/utils/helpers';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
+import { calculateUserBoost } from 'utils/boost-ranks';
+import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,6 +66,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
   //make sure boost sources are always the last one
   const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
+  const badgerRewardsSources = sortedSources.filter((source) => source.name.includes('Badger Rewards'));
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -156,6 +159,12 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   </Grid>
                   <Divider className={classes.divider} />
                 </>
+              ))}
+              {badgerRewardsSources.map((source) => (
+                <React.Fragment key={source.name}>
+                  <VaultApyBreakdownItem vault={vault} source={source} />
+                  <Divider className={classes.divider} />
+                </React.Fragment>
               ))}
             </>
           )}

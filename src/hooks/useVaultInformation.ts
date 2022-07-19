@@ -20,9 +20,7 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
   let vaultBoost = showAPR ? vault.apr : vault.apy;
   let projectedVaultBoost =
     vault.version === VaultVersion.v1_5
-      ? showAPR
-        ? vault.yieldProjection.harvestApr
-        : vault.yieldProjection.harvestApy
+      ? vault.yieldProjection.harvestApr
       : null;
 
   if (user.accountDetails?.boost) {
@@ -30,7 +28,7 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
 
     // Calculate boosted projection
     if (projectedVaultBoost) {
-      projectedVaultBoost = projectedVaultBoost + getProjectedVaultBoost(vault, user.accountDetails.boost, showAPR);
+      projectedVaultBoost = projectedVaultBoost + getProjectedVaultBoost(vault, user.accountDetails.boost);
     }
   }
 
