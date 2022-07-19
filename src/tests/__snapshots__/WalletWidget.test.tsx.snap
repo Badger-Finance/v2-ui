@@ -22,17 +22,17 @@ exports[`WalletWidget Connected address is properly displayed 1`] = `
 exports[`WalletWidget Renders correctly 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-contained-13 MuiButton-containedPrimary-14 MuiButton-disableElevation-16"
+    class="MuiButtonBase-root-36 MuiButton-root-7 MuiButton-contained-15 MuiButton-containedPrimary-16 MuiButton-disableElevation-18"
     tabindex="0"
     type="button"
   >
     <span
-      class="MuiButton-label-6 makeStyles-walletButtonLabel-4"
+      class="MuiButton-label-8 makeStyles-walletButtonLabel-4"
     >
       Connect
     </span>
     <span
-      class="MuiTouchRipple-root-37"
+      class="MuiTouchRipple-root-39"
     />
   </button>
 </div>
@@ -41,17 +41,17 @@ exports[`WalletWidget Renders correctly 1`] = `
 exports[`WalletWidget Renders mobile version correctly 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-contained-13 MuiButton-containedPrimary-14 MuiButton-disableElevation-16"
+    class="MuiButtonBase-root-36 MuiButton-root-7 MuiButton-contained-15 MuiButton-containedPrimary-16 MuiButton-disableElevation-18"
     tabindex="0"
     type="button"
   >
     <span
-      class="MuiButton-label-6 makeStyles-walletButtonLabel-4"
+      class="MuiButton-label-8 makeStyles-walletButtonLabel-4"
     >
       Connect
     </span>
     <span
-      class="MuiTouchRipple-root-37"
+      class="MuiTouchRipple-root-39"
     />
   </button>
 </div>

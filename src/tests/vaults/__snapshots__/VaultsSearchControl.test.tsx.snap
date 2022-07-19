@@ -3,31 +3,31 @@
 exports[`VaultSearchControl desktop renders correctly 1`] = `
 <div>
   <div
-    class="MuiPaper-root-5 makeStyles-paper-4 MuiPaper-elevation1-9 MuiPaper-rounded-6"
+    class="MuiPaper-root-4 makeStyles-paper-3 MuiPaper-elevation1-8 MuiPaper-rounded-5"
   >
     <div
-      class="MuiGrid-root-33 makeStyles-firstRow-1 MuiGrid-container-34 MuiGrid-align-items-xs-center-42 MuiGrid-justify-content-xs-space-between-53"
+      class="MuiGrid-root-32 makeStyles-firstRow-1 MuiGrid-container-33 MuiGrid-align-items-xs-center-41 MuiGrid-justify-content-xs-space-between-52"
     >
       <div>
         <label
-          class="MuiFormControlLabel-root-136 makeStyles-checkbox-2"
+          class="MuiFormControlLabel-root-135 makeStyles-checkbox-2"
         >
           <span
             aria-disabled="false"
-            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+            class="MuiButtonBase-root-160 MuiIconButton-root-151 PrivateSwitchBase-root-147 MuiCheckbox-root-141 MuiCheckbox-colorPrimary-145 MuiIconButton-colorPrimary-155"
           >
             <span
-              class="MuiIconButton-label-160"
+              class="MuiIconButton-label-159"
             >
               <input
-                class="PrivateSwitchBase-input-151"
+                class="PrivateSwitchBase-input-150"
                 data-indeterminate="false"
                 type="checkbox"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-164"
+                class="MuiSvgIcon-root-163"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -37,38 +37,38 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-372"
             />
           </span>
           <span
-            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+            class="MuiTypography-root-172 MuiFormControlLabel-label-140 MuiTypography-body1-174"
           >
             <p
-              class="MuiTypography-root-173 MuiTypography-body2-174"
+              class="MuiTypography-root-172 MuiTypography-body2-173"
             >
               Only show deposits
             </p>
           </span>
         </label>
         <label
-          class="MuiFormControlLabel-root-136 makeStyles-checkbox-2"
+          class="MuiFormControlLabel-root-135 makeStyles-checkbox-2"
         >
           <span
             aria-disabled="false"
-            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
+            class="MuiButtonBase-root-160 MuiIconButton-root-151 PrivateSwitchBase-root-147 MuiCheckbox-root-141 MuiCheckbox-colorPrimary-145 MuiIconButton-colorPrimary-155"
           >
             <span
-              class="MuiIconButton-label-160"
+              class="MuiIconButton-label-159"
             >
               <input
-                class="PrivateSwitchBase-input-151"
+                class="PrivateSwitchBase-input-150"
                 data-indeterminate="false"
                 type="checkbox"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-164"
+                class="MuiSvgIcon-root-163"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -78,57 +78,16 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-372"
             />
           </span>
           <span
-            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+            class="MuiTypography-root-172 MuiFormControlLabel-label-140 MuiTypography-body1-174"
           >
             <p
-              class="MuiTypography-root-173 MuiTypography-body2-174"
+              class="MuiTypography-root-172 MuiTypography-body2-173"
             >
               Hide dust
-            </p>
-          </span>
-        </label>
-        <label
-          class="MuiFormControlLabel-root-136 makeStyles-label-203"
-        >
-          <span
-            aria-disabled="false"
-            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 MuiIconButton-colorPrimary-156"
-          >
-            <span
-              class="MuiIconButton-label-160"
-            >
-              <input
-                class="PrivateSwitchBase-input-151"
-                data-indeterminate="false"
-                type="checkbox"
-                value=""
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-164"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root-374"
-            />
-          </span>
-          <span
-            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
-          >
-            <p
-              class="MuiTypography-root-173 MuiTypography-body2-174"
-            >
-              🚀 Boosted Vaults
             </p>
           </span>
         </label>
@@ -136,65 +95,65 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
       <div>
         <div
           aria-label="apy apr selector"
-          class="MuiButtonGroup-root-206 makeStyles-apr-3"
+          class="MuiButtonGroup-root-204"
           role="group"
         >
           <button
             aria-selected="true"
-            class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-212 MuiButtonGroup-groupedHorizontal-213 MuiButtonGroup-groupedOutlined-220 MuiButtonGroup-groupedOutlinedHorizontal-221 MuiButtonGroup-groupedOutlined-220 makeStyles-selected-204 makeStyles-button-205"
+            class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-outlined-233 MuiButtonGroup-grouped-210 MuiButtonGroup-groupedHorizontal-211 MuiButtonGroup-groupedOutlined-218 MuiButtonGroup-groupedOutlinedHorizontal-219 MuiButtonGroup-groupedOutlined-218 makeStyles-selected-202 makeStyles-button-203"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-231"
+              class="MuiButton-label-229"
             >
               APY
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-372"
             />
           </button>
           <button
             aria-selected="false"
-            class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-212 MuiButtonGroup-groupedHorizontal-213 MuiButtonGroup-groupedOutlined-220 MuiButtonGroup-groupedOutlinedHorizontal-221 MuiButtonGroup-groupedOutlined-220 makeStyles-button-205"
+            class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-outlined-233 MuiButtonGroup-grouped-210 MuiButtonGroup-groupedHorizontal-211 MuiButtonGroup-groupedOutlined-218 MuiButtonGroup-groupedOutlinedHorizontal-219 MuiButtonGroup-groupedOutlined-218 makeStyles-button-203"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-231"
+              class="MuiButton-label-229"
             >
               APR
             </span>
             <span
-              class="MuiTouchRipple-root-374"
+              class="MuiTouchRipple-root-372"
             />
           </button>
         </div>
       </div>
     </div>
     <div
-      class="MuiGrid-root-33 makeStyles-root-259 MuiGrid-container-34"
+      class="MuiGrid-root-32 makeStyles-root-257 MuiGrid-container-33"
     >
       <div
-        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
+        class="MuiGrid-root-32 MuiGrid-item-34 MuiGrid-grid-xs-true-66"
       >
         <div
-          class="MuiFormControl-root-262 makeStyles-formControl-260"
+          class="MuiFormControl-root-260 makeStyles-formControl-258"
         >
           <label
-            class="MuiFormLabel-root-278 MuiInputLabel-root-266 MuiInputLabel-formControl-272 MuiInputLabel-animated-275 MuiInputLabel-outlined-277"
+            class="MuiFormLabel-root-276 MuiInputLabel-root-264 MuiInputLabel-formControl-270 MuiInputLabel-animated-273 MuiInputLabel-outlined-275"
             data-shrink="false"
             id="status-selector-id-label"
           >
             Status
           </label>
           <div
-            class="MuiInputBase-root-312 MuiOutlinedInput-root-297 MuiInputBase-formControl-313"
+            class="MuiInputBase-root-310 MuiOutlinedInput-root-295 MuiInputBase-formControl-311"
           >
             <div
               aria-haspopup="listbox"
               aria-labelledby="status-selector-id-label status-selector"
-              class="MuiSelect-root-286 MuiSelect-select-287 MuiSelect-selectMenu-290 MuiSelect-outlined-289 MuiInputBase-input-323 MuiOutlinedInput-input-307"
+              class="MuiSelect-root-284 MuiSelect-select-285 MuiSelect-selectMenu-288 MuiSelect-outlined-287 MuiInputBase-input-321 MuiOutlinedInput-input-305"
               id="status-selector"
               role="button"
               tabindex="0"
@@ -205,14 +164,14 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </div>
             <input
               aria-hidden="true"
-              class="MuiSelect-nativeInput-296"
+              class="MuiSelect-nativeInput-294"
               data-testid="status-selector-input"
               tabindex="-1"
               value=""
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-164 MuiSelect-icon-292 MuiSelect-iconOutlined-295"
+              class="MuiSvgIcon-root-163 MuiSelect-icon-290 MuiSelect-iconOutlined-293"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -222,10 +181,10 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-334 MuiOutlinedInput-notchedOutline-306"
+              class="PrivateNotchedOutline-root-332 MuiOutlinedInput-notchedOutline-304"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-336"
+                class="PrivateNotchedOutline-legendLabelled-334"
               >
                 <span>
                   Status
@@ -236,25 +195,25 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
+        class="MuiGrid-root-32 MuiGrid-item-34 MuiGrid-grid-xs-true-66"
       >
         <div
-          class="MuiFormControl-root-262 makeStyles-formControl-338"
+          class="MuiFormControl-root-260 makeStyles-formControl-336"
         >
           <label
-            class="MuiFormLabel-root-278 MuiInputLabel-root-266 MuiInputLabel-formControl-272 MuiInputLabel-animated-275 MuiInputLabel-outlined-277"
+            class="MuiFormLabel-root-276 MuiInputLabel-root-264 MuiInputLabel-formControl-270 MuiInputLabel-animated-273 MuiInputLabel-outlined-275"
             data-shrink="false"
             id="platform-selector-id-label"
           >
             Platform
           </label>
           <div
-            class="MuiInputBase-root-312 MuiOutlinedInput-root-297 MuiInputBase-formControl-313"
+            class="MuiInputBase-root-310 MuiOutlinedInput-root-295 MuiInputBase-formControl-311"
           >
             <div
               aria-haspopup="listbox"
               aria-labelledby="platform-selector-id-label platform-selector"
-              class="MuiSelect-root-286 MuiSelect-select-287 MuiSelect-selectMenu-290 MuiSelect-outlined-289 MuiInputBase-input-323 MuiOutlinedInput-input-307"
+              class="MuiSelect-root-284 MuiSelect-select-285 MuiSelect-selectMenu-288 MuiSelect-outlined-287 MuiInputBase-input-321 MuiOutlinedInput-input-305"
               id="platform-selector"
               role="button"
               tabindex="0"
@@ -265,14 +224,14 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </div>
             <input
               aria-hidden="true"
-              class="MuiSelect-nativeInput-296"
+              class="MuiSelect-nativeInput-294"
               data-testid="platform-selector-input"
               tabindex="-1"
               value=""
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-164 MuiSelect-icon-292 MuiSelect-iconOutlined-295"
+              class="MuiSvgIcon-root-163 MuiSelect-icon-290 MuiSelect-iconOutlined-293"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -282,10 +241,10 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-334 MuiOutlinedInput-notchedOutline-306"
+              class="PrivateNotchedOutline-root-332 MuiOutlinedInput-notchedOutline-304"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-336"
+                class="PrivateNotchedOutline-legendLabelled-334"
               >
                 <span>
                   Platform
@@ -296,25 +255,25 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
+        class="MuiGrid-root-32 MuiGrid-item-34 MuiGrid-grid-xs-true-66"
       >
         <div
-          class="MuiFormControl-root-262 makeStyles-formControl-340"
+          class="MuiFormControl-root-260 makeStyles-formControl-338"
         >
           <label
-            class="MuiFormLabel-root-278 MuiInputLabel-root-266 MuiInputLabel-formControl-272 MuiInputLabel-animated-275 MuiInputLabel-outlined-277"
+            class="MuiFormLabel-root-276 MuiInputLabel-root-264 MuiInputLabel-formControl-270 MuiInputLabel-animated-273 MuiInputLabel-outlined-275"
             data-shrink="false"
             id="rewards-selector-id-label"
           >
             Rewards
           </label>
           <div
-            class="MuiInputBase-root-312 MuiOutlinedInput-root-297 MuiInputBase-formControl-313"
+            class="MuiInputBase-root-310 MuiOutlinedInput-root-295 MuiInputBase-formControl-311"
           >
             <div
               aria-haspopup="listbox"
               aria-labelledby="rewards-selector-id-label rewards-selector"
-              class="MuiSelect-root-286 MuiSelect-select-287 MuiSelect-selectMenu-290 MuiSelect-outlined-289 MuiInputBase-input-323 MuiOutlinedInput-input-307"
+              class="MuiSelect-root-284 MuiSelect-select-285 MuiSelect-selectMenu-288 MuiSelect-outlined-287 MuiInputBase-input-321 MuiOutlinedInput-input-305"
               id="rewards-selector"
               role="button"
               tabindex="0"
@@ -325,14 +284,14 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </div>
             <input
               aria-hidden="true"
-              class="MuiSelect-nativeInput-296"
+              class="MuiSelect-nativeInput-294"
               data-testid="rewards-selector-input"
               tabindex="-1"
               value=""
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-164 MuiSelect-icon-292 MuiSelect-iconOutlined-295"
+              class="MuiSvgIcon-root-163 MuiSelect-icon-290 MuiSelect-iconOutlined-293"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -342,10 +301,10 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-334 MuiOutlinedInput-notchedOutline-306"
+              class="PrivateNotchedOutline-root-332 MuiOutlinedInput-notchedOutline-304"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-336"
+                class="PrivateNotchedOutline-legendLabelled-334"
               >
                 <span>
                   Rewards
@@ -356,37 +315,37 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67 MuiGrid-grid-md-true-95 MuiGrid-grid-lg-6-115"
+        class="MuiGrid-root-32 MuiGrid-item-34 MuiGrid-grid-xs-true-66 MuiGrid-grid-md-true-94 MuiGrid-grid-lg-6-114"
       >
         <div
-          class="MuiFormControl-root-262 MuiTextField-root-344 makeStyles-root-342"
+          class="MuiFormControl-root-260 MuiTextField-root-342 makeStyles-root-340"
         >
           <div
-            class="MuiInputBase-root-312 MuiOutlinedInput-root-297 MuiInputBase-formControl-313 MuiInputBase-adornedEnd-317 MuiOutlinedInput-adornedEnd-302"
+            class="MuiInputBase-root-310 MuiOutlinedInput-root-295 MuiInputBase-formControl-311 MuiInputBase-adornedEnd-315 MuiOutlinedInput-adornedEnd-300"
           >
             <input
               aria-invalid="false"
               aria-label="Vault Search"
-              class="MuiInputBase-input-323 MuiOutlinedInput-input-307 MuiInputBase-inputAdornedEnd-328 MuiOutlinedInput-inputAdornedEnd-311"
+              class="MuiInputBase-input-321 MuiOutlinedInput-input-305 MuiInputBase-inputAdornedEnd-326 MuiOutlinedInput-inputAdornedEnd-309"
               placeholder="Search by vault name, token, rewards..."
               type="text"
               value=""
             />
             <div
-              class="MuiInputAdornment-root-345 MuiInputAdornment-positionEnd-348"
+              class="MuiInputAdornment-root-343 MuiInputAdornment-positionEnd-346"
             >
               <button
                 aria-label="search"
-                class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-icon-343 MuiIconButton-sizeSmall-159"
+                class="MuiButtonBase-root-160 MuiIconButton-root-151 makeStyles-icon-341 MuiIconButton-sizeSmall-158"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiIconButton-label-160"
+                  class="MuiIconButton-label-159"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-164"
+                    class="MuiSvgIcon-root-163"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -396,17 +355,17 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="MuiTouchRipple-root-374"
+                  class="MuiTouchRipple-root-372"
                 />
               </button>
             </div>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-334 MuiOutlinedInput-notchedOutline-306"
+              class="PrivateNotchedOutline-root-332 MuiOutlinedInput-notchedOutline-304"
               style="padding-left: 8px;"
             >
               <legend
-                class="PrivateNotchedOutline-legend-335"
+                class="PrivateNotchedOutline-legend-333"
                 style="width: 0.01px;"
               >
                 <span>
@@ -418,20 +377,20 @@ exports[`VaultSearchControl desktop renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-auto-66"
+        class="MuiGrid-root-32 MuiGrid-item-34 MuiGrid-grid-xs-auto-65"
       >
         <button
-          class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 MuiButton-textPrimary-233 MuiButton-fullWidth-253"
+          class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-text-230 MuiButton-textPrimary-231 MuiButton-fullWidth-251"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-label-231"
+            class="MuiButton-label-229"
           >
             CLEAR ALL
           </span>
           <span
-            class="MuiTouchRipple-root-374"
+            class="MuiTouchRipple-root-372"
           />
         </button>
       </div>
@@ -444,56 +403,54 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-  
   <div
     aria-hidden="true"
   >
     <div
-      class="MuiPaper-root-5 makeStyles-paper-4 MuiPaper-elevation1-9 MuiPaper-rounded-6"
+      class="MuiPaper-root-4 makeStyles-paper-3 MuiPaper-elevation1-8 MuiPaper-rounded-5"
     >
       <div
-        class="MuiGrid-root-33 MuiGrid-container-34"
+        class="MuiGrid-root-32 MuiGrid-container-33"
       >
         <div
-          class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
+          class="MuiGrid-root-32 MuiGrid-item-34 MuiGrid-grid-xs-true-66"
         >
           <label
-            class="MuiFormControlLabel-root-136"
+            class="MuiFormControlLabel-root-135"
           >
             <span
               aria-disabled="false"
-              class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
+              class="MuiButtonBase-root-160 MuiIconButton-root-151 PrivateSwitchBase-root-147 MuiCheckbox-root-141 MuiCheckbox-colorPrimary-145 MuiIconButton-colorPrimary-155"
             >
               <span
-                class="MuiIconButton-label-160"
+                class="MuiIconButton-label-159"
               >
                 <input
-                  checked=""
-                  class="PrivateSwitchBase-input-151"
+                  class="PrivateSwitchBase-input-150"
                   data-indeterminate="false"
                   type="checkbox"
                   value=""
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root-164"
+                  class="MuiSvgIcon-root-163"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
                   <path
-                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-376"
+                class="MuiTouchRipple-root-374"
               />
             </span>
             <span
-              class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+              class="MuiTypography-root-172 MuiFormControlLabel-label-140 MuiTypography-body1-174"
             >
               <p
-                class="MuiTypography-root-173 MuiTypography-body2-174"
+                class="MuiTypography-root-172 MuiTypography-body2-173"
               >
                 Only show deposits
               </p>
@@ -501,24 +458,24 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
           </label>
         </div>
         <div
-          class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-item-35 MuiGrid-justify-content-xs-flex-end-52 MuiGrid-grid-xs-true-67"
+          class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-item-34 MuiGrid-justify-content-xs-flex-end-51 MuiGrid-grid-xs-true-66"
         >
           <button
-            class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 makeStyles-button-374"
+            class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-text-230 makeStyles-button-372"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-231 makeStyles-buttonLabel-375"
+              class="MuiButton-label-229 makeStyles-buttonLabel-373"
             >
               <p
-                class="MuiTypography-root-173 MuiTypography-body2-174 MuiTypography-displayInline-201"
+                class="MuiTypography-root-172 MuiTypography-body2-173 MuiTypography-displayInline-200"
               >
                 Filters
               </p>
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-164"
+                class="MuiSvgIcon-root-163"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -528,7 +485,7 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-376"
+              class="MuiTouchRipple-root-374"
             />
           </button>
         </div>
@@ -536,13 +493,13 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
     </div>
   </div>
   <div
-    class="MuiDialog-root-359"
+    class="MuiDialog-root-357"
     role="presentation"
     style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-386"
+      class="MuiBackdrop-root-384"
       style="opacity: 1;"
     />
     <div
@@ -550,38 +507,38 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
       tabindex="0"
     />
     <div
-      class="MuiDialog-container-362 MuiDialog-scrollPaper-360"
+      class="MuiDialog-container-360 MuiDialog-scrollPaper-358"
       role="none presentation"
       style="opacity: 1;"
       tabindex="-1"
     >
       <div
-        class="MuiPaper-root-5 MuiDialog-paper-363 MuiDialog-paperScrollPaper-364 MuiDialog-paperWidthXl-371 MuiDialog-paperFullWidth-372 MuiPaper-elevation24-32 MuiPaper-rounded-6"
+        class="MuiPaper-root-4 MuiDialog-paper-361 MuiDialog-paperScrollPaper-362 MuiDialog-paperWidthXl-369 MuiDialog-paperFullWidth-370 MuiPaper-elevation24-31 MuiPaper-rounded-5"
         role="dialog"
       >
         <div
-          class="MuiDialogTitle-root-388 makeStyles-title-352"
+          class="MuiDialogTitle-root-386 makeStyles-title-350"
         >
           <div
-            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-align-items-xs-center-42 MuiGrid-justify-content-xs-space-between-53"
+            class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-align-items-xs-center-41 MuiGrid-justify-content-xs-space-between-52"
           >
             <h5
-              class="MuiTypography-root-173 MuiTypography-h5-182 MuiTypography-displayInline-201"
+              class="MuiTypography-root-172 MuiTypography-h5-181 MuiTypography-displayInline-200"
             >
               Filter & Search
             </h5>
             <button
               aria-label="close vault filters"
-              class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-closeButton-354"
+              class="MuiButtonBase-root-160 MuiIconButton-root-151 makeStyles-closeButton-352"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiIconButton-label-160"
+                class="MuiIconButton-label-159"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root-164"
+                  class="MuiSvgIcon-root-163"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -591,60 +548,59 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-376"
+                class="MuiTouchRipple-root-374"
               />
             </button>
           </div>
         </div>
         <div
-          class="MuiDialogContent-root-389 makeStyles-content-353"
+          class="MuiDialogContent-root-387 makeStyles-content-351"
         >
           <hr
-            class="MuiDivider-root-391 makeStyles-topDivider-357"
+            class="MuiDivider-root-389 makeStyles-topDivider-355"
           />
           <div
-            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-direction-xs-column-37"
+            class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-direction-xs-column-36"
           >
             <div
-              class="MuiGrid-root-33 MuiGrid-item-35"
+              class="MuiGrid-root-32 MuiGrid-item-34"
             >
               <label
-                class="MuiFormControlLabel-root-136"
+                class="MuiFormControlLabel-root-135"
               >
                 <span
                   aria-disabled="false"
-                  class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
+                  class="MuiButtonBase-root-160 MuiIconButton-root-151 PrivateSwitchBase-root-147 MuiCheckbox-root-141 MuiCheckbox-colorPrimary-145 MuiIconButton-colorPrimary-155"
                 >
                   <span
-                    class="MuiIconButton-label-160"
+                    class="MuiIconButton-label-159"
                   >
                     <input
-                      checked=""
-                      class="PrivateSwitchBase-input-151"
+                      class="PrivateSwitchBase-input-150"
                       data-indeterminate="false"
                       type="checkbox"
                       value=""
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root-164"
+                      class="MuiSvgIcon-root-163"
                       focusable="false"
                       viewBox="0 0 24 24"
                     >
                       <path
-                        d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                       />
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-376"
+                    class="MuiTouchRipple-root-374"
                   />
                 </span>
                 <span
-                  class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+                  class="MuiTypography-root-172 MuiFormControlLabel-label-140 MuiTypography-body1-174"
                 >
                   <p
-                    class="MuiTypography-root-173 MuiTypography-body2-174"
+                    class="MuiTypography-root-172 MuiTypography-body2-173"
                   >
                     Only show deposits
                   </p>
@@ -652,124 +608,77 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               </label>
             </div>
             <div
-              class="MuiGrid-root-33 MuiGrid-item-35"
+              class="MuiGrid-root-32 MuiGrid-item-34"
             >
               <label
-                class="MuiFormControlLabel-root-136"
+                class="MuiFormControlLabel-root-135"
               >
                 <span
                   aria-disabled="false"
-                  class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
+                  class="MuiButtonBase-root-160 MuiIconButton-root-151 PrivateSwitchBase-root-147 MuiCheckbox-root-141 MuiCheckbox-colorPrimary-145 MuiIconButton-colorPrimary-155"
                 >
                   <span
-                    class="MuiIconButton-label-160"
+                    class="MuiIconButton-label-159"
                   >
                     <input
-                      checked=""
-                      class="PrivateSwitchBase-input-151"
+                      class="PrivateSwitchBase-input-150"
                       data-indeterminate="false"
                       type="checkbox"
                       value=""
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root-164"
+                      class="MuiSvgIcon-root-163"
                       focusable="false"
                       viewBox="0 0 24 24"
                     >
                       <path
-                        d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                       />
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-376"
+                    class="MuiTouchRipple-root-374"
                   />
                 </span>
                 <span
-                  class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+                  class="MuiTypography-root-172 MuiFormControlLabel-label-140 MuiTypography-body1-174"
                 >
                   <p
-                    class="MuiTypography-root-173 MuiTypography-body2-174"
+                    class="MuiTypography-root-172 MuiTypography-body2-173"
                   >
                     Hide dust
                   </p>
                 </span>
               </label>
             </div>
-            <div
-              class="MuiGrid-root-33 MuiGrid-item-35"
-            >
-              <label
-                class="MuiFormControlLabel-root-136 makeStyles-label-398"
-              >
-                <span
-                  aria-disabled="false"
-                  class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
-                >
-                  <span
-                    class="MuiIconButton-label-160"
-                  >
-                    <input
-                      checked=""
-                      class="PrivateSwitchBase-input-151"
-                      data-indeterminate="false"
-                      type="checkbox"
-                      value=""
-                    />
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root-164"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="MuiTouchRipple-root-376"
-                  />
-                </span>
-                <span
-                  class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
-                >
-                  <p
-                    class="MuiTypography-root-173 MuiTypography-body2-174"
-                  >
-                    🚀 Boosted Vaults
-                  </p>
-                </span>
-              </label>
-            </div>
           </div>
           <hr
-            class="MuiDivider-root-391 makeStyles-divider-356"
+            class="MuiDivider-root-389 makeStyles-divider-354"
           />
           <div
-            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-direction-xs-column-37"
+            class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-direction-xs-column-36"
           >
             <div
-              class="MuiGrid-root-33 makeStyles-select-355 MuiGrid-item-35"
+              class="MuiGrid-root-32 makeStyles-select-353 MuiGrid-item-34"
             >
               <div
-                class="MuiFormControl-root-401 makeStyles-formControl-399"
+                class="MuiFormControl-root-398 makeStyles-formControl-396"
               >
                 <label
-                  class="MuiFormLabel-root-417 MuiInputLabel-root-405 MuiInputLabel-formControl-411 MuiInputLabel-animated-414 MuiInputLabel-shrink-413 MuiInputLabel-outlined-416 MuiFormLabel-filled-422"
+                  class="MuiFormLabel-root-414 MuiInputLabel-root-402 MuiInputLabel-formControl-408 MuiInputLabel-animated-411 MuiInputLabel-shrink-410 MuiInputLabel-outlined-413 MuiFormLabel-filled-419"
                   data-shrink="true"
                   id="status-selector-id-label"
                 >
                   Status
                 </label>
                 <div
-                  class="MuiInputBase-root-451 MuiOutlinedInput-root-436 MuiInputBase-formControl-452"
+                  class="MuiInputBase-root-448 MuiOutlinedInput-root-433 MuiInputBase-formControl-449"
                 >
                   <div
                     aria-haspopup="listbox"
                     aria-labelledby="status-selector-id-label status-selector"
-                    class="MuiSelect-root-425 MuiSelect-select-426 MuiSelect-selectMenu-429 MuiSelect-outlined-428 MuiInputBase-input-462 MuiOutlinedInput-input-446"
+                    class="MuiSelect-root-422 MuiSelect-select-423 MuiSelect-selectMenu-426 MuiSelect-outlined-425 MuiInputBase-input-459 MuiOutlinedInput-input-443"
                     id="status-selector"
                     role="button"
                     tabindex="0"
@@ -778,14 +687,14 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-435"
+                    class="MuiSelect-nativeInput-432"
                     data-testid="status-selector-input"
                     tabindex="-1"
                     value="guarded,experimental"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-164 MuiSelect-icon-431 MuiSelect-iconOutlined-434"
+                    class="MuiSvgIcon-root-163 MuiSelect-icon-428 MuiSelect-iconOutlined-431"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -795,10 +704,10 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-473 MuiOutlinedInput-notchedOutline-445"
+                    class="PrivateNotchedOutline-root-470 MuiOutlinedInput-notchedOutline-442"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-475 PrivateNotchedOutline-legendNotched-476"
+                      class="PrivateNotchedOutline-legendLabelled-472 PrivateNotchedOutline-legendNotched-473"
                     >
                       <span>
                         Status
@@ -809,41 +718,43 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-33 makeStyles-select-355 MuiGrid-item-35"
+              class="MuiGrid-root-32 makeStyles-select-353 MuiGrid-item-34"
             >
               <div
-                class="MuiFormControl-root-401 makeStyles-formControl-477"
+                class="MuiFormControl-root-398 makeStyles-formControl-474"
               >
                 <label
-                  class="MuiFormLabel-root-417 MuiInputLabel-root-405 MuiInputLabel-formControl-411 MuiInputLabel-animated-414 MuiInputLabel-shrink-413 MuiInputLabel-outlined-416 MuiFormLabel-filled-422"
-                  data-shrink="true"
+                  class="MuiFormLabel-root-414 MuiInputLabel-root-402 MuiInputLabel-formControl-408 MuiInputLabel-animated-411 MuiInputLabel-outlined-413"
+                  data-shrink="false"
                   id="platform-selector-id-label"
                 >
                   Platform
                 </label>
                 <div
-                  class="MuiInputBase-root-451 MuiOutlinedInput-root-436 MuiInputBase-formControl-452"
+                  class="MuiInputBase-root-448 MuiOutlinedInput-root-433 MuiInputBase-formControl-449"
                 >
                   <div
                     aria-haspopup="listbox"
                     aria-labelledby="platform-selector-id-label platform-selector"
-                    class="MuiSelect-root-425 MuiSelect-select-426 MuiSelect-selectMenu-429 MuiSelect-outlined-428 MuiInputBase-input-462 MuiOutlinedInput-input-446"
+                    class="MuiSelect-root-422 MuiSelect-select-423 MuiSelect-selectMenu-426 MuiSelect-outlined-425 MuiInputBase-input-459 MuiOutlinedInput-input-443"
                     id="platform-selector"
                     role="button"
                     tabindex="0"
                   >
-                    Convex,  Curve
+                    <span>
+                      ​
+                    </span>
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-435"
+                    class="MuiSelect-nativeInput-432"
                     data-testid="platform-selector-input"
                     tabindex="-1"
-                    value="Convex,Curve"
+                    value=""
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-164 MuiSelect-icon-431 MuiSelect-iconOutlined-434"
+                    class="MuiSvgIcon-root-163 MuiSelect-icon-428 MuiSelect-iconOutlined-431"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -853,10 +764,10 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-473 MuiOutlinedInput-notchedOutline-445"
+                    class="PrivateNotchedOutline-root-470 MuiOutlinedInput-notchedOutline-442"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-475 PrivateNotchedOutline-legendNotched-476"
+                      class="PrivateNotchedOutline-legendLabelled-472"
                     >
                       <span>
                         Platform
@@ -867,25 +778,25 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-33 makeStyles-select-355 MuiGrid-item-35"
+              class="MuiGrid-root-32 makeStyles-select-353 MuiGrid-item-34"
             >
               <div
-                class="MuiFormControl-root-401 makeStyles-formControl-479"
+                class="MuiFormControl-root-398 makeStyles-formControl-476"
               >
                 <label
-                  class="MuiFormLabel-root-417 MuiInputLabel-root-405 MuiInputLabel-formControl-411 MuiInputLabel-animated-414 MuiInputLabel-shrink-413 MuiInputLabel-outlined-416 MuiFormLabel-filled-422"
+                  class="MuiFormLabel-root-414 MuiInputLabel-root-402 MuiInputLabel-formControl-408 MuiInputLabel-animated-411 MuiInputLabel-shrink-410 MuiInputLabel-outlined-413 MuiFormLabel-filled-419"
                   data-shrink="true"
                   id="rewards-selector-id-label"
                 >
                   Rewards
                 </label>
                 <div
-                  class="MuiInputBase-root-451 MuiOutlinedInput-root-436 MuiInputBase-formControl-452"
+                  class="MuiInputBase-root-448 MuiOutlinedInput-root-433 MuiInputBase-formControl-449"
                 >
                   <div
                     aria-haspopup="listbox"
                     aria-labelledby="rewards-selector-id-label rewards-selector"
-                    class="MuiSelect-root-425 MuiSelect-select-426 MuiSelect-selectMenu-429 MuiSelect-outlined-428 MuiInputBase-input-462 MuiOutlinedInput-input-446"
+                    class="MuiSelect-root-422 MuiSelect-select-423 MuiSelect-selectMenu-426 MuiSelect-outlined-425 MuiInputBase-input-459 MuiOutlinedInput-input-443"
                     id="rewards-selector"
                     role="button"
                     tabindex="0"
@@ -894,14 +805,14 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput-435"
+                    class="MuiSelect-nativeInput-432"
                     data-testid="rewards-selector-input"
                     tabindex="-1"
                     value="DCA,Compounder"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-164 MuiSelect-icon-431 MuiSelect-iconOutlined-434"
+                    class="MuiSvgIcon-root-163 MuiSelect-icon-428 MuiSelect-iconOutlined-431"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
@@ -911,10 +822,10 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                   </svg>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-473 MuiOutlinedInput-notchedOutline-445"
+                    class="PrivateNotchedOutline-root-470 MuiOutlinedInput-notchedOutline-442"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-475 PrivateNotchedOutline-legendNotched-476"
+                      class="PrivateNotchedOutline-legendLabelled-472 PrivateNotchedOutline-legendNotched-473"
                     >
                       <span>
                         Rewards
@@ -925,37 +836,37 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-33 MuiGrid-item-35"
+              class="MuiGrid-root-32 MuiGrid-item-34"
             >
               <div
-                class="MuiFormControl-root-401 MuiTextField-root-483 makeStyles-root-481"
+                class="MuiFormControl-root-398 MuiTextField-root-480 makeStyles-root-478"
               >
                 <div
-                  class="MuiInputBase-root-451 MuiOutlinedInput-root-436 MuiInputBase-formControl-452 MuiInputBase-adornedEnd-456 MuiOutlinedInput-adornedEnd-441"
+                  class="MuiInputBase-root-448 MuiOutlinedInput-root-433 MuiInputBase-formControl-449 MuiInputBase-adornedEnd-453 MuiOutlinedInput-adornedEnd-438"
                 >
                   <input
                     aria-invalid="false"
                     aria-label="Vault Search"
-                    class="MuiInputBase-input-462 MuiOutlinedInput-input-446 MuiInputBase-inputAdornedEnd-467 MuiOutlinedInput-inputAdornedEnd-450"
+                    class="MuiInputBase-input-459 MuiOutlinedInput-input-443 MuiInputBase-inputAdornedEnd-464 MuiOutlinedInput-inputAdornedEnd-447"
                     placeholder="Search by vault name, token, rewards..."
                     type="text"
                     value="bitcoin convex"
                   />
                   <div
-                    class="MuiInputAdornment-root-484 MuiInputAdornment-positionEnd-487"
+                    class="MuiInputAdornment-root-481 MuiInputAdornment-positionEnd-484"
                   >
                     <button
                       aria-label="search"
-                      class="MuiButtonBase-root-161 MuiIconButton-root-152 makeStyles-icon-482 MuiIconButton-sizeSmall-159"
+                      class="MuiButtonBase-root-160 MuiIconButton-root-151 makeStyles-icon-479 MuiIconButton-sizeSmall-158"
                       tabindex="0"
                       type="button"
                     >
                       <span
-                        class="MuiIconButton-label-160"
+                        class="MuiIconButton-label-159"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root-164"
+                          class="MuiSvgIcon-root-163"
                           focusable="false"
                           viewBox="0 0 24 24"
                         >
@@ -965,17 +876,17 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
                         </svg>
                       </span>
                       <span
-                        class="MuiTouchRipple-root-376"
+                        class="MuiTouchRipple-root-374"
                       />
                     </button>
                   </div>
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-473 MuiOutlinedInput-notchedOutline-445"
+                    class="PrivateNotchedOutline-root-470 MuiOutlinedInput-notchedOutline-442"
                     style="padding-left: 8px;"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legend-474"
+                      class="PrivateNotchedOutline-legend-471"
                       style="width: 0.01px;"
                     >
                       <span>
@@ -988,91 +899,91 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
             </div>
           </div>
           <hr
-            class="MuiDivider-root-391 makeStyles-divider-356"
+            class="MuiDivider-root-389 makeStyles-divider-354"
           />
           <div
-            class="MuiGrid-root-33 MuiGrid-container-34"
+            class="MuiGrid-root-32 MuiGrid-container-33"
           >
             <div
-              class="MuiGrid-root-33 makeStyles-apr-358 MuiGrid-item-35"
+              class="MuiGrid-root-32 makeStyles-apr-356 MuiGrid-item-34"
             >
               <div
                 aria-label="apy apr selector"
-                class="MuiButtonGroup-root-493"
+                class="MuiButtonGroup-root-490"
                 role="group"
               >
                 <button
                   aria-selected="false"
-                  class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-499 MuiButtonGroup-groupedHorizontal-500 MuiButtonGroup-groupedOutlined-507 MuiButtonGroup-groupedOutlinedHorizontal-508 MuiButtonGroup-groupedOutlined-507 makeStyles-button-492"
+                  class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-outlined-233 MuiButtonGroup-grouped-496 MuiButtonGroup-groupedHorizontal-497 MuiButtonGroup-groupedOutlined-504 MuiButtonGroup-groupedOutlinedHorizontal-505 MuiButtonGroup-groupedOutlined-504 makeStyles-button-489"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-231"
+                    class="MuiButton-label-229"
                   >
                     APY
                   </span>
                   <span
-                    class="MuiTouchRipple-root-376"
+                    class="MuiTouchRipple-root-374"
                   />
                 </button>
                 <button
                   aria-selected="true"
-                  class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-outlined-235 MuiButtonGroup-grouped-499 MuiButtonGroup-groupedHorizontal-500 MuiButtonGroup-groupedOutlined-507 MuiButtonGroup-groupedOutlinedHorizontal-508 MuiButtonGroup-groupedOutlined-507 makeStyles-selected-491 makeStyles-button-492"
+                  class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-outlined-233 MuiButtonGroup-grouped-496 MuiButtonGroup-groupedHorizontal-497 MuiButtonGroup-groupedOutlined-504 MuiButtonGroup-groupedOutlinedHorizontal-505 MuiButtonGroup-groupedOutlined-504 makeStyles-selected-488 makeStyles-button-489"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-231"
+                    class="MuiButton-label-229"
                   >
                     APR
                   </span>
                   <span
-                    class="MuiTouchRipple-root-376"
+                    class="MuiTouchRipple-root-374"
                   />
                 </button>
               </div>
             </div>
           </div>
           <hr
-            class="MuiDivider-root-391 makeStyles-divider-356"
+            class="MuiDivider-root-389 makeStyles-divider-354"
           />
           <div
-            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-spacing-xs-2-57 MuiGrid-justify-content-xs-flex-end-52"
+            class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-spacing-xs-2-56 MuiGrid-justify-content-xs-flex-end-51"
           >
             <div
-              class="MuiGrid-root-33 MuiGrid-item-35"
+              class="MuiGrid-root-32 MuiGrid-item-34"
             >
               <button
-                class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 MuiButton-textPrimary-233"
+                class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-text-230 MuiButton-textPrimary-231"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-label-231"
+                  class="MuiButton-label-229"
                 >
                   Clear All
                 </span>
                 <span
-                  class="MuiTouchRipple-root-376"
+                  class="MuiTouchRipple-root-374"
                 />
               </button>
             </div>
             <div
-              class="MuiGrid-root-33 MuiGrid-item-35"
+              class="MuiGrid-root-32 MuiGrid-item-34"
             >
               <button
-                class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-contained-238 MuiButton-containedPrimary-239"
+                class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-contained-236 MuiButton-containedPrimary-237"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-label-231"
+                  class="MuiButton-label-229"
                 >
                   Apply Filters
                 </span>
                 <span
-                  class="MuiTouchRipple-root-376"
+                  class="MuiTouchRipple-root-374"
                 />
               </button>
             </div>
@@ -1091,51 +1002,50 @@ exports[`VaultSearchControl mobile opens filter dialog 1`] = `
 exports[`VaultSearchControl mobile renders correctly 1`] = `
 <div>
   <div
-    class="MuiPaper-root-5 makeStyles-paper-4 MuiPaper-elevation1-9 MuiPaper-rounded-6"
+    class="MuiPaper-root-4 makeStyles-paper-3 MuiPaper-elevation1-8 MuiPaper-rounded-5"
   >
     <div
-      class="MuiGrid-root-33 MuiGrid-container-34"
+      class="MuiGrid-root-32 MuiGrid-container-33"
     >
       <div
-        class="MuiGrid-root-33 MuiGrid-item-35 MuiGrid-grid-xs-true-67"
+        class="MuiGrid-root-32 MuiGrid-item-34 MuiGrid-grid-xs-true-66"
       >
         <label
-          class="MuiFormControlLabel-root-136"
+          class="MuiFormControlLabel-root-135"
         >
           <span
             aria-disabled="false"
-            class="MuiButtonBase-root-161 MuiIconButton-root-152 PrivateSwitchBase-root-148 MuiCheckbox-root-142 MuiCheckbox-colorPrimary-146 PrivateSwitchBase-checked-149 MuiCheckbox-checked-143 MuiIconButton-colorPrimary-156"
+            class="MuiButtonBase-root-160 MuiIconButton-root-151 PrivateSwitchBase-root-147 MuiCheckbox-root-141 MuiCheckbox-colorPrimary-145 MuiIconButton-colorPrimary-155"
           >
             <span
-              class="MuiIconButton-label-160"
+              class="MuiIconButton-label-159"
             >
               <input
-                checked=""
-                class="PrivateSwitchBase-input-151"
+                class="PrivateSwitchBase-input-150"
                 data-indeterminate="false"
                 type="checkbox"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-164"
+                class="MuiSvgIcon-root-163"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                 />
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-376"
+              class="MuiTouchRipple-root-374"
             />
           </span>
           <span
-            class="MuiTypography-root-173 MuiFormControlLabel-label-141 MuiTypography-body1-175"
+            class="MuiTypography-root-172 MuiFormControlLabel-label-140 MuiTypography-body1-174"
           >
             <p
-              class="MuiTypography-root-173 MuiTypography-body2-174"
+              class="MuiTypography-root-172 MuiTypography-body2-173"
             >
               Only show deposits
             </p>
@@ -1143,24 +1053,24 @@ exports[`VaultSearchControl mobile renders correctly 1`] = `
         </label>
       </div>
       <div
-        class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-item-35 MuiGrid-justify-content-xs-flex-end-52 MuiGrid-grid-xs-true-67"
+        class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-item-34 MuiGrid-justify-content-xs-flex-end-51 MuiGrid-grid-xs-true-66"
       >
         <button
-          class="MuiButtonBase-root-161 MuiButton-root-230 MuiButton-text-232 makeStyles-button-374"
+          class="MuiButtonBase-root-160 MuiButton-root-228 MuiButton-text-230 makeStyles-button-372"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-label-231 makeStyles-buttonLabel-375"
+            class="MuiButton-label-229 makeStyles-buttonLabel-373"
           >
             <p
-              class="MuiTypography-root-173 MuiTypography-body2-174 MuiTypography-displayInline-201"
+              class="MuiTypography-root-172 MuiTypography-body2-173 MuiTypography-displayInline-200"
             >
               Filters
             </p>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-164"
+              class="MuiSvgIcon-root-163"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -1170,7 +1080,7 @@ exports[`VaultSearchControl mobile renders correctly 1`] = `
             </svg>
           </span>
           <span
-            class="MuiTouchRipple-root-376"
+            class="MuiTouchRipple-root-374"
           />
         </button>
       </div>
