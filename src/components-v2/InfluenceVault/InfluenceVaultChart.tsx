@@ -69,7 +69,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 	const colors = [classes.color2, classes.color1, classes.color3];
 
 	return (
-		<Box component={Paper} className={classes.tooltipRoot}>
+		<Box component={Paper} className={classes.tooltipRoot} key={index}>
 			<div className={classes.header}>
 				<Typography variant="body2">Round {index}</Typography>
 				<Typography variant="caption">{new Date(start * 1000).toDateString()}</Typography>
