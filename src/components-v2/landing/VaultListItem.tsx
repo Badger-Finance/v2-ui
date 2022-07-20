@@ -96,12 +96,20 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
             <VaultLogo tokens={vault.tokens} />
           </Grid>
         )}
-        <Grid item xs container lg={4} alignItems="center">
+        <Grid item xs container lg={5} alignItems="center">
           <Typography variant="subtitle1" className={classes.vaultName}>
             {vault.name}
           </Typography>
+          {!isTablet && (
+            <VaultListItemTags
+              vault={vault}
+              showLabels
+              onStatusClick={handleStatusClick}
+              onRewardsClick={handleRewardsClick}
+            />
+          )}
         </Grid>
-        <Grid item xs container justifyContent="flex-end">
+        <Grid item xs container justifyContent="flex-end" alignItems="center">
           <VaultItemApr vault={vault} boost={vaultBoost} projectedBoost={projectedVaultBoost} />
         </Grid>
         <Grid item xs container justifyContent="flex-end">
@@ -121,19 +129,21 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
           />
         </Grid>
       </Grid>
-      <Grid item container className={classes.tagsContainer} spacing={2} alignItems="center">
-        <Grid item xs="auto" className={classes.iconBadgeContainer}>
-          {isTablet && <VaultLogo tokens={vault.tokens} className={classes.tabletLogo} />}
+      {isTablet && (
+        <Grid item container className={classes.tagsContainer} spacing={2} alignItems="center">
+          <Grid item xs="auto" className={classes.iconBadgeContainer}>
+            <VaultLogo tokens={vault.tokens} className={classes.tabletLogo} />
+          </Grid>
+          <Grid item xs>
+            <VaultListItemTags
+              vault={vault}
+              showLabels
+              onStatusClick={handleStatusClick}
+              onRewardsClick={handleRewardsClick}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <VaultListItemTags
-            vault={vault}
-            showLabels
-            onStatusClick={handleStatusClick}
-            onRewardsClick={handleRewardsClick}
-          />
-        </Grid>
-      </Grid>
+      )}
     </Grid>
   );
 });
