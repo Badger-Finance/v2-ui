@@ -1,14 +1,14 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
-import influenceFees from 'config/bve-cvx/vote-influence-fees.json';
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import React, { useState } from 'react';
 
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
 import { getVaultStrategyFee } from '../../mobx/utils/fees';
 import { formatStrategyFee } from '../../utils/componentHelpers';
-import BveCvxInfluenceFeesInfo from '../BveCvxInfluenceFeesInfo';
 import SpecItem from '../vault-detail/specs/SpecItem';
 import { StyledDivider, StyledHelpIcon } from '../vault-detail/styled';
+import InfluenceVaultModal from './InfluenceVaultModal';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -30,9 +30,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   vault: VaultDTO;
+  config: InfluenceVaultConfig;
 }
 
-const BveCvxFees = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultFees = ({ vault, config }: Props): JSX.Element => {
   const classes = useStyles();
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
   const withdrawFee = getVaultStrategyFee(vault, StrategyFee.withdraw);
@@ -50,8 +51,8 @@ const BveCvxFees = ({ vault }: Props): JSX.Element => {
             <StyledHelpIcon onClick={() => setInfoDialogOpen(true)} />
           </Typography>
           <Grid container direction="column">
-            {Object.entries(influenceFees).map(([key, value]) => (
-              <SpecItem key={key} className={classes.subSpec} name={key} value={value} />
+            {config.feeConfig.fees.map((fee, index) => (
+              <SpecItem key={index} className={classes.subSpec} name={fee[0]} value={fee[1]} />
             ))}
           </Grid>
         </Grid>
@@ -59,9 +60,13 @@ const BveCvxFees = ({ vault }: Props): JSX.Element => {
           <SpecItem name="Withdrawal Fee" value={formatStrategyFee(withdrawFee)} />
         </Grid>
       </Grid>
-      <BveCvxInfluenceFeesInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
+      <InfluenceVaultModal
+        open={infoDialogOpen}
+        onClose={() => setInfoDialogOpen(false)}
+        config={config.feeConfig.feeModalConfig}
+      />
     </Grid>
   );
 };
 
-export default BveCvxFees;
+export default InfluenceVaultFees;

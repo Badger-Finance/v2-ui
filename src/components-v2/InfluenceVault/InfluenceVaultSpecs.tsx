@@ -1,22 +1,23 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { StoreContext } from 'mobx/stores/store-context';
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useState } from 'react';
 
+import { StoreContext } from '../../mobx/stores/store-context';
 import { numberWithCommas } from '../../mobx/utils/helpers';
-import BveCvxFees from '../BveCvxFees';
-import BveCvxFrequencyInfo from '../BveCvxFrequencyInfo';
-import BveCvxWithdrawalInfo from '../BveCvxWithdrawalInfo';
 import SpecItem from '../vault-detail/specs/SpecItem';
 import VaultDetailLinks from '../vault-detail/specs/VaultDetailLinks';
 import { VaultToken } from '../vault-detail/specs/VaultToken';
 import { CardContainer, StyledDivider, StyledHelpIcon } from '../vault-detail/styled';
 import VaultDepositedAssets from '../VaultDepositedAssets';
+import InfluenceVaultFees from './InfluenceVaultFees';
+import InfluenceVaultListModal from './InfluenceVaultListModal';
 
 interface Props {
   vault: VaultDTO;
+  config: InfluenceVaultConfig;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -39,12 +40,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
-  const { lockedDeposits } = useContext(StoreContext);
-  const [withdrawInfoDisplayed, toggleWithdrawInfo] = useReducer((previous) => !previous, false);
-  const [frequencyInfoDisplayed, toggleFrequencyInfo] = useReducer((previous) => !previous, false);
+const InfluenceVaultSpecs = ({ vault, config }: Props): JSX.Element => {
+  const { lockedDeposits, vaults } = useContext(StoreContext);
+  const [withdrawInfoOpen, setWithdrawInfoOpen] = useState(false);
+  const [frequencyInfoOpen, setFrequencyInfoOpen] = useState(false);
   const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
+  const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
   const classes = useStyles();
+
   return (
     <CardContainer>
       <Grid container direction="column" className={classes.specContainer}>
@@ -68,8 +71,8 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
           <SpecItem
             name={
               <Box component="span" display="flex" justifyContent="center" alignItems="center">
-                CVX Available for Withdrawal
-                <StyledHelpIcon onClick={toggleWithdrawInfo} />
+                {underlyingTokenSymbol} Available for Withdrawal
+                <StyledHelpIcon onClick={() => setWithdrawInfoOpen(true)} />
               </Box>
             }
             value={
@@ -78,27 +81,36 @@ const BveCvxSpecs = ({ vault }: Props): JSX.Element => {
           />
         </Grid>
         <Grid item xs className={classes.specItem}>
-          <BveCvxFees vault={vault} />
+          <InfluenceVaultFees vault={vault} config={config} />
         </Grid>
         <Grid item xs className={classes.specItem}>
           <Box display="flex" alignItems="center">
             <Typography>Reward Frequency</Typography>
-            <StyledHelpIcon onClick={toggleFrequencyInfo} />
+            <StyledHelpIcon onClick={() => setFrequencyInfoOpen(true)} />
           </Box>
           <StyledDivider />
           <Grid container direction="column">
-            <SpecItem name="bveCVX, BADGER" value="Bi-Weekly" />
-            <SpecItem name="bcvxCRV" value="Per Harvest, ~5 days" />
+            {config.rewardFrequencies.map(({ name, value }, index) => (
+              <SpecItem key={index} name={name} value={value} />
+            ))}
           </Grid>
         </Grid>
         <Grid item xs className={classes.specItem}>
           <VaultDetailLinks vault={vault} />
         </Grid>
       </Grid>
-      <BveCvxWithdrawalInfo open={withdrawInfoDisplayed} onClose={toggleWithdrawInfo} />
-      <BveCvxFrequencyInfo open={frequencyInfoDisplayed} onClose={toggleFrequencyInfo} />
+      <InfluenceVaultListModal
+        open={withdrawInfoOpen}
+        onClose={() => setWithdrawInfoOpen(false)}
+        config={config.withdrawModalConfig}
+      />
+      <InfluenceVaultListModal
+        open={frequencyInfoOpen}
+        onClose={() => setFrequencyInfoOpen(false)}
+        config={config.rewardFrequenciesModalConfig}
+      />
     </CardContainer>
   );
 };
 
-export default observer(BveCvxSpecs);
+export default observer(InfluenceVaultSpecs);

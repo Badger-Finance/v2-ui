@@ -6,10 +6,10 @@ import { RouterStore } from 'mobx-router';
 
 import { BADGER_API } from '../../config/environment';
 import rpc from '../../config/rpc.config';
-import BveCvxInfluenceStore from './bveCvxInfluenceStore';
 import GasPricesStore from './GasPricesStore';
 import { GovernancePortalStore } from './GovernancePortalStore';
 import IbBTCStore from './ibBTCStore';
+import InfluenceVaultStore from './InfluenceVaultStore';
 import LockedDepositsStore from './LockedDepositsStore';
 import { NetworkStore } from './NetworkStore';
 import PricesStore from './PricesStore';
@@ -46,7 +46,7 @@ export class RootStore {
   public governancePortal: GovernancePortalStore;
   public lockedDeposits: LockedDepositsStore;
   public transactions: TransactionsStore;
-  public bveCvxInfluence: BveCvxInfluenceStore;
+  public influenceVaultStore: InfluenceVaultStore;
 
   // New Stores
   public tree: TreeStore;
@@ -77,7 +77,7 @@ export class RootStore {
     this.ibBTCStore = new IbBTCStore(this);
     this.governancePortal = new GovernancePortalStore(this);
     this.lockedDeposits = new LockedDepositsStore(this);
-    this.bveCvxInfluence = new BveCvxInfluenceStore(this);
+    this.influenceVaultStore = new InfluenceVaultStore(this);
 
     // new stores
     this.tree = new TreeStore(this);
