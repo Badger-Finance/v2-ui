@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Grid, makeStyles, Typography, Link } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from '../../mobx/store-context';
 import { InfoDialog } from './InfoDialog';
 import routes from '../../config/routes';
@@ -11,12 +11,6 @@ const useStyles = makeStyles(() => ({
 	},
 	specTitle: {
 		fontWeight: 700,
-	},
-	link: {
-		cursor: 'pointer',
-		'&:hover': {
-			textDecoration: 'underline',
-		},
 	},
 }));
 

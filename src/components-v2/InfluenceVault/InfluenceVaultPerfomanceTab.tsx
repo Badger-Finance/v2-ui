@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, Divider, Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import { Box, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from '../../mobx/store-context';
 import { VaultDTO } from '@badger-dao/sdk';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { Link, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({

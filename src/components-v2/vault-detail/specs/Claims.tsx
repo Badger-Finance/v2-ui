@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Link, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';

@@ -71,7 +71,7 @@ const InfluenceVaultInfoPanel = ({ vault }: Props): JSX.Element => {
 
 	useEffect(() => {
 		influenceVaultStore.init(vault.vaultToken);
-	}, [influenceVaultStore]);
+	}, [influenceVaultStore, vault.vaultToken]);
 
 	return (
 		<CardContainer className={classes.root}>

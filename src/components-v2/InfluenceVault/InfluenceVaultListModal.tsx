@@ -1,19 +1,10 @@
 import React, { useContext } from 'react';
-import { Link, makeStyles, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { InfoDialog } from './InfoDialog';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
 import MarkupText from 'components-v2/common/MarkupText';
-
-const useStyles = makeStyles({
-	link: {
-		cursor: 'pointer',
-		'&:hover': {
-			textDecoration: 'underline',
-		},
-	},
-});
 
 interface Props {
 	open: boolean;
@@ -22,7 +13,6 @@ interface Props {
 }
 
 const InfluenceVaultListModal = ({ open, onClose, info }: Props): JSX.Element => {
-	const classes = useStyles();
 	const { router } = useContext(StoreContext);
 	const handleLinkClick = (link: string) => {
 		router.goTo(routes.vaultDetail, { vaultName: link }, { chain: router.queryParams?.chain });
