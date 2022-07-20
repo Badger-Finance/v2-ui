@@ -121,10 +121,17 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
 								)
 							}
 						/>
-						<SpecItem
-							name={<MarkupText text={config.perfomanceConfig.liquity} onClick={handleLinkClick} />}
-							value={swapPercentage ? swapPercentage : <Skeleton width={50} variant="rect" />}
-						/>
+						{config.perfomanceConfig.swapPercentageLabel.length !== 0 && (
+							<SpecItem
+								name={
+									<MarkupText
+										text={config.perfomanceConfig.swapPercentageLabel}
+										onClick={handleLinkClick}
+									/>
+								}
+								value={swapPercentage ? swapPercentage : <Skeleton width={50} variant="rect" />}
+							/>
+						)}
 					</Grid>
 				</Grid>
 			</Grid>

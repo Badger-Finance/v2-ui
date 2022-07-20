@@ -79,14 +79,15 @@ export const vaults: InfluenceVaultConfig[] = [
 				'[Dune dashboard](https://dune.com/tianqi/Convex-Locked-CVX-V2(Sponsored-by-Badger))',
 				'.',
 			],
-			liquity: ['% CVX Received from 10k ', '[bveCVX swap](https://curve.fi/factory/52/)'],
+			swapPercentageLabel: ['% CVX Received from 10k ', '[bveCVX swap](https://curve.fi/factory/52/)'],
 		},
 		feeConfig: {
-			fees: [
+			voteInfluenceFees: [
 				['bveCVX Liquidity Support', '5%'],
 				['BADGER Liquidity Support', '5%'],
 				['DAO Operations Fee', '5%'],
 			],
+			showFees: ['withdrawal'],
 			feeModalConfig: {
 				title: 'Vote Influence Fees',
 				body: [
@@ -104,6 +105,68 @@ export const vaults: InfluenceVaultConfig[] = [
 					{
 						title: ['DAO Operations Fee:'],
 						body: ['5% of each vote is sold for bribes and paid to the DAO'],
+					},
+				],
+			},
+		},
+	},
+	{
+		influenceVaultToken: mainnetDeploy.sett_system.vaults['native.graviaura'], // bveCVX
+		poolToken: mainnetDeploy.tokens['bveCVXCVX'],
+		vaultToken: mainnetDeploy.sett_system.vaults['native.graviaura'], //bvecrvCVX
+		roundStart: 1632182660,
+		sources: [mainnetDeploy.sett_system.vaults['native.graviaura'], mainnetDeploy.tokens['badger']],
+
+		rewardFrequencies: [
+			{
+				name: 'graviAURA, BADGER',
+				value: 'Bi-Weekly',
+			},
+		],
+		rewardFrequenciesModalConfig: {
+			title: 'Reward Frequency',
+			body: [
+				'graviAURA and BADGER rewards from bribe sales are distributed at the completion of each bi-weekly voting round, after bribes for that round have been sold.',
+			],
+			points: [
+				['- 75% of bribe sales (after fees): sold for graviAURA'],
+				['- 25% of bribe sales (after fees): sold for BADGER'],
+				['- All rewards are claimable through the app'],
+			],
+		},
+		withdrawModalConfig: {
+			title: 'graviAURA Available for Withdraw',
+			body: [
+				'Each week, this vault locks batches of AURA tokens for a 16 week period. As vlAURA unlocks on a rolling basis, AURA becomes available to withdraw from the vault. Alternatively, graviAURA may be traded for assets it is paired with in Balancer pools.',
+			],
+			points: [
+				['- AURA tokens are locked each Thursday just before 00:00 UTC'],
+				['- Unlocked AURA is withdrawable from 00:01 UTC each Thursday until the next locking event'],
+			],
+		},
+		perfomanceConfig: {
+			body1: [
+				'This vault locks 100% of deposited Aura tokens for rolling periods of 16 weeks. Badger will use vlAURA to vote for bribes during each voting round, sell them, and emit the proceeds back to holders in the form of graviAURA and BADGER. Aura locking rewards are autocompounded back into the vault.',
+			],
+			body2: [
+				'Unlike other Badger Vaults, graviAURA limits the times when users may withdraw their funds. Limited pre-unlock liquidity is available through Balancer pools containing graviAURA. Please carefully read the ',
+				'[User Guide](https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/vote-locked-cvx)',
+				' for more information.',
+			],
+			swapPercentageLabel: [],
+		},
+		feeConfig: {
+			voteInfluenceFees: [['DAO Operations Fee', '10%']],
+			showFees: ['withdrawal', 'performance'],
+			feeModalConfig: {
+				title: 'Vote Influence Fees',
+				body: [
+					'Each voting round, a portion of the vote influence accumulated by graviAURA votes for bribes which are sold to support DAO operations.',
+				],
+				points: [
+					{
+						title: ['DAO Operations Fee:'],
+						body: ['10% of each vote is sold for bribes and paid to the DAO'],
 					},
 				],
 			},

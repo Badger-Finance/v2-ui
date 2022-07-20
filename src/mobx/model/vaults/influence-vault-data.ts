@@ -38,11 +38,12 @@ export interface InfluenceVaultModalConfig {
 export interface InfluenceVaultPerfomanceConfig {
 	body1: string[];
 	body2: string[];
-	liquity: string[];
+	swapPercentageLabel: string[];
 }
 
 export interface InfluenceVaultFeeConfig {
-	fees: string[][];
+	voteInfluenceFees: string[][];
+	showFees: string[];
 	feeModalConfig: InfluenceVaultFeeModalConfig;
 }
 
