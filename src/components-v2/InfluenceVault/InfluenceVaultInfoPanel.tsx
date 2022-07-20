@@ -3,13 +3,14 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { CardContainer } from '../vault-detail/styled';
 import { makeStyles } from '@material-ui/core/styles';
-import InfluenceVaultPerfomanceTab from './InfluenceVaultPerfomanceTab';
-import { ChartMode, VaultChartData, VaultChartTimeframe } from '../../mobx/model/vaults/vault-charts';
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { ChartsHeader } from '../vault-detail/charts/ChartsHeader';
 import ChartContent from '../vault-detail/charts/ChartContent';
 import { VaultChart } from '../vault-detail/charts/VaultChart';
+import { ChartMode, VaultChartData, VaultChartTimeframe } from '../../mobx/model/vaults/vault-charts';
+import InfluenceVaultPerfomanceTab from './InfluenceVaultPerfomanceTab';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,11 +33,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
+	config: InfluenceVaultConfig;
 }
 
 type TabType = 'performance' | 'value';
 
-const InfluenceVaultInfoPanel = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultInfoPanel = ({ vault, config }: Props): JSX.Element => {
 	const classes = useStyles();
 	const { influenceVaultStore } = useContext(StoreContext);
 	const influenceVault = influenceVaultStore.getInfluenceVault(vault.vaultToken);
@@ -87,7 +89,7 @@ const InfluenceVaultInfoPanel = ({ vault }: Props): JSX.Element => {
 				<Tab onClick={() => setMode('value')} value="value" label="Tokens Managed" />
 			</Tabs>
 			<Grid container direction="column" className={classes.content}>
-				{mode === 'performance' && <InfluenceVaultPerfomanceTab vault={vault} />}
+				{mode === 'performance' && <InfluenceVaultPerfomanceTab vault={vault} config={config} />}
 				{mode === 'value' && valueChart}
 			</Grid>
 		</CardContainer>

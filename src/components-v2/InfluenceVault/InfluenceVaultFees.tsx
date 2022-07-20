@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
+import React, { useState } from 'react';
 import { StyledDivider, StyledHelpIcon } from '../vault-detail/styled';
 import SpecItem from '../vault-detail/specs/SpecItem';
 import { getStrategyFee } from '../../mobx/utils/fees';
@@ -7,7 +8,6 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 import InfluenceVaultModal from './InfluenceVaultModal';
-import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -29,13 +29,13 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	vault: VaultDTO;
+	config: InfluenceVaultConfig;
 }
 
-const InfluenceVaultFees = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultFees = ({ vault, config }: Props): JSX.Element => {
 	const classes = useStyles();
 	const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw);
-	const config = getInfluenceVaultConfig(vault.vaultToken);
 
 	return (
 		<Grid container>
