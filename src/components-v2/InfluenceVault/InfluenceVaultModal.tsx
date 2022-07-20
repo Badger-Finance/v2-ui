@@ -30,10 +30,10 @@ const InfluenceVaultModal = ({ open, onClose, config }: Props): JSX.Element => {
 
 	return (
 		<InfoDialog open={open} onClose={onClose}>
-			<InfoDialog.Title onClose={onClose} title="Vote Influence Fees" />
+			<InfoDialog.Title onClose={onClose} title={config.title} />
 			<InfoDialog.Content>
 				<Typography variant="body1" color="textSecondary">
-					{config.title}
+					<MarkupText text={config.body} onClick={handleLinkClick} />
 				</Typography>
 				<InfoDialog.Divider />
 				<Grid container direction="column">
