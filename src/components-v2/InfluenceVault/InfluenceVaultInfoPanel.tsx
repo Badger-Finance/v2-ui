@@ -42,7 +42,7 @@ const InfluenceVaultInfoPanel = ({ vault }: Props): JSX.Element => {
 	const influenceVault = influenceVaultStore.getInfluenceVault(vault.vaultToken);
 	const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
 	const [mode, setMode] = useState<TabType>('performance');
-	const data = influenceVault?.vaultChartData?.map((d: VaultChartData) => ({
+	const data = influenceVault?.vaultChartData?.map((d) => ({
 		x: d.timestamp.getTime(),
 		y: d.balance,
 	}));

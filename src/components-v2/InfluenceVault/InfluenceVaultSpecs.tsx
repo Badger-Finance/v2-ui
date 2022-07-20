@@ -44,7 +44,7 @@ const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
 	const [frequencyInfoOpen, setFrequencyInfoOpen] = useState(false);
 	const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
 	const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
-	const info = getInfluenceVaultConfig(vault.vaultToken);
+	const config = getInfluenceVaultConfig(vault.vaultToken);
 	const classes = useStyles();
 
 	return (
@@ -97,7 +97,7 @@ const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
 					</Box>
 					<StyledDivider />
 					<Grid container direction="column">
-						{info.rewardFrequencies.map(({ name, value }: any, index: number) => (
+						{config.rewardFrequencies.map(({ name, value }: any, index: number) => (
 							<SpecItem key={index} name={name} value={value} />
 						))}
 					</Grid>
@@ -109,12 +109,12 @@ const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
 			<InfluenceVaultListModal
 				open={withdrawInfoOpen}
 				onClose={() => setWithdrawInfoOpen(false)}
-				info={info.withdrawModalInfo}
+				config={config.withdrawModalConfig}
 			/>
 			<InfluenceVaultListModal
 				open={frequencyInfoOpen}
 				onClose={() => setFrequencyInfoOpen(false)}
-				info={info.rewardFrequenciesModalInfo}
+				config={config.rewardFrequenciesModalConfig}
 			/>
 		</CardContainer>
 	);

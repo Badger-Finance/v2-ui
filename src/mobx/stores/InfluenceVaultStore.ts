@@ -182,7 +182,7 @@ class InfluenceVaultStore {
 
 				index: Number(round),
 				start,
-				diviserTokenSymbol: this.store.vaults.getToken(vault.vaultToken).symbol,
+				divisorTokenSymbol: this.store.vaults.getToken(vault.vaultToken).symbol,
 			};
 		});
 

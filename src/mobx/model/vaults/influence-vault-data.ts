@@ -18,10 +18,10 @@ export interface InfluenceVaultConfig {
 	roundStart: number;
 	sources: string[];
 	rewardFrequencies: InfluenceVaultFrequency[];
-	rewardFrequenciesModalInfo: InfluenceVaultModalInfo;
-	withdrawModalInfo: InfluenceVaultModalInfo;
-	perfomanceInfo: InfluenceVaultPerfomanceInfo;
-	feeInfo: InfluenceVaultFeeInfo;
+	rewardFrequenciesModalConfig: InfluenceVaultModalConfig;
+	withdrawModalConfig: InfluenceVaultModalConfig;
+	perfomanceConfig: InfluenceVaultPerfomanceConfig;
+	feeConfig: InfluenceVaultFeeConfig;
 }
 
 export interface InfluenceVaultFrequency {
@@ -29,24 +29,24 @@ export interface InfluenceVaultFrequency {
 	value: string;
 }
 
-export interface InfluenceVaultModalInfo {
+export interface InfluenceVaultModalConfig {
 	title: string;
 	body: string[];
 	points: string[][];
 }
 
-export interface InfluenceVaultPerfomanceInfo {
+export interface InfluenceVaultPerfomanceConfig {
 	body1: string[];
 	body2: string[];
 	liquity: string[];
 }
 
-export interface InfluenceVaultFeeInfo {
+export interface InfluenceVaultFeeConfig {
 	fees: string[][];
-	feeModalInfo: InfluenceVaultFeeModalInfo;
+	feeModalConfig: InfluenceVaultFeeModalConfig;
 }
 
-export interface InfluenceVaultFeeModalInfo {
+export interface InfluenceVaultFeeModalConfig {
 	title: string;
 	body: string[];
 	points: InfluenceVaultPoint[];

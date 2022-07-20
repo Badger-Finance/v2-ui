@@ -6,7 +6,7 @@ export interface InfluenceVaultEmissionRound {
 
 	start: number;
 	index: number;
-	diviserTokenSymbol: string;
+	divisorTokenSymbol: string;
 }
 
 export interface EmissionRoundToken {

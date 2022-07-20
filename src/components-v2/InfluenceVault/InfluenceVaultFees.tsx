@@ -35,7 +35,7 @@ const InfluenceVaultFees = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
 	const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw);
-	const info = getInfluenceVaultConfig(vault.vaultToken);
+	const config = getInfluenceVaultConfig(vault.vaultToken);
 
 	return (
 		<Grid container>
@@ -50,7 +50,7 @@ const InfluenceVaultFees = ({ vault }: Props): JSX.Element => {
 						<StyledHelpIcon onClick={() => setInfoDialogOpen(true)} />
 					</Typography>
 					<Grid container direction="column">
-						{info.feeInfo.fees.map((fee: string[], index: number) => (
+						{config.feeConfig.fees.map((fee, index) => (
 							<SpecItem key={index} className={classes.subSpec} name={fee[0]} value={fee[1]} />
 						))}
 					</Grid>
@@ -62,7 +62,7 @@ const InfluenceVaultFees = ({ vault }: Props): JSX.Element => {
 			<InfluenceVaultModal
 				open={infoDialogOpen}
 				onClose={() => setInfoDialogOpen(false)}
-				info={info.feeInfo.feeModalInfo}
+				config={config.feeConfig.feeModalConfig}
 			/>
 		</Grid>
 	);

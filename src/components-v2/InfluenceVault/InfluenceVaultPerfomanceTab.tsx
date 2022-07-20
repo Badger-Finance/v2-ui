@@ -63,8 +63,8 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 		vault.vaultToken,
 	);
 	const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
-	const info = getInfluenceVaultConfig(vault.vaultToken);
-	const diviserToken = vaults.getToken(vault.vaultToken).symbol;
+	const config = getInfluenceVaultConfig(vault.vaultToken);
+	const divisorToken = vaults.getToken(vault.vaultToken).symbol;
 	const { router } = useContext(StoreContext);
 	const handleLinkClick = (link: string) => {
 		router.goTo(routes.vaultDetail, { vaultName: link }, { chain: router.queryParams?.chain });
@@ -77,10 +77,10 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 					<Typography variant="body1">Strategy Summary</Typography>
 					<Divider className={classes.divider} />
 					<Typography className={classes.firstParagraph} variant="body2" color="textSecondary">
-						<MarkupText text={info.perfomanceInfo.body1} onClick={handleLinkClick} />
+						<MarkupText text={config.perfomanceConfig.body1} onClick={handleLinkClick} />
 					</Typography>
 					<Typography variant="body2" color="textSecondary">
-						<MarkupText text={info.perfomanceInfo.body2} onClick={handleLinkClick} />
+						<MarkupText text={config.perfomanceConfig.body2} onClick={handleLinkClick} />
 					</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -122,7 +122,7 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 							}
 						/>
 						<SpecItem
-							name={<MarkupText text={info.perfomanceInfo.liquity} onClick={handleLinkClick} />}
+							name={<MarkupText text={config.perfomanceConfig.liquity} onClick={handleLinkClick} />}
 							value={swapPercentage ? swapPercentage : <Skeleton width={50} variant="rect" />}
 						/>
 					</Grid>
@@ -131,7 +131,7 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 			<Grid item className={classes.content}>
 				<div className={classes.performanceChart}>
 					<Typography align="center" variant="body2">
-						Performance By Voting Round, Tokens per 100 {diviserToken}
+						Performance By Voting Round, Tokens per 100 {divisorToken}
 					</Typography>
 					<ChartContent loading={processingEmissions} data={emissionsSchedules ?? null}>
 						{emissionsSchedules && <InfluenceVaultChart emissions={emissionsSchedules} />}
@@ -141,7 +141,7 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
 			<InfluenceVaultListModal
 				open={infoDialogOpen}
 				onClose={() => setInfoDialogOpen(false)}
-				info={info.withdrawModalInfo}
+				config={config.withdrawModalConfig}
 			/>
 		</Grid>
 	);

@@ -1,17 +1,17 @@
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
 
-export const isInfluenceVault = (address: string): boolean => {
+export function isInfluenceVault(address: string): boolean {
 	return vaults.map((vault) => vault.influenceVaultToken).includes(address);
-};
+}
 
-export const getInfluenceVaultConfig = (address: string): InfluenceVaultConfig => {
+export function getInfluenceVaultConfig(address: string): InfluenceVaultConfig {
 	return vaults.find((vault) => vault.influenceVaultToken === address)!!;
-};
+}
 
-export const getAllInfluenceVaults = (): string[] => {
+export function getAllInfluenceVaults(): string[] {
 	return vaults.map((vault) => vault.influenceVaultToken);
-};
+}
 
 export const vaults: InfluenceVaultConfig[] = [
 	{
@@ -35,7 +35,7 @@ export const vaults: InfluenceVaultConfig[] = [
 				value: 'Per Harvest, ~5 days',
 			},
 		],
-		rewardFrequenciesModalInfo: {
+		rewardFrequenciesModalConfig: {
 			title: 'Reward Frequency',
 			body: [
 				'bveCVX and BADGER rewards are distributed at the completion of each bi-weekly voting/bribing round, after bribes for that round have been sold. Convex locking rewards are distributed each ~2hr cycle as autocompounding ',
@@ -49,7 +49,7 @@ export const vaults: InfluenceVaultConfig[] = [
 				['- All rewards are claimable through the app'],
 			],
 		},
-		withdrawModalInfo: {
+		withdrawModalConfig: {
 			title: 'CVX Withdrawable',
 			body: [
 				'Each week, this vault locks batches of CVX tokens for a 16 week period. As vlCVX unlocks on a rolling basis, CVX becomes available to withdraw from the vault. Alternatively, bveCVX may be traded for CVX via the ',
@@ -66,7 +66,7 @@ export const vaults: InfluenceVaultConfig[] = [
 				],
 			],
 		},
-		perfomanceInfo: {
+		perfomanceConfig: {
 			body1: [
 				'This vault locks 100% of deposited Convex tokens for rolling periods of 16 weeks. Badger will use vlCVX to vote for bribes during each voting round, sell them, and emit the proceeds back to holders in the form of bveCVX (autocompounded), and claimable BADGER and bcvxCRV.',
 			],
@@ -81,13 +81,13 @@ export const vaults: InfluenceVaultConfig[] = [
 			],
 			liquity: ['% CVX Received from 10k ', '[bveCVX swap](https://curve.fi/factory/52/)'],
 		},
-		feeInfo: {
+		feeConfig: {
 			fees: [
 				['bveCVX Liquidity Support', '5%'],
 				['BADGER Liquidity Support', '5%'],
 				['DAO Operations Fee', '5%'],
 			],
-			feeModalInfo: {
+			feeModalConfig: {
 				title: 'Vote Influence Fees',
 				body: [
 					'Each voting round, a portion of the vote influence accumulated by bveCVX votes to support liquidity for bveCVX and BADGER, and to support DAO operations.',

@@ -57,7 +57,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 		return null;
 	}
 
-	const { tokens, vaultTokens, index, start, vaultValue, diviserTokenSymbol } = payload[0].payload;
+	const { tokens, vaultTokens, index, start, vaultValue, divisorTokenSymbol } = payload[0].payload;
 
 	const hundredsOfTokens = vaultTokens / 100;
 	const totalValue = tokens.reduce((total: number, token: EmissionRoundToken) => (total += token.value), 0);
@@ -82,7 +82,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 								<Typography variant="body2">
 									{numberWithCommas((token.balance / hundredsOfTokens).toFixed(2))}{' '}
 									<span className={colors[i % 3]}>{token.symbol}</span>
-									<span> per 100 {diviserTokenSymbol}</span>
+									<span> per 100 {divisorTokenSymbol}</span>
 								</Typography>
 								<Typography variant="caption" className={classes.subItem}>
 									${numberWithCommas(token.value.toFixed())} (
@@ -94,7 +94,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
 				);
 			})}
 			<Typography variant="caption">
-				Value per 100 {diviserTokenSymbol}: ${numberWithCommas(totalValue.toFixed())} (
+				Value per 100 {divisorTokenSymbol}: ${numberWithCommas(totalValue.toFixed())} (
 				{numberWithCommas(apr.toFixed(2))}% APR)
 			</Typography>
 		</Box>
@@ -113,7 +113,7 @@ const InfluenceVaultChart = ({ emissions }: Props) => {
 				</XAxis>
 				<YAxis tickFormatter={format('^.2s')}>
 					<Label
-						value={`$ per 100 ${emissions[0]?.diviserTokenSymbol}`}
+						value={`$ per 100 ${emissions[0]?.divisorTokenSymbol}`}
 						style={{ fill: 'white' }}
 						angle={-90}
 						position="insideBottomLeft"
