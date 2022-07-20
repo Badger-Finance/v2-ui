@@ -1,21 +1,20 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useReducer } from 'react';
-import { StoreContext } from '../mobx/store-context';
-import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../config/constants';
-import routes from '../config/routes';
+import { StoreContext } from '../../mobx/store-context';
+import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
+import routes from '../../config/routes';
 import { Container, Grid, makeStyles } from '@material-ui/core';
-import { Header } from '../components-v2/vault-detail/Header';
-import mainnetDeploy from 'config/deployments/mainnet.json';
-import { Footer } from '../components-v2/vault-detail/Footer';
-import { TopContent } from '../components-v2/vault-detail/TopContent';
-import { Loader } from '../components/Loader';
-import { Holdings } from '../components-v2/vault-detail/holdings/Holdings';
-import { defaultVaultBalance } from '../components-v2/vault-detail/utils';
-import BveCvxInfoPanels from '../components-v2/BveCvxInfoPanels';
-import BveCvxSpecs from '../components-v2/BveCvxSpecs';
-import { VaultWithdraw } from '../components-v2/common/dialogs/VaultWithdraw';
-import { VaultDeposit } from '../components-v2/common/dialogs/VaultDeposit';
-import { MobileStickyActionButtons } from '../components-v2/vault-detail/actions/MobileStickyActionButtons';
+import { Header } from '../vault-detail/Header';
+import { Footer } from '../vault-detail/Footer';
+import { TopContent } from '../vault-detail/TopContent';
+import { Loader } from '../../components/Loader';
+import { Holdings } from '../vault-detail/holdings/Holdings';
+import { defaultVaultBalance } from '../vault-detail/utils';
+import InfluenceVaultInfoPanel from './InfluenceVaultInfoPanel';
+import InfluenceVaultSpecs from './InfluenceVaultSpecs';
+import { VaultWithdraw } from '../common/dialogs/VaultWithdraw';
+import { VaultDeposit } from '../common/dialogs/VaultDeposit';
+import { MobileStickyActionButtons } from '../vault-detail/actions/MobileStickyActionButtons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -39,19 +38,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const vaultAddress = mainnetDeploy.sett_system.vaults['native.icvx'];
-
-const BveCvxInfluence = (): JSX.Element => {
+const InfluenceVaultDetail = (): JSX.Element => {
 	const {
 		network: { network },
 		router,
 		user,
+		vaultDetail,
 		vaults,
 		wallet,
 	} = useContext(StoreContext);
 
+	const { vault } = vaultDetail;
+
 	const classes = useStyles();
-	const vault = vaults.getVault(vaultAddress);
 	const badgerVault = vault ? vaults.getVaultDefinition(vault) : undefined;
 	const [depositDisplayed, toggleDepositDisplayed] = useReducer((previous) => !previous, false);
 	const [withdrawDisplayed, toggleWithdrawDisplay] = useReducer((previous) => !previous, false);
@@ -89,10 +88,10 @@ const BveCvxInfluence = (): JSX.Element => {
 				)}
 				<Grid container spacing={1}>
 					<Grid item xs={12} md={4} lg={3}>
-						<BveCvxSpecs vault={vault} />
+						<InfluenceVaultSpecs vault={vault} />
 					</Grid>
 					<Grid item xs={12} md={8} lg={9} className={classes.chartsContainer}>
-						<BveCvxInfoPanels vault={vault} />
+						<InfluenceVaultInfoPanel vault={vault} />
 					</Grid>
 				</Grid>
 				<Footer vault={vault} />
@@ -118,4 +117,4 @@ const BveCvxInfluence = (): JSX.Element => {
 	);
 };
 
-export default observer(BveCvxInfluence);
+export default observer(InfluenceVaultDetail);

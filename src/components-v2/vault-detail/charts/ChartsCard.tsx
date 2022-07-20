@@ -11,7 +11,6 @@ import { VaultChart } from './VaultChart';
 import ChartContent from './ChartContent';
 import { BoostChart } from './BoostChart';
 import { VaultDTO } from '@badger-dao/sdk';
-import { BVE_CVX_TOKEN } from 'mobx/stores/bveCvxInfluenceStore';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

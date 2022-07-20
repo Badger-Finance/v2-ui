@@ -465,16 +465,12 @@ export default class VaultStore {
 
 	async navigateToVaultDetail(vault: VaultDTO) {
 		const { router } = this.store;
-		// covert to map if use-cases increase
-		if (vault.vaultToken === mainnetDeploy.sett_system.vaults['native.icvx']) {
-			return router.goTo(routes.bveCvx, {}, { chain: router.queryParams?.chain });
-		} else {
-			return router.goTo(
-				routes.vaultDetail,
-				{ vaultName: this.getSlug(vault.vaultToken) },
-				{ chain: router.queryParams?.chain },
-			);
-		}
+
+		return router.goTo(
+			routes.vaultDetail,
+			{ vaultName: this.getSlug(vault.vaultToken) },
+			{ chain: router.queryParams?.chain },
+		);
 	}
 
 	/**

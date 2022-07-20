@@ -6,8 +6,8 @@ import { getStrategyFee } from '../../mobx/utils/fees';
 import { VaultDTO } from '@badger-dao/sdk';
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
 import { formatStrategyFee } from '../../utils/componentHelpers';
-import influenceFees from 'config/bve-cvx/vote-influence-fees.json';
-import BveCvxInfluenceFeesInfo from '../BveCvxInfluenceFeesInfo';
+import InfluenceVaultModal from './InfluenceVaultModal';
+import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -31,10 +31,11 @@ interface Props {
 	vault: VaultDTO;
 }
 
-const BveCvxFees = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultFees = ({ vault }: Props): JSX.Element => {
 	const classes = useStyles();
 	const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 	const withdrawFee = getStrategyFee(vault, StrategyFee.withdraw);
+	const config = getInfluenceVaultConfig(vault.vaultToken);
 
 	return (
 		<Grid container>
@@ -49,8 +50,8 @@ const BveCvxFees = ({ vault }: Props): JSX.Element => {
 						<StyledHelpIcon onClick={() => setInfoDialogOpen(true)} />
 					</Typography>
 					<Grid container direction="column">
-						{Object.entries(influenceFees).map(([key, value]) => (
-							<SpecItem key={key} className={classes.subSpec} name={key} value={value} />
+						{config.feeConfig.fees.map((fee, index) => (
+							<SpecItem key={index} className={classes.subSpec} name={fee[0]} value={fee[1]} />
 						))}
 					</Grid>
 				</Grid>
@@ -58,9 +59,13 @@ const BveCvxFees = ({ vault }: Props): JSX.Element => {
 					<SpecItem name="Withdrawal Fee" value={formatStrategyFee(withdrawFee)} />
 				</Grid>
 			</Grid>
-			<BveCvxInfluenceFeesInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
+			<InfluenceVaultModal
+				open={infoDialogOpen}
+				onClose={() => setInfoDialogOpen(false)}
+				config={config.feeConfig.feeModalConfig}
+			/>
 		</Grid>
 	);
 };
 
-export default BveCvxFees;
+export default InfluenceVaultFees;

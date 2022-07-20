@@ -4,14 +4,13 @@ import Landing from '../pages/Landing';
 import { RootStore } from '../mobx/RootStore';
 import { BoostOptimizer } from '../components/Boost';
 import { IbBTC } from 'components/IbBTC';
-import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
+import { VaultDetailWrapper } from '../components-v2/vault-detail/VaultDetailWrapper';
 import { NotFound } from '../components-v2/common/NotFound';
 import Governance from 'components/Governance';
 import { Currency, Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
 import Bridge from 'components/Bridge';
-import BveCvxVaultDetail from '../pages/BveCvxInfluence';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -48,16 +47,9 @@ const routes = {
 		component: <IbBTC />,
 		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
 	}),
-	bveCvx: new Route<RootStore, QueryParams>({
-		path: '/vault/convex-bvecvx',
-		component: <BveCvxVaultDetail />,
-		beforeEnter: (route, params, store) => {
-			store.bveCvxInfluence.init();
-		},
-	}),
 	vaultDetail: new Route<RootStore, QueryParams>({
 		path: '/vault/:vaultName',
-		component: <VaultDetail />,
+		component: <VaultDetailWrapper />,
 		onEnter: (_route, params, store) => {
 			if (!params || !params.vaultName) {
 				return;

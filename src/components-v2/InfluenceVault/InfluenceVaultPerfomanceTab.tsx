@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, Divider, Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import { Box, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from '../../mobx/store-context';
 import { VaultDTO } from '@badger-dao/sdk';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
@@ -8,9 +8,12 @@ import { observer } from 'mobx-react-lite';
 import SpecItem from '../vault-detail/specs/SpecItem';
 import { StyledHelpIcon } from '../vault-detail/styled';
 import { Skeleton } from '@material-ui/lab';
-import BveCvxBribeChart from '../BveCvxBribeChart';
+import InfluenceVaultChart from './InfluenceVaultChart';
 import ChartContent from '../vault-detail/charts/ChartContent';
-import BveCvxWithdrawalInfo from '../BveCvxWithdrawalInfo';
+import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
+import InfluenceVaultListModal from './InfluenceVaultListModal';
+import MarkupText from 'components-v2/common/MarkupText';
+import routes from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -48,15 +51,24 @@ interface Props {
 	vault: VaultDTO;
 }
 
-const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
-	const { vaults, lockedDeposits, bveCvxInfluence } = useContext(StoreContext);
+const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
+	const { vaults, lockedDeposits, influenceVaultStore } = useContext(StoreContext);
 	const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 	const classes = useStyles();
 	const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
 	const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
 	const apy = vaults.vaultsFilters.showAPR ? vault.apr : vault.apy;
 	const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
-	const { loadingEmissions, emissions, swapPercentage } = bveCvxInfluence;
+	const { processingEmissions, emissionsSchedules, swapPercentage } = influenceVaultStore.getInfluenceVault(
+		vault.vaultToken,
+	);
+	const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
+	const config = getInfluenceVaultConfig(vault.vaultToken);
+	const divisorToken = vaults.getToken(vault.vaultToken).symbol;
+	const { router } = useContext(StoreContext);
+	const handleLinkClick = (link: string) => {
+		router.goTo(routes.vaultDetail, { vaultName: link }, { chain: router.queryParams?.chain });
+	};
 
 	return (
 		<Grid container direction="column" className={classes.root}>
@@ -65,35 +77,10 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 					<Typography variant="body1">Strategy Summary</Typography>
 					<Divider className={classes.divider} />
 					<Typography className={classes.firstParagraph} variant="body2" color="textSecondary">
-						This vault locks 100% of deposited Convex tokens for rolling periods of 16 weeks. Badger will
-						use vlCVX to vote for bribes during each voting round, sell them, and emit the proceeds back to
-						holders in the form of bveCVX (autocompounded), and claimable BADGER and bcvxCRV.
+						<MarkupText text={config.perfomanceConfig.body1} onClick={handleLinkClick} />
 					</Typography>
 					<Typography variant="body2" color="textSecondary">
-						Unlike other Badger Vaults, bveCVX limits the times when users may withdraw their funds. Limited
-						pre-unlock liquidity is available through this{' '}
-						<Link href="https://curve.fi/factory/52/" target="_blank" rel="noopener" display="inline">
-							Curve pool
-						</Link>
-						. Please carefully read the{' '}
-						<Link
-							href="https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/vote-locked-cvx"
-							target="_blank"
-							rel="noopener"
-							display="inline"
-						>
-							User Guide
-						</Link>{' '}
-						for more information. Details on the timing of CVX unlocks are available on this{' '}
-						<Link
-							href="https://dune.com/tianqi/Convex-Locked-CVX-V2(Sponsored-by-Badger)"
-							target="_blank"
-							rel="noopener"
-							display="inline"
-						>
-							Dune dashboard
-						</Link>
-						.
+						<MarkupText text={config.perfomanceConfig.body2} onClick={handleLinkClick} />
 					</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -122,7 +109,7 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 						<SpecItem
 							name={
 								<Box component="span" display="flex" justifyContent="center" alignItems="center">
-									CVX Available for Withdrawal
+									{underlyingTokenSymbol} Available for Withdrawal
 									<StyledHelpIcon onClick={() => setInfoDialogOpen(true)} />
 								</Box>
 							}
@@ -135,19 +122,7 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 							}
 						/>
 						<SpecItem
-							name={
-								<span>
-									% CVX Received from 10k{' '}
-									<Link
-										href="https://curve.fi/factory/52/"
-										target="_blank"
-										rel="noopener"
-										display="inline"
-									>
-										bveCVX swap
-									</Link>
-								</span>
-							}
+							name={<MarkupText text={config.perfomanceConfig.liquity} onClick={handleLinkClick} />}
 							value={swapPercentage ? swapPercentage : <Skeleton width={50} variant="rect" />}
 						/>
 					</Grid>
@@ -156,16 +131,20 @@ const BveCvxPerformance = ({ vault }: Props): JSX.Element => {
 			<Grid item className={classes.content}>
 				<div className={classes.performanceChart}>
 					<Typography align="center" variant="body2">
-						Performance By Voting Round, Tokens per 100 bveCVX
+						Performance By Voting Round, Tokens per 100 {divisorToken}
 					</Typography>
-					<ChartContent loading={loadingEmissions} data={emissions ?? null}>
-						{emissions && <BveCvxBribeChart emissions={emissions} />}
+					<ChartContent loading={processingEmissions} data={emissionsSchedules ?? null}>
+						{emissionsSchedules && <InfluenceVaultChart emissions={emissionsSchedules} />}
 					</ChartContent>
 				</div>
 			</Grid>
-			<BveCvxWithdrawalInfo open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
+			<InfluenceVaultListModal
+				open={infoDialogOpen}
+				onClose={() => setInfoDialogOpen(false)}
+				config={config.withdrawModalConfig}
+			/>
 		</Grid>
 	);
 };
 
-export default observer(BveCvxPerformance);
+export default observer(InfluenceVaultPerfomanceTab);
