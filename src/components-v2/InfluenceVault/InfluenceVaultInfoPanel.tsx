@@ -1,6 +1,7 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -33,11 +34,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   vault: VaultDTO;
+  config: InfluenceVaultConfig;
 }
 
 type TabType = 'performance' | 'value';
 
-const InfluenceVaultInfoPanel = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultInfoPanel = ({ vault, config }: Props): JSX.Element => {
   const classes = useStyles();
   const { influenceVaultStore } = useContext(StoreContext);
   const influenceVault = influenceVaultStore.getInfluenceVault(vault.vaultToken);
@@ -84,7 +86,7 @@ const InfluenceVaultInfoPanel = ({ vault }: Props): JSX.Element => {
         <Tab onClick={() => setMode('value')} value="value" label="Tokens Managed" />
       </Tabs>
       <Grid container direction="column" className={classes.content}>
-        {mode === 'performance' && <InfluenceVaultPerfomanceTab vault={vault} />}
+        {mode === 'performance' && <InfluenceVaultPerfomanceTab vault={vault} config={config} />}
         {mode === 'value' && valueChart}
       </Grid>
     </CardContainer>

@@ -1,6 +1,7 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 
@@ -13,10 +14,10 @@ import { CardContainer, StyledDivider, StyledHelpIcon } from '../vault-detail/st
 import VaultDepositedAssets from '../VaultDepositedAssets';
 import InfluenceVaultFees from './InfluenceVaultFees';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
-import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
 
 interface Props {
   vault: VaultDTO;
+  config: InfluenceVaultConfig;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -39,13 +40,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultSpecs = ({ vault, config }: Props): JSX.Element => {
   const { lockedDeposits, vaults } = useContext(StoreContext);
   const [withdrawInfoOpen, setWithdrawInfoOpen] = useState(false);
   const [frequencyInfoOpen, setFrequencyInfoOpen] = useState(false);
   const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
   const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
-  const config = getInfluenceVaultConfig(vault.vaultToken);
   const classes = useStyles();
 
   return (
@@ -81,7 +81,7 @@ const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
           />
         </Grid>
         <Grid item xs className={classes.specItem}>
-          <InfluenceVaultFees vault={vault} />
+          <InfluenceVaultFees vault={vault} config={config} />
         </Grid>
         <Grid item xs className={classes.specItem}>
           <Box display="flex" alignItems="center">

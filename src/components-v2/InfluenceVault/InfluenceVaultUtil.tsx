@@ -6,8 +6,8 @@ export function isInfluenceVault(address: string): boolean {
   return vaults.map((vault) => vault.influenceVaultToken).includes(address);
 }
 
-export function getInfluenceVaultConfig(address: string): InfluenceVaultConfig {
-  return vaults.find((vault) => vault.influenceVaultToken === address)!;
+export function getInfluenceVaultConfig(address: string): InfluenceVaultConfig | undefined {
+  return vaults.find((vault) => vault.influenceVaultToken === address);
 }
 
 export function getAllInfluenceVaults(): string[] {

@@ -15,6 +15,7 @@ import { TopContent } from '../vault-detail/TopContent';
 import { defaultVaultBalance } from '../vault-detail/utils';
 import InfluenceVaultInfoPanel from './InfluenceVaultInfoPanel';
 import InfluenceVaultSpecs from './InfluenceVaultSpecs';
+import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +51,7 @@ const InfluenceVaultDetail = (): JSX.Element => {
 
   const { vault } = vaultDetail;
 
+  const influenceVault = vault ? getInfluenceVaultConfig(vault?.vaultToken) : undefined;
   const classes = useStyles();
   const badgerVault = vault ? vaults.getVault(vault.vaultToken) : undefined;
   const [depositDisplayed, toggleDepositDisplayed] = useReducer((previous) => !previous, false);
@@ -59,7 +61,7 @@ const InfluenceVaultDetail = (): JSX.Element => {
     router.goTo(routes.home, {}, { chain: NETWORK_IDS_TO_NAMES[NETWORK_IDS.ETH] });
   }
 
-  if (!vault || !badgerVault) {
+  if (!vault || !badgerVault || !influenceVault) {
     return (
       <Container className={classes.root}>
         <div className={classes.notReadyContainer}>
@@ -88,10 +90,10 @@ const InfluenceVaultDetail = (): JSX.Element => {
         )}
         <Grid container spacing={1}>
           <Grid item xs={12} md={4} lg={3}>
-            <InfluenceVaultSpecs vault={vault} />
+            <InfluenceVaultSpecs vault={vault} config={influenceVault} />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className={classes.chartsContainer}>
-            <InfluenceVaultInfoPanel vault={vault} />
+            <InfluenceVaultInfoPanel vault={vault} config={influenceVault} />
           </Grid>
         </Grid>
       </Container>

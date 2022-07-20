@@ -2,6 +2,7 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Box, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import MarkupText from 'components-v2/common/MarkupText';
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 
@@ -14,7 +15,6 @@ import { StyledHelpIcon } from '../vault-detail/styled';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import InfluenceVaultChart from './InfluenceVaultChart';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
-import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,9 +50,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   vault: VaultDTO;
+  config: InfluenceVaultConfig;
 }
 
-const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
   const { vaults, lockedDeposits, influenceVaultStore } = useContext(StoreContext);
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
   const classes = useStyles();
@@ -64,7 +65,6 @@ const InfluenceVaultPerfomanceTab = ({ vault }: Props): JSX.Element => {
     vault.vaultToken,
   );
   const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
-  const config = getInfluenceVaultConfig(vault.vaultToken);
   const divisorToken = vaults.getToken(vault.vaultToken).symbol;
   const { router } = useContext(StoreContext);
   const handleLinkClick = (link: string) => {
