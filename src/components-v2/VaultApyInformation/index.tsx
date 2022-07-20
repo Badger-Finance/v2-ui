@@ -64,6 +64,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
   //make sure boost sources are always the last one
   const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
+  const badgerRewardsSources = sortedSources.filter((source) => source.name.includes('Badger Rewards'));
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -156,6 +157,12 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   </Grid>
                   <Divider className={classes.divider} />
                 </>
+              ))}
+              {badgerRewardsSources.map((source) => (
+                <React.Fragment key={source.name}>
+                  <VaultApyBreakdownItem vault={vault} source={source} />
+                  <Divider className={classes.divider} />
+                </React.Fragment>
               ))}
             </>
           )}
