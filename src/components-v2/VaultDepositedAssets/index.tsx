@@ -1,7 +1,7 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BVE_CVX_TOKEN } from 'mobx/stores/bveCvxInfluenceStore';
+import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -26,14 +26,13 @@ interface Props {
 const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {
   const classes = useStyles();
 
-  // TODO: we should probably include an 'influence' vault behavior
-  const isBveCvx = vault.vaultToken === BVE_CVX_TOKEN;
+  const isAnInfluenceVault = isInfluenceVault(vault.vaultToken);
 
-  if (isBveCvx) {
+  if (isAnInfluenceVault) {
     return (
       <>
         <Typography variant="body2" className={classes.amount}>
-          {numberWithCommas(vault.balance.toFixed())} ${vault.asset}
+          {numberWithCommas(vault.balance.toFixed())} {vault.asset}
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
           ${numberWithCommas(vault.value.toFixed())}

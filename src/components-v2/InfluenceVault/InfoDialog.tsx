@@ -67,7 +67,7 @@ const Content = ({ children }: ChildrenProps) => {
   return <DialogContent className={classes.content}>{children}</DialogContent>;
 };
 
-const BveCvxInfoDialogRoot = ({ open, onClose, children }: Props): JSX.Element => {
+const InfoDialogRoot = ({ open, onClose, children }: Props): JSX.Element => {
   return (
     <Dialog fullWidth maxWidth="xl" open={open} onClose={onClose}>
       {children}
@@ -75,4 +75,4 @@ const BveCvxInfoDialogRoot = ({ open, onClose, children }: Props): JSX.Element =
   );
 };
 
-export const BveCvxInfoDialog = Object.assign(BveCvxInfoDialogRoot, { Title, Divider, Content });
+export const InfoDialog = Object.assign(InfoDialogRoot, { Title, Divider, Content });
