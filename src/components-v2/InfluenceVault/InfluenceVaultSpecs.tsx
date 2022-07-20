@@ -1,3 +1,4 @@
+import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import React, { useContext, useState } from 'react';
 import { CardContainer, StyledDivider, StyledHelpIcon } from '../vault-detail/styled';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
@@ -11,11 +12,11 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
-import { VaultToken } from '../vault-detail/specs/VaultToken';
-import { getInfluenceVaultConfig } from './InfluenceVaultUtil';
+import { VaultToken } from 'components-v2/vault-detail/specs/VaultToken';
 
 interface Props {
 	vault: VaultDTO;
+	config: InfluenceVaultConfig;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -38,13 +39,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
+const InfluenceVaultSpecs = ({ vault, config }: Props): JSX.Element => {
 	const { lockedDeposits, vaults } = useContext(StoreContext);
 	const [withdrawInfoOpen, setWithdrawInfoOpen] = useState(false);
 	const [frequencyInfoOpen, setFrequencyInfoOpen] = useState(false);
 	const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
 	const underlyingTokenSymbol = vaults.getToken(vault.underlyingToken).symbol;
-	const config = getInfluenceVaultConfig(vault.vaultToken);
 	const classes = useStyles();
 
 	return (
@@ -88,7 +88,7 @@ const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
 					/>
 				</Grid>
 				<Grid item xs className={classes.specItem}>
-					<InfluenceVaultFees vault={vault} />
+					<InfluenceVaultFees vault={vault} config={config} />
 				</Grid>
 				<Grid item xs className={classes.specItem}>
 					<Box display="flex" alignItems="center">
@@ -97,7 +97,7 @@ const InfluenceVaultSpecs = ({ vault }: Props): JSX.Element => {
 					</Box>
 					<StyledDivider />
 					<Grid container direction="column">
-						{config.rewardFrequencies.map(({ name, value }: any, index: number) => (
+						{config.rewardFrequencies.map(({ name, value }, index) => (
 							<SpecItem key={index} name={name} value={value} />
 						))}
 					</Grid>

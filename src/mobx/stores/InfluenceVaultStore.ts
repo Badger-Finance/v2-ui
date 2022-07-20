@@ -72,7 +72,9 @@ class InfluenceVaultStore {
 	}
 
 	async loadEmissionsSchedules(vault: VaultDTO) {
-		if (!this.influenceVaults[vault.vaultToken]) return;
+		const config = getInfluenceVaultConfig(vault.vaultToken);
+		if (!this.influenceVaults[vault.vaultToken] || !config) return;
+		const { sources, roundStart } = config;
 		try {
 			this.influenceVaults[vault.vaultToken].processingEmissions = true;
 			const treeSchedules = await this.store.sdk.api.loadSchedule(vault.vaultToken, false);
@@ -92,6 +94,8 @@ class InfluenceVaultStore {
 			this.influenceVaults[vault.vaultToken].emissionsSchedules = await this.bucketSchedules(
 				treeSchedules.concat(harvestConvertedSchedules),
 				vault,
+				sources,
+				roundStart,
 			);
 		} catch (error) {
 			console.error(error);
@@ -103,7 +107,7 @@ class InfluenceVaultStore {
 	async loadSwapPercentage(vault: VaultDTO) {
 		const config = getInfluenceVaultConfig(vault.vaultToken);
 		const { provider } = this.store.wallet;
-		if (!provider || this.influenceVaults[vault.vaultToken].swapPercentage !== '') return;
+		if (!provider || this.influenceVaults[vault.vaultToken].swapPercentage !== '' || !config) return;
 		const curvePool = CurveFactoryPool__factory.connect(config.poolToken, provider);
 		const swapAmount = 10_000; // 10k bveCVX;
 		// in the pool each token is represented by an index 0 is bveCVX and 1 is CVX
@@ -117,12 +121,12 @@ class InfluenceVaultStore {
 	private async bucketSchedules(
 		schedules: EmissionSchedule[],
 		vault: VaultDTO,
+		sourceTokens: string[],
+		roundStart: number,
 	): Promise<InfluenceVaultEmissionRound[]> {
 		const schedulesByRound: Record<number, EmissionSchedule[]> = {};
-		const config = getInfluenceVaultConfig(vault.vaultToken);
-		const sourceTokens = config.sources;
 		for (let schedule of schedules) {
-			let round = Math.ceil((schedule.start - config.roundStart) / (14 * (ONE_DAY_MS / 1000)));
+			let round = Math.ceil((schedule.start - roundStart) / (14 * (ONE_DAY_MS / 1000)));
 
 			// we have some weird schedules that are bad entries
 			if (round < 1) {
