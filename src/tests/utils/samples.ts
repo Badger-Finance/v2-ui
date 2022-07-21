@@ -8,7 +8,7 @@ import {
   VaultType,
   VaultVersion,
 } from '@badger-dao/sdk';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
@@ -191,7 +191,7 @@ export const SAMPLE_TOKEN_BALANCE = new TokenBalance(
     symbol: 'curve-renBTC-wBTC-sBTC',
     decimals: 18,
   },
-  BigNumber.from(1.999 * 1e18),
+  utils.parseEther('1.99'),
   13.16,
 );
 
