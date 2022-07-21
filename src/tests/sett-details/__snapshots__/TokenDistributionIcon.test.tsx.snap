@@ -2,7 +2,6 @@
 
 exports[`Token Distribution Icon displays sett token distribution information on hover 1`] = `
 <body>
-  
   <div>
     <svg
       aria-describedby="sett-token-distribution-tooltip"
@@ -21,7 +20,7 @@ exports[`Token Distribution Icon displays sett token distribution information on
     class="MuiTooltip-popper-2 MuiTooltip-popperArrow-4"
     id="sett-token-distribution-tooltip"
     role="tooltip"
-    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    style="position: absolute; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
     x-placement="top"
   >
     <div
@@ -82,7 +81,7 @@ exports[`Token Distribution Icon displays sett token distribution information on
             <p
               class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
             >
-              472.1
+              472.10
             </p>
           </div>
           <div
