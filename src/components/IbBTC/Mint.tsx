@@ -13,8 +13,6 @@ import {
 } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
-import { ZERO } from 'config/constants';
-import { BigNumber } from 'ethers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -148,13 +146,11 @@ export const Mint = observer((): JSX.Element => {
 
   const debounceInputAmountChange = useCallback(
     debounce(async (change: string): Promise<void> => {
-      const input = BigNumber.from(change);
-
       if (!selectedToken) {
         return;
       }
 
-      if (!input.gt(ZERO)) {
+      if (!(Number(change) > 0)) {
         setOutputAmount(undefined);
         setFee('0.000');
         setTotalMint('0.000');
