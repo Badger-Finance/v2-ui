@@ -12,7 +12,7 @@ exports[`VaultListDisplay displays empty search message 1`] = `
         class="MuiGrid-root-13 makeStyles-spacingItem-11 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
       />
       <div
-        class="MuiGrid-root-13 makeStyles-title-2 makeStyles-columnTitle-7 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-4-93"
+        class="MuiGrid-root-13 makeStyles-title-2 makeStyles-columnTitle-7 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
       >
         <p
           class="MuiTypography-root-144 makeStyles-title-2 MuiTypography-body2-145 MuiTypography-colorTextSecondary-170"
@@ -209,10 +209,10 @@ exports[`VaultListDisplay displays empty search message 1`] = `
 exports[`VaultListDisplay displays no vaults message 1`] = `
 <div>
   <div
-    class="MuiGrid-root-7 makeStyles-messageContainer-2 MuiGrid-container-8 MuiGrid-direction-xs-column-11"
+    class="MuiGrid-root-8 makeStyles-messageContainer-2 MuiGrid-container-9 MuiGrid-direction-xs-column-12"
   >
     <div
-      class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-justify-content-xs-center-25"
+      class="MuiGrid-root-8 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-justify-content-xs-center-26"
     >
       <img
         alt="Badger Builder"
@@ -220,36 +220,40 @@ exports[`VaultListDisplay displays no vaults message 1`] = `
       />
     </div>
     <div
-      class="MuiGrid-root-7 makeStyles-helpTextContainer-5 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-direction-xs-column-11 MuiGrid-justify-content-xs-center-25"
+      class="MuiGrid-root-8 makeStyles-helpTextContainer-5 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-direction-xs-column-12 MuiGrid-justify-content-xs-center-26"
     >
       <h5
-        class="MuiTypography-root-110 MuiTypography-h5-119 MuiTypography-colorTextSecondary-136"
+        class="MuiTypography-root-111 MuiTypography-h5-120 MuiTypography-colorTextSecondary-137"
       >
         No vaults to display
       </h5>
       <p
-        class="MuiTypography-root-110 MuiTypography-body2-111 MuiTypography-colorTextSecondary-136"
+        class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
       >
         Badgers are working hard to build vaults on 
-        Ethereum
+        <span
+          class="makeStyles-networkName-7"
+        >
+          ethereum
+        </span>
         . Switch network for more investment opportunities.
       </p>
     </div>
     <div
-      class="MuiGrid-root-7 makeStyles-switchButtonContainer-6 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-justify-content-xs-center-25"
+      class="MuiGrid-root-8 makeStyles-switchButtonContainer-6 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-justify-content-xs-center-26"
     >
       <button
-        class="MuiButtonBase-root-169 MuiButton-root-140 MuiButton-outlined-145 MuiButton-outlinedPrimary-146"
+        class="MuiButtonBase-root-170 MuiButton-root-141 MuiButton-outlined-146 MuiButton-outlinedPrimary-147"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-label-141"
+          class="MuiButton-label-142"
         >
           Switch Networks
         </span>
         <span
-          class="MuiTouchRipple-root-172"
+          class="MuiTouchRipple-root-173"
         />
       </button>
     </div>
@@ -260,10 +264,10 @@ exports[`VaultListDisplay displays no vaults message 1`] = `
 exports[`VaultListDisplay does not display deprecated vaults with no user balance 1`] = `
 <div>
   <div
-    class="MuiGrid-root-7 makeStyles-messageContainer-2 MuiGrid-container-8 MuiGrid-direction-xs-column-11"
+    class="MuiGrid-root-8 makeStyles-messageContainer-2 MuiGrid-container-9 MuiGrid-direction-xs-column-12"
   >
     <div
-      class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-justify-content-xs-center-25"
+      class="MuiGrid-root-8 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-justify-content-xs-center-26"
     >
       <img
         alt="Badger Builder"
@@ -271,36 +275,40 @@ exports[`VaultListDisplay does not display deprecated vaults with no user balanc
       />
     </div>
     <div
-      class="MuiGrid-root-7 makeStyles-helpTextContainer-5 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-direction-xs-column-11 MuiGrid-justify-content-xs-center-25"
+      class="MuiGrid-root-8 makeStyles-helpTextContainer-5 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-direction-xs-column-12 MuiGrid-justify-content-xs-center-26"
     >
       <h5
-        class="MuiTypography-root-110 MuiTypography-h5-119 MuiTypography-colorTextSecondary-136"
+        class="MuiTypography-root-111 MuiTypography-h5-120 MuiTypography-colorTextSecondary-137"
       >
         No vaults to display
       </h5>
       <p
-        class="MuiTypography-root-110 MuiTypography-body2-111 MuiTypography-colorTextSecondary-136"
+        class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
       >
         Badgers are working hard to build vaults on 
-        Ethereum
+        <span
+          class="makeStyles-networkName-7"
+        >
+          ethereum
+        </span>
         . Switch network for more investment opportunities.
       </p>
     </div>
     <div
-      class="MuiGrid-root-7 makeStyles-switchButtonContainer-6 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-justify-content-xs-center-25"
+      class="MuiGrid-root-8 makeStyles-switchButtonContainer-6 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-justify-content-xs-center-26"
     >
       <button
-        class="MuiButtonBase-root-169 MuiButton-root-140 MuiButton-outlined-145 MuiButton-outlinedPrimary-146"
+        class="MuiButtonBase-root-170 MuiButton-root-141 MuiButton-outlined-146 MuiButton-outlinedPrimary-147"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-label-141"
+          class="MuiButton-label-142"
         >
           Switch Networks
         </span>
         <span
-          class="MuiTouchRipple-root-172"
+          class="MuiTouchRipple-root-173"
         />
       </button>
     </div>
@@ -320,7 +328,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 makeStyles-spacingItem-11 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
       />
       <div
-        class="MuiGrid-root-13 makeStyles-title-2 makeStyles-columnTitle-7 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-4-93"
+        class="MuiGrid-root-13 makeStyles-title-2 makeStyles-columnTitle-7 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
       >
         <p
           class="MuiTypography-root-144 makeStyles-title-2 MuiTypography-body2-145 MuiTypography-colorTextSecondary-170"
@@ -343,7 +351,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-282"
+            class="MuiTouchRipple-root-286"
           />
         </button>
       </div>
@@ -371,7 +379,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-282"
+            class="MuiTouchRipple-root-286"
           />
         </button>
       </div>
@@ -399,7 +407,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-282"
+            class="MuiTouchRipple-root-286"
           />
         </button>
       </div>
@@ -427,7 +435,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-282"
+            class="MuiTouchRipple-root-286"
           />
         </button>
       </div>
@@ -453,68 +461,13 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-4-93"
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
       >
         <h6
           class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
         >
           Digg
         </h6>
-      </div>
-      <div
-        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
-      >
-        <div
-          class="MuiBox-root-201 MuiBox-root-202 makeStyles-root-198"
-        >
-          <p
-            class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
-          >
-            8.17%
-          </p>
-          <img
-            alt="apy info icon"
-            class="makeStyles-apyInfo-200"
-            src="/assets/icons/apy-info.svg"
-          />
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
-      >
-        <div
-          class="MuiBox-root-201 MuiBox-root-227"
-        >
-          <p
-            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
-          >
-            0.000000000000000010
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
-      >
-        <div
-          class="MuiBox-root-201 MuiBox-root-231"
-        >
-          <p
-            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
-          >
-            2874
-          </p>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiGrid-root-13 makeStyles-tagsContainer-193 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15 MuiGrid-align-items-xs-center-22"
-    >
-      <div
-        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
-      />
-      <div
-        class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
-      >
         <div
           class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
         >
@@ -522,20 +475,68 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
           >
             <span
-              class="MuiTypography-root-144 makeStyles-label-233 MuiTypography-caption-147 MuiTypography-displayInline-172"
+              class="MuiTypography-root-144 makeStyles-label-199 MuiTypography-caption-147 MuiTypography-displayInline-172"
             >
               Platform:
             </span>
             <div
-              class="MuiChip-root-236 makeStyles-tag-232 MuiChip-sizeSmall-237"
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
             >
               <span
-                class="MuiChip-label-258 MuiChip-labelSmall-259"
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
               >
                 Badger
               </span>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-236 MuiBox-root-237 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-236 MuiBox-root-238"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              8.17%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-236 MuiBox-root-264"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $0.00
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-236 MuiBox-root-268"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $2,874
+          </p>
         </div>
       </div>
     </div>
@@ -554,74 +555,19 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="BADGER logo"
-            class="makeStyles-position-266"
+            class="makeStyles-position-269"
             src="/assets/icons/badger.svg"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-4-93"
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
       >
         <h6
           class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
         >
           Badger
         </h6>
-      </div>
-      <div
-        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
-      >
-        <div
-          class="MuiBox-root-201 MuiBox-root-267 makeStyles-root-198"
-        >
-          <p
-            class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
-          >
-            8.17%
-          </p>
-          <img
-            alt="apy info icon"
-            class="makeStyles-apyInfo-200"
-            src="/assets/icons/apy-info.svg"
-          />
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
-      >
-        <div
-          class="MuiBox-root-201 MuiBox-root-270"
-        >
-          <p
-            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
-          >
-            0.000000000000000001
-          </p>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
-      >
-        <div
-          class="MuiBox-root-201 MuiBox-root-273"
-        >
-          <p
-            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
-          >
-            10000
-          </p>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiGrid-root-13 makeStyles-tagsContainer-193 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15 MuiGrid-align-items-xs-center-22"
-    >
-      <div
-        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
-      />
-      <div
-        class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-true-47"
-      >
         <div
           class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
         >
@@ -629,15 +575,15 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
           >
             <span
-              class="MuiTypography-root-144 makeStyles-label-233 makeStyles-clickableLabel-235 MuiTypography-caption-147 MuiTypography-displayInline-172"
+              class="MuiTypography-root-144 makeStyles-label-199 makeStyles-clickableLabel-201 MuiTypography-caption-147 MuiTypography-displayInline-172"
             >
               Rewards:
             </span>
             <div
-              class="MuiChip-root-236 makeStyles-tag-232 makeStyles-clickableTag-234 MuiChip-sizeSmall-237"
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
             >
               <span
-                class="MuiChip-label-258 MuiChip-labelSmall-259"
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
               >
                 DCA
               </span>
@@ -647,20 +593,68 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
           >
             <span
-              class="MuiTypography-root-144 makeStyles-label-233 MuiTypography-caption-147 MuiTypography-displayInline-172"
+              class="MuiTypography-root-144 makeStyles-label-199 MuiTypography-caption-147 MuiTypography-displayInline-172"
             >
               Platform:
             </span>
             <div
-              class="MuiChip-root-236 makeStyles-tag-232 MuiChip-sizeSmall-237"
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
             >
               <span
-                class="MuiChip-label-258 MuiChip-labelSmall-259"
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
               >
                 Badger
               </span>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-236 MuiBox-root-270 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-236 MuiBox-root-271"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              8.17%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-236 MuiBox-root-274"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $0.00
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-236 MuiBox-root-277"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $10,000
+          </p>
         </div>
       </div>
     </div>
