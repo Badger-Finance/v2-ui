@@ -1,44 +1,32 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import '@testing-library/jest-dom';
 
-import { ibBTCService } from '@badger-dao/sdk';
+import { ibBTCService, TransactionStatus } from '@badger-dao/sdk';
 import { cleanup, fireEvent, within } from '@testing-library/react';
 import { BigNumber } from 'ethers';
-import { parseUnits } from 'ethers/lib/utils';
+import { parseEther, parseUnits } from 'ethers/lib/utils';
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import { Mint } from '../../components/IbBTC/Mint';
 import { TokenBalances } from '../../mobx/model/account/user-balances';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import IbBTCStore from '../../mobx/stores/ibBTCStore';
 import store from '../../mobx/stores/RootStore';
 import { StoreProvider } from '../../mobx/stores/store-context';
-import { WalletStore } from '../../mobx/stores/WalletStore';
 import { customRender, screen } from '../Utils';
 import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 
-const mockTokens = [
-  new TokenBalance(
+const tokenBalances: TokenBalances = {
+  '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': new TokenBalance(
     {
-      name: 'bCurve.fi: renCrv Token',
-      symbol: 'bcrvRenBTC',
+      name: 'Badger Sett Curve.fi renBTC/wBTC',
+      symbol: 'bcrvRenWBTC',
       decimals: 18,
       address: '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545',
     },
     parseUnits('5', 18),
-    12.47195816949324,
+    23972.80210514462,
   ),
-  new TokenBalance(
-    {
-      name: 'Ren Protocol BTC',
-      symbol: 'renBTC',
-      decimals: 8,
-      address: '0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D',
-    },
-    parseUnits('10', 8),
-    12.070858,
-  ),
-];
-
-const tokenBalances: TokenBalances = {
   '0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545': new TokenBalance(
     {
       name: 'bCurve.fi: renCrv Token',
@@ -139,6 +127,16 @@ const tokenBalances: TokenBalances = {
     parseUnits('0', 18),
     23972.80210514462,
   ),
+  '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F': new TokenBalance(
+    {
+      name: 'ibBTC',
+      symbol: 'ibBTC',
+      decimals: 18,
+      address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F',
+    },
+    BigNumber.from('10000000000000000000'),
+    12.012381,
+  ),
 };
 
 jest.useFakeTimers();
@@ -146,12 +144,10 @@ jest.useFakeTimers();
 describe('ibBTC Mint', () => {
   beforeEach(() => {
     store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-
-    jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);
     store.user.balances = tokenBalances;
-    jest.spyOn(IbBTCStore.prototype, 'initialized', 'get').mockReturnValue(true);
-
     store.ibBTCStore.mintFeePercent = 0;
+    store.ibBTCStore.redeemFeePercent = 0;
+    store.user.balances = tokenBalances;
 
     store.ibBTCStore.mintRates = {
       '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': '1.024385',
@@ -164,6 +160,10 @@ describe('ibBTC Mint', () => {
       '0x5Dce29e92b1b939F8E8C60DcF15BDE82A85be4a9': '1.003153',
       '0xf349c0faA80fC1870306Ac093f75934078e28991': '0.999124',
       '0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17': '0.999502',
+    };
+
+    store.ibBTCStore.redeemRates = {
+      '0xd04c48A53c111300aD41190D63681ed3dAd998eC': '1.024385',
     };
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -181,8 +181,8 @@ describe('ibBTC Mint', () => {
         <Mint />
       </StoreProvider>,
     );
-    // expect(screen.getByText('Balance: 5')).toBeInTheDocument();
-    // expect(screen.getByText('Balance: 10')).toBeInTheDocument();
+    expect(screen.getByText('Balance: 5.000000')).toBeInTheDocument();
+    expect(screen.getByText('Balance: 10.000000')).toBeInTheDocument();
   });
 
   it('can apply max balance', async () => {
@@ -211,6 +211,7 @@ describe('ibBTC Mint', () => {
   });
 
   it('can change token', async () => {
+    store.api.loadProtocolSummary = jest.fn();
     const { container } = customRender(
       <StoreProvider value={store}>
         <Mint />
@@ -228,48 +229,34 @@ describe('ibBTC Mint', () => {
     jest.runAllTimers();
 
     await screen.findByText(store.ibBTCStore.mintOptions[1].token.symbol);
+    await screen.findByDisplayValue(store.ibBTCStore.mintOptions[1].token.address);
 
     expect(container).toMatchSnapshot();
   });
 
-  it('handles not connected wallet', () => {
-    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(false);
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(undefined);
-
-    customRender(
-      <StoreProvider value={store}>
-        <Mint />
-      </StoreProvider>,
-    );
-
-    expect(screen.getByRole('textbox')).toBeDisabled();
-    expect(screen.getByRole('button', { name: 'Connect Wallet' })).toBeEnabled();
-  });
-
   it('handles empty balance', async () => {
-    jest.useRealTimers();
+    jest.useFakeTimers();
 
     customRender(
       <StoreProvider value={store}>
-        <SnackbarProvider>
-          <SnackbarManager>
-            <Mint />
-          </SnackbarManager>
-        </SnackbarProvider>
+        <ToastContainer position="bottom-right" newestOnTop={true} closeOnClick theme="dark" draggable />
+        <Mint />
       </StoreProvider>,
     );
 
     fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
 
+    jest.runAllTimers();
+
     await screen.findByText('11.988000 ibBTC');
 
     fireEvent.click(screen.getByRole('button', { name: /mint/i }));
 
-    expect(screen.getByText('You have insufficient balance of bcrvRenBTC')).toBeInTheDocument();
+    await screen.findByText('You have insufficient balance of bcrvRenWBTC');
   });
 
   it('executes calcMint with correct params', async () => {
-    const calcMintSpy = jest.spyOn(IbBTCStore.prototype, 'calcMintAmount');
+    const calcMintSpy = jest.spyOn(ibBTCService.prototype, 'estimateMint');
 
     customRender(
       <StoreProvider value={store}>
@@ -283,13 +270,13 @@ describe('ibBTC Mint', () => {
 
     await screen.findByText('11.988000 ibBTC');
 
-    expect(calcMintSpy).toHaveBeenNthCalledWith(1, TokenBalance.fromBalance(store.ibBTCStore.mintOptions[0], '0.1'));
+    expect(calcMintSpy).toHaveBeenNthCalledWith(1, store.ibBTCStore.mintOptions[0].token.address, parseEther('0.1'));
   });
 
   it('executes mint with correct params', async () => {
     const mintSpy = jest
-      .spyOn(IbBTCStore.prototype, 'mint')
-      .mockReturnValue(Promise.resolve(TransactionRequestResult.Success));
+      .spyOn(ibBTCService.prototype, 'mint')
+      .mockReturnValue(Promise.resolve(TransactionStatus.Success));
 
     customRender(
       <StoreProvider value={store}>
@@ -307,10 +294,31 @@ describe('ibBTC Mint', () => {
 
     await screen.findByDisplayValue('');
 
-    expect(mintSpy).toHaveBeenNthCalledWith(
-      1,
-      TokenBalance.fromBalance(store.ibBTCStore.mintOptions[0], '0.1'),
-      BigNumber.from('1'),
-    );
+    expect.extend({
+      toHaveCorrectNonFunctionParams(received, expected) {
+        const pass =
+          received.token === expected.token &&
+          +received.amount === +expected.amount &&
+          received.slippage === expected.slippage;
+
+        if (pass) {
+          return {
+            message: () => `expected ${received} to have correct non-function params`,
+            pass: true,
+          };
+        } else {
+          return {
+            message: () => `expected ${received} to have correct non-function params`,
+            pass: false,
+          };
+        }
+      },
+    });
+
+    expect(mintSpy.mock.calls[0][0]).toHaveCorrectNonFunctionParams({
+      token: store.ibBTCStore.mintOptions[0].token.address,
+      amount: parseEther('0.1'),
+      slippage: 1,
+    });
   });
 });
