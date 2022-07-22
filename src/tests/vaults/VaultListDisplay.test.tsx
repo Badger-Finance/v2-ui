@@ -1,4 +1,4 @@
-import { VaultState } from '@badger-dao/sdk';
+import { BadgerAPI, Network, VaultState } from '@badger-dao/sdk';
 import { BigNumber } from 'ethers';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
@@ -7,18 +7,32 @@ import VaultListDisplay from '../../components-v2/landing/VaultListDisplay';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import store from '../../mobx/stores/RootStore';
 import UserStore from '../../mobx/stores/UserStore';
-import VaultStore from '../../mobx/stores/VaultStore';
 import { customRender } from '../Utils';
 import { SAMPLE_VAULTS } from '../utils/samples';
 
 describe('VaultListDisplay', () => {
-  afterEach(() => {
-    jest.restoreAllMocks();
-    store.vaults.clearFilters();
+  beforeEach(() => {
+    store.vaults.initialized = true;
   });
 
-  it('displays empty search message', () => {
-    jest.spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get').mockReturnValue(1);
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('displays empty search message', async () => {
+    const vaults = [...SAMPLE_VAULTS];
+    store.vaults.vaultCache = {
+      [Network.Ethereum]: Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])),
+    };
+
+    store.vaults.vaultsFilters.search = 'wont-find-this';
+
+    jest.spyOn(BadgerAPI.prototype, 'loadProtocolSummary').mockImplementation(() =>
+      Promise.resolve({
+        totalValue: 0,
+        setts: [],
+      }),
+    );
 
     const { container } = customRender(
       <StoreProvider value={store}>
@@ -30,7 +44,11 @@ describe('VaultListDisplay', () => {
   });
 
   it('displays no vaults message', () => {
-    jest.spyOn(VaultStore.prototype, 'vaultsFiltersCount', 'get').mockReturnValue(0);
+    store.vaults.clearFilters();
+
+    store.vaults.vaultCache = {
+      [Network.Ethereum]: {},
+    };
 
     const { container } = customRender(
       <StoreProvider value={store}>
@@ -45,6 +63,10 @@ describe('VaultListDisplay', () => {
     const vaults = [...SAMPLE_VAULTS].splice(0, 1);
     vaults[0].state = VaultState.Discontinued;
 
+    store.vaults.vaultCache = {
+      [Network.Ethereum]: Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])),
+    };
+
     const { container } = customRender(
       <StoreProvider value={store}>
         <VaultListDisplay />
@@ -56,6 +78,10 @@ describe('VaultListDisplay', () => {
 
   it('uses default sort criteria by default', () => {
     const vaults = [...SAMPLE_VAULTS];
+
+    store.vaults.vaultCache = {
+      [Network.Ethereum]: Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])),
+    };
 
     jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((address: string) => {
       if (address === vaults[2].vaultToken) {
