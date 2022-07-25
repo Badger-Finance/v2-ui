@@ -4,7 +4,6 @@ exports[`Vault Withdraw displays sett information 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-  
   <div
     aria-hidden="true"
   />
@@ -83,7 +82,7 @@ exports[`Vault Withdraw displays sett information 1`] = `
               <p
                 class="MuiTypography-root-58 MuiTypography-body1-60 MuiTypography-colorTextSecondary-84"
               >
-                Deposited sBTCCRV: 0.000000000000000000
+                Deposited : 0.0
               </p>
             </div>
             <div
@@ -178,7 +177,7 @@ exports[`Vault Withdraw displays sett information 1`] = `
                 spellcheck="false"
                 style="text-align: right;"
                 type="text"
-                value=""
+                value="0"
               />
               <fieldset
                 aria-hidden="true"
@@ -235,7 +234,7 @@ exports[`Vault Withdraw displays sett information 1`] = `
                 <h6
                   class="MuiTypography-root-58 MuiTypography-subtitle2-70 MuiTypography-displayInline-86"
                 >
-                  0 
+                  0.000000 
                 </h6>
               </div>
               <div
@@ -249,7 +248,7 @@ exports[`Vault Withdraw displays sett information 1`] = `
                 <h6
                   class="MuiTypography-root-58 MuiTypography-subtitle2-70 MuiTypography-displayInline-86"
                 >
-                  0 
+                  0.000000 
                 </h6>
               </div>
               <div
@@ -263,7 +262,7 @@ exports[`Vault Withdraw displays sett information 1`] = `
                 <h6
                   class="MuiTypography-root-58 MuiTypography-subtitle2-70 MuiTypography-displayInline-86"
                 >
-                  0 
+                  0.000000 
                 </h6>
               </div>
             </div>
