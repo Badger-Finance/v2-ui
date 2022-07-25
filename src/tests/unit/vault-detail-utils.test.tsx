@@ -3,15 +3,23 @@ import dayjs from 'dayjs';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../../components-v2/vault-detail/utils';
 import { DelaySeverity } from '../../mobx/model/vaults/vault-rewards';
 
+jest.useFakeTimers();
+
+const mockDate = dayjs('2022-07-25');
+
 describe('sett detail utils', () => {
+  beforeEach(() => {
+    jest.setSystemTime(mockDate.toDate());
+  });
+
   describe('calculateDifferenceInHoursFromCycle', () => {
     test.each([
-      [dayjs().subtract(1, 'hours').toDate(), 1],
-      [dayjs().subtract(2, 'hours').toDate(), 2],
-      [dayjs().subtract(3, 'hours').toDate(), 3],
-      [dayjs().subtract(4, 'hours').toDate(), 4],
+      [mockDate.subtract(1, 'hours').toDate(), 1],
+      [mockDate.subtract(2, 'hours').toDate(), 2],
+      [mockDate.subtract(3, 'hours').toDate(), 3],
+      [mockDate.subtract(4, 'hours').toDate(), 4],
     ])('calculateDifferenceInHoursFromCycle(%s) returns %d', (cycle: Date, difference: number) => {
-      expect(calculateDifferenceInHoursFromCycle(cycle.getTime())).toEqual(difference);
+      expect(calculateDifferenceInHoursFromCycle(cycle.getTime() / 1000)).toEqual(difference);
     });
   });
 
