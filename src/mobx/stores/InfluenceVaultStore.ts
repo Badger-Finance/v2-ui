@@ -90,12 +90,12 @@ class InfluenceVaultStore {
         beneficiary: vault.vaultToken,
         compPercent: 100,
       }));
-
       this.influenceVaults[vault.vaultToken].emissionsSchedules = await this.bucketSchedules(
         treeSchedules.concat(harvestConvertedSchedules),
         vault,
         sources,
         roundStart,
+        config.scheduleRoundCutoff,
       );
     } catch (error) {
       console.error(error);
@@ -107,7 +107,8 @@ class InfluenceVaultStore {
   async loadSwapPercentage(vault: VaultDTO) {
     const config = getInfluenceVaultConfig(vault.vaultToken);
     const { provider } = this.store.sdk;
-    if (!provider || this.influenceVaults[vault.vaultToken].swapPercentage !== '' || !config) return;
+    if (!provider || this.influenceVaults[vault.vaultToken].swapPercentage !== '' || !config || !config.poolToken)
+      return;
     const curvePool = CurveFactoryPool__factory.connect(config.poolToken, provider);
     const swapAmount = 10_000; // 10k bveCVX;
     // in the pool each token is represented by an index 0 is bveCVX and 1 is CVX
@@ -123,13 +124,14 @@ class InfluenceVaultStore {
     vault: VaultDTO,
     sourceTokens: string[],
     roundStart: number,
+    scheduleRoundCutoff: number,
   ): Promise<InfluenceVaultEmissionRound[]> {
     const schedulesByRound: Record<number, EmissionSchedule[]> = {};
     for (const schedule of schedules) {
       let round = Math.ceil((schedule.start - roundStart) / (14 * (ONE_DAY_MS / 1000)));
 
       // we have some weird schedules that are bad entries
-      if (round < 1) {
+      if (round < scheduleRoundCutoff) {
         continue;
       }
 
@@ -189,7 +191,6 @@ class InfluenceVaultStore {
         divisorTokenSymbol: this.store.vaults.getToken(vault.vaultToken).symbol,
       };
     });
-
     const timestamps = baseObjects.map((o) => o.start * 1000);
 
     const [tokenPricesSnapshots, vaultSnapshots] = await Promise.all([
@@ -198,21 +199,21 @@ class InfluenceVaultStore {
     ]);
 
     const vaultSnapshotsByTimestamp = Object.fromEntries(vaultSnapshots.map((s) => [s.timestamp, s]));
+    baseObjects
+      .filter((o) => vaultSnapshotsByTimestamp[o.start * 1000] !== undefined)
+      .forEach((o) => {
+        const timestamp = o.start * 1000;
+        const vaultSnapshot = vaultSnapshotsByTimestamp[timestamp];
+        o.vaultTokens = vaultSnapshot.balance;
+        o.vaultValue = vaultSnapshot.value;
 
-    baseObjects.forEach((o) => {
-      const timestamp = o.start * 1000;
-
-      const vaultSnapshot = vaultSnapshotsByTimestamp[timestamp];
-      o.vaultTokens = vaultSnapshot.balance;
-      o.vaultValue = vaultSnapshot.value;
-
-      const valuePerHundred = vaultSnapshot.balance / 100;
-      sourceTokens.forEach((sourceToken: string, index: number) => {
-        const value = (o.tokens[index].balance * tokenPricesSnapshots[sourceToken][timestamp]) / valuePerHundred;
-        o.tokens[index].value = value;
-        o.graph[`${index}`] = value;
+        const valuePerHundred = vaultSnapshot.balance / 100;
+        sourceTokens.forEach((sourceToken: string, index: number) => {
+          const value = (o.tokens[index].balance * tokenPricesSnapshots[sourceToken][timestamp]) / valuePerHundred;
+          o.tokens[index].value = value;
+          o.graph[`${index}`] = value;
+        });
       });
-    });
     return baseObjects;
   }
 }

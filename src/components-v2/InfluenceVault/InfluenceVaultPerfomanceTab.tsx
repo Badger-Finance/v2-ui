@@ -122,10 +122,12 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
                 )
               }
             />
-            <SpecItem
-              name={<MarkupText text={config.perfomanceConfig.liquity} onClick={handleLinkClick} />}
-              value={swapPercentage ? swapPercentage : <Skeleton width={50} variant="rect" />}
-            />
+            {config.perfomanceConfig.swapPercentageLabel.length !== 0 && (
+              <SpecItem
+                name={<MarkupText text={config.perfomanceConfig.swapPercentageLabel} onClick={handleLinkClick} />}
+                value={swapPercentage ? swapPercentage : <Skeleton width={50} variant="rect" />}
+              />
+            )}
           </Grid>
         </Grid>
       </Grid>
@@ -135,7 +137,9 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
             Performance By Voting Round, Tokens per 100 {divisorToken}
           </Typography>
           <ChartContent loading={processingEmissions} data={emissionsSchedules ?? null}>
-            {emissionsSchedules && <InfluenceVaultChart emissions={emissionsSchedules} />}
+            {emissionsSchedules && (
+              <InfluenceVaultChart emissions={emissionsSchedules} chartInitialSlice={config.chartInitialSlice} />
+            )}
           </ChartContent>
         </div>
       </Grid>

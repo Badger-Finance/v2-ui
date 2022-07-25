@@ -49,6 +49,7 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
   emissions: InfluenceVaultEmissionRound[];
+  chartInitialSlice: number;
 }
 
 const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
@@ -101,12 +102,12 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
   );
 };
 
-const InfluenceVaultChart = ({ emissions }: Props) => {
+const InfluenceVaultChart = ({ emissions, chartInitialSlice }: Props) => {
   const colors = ['#A9731E', '#F2A52B', '#808080'];
   return (
     <ResponsiveContainer width="99%" height={250}>
       {/* Skip Round 1 & 2, it has bad data */}
-      <BarChart data={emissions.slice(2)} margin={{ top: 20, bottom: 0, right: 0, left: 5 }}>
+      <BarChart data={emissions.slice(chartInitialSlice)} margin={{ top: 20, bottom: 0, right: 0, left: 5 }}>
         <CartesianGrid strokeDasharray="4" vertical={false} />
         <XAxis dataKey="index">
           <Label value="Voting Round" position="insideBottomLeft" offset={-10} style={{ fill: 'white' }} />

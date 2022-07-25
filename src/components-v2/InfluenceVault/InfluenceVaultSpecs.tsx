@@ -81,7 +81,7 @@ const InfluenceVaultSpecs = ({ vault, config }: Props): JSX.Element => {
           />
         </Grid>
         <Grid item xs className={classes.specItem}>
-          <InfluenceVaultFees vault={vault} config={config} />
+          <InfluenceVaultFees vault={vault} feeConfig={config.feeConfig} />
         </Grid>
         <Grid item xs className={classes.specItem}>
           <Box display="flex" alignItems="center">
