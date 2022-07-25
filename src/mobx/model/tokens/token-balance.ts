@@ -29,7 +29,7 @@ export class TokenBalance {
 
   static fromBalance(tokenBalance: TokenBalance, balance: number): TokenBalance {
     const { token, price } = tokenBalance;
-    const amount = BigNumber.from((Math.pow(10, token.decimals) * balance).toString());
+    const amount = ethers.utils.parseUnits(String(balance), token.decimals);
     return new TokenBalance(token, amount, price);
   }
 
