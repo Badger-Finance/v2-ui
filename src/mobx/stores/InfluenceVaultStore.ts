@@ -82,16 +82,31 @@ class InfluenceVaultStore {
           sett: vault.vaultToken.toLowerCase(),
         },
       });
-      const harvestConvertedSchedules = badgerTreeDistributions.map((e) => ({
-        token: e.token.id.startsWith('0x0x') ? e.token.id.slice(2) : e.token.id,
+      const { settHarvests } = await this.store.sdk.graph.loadSettHarvests({
+        where: {
+          sett: vault.vaultToken.toLowerCase(),
+        },
+      });
+      const distributionConvertedSchedules = badgerTreeDistributions.map((e) => ({
+        token: ethers.utils.getAddress(e.token.id.startsWith('0x0x') ? e.token.id.slice(2) : e.token.id),
         amount: formatBalance(e.amount),
         start: e.timestamp,
         end: e.timestamp,
         beneficiary: vault.vaultToken,
         compPercent: 100,
       }));
+      const harvestConvertedSchedules = settHarvests.map((e) => ({
+        token: vault.vaultToken,
+        amount: formatBalance(e.amount),
+        start: e.timestamp,
+        end: e.timestamp,
+        beneficiary: vault.vaultToken,
+        compPercent: 100,
+      }));
+      const harvestData = vault.sources.some((s) => s.name.includes('Compounding')) ? harvestConvertedSchedules : [];
+      console.log(harvestData);
       this.influenceVaults[vault.vaultToken].emissionsSchedules = await this.bucketSchedules(
-        treeSchedules.concat(harvestConvertedSchedules),
+        treeSchedules.concat(distributionConvertedSchedules).concat(harvestData),
         vault,
         sources,
         roundStart,
@@ -154,6 +169,8 @@ class InfluenceVaultStore {
       schedulesByRound[round].push(schedule);
     }
 
+    console.log(schedulesByRound);
+
     const baseObjects = Object.entries(schedulesByRound).map((e) => {
       const [round, schedules] = e;
 
@@ -165,6 +182,7 @@ class InfluenceVaultStore {
 
       let start = Number.MAX_SAFE_INTEGER;
 
+      console.log({ sourceTokens });
       for (const schedule of schedules) {
         const token = ethers.utils.getAddress(schedule.token);
         if (schedule.start < start) {
