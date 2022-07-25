@@ -12,7 +12,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111 MuiTypography-colorTextSecondary-135"
       >
         Balance: 
-        5.000000
+        5.00000000
       </p>
     </div>
     <div
@@ -316,7 +316,7 @@ exports[`ibBTC Mint can change token 1`] = `
         class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111 MuiTypography-colorTextSecondary-135"
       >
         Balance: 
-        10.000000
+        10.0
       </p>
     </div>
     <div
@@ -777,7 +777,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111 MuiTypography-colorTextSecondary-135"
       >
         Balance: 
-        5.000000
+        5.00000000
       </p>
     </div>
     <div
