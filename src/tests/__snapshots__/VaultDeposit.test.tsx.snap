@@ -4,7 +4,6 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-  
   <div
     aria-hidden="true"
   />
@@ -83,7 +82,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
               <p
                 class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
               >
-                Available: 0.000000000000000000
+                Available: 0.0
               </p>
             </div>
             <div
@@ -178,7 +177,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
                 spellcheck="false"
                 style="text-align: right;"
                 type="text"
-                value=""
+                value="0"
               />
               <fieldset
                 aria-hidden="true"
@@ -298,7 +297,6 @@ exports[`Vault Deposit can see full fees descriptions 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-  
   <div
     aria-hidden="true"
   />
@@ -406,7 +404,6 @@ exports[`Vault Deposit displays sett information 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
-  
   <div
     aria-hidden="true"
   />
@@ -485,7 +482,7 @@ exports[`Vault Deposit displays sett information 1`] = `
               <p
                 class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
               >
-                Available: 0.000000000000000000
+                Available: 0.0
               </p>
             </div>
             <div
@@ -580,7 +577,7 @@ exports[`Vault Deposit displays sett information 1`] = `
                 spellcheck="false"
                 style="text-align: right;"
                 type="text"
-                value=""
+                value="0"
               />
               <fieldset
                 aria-hidden="true"

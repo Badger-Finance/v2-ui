@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 import * as copy from 'copy-to-clipboard';
-import { BigNumber } from 'ethers';
+import { utils } from 'ethers';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
@@ -20,7 +20,7 @@ jest.mock('copy-to-clipboard', () => {
 describe('Wallet Drawer', () => {
   beforeEach(() => {
     store.uiState.showWalletDrawer = true;
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
     jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
     jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((token) => {
       if (token === deploy.tokens.badger) {
@@ -31,7 +31,7 @@ describe('Wallet Drawer', () => {
             symbol: 'Badger',
             decimals: 18,
           },
-          BigNumber.from(1000 * 1e18),
+          utils.parseEther('1000'),
           80,
         );
       } else if (token === deploy.tokens.digg) {
@@ -42,7 +42,7 @@ describe('Wallet Drawer', () => {
             symbol: 'DIGG',
             decimals: 8,
           },
-          BigNumber.from(0.1 * 1e8),
+          utils.parseEther('0.1'),
           50000,
         );
       } else {
@@ -53,7 +53,7 @@ describe('Wallet Drawer', () => {
             symbol: 'remDIGG',
             decimals: 8,
           },
-          BigNumber.from(0.1 * 1e8),
+          utils.parseEther('0.1'),
           50000,
         );
       }
@@ -75,8 +75,6 @@ describe('Wallet Drawer', () => {
 
   it('disconnects wallet', () => {
     jest.useFakeTimers();
-    const disconnectSpy = jest.spyOn(WalletStore.prototype, 'disconnect');
-
     customRender(
       <StoreProvider value={store}>
         <WalletDrawer />
@@ -85,7 +83,7 @@ describe('Wallet Drawer', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'disconnect wallet' }));
     jest.runAllTimers();
-    expect(disconnectSpy).toHaveBeenCalled();
+    expect(store.wallet.address).toBe(undefined);
   });
 
   it('copies wallet address', () => {
