@@ -212,6 +212,7 @@
   "honeypotMeme": "0x066A817C19451C413a0638B82AfDA61ABf8E24A2",
   "claimEncoder": "0xf3ff1a5856b1726a8fef921ea57eab2c51466a93",
   "cvxLocker": "0xD18140b4B819b895A3dba5442F959fA44994AF50",
+  "auraLocker": "0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC",
   "cvxDelegator": "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",
   "ibbtcVaultZap": "0x87C3Ef099c6143e4687b060285bad201b9efa493",
   "geysers": {
