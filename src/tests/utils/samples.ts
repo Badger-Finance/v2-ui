@@ -9,7 +9,9 @@ import {
   VaultVersion,
 } from '@badger-dao/sdk';
 import { BigNumber, utils } from 'ethers';
+import { parseUnits } from 'ethers/lib/utils';
 
+import { TokenBalances } from '../../mobx/model/account/user-balances';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 import { TEST_ADDRESS } from './snapshots';
@@ -24,6 +26,129 @@ export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
   BigNumber.from('10000000000000000000'),
   12.012381,
 );
+
+export const SAMPLE_IBBTC_USER_BALANCES: TokenBalances = {
+  '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': new TokenBalance(
+    {
+      name: 'Badger Sett Curve.fi renBTC/wBTC',
+      symbol: 'bcrvRenWBTC',
+      decimals: 18,
+      address: '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545',
+    },
+    parseUnits('5', 18),
+    23972.80210514462,
+  ),
+  '0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545': new TokenBalance(
+    {
+      name: 'bCurve.fi: renCrv Token',
+      symbol: 'bcrvRenBTC',
+      decimals: 18,
+      address: '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545',
+    },
+    parseUnits('5', 18),
+    23972.80210514462,
+  ),
+  '0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D': new TokenBalance(
+    {
+      name: 'Ren Protocol BTC',
+      symbol: 'renBTC',
+      decimals: 8,
+      address: '0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D',
+    },
+    parseUnits('10', 8),
+    23972.80210514462,
+  ),
+  '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599': new TokenBalance(
+    {
+      name: 'WBTC',
+      symbol: 'wbtc',
+      decimals: 8,
+      address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+    },
+    parseUnits('0', 8),
+    23972.80210514462,
+  ),
+  '0xd04c48A53c111300aD41190D63681ed3dAd998eC': new TokenBalance(
+    {
+      name: 'Badger Sett Curve.fi renBTC/wBTC/sBTC',
+      symbol: 'bcrvRenWSBTC',
+      decimals: 18,
+      address: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
+    },
+    parseUnits('0', 18),
+    23972.80210514462,
+  ),
+  '0xb9D076fDe463dbc9f915E5392F807315Bf940334': new TokenBalance(
+    {
+      name: 'Badger Sett Curve.fi tBTC/sbtcCrv',
+      symbol: 'btbtc/sbtcCrv',
+      decimals: 18,
+      address: '0xb9D076fDe463dbc9f915E5392F807315Bf940334',
+    },
+    parseUnits('0', 18),
+    23972.80210514462,
+  ),
+  '0x4b92d19c11435614CD49Af1b589001b7c08cD4D5': new TokenBalance(
+    {
+      name: 'Badger WBTC yVault',
+      symbol: 'byvWBTC',
+      decimals: 8,
+      address: '0x4b92d19c11435614CD49Af1b589001b7c08cD4D5',
+    },
+    parseUnits('0', 8),
+    23972.80210514462,
+  ),
+  '0x8c76970747afd5398e958bDfadA4cf0B9FcA16c4': new TokenBalance(
+    {
+      name: 'Badger Sett Curve.fi hBTC/wBTC',
+      symbol: 'bhCRV',
+      decimals: 18,
+      address: '0x8c76970747afd5398e958bDfadA4cf0B9FcA16c4',
+    },
+    parseUnits('0', 18),
+    23972.80210514462,
+  ),
+  '0x5Dce29e92b1b939F8E8C60DcF15BDE82A85be4a9': new TokenBalance(
+    {
+      name: 'Badger Sett Curve.fi bBTC/sbtcCRV',
+      symbol: 'bbBTC/sbtcCRV',
+      decimals: 18,
+      address: '0x5Dce29e92b1b939F8E8C60DcF15BDE82A85be4a9',
+    },
+    parseUnits('0', 18),
+    23972.80210514462,
+  ),
+  '0xf349c0faA80fC1870306Ac093f75934078e28991': new TokenBalance(
+    {
+      name: 'Badger Sett Curve.fi oBTC/sbtcCRV',
+      symbol: 'boBTC/sbtcCRV',
+      decimals: 18,
+      address: '0xf349c0faA80fC1870306Ac093f75934078e28991',
+    },
+    parseUnits('0', 18),
+    23972.80210514462,
+  ),
+  '0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17': new TokenBalance(
+    {
+      name: 'Badger Sett Curve.fi pBTC/sbtcCRV',
+      symbol: 'bpBTC/sbtcCRV',
+      decimals: 18,
+      address: '0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17',
+    },
+    parseUnits('0', 18),
+    23972.80210514462,
+  ),
+  '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F': new TokenBalance(
+    {
+      name: 'ibBTC',
+      symbol: 'ibBTC',
+      decimals: 18,
+      address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F',
+    },
+    BigNumber.from('10000000000000000000'),
+    12.012381,
+  ),
+};
 
 export const SAMPLE_BADGER_SETT: BadgerVault = {
   depositToken: {
