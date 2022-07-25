@@ -92,7 +92,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
 
     const depositToken = vaults.getToken(vault.underlyingToken);
     let toastId: Id = `${vault.vaultToken}-deposit-${amount}`;
-    const depositAmount = `${+Number(amount).toFixed(2)} ${depositToken.symbol}`;
+    const depositAmount = `${deposit.balanceDisplay(2)} ${depositToken.symbol}`;
 
     const result = await sdk.vaults.deposit({
       vault: vault.vaultToken,
@@ -124,7 +124,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
       onTransferSuccess: ({ receipt }) => {
         if (receipt) {
           transactions.updateCompletedTransaction(receipt);
-          toast(<TxCompletedToast title={`Deposit ${depositAmount}`} hash={receipt.transactionHash} />, {
+          toast(<TxCompletedToast title={`Deposited ${depositAmount}`} hash={receipt.transactionHash} />, {
             type: receipt.status === 0 ? 'error' : 'success',
             autoClose: TX_COMPLETED_TOAST_DURATION,
           });

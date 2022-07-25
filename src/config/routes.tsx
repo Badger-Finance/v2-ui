@@ -45,7 +45,6 @@ const routes = {
   IbBTC: new Route<RootStore, QueryParams>({
     path: '/ibBTC',
     component: <IbBTC />,
-    onEnter: (_route, _params, store) => store.ibBTCStore.init(),
   }),
   vaultDetail: new Route<RootStore, QueryParams>({
     path: '/vault/:vaultName',

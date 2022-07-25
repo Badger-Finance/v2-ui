@@ -142,7 +142,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
               </Grid>
               <Divider className={classes.divider} />
               {vault.yieldProjection.harvestTokens.map((token) => (
-                <>
+                <div key={`yield-apr-${token.name}`}>
                   <Grid item container justifyContent="space-between">
                     <Grid item>
                       <Typography variant="body2" display="inline" color="textSecondary">
@@ -156,7 +156,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                     </Grid>
                   </Grid>
                   <Divider className={classes.divider} />
-                </>
+                </div>
               ))}
               {badgerRewardsSources.map((source) => (
                 <React.Fragment key={source.name}>

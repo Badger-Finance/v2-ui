@@ -1403,10 +1403,10 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@badger-dao/sdk-mocks@^1.16.3":
-  version "1.16.3"
-  resolved "https://registry.yarnpkg.com/@badger-dao/sdk-mocks/-/sdk-mocks-1.16.3.tgz#2b7fdbb5cbe9e70fe3bd8ec6c88f3c3402a59ef7"
-  integrity sha512-PGBAIVernQpl9pbzMf17kRMjMQaxeiQYkQReJde8HwO8fKKn/AGjOj5EGfWrEPABfODo9BD9T23aseQ+VXS2wQ==
+"@badger-dao/sdk-mocks@^1.16.5":
+  version "1.16.5"
+  resolved "https://registry.yarnpkg.com/@badger-dao/sdk-mocks/-/sdk-mocks-1.16.5.tgz#a3711c0c9f75307503c2b0e35936c6ddb3205d27"
+  integrity sha512-XMLfoJO4dw0/3Ljl0EMEvA5Esm0p6WpcN0txwJ3Lm6EC3L/yg00PByWg1lNAB0Iyr1bb22LFr12NwELdf8WZXg==
   dependencies:
     "@types/jest" "27.0.2"
     "@typescript-eslint/eslint-plugin" "5.0.0"
@@ -1423,10 +1423,10 @@
     tslib "2.3.1"
     typescript "4.5.4"
 
-"@badger-dao/sdk@^1.16.3":
-  version "1.16.3"
-  resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.16.3.tgz#e270b54ee77060bba26c87b394635e21be95ebd5"
-  integrity sha512-PFJC8YmbPnpfZOh9mzfjmTB9et4VzejqDM3+ZugOntYEywUZXLY+ll2zkONUbsAyAZyDfE+IMorhUR5ZCN6hhw==
+"@badger-dao/sdk@^1.16.5":
+  version "1.16.5"
+  resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.16.5.tgz#8d6277cd495b1dbdcc1a9d902cb9c0c2821b88be"
+  integrity sha512-l8PjKjwvhNve0JQCMil3rq8AECFdItYAcwO+Ip772ojsaSf9FHglGzdiTRA+jsqi65SzYVcVQsDTpWzUh8+xhg==
   dependencies:
     "@0xsequence/indexer" "0.36.8"
     "@0xsequence/multicall" "0.36.8"
