@@ -8,7 +8,7 @@ const logoWidth = 32;
 const overlapGapPercentage = 0.3; // we want the tokens to be overlapping by 30% of their width
 const spacingGap = logoWidth * overlapGapPercentage;
 
-function useLogoStyles(logoPosition: number, totalAmountOfLogos: number) {
+function useLogoStyles(logoPosition: number) {
   return makeStyles({
     position: {
       // allow each logo file to have the width of up to two times the expected size
@@ -25,12 +25,11 @@ function useLogoStyles(logoPosition: number, totalAmountOfLogos: number) {
 
 interface Props {
   token: TokenValue;
-  totalLogos: number;
   logoPosition: number;
 }
 
-const ComposableTokenLogo = ({ token, totalLogos, logoPosition }: Props): JSX.Element => {
-  const classes = useLogoStyles(logoPosition, totalLogos)();
+const ComposableTokenLogo = ({ token, logoPosition }: Props): JSX.Element => {
+  const classes = useLogoStyles(logoPosition)();
   return <TokenLogo token={token} className={classes.position} />;
 };
 
