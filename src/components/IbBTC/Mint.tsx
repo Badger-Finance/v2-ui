@@ -191,7 +191,7 @@ export const Mint = observer((): JSX.Element => {
       let toastId: Id = `mint-${selectedToken.token.address}`;
       const token = mintBalance.token.address;
       const amount = mintBalance.tokenBalance;
-      const mintInputAmount = `${+Number(inputAmount).toFixed(2)} ${selectedToken.token.symbol}`;
+      const mintInputAmount = `${mintBalance.balanceDisplay(2)} ${selectedToken.token.symbol}`;
 
       const result = await sdk.ibbtc.mint({
         token,
@@ -259,7 +259,7 @@ export const Mint = observer((): JSX.Element => {
       <Grid container>
         <BalanceGrid item xs={12}>
           <EndAlignText variant="body1" color="textSecondary">
-            Balance: {selectedTokenBalance?.balanceDisplay(6) ?? '0'}
+            Balance: {selectedTokenBalance?.balanceDisplay(8) ?? '0'}
           </EndAlignText>
         </BalanceGrid>
         <BorderedFocusableContainerGrid item container xs={12}>

@@ -29,7 +29,7 @@ export class TokenBalance {
 
   static fromBalance(tokenBalance: TokenBalance, balance: number): TokenBalance {
     const { token, price } = tokenBalance;
-    const amount = BigNumber.from((Math.pow(10, token.decimals) * balance).toString());
+    const amount = ethers.utils.parseUnits(String(balance), token.decimals);
     return new TokenBalance(token, amount, price);
   }
 
@@ -89,9 +89,8 @@ export class TokenBalance {
     if (this.tokenBalance.eq(0) || scalar === 1) {
       return this;
     }
-    const tokenBalance = this.tokenBalance
-      .mul((Math.pow(10, this.token.decimals) * scalar).toString())
-      .div(ethers.constants.WeiPerEther);
+    const baseScalar = Math.pow(10, this.token.decimals);
+    const tokenBalance = this.tokenBalance.mul((baseScalar * scalar).toString()).div(baseScalar.toString());
     const price = scalePrice ? this.price / scalar : this.price;
     return new TokenBalance(this.token, tokenBalance, price);
   }

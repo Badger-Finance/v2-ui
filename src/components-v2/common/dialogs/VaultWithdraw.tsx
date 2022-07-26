@@ -109,7 +109,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
         onTransferSuccess: ({ receipt }) => {
           if (receipt) {
             transactions.updateCompletedTransaction(receipt);
-            toast(<TxCompletedToast title={`Withdraw ${withdrawalAmount}`} hash={receipt.transactionHash} />, {
+            toast(<TxCompletedToast title={`Withdrew ${withdrawalAmount}`} hash={receipt.transactionHash} />, {
               autoClose: TX_COMPLETED_TOAST_DURATION,
               type: receipt.status === 0 ? 'error' : 'success',
             });

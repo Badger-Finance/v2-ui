@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 17,
     },
   },
+  networkName: {
+    textTransform: 'capitalize',
+  },
 }));
 
 interface Props {
@@ -47,7 +50,8 @@ const NoVaults = ({ network }: Props): JSX.Element => {
           No vaults to display
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          Badgers are working hard to build vaults on {network}. Switch network for more investment opportunities.
+          Badgers are working hard to build vaults on <span className={classes.networkName}>{network}</span>. Switch
+          network for more investment opportunities.
         </Typography>
       </Grid>
       <Grid item container justifyContent="center" className={classes.switchButtonContainer}>
