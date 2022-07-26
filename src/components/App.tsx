@@ -1,6 +1,7 @@
 import { useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import BetaAdvisory from 'components-v2/common/BetaAdvisory';
 import NetworkNotification from 'components-v2/common/NetworkNotification';
 import Sidebar from 'components-v2/sidebar';
 import { ONE_MIN_MS } from 'config/constants';
@@ -67,8 +68,10 @@ export const App = (): JSX.Element => {
         <main className={clsx(classes.contentContainer, classes.columnContainer)}>
           <main className={classes.content}>
             {!isMobile && <Announcements />}
+            {!isMobile && <BetaAdvisory />}
             <Navbar />
             {isMobile && <Announcements />}
+            {isMobile && <BetaAdvisory />}
             <MobxRouter store={store} />
           </main>
         </main>
