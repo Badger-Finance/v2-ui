@@ -53,6 +53,14 @@ const VaultListItemTags = ({
           <Chip size="small" label={vault.state} className={clsx(classes.tag, onStatusClick && classes.clickableTag)} />
         </Grid>
       )}
+      <Grid item xs="auto">
+        {showLabels && (
+          <Typography display="inline" variant={'caption'} className={classes.label}>
+            Platform:
+          </Typography>
+        )}
+        <Chip size="small" label={vault.protocol} className={classes.tag} />
+      </Grid>
       {vault.behavior !== VaultBehavior.None && (
         <Grid item xs="auto" onClick={onRewardsClick}>
           {showLabels && (
@@ -71,14 +79,6 @@ const VaultListItemTags = ({
           />
         </Grid>
       )}
-      <Grid item xs="auto">
-        {showLabels && (
-          <Typography display="inline" variant={'caption'} className={classes.label}>
-            Platform:
-          </Typography>
-        )}
-        <Chip size="small" label={vault.protocol} className={classes.tag} />
-      </Grid>
       {vault.boost.enabled && (
         <Grid item xs="auto">
           {showLabels && (

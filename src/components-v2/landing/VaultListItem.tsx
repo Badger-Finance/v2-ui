@@ -101,12 +101,7 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
             {vault.name}
           </Typography>
           {!isTablet && (
-            <VaultListItemTags
-              vault={vault}
-              showLabels
-              onStatusClick={handleStatusClick}
-              onRewardsClick={handleRewardsClick}
-            />
+            <VaultListItemTags vault={vault} onStatusClick={handleStatusClick} onRewardsClick={handleRewardsClick} />
           )}
         </Grid>
         <Grid item xs container justifyContent="flex-end" alignItems="center">
@@ -135,12 +130,7 @@ const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | nu
             <VaultLogo tokens={vault.tokens} className={classes.tabletLogo} />
           </Grid>
           <Grid item xs>
-            <VaultListItemTags
-              vault={vault}
-              showLabels
-              onStatusClick={handleStatusClick}
-              onRewardsClick={handleRewardsClick}
-            />
+            <VaultListItemTags vault={vault} onStatusClick={handleStatusClick} onRewardsClick={handleRewardsClick} />
           </Grid>
         </Grid>
       )}

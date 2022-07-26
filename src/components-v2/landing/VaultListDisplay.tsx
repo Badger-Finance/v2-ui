@@ -30,7 +30,10 @@ const VaultListDisplay = observer(() => {
 
   const { initialized, vaultOrder } = vaults;
   const showDeprecated = vaults.vaultsFilters.statuses?.includes(VaultState.Discontinued);
-  const networkName = network.split('-').map((n) => n.charAt(0).toUpperCase() + n.slice(1)).join(' ');
+  const networkName = network
+    .split('-')
+    .map((n) => n.charAt(0).toUpperCase() + n.slice(1))
+    .join(' ');
 
   if (!initialized) {
     return <Loader message={`Loading ${networkName} Vaults...`} />;
