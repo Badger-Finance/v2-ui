@@ -1,14 +1,14 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { InfluenceVaultFeeConfig } from 'mobx/model/vaults/influence-vault-data';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
 import { getVaultStrategyFee } from '../../mobx/utils/fees';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 import SpecItem from '../vault-detail/specs/SpecItem';
-import { StyledDivider, StyledHelpIcon } from '../vault-detail/styled';
-import InfluenceVaultModal from './InfluenceVaultModal';
+import { StyledDivider } from '../vault-detail/styled';
+import InfluenceVaultFee from './InfluenceVaultFee';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -35,7 +35,6 @@ interface Props {
 
 const InfluenceVaultFees = ({ vault, feeConfig }: Props): JSX.Element => {
   const classes = useStyles();
-  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
   const withdrawFee = getVaultStrategyFee(vault, StrategyFee.withdraw);
   const performanceFee = getVaultStrategyFee(vault, StrategyFee.performance);
 
@@ -46,17 +45,11 @@ const InfluenceVaultFees = ({ vault, feeConfig }: Props): JSX.Element => {
       </Typography>
       <StyledDivider />
       <Grid container direction="column">
-        <Grid item container>
-          <Typography display="inline" color="textSecondary" className={classes.spec}>
-            Vote Influence Fees
-            <StyledHelpIcon onClick={() => setInfoDialogOpen(true)} />
-          </Typography>
-          <Grid container direction="column">
-            {feeConfig.voteInfluenceFees.map((fee, index) => (
-              <SpecItem key={index} className={classes.subSpec} name={fee[0]} value={fee[1]} />
-            ))}
+        {feeConfig.fees.map((fee, index) => (
+          <Grid item container key={index}>
+            <InfluenceVaultFee feeConfig={fee} />
           </Grid>
-        </Grid>
+        ))}
         {feeConfig.showFees.includes('withdrawal') && (
           <Grid item container justifyContent="space-between">
             <SpecItem name="Withdrawal Fee" value={formatStrategyFee(withdrawFee)} />
@@ -68,11 +61,6 @@ const InfluenceVaultFees = ({ vault, feeConfig }: Props): JSX.Element => {
           </Grid>
         )}
       </Grid>
-      <InfluenceVaultModal
-        open={infoDialogOpen}
-        onClose={() => setInfoDialogOpen(false)}
-        config={feeConfig.feeModalConfig}
-      />
     </Grid>
   );
 };

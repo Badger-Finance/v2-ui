@@ -474,11 +474,6 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <div
             class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
           >
-            <span
-              class="MuiTypography-root-144 makeStyles-label-199 MuiTypography-caption-147 MuiTypography-displayInline-172"
-            >
-              Platform:
-            </span>
             <div
               class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
             >
@@ -574,29 +569,6 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
           <div
             class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
           >
-            <span
-              class="MuiTypography-root-144 makeStyles-label-199 makeStyles-clickableLabel-201 MuiTypography-caption-147 MuiTypography-displayInline-172"
-            >
-              Rewards:
-            </span>
-            <div
-              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
-            >
-              <span
-                class="MuiChip-label-224 MuiChip-labelSmall-225"
-              >
-                DCA
-              </span>
-            </div>
-          </div>
-          <div
-            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
-          >
-            <span
-              class="MuiTypography-root-144 makeStyles-label-199 MuiTypography-caption-147 MuiTypography-displayInline-172"
-            >
-              Platform:
-            </span>
             <div
               class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
             >
@@ -604,6 +576,19 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
                 class="MuiChip-label-224 MuiChip-labelSmall-225"
               >
                 Badger
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                DCA
               </span>
             </div>
           </div>
