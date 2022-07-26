@@ -9,7 +9,6 @@ const useStyles = makeStyles({
   root: {
     display: 'flex',
     alignItems: 'center',
-    flexDirection: 'row-reverse',
   },
 });
 
@@ -22,12 +21,7 @@ const VaultLogo = ({ tokens, className, ...props }: Props): JSX.Element => {
   return (
     <div className={clsx(classes.root, className && className)} {...props}>
       {tokens.map((token, index, totalTokens) => (
-        <ComposableTokenLogo
-          token={token}
-          logoPosition={index}
-          totalLogos={totalTokens.length}
-          key={`${token.symbol}_${index}`}
-        />
+        <ComposableTokenLogo token={token} logoPosition={index} key={`${token.symbol}_${index}`} />
       ))}
     </div>
   );
