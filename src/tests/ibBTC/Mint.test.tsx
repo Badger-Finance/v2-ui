@@ -85,6 +85,7 @@ describe('ibBTC Mint', () => {
   });
 
   it('can change token', async () => {
+    jest.useRealTimers();
     store.api.loadProtocolSummary = jest.fn();
     const { container } = customRender(
       <StoreProvider value={store}>
@@ -99,8 +100,6 @@ describe('ibBTC Mint', () => {
         name: store.ibBTCStore.mintOptions[1].token.symbol,
       }),
     );
-
-    jest.runAllTimers();
 
     await screen.findByText(store.ibBTCStore.mintOptions[1].token.symbol);
     await screen.findByDisplayValue(store.ibBTCStore.mintOptions[1].token.address);
