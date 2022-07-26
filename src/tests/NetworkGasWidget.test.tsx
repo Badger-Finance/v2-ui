@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { action } from 'mobx';
 import { Chain } from 'mobx/model/network/chain';
 import { StoreProvider } from 'mobx/stores/store-context';
@@ -7,6 +9,7 @@ import NetworkGasWidget from '../components-v2/common/NetworkGasWidget';
 import { defaultNetwork, supportedNetworks } from '../config/networks.config';
 import GasPricesStore from '../mobx/stores/GasPricesStore';
 import store from '../mobx/stores/RootStore';
+import { getNetworkIconPath } from '../utils/network-icon';
 import { createMatchMedia, customRender, fireEvent, screen } from './Utils';
 
 const mockGasPrices = {
@@ -47,19 +50,18 @@ describe('NetworkGasWidget', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('can select a network', () => {
-    const mockSelectNetwork = jest.fn();
-    store.chain.setNetwork = action(mockSelectNetwork);
-
+  it('can select a network', async () => {
     customRender(
       <StoreProvider value={store}>
         <NetworkGasWidget />
       </StoreProvider>,
     );
 
+    const networkIcon = screen.getByAltText('selected network icon');
     fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
     fireEvent.click(screen.getByText(supportedNetworks[2].name));
-    expect(mockSelectNetwork).toHaveBeenNthCalledWith(1, supportedNetworks[2].id);
+    await screen.findByText(supportedNetworks[2].name);
+    expect(networkIcon).toHaveAttribute('src', getNetworkIconPath(supportedNetworks[2].network));
   });
 
   describe('in desktop mode', () => {
