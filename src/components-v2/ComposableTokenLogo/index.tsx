@@ -16,6 +16,9 @@ function useLogoStyles(logoPosition: number, totalAmountOfLogos: number) {
       zIndex: totalAmountOfLogos - logoPosition,
       // we move the logos to the left except from the first logo
       marginRight: logoPosition === 0 ? 0 : -spacingGap,
+      '&:last-child': {
+        marginRight: 0,
+      },
     },
   });
 }

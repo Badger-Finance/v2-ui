@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   iconBadgeContainer: {
-    width: 110,
     alignSelf: 'stretch',
     justifyContent: 'flex-end',
     [theme.breakpoints.up('lg')]: {
