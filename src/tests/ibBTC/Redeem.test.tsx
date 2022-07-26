@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 
+import { ibBTCService, TransactionStatus } from '@badger-dao/sdk';
 import { parseEther } from 'ethers/lib/utils';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import { ibBTCService, TransactionStatus } from '../../../../sdk';
 import { Redeem } from '../../components/IbBTC/Redeem';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import store from '../../mobx/stores/RootStore';
