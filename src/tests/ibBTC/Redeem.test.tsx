@@ -1,189 +1,171 @@
 import '@testing-library/jest-dom';
 
-// describe('ibBTC Redeem', () => {
-// 	beforeEach(() => {
-// 		jest.spyOn(IbBTCStore.prototype, 'initialized', 'get').mockReturnValue(true);
-// 		jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);
-// 		jest.spyOn(IbBTCStore.prototype, 'tokenBalances', 'get').mockReturnValue([
-// 			new TokenBalance(
-// 				{
-// 					name: 'bCurve.fi: renCrv Token',
-// 					symbol: 'bcrvRenBTC',
-// 					decimals: 18,
-// 					address: '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545',
-// 				},
-// 				BigNumber.from('5000000000000000000'),
-// 				BigNumber.from('12.47195816949324'),
-// 			),
-// 		]);
+import { ibBTCService, TransactionStatus } from '@badger-dao/sdk';
+import { parseEther } from 'ethers/lib/utils';
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 
-// 		store.ibBTCStore.redeemFeePercent = BigNumber.from(0);
+import { Redeem } from '../../components/IbBTC/Redeem';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import store from '../../mobx/stores/RootStore';
+import { StoreProvider } from '../../mobx/stores/store-context';
+import { customRender, fireEvent, screen } from '../Utils';
+import { SAMPLE_IBBTC_USER_BALANCES } from '../utils/samples';
+import SpyInstance = jest.SpyInstance;
 
-// 		store.ibBTCStore.redeemRates = {
-// 			'0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': '0.976196',
-// 		};
+describe('ibBTC Redeem', () => {
+  let estimateRedeemSpy: SpyInstance;
+  beforeEach(() => {
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+    store.user.balances = SAMPLE_IBBTC_USER_BALANCES;
+    store.ibBTCStore.mintFeePercent = 0;
+    store.ibBTCStore.redeemFeePercent = 0;
 
-// 		store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
-// 			fee: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '0.0120').tokenBalance,
-// 			max: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '15').tokenBalance,
-// 			sett: TokenBalance.fromBalance(store.ibBTCStore.redeemOptions[0], '11.988').tokenBalance,
-// 		});
+    store.ibBTCStore.mintRates = {
+      '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': '1.024385',
+    };
 
-// 		store.ibBTCStore.getRedeemConversionRate = jest
-// 			.fn()
-// 			.mockReturnValue(TokenBalance.fromBalance(store.ibBTCStore.redeemOptions[0], '1').tokenBalance);
-// 	});
+    store.ibBTCStore.redeemRates = {
+      '0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': '0.976196',
+    };
 
-// 	it('displays ibBTC balance and output token balance', () => {
-// 		customRender(
-// 			<StoreProvider value={store}>
-// 				<Redeem />
-// 			</StoreProvider>,
-// 		);
+    estimateRedeemSpy = jest.spyOn(ibBTCService.prototype, 'estimateRedeem').mockImplementation(async (_balance) => ({
+      fee: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, 0.012).tokenBalance,
+      max: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, 15).tokenBalance,
+      sett: TokenBalance.fromBalance(store.ibBTCStore.redeemOptions[0], 11.988).tokenBalance,
+    }));
 
-// 		expect(screen.getByText('Balance: 10.000000')).toBeInTheDocument();
-// 	});
+    store.ibBTCStore.getRedeemConversionRate = jest.fn().mockReturnValue(0.97);
+  });
 
-// 	it('can apply max balance', async () => {
-// 		const { container } = customRender(
-// 			<StoreProvider value={store}>
-// 				<Redeem />
-// 			</StoreProvider>,
-// 		);
-// 		fireEvent.click(await screen.findByRole('button', { name: /max/i }));
-// 		await screen.findByText('11.988000');
-// 		expect(container).toMatchSnapshot();
-// 	});
+  it('displays ibBTC balance', () => {
+    customRender(
+      <StoreProvider value={store}>
+        <Redeem />
+      </StoreProvider>,
+    );
 
-// 	it('handles not connected wallet', () => {
-// 		customRender(
-// 			<StoreProvider value={store}>
-// 				<Redeem />
-// 			</StoreProvider>,
-// 		);
+    expect(screen.getByText('Balance: 10.000000')).toBeInTheDocument();
+  });
 
-// 		expect(screen.getByRole('textbox')).toBeDisabled();
-// 		expect(screen.getByRole('button', { name: 'Connect Wallet' })).toBeEnabled();
-// 	});
+  it('can apply max balance', async () => {
+    const { container } = customRender(
+      <StoreProvider value={store}>
+        <Redeem />
+      </StoreProvider>,
+    );
+    fireEvent.click(await screen.findByRole('button', { name: /max/i }));
+    await screen.findByText('11.988000');
+    expect(container).toMatchSnapshot();
+  });
 
-// 	describe('Input Change', () => {
-// 		beforeEach(() => {
-// 			jest.useFakeTimers();
+  describe('Input Change', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+      store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+    });
 
-// 			jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue(
-// 				'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-// 			);
+    it('displays output balance when redeem amount is inputted', async () => {
+      const { container } = customRender(
+        <StoreProvider value={store}>
+          <Redeem />
+        </StoreProvider>,
+      );
 
-// 			jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+      fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
 
-// 			store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
-// 				fee: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '0.0120').tokenBalance,
-// 				max: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '100').tokenBalance,
-// 				sett: TokenBalance.fromBalance(store.ibBTCStore.redeemOptions[0], '20').tokenBalance,
-// 			});
-// 		});
+      jest.runAllTimers();
 
-// 		it('displays output balance when redeem amount is inputted', async () => {
-// 			const { container } = customRender(
-// 				<StoreProvider value={store}>
-// 					<Redeem />
-// 				</StoreProvider>,
-// 			);
+      await screen.findByText('11.988000');
 
-// 			fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
+      expect(container).toMatchSnapshot();
+    });
 
-// 			jest.runAllTimers();
+    it('handles exceeding ibBTC redeem input amount', async () => {
+      jest.useFakeTimers();
 
-// 			await screen.findByText('20.000000');
+      customRender(
+        <StoreProvider value={store}>
+          <ToastContainer position="bottom-right" newestOnTop={true} closeOnClick theme="dark" draggable />
+          <Redeem />
+        </StoreProvider>,
+      );
 
-// 			expect(container).toMatchSnapshot();
-// 		});
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: '20' } });
 
-// 		it('handles exceeding ibBTC redeem input amount', async () => {
-// 			jest.useRealTimers();
+      jest.runAllTimers();
 
-// 			customRender(
-// 				<StoreProvider value={store}>
-// 					<SnackbarProvider>
-// 						<SnackbarManager>
-// 							<Redeem />
-// 						</SnackbarManager>
-// 					</SnackbarProvider>
-// 				</StoreProvider>,
-// 			);
+      await screen.findByText('11.988000');
 
-// 			fireEvent.change(screen.getByRole('textbox'), { target: { value: '20' } });
+      expect(screen.getByRole('button', { name: /redeem/i })).toBeDisabled();
+    });
 
-// 			await screen.findByText('20.000000');
+    it('executes redeem with correct params', async () => {
+      const redeemSpy = jest
+        .spyOn(ibBTCService.prototype, 'redeem')
+        .mockReturnValue(Promise.resolve(TransactionStatus.Success));
 
-// 			fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
+      customRender(
+        <StoreProvider value={store}>
+          <Redeem />
+        </StoreProvider>,
+      );
 
-// 			expect(screen.getByText('You have insufficient balance of ibBTC')).toBeInTheDocument();
-// 		});
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: '0.1' } });
 
-// 		it('executes redeem with correct params', async () => {
-// 			const redeemMock = jest.fn().mockReturnValue(Promise.resolve(TransactionRequestResult.Success));
+      jest.runAllTimers();
 
-// 			store.ibBTCStore.redeem = redeemMock;
+      await screen.findByText('11.988000');
 
-// 			customRender(
-// 				<StoreProvider value={store}>
-// 					<Redeem />
-// 				</StoreProvider>,
-// 			);
+      fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
 
-// 			fireEvent.change(screen.getByRole('textbox'), { target: { value: '0.1' } });
+      await screen.findByDisplayValue('');
 
-// 			jest.runAllTimers();
+      expect.extend({
+        toHaveCorrectNonFunctionParams(received, expected) {
+          const pass =
+            received.token === expected.token &&
+            +received.amount === +expected.amount &&
+            received.slippage === expected.slippage;
 
-// 			await screen.findByText('20.000000');
+          if (pass) {
+            return {
+              message: () => `expected ${received} to have correct non-function params`,
+              pass: true,
+            };
+          } else {
+            return {
+              message: () => `expected ${received} to have correct non-function params`,
+              pass: false,
+            };
+          }
+        },
+      });
 
-// 			fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
+      expect(redeemSpy.mock.calls[0][0]).toHaveCorrectNonFunctionParams({
+        token: store.ibBTCStore.ibBTC.token.address,
+        amount: parseEther('0.1'),
+      });
+    });
 
-// 			await screen.findByDisplayValue('');
+    it('executes calcRedeem and getRedeemConversionRate with correct params', async () => {
+      const getConversionSpy = jest.fn().mockReturnValue(0.97);
+      store.ibBTCStore.getRedeemConversionRate = getConversionSpy;
 
-// 			expect(redeemMock).toHaveBeenNthCalledWith(
-// 				1,
-// 				TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '0.1'),
-// 				store.ibBTCStore.redeemOptions[0].token,
-// 			);
-// 		});
+      customRender(
+        <StoreProvider value={store}>
+          <Redeem />
+        </StoreProvider>,
+      );
 
-// 		it('executes calcRedeem and getRedeemConversionRate with correct params', async () => {
-// 			const calcRedeemSpy = jest.fn().mockReturnValue({
-// 				fee: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '0.0120').tokenBalance,
-// 				max: TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '100').tokenBalance,
-// 				sett: TokenBalance.fromBalance(store.ibBTCStore.redeemOptions[0], '20').tokenBalance,
-// 			});
+      fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
 
-// 			const getConversionSpy = jest
-// 				.fn()
-// 				.mockReturnValue(
-// 					Promise.resolve(TokenBalance.fromBalance(store.ibBTCStore.redeemOptions[0], '20').tokenBalance),
-// 				);
+      jest.runAllTimers();
 
-// 			store.ibBTCStore.calcRedeemAmount = calcRedeemSpy;
-// 			store.ibBTCStore.getRedeemConversionRate = getConversionSpy;
+      await screen.findByText('11.988000');
 
-// 			customRender(
-// 				<StoreProvider value={store}>
-// 					<Redeem />
-// 				</StoreProvider>,
-// 			);
-
-// 			fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
-
-// 			jest.runAllTimers();
-
-// 			await screen.findByText('20.000000');
-
-// 			expect(calcRedeemSpy).toHaveBeenNthCalledWith(
-// 				1,
-// 				TokenBalance.fromBalance(store.ibBTCStore.ibBTC, '12'),
-// 				store.ibBTCStore.redeemOptions[0].token,
-// 			);
-
-// 			expect(getConversionSpy).toHaveBeenNthCalledWith(1, store.ibBTCStore.redeemOptions[0].token);
-// 		});
-// 	});
-// });
+      expect(estimateRedeemSpy).toHaveBeenNthCalledWith(1, parseEther('12'));
+      expect(getConversionSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+});

@@ -9,6 +9,11 @@ import { customRender, fireEvent, screen } from './Utils';
 jest.mock('copy-to-clipboard');
 
 describe('InvalidCycleDialog', () => {
+  beforeEach(() => {
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+    store.tree.cycle = 123;
+  });
+
   it('displays invalid cycle dialog', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>

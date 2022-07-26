@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 
 import { StoreProvider } from 'mobx/stores/store-context';
-import React from 'react';
 
 import WalletWidget from '../components-v2/common/WalletWidget';
 import store from '../mobx/stores/RootStore';
 import { WalletStore } from '../mobx/stores/WalletStore';
 import { cleanup, customRender, fireEvent, screen } from './Utils';
+import { checkSnapshot } from './utils/snapshots';
 
 /* eslint-disable */
 
@@ -18,12 +18,7 @@ describe('WalletWidget', () => {
   const testStore = store;
 
   test('Renders correctly', () => {
-    const { container } = customRender(
-      <StoreProvider value={testStore}>
-        <WalletWidget />
-      </StoreProvider>,
-    );
-    expect(container).toMatchSnapshot();
+    checkSnapshot(<WalletWidget />);
   });
 
   test('Renders mobile version correctly', () => {
@@ -42,12 +37,7 @@ describe('WalletWidget', () => {
 
     window.matchMedia = createMatchMedia();
 
-    const { container } = customRender(
-      <StoreProvider value={testStore}>
-        <WalletWidget />
-      </StoreProvider>,
-    );
-    expect(container).toMatchSnapshot();
+    checkSnapshot(<WalletWidget />);
   });
 
   test('Displays walletSelect menu upon click', async () => {
@@ -64,7 +54,7 @@ describe('WalletWidget', () => {
 
   test('Connected address is properly displayed', async () => {
     jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
     const { container } = customRender(
       <StoreProvider value={testStore}>
         <WalletWidget />

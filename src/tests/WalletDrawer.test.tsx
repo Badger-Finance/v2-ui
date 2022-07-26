@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 import * as copy from 'copy-to-clipboard';
-import { BigNumber } from 'ethers';
+import { utils } from 'ethers';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
@@ -10,7 +10,6 @@ import deploy from '../config/deployments/mainnet.json';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import store from '../mobx/stores/RootStore';
 import UserStore from '../mobx/stores/UserStore';
-import { WalletStore } from '../mobx/stores/WalletStore';
 import { customRender, fireEvent, screen } from './Utils';
 
 jest.mock('copy-to-clipboard', () => {
@@ -20,8 +19,7 @@ jest.mock('copy-to-clipboard', () => {
 describe('Wallet Drawer', () => {
   beforeEach(() => {
     store.uiState.showWalletDrawer = true;
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
-    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
     jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((token) => {
       if (token === deploy.tokens.badger) {
         return new TokenBalance(
@@ -31,7 +29,7 @@ describe('Wallet Drawer', () => {
             symbol: 'Badger',
             decimals: 18,
           },
-          BigNumber.from(1000 * 1e18),
+          utils.parseEther('1000'),
           80,
         );
       } else if (token === deploy.tokens.digg) {
@@ -42,7 +40,7 @@ describe('Wallet Drawer', () => {
             symbol: 'DIGG',
             decimals: 8,
           },
-          BigNumber.from(0.1 * 1e8),
+          utils.parseEther('0.1'),
           50000,
         );
       } else {
@@ -53,7 +51,7 @@ describe('Wallet Drawer', () => {
             symbol: 'remDIGG',
             decimals: 8,
           },
-          BigNumber.from(0.1 * 1e8),
+          utils.parseEther('0.1'),
           50000,
         );
       }
@@ -73,10 +71,10 @@ describe('Wallet Drawer', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('disconnects wallet', () => {
+  it('disconnects wallet', async () => {
+    const disconnectSpy = jest.fn();
+    store.wallet.disconnect = disconnectSpy;
     jest.useFakeTimers();
-    const disconnectSpy = jest.spyOn(WalletStore.prototype, 'disconnect');
-
     customRender(
       <StoreProvider value={store}>
         <WalletDrawer />

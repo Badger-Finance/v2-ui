@@ -2,7 +2,6 @@ import { TransactionStatus } from '@badger-dao/sdk';
 import { Button, debounce, Grid, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
-import { ZERO } from 'config/constants';
 import { BigNumber } from 'ethers';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -124,14 +123,12 @@ export const Redeem = observer((): JSX.Element => {
   };
 
   const debounceInputAmountChange = useCallback(
-    debounce(async (change): Promise<void> => {
-      const input = BigNumber.from(change);
-
+    debounce(async (change: string): Promise<void> => {
       if (!selectedToken) {
         return;
       }
 
-      if (!input.gt(ZERO)) {
+      if (!(Number(change) > 0)) {
         setOutputAmount(undefined);
         setMaxRedeem(undefined);
         setIsEnoughToRedeem(true);
@@ -140,7 +137,7 @@ export const Redeem = observer((): JSX.Element => {
         return;
       }
 
-      await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
+      await calculateRedeem(TokenBalance.fromBalance(ibBTC, Number(change)), selectedToken);
     }, 200),
     [selectedToken],
   );

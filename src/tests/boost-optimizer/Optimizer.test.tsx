@@ -3,7 +3,6 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import store from 'mobx/stores/RootStore';
 import { StoreProvider } from 'mobx/stores/store-context';
-import React from 'react';
 
 import { Optimizer } from '../../components/Boost/Optimizer';
 import { WalletStore } from '../../mobx/stores/WalletStore';
@@ -13,7 +12,7 @@ import { customRender, screen } from '../Utils';
 describe('Boost Optimizer', () => {
   beforeEach(() => {
     jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
     store.user.accountDetails = {
       address: '0xC26202cd0428276cC69017Df01137161f0102e55',
       boost: 1,

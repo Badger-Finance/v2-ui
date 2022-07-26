@@ -5,7 +5,7 @@ import { action, makeAutoObservable } from 'mobx';
 import { RootStore } from './RootStore';
 
 export default class PricesStore {
-  private priceCache: PriceSummary = {};
+  public priceCache: PriceSummary = {};
 
   constructor(private store: RootStore) {
     makeAutoObservable(this);

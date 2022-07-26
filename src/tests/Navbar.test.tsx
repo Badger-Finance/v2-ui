@@ -1,13 +1,7 @@
 import { Chain } from 'mobx/model/network/chain';
-import { RouterStore } from 'mobx-router';
-import React from 'react';
 
 import Navbar from '../components-v2/navbar';
-import PricesStore from '../mobx/stores/PricesStore';
 import store from '../mobx/stores/RootStore';
-import UserStore from '../mobx/stores/UserStore';
-import VaultStore from '../mobx/stores/VaultStore';
-import { WalletStore } from '../mobx/stores/WalletStore';
 import { createMatchMedia } from './Utils';
 import { checkSnapshot } from './utils/snapshots';
 
@@ -23,17 +17,16 @@ describe('Navbar', () => {
   beforeEach(() => {
     global.ResizeObserver = ResizeObserver;
     Chain.getChain(store.chain.network).deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
-
-    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
-
-    jest.spyOn(RouterStore.prototype, 'currentPath', 'get').mockReturnValue('/');
-    jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(10_000);
-    jest.spyOn(PricesStore.prototype, 'getPrice').mockReturnValue(80);
-    jest.spyOn(VaultStore.prototype, 'protocolSummary', 'get').mockReturnValue({
-      totalValue: 1_000_000,
-      setts: [],
-    });
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+    store.prices.getPrice = jest.fn().mockReturnValue(80);
+    store.tree.cycle = 5894;
+    store.tree.lastUpdate = '0h 55m';
+    store.vaults.protocolSummaryCache = {
+      [store.chain.network]: {
+        totalValue: 1_000_000,
+        setts: [],
+      },
+    };
   });
 
   test('Renders correctly', async () => {

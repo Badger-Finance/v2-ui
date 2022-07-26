@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 
+import { RewardsService, TransactionStatus } from '@badger-dao/sdk';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
 import { BigNumber } from 'ethers';
 import { action } from 'mobx';
@@ -9,10 +10,11 @@ import React from 'react';
 import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import store from '../mobx/stores/RootStore';
-import UserStore from '../mobx/stores/UserStore';
-import VaultStore from '../mobx/stores/VaultStore';
-import { WalletStore } from '../mobx/stores/WalletStore';
 import { customRender, fireEvent, screen } from './Utils';
+
+function arrayEquals(a: unknown[], b: unknown[]): boolean {
+  return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
+}
 
 const mockClaimProof = {
   index: '0x33d4',
@@ -64,23 +66,13 @@ const mockBadgerTreeClaims: TokenBalance[] = [
 
 describe('Rewards Dialog', () => {
   beforeEach(() => {
-    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
     store.uiState.rewardsDialogOpen = true;
     store.tree.claimProof = mockClaimProof;
     store.tree.loadBadgerTree = action(jest.fn());
   });
 
   describe('when there are no rewards', () => {
-    it('displays zero amount in rewards button', () => {
-      const { container } = customRender(
-        <StoreProvider value={store}>
-          <RewardsDialog />
-        </StoreProvider>,
-      );
-      expect(container).toMatchSnapshot();
-    });
-
     it('displays no rewards dialog', () => {
       const { baseElement } = customRender(
         <StoreProvider value={store}>
@@ -93,22 +85,7 @@ describe('Rewards Dialog', () => {
 
   describe('when there are rewards', () => {
     beforeEach(() => {
-      jest.spyOn(VaultStore.prototype, 'getToken').mockReturnValue({
-        name: 'Badger',
-        symbol: 'BADGER',
-        decimals: 18,
-        address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
-      });
       store.tree.claimable = Object.fromEntries(mockBadgerTreeClaims.map((t) => [t.token.address, t]));
-    });
-
-    it('displays rewards amount in rewards button', () => {
-      const { container } = customRender(
-        <StoreProvider value={store}>
-          <RewardsDialog />
-        </StoreProvider>,
-      );
-      expect(container).toMatchSnapshot();
     });
 
     it('displays claim options', async () => {
@@ -121,19 +98,6 @@ describe('Rewards Dialog', () => {
     });
 
     it('can display user guide', () => {
-      jest.spyOn(UserStore.prototype, 'getBalance').mockReturnValue(
-        new TokenBalance(
-          {
-            address: '0x0',
-            decimals: 18,
-            name: 'test',
-            symbol: 'Test Token',
-          },
-          BigNumber.from(0),
-          1,
-        ),
-      );
-
       const { baseElement } = customRender(
         <StoreProvider value={store}>
           <RewardsDialog />
@@ -182,66 +146,96 @@ describe('Rewards Dialog', () => {
     });
 
     it('executes claim geysers with correct parameters', async () => {
-      throw new Error('fix me doggy');
-      // const claimSpy = jest.fn().mockReturnValue(TransactionRequestResult.Success);
+      const claimSpy = jest
+        .spyOn(RewardsService.prototype, 'claim')
+        .mockReturnValue(Promise.resolve(TransactionStatus.Success));
 
-      // const expectedParameters = Object.fromEntries(
-      // 	mockBadgerTreeClaims.map((claim) => [claim.token.address, claim]),
-      // );
+      customRender(
+        <StoreProvider value={store}>
+          <RewardsDialog />
+        </StoreProvider>,
+      );
 
-      // store.rewards.claimGeysers = action(claimSpy);
+      const claimOptions = Object.fromEntries(
+        Object.entries(store.tree.claimable).map((e) => {
+          const options = {
+            hasBalance: e[1].tokenBalance.gt(0),
+            balance: TokenBalance.fromBigNumber(e[1], e[1].tokenBalance),
+          };
+          return [e[0], options];
+        }),
+      );
 
-      // customRender(
-      // 	<StoreProvider value={store}>
-      // 		<RewardsDialog />
-      // 	</StoreProvider>,
-      // );
+      const claimAmounts = Object.values(claimOptions).map((c) => c.balance.tokenBalance);
 
-      // fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
-      // await screen.findByText('Rewards Claimed');
-      // expect(claimSpy).toHaveBeenNthCalledWith(1, expectedParameters);
+      expect.extend({
+        toHaveCorrectNonFunctionParams(received, expected) {
+          const pass =
+            arrayEquals(received.tokens, expected.tokens) &&
+            arrayEquals(received.cumulativeAmounts, expected.cumulativeAmounts) &&
+            received.index === expected.index &&
+            arrayEquals(received.proof, expected.proof) &&
+            received.cycle === expected.cycle &&
+            arrayEquals(received.claimAmounts, expected.claimAmounts);
+
+          if (pass) {
+            return {
+              message: () => `expected ${received} to have correct non-function params`,
+              pass: true,
+            };
+          } else {
+            return {
+              message: () => `expected ${received} to have correct non-function params`,
+              pass: false,
+            };
+          }
+        },
+      });
+
+      fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
+
+      expect(claimSpy.mock.calls[0][0]).toHaveCorrectNonFunctionParams({
+        claimAmounts,
+        ...mockClaimProof,
+      });
     });
 
     it('displays invalid cycle dialog if claim geysers fails with invalid cycle error', async () => {
-      throw new Error('fix me doggy');
+      console.error = jest.fn();
+      const reportSpy = jest.fn();
+      store.tree.reportInvalidCycle = reportSpy;
 
-      // jest.useFakeTimers();
-      // console.error = jest.fn();
-      // const reportSpy = jest.fn();
+      jest.spyOn(RewardsService.prototype, 'claim').mockImplementation(async (params) => {
+        if (params.onError) params.onError(new Error('execution reverted: Invalid cycle'));
+        return TransactionStatus.Failure;
+      });
 
-      // store.rewards.reportInvalidCycle = reportSpy;
-      // store.rewards.claimGeysers = action(
-      // 	jest.fn().mockImplementation(() => {
-      // 		throw new Error('execution reverted: Invalid cycle');
-      // 	}),
-      // );
+      customRender(
+        <StoreProvider value={store}>
+          <RewardsDialog />
+        </StoreProvider>,
+      );
 
-      // customRender(
-      // 	<StoreProvider value={store}>
-      // 		<RewardsDialog />
-      // 	</StoreProvider>,
-      // );
-
-      // fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
-      // jest.runOnlyPendingTimers();
-      // await screen.findByText('Invalid Cycle Detected');
-      // expect(reportSpy).toHaveBeenCalled();
-      // jest.useRealTimers();
+      fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
+      await screen.findByText('Invalid Cycle Detected');
+      expect(reportSpy).toHaveBeenCalled();
     });
 
     it('displays success dialog', async () => {
-      throw new Error('fix me doggy');
-      // store.rewards.claimGeysers = action(jest.fn().mockReturnValue(TransactionRequestResult.Success));
+      jest.spyOn(RewardsService.prototype, 'claim').mockImplementation(async (params) => {
+        if (params.onSuccess) params.onSuccess({});
+        return TransactionStatus.Success;
+      });
 
-      // const { baseElement } = customRender(
-      // 	<StoreProvider value={store}>
-      // 		<RewardsDialog />
-      // 	</StoreProvider>,
-      // );
+      const { baseElement } = customRender(
+        <StoreProvider value={store}>
+          <RewardsDialog />
+        </StoreProvider>,
+      );
 
-      // fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
-      // await screen.findByText('Rewards Claimed');
-      // expect(baseElement).toMatchSnapshot();
+      fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
+      await screen.findByText('Rewards Claimed');
+      expect(baseElement).toMatchSnapshot();
     });
   });
 });

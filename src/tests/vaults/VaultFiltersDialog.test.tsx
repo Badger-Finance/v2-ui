@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 
-import { Protocol, VaultBehavior, VaultState } from '@badger-dao/sdk';
+import { Network, Protocol, VaultBehavior, VaultState } from '@badger-dao/sdk';
 import { within } from '@testing-library/react';
 import UserEvent from '@testing-library/user-event';
 import { StoreProvider } from 'mobx/stores/store-context';
@@ -11,11 +11,17 @@ import VaultFiltersDialogV2 from '../../components-v2/VaultSearchControls/VaultF
 import store from '../../mobx/stores/RootStore';
 import VaultStore from '../../mobx/stores/VaultStore';
 import { customRender, fireEvent, screen } from '../Utils';
+import { SAMPLE_VAULTS } from '../utils/samples';
 
 describe('VaultFiltersDialog', () => {
   beforeEach(() => {
-    jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
-    jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
+    const vaults = [...SAMPLE_VAULTS];
+    vaults[0].boost.enabled = true;
+    vaults[0].protocol = Protocol.Convex;
+    vaults[1].protocol = Protocol.Curve;
+    store.vaults.vaultCache = {
+      [Network.Ethereum]: Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault])),
+    };
     store.vaults.showVaultFilters = true;
     config.disabled = true;
   });
