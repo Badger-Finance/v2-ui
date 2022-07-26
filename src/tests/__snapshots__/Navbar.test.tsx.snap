@@ -44,7 +44,7 @@ exports[`Navbar Renders correctly 1`] = `
                   <span
                     class="MuiTypography-root-125 makeStyles-helperText-124"
                   >
-                    80.00
+                    $80.00
                   </span>
                 </div>
               </div>
@@ -55,9 +55,9 @@ exports[`Navbar Renders correctly 1`] = `
                   class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
                 >
                   Cycle: 
-                  ...
+                  5894
                     
-                  (latest 0h 0m)
+                  (last: 0h 55m)
                 </span>
               </div>
               <div
@@ -75,7 +75,7 @@ exports[`Navbar Renders correctly 1`] = `
                   <span
                     class="MuiTypography-root-125 makeStyles-helperText-124"
                   >
-                    1,000,000
+                    $1,000,000
                   </span>
                 </div>
               </div>
@@ -93,7 +93,7 @@ exports[`Navbar Renders correctly 1`] = `
                   <span
                     class="MuiTypography-root-125 makeStyles-helperText-124"
                   >
-                    1,000
+                    $0
                   </span>
                 </div>
               </div>
@@ -208,7 +208,7 @@ exports[`Navbar Renders correctly 1`] = `
                       VAULTS
                     </span>
                     <span
-                      class="MuiTouchRipple-root-262"
+                      class="MuiTouchRipple-root-264"
                     />
                   </button>
                   <button
@@ -224,7 +224,7 @@ exports[`Navbar Renders correctly 1`] = `
                       BOOST
                     </span>
                     <span
-                      class="MuiTouchRipple-root-262"
+                      class="MuiTouchRipple-root-264"
                     />
                   </button>
                   <button
@@ -240,7 +240,7 @@ exports[`Navbar Renders correctly 1`] = `
                       IBBTC
                     </span>
                     <span
-                      class="MuiTouchRipple-root-262"
+                      class="MuiTouchRipple-root-264"
                     />
                   </button>
                 </div>
@@ -293,7 +293,7 @@ exports[`Navbar Renders correctly 1`] = `
                     </div>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-262"
+                    class="MuiTouchRipple-root-264"
                   />
                 </button>
               </div>
@@ -317,7 +317,7 @@ exports[`Navbar Renders correctly 1`] = `
                       />
                     </span>
                     <span
-                      class="MuiTouchRipple-root-262"
+                      class="MuiTouchRipple-root-264"
                     />
                   </button>
                 </div>
@@ -336,7 +336,7 @@ exports[`Navbar Renders correctly 1`] = `
                     0x1..a1a
                   </span>
                   <span
-                    class="MuiTouchRipple-root-262"
+                    class="MuiTouchRipple-root-264"
                   />
                 </button>
               </div>
@@ -364,12 +364,12 @@ exports[`Navbar Renders mobile version correctly 1`] = `
           class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-align-items-xs-center-26 MuiGrid-grid-xs-true-51"
         >
           <button
-            class="MuiButtonBase-root-198 MuiIconButton-root-265 makeStyles-menuIcon-262"
+            class="MuiButtonBase-root-198 MuiIconButton-root-267 makeStyles-menuIcon-264"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiIconButton-label-273"
+              class="MuiIconButton-label-275"
             >
               <img
                 alt="open menu"
@@ -377,17 +377,17 @@ exports[`Navbar Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-290"
+              class="MuiTouchRipple-root-292"
             />
           </button>
           <img
             alt="Badger Logo"
-            class="makeStyles-badgerIcon-263"
+            class="makeStyles-badgerIcon-265"
             src="/assets/icons/badger_head.svg"
           />
         </div>
         <div
-          class="MuiGrid-root-17 makeStyles-buttons-264 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
+          class="MuiGrid-root-17 makeStyles-buttons-266 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
         >
           <div
             class="MuiGrid-root-17 MuiGrid-item-19"
@@ -409,7 +409,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                   />
                 </span>
                 <span
-                  class="MuiTouchRipple-root-290"
+                  class="MuiTouchRipple-root-292"
                 />
               </button>
             </div>
@@ -428,7 +428,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                 0x1..a1a
               </span>
               <span
-                class="MuiTouchRipple-root-290"
+                class="MuiTouchRipple-root-292"
               />
             </button>
           </div>
@@ -436,7 +436,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
       </div>
     </div>
     <hr
-      class="MuiDivider-root-274"
+      class="MuiDivider-root-276"
     />
     <div
       class="makeStyles-mobileRow-3 makeStyles-mobileStats-4"
@@ -454,12 +454,12 @@ exports[`Navbar Renders mobile version correctly 1`] = `
             BADGER Price:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-283"
+            class="MuiBox-root-157 MuiBox-root-285"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
             >
-              80.00
+              $80.00
             </span>
           </div>
         </div>
@@ -470,9 +470,9 @@ exports[`Navbar Renders mobile version correctly 1`] = `
             class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
           >
             Cycle: 
-            ...
+            5894
               
-            (latest 0h 0m)
+            (last: 0h 55m)
           </span>
         </div>
         <div
@@ -485,12 +485,12 @@ exports[`Navbar Renders mobile version correctly 1`] = `
              TVL:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-286"
+            class="MuiBox-root-157 MuiBox-root-288"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
             >
-              1,000,000
+              $1,000,000
             </span>
           </div>
         </div>
@@ -503,19 +503,19 @@ exports[`Navbar Renders mobile version correctly 1`] = `
             My Assets:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-289"
+            class="MuiBox-root-157 MuiBox-root-291"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
             >
-              1,000
+              $0
             </span>
           </div>
         </div>
       </div>
     </div>
     <hr
-      class="MuiDivider-root-274"
+      class="MuiDivider-root-276"
     />
     <div
       class="makeStyles-mobileTabs-5"
@@ -544,7 +544,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                 VAULTS
               </span>
               <span
-                class="MuiTouchRipple-root-290"
+                class="MuiTouchRipple-root-292"
               />
             </button>
             <button
@@ -560,7 +560,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                 BOOST
               </span>
               <span
-                class="MuiTouchRipple-root-290"
+                class="MuiTouchRipple-root-292"
               />
             </button>
             <button
@@ -576,7 +576,7 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                 IBBTC
               </span>
               <span
-                class="MuiTouchRipple-root-290"
+                class="MuiTouchRipple-root-292"
               />
             </button>
           </div>
@@ -606,12 +606,12 @@ exports[`Navbar Renders tablet version correctly 1`] = `
           class="MuiGrid-root-17 MuiGrid-container-18 MuiGrid-item-19 MuiGrid-align-items-xs-center-26 MuiGrid-grid-xs-true-51"
         >
           <button
-            class="MuiButtonBase-root-198 MuiIconButton-root-265 makeStyles-menuIcon-262"
+            class="MuiButtonBase-root-198 MuiIconButton-root-267 makeStyles-menuIcon-264"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiIconButton-label-273"
+              class="MuiIconButton-label-275"
             >
               <img
                 alt="open menu"
@@ -619,17 +619,17 @@ exports[`Navbar Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-290"
+              class="MuiTouchRipple-root-292"
             />
           </button>
           <img
             alt="Badger Logo"
-            class="makeStyles-badgerIcon-263"
+            class="makeStyles-badgerIcon-265"
             src="/assets/icons/badger_head.svg"
           />
         </div>
         <div
-          class="MuiGrid-root-17 makeStyles-buttons-264 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
+          class="MuiGrid-root-17 makeStyles-buttons-266 MuiGrid-container-18 MuiGrid-spacing-xs-2-41 MuiGrid-item-19 MuiGrid-grid-xs-8-59"
         >
           <div
             class="MuiGrid-root-17 MuiGrid-item-19"
@@ -651,7 +651,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                   />
                 </span>
                 <span
-                  class="MuiTouchRipple-root-290"
+                  class="MuiTouchRipple-root-292"
                 />
               </button>
             </div>
@@ -670,7 +670,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 0x1..a1a
               </span>
               <span
-                class="MuiTouchRipple-root-290"
+                class="MuiTouchRipple-root-292"
               />
             </button>
           </div>
@@ -678,7 +678,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
       </div>
     </div>
     <hr
-      class="MuiDivider-root-274"
+      class="MuiDivider-root-276"
     />
     <div
       class="makeStyles-mobileRow-3 makeStyles-mobileStats-4"
@@ -696,12 +696,12 @@ exports[`Navbar Renders tablet version correctly 1`] = `
             BADGER Price:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-283"
+            class="MuiBox-root-157 MuiBox-root-285"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
             >
-              80.00
+              $80.00
             </span>
           </div>
         </div>
@@ -712,9 +712,9 @@ exports[`Navbar Renders tablet version correctly 1`] = `
             class="MuiTypography-root-125 makeStyles-helperText-124 MuiTypography-displayInline-153"
           >
             Cycle: 
-            ...
+            5894
               
-            (latest 0h 0m)
+            (last: 0h 55m)
           </span>
         </div>
         <div
@@ -727,12 +727,12 @@ exports[`Navbar Renders tablet version correctly 1`] = `
              TVL:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-286"
+            class="MuiBox-root-157 MuiBox-root-288"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
             >
-              1,000,000
+              $1,000,000
             </span>
           </div>
         </div>
@@ -745,19 +745,19 @@ exports[`Navbar Renders tablet version correctly 1`] = `
             My Assets:  
           </span>
           <div
-            class="MuiBox-root-157 MuiBox-root-289"
+            class="MuiBox-root-157 MuiBox-root-291"
           >
             <span
               class="MuiTypography-root-125 makeStyles-helperText-124"
             >
-              1,000
+              $0
             </span>
           </div>
         </div>
       </div>
     </div>
     <hr
-      class="MuiDivider-root-274"
+      class="MuiDivider-root-276"
     />
     <div
       class="makeStyles-mobileTabs-5"
@@ -786,7 +786,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 VAULTS
               </span>
               <span
-                class="MuiTouchRipple-root-290"
+                class="MuiTouchRipple-root-292"
               />
             </button>
             <button
@@ -802,7 +802,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 BOOST
               </span>
               <span
-                class="MuiTouchRipple-root-290"
+                class="MuiTouchRipple-root-292"
               />
             </button>
             <button
@@ -818,7 +818,7 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                 IBBTC
               </span>
               <span
-                class="MuiTouchRipple-root-290"
+                class="MuiTouchRipple-root-292"
               />
             </button>
           </div>

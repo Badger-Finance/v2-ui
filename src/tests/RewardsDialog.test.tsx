@@ -65,7 +65,7 @@ const mockBadgerTreeClaims: TokenBalance[] = [
 describe('Rewards Dialog', () => {
   beforeEach(() => {
     jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
     store.uiState.rewardsDialogOpen = true;
     store.tree.claimProof = mockClaimProof;
     store.tree.loadBadgerTree = action(jest.fn());

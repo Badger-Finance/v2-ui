@@ -57,10 +57,10 @@ export class WalletStore {
     await this.store.updateProvider(temporaryProvider);
   }
 
-  disconnect() {
+  disconnect = action(() => {
     this.address = undefined;
     this.web3Modal.clearCachedProvider();
-  }
+  });
 
   /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
   private getLibrary(provider: any): Web3Provider {
