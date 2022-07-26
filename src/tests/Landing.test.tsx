@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 
+import { parseEther } from 'ethers/lib/utils';
 import { Chain } from 'mobx/model/network/chain';
-import UserStore from 'mobx/stores/UserStore';
 import React from 'react';
 
+import { BadgerAPI, Network } from '../../../sdk';
+import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import store from '../mobx/stores/RootStore';
-import VaultStore from '../mobx/stores/VaultStore';
-import { WalletStore } from '../mobx/stores/WalletStore';
 import Landing from '../pages/Landing';
 import { createMatchMedia } from './Utils';
 import { SAMPLE_VAULTS } from './utils/samples';
@@ -16,8 +16,7 @@ describe('Landing', () => {
   beforeEach(() => {
     store.prices.getPrice = jest.fn().mockReturnValue(1500);
     Chain.getChain(store.chain.network).deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
-    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
-    jest.spyOn(WalletStore.prototype, 'address', 'get').mockReturnValue('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a');
+    store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
     store.user.accountDetails = {
       address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
       value: 0,
@@ -34,8 +33,51 @@ describe('Landing', () => {
       diggBalance: 10,
     };
 
-    jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(1000);
-    jest.spyOn(VaultStore.prototype, 'vaultOrder', 'get').mockReturnValue(SAMPLE_VAULTS);
+    store.vaults.initialized = true;
+
+    store.user.balances = {
+      '0x3472A5A71965499acd81997a54BBA8D852C6E53d': new TokenBalance(
+        {
+          address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
+          name: 'Badger',
+          symbol: 'BADGER',
+          decimals: 18,
+        },
+        parseEther('100'),
+        3.7,
+      ),
+      '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305': new TokenBalance(
+        {
+          address: '0xfd05D3C7fe2924020620A8bE4961bBaA747e6305',
+          name: 'Badger Vested Escrow Convex Token',
+          symbol: 'bveCVX',
+          decimals: 18,
+        },
+        parseEther('1000'),
+        6.45,
+      ),
+      '0x2B5455aac8d64C14786c3a29858E43b5945819C0': new TokenBalance(
+        {
+          address: '0x2B5455aac8d64C14786c3a29858E43b5945819C0',
+          name: 'Badger Sett Convex CRV',
+          symbol: 'bcvxCRV',
+          decimals: 18,
+        },
+        parseEther('1000'),
+        1.7123657857388648,
+      ),
+    };
+
+    jest.spyOn(BadgerAPI.prototype, 'loadProtocolSummary').mockImplementation(() =>
+      Promise.resolve({
+        totalValue: 0,
+        setts: [],
+      }),
+    );
+
+    store.vaults.vaultCache = {
+      [Network.Ethereum]: Object.fromEntries(SAMPLE_VAULTS.map((vault) => [vault.vaultToken, vault])),
+    };
   });
 
   test('Renders correctly', async () => {
