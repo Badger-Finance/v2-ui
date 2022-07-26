@@ -4,7 +4,6 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 
-import ClaimedRewardsContent from '../../rewards/ClaimedRewardsContent';
 import ClaimRewardsContent from '../../rewards/ClaimRewardsContent';
 import UserGuideContent from '../../rewards/UserGuideContent';
 
@@ -20,11 +19,10 @@ const useStyles = makeStyles(() =>
 );
 
 const RewardsDialog = (): JSX.Element => {
-  const { tree, uiState } = useContext(StoreContext);
+  const { uiState } = useContext(StoreContext);
   const classes = useStyles();
 
   const [guideMode, setGuideMode] = useState(false);
-  const hasRewards = Object.keys(tree.claimable).length > 0;
 
   if (guideMode) {
     return (
@@ -42,40 +40,20 @@ const RewardsDialog = (): JSX.Element => {
     );
   }
 
-  // TODO: DOGGY DWHAT?!!!!!!!!!!!!!!!!!
-  // funky af logic here
-  if (!hasRewards) {
-    return (
-      <Dialog
-        fullWidth
-        maxWidth="xl"
-        aria-labelledby="claimed-rewards"
-        aria-describedby="Claimed Rewards Overview"
-        classes={{ paperWidthXl: classes.bigDialog }}
-        open={uiState.rewardsDialogOpen}
-        onClose={() => uiState.toggleRewardsDialog()}
-      >
-        <ClaimedRewardsContent claimedRewards={[]} />
-      </Dialog>
-    );
-  }
-
   return (
-    <>
-      <Dialog
-        fullWidth
-        maxWidth="xl"
-        aria-labelledby="claim-modal"
-        aria-describedby="Claim your rewards"
-        classes={{
-          paperWidthXl: hasRewards ? classes.xlDialog : classes.bigDialog,
-        }}
-        open={uiState.rewardsDialogOpen}
-        onClose={() => uiState.toggleRewardsDialog()}
-      >
-        <ClaimRewardsContent onGuideModeSelection={() => setGuideMode(true)} />
-      </Dialog>
-    </>
+    <Dialog
+      fullWidth
+      maxWidth="xl"
+      aria-labelledby="claim-modal"
+      aria-describedby="Claim your rewards"
+      classes={{
+        paperWidthXl: classes.xlDialog,
+      }}
+      open={uiState.rewardsDialogOpen}
+      onClose={() => uiState.toggleRewardsDialog()}
+    >
+      <ClaimRewardsContent onGuideModeSelection={() => setGuideMode(true)} />
+    </Dialog>
   );
 };
 

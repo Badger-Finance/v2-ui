@@ -1,5 +1,6 @@
 import {
   Button,
+  Dialog,
   DialogContent,
   DialogTitle,
   Divider,
@@ -27,6 +28,7 @@ import { showTransferRejectedToast, showWalletPromptToast } from '../../utils/to
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { RewardsModalItem } from '../landing/RewardsModalItem';
 import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../TransactionToast';
+import ClaimedRewardsContent from './ClaimedRewardsContent';
 
 const checkboxComplementarySpace = 1.5;
 
@@ -156,6 +158,9 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: 300,
       overflowY: 'auto',
     },
+    bigDialog: {
+      maxWidth: 672,
+    },
   }),
 );
 
@@ -185,6 +190,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
 
   const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
+  const [claimedRewards, setClaimedRewards] = useState<TokenBalance[]>();
   const [showInvalidCycle, setShowInvalidCycle] = useState(false);
   const [claimOptions, setClaimOptions] = useState<ClaimOptions>(
     Object.fromEntries(
@@ -255,6 +261,7 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
             autoClose: TX_COMPLETED_TOAST_DURATION,
           });
         }
+        setClaimedRewards(Object.values(claimOptions).map((c) => c.balance));
       },
       onRejection: () => showTransferRejectedToast(toastId, 'Transaction Rejected'),
       onError: (err) => {
@@ -271,6 +278,22 @@ const ClaimRewardsContent = ({ onGuideModeSelection }: Props): JSX.Element => {
       },
     });
   };
+
+  if (claimedRewards) {
+    return (
+      <Dialog
+        fullWidth
+        maxWidth="xl"
+        aria-labelledby="claimed-rewards"
+        aria-describedby="Claimed Rewards Overview"
+        classes={{ paperWidthXl: classes.bigDialog }}
+        open={uiState.rewardsDialogOpen}
+        onClose={() => uiState.toggleRewardsDialog()}
+      >
+        <ClaimedRewardsContent claimedRewards={claimedRewards} onGoBack={() => setClaimedRewards(undefined)} />
+      </Dialog>
+    );
+  }
 
   return (
     <>
