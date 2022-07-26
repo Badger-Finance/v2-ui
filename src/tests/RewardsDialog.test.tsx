@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 
+import { RewardsService, TransactionStatus } from '@badger-dao/sdk';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
 import { BigNumber } from 'ethers';
 import { action } from 'mobx';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 
-import { RewardsService, TransactionStatus } from '../../../sdk';
 import RewardsDialog from '../components-v2/common/dialogs/RewardsDialog';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import store from '../mobx/stores/RootStore';

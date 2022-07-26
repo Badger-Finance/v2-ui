@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 
+import { BadgerAPI, Network } from '@badger-dao/sdk';
 import { parseEther } from 'ethers/lib/utils';
 import { Chain } from 'mobx/model/network/chain';
 import React from 'react';
 
-import { BadgerAPI, Network } from '../../../sdk';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import store from '../mobx/stores/RootStore';
 import Landing from '../pages/Landing';
