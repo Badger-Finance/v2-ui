@@ -84,7 +84,6 @@ class LockedDepositsStore {
       totalTokenBalanceStrategy = result[0];
       lockedTokenBalanceStrategy = result[2];
     }
-    console.log(totalTokenBalanceStrategy, lockedTokenBalanceStrategy);
     const balance = vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy);
     return [[vault.underlyingToken, new TokenBalance(token, balance, 0)]];
   };
