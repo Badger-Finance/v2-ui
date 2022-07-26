@@ -1,6 +1,6 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
-import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
+import { InfluenceVaultFeeConfig } from 'mobx/model/vaults/influence-vault-data';
 import React, { useState } from 'react';
 
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
@@ -30,13 +30,14 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   vault: VaultDTO;
-  config: InfluenceVaultConfig;
+  feeConfig: InfluenceVaultFeeConfig;
 }
 
-const InfluenceVaultFees = ({ vault, config }: Props): JSX.Element => {
+const InfluenceVaultFees = ({ vault, feeConfig }: Props): JSX.Element => {
   const classes = useStyles();
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
   const withdrawFee = getVaultStrategyFee(vault, StrategyFee.withdraw);
+  const performanceFee = getVaultStrategyFee(vault, StrategyFee.performance);
 
   return (
     <Grid container>
@@ -51,19 +52,26 @@ const InfluenceVaultFees = ({ vault, config }: Props): JSX.Element => {
             <StyledHelpIcon onClick={() => setInfoDialogOpen(true)} />
           </Typography>
           <Grid container direction="column">
-            {config.feeConfig.fees.map((fee, index) => (
+            {feeConfig.voteInfluenceFees.map((fee, index) => (
               <SpecItem key={index} className={classes.subSpec} name={fee[0]} value={fee[1]} />
             ))}
           </Grid>
         </Grid>
-        <Grid item container justifyContent="space-between">
-          <SpecItem name="Withdrawal Fee" value={formatStrategyFee(withdrawFee)} />
-        </Grid>
+        {feeConfig.showFees.includes('withdrawal') && (
+          <Grid item container justifyContent="space-between">
+            <SpecItem name="Withdrawal Fee" value={formatStrategyFee(withdrawFee)} />
+          </Grid>
+        )}
+        {feeConfig.showFees.includes('performance') && (
+          <Grid item container justifyContent="space-between">
+            <SpecItem name="Performance Fee" value={formatStrategyFee(performanceFee)} />
+          </Grid>
+        )}
       </Grid>
       <InfluenceVaultModal
         open={infoDialogOpen}
         onClose={() => setInfoDialogOpen(false)}
-        config={config.feeConfig.feeModalConfig}
+        config={feeConfig.feeModalConfig}
       />
     </Grid>
   );

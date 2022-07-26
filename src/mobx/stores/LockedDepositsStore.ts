@@ -1,8 +1,9 @@
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { extendObservable } from 'mobx';
+import { LockerFactoryType } from 'mobx/model/vaults/influence-vault-data';
 
 import { NETWORKS_LOCKED_DEPOSITS_CONFIG } from '../../config/networks-locked-deposits';
-import { VoteLockedDeposit__factory } from '../../contracts';
+import { AuraLocker__factory, VoteLockedDeposit__factory } from '../../contracts';
 import { LockedContractInfo } from '../model/locked-deposits/locked-contract-info';
 import { Chain } from '../model/network/chain';
 import { TokenBalance } from '../model/tokens/token-balance';
@@ -46,6 +47,7 @@ class LockedDepositsStore {
 
   private getLockedDepositBalance = async ({
     vaultAddress,
+    factoryType,
     lockingContractAddress,
   }: LockedContractInfo): Promise<[string, TokenBalance][]> => {
     const {
@@ -64,14 +66,25 @@ class LockedDepositsStore {
 
     const token = this.store.vaults.getToken(vault.underlyingToken);
     const voteLockedDepositContract = VoteLockedDeposit__factory.connect(lockingContractAddress, provider);
+    const auraLockerDepositContract = AuraLocker__factory.connect(lockingContractAddress, provider);
 
-    const [vaultBalance, strategyBalance, totalTokenBalanceStrategy, lockedTokenBalanceStrategy] = await Promise.all([
+    const [vaultBalance, strategyBalance] = await Promise.all([
       await tokens.loadBalance(vault.underlyingToken, vault.vaultToken),
       await tokens.loadBalance(vault.underlyingToken, vault.strategy.address),
-      await voteLockedDepositContract.lockedBalanceOf(vaultAddress),
-      await voteLockedDepositContract.balanceOf(vaultAddress),
     ]);
-
+    let totalTokenBalanceStrategy = BigNumber.from('0');
+    let lockedTokenBalanceStrategy = BigNumber.from('0');
+    if (factoryType === LockerFactoryType.CVX) {
+      [totalTokenBalanceStrategy, lockedTokenBalanceStrategy] = await Promise.all([
+        await voteLockedDepositContract.lockedBalanceOf(vaultAddress),
+        await voteLockedDepositContract.balanceOf(vaultAddress),
+      ]);
+    } else {
+      const result = await auraLockerDepositContract.lockedBalances(vaultAddress);
+      totalTokenBalanceStrategy = result[0];
+      lockedTokenBalanceStrategy = result[2];
+    }
+    console.log(totalTokenBalanceStrategy, lockedTokenBalanceStrategy);
     const balance = vaultBalance.add(strategyBalance).add(totalTokenBalanceStrategy).sub(lockedTokenBalanceStrategy);
     return [[vault.underlyingToken, new TokenBalance(token, balance, 0)]];
   };

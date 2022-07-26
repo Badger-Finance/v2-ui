@@ -49,6 +49,7 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
   emissions: InfluenceVaultEmissionRound[];
+  chartInitialSlice: number;
 }
 
 const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
@@ -77,9 +78,9 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
       <StyledDivider />
       {tokens.map((token: EmissionRoundToken, i: number) => {
         return (
-          <>
+          <div key={`influence-tt-${token.symbol}-${i}`}>
             {token.balance > 0 && (
-              <div className={classes.tooltipItem} key={i}>
+              <div className={classes.tooltipItem}>
                 <Typography variant="body2">
                   {numberWithCommas((token.balance / hundredsOfTokens).toFixed(2))}{' '}
                   <span className={colors[i % 3]}>{token.symbol}</span>
@@ -90,7 +91,7 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
                 </Typography>
               </div>
             )}
-          </>
+          </div>
         );
       })}
       <Typography variant="caption">
@@ -101,12 +102,13 @@ const CustomToolTip = ({ active, payload }: TooltipProps<ValueType, NameType>) =
   );
 };
 
-const InfluenceVaultChart = ({ emissions }: Props) => {
+const InfluenceVaultChart = ({ emissions, chartInitialSlice }: Props) => {
   const colors = ['#A9731E', '#F2A52B', '#808080'];
+  const allTokens = Array.from(new Set(emissions.flatMap((e) => e.tokens).map((t) => t.symbol)));
   return (
     <ResponsiveContainer width="99%" height={250}>
       {/* Skip Round 1 & 2, it has bad data */}
-      <BarChart data={emissions.slice(2)} margin={{ top: 20, bottom: 0, right: 0, left: 5 }}>
+      <BarChart data={emissions.slice(chartInitialSlice)} margin={{ top: 20, bottom: 0, right: 0, left: 5 }}>
         <CartesianGrid strokeDasharray="4" vertical={false} />
         <XAxis dataKey="index">
           <Label value="Voting Round" position="insideBottomLeft" offset={-10} style={{ fill: 'white' }} />
@@ -121,8 +123,8 @@ const InfluenceVaultChart = ({ emissions }: Props) => {
         </YAxis>
         <Tooltip content={<CustomToolTip />} cursor={{ fill: '#3a3a3a' }} />
         <Legend />
-        {emissions[0].tokens.map((token, index) => (
-          <Bar key={index} name={token.symbol} dataKey={`graph.${index}`} stackId="a" fill={colors[index % 3]} />
+        {allTokens.map((token, index) => (
+          <Bar key={index} name={token} dataKey={`graph.${index}`} stackId="a" fill={colors[index % 3]} />
         ))}
       </BarChart>
     </ResponsiveContainer>
