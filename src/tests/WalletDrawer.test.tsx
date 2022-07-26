@@ -10,7 +10,6 @@ import deploy from '../config/deployments/mainnet.json';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import store from '../mobx/stores/RootStore';
 import UserStore from '../mobx/stores/UserStore';
-import { WalletStore } from '../mobx/stores/WalletStore';
 import { customRender, fireEvent, screen } from './Utils';
 
 jest.mock('copy-to-clipboard', () => {
@@ -21,7 +20,6 @@ describe('Wallet Drawer', () => {
   beforeEach(() => {
     store.uiState.showWalletDrawer = true;
     store.wallet.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-    jest.spyOn(WalletStore.prototype, 'isConnected', 'get').mockReturnValue(true);
     jest.spyOn(UserStore.prototype, 'getBalance').mockImplementation((token) => {
       if (token === deploy.tokens.badger) {
         return new TokenBalance(
@@ -73,7 +71,9 @@ describe('Wallet Drawer', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('disconnects wallet', () => {
+  it('disconnects wallet', async () => {
+    const disconnectSpy = jest.fn();
+    store.wallet.disconnect = disconnectSpy;
     jest.useFakeTimers();
     customRender(
       <StoreProvider value={store}>
@@ -83,7 +83,7 @@ describe('Wallet Drawer', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'disconnect wallet' }));
     jest.runAllTimers();
-    expect(store.wallet.address).toBe(undefined);
+    expect(disconnectSpy).toHaveBeenCalled();
   });
 
   it('copies wallet address', () => {
