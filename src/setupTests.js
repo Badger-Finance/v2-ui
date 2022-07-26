@@ -1,7 +1,6 @@
+import { BadgerAPI } from '@badger-dao/sdk';
 import fetchMock from 'jest-fetch-mock';
 import { configure } from 'mobx';
-
-import { BadgerAPI } from '../../sdk';
 
 jest.mock('web3modal');
 
