@@ -555,29 +555,6 @@ exports[`Landing Renders correctly 1`] = `
             <div
               class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
             >
-              <span
-                class="MuiTypography-root-182 makeStyles-label-407 makeStyles-clickableLabel-409 MuiTypography-caption-185 MuiTypography-displayInline-210"
-              >
-                Rewards:
-              </span>
-              <div
-                class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
-              >
-                <span
-                  class="MuiChip-label-432 MuiChip-labelSmall-433"
-                >
-                  Ecosystem Helper
-                </span>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
-            >
-              <span
-                class="MuiTypography-root-182 makeStyles-label-407 MuiTypography-caption-185 MuiTypography-displayInline-210"
-              >
-                Platform:
-              </span>
               <div
                 class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
               >
@@ -585,6 +562,19 @@ exports[`Landing Renders correctly 1`] = `
                   class="MuiChip-label-432 MuiChip-labelSmall-433"
                 >
                   Convex
+                </span>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
+            >
+              <div
+                class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
+              >
+                <span
+                  class="MuiChip-label-432 MuiChip-labelSmall-433"
+                >
+                  Ecosystem Helper
                 </span>
               </div>
             </div>
@@ -673,29 +663,6 @@ exports[`Landing Renders correctly 1`] = `
             <div
               class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
             >
-              <span
-                class="MuiTypography-root-182 makeStyles-label-407 makeStyles-clickableLabel-409 MuiTypography-caption-185 MuiTypography-displayInline-210"
-              >
-                Rewards:
-              </span>
-              <div
-                class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
-              >
-                <span
-                  class="MuiChip-label-432 MuiChip-labelSmall-433"
-                >
-                  DCA
-                </span>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
-            >
-              <span
-                class="MuiTypography-root-182 makeStyles-label-407 MuiTypography-caption-185 MuiTypography-displayInline-210"
-              >
-                Platform:
-              </span>
               <div
                 class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
               >
@@ -703,6 +670,19 @@ exports[`Landing Renders correctly 1`] = `
                   class="MuiChip-label-432 MuiChip-labelSmall-433"
                 >
                   Badger
+                </span>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
+            >
+              <div
+                class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
+              >
+                <span
+                  class="MuiChip-label-432 MuiChip-labelSmall-433"
+                >
+                  DCA
                 </span>
               </div>
             </div>
@@ -791,11 +771,6 @@ exports[`Landing Renders correctly 1`] = `
             <div
               class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
             >
-              <span
-                class="MuiTypography-root-182 makeStyles-label-407 MuiTypography-caption-185 MuiTypography-displayInline-210"
-              >
-                Platform:
-              </span>
               <div
                 class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
               >
@@ -1155,12 +1130,12 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
           >
             <div
-              class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
+              class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
             >
               <span
                 class="MuiChip-label-432 MuiChip-labelSmall-433"
               >
-                Ecosystem Helper
+                Convex
               </span>
             </div>
           </div>
@@ -1168,12 +1143,12 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
           >
             <div
-              class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
+              class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
             >
               <span
                 class="MuiChip-label-432 MuiChip-labelSmall-433"
               >
-                Convex
+                Ecosystem Helper
               </span>
             </div>
           </div>
@@ -1260,12 +1235,12 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
           >
             <div
-              class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
+              class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
             >
               <span
                 class="MuiChip-label-432 MuiChip-labelSmall-433"
               >
-                DCA
+                Badger
               </span>
             </div>
           </div>
@@ -1273,12 +1248,12 @@ exports[`Landing Renders mobile version correctly 1`] = `
             class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
           >
             <div
-              class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
+              class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
             >
               <span
                 class="MuiChip-label-432 MuiChip-labelSmall-433"
               >
-                Badger
+                DCA
               </span>
             </div>
           </div>
@@ -1674,12 +1649,12 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
           >
             <div
-              class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
+              class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
             >
               <span
                 class="MuiChip-label-432 MuiChip-labelSmall-433"
               >
-                Ecosystem Helper
+                Convex
               </span>
             </div>
           </div>
@@ -1687,12 +1662,12 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
           >
             <div
-              class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
+              class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
             >
               <span
                 class="MuiChip-label-432 MuiChip-labelSmall-433"
               >
-                Convex
+                Ecosystem Helper
               </span>
             </div>
           </div>
@@ -1779,12 +1754,12 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
           >
             <div
-              class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
+              class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
             >
               <span
                 class="MuiChip-label-432 MuiChip-labelSmall-433"
               >
-                DCA
+                Badger
               </span>
             </div>
           </div>
@@ -1792,12 +1767,12 @@ exports[`Landing Renders tablet version correctly 1`] = `
             class="MuiGrid-root-42 MuiGrid-item-44 MuiGrid-grid-xs-auto-75"
           >
             <div
-              class="MuiChip-root-410 makeStyles-tag-406 MuiChip-sizeSmall-411"
+              class="MuiChip-root-410 makeStyles-tag-406 makeStyles-clickableTag-408 MuiChip-sizeSmall-411"
             >
               <span
                 class="MuiChip-label-432 MuiChip-labelSmall-433"
               >
-                Badger
+                DCA
               </span>
             </div>
           </div>

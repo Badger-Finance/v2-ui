@@ -49,8 +49,13 @@ export interface InfluenceVaultPerfomanceConfig {
 }
 
 export interface InfluenceVaultFeeConfig {
-  voteInfluenceFees: string[][];
   showFees: string[];
+  fees: FeeConfig[];
+}
+
+export interface FeeConfig {
+  subFees: string[][];
+  value: string | undefined;
   feeModalConfig: InfluenceVaultFeeModalConfig;
 }
 

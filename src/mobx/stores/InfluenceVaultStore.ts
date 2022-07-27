@@ -69,6 +69,38 @@ class InfluenceVaultStore {
     }
   }
 
+  private async getHarvestConvertedSchedules(vault: VaultDTO): Promise<EmissionSchedule[]> {
+    const { settHarvests } = await this.store.sdk.graph.loadSettHarvests({
+      where: {
+        sett: vault.vaultToken.toLowerCase(),
+      },
+    });
+    return settHarvests.map((e) => ({
+      token: vault.vaultToken,
+      amount: formatBalance(e.amount),
+      start: e.timestamp,
+      end: e.timestamp,
+      beneficiary: vault.vaultToken,
+      compPercent: 100,
+    }));
+  }
+
+  private async getDistributionConvertedSchedules(vault: VaultDTO): Promise<EmissionSchedule[]> {
+    const { badgerTreeDistributions } = await this.store.sdk.graph.loadBadgerTreeDistributions({
+      where: {
+        sett: vault.vaultToken.toLowerCase(),
+      },
+    });
+    return badgerTreeDistributions.map((e) => ({
+      token: ethers.utils.getAddress(e.token.id.startsWith('0x0x') ? e.token.id.slice(2) : e.token.id),
+      amount: formatBalance(e.amount),
+      start: e.timestamp,
+      end: e.timestamp,
+      beneficiary: vault.vaultToken,
+      compPercent: 100,
+    }));
+  }
+
   async loadEmissionsSchedules(vault: VaultDTO) {
     const config = getInfluenceVaultConfig(vault.vaultToken);
 
@@ -76,33 +108,11 @@ class InfluenceVaultStore {
     try {
       const { sources, roundStart } = config;
       this.influenceVaults[vault.vaultToken].processingEmissions = true;
+
       const treeSchedules = await this.store.sdk.api.loadSchedule(vault.vaultToken, false);
-      const { badgerTreeDistributions } = await this.store.sdk.graph.loadBadgerTreeDistributions({
-        where: {
-          sett: vault.vaultToken.toLowerCase(),
-        },
-      });
-      const { settHarvests } = await this.store.sdk.graph.loadSettHarvests({
-        where: {
-          sett: vault.vaultToken.toLowerCase(),
-        },
-      });
-      const distributionConvertedSchedules = badgerTreeDistributions.map((e) => ({
-        token: ethers.utils.getAddress(e.token.id.startsWith('0x0x') ? e.token.id.slice(2) : e.token.id),
-        amount: formatBalance(e.amount),
-        start: e.timestamp,
-        end: e.timestamp,
-        beneficiary: vault.vaultToken,
-        compPercent: 100,
-      }));
-      const harvestConvertedSchedules = settHarvests.map((e) => ({
-        token: vault.vaultToken,
-        amount: formatBalance(e.amount),
-        start: e.timestamp,
-        end: e.timestamp,
-        beneficiary: vault.vaultToken,
-        compPercent: 100,
-      }));
+      const distributionConvertedSchedules = await this.getDistributionConvertedSchedules(vault);
+      const harvestConvertedSchedules = await this.getHarvestConvertedSchedules(vault);
+
       const harvestData = vault.sources.some((s) => s.name.includes('Compounding')) ? harvestConvertedSchedules : [];
       this.influenceVaults[vault.vaultToken].emissionsSchedules = await this.bucketSchedules(
         treeSchedules.concat(distributionConvertedSchedules).concat(harvestData),

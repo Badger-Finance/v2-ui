@@ -84,32 +84,37 @@ export const vaults: InfluenceVaultConfig[] = [
       swapPercentageLabel: ['% CVX Received from 10k ', '[bveCVX swap](https://curve.fi/factory/52/)'],
     },
     feeConfig: {
-      voteInfluenceFees: [
-        ['bveCVX Liquidity Support', '5%'],
-        ['BADGER Liquidity Support', '5%'],
-        ['DAO Operations Fee', '5%'],
+      fees: [
+        {
+          subFees: [
+            ['bveCVX Liquidity Support', '5%'],
+            ['BADGER Liquidity Support', '5%'],
+            ['DAO Operations Fee', '5%'],
+          ],
+          value: undefined,
+          feeModalConfig: {
+            title: 'Vote Influence Fees',
+            body: [
+              'Each voting round, a portion of the vote influence accumulated by bveCVX votes to support liquidity for bveCVX and BADGER, and to support DAO operations.',
+            ],
+            points: [
+              {
+                title: ['bveCVX Liquidity Support:'],
+                body: ['5% of each vote is sold for bribes and paid as BADGER to bveCVX/CVX LPs'],
+              },
+              {
+                title: ['BADGER Liquidity Support:'],
+                body: ['5% of each vote votes for WBTC/BADGER'],
+              },
+              {
+                title: ['DAO Operations Fee:'],
+                body: ['5% of each vote is sold for bribes and paid to the DAO'],
+              },
+            ],
+          },
+        },
       ],
       showFees: ['withdrawal'],
-      feeModalConfig: {
-        title: 'Vote Influence Fees',
-        body: [
-          'Each voting round, a portion of the vote influence accumulated by bveCVX votes to support liquidity for bveCVX and BADGER, and to support DAO operations.',
-        ],
-        points: [
-          {
-            title: ['bveCVX Liquidity Support:'],
-            body: ['5% of each vote is sold for bribes and paid as BADGER to bveCVX/CVX LPs'],
-          },
-          {
-            title: ['BADGER Liquidity Support:'],
-            body: ['5% of each vote votes for WBTC/BADGER'],
-          },
-          {
-            title: ['DAO Operations Fee:'],
-            body: ['5% of each vote is sold for bribes and paid to the DAO'],
-          },
-        ],
-      },
     },
   },
   {
@@ -132,9 +137,10 @@ export const vaults: InfluenceVaultConfig[] = [
         'graviAURA and BADGER rewards from bribe sales are distributed at the completion of each bi-weekly voting round, after bribes for that round have been sold.',
       ],
       points: [
-        ['- 75% of bribe sales (after fees): sold for graviAURA'],
+        ['- AURA and BADGER bribes (after fees): emitted as graviAURA and BADGER'],
+        ['- 75% of remaining bribes (after fees): sold for graviAURA'],
         ['- 25% of bribe sales (after fees): sold for BADGER'],
-        ['- All rewards are claimable through the app'],
+        ['- graviAURA rewards auto-compound, BADGER rewards are claimable'],
       ],
     },
     withdrawModalConfig: {
@@ -159,20 +165,53 @@ export const vaults: InfluenceVaultConfig[] = [
       swapPercentageLabel: [],
     },
     feeConfig: {
-      voteInfluenceFees: [['DAO Operations Fee', '10%']],
-      showFees: ['withdrawal', 'performance'],
-      feeModalConfig: {
-        title: 'Vote Influence Fees',
-        body: [
-          'Each voting round, a portion of the vote influence accumulated by graviAURA votes for bribes which are sold to support DAO operations.',
-        ],
-        points: [
-          {
-            title: ['DAO Operations Fee:'],
-            body: ['10% of each vote is sold for bribes and paid to the DAO'],
+      showFees: ['withdrawal'],
+      fees: [
+        {
+          subFees: [['DAO Operations Fee', '10%']],
+          value: undefined,
+          feeModalConfig: {
+            title: 'Vote Influence Fees',
+            body: [
+              'Each voting round, a portion of the vote influence accumulated by graviAURA votes for bribes which are sold to support DAO operations.',
+            ],
+            points: [
+              {
+                title: ['DAO Operations Fee:'],
+                body: ['10% of each vote is sold for bribes and paid to the DAO'],
+              },
+            ],
           },
-        ],
-      },
+        },
+        {
+          subFees: [],
+          value: '5%',
+          feeModalConfig: {
+            title: 'Bribe Processing Fee',
+            body: ['Each voting round, a portion of bribes processed by the DAO is taken as a fee.'],
+            points: [
+              {
+                title: [],
+                body: ['- 5% of all processed bribes are paid to the DAO as a fee'],
+              },
+            ],
+          },
+        },
+        {
+          subFees: [],
+          value: '3%',
+          feeModalConfig: {
+            title: 'Underlying Rewards Fee',
+            body: ['Locked AURA earns Aura platform fees as auraBAL, a portion of which is paid to the DAO as a fee.'],
+            points: [
+              {
+                title: [],
+                body: ['- 3% of auraBAL harvested by the vault strategy is taken as a fee'],
+              },
+            ],
+          },
+        },
+      ],
     },
   },
 ];
