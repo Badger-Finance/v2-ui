@@ -49,7 +49,7 @@ const NetworkOption = ({ chain: selectedChain, onSelect }: Props): JSX.Element =
   const classes = useStyles();
   const ref = useRef<HTMLImageElement | null>(null);
   const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-  const gasOptions = gasPrices.getGasPrices(chain.network);
+  const gasOptions = gasPrices.getGasPrices(selectedChain.network);
 
   const toggleOpen = () => {
     setOpen(!open);
