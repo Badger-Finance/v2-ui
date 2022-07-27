@@ -6,6 +6,7 @@ import { MAX_BOOST_RANK } from '../config/system/boost-ranks';
 import { Chain } from '../mobx/model/network/chain';
 import UserStore from '../mobx/stores/UserStore';
 import { calculateUserBoost } from './boost-ranks';
+import { BoostedRewards } from './enums/boosted-rewards.enum';
 
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
@@ -82,7 +83,7 @@ export function getProjectedVaultBoost(vault: VaultDTO, boost: number): number {
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
   return vault.sources
     .map((source) => {
-      if (source.name.includes('Badger Rewards')) {
+      if (source.name === BoostedRewards.Badger || source.name === BoostedRewards.BoostedBadger) {
         return source.minApr + (boost / maxBoost) * (source.maxApr - source.minApr);
       }
       return 0;

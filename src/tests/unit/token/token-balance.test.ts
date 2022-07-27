@@ -19,15 +19,6 @@ describe('token-balance', () => {
     return new TokenBalance(token, parseUnits(amount.toString(), token.decimals), price);
   };
 
-  const verifyScaledBalance = (mockBalance: TokenBalance, scaledBalance: TokenBalance, scalar: number): void => {
-    const expectedBalance = mockBalance.balance * scalar;
-    const expectedTokenBalance = mockBalance.tokenBalance.mul(scalar);
-    const expectedValue = mockBalance.value * scalar;
-    expect(scaledBalance.balance).toEqual(expectedBalance);
-    expect(scaledBalance.tokenBalance).toEqual(expectedTokenBalance);
-    expect(scaledBalance.value).toEqual(expectedValue);
-  };
-
   describe('fromBalance', () => {
     it('converts a visual balance string into a token balance representation', () => {
       const mockBalance = randomTokenBalance();
