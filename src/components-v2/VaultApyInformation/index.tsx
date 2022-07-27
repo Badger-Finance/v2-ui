@@ -14,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
+import { BoostedRewards } from 'utils/enums/boosted-rewards.enum';
 
 import routes from '../../config/routes';
 import { numberWithCommas } from '../../mobx/utils/helpers';
@@ -65,7 +66,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   //make sure boost sources are always the last one
   const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
   const badgerRewardsSources = sortedSources.filter(
-    (source) => source.name === 'Badger' || source.name === 'Boosted Badger',
+    (source) => source.name === BoostedRewards.Badger || source.name === BoostedRewards.BoostedBadger,
   );
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
 
