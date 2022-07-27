@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import {
   Button,
   Dialog,
@@ -45,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: 34,
   },
-  projectedAPY: {
-    paddingTop: 10,
+  historicAPY: {
+    paddingBottom: 10,
   },
 }));
 
@@ -64,7 +64,10 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
   //make sure boost sources are always the last one
   const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
-  const badgerRewardsSources = sortedSources.filter((source) => source.name.includes('Badger Rewards'));
+  const badgerRewardsSources = sortedSources.filter(
+    (source) => source.name === 'Badger' || source.name === 'Boosted Badger',
+  );
+  const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -107,31 +110,35 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
       </DialogTitle>
       <DialogContent className={classes.content}>
         <Grid container direction="column">
-          <Grid item container justifyContent="space-between">
-            <Grid item>
-              <Typography variant="subtitle1" display="inline" color="textSecondary">
-                Historic {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="subtitle1" display="inline" color="textSecondary">
-                {`${numberWithCommas(boost.toFixed(2))}%`}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Divider className={classes.divider} />
-          {sortedSources.map((source) => (
-            <React.Fragment key={source.name}>
-              <VaultApyBreakdownItem vault={vault} source={source} />
-              <Divider className={classes.divider} />
-            </React.Fragment>
-          ))}
-          {projectedBoost !== null && (
-            <>
-              <Grid className={classes.projectedAPY} item container justifyContent="space-between">
+          {!isNewVault && (
+            <div className={classes.historicAPY}>
+              <Grid item container justifyContent="space-between">
                 <Grid item>
                   <Typography variant="subtitle1" display="inline" color="textSecondary">
-                    Projected {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
+                    Historic {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="subtitle1" display="inline" color="textSecondary">
+                    {`${numberWithCommas(boost.toFixed(2))}%`}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Divider className={classes.divider} />
+              {sortedSources.map((source) => (
+                <React.Fragment key={`historic-${source.name}`}>
+                  <VaultApyBreakdownItem vault={vault} source={source} />
+                  <Divider className={classes.divider} />
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+          {projectedBoost !== null && (
+            <>
+              <Grid item container justifyContent="space-between">
+                <Grid item>
+                  <Typography variant="subtitle1" display="inline" color="textSecondary">
+                    Current {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -159,7 +166,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                 </div>
               ))}
               {badgerRewardsSources.map((source) => (
-                <React.Fragment key={source.name}>
+                <React.Fragment key={`current-${source.name}`}>
                   <VaultApyBreakdownItem vault={vault} source={source} />
                   <Divider className={classes.divider} />
                 </React.Fragment>
