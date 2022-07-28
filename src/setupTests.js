@@ -10,7 +10,7 @@ configure({
   enforceActions: 'never',
 });
 
-jest.spyOn(BadgerAPI.prototype, 'loadVaults').mockReturnValue([]);
+jest.spyOn(BadgerAPI.prototype, 'loadVaults').mockReturnValue(Promise.resolve([]));
 
 jest.spyOn(BadgerAPI.prototype, 'loadGasPrices').mockReturnValue(Promise.resolve({}));
 

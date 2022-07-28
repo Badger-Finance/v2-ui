@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 
+import { BadgerAPI } from '@badger-dao/sdk';
 import { action } from 'mobx';
 import { Chain } from 'mobx/model/network/chain';
 import { StoreProvider } from 'mobx/stores/store-context';
@@ -31,13 +32,16 @@ const mockGasPrices = {
   },
 };
 
+function addSpies() {
+  jest.spyOn(BadgerAPI.prototype, 'loadVaults').mockReturnValue(Promise.resolve([]));
+  jest.spyOn(GasPricesStore.prototype, 'initialized', 'get').mockReturnValue(true);
+  jest.spyOn(GasPricesStore.prototype, 'getGasPrices').mockReturnValue(mockGasPrices);
+}
+
 describe('NetworkGasWidget', () => {
   const expectedChain = Chain.getChain(defaultNetwork);
 
-  beforeEach(() => {
-    jest.spyOn(GasPricesStore.prototype, 'initialized', 'get').mockReturnValue(true);
-    jest.spyOn(GasPricesStore.prototype, 'getGasPrices').mockReturnValue(mockGasPrices);
-  });
+  beforeEach(addSpies);
 
   it('displays network options', () => {
     const { baseElement } = customRender(
@@ -65,6 +69,8 @@ describe('NetworkGasWidget', () => {
   });
 
   describe('in desktop mode', () => {
+    beforeEach(addSpies);
+
     it('can select gas options', () => {
       const mockSetGasPrice = jest.fn();
       store.chain.setGasPrice = action(mockSetGasPrice);
@@ -83,6 +89,8 @@ describe('NetworkGasWidget', () => {
   });
 
   describe('in mobile mode', () => {
+    beforeEach(addSpies);
+
     it('can select gas options', () => {
       const mockSetGasPrice = jest.fn();
       store.chain.setGasPrice = action(mockSetGasPrice);
