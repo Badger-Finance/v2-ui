@@ -63,7 +63,7 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
       onClick={handleApyInfoClick}
       className={classes.root}
     >
-      <Box display="flex">
+      <Box display="flex" flexWrap="wrap">
         <Typography variant={isNewVault ? 'subtitle2' : 'body1'} color={'textPrimary'} display="inline">
           {aprDisplay}
         </Typography>
