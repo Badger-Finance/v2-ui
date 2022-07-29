@@ -168,8 +168,8 @@ export const vaults: InfluenceVaultConfig[] = [
       showFees: ['withdrawal'],
       fees: [
         {
-          subFees: [['DAO Operations Fee', '10%']],
-          value: undefined,
+          subFees: [],
+          value: '10%',
           feeModalConfig: {
             title: 'Vote Influence Fees',
             body: [
