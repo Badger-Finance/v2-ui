@@ -3,7 +3,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
 
-import { getProjectedVaultBoost, getUserVaultBoost } from '../utils/componentHelpers';
+import { getProjectedVaultBoost, getUserVaultBoost, isBadgerSource } from '../utils/componentHelpers';
 
 interface VaultInformation {
   vaultBoost: number;
@@ -18,14 +18,19 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
   const { showAPR } = vaults.vaultsFilters;
   const depositBalance = user.getBalance(vault.vaultToken);
   let vaultBoost = showAPR ? vault.apr : vault.apy;
-  let projectedVaultBoost = vault.version === VaultVersion.v1_5 ? vault.yieldProjection.harvestApr : null;
 
+  let projectedBaseApr = 0;
+  if (vault.version === VaultVersion.v1_5) {
+    projectedBaseApr = vault.yieldProjection.harvestTokens
+      .filter((s) => !isBadgerSource(s))
+      .reduce((total, s) => (total += s.apr), 0);
+  }
+
+  let projectedVaultBoost = projectedBaseApr > 0 ? projectedBaseApr : null;
   if (user.accountDetails?.boost) {
     vaultBoost = getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
-
-    // Calculate boosted projection
     if (projectedVaultBoost) {
-      projectedVaultBoost = projectedVaultBoost + getProjectedVaultBoost(vault, user.accountDetails.boost);
+      projectedVaultBoost += getProjectedVaultBoost(vault, user.accountDetails.boost);
     }
   }
 

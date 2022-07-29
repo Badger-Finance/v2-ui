@@ -63,8 +63,8 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
       onClick={handleApyInfoClick}
       className={classes.root}
     >
-      <Box display="flex">
-        <Typography variant={isNewVault ? 'subtitle2' : 'body1'} color={'textPrimary'} display="inline">
+      <Box>
+        <Typography variant={isNewVault ? 'subtitle1' : 'body1'} color={'textPrimary'} display="inline">
           {aprDisplay}
         </Typography>
         <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
@@ -72,7 +72,7 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
       {projectedBoost !== null && (
         <Box display="flex">
           <Typography className={classes.projectedApr}>
-            Proj. {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
+            Current: {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
           </Typography>
         </Box>
       )}
