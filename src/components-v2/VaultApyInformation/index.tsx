@@ -14,7 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
-import { BoostedRewards } from 'utils/enums/boosted-rewards.enum';
+import { isBadgerSource } from 'utils/componentHelpers';
 
 import routes from '../../config/routes';
 import { numberWithCommas } from '../../mobx/utils/helpers';
@@ -65,9 +65,9 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
   //make sure boost sources are always the last one
   const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
-  const badgerRewardsSources = sortedSources.filter(
-    (source) => source.name === BoostedRewards.Badger || source.name === BoostedRewards.BoostedBadger,
-  );
+
+  const badgerRewardsSources = sortedSources.filter(isBadgerSource);
+  const harvestSources = vault.yieldProjection.harvestTokens.slice().filter((s) => !isBadgerSource(s));
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
@@ -149,7 +149,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                 </Grid>
               </Grid>
               <Divider className={classes.divider} />
-              {vault.yieldProjection.harvestTokens.map((token) => (
+              {harvestSources.map((token) => (
                 <div key={`yield-apr-${token.name}`}>
                   <Grid item container justifyContent="space-between">
                     <Grid item>
