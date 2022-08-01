@@ -67,7 +67,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
 
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
-  const harvestSources = vault.yieldProjection.harvestTokens.slice().filter((s) => !isBadgerSource(s));
+  const harvestSources = vault.yieldProjection.harvestTokensPerPeriod.slice().filter((s) => !isBadgerSource(s));
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
