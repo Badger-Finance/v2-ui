@@ -21,7 +21,7 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
 
   let projectedBaseApr = 0;
   if (vault.version === VaultVersion.v1_5) {
-    projectedBaseApr = vault.yieldProjection.harvestTokens
+    projectedBaseApr = vault.yieldProjection.harvestTokensPerPeriod
       .filter((s) => !isBadgerSource(s))
       .reduce((total, s) => (total += s.apr), 0);
   }
