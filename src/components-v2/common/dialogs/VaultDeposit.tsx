@@ -74,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   totalAmountContainer: {
-   // marginTop: theme.spacing(1),
-   padding: theme.spacing(0,2)
+    // marginTop: theme.spacing(1),
+    padding: theme.spacing(0, 2),
   },
   totalAmountLabel: {
     fontSize: 14,
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
   totalAmount: {
     fontSize: 24,
-    color: '#FFFFFFDE'
+    color: '#FFFFFFDE',
   },
 
   tokenBox: {

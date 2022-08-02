@@ -1,5 +1,5 @@
 import { VaultDTO } from '@badger-dao/sdk';
-import { Divider, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MAX_FEE } from 'config/constants';
 import { StoreContext } from 'mobx/stores/store-context';

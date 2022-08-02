@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgba(255, 255, 255, 0.3)',
   },
   feeRow: {
-    marginBottom: theme.spacing(1)
-  }
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 interface Props {

@@ -1,6 +1,7 @@
 import { TransactionStatus, VaultDTO } from '@badger-dao/sdk';
 import { Box, Dialog, Grid, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import VaultLogo from 'components-v2/landing/VaultLogo';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -12,11 +13,10 @@ import { useNumericInput } from 'utils/useNumericInput';
 import { showTransferRejectedToast, showTransferSignedToast, showWalletPromptToast } from '../../../utils/toasts';
 import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../../TransactionToast';
 import { PercentageSelector } from '../PercentageSelector';
-import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, VaultDialogContent } from './styled';
+import { ActionButton, LoaderSpinner, PercentagesContainer, VaultDialogContent } from './styled';
 import VaultAdvisory from './VaultAdvisory';
 import { VaultConversionAndFee } from './VaultConversionAndFee';
 import { VaultDialogTitle } from './VaultDialogTitle';
-import VaultLogo from 'components-v2/landing/VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -244,7 +244,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
           <Grid container alignItems="center" className="token-balance-percentage">
             <Grid item xs={12} sm={6}>
               <Typography variant="body1" color="textSecondary" className="token-balance">
-              {`1 ${bTokenSymbol} = ${vault.pricePerFullShare} ${depositTokenSymbol}`}
+                {`1 ${bTokenSymbol} = ${vault.pricePerFullShare} ${depositTokenSymbol}`}
               </Typography>
             </Grid>
             <PercentagesContainer item xs={12} sm={6}>
@@ -254,7 +254,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
         </Box>
         {/* From End */}
         {/* To Start */}
-        <Box className={classes.tokenBox} sx={{marginTop: 10}}>
+        <Box className={classes.tokenBox} sx={{ marginTop: 10 }}>
           <Typography className="token-label">To</Typography>
           <Grid container>
             <Grid item xs={7}>
