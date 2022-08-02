@@ -1,5 +1,6 @@
 import { VaultState } from '@badger-dao/sdk';
 import { SAMPLE_VAULT } from 'tests/utils/samples';
+import { BoostedRewards } from 'utils/enums/boosted-rewards.enum';
 
 import { Arbitrum } from '../../mobx/model/network/arbitrum.network';
 import { BinanceSmartChain } from '../../mobx/model/network/bsc.network';
@@ -8,11 +9,22 @@ import { Polygon } from '../../mobx/model/network/matic.network';
 import {
   getFormattedNetworkName,
   getUserVaultBoost,
+  isBadgerSource,
   restrictToRange,
   roundWithPrecision,
 } from '../../utils/componentHelpers';
 
 describe('Component Helpers', () => {
+  describe('isBadgerSource', () => {
+    it.each([
+      [{ name: 'Not A Badger Source' }, false],
+      [{ name: BoostedRewards.Badger }, true],
+      [{ name: BoostedRewards.BoostedBadger }, true],
+    ])('Evaluates %s as %s', (source, result) => {
+      expect(isBadgerSource(source)).toEqual(result);
+    });
+  });
+
   describe('restrictToRange', () => {
     test.each([
       [100, 10, 20, 20],

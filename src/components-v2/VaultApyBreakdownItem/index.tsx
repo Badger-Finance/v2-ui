@@ -5,6 +5,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { calculateUserBoost } from 'utils/boost-ranks';
+import { BoostedRewards } from 'utils/enums/boosted-rewards.enum';
 
 import routes from '../../config/routes';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
@@ -37,7 +38,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
 
   // this is only possible because we're currently distributing BADGER. If in the future we distribute other tokens,
   // this will need to be updated to reflect that.
-  const isBoostBreakdown = source.name === 'Boosted Badger Rewards';
+  const isBoostBreakdown = source.name === BoostedRewards.BoostedBadger;
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
   const userBoost = user.accountDetails?.boost ?? 1;
   const sourceApr = source.boostable

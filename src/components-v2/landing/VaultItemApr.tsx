@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { numberWithCommas } from 'mobx/utils/helpers';
@@ -18,8 +18,9 @@ const useStyles = makeStyles({
     marginLeft: 5,
   },
   projectedApr: {
-    fontSize: 12,
-    marginTop: 5,
+    fontSize: 10,
+    marginTop: 3,
+    color: '#FFFFFF99',
   },
 });
 
@@ -51,6 +52,9 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
     );
   }
 
+  const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
+  const aprDisplay = isNewVault ? 'New Vault' : `${numberWithCommas(boost.toFixed(2))}%`;
+
   return (
     <Box
       display="flex"
@@ -59,16 +63,16 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
       onClick={handleApyInfoClick}
       className={classes.root}
     >
-      <Box display="flex">
-        <Typography variant="body1" color={'textPrimary'} display="inline">
-          {`${numberWithCommas(boost.toFixed(2))}%`}
+      <Box>
+        <Typography variant={isNewVault ? 'subtitle1' : 'body1'} color={'textPrimary'} display="inline">
+          {aprDisplay}
         </Typography>
         <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
       </Box>
       {projectedBoost !== null && (
         <Box display="flex">
           <Typography className={classes.projectedApr}>
-            Proj. {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
+            Current: {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
           </Typography>
         </Box>
       )}
