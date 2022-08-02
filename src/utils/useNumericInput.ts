@@ -43,7 +43,12 @@ export const useNumericInput = (styles?: CSSProperties): NumericInputProps => {
     const input = (event.target.value as string).replace(/,/g, '.');
 
     if (input === '' || isValidChange(input)) {
-      onChange(input);
+      const newInput = !input
+        ? input
+        : input.split('.')[1]?.length > 5
+        ? input.split('.')[0] + '.' + input.split('.')[1].substring(0, 5)
+        : input;
+      onChange(newInput);
     }
   };
 

@@ -1,7 +1,8 @@
 import { TransactionStatus, VaultDTO, VaultState } from '@badger-dao/sdk';
-import { Button, Dialog, DialogContent, Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Box, Button, Dialog, DialogContent, Grid, TextField, Typography } from '@material-ui/core';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import VaultLogo from 'components-v2/landing/VaultLogo';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -21,20 +22,22 @@ import { NewVaultWarning } from '../../vault-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { PercentageSelector } from '../PercentageSelector';
 import { VaultFees } from '../VaultFees';
-import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } from './styled';
+import { ActionButton, LoaderSpinner, PercentagesContainer } from './styled';
 import VaultAdvisory from './VaultAdvisory';
 import { VaultAvailableDeposit } from './VaultAvailableDeposit';
 import { VaultDialogTitle } from './VaultDialogTitle';
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(0, 3, 3, 3),
+    color: 'rgba(255,255,255,0.6)',
   },
   guardedVault: {
     marginBottom: theme.spacing(2),
   },
   fees: {
     marginTop: theme.spacing(2),
+    padding: theme.spacing(0, 2),
   },
   backButton: {
     display: 'flex',
@@ -45,6 +48,81 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 4,
     fontSize: 16,
     transform: 'rotate(-180deg)',
+  },
+  amountTextField: {
+    '& input': {
+      color: 'rgba(255,255,255,0.6)',
+      paddingTop: 4,
+      paddingBottom: 0,
+      fontSize: 24,
+    },
+    '& fieldset': {
+      border: 0,
+    },
+  },
+  amountTextFieldHasValue: {
+    '& input': {
+      color: 'rgba(255,255,255,0.87)',
+    },
+  },
+  amountDollarValue: {
+    marginTop: 2,
+    paddingRight: 15,
+    color: 'rgba(255,255,255,0.6)',
+    '& p': {
+      fontSize: 12,
+    },
+  },
+  totalAmountContainer: {
+   // marginTop: theme.spacing(1),
+   padding: theme.spacing(0,2)
+  },
+  totalAmountLabel: {
+    fontSize: 14,
+    height: '100%',
+    color: 'rgba(255,255,255,0.6)',
+  },
+  totalAmount: {
+    fontSize: 24,
+    color: '#FFFFFFDE'
+  },
+
+  tokenBox: {
+    background: '#121212',
+    borderRadius: 8,
+    padding: '15px 20px 25px',
+    '& .token-label': {
+      fontSize: 12,
+      marginBottom: 5,
+    },
+    '& .token-logo-name': {
+      border: '1px solid #FFFFFF',
+      background: '#FFFFFF26',
+      padding: '15px 20px',
+      borderRadius: 8,
+      marginRight: 10,
+      maxHeight: 55,
+      height: '100%',
+      '& img': {
+        maxWidth: 24,
+      },
+      '& .token-name': {
+        paddingLeft: 5,
+      },
+    },
+    '& .token-balance-percentage': {
+      marginTop: 20,
+      '& .token-balance': {
+        fontSize: 12,
+      },
+    },
+  },
+}));
+
+const DepositButton = styled(ActionButton)(({ theme }) => ({
+  textTransform: 'none',
+  '& span': {
+    textTransform: 'none',
   },
 }));
 
@@ -57,7 +135,7 @@ export interface VaultModalProps {
 
 export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, onClose }: VaultModalProps) => {
   const store = useContext(StoreContext);
-  const { user, wallet, sdk, vaultDetail, transactions, vaults } = store;
+  const { user, wallet, sdk, vaultDetail, transactions, vaults, prices } = store;
 
   const shouldCheckAdvisory = depositAdvisory || vault.state === VaultState.Experimental;
   const [accepted, setAccepted] = useState(!shouldCheckAdvisory);
@@ -69,7 +147,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
   // TODO: update this - it wasn't working anyways
   const isLoading = false;
   const userBalance = user.getBalance(vault.underlyingToken);
-  const deposit = TokenBalance.fromString(userBalance, amount);
+  const deposit = TokenBalance.fromString(userBalance, amount === '' ? '0' : amount);
   const vaultCaps = user.vaultCaps[vault.vaultToken];
 
   let canDeposit = wallet.isConnected && !!amount && deposit.tokenBalance.gt(0);
@@ -145,7 +223,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
     }
     return (
       <Dialog open={open} onClose={() => vaultDetail.toggleDepositDialog()} fullWidth maxWidth="xl">
-        <VaultDialogTitle vault={vault} mode="Deposit" />
+        <VaultDialogTitle vault={vault} mode="Deposit" onClose={() => vaultDetail.toggleDepositDialog()} />
         <VaultAdvisory vault={vault} accept={() => setAccepted(true)} type={advisory} />
       </Dialog>
     );
@@ -168,33 +246,64 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
-      <VaultDialogTitle vault={vault} mode="Deposit" />
-      <DialogContent dividers className={classes.content}>
+      <VaultDialogTitle vault={vault} mode="Deposit" onClose={onClose} />
+      <DialogContent className={classes.content}>
         {vault.state === VaultState.Guarded && (
           <Grid container className={classes.guardedVault}>
             <NewVaultWarning />
           </Grid>
         )}
-        <Grid container alignItems="center">
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1" color="textSecondary">
-              {`Available: ${userBalance.balanceDisplay()}`}
-            </Typography>
+        <Box className={classes.tokenBox}>
+          <Typography className="token-label">Token</Typography>
+          <Grid container>
+            <Grid item xs={7}>
+              <Box className="token-logo-name" display="flex" alignItems="center">
+                <VaultLogo tokens={vault.tokens} />
+                <Typography className="token-name">{vault.name}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={5}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                placeholder="Type an amount to deposit"
+                inputProps={inputProps}
+                value={amount || ''}
+                onChange={onValidChange(setAmount)}
+                className={`${classes.amountTextField} ${
+                  Number(amount) || amount.length > 1 ? classes.amountTextFieldHasValue : ''
+                }`}
+              />
+              <Box display="flex" justifyContent="flex-end" className={classes.amountDollarValue}>
+                <Typography>~${amount ? Number(amount) * prices.getPrice(vault.underlyingToken) : amount}</Typography>
+              </Box>
+            </Grid>
           </Grid>
-          <PercentagesContainer item xs={12} sm={6}>
-            <PercentageSelector size="small" options={[25, 50, 75, 100]} onChange={handlePercentageChange} />
-          </PercentagesContainer>
-        </Grid>
-        <AmountTextField
-          variant="outlined"
-          fullWidth
-          placeholder="Type an amount to deposit"
-          inputProps={inputProps}
-          value={amount || ''}
-          onChange={onValidChange(setAmount)}
-        />
+          <Grid container alignItems="center" className="token-balance-percentage">
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" color="textSecondary" className="token-balance">
+                {`Balance: ${userBalance.balanceDisplay()}`}
+              </Typography>
+            </Grid>
+            <PercentagesContainer item xs={12} sm={6}>
+              <PercentageSelector size="small" options={[25, 50, 75, 100]} onChange={handlePercentageChange} />
+            </PercentagesContainer>
+          </Grid>
+        </Box>
         <VaultFees vault={vault} className={classes.fees} onHelpClick={() => setShowFees(true)} />
-        <ActionButton
+        <Grid container className={classes.totalAmountContainer}>
+          <Grid item xs={6}>
+            <Box display="flex" alignItems="center" className={classes.totalAmountLabel}>
+              Total Deposit
+            </Box>
+          </Grid>
+          <Grid item xs={6}>
+            <Box display="flex" justifyContent="flex-end" className={classes.totalAmount}>
+              {amount}
+            </Box>
+          </Grid>
+        </Grid>
+        <DepositButton
           aria-label="Deposit"
           size="large"
           disabled={isLoading || !canDeposit}
@@ -209,9 +318,9 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
               <LoaderSpinner size={20} />
             </>
           ) : (
-            'Deposit'
+            `DEPOSIT ${vault.asset}`
           )}
-        </ActionButton>
+        </DepositButton>
       </DialogContent>
       {vaultCaps && <VaultAvailableDeposit asset={vault.asset} vaultCaps={vaultCaps} />}
     </Dialog>

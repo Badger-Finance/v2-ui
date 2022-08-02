@@ -76,10 +76,8 @@ export const VaultDetail = observer((): JSX.Element => {
         <Header />
         {vault && (
           <>
-            <>
-              <TopContent vault={vault} />
-              <MainContent vault={vault} />
-            </>
+            <TopContent vault={vault} />
+            <MainContent vault={vault} />
           </>
         )}
       </Container>

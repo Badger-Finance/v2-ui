@@ -13,6 +13,12 @@ interface Props extends Omit<ButtonGroupProps, 'onChange'> {
 const useStyles = makeStyles({
   button: {
     padding: '3px 9px',
+    marginRight: 10,
+    borderColor: '#FFFFFF99 !important',
+    borderRadius: '8px !important',
+    color: '#FFFFFF99',
+    paddingTop: 0,
+    paddingBottom: 0,
   },
 });
 
