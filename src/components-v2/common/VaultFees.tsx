@@ -8,7 +8,7 @@ import React from 'react';
 
 import { StrategyFees } from './StrategyFees';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   specName: {
     fontSize: 12,
     lineHeight: '1.66',

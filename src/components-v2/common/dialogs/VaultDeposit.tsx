@@ -74,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   totalAmountContainer: {
-    // marginTop: theme.spacing(1),
     padding: theme.spacing(0, 2),
   },
   totalAmountLabel: {
@@ -122,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DepositButton = styled(ActionButton)(({ theme }) => ({
+const DepositButton = styled(ActionButton)(() => ({
   textTransform: 'none',
   '& span': {
     textTransform: 'none',
@@ -278,7 +277,9 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
                 }`}
               />
               <Box display="flex" justifyContent="flex-end" className={classes.amountDollarValue}>
-                <Typography>~${amount ? Number(amount) * prices.getPrice(vault.underlyingToken) : amount}</Typography>
+                <Typography>
+                  ~${amount ? (Number(amount) * prices.getPrice(vault.underlyingToken)).toFixed(2) : 0}
+                </Typography>
               </Box>
             </Grid>
           </Grid>
@@ -302,7 +303,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
           </Grid>
           <Grid item xs={6}>
             <Box display="flex" justifyContent="flex-end" className={classes.totalAmount}>
-              {amount}
+              {amount ? amount : 0}
             </Box>
           </Grid>
         </Grid>
