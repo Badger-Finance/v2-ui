@@ -109,6 +109,9 @@ const useStyles = makeStyles((theme) => ({
       '& .token-name': {
         paddingLeft: 5,
       },
+      [theme.breakpoints.down('sm')]:{
+        marginRight: 0
+      }
     },
     '& .token-balance-percentage': {
       marginTop: 20,
@@ -256,13 +259,13 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
         <Box className={classes.tokenBox}>
           <Typography className="token-label">Token</Typography>
           <Grid container>
-            <Grid item xs={7}>
+            <Grid item xs={12} sm={7}>
               <Box className="token-logo-name" display="flex" alignItems="center">
                 <VaultLogo tokens={vault.tokens} />
                 <Typography className="token-name">{vault.name}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={12} sm={5}>
               <TextField
                 variant="outlined"
                 fullWidth

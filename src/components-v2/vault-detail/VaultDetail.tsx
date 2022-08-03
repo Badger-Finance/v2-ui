@@ -95,11 +95,7 @@ export const VaultDetail = observer((): JSX.Element => {
             vault={vault}
             onClose={() => vaultDetail.toggleDepositDialog()}
           />
-          <VaultWithdraw
-            open={isWithdrawDialogDisplayed}
-            vault={vault}
-            onClose={() => vaultDetail.toggleWithdrawDialog()}
-          />
+          <VaultWithdraw open={isWithdrawDialogDisplayed} vault={vault} onClose={() => vaultDetail.toggleWithdrawDialog()} />
         </>
       )}
     </>

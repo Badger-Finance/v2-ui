@@ -50,9 +50,10 @@ const useStyles = makeStyles((theme) => ({
     '& .token-label': {
       fontSize: 12,
       marginBottom: 5,
+      color: theme.palette.primary.main,
     },
     '& .token-logo-name': {
-      border: '1px solid #FFFFFF',
+      border: `1px solid ${theme.palette.primary.main}`,
       background: '#FFFFFF26',
       padding: '15px 20px',
       borderRadius: 8,
@@ -64,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
       },
       '& .token-name': {
         paddingLeft: 5,
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginRight: 0,
       },
     },
     '& .token-balance-percentage': {
@@ -218,13 +222,13 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
         <Box className={classes.tokenBox}>
           <Typography className="token-label">From</Typography>
           <Grid container>
-            <Grid item xs={7}>
+            <Grid item xs={12} sm={7}>
               <Box className="token-logo-name" display="flex" alignItems="center">
                 <VaultLogo tokens={vault.tokens} />
                 <Typography className="token-name">{vault.name}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={12} sm={5}>
               <TextField
                 variant="outlined"
                 fullWidth
@@ -257,13 +261,13 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
         <Box className={classes.tokenBox} sx={{ marginTop: 10 }}>
           <Typography className="token-label">To</Typography>
           <Grid container>
-            <Grid item xs={7}>
+            <Grid item xs={12} sm={7}>
               <Box className="token-logo-name" display="flex" alignItems="center">
                 <VaultLogo tokens={vault.tokens} />
                 <Typography className="token-name">{depositToken.name}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={12} sm={5}>
               <TextField
                 variant="outlined"
                 fullWidth
