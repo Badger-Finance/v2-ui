@@ -109,9 +109,9 @@ const useStyles = makeStyles((theme) => ({
       '& .token-name': {
         paddingLeft: 5,
       },
-      [theme.breakpoints.down('sm')]:{
-        marginRight: 0
-      }
+      [theme.breakpoints.down('sm')]: {
+        marginRight: 0,
+      },
     },
     '& .token-balance-percentage': {
       marginTop: 20,
