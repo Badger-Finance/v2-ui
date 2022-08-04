@@ -27,7 +27,7 @@ export class Ethereum extends Chain {
       this.deploy.sett_system.vaults['native.auraBal'],
       this.deploy.sett_system.vaults['native.graviaura-aurabal-weth'],
       this.deploy.sett_system.vaults['native.aura-wbtc-badger'],
-      this.deploy.sett_system.vaults['native.aura-bb-aave-usd'],
+      this.deploy.sett_system.vaults['native.graviaura-digg-wbtc'],
       this.deploy.sett_system.vaults['native.bveCVXCVX'],
       this.deploy.sett_system.vaults['native.cvxCrv'],
       this.deploy.sett_system.vaults['native.ibbtcCrv'],

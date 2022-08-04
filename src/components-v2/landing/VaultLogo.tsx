@@ -20,7 +20,7 @@ const VaultLogo = ({ tokens, className, ...props }: Props): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={clsx(classes.root, className && className)} {...props}>
-      {tokens.map((token, index, totalTokens) => (
+      {tokens.map((token, index) => (
         <ComposableTokenLogo token={token} logoPosition={index} key={`${token.symbol}_${index}`} />
       ))}
     </div>

@@ -82,15 +82,15 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
 
   const handleSubmit = async (): Promise<void> => {
     if (withdraw.balance > 0) {
-      const vaultToken = vaults.getToken(vault.vaultToken);
       let toastId: Id = `${vault.vaultToken}-withdrawal-${amount}`;
-      const withdrawalAmount = `${+Number(amount).toFixed(2)} ${vaultToken.symbol}`;
+      const withdrawAmount = TokenBalance.fromString(userBalance, amount);
+      const formattedWithdrawAmount = `${withdrawAmount.balanceDisplay(2)} ${depositToken.symbol}`;
 
       const result = await sdk.vaults.withdraw({
         vault: vault.vaultToken,
         amount: withdraw.tokenBalance,
         onTransferPrompt: () => {
-          toastId = showWalletPromptToast(`Confirm withdraw of ${withdrawalAmount}`);
+          toastId = showWalletPromptToast(`Confirm withdraw of ${formattedWithdrawAmount}`);
         },
         onTransferSigned: ({ transaction }) => {
           if (transaction) {
@@ -98,18 +98,18 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
               hash: transaction.hash,
               addedTime: Date.now(),
               name: `Withdraw`,
-              description: withdrawalAmount,
+              description: formattedWithdrawAmount,
             });
             showTransferSignedToast(
               toastId,
-              <TxCompletedToast title={`Submitted withdraw of ${withdrawalAmount}`} hash={transaction.hash} />,
+              <TxCompletedToast title={`Submitted withdraw of ${formattedWithdrawAmount}`} hash={transaction.hash} />,
             );
           }
         },
         onTransferSuccess: ({ receipt }) => {
           if (receipt) {
             transactions.updateCompletedTransaction(receipt);
-            toast(<TxCompletedToast title={`Withdrew ${withdrawalAmount}`} hash={receipt.transactionHash} />, {
+            toast(<TxCompletedToast title={`Withdrew ${formattedWithdrawAmount}`} hash={receipt.transactionHash} />, {
               autoClose: TX_COMPLETED_TOAST_DURATION,
               type: receipt.status === 0 ? 'error' : 'success',
             });
