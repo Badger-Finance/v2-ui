@@ -33,7 +33,7 @@ function isValidChange(input: string): boolean {
   return inputRegex.test(cleanInput);
 }
 
-export const fixedDecimal = (number: number | string, fixedTo: number = 5): string => {
+export const fixedDecimal = (number: number | string, fixedTo = 5): string => {
   const decimalLength = String(number).split('.')[1]?.length;
   if (decimalLength > fixedTo) {
     return String(Number(number).toFixed(fixedTo));
