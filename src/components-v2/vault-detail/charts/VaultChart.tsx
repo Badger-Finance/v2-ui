@@ -1,15 +1,16 @@
+import { ChartTimeFrame } from '@badger-dao/sdk';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 import React from 'react';
 
-import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
+import { ChartMode } from '../../../mobx/model/vaults/vault-charts';
 import { ChartModeTitles } from '../utils';
 import BaseAreaChart from './BaseAreaChart';
 
 interface Props {
   mode: ChartMode;
-  timeframe: VaultChartTimeframe;
+  timeframe: ChartTimeFrame;
   data: ChartDataPoint[] | null;
 }
 
@@ -27,7 +28,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
     [ChartMode.Balance]: format('^.4s'),
   };
 
-  const xSxcaleFormatter = timeframe === VaultChartTimeframe.Day ? timeFormat('%H:%M') : timeFormat('%m-%d');
+  const xSxcaleFormatter = timeframe === ChartTimeFrame.Day ? timeFormat('%H:%M') : timeFormat('%m-%d');
   const yScaleFormatter = yScaleFormatterByMode[mode];
   return (
     <BaseAreaChart
