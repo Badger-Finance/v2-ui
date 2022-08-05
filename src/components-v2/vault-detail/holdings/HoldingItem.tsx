@@ -2,7 +2,6 @@ import { VaultDTO } from '@badger-dao/sdk';
 import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { fixedDecimal } from 'utils/useNumericInput';
 
 import VaultLogo from '../../landing/VaultLogo';
 
@@ -59,7 +58,7 @@ export const HoldingItem = ({ vault, name, balance, value, helpIcon }: Props): J
             <VaultLogo tokens={vault.tokens} />
           </div>
           <div>
-            <Typography variant="h5">{fixedDecimal(balance)}</Typography>
+            <Typography variant="h5">{balance}</Typography>
             <Typography variant="body2" color="textSecondary">
               {value}
             </Typography>
