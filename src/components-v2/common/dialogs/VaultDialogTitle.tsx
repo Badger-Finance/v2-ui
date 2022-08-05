@@ -1,48 +1,48 @@
 import { VaultDTO } from '@badger-dao/sdk';
-import { DialogTitle, Grid, Typography } from '@material-ui/core';
+import { Box, DialogTitle, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
-
-import VaultLogo from '../../landing/VaultLogo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2, 3),
   },
   mode: {
-    fontSize: 12,
+    fontSize: 24,
+    fontWeight: 500,
+    color: '#ffffff',
   },
   settLogo: {
     width: '100%',
     margin: 'auto',
   },
-  logoContainer: {
-    display: 'flex',
-    marginRight: theme.spacing(1),
+  closeIcon: {
+    cursor: 'pointer',
   },
 }));
 
 interface Props {
   vault: VaultDTO;
   mode: string;
+  onClose: () => void;
 }
 
-export const VaultDialogTitle = ({ vault, mode }: Props): JSX.Element => {
+export const VaultDialogTitle = ({ vault, mode, onClose }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
     <DialogTitle className={classes.root}>
       <Grid container alignItems="center">
-        <Grid item className={classes.logoContainer}>
-          <VaultLogo tokens={vault.tokens} />
-        </Grid>
-        <Grid item>
+        <Grid item xs={6}>
           <Typography className={classes.mode} color="textSecondary">
             {mode}
           </Typography>
-          <Typography variant="body1" color="textPrimary">
-            {vault.name}
-          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Box display="flex" justifyContent="flex-end" alignItems="center">
+            <CloseIcon className={classes.closeIcon} onClick={onClose} />
+          </Box>
         </Grid>
       </Grid>
     </DialogTitle>
