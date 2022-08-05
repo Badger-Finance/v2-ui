@@ -59,15 +59,26 @@ interface Props {
   projectedBoost: number | null;
 }
 
-const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Props): JSX.Element => {
+const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Props): JSX.Element | null => {
+  const {
+    yieldProjection: { harvestTokensPerPeriod },
+    sources,
+    sourcesApy,
+  } = vault;
   const { vaults, router } = useContext(StoreContext);
+  const {
+    vaultsFilters: { showAPR },
+  } = vaults;
+
   const classes = useStyles();
-  const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
-  //make sure boost sources are always the last one
-  const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
+  const displaySources = showAPR ? sources : sourcesApy;
+  // make sure boost sources are always the last one
+  const sortedSources = displaySources.slice().sort((source) => (source.boostable ? 1 : -1));
 
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
-  const harvestSources = vault.yieldProjection.harvestTokensPerPeriod.slice().filter((s) => !isBadgerSource(s));
+  const harvestSources = harvestTokensPerPeriod
+    .slice()
+    .filter((s) => !isBadgerSource(s) && (!showAPR || !s.name.includes('Flywheel')));
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
@@ -81,6 +92,10 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     event.stopPropagation();
     onClose();
   };
+
+  if (!open) {
+    return null;
+  }
 
   return (
     <Dialog

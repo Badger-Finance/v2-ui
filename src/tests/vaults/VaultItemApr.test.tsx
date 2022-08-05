@@ -82,7 +82,7 @@ const normalVault: VaultDTO = {
 describe('VaultItemApr', () => {
   describe('No APR Vaults', () => {
     it('renders zero APR', () => {
-      checkSnapshot(<VaultItemApr boost={0} projectedBoost={0} vault={{ ...normalVault, apr: 0 }} />);
+      checkSnapshot(<VaultItemApr boost={0} vault={{ ...normalVault, apr: 0 }} />);
     });
   });
 
@@ -92,10 +92,8 @@ describe('VaultItemApr', () => {
 
   describe('Boosted Vaults', () => {
     const mockUserBoost = 10;
-    const mockProjectedBoost = 20;
-
     it('displays correct APR and boost information', () => {
-      checkSnapshot(<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} projectedBoost={mockProjectedBoost} />);
+      checkSnapshot(<VaultItemApr vault={SAMPLE_VAULT} boost={mockUserBoost} />);
     });
   });
 });

@@ -1,6 +1,7 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useVaultInformation } from 'hooks/useVaultInformation';
 import { numberWithCommas } from 'mobx/utils/helpers';
 import React, { MouseEvent, useState } from 'react';
 
@@ -28,12 +29,12 @@ interface Props {
   vault: VaultDTO;
   boost: number;
   isDisabled?: boolean;
-  projectedBoost: number | null;
 }
 
-const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
+const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
   const classes = useStyles();
   const [showApyInfo, setShowApyInfo] = useState(false);
+  const { projectedVaultBoost } = useVaultInformation(vault);
 
   const handleApyInfoClick = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -69,10 +70,10 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
         </Typography>
         <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
       </Box>
-      {projectedBoost !== null && (
+      {projectedVaultBoost !== null && (
         <Box display="flex">
           <Typography className={classes.projectedApr}>
-            Current: {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
+            Current: {`${numberWithCommas(projectedVaultBoost.toFixed(2))}%`}
           </Typography>
         </Box>
       )}
@@ -80,7 +81,7 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
         open={showApyInfo}
         vault={vault}
         boost={boost}
-        projectedBoost={projectedBoost}
+        projectedBoost={projectedVaultBoost}
         onClose={handleClose}
       />
     </Box>

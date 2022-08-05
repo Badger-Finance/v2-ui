@@ -23,6 +23,7 @@ export function useVaultInformation(vault: VaultDTO): VaultInformation {
   if (vault.version === VaultVersion.v1_5) {
     projectedBaseApr = vault.yieldProjection.harvestTokensPerPeriod
       .filter((s) => !isBadgerSource(s))
+      .filter((s) => !showAPR || !s.name.includes('Flywheel'))
       .reduce((total, s) => (total += s.apr), 0);
   }
 
