@@ -33,6 +33,15 @@ function isValidChange(input: string): boolean {
   return inputRegex.test(cleanInput);
 }
 
+export const fixedDecimal = (number: number | string, fixedTo: number = 5): string => {
+  const decimalLength = String(number).split('.')[1]?.length;
+  if (decimalLength > fixedTo) {
+    return String(Number(number).toFixed(fixedTo));
+  } else {
+    return String(number);
+  }
+};
+
 /**
  * Utility hook that returns in a headless fashion all the props required to have an input with numeric validation.
  * @return {NumericInputProps} input props
@@ -43,11 +52,7 @@ export const useNumericInput = (styles?: CSSProperties): NumericInputProps => {
     const input = (event.target.value as string).replace(/,/g, '.');
 
     if (input === '' || isValidChange(input)) {
-      const newInput = !input
-        ? input
-        : input.split('.')[1]?.length > 5
-        ? input.split('.')[0] + '.' + input.split('.')[1].substring(0, 5)
-        : input;
+      const newInput = !input ? input : fixedDecimal(input);
       onChange(newInput);
     }
   };
