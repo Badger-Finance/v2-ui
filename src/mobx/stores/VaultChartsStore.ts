@@ -1,10 +1,6 @@
 import { ChartTimeFrame, VaultDTO, VaultSnapshot } from '@badger-dao/sdk';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 
 import { RootStore } from './RootStore';
-
-dayjs.extend(utc);
 
 type ChartCacheByPeriod = Map<ChartTimeFrame, VaultSnapshot[]>;
 type VaultCache = Map<VaultDTO['underlyingToken'], ChartCacheByPeriod>;

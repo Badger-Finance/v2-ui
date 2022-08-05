@@ -1,9 +1,9 @@
 import { VaultDTO } from '@badger-dao/sdk';
-import { Collapse, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { numberWithCommas } from '../../../mobx/utils/helpers';
 import VaultDepositedAssets from '../../VaultDepositedAssets';
@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     padding: theme.spacing(0.2),
   },
+  assetsText: {
+    paddingBottom: theme.spacing(1),
+  },
 }));
 
 interface Props {
@@ -61,8 +64,6 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
   const { lockedDeposits } = React.useContext(StoreContext);
   const classes = useStyles();
 
-  const [showMore, setShowMore] = useState(true);
-  const expandText = showMore ? 'Hide' : 'Show More';
   const shownBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
 
   return (
@@ -72,32 +73,35 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
       </Typography>
       <StyledDivider />
       <VaultDepositedAssets vault={vault} />
-      <Typography variant="body2">Assets Deposited</Typography>
-      <div className={classes.showMoreContainer}>
-        <div className={classes.showMore} onClick={() => setShowMore(!showMore)}>
-          {expandText}
-        </div>
+      <Typography variant="body2" className={classes.assetsText}>
+        Assets Deposited
+      </Typography>
+      <div className={classes.submetric}>
+        <Typography variant="caption" className={classes.submetricValue}>
+          {new Date(vault.lastHarvest).toLocaleString()}
+        </Typography>
+        <Typography variant="caption" className={classes.submetricType}>
+          last harvest time
+        </Typography>
       </div>
-      <Collapse in={showMore}>
+      <div className={classes.submetric}>
+        <Typography variant="caption" className={classes.submetricValue}>
+          {vault.pricePerFullShare.toFixed(4)}
+        </Typography>
+        <Typography variant="caption" className={classes.submetricType}>
+          tokens per share
+        </Typography>
+      </div>
+      {shownBalance && (
         <div className={classes.submetric}>
-          <Typography variant="body1" className={classes.submetricValue}>
-            {vault.pricePerFullShare.toFixed(4)}
+          <Typography variant="caption" className={classes.submetricValue}>
+            {numberWithCommas(shownBalance.balanceDisplay(5))}
           </Typography>
           <Typography variant="caption" className={classes.submetricType}>
-            tokens per share
+            tokens withdrawable
           </Typography>
         </div>
-        {shownBalance && (
-          <div className={classes.submetric}>
-            <Typography variant="body1" className={classes.submetricValue}>
-              {numberWithCommas(shownBalance.balanceDisplay(5))}
-            </Typography>
-            <Typography variant="caption" className={classes.submetricType}>
-              tokens withdrawable
-            </Typography>
-          </div>
-        )}
-      </Collapse>
+      )}
     </Grid>
   );
 });

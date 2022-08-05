@@ -1,11 +1,7 @@
 import { VaultData, VaultDTO } from '@badger-dao/sdk';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 
 import { ChartMode } from '../../mobx/model/vaults/vault-charts';
 import { DelaySeverity } from '../../mobx/model/vaults/vault-rewards';
-
-dayjs.extend(utc);
 
 export const ChartModeTitles: Record<string, string> = {
   [ChartMode.Value]: 'Vault Value',

@@ -45,10 +45,6 @@ const InfluenceVaultInfoPanel = ({ vault, config }: Props): JSX.Element => {
   const influenceVault = influenceVaultStore.getInfluenceVault(vault.vaultToken);
   const [timeframe, setTimeframe] = useState(ChartTimeFrame.Week);
   const [mode, setMode] = useState<TabType>('performance');
-  const data = influenceVault?.vaultChartData?.map((d) => ({
-    x: d.timestamp,
-    y: d.balance,
-  }));
 
   const handleTimeFrameChange = async (timeframe: ChartTimeFrame) => {
     setTimeframe(timeframe);
@@ -61,8 +57,8 @@ const InfluenceVaultInfoPanel = ({ vault, config }: Props): JSX.Element => {
         <ChartsHeader mode={ChartMode.Balance} timeframe={timeframe} onTimeframeChange={handleTimeFrameChange} />
       </Grid>
       <Grid item container xs justifyContent="center" alignItems="center">
-        <ChartContent data={data ?? null} loading={influenceVault.processingChartData}>
-          <VaultChart mode={ChartMode.Balance} timeframe={timeframe} data={data ?? null} />
+        <ChartContent data={influenceVault?.vaultChartData ?? []} loading={influenceVault.processingChartData}>
+          <VaultChart vault={vault} timeframe={timeframe} chartData={influenceVault?.vaultChartData ?? []} />
         </ChartContent>
       </Grid>
     </Grid>

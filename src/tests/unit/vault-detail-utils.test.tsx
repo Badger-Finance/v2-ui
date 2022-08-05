@@ -1,25 +1,20 @@
-import dayjs from 'dayjs';
+import { ONE_HOUR_MS } from '@badger-dao/sdk';
 
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../../components-v2/vault-detail/utils';
 import { DelaySeverity } from '../../mobx/model/vaults/vault-rewards';
 
-jest.useFakeTimers();
-
-const mockDate = dayjs('2022-07-25');
-
 describe('sett detail utils', () => {
-  beforeEach(() => {
-    jest.setSystemTime(mockDate.toDate());
-  });
-
   describe('calculateDifferenceInHoursFromCycle', () => {
+    const baseTime = 1659715530585;
+    beforeEach(() => {
+      jest.spyOn(Date, 'now').mockImplementation(() => baseTime);
+    });
     test.each([
-      [mockDate.subtract(1, 'hours').toDate(), 1],
-      [mockDate.subtract(2, 'hours').toDate(), 2],
-      [mockDate.subtract(3, 'hours').toDate(), 3],
-      [mockDate.subtract(4, 'hours').toDate(), 4],
-    ])('calculateDifferenceInHoursFromCycle(%s) returns %d', (cycle: Date, difference: number) => {
-      expect(calculateDifferenceInHoursFromCycle(cycle.getTime() / 1000)).toEqual(difference);
+      [undefined, 0],
+      [baseTime - ONE_HOUR_MS, 1],
+      [baseTime - ONE_HOUR_MS * 2, 2],
+    ])('calculateDifferenceInHoursFromCycle(%s) returns %d', (timestamp: number | undefined, difference: number) => {
+      expect(calculateDifferenceInHoursFromCycle(timestamp ? timestamp / 1000 : timestamp)).toEqual(difference);
     });
   });
 

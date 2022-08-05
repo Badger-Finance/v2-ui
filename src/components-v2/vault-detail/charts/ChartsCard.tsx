@@ -36,18 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getYAxisAccessor = (mode: ChartMode) => {
-  return (data: VaultSnapshot) => {
-    const optionsFromMode: Record<string, number> = {
-      [ChartMode.Value]: data.value,
-      [ChartMode.AccountBalance]: data.value,
-      [ChartMode.Balance]: data.balance,
-    };
-
-    return optionsFromMode[mode];
-  };
-};
-
 interface Props {
   vault: VaultDTO;
 }
@@ -58,16 +46,13 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
   const isBoostable = minApr && maxApr;
 
   const classes = useStyles();
-  const [settChartData, setVaultChartData] = useState<VaultSnapshot[]>([]);
+  const [chartData, setChartData] = useState<VaultSnapshot[]>([]);
   const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
   const [loading, setLoading] = useState(!isBoostable);
   const [timeframe, setTimeframe] = useState(ChartTimeFrame.Week);
 
-  const yAxisAccessor = getYAxisAccessor(mode);
-  const chartData = settChartData ? settChartData.map((d) => ({ x: d.timestamp, y: yAxisAccessor(d) })) : null;
-
   const handleFetch = (fetchedData: VaultSnapshot[]) => {
-    setVaultChartData(fetchedData);
+    setChartData(fetchedData);
     setLoading(false);
   };
 
@@ -83,27 +68,27 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
 
   return (
     <CardContainer className={classes.root}>
-      <Tabs
-        variant="fullWidth"
-        className={classes.tabHeader}
-        textColor="primary"
-        aria-label="chart view options"
-        indicatorColor="primary"
-        value={mode}
-      >
-        {isBoostable && (
+      {isBoostable && (
+        <Tabs
+          variant="fullWidth"
+          className={classes.tabHeader}
+          textColor="primary"
+          aria-label="chart view options"
+          indicatorColor="primary"
+          value={mode}
+        >
           <Tab
             onClick={() => setMode(ChartMode.BoostMultiplier)}
             value={ChartMode.BoostMultiplier}
             label={ChartModeTitles[ChartMode.BoostMultiplier]}
           />
-        )}
-        <Tab
-          onClick={() => setMode(ChartMode.Value)}
-          value={ChartMode.Value}
-          label={ChartModeTitles[ChartMode.Value]}
-        />
-      </Tabs>
+          <Tab
+            onClick={() => setMode(ChartMode.Value)}
+            value={ChartMode.Value}
+            label={ChartModeTitles[ChartMode.Value]}
+          />
+        </Tabs>
+      )}
       <Grid container direction="column" className={classes.content}>
         <Grid item container alignItems="center" justifyContent="space-between" className={classes.header}>
           <ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
@@ -112,7 +97,7 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
           <ChartContent data={chartData} loading={loading}>
             <>
               {mode === ChartMode.Value ? (
-                <VaultChart mode={mode} timeframe={timeframe} data={chartData} />
+                <VaultChart vault={vault} timeframe={timeframe} chartData={chartData} />
               ) : (
                 <BoostChart vault={vault} />
               )}
