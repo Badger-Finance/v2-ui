@@ -107,6 +107,7 @@ const useStyles = makeStyles((theme) => ({
       },
       '& .token-name': {
         paddingLeft: 5,
+        wordBreak: 'break-all',
       },
       [theme.breakpoints.down('sm')]: {
         marginRight: 0,
