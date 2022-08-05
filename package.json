@@ -30,7 +30,6 @@
     "css-mediaquery": "^0.1.2",
     "d3-format": "^3.1.0",
     "d3-time-format": "^4.1.0",
-    "dayjs": "^1.11.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -66,7 +65,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "test": "react-app-rewired test --watchAll",
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "test:coverage": "react-scripts test --silent --ci --coverage --watchAll=false --coverageReporters=\"text\" --coverageReporters=\"text-summary\" --json --outputFile=report.json",
