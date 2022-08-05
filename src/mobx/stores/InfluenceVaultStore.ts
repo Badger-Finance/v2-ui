@@ -1,4 +1,4 @@
-import { EmissionSchedule, formatBalance, ONE_DAY_MS, VaultDTO } from '@badger-dao/sdk';
+import { ChartTimeFrame, EmissionSchedule, formatBalance, ONE_DAY_MS, VaultDTO } from '@badger-dao/sdk';
 import { getInfluenceVaultConfig } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { ethers } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
@@ -7,7 +7,6 @@ import { EmissionRoundToken, GraphObject, InfluenceVaultEmissionRound } from 'mo
 import { InfluenceVaultData } from 'mobx/model/vaults/influence-vault-data';
 
 import { CurveFactoryPool__factory } from '../../contracts';
-import { VaultChartTimeframe } from '../model/vaults/vault-charts';
 import { RootStore } from './RootStore';
 
 function isOverlapping(original: EmissionSchedule, other: EmissionSchedule): boolean {
@@ -38,7 +37,7 @@ class InfluenceVaultStore {
     };
     if (vault !== undefined)
       await Promise.all([
-        this.loadChartInfo(VaultChartTimeframe.Week, vault),
+        this.loadChartInfo(ChartTimeFrame.Week, vault),
         this.loadEmissionsSchedules(vault),
         this.loadSwapPercentage(vault),
       ]);
@@ -58,7 +57,7 @@ class InfluenceVaultStore {
     return this.influenceVaults[address];
   }
 
-  async loadChartInfo(timeframe: VaultChartTimeframe, vault: VaultDTO) {
+  async loadChartInfo(timeframe: ChartTimeFrame, vault: VaultDTO) {
     try {
       this.influenceVaults[vault.vaultToken].processingChartData = true;
       this.influenceVaults[vault.vaultToken].vaultChartData = await this.store.vaultCharts.search(vault, timeframe);
