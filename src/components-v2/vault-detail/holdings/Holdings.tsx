@@ -55,7 +55,7 @@ export const Holdings = ({ userData, vault, onDepositClick, onWithdrawClick }: P
           <HoldingItem
             vault={vault}
             name="Total Deposited"
-            balance={depositBalance.balanceDisplay()}
+            balance={depositBalance.balanceDisplay(5)}
             value={depositBalance.balanceValueDisplay() ?? '0'}
             helpIcon={<TokenDistributionIcon settBalance={userData} />}
           />
