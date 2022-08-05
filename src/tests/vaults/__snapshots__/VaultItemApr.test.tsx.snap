@@ -19,16 +19,6 @@ exports[`VaultItemApr Boosted Vaults displays correct APR and boost information 
         src="/assets/icons/apy-info.svg"
       />
     </div>
-    <div
-      class="MuiBox-root-5 MuiBox-root-38"
-    >
-      <p
-        class="MuiTypography-root-8 makeStyles-projectedApr-4 MuiTypography-body1-10"
-      >
-        Current: 
-        20.00%
-      </p>
-    </div>
   </div>
 </div>
 `;

@@ -22,9 +22,9 @@ function legendFormatter(value: string): string {
     case 'yieldApr':
       return 'Spot APR';
     case 'harvestApr':
-      return 'Projected APR';
+      return 'Current APR';
     default:
-      return '21 day APR';
+      return 'Historic APR';
   }
 }
 
@@ -53,7 +53,7 @@ function tooltipFormatter(value: number, name: string): [string, string] {
     case 'yieldApr':
       return [`${value.toFixed(2)}%`, 'Spot'];
     case 'harvestApr':
-      return [`${value.toFixed(2)}%`, 'Projected'];
+      return [`${value.toFixed(2)}%`, 'Current APR'];
     default:
       return [`${value.toFixed(2)}%`, 'APR'];
   }
