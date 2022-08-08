@@ -59,9 +59,14 @@ exports[`Holdings displays holdings with balance 1`] = `
                   class="makeStyles-root-201"
                 >
                   <img
-                    alt="curve-renBTC-wBTC-sBTC logo"
+                    alt="BBTC logo"
                     class="makeStyles-position-202"
-                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                    src="/assets/icons/bbtc.svg"
+                  />
+                  <img
+                    alt="crvRenWSBTC logo"
+                    class="makeStyles-position-203"
+                    src="/assets/icons/crvrenwsbtc.svg"
                   />
                 </div>
               </div>
@@ -69,65 +74,12 @@ exports[`Holdings displays holdings with balance 1`] = `
                 <h5
                   class="MuiTypography-root-106 MuiTypography-h5-115"
                 >
-                  1.99
+                  1.99000
                 </h5>
                 <p
                   class="MuiTypography-root-106 MuiTypography-body2-107 MuiTypography-colorTextSecondary-132"
                 >
                   $26
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-true-51"
-      >
-        <div
-          class="MuiPaper-root-143 makeStyles-cardContainer-138 MuiPaper-elevation1-147 MuiPaper-rounded-144"
-        >
-          <div
-            class="makeStyles-titleContainer-136"
-          >
-            <p
-              class="MuiTypography-root-106 makeStyles-holdingsName-137 MuiTypography-body1-108"
-            >
-              Total Earned
-            </p>
-          </div>
-          <hr
-            class="MuiDivider-root-192"
-          />
-          <div
-            class="MuiGrid-root-3 makeStyles-amountsContainer-141 MuiGrid-container-4"
-          >
-            <div
-              class="MuiBox-root-199 MuiBox-root-203 makeStyles-amountText-142"
-            >
-              <div
-                class="makeStyles-logoContainer-139"
-              >
-                <div
-                  class="makeStyles-root-201"
-                >
-                  <img
-                    alt="curve-renBTC-wBTC-sBTC logo"
-                    class="makeStyles-position-204"
-                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
-                  />
-                </div>
-              </div>
-              <div>
-                <h5
-                  class="MuiTypography-root-106 MuiTypography-h5-115"
-                >
-                  0.000135266072051721
-                </h5>
-                <p
-                  class="MuiTypography-root-106 MuiTypography-body2-107 MuiTypography-colorTextSecondary-132"
-                >
-                  ~$6.66
                 </p>
               </div>
             </div>
@@ -198,9 +150,14 @@ exports[`Holdings displays holdings with no balance 1`] = `
                   class="makeStyles-root-201"
                 >
                   <img
-                    alt="curve-renBTC-wBTC-sBTC logo"
+                    alt="BBTC logo"
                     class="makeStyles-position-202"
-                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
+                    src="/assets/icons/bbtc.svg"
+                  />
+                  <img
+                    alt="crvRenWSBTC logo"
+                    class="makeStyles-position-203"
+                    src="/assets/icons/crvrenwsbtc.svg"
                   />
                 </div>
               </div>
@@ -208,65 +165,12 @@ exports[`Holdings displays holdings with no balance 1`] = `
                 <h5
                   class="MuiTypography-root-106 MuiTypography-h5-115"
                 >
-                  1.99
+                  1.99000
                 </h5>
                 <p
                   class="MuiTypography-root-106 MuiTypography-body2-107 MuiTypography-colorTextSecondary-132"
                 >
                   $26
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-true-51"
-      >
-        <div
-          class="MuiPaper-root-143 makeStyles-cardContainer-138 MuiPaper-elevation1-147 MuiPaper-rounded-144"
-        >
-          <div
-            class="makeStyles-titleContainer-136"
-          >
-            <p
-              class="MuiTypography-root-106 makeStyles-holdingsName-137 MuiTypography-body1-108"
-            >
-              Total Earned
-            </p>
-          </div>
-          <hr
-            class="MuiDivider-root-192"
-          />
-          <div
-            class="MuiGrid-root-3 makeStyles-amountsContainer-141 MuiGrid-container-4"
-          >
-            <div
-              class="MuiBox-root-199 MuiBox-root-203 makeStyles-amountText-142"
-            >
-              <div
-                class="makeStyles-logoContainer-139"
-              >
-                <div
-                  class="makeStyles-root-201"
-                >
-                  <img
-                    alt="curve-renBTC-wBTC-sBTC logo"
-                    class="makeStyles-position-204"
-                    src="/assets/icons/curve-renbtc-wbtc-sbtc.svg"
-                  />
-                </div>
-              </div>
-              <div>
-                <h5
-                  class="MuiTypography-root-106 MuiTypography-h5-115"
-                >
-                  0.000135266072051721
-                </h5>
-                <p
-                  class="MuiTypography-root-106 MuiTypography-body2-107 MuiTypography-colorTextSecondary-132"
-                >
-                  ~$6.66
                 </p>
               </div>
             </div>
