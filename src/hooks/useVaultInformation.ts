@@ -3,7 +3,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
 
-import { getProjectedVaultBoost, getUserVaultBoost, isBadgerSource } from '../utils/componentHelpers';
+import { getBoostContribution } from '../utils/componentHelpers';
 
 interface VaultInformation {
   vaultBoost: number;
@@ -16,29 +16,23 @@ interface VaultInformation {
 export function useVaultInformation(vault: VaultDTO): VaultInformation {
   const { user, vaults } = useContext(StoreContext);
   const { showAPR } = vaults.vaultsFilters;
-  const depositBalance = user.getBalance(vault.vaultToken);
-  let vaultBoost = showAPR ? vault.apr : vault.apy;
+  const { vaultToken, apr, minApr, apy, minApy, yieldProjection } = vault;
+  const { nonHarvestApr, nonHarvestApy, harvestPeriodApr, harvestPeriodApy } = yieldProjection;
 
-  let projectedBaseApr = 0;
+  const depositBalance = user.getBalance(vaultToken);
+  const boostContribution = getBoostContribution(vault, user.accountDetails?.boost ?? 0);
+
+  const sourceApr = minApr ?? apr;
+  const sourceApy = minApy ?? apy;
+  const baseYield = showAPR ? sourceApr : sourceApy;
+  const vaultBoost = baseYield + boostContribution;
+
+  let projectedVaultBoost = null;
   if (vault.version === VaultVersion.v1_5) {
-    projectedBaseApr = vault.yieldProjection.harvestTokensPerPeriod
-      .filter((s) => !isBadgerSource(s))
-      .filter((s) => !showAPR || !s.name.includes('Flywheel'))
-      .reduce((total, s) => (total += s.apr), 0);
+    const baseHarvestYield = showAPR ? harvestPeriodApr : harvestPeriodApy;
+    const nonHarvestYield = showAPR ? nonHarvestApr : nonHarvestApy;
+    projectedVaultBoost = baseHarvestYield + nonHarvestYield + boostContribution;
   }
-
-  let projectedVaultBoost = projectedBaseApr > 0 ? projectedBaseApr : null;
-  if (user.accountDetails?.boost) {
-    vaultBoost = getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
-    if (projectedVaultBoost) {
-      projectedVaultBoost += getProjectedVaultBoost(vault, user.accountDetails.boost);
-    }
-  }
-
-  const boostContribution =
-    vaultBoost && vault.minApy && vault.minApr
-      ? Math.max(0, vaultBoost - (showAPR ? vault.minApr : vault.minApy))
-      : null;
 
   const depositBalanceDisplay = depositBalance.balanceValueDisplay(depositBalance.balance === 0 ? 0 : 2);
 

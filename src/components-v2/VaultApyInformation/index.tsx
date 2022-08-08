@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
@@ -59,9 +60,14 @@ interface Props {
   projectedBoost: number | null;
 }
 
+interface YieldSourceDisplay {
+  name: string;
+  apr: number;
+}
+
 const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Props): JSX.Element | null => {
   const {
-    yieldProjection: { harvestTokensPerPeriod },
+    yieldProjection: { harvestPeriodSources, harvestPeriodSourcesApy, nonHarvestSources, nonHarvestSourcesApy },
     sources,
     sourcesApy,
   } = vault;
@@ -76,10 +82,11 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const sortedSources = displaySources.slice().sort((source) => (source.boostable ? 1 : -1));
 
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
-  const harvestSources = harvestTokensPerPeriod
-    .slice()
-    .filter((s) => !isBadgerSource(s) && (!showAPR || !s.name.includes('Flywheel')));
+  const harvestSources: YieldSourceDisplay[] = showAPR ? harvestPeriodSources : harvestPeriodSourcesApy;
+  const additionalSources: YieldSourceDisplay[] = showAPR ? nonHarvestSources : nonHarvestSourcesApy;
+  const totalCurrentSources = harvestSources.concat(additionalSources);
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
+  const isInfluence = isInfluenceVault(vault.vaultToken);
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -149,7 +156,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
               ))}
             </div>
           )}
-          {projectedBoost !== null && (
+          {!isInfluence && projectedBoost !== null && (
             <>
               <Grid item container justifyContent="space-between">
                 <Grid item>
@@ -164,7 +171,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                 </Grid>
               </Grid>
               <Divider className={classes.divider} />
-              {harvestSources.map((token) => (
+              {totalCurrentSources.map((token) => (
                 <div key={`yield-apr-${token.name}`}>
                   <Grid item container justifyContent="space-between">
                     <Grid item>

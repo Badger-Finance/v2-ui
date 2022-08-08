@@ -1,6 +1,7 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { useVaultInformation } from 'hooks/useVaultInformation';
 import { numberWithCommas } from 'mobx/utils/helpers';
 import React, { MouseEvent, useState } from 'react';
@@ -27,14 +28,13 @@ const useStyles = makeStyles({
 
 interface Props {
   vault: VaultDTO;
-  boost: number;
   isDisabled?: boolean;
 }
 
-const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
+const VaultItemApr = ({ vault }: Props): JSX.Element => {
   const classes = useStyles();
   const [showApyInfo, setShowApyInfo] = useState(false);
-  const { projectedVaultBoost } = useVaultInformation(vault);
+  const { projectedVaultBoost, vaultBoost } = useVaultInformation(vault);
 
   const handleApyInfoClick = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -54,7 +54,8 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
   }
 
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
-  const aprDisplay = isNewVault ? 'New Vault' : `${numberWithCommas(boost.toFixed(2))}%`;
+  const aprDisplay = isNewVault ? 'New Vault' : `${numberWithCommas(vaultBoost.toFixed(2))}%`;
+  const isInfluence = isInfluenceVault(vault.vaultToken);
 
   return (
     <Box
@@ -70,7 +71,7 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
         </Typography>
         <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
       </Box>
-      {projectedVaultBoost !== null && (
+      {!isInfluence && projectedVaultBoost !== null && (
         <Box display="flex">
           <Typography className={classes.projectedApr}>
             Current: {`${numberWithCommas(projectedVaultBoost.toFixed(2))}%`}
@@ -80,7 +81,7 @@ const VaultItemApr = ({ vault, boost }: Props): JSX.Element => {
       <VaultApyInformation
         open={showApyInfo}
         vault={vault}
-        boost={boost}
+        boost={vaultBoost}
         projectedBoost={projectedVaultBoost}
         onClose={handleClose}
       />

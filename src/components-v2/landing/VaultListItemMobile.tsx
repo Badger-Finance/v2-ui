@@ -57,7 +57,7 @@ const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
       <Grid item container className={classes.info}>
         <Grid item xs container direction="column">
           <Typography>{vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}</Typography>
-          <VaultItemApr vault={vault} boost={vaultBoost} />
+          <VaultItemApr vault={vault} />
         </Grid>
         <Grid item xs container direction="column">
           <Typography>My Deposits</Typography>
