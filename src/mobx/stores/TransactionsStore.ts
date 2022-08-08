@@ -46,8 +46,9 @@ class TransactionsStore {
       this.transactions.set(chainId, new Map());
     }
 
-    // TODO: add support to persist pending transactions to local storage
     this.transactions.get(chainId)?.set(transaction.hash, transaction);
+
+    this.storeTransactionsLocally();
   }
 
   updateCompletedTransaction(receipt: TransactionReceipt): void {
@@ -61,11 +62,7 @@ class TransactionsStore {
     if (!transaction) return;
 
     transaction.status = receipt.status;
-    const cloneTransactions = new Map(this.transactions);
-    const latestTransactions = Array.from(transactions.entries()).slice(-3);
-
-    cloneTransactions.set(chainId, new Map(latestTransactions));
-    localStorage.setItem('transactions', stringifyMap(cloneTransactions));
+    this.storeTransactionsLocally();
   }
 
   clearTransactions(): void {
@@ -73,15 +70,36 @@ class TransactionsStore {
     localStorage.setItem('transactions', JSON.stringify({}));
   }
 
-  private loadTransactions() {
+  private storeTransactionsLocally(): void {
+    const chainId = String(Chain.getChain(this.store.chain.network).id);
+    const transactions = this.transactions.get(chainId);
+
+    if (!transactions) return;
+
+    const latestTransactions = Array.from(transactions.entries()).slice(-3);
+    const cloneTransactions = new Map(this.transactions);
+    cloneTransactions.set(chainId, new Map(latestTransactions));
+    localStorage.setItem('transactions', stringifyMap(cloneTransactions));
+  }
+
+  private async loadTransactions() {
+    // load completed transactions
     const persistedTransactions = localStorage.getItem('transactions');
     if (persistedTransactions && persistedTransactions !== '{}') {
       const parsedMap = parseStringifyMap(persistedTransactions);
       if (!(parsedMap instanceof Map)) {
         console.error('Invalid persisted transactions', parsedMap);
-      } else {
-        this.transactions = parsedMap;
+        return;
       }
+
+      this.transactions = parsedMap;
+      // check transactions for pending ones and see if they have resolved.
+      this.pendingTransactions.map(async (t) => {
+        const receipt = await this.store.sdk.provider.getTransactionReceipt(t.hash);
+        if (receipt != null) {
+          this.updateCompletedTransaction(receipt);
+        }
+      });
     }
   }
 }
