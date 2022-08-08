@@ -95,11 +95,23 @@ class TransactionsStore {
       this.transactions = parsedMap;
       // check transactions for pending ones and see if they have resolved.
       this.pendingTransactions.map(async (t) => {
-        const receipt = await this.store.sdk.provider.getTransactionReceipt(t.hash);
-        if (receipt != null) {
-          this.updateCompletedTransaction(receipt);
-        }
+        this.loadPendingTransaction(t.hash, 9);
       });
+    }
+  }
+
+  private async loadPendingTransaction(hash: string, retryTimes: number) {
+    const receipt = await this.store.sdk.provider.getTransactionReceipt(hash);
+    if (receipt != null) {
+      this.updateCompletedTransaction(receipt);
+    } else {
+      if (retryTimes > 0) {
+        setTimeout(() => this.loadPendingTransaction(hash, retryTimes - 1), 30 * 1000);
+      } else {
+        // retries have failed remove from transaction list
+        this.transactions.get(String(Chain.getChain(this.store.chain.network).id))?.delete(hash);
+        this.storeTransactionsLocally();
+      }
     }
   }
 }
