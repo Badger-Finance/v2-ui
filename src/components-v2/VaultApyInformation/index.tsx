@@ -100,10 +100,6 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     onClose();
   };
 
-  if (!open) {
-    return null;
-  }
-
   return (
     <Dialog
       open={open}
