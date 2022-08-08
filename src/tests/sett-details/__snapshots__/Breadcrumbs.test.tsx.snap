@@ -39,7 +39,7 @@ exports[`Breadcrumb displays sett breadcrumb 1`] = `
         <p
           class="MuiTypography-root-7 makeStyles-breadcrumbsItem-1 MuiTypography-body1-9 MuiTypography-colorTextSecondary-33"
         >
-          Curve.fi renBTC/wBTC/sBTC
+          bBTC
         </p>
       </li>
     </ol>

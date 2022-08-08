@@ -17,7 +17,7 @@ exports[`VaultMetrics displays withdrawable tokens 1`] = `
       class="MuiTypography-root-114 makeStyles-amount-153 MuiTypography-body1-116"
     >
       $
-      135,697,015
+      258
     </p>
     <p
       class="MuiTypography-root-114 makeStyles-assetsText-10 MuiTypography-body2-115"
@@ -30,7 +30,7 @@ exports[`VaultMetrics displays withdrawable tokens 1`] = `
       <span
         class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
       >
-        8/5/2022, 1:58:23 PM
+        12/31/1969, 7:00:00 PM
       </span>
       <span
         class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
@@ -44,7 +44,7 @@ exports[`VaultMetrics displays withdrawable tokens 1`] = `
       <span
         class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
       >
-        1.0082
+        1.0029
       </span>
       <span
         class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
@@ -87,7 +87,7 @@ exports[`VaultMetrics renders correctly 1`] = `
       class="MuiTypography-root-114 makeStyles-amount-153 MuiTypography-body1-116"
     >
       $
-      135,697,015
+      258
     </p>
     <p
       class="MuiTypography-root-114 makeStyles-assetsText-10 MuiTypography-body2-115"
@@ -100,7 +100,7 @@ exports[`VaultMetrics renders correctly 1`] = `
       <span
         class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
       >
-        8/5/2022, 1:58:23 PM
+        12/31/1969, 7:00:00 PM
       </span>
       <span
         class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
@@ -114,7 +114,7 @@ exports[`VaultMetrics renders correctly 1`] = `
       <span
         class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
       >
-        1.0082
+        1.0029
       </span>
       <span
         class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
