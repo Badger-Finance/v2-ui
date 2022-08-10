@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
   firstParagraph: {
     marginBottom: 16,
   },
+  comingSoonText: {
+    fontSize: 20,
+  },
   liquidity: {
     marginTop: 20,
   },
@@ -131,16 +134,25 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
           </Grid>
         </Grid>
       </Grid>
+
       <Grid item className={classes.content}>
         <div className={classes.performanceChart}>
-          <Typography align="center" variant="body2">
-            Performance By Voting Round, Tokens per 100 {divisorToken}
-          </Typography>
-          <ChartContent loading={processingEmissions} data={emissionsSchedules ?? null}>
-            {emissionsSchedules && (
-              <InfluenceVaultChart emissions={emissionsSchedules} chartInitialSlice={config.chartInitialSlice} />
-            )}
-          </ChartContent>
+          {config.enableChart ? (
+            <div>
+              <Typography align="center" variant="body2">
+                Performance By Voting Round, Tokens per 100 {divisorToken}
+              </Typography>
+              <ChartContent loading={processingEmissions} data={emissionsSchedules ?? null}>
+                {emissionsSchedules && (
+                  <InfluenceVaultChart emissions={emissionsSchedules} chartInitialSlice={config.chartInitialSlice} />
+                )}
+              </ChartContent>
+            </div>
+          ) : (
+            <Typography align="center" variant="body1" className={classes.comingSoonText}>
+              Graph Coming Soon
+            </Typography>
+          )}
         </div>
       </Grid>
       <InfluenceVaultListModal

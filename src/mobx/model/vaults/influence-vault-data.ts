@@ -21,6 +21,7 @@ export interface InfluenceVaultConfig {
   poolToken: string;
   vaultToken: string;
   roundStart: number;
+  enableChart: boolean;
   sources: string[];
   scheduleRoundCutoff: number;
   chartInitialSlice: number;
