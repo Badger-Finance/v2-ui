@@ -30,7 +30,7 @@ interface Props {
 const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
   const classes = useStyles();
   const { vaults } = useContext(StoreContext);
-  const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
+  const { depositBalanceDisplay } = useVaultInformation(vault);
 
   const goToVaultDetail = async () => {
     await vaults.navigateToVaultDetail(vault);

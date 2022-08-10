@@ -1,4 +1,4 @@
-import { VaultBehavior, VaultDTO, VaultState } from '@badger-dao/sdk';
+import { VaultBehavior, VaultDTO, VaultState, VaultType } from '@badger-dao/sdk';
 import { Chip, Grid, GridProps, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { MouseEvent } from 'react';
@@ -79,7 +79,7 @@ const VaultListItemTags = ({
           />
         </Grid>
       )}
-      {vault.boost.enabled && (
+      {vault.type === VaultType.Boosted && (
         <Grid item xs="auto">
           {showLabels && (
             <Typography display="inline" variant={'caption'} className={classes.label}>
