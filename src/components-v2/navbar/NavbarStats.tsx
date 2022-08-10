@@ -179,11 +179,7 @@ export const NavbarStats = observer((): JSX.Element => {
               <Typography variant="helperText" display="inline">
                 My APR: &nbsp;
               </Typography>
-              <CurrencyDisplay
-                displayValue={`$${numberWithCommas(myAPR.toFixed())}`}
-                variant="helperText"
-                justifyContent="flex-start"
-              />
+              <CurrencyDisplay displayValue={`${myAPR.toFixed()}%`} variant="helperText" justifyContent="flex-start" />
             </IconButton>
           </Tooltip>
         </Grid>
