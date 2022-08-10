@@ -50,19 +50,17 @@ export default class UserStore {
 
   get myAPR(): number {
     const { vaults } = this.store;
-    let totalUserBalance = 0;
-    let userAPR = 0;
-    vaults.vaultOrder.flatMap((vault) => {
-      const depositBalance = this.getBalance(vault.vaultToken);
-      totalUserBalance += depositBalance.balance;
-    });
-
-    vaults.vaultOrder.flatMap((vault) => {
+    const totalUserBalance = vaults.vaultOrder.reduce(
+      (totalBalance, vault) => totalBalance + this.getBalance(vault.vaultToken).balance,
+      0,
+    );
+    const userAPR = vaults.vaultOrder.reduce((totalAPR, vault) => {
       const depositBalance = this.getBalance(vault.vaultToken);
       if (depositBalance.balance) {
-        userAPR += vault.apr * (depositBalance.balance / totalUserBalance);
+        return totalAPR + vault.apr * (depositBalance.balance / totalUserBalance);
       }
-    });
+      return totalAPR;
+    }, 0);
     return userAPR || 0;
   }
 
