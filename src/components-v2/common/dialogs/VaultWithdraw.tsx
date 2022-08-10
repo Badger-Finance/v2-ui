@@ -138,7 +138,6 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
   const depositToken = vaults.getToken(vault.underlyingToken);
   const bToken = vaults.getToken(vault.vaultToken);
 
-  const vaultSymbol = vaults.getToken(vault.vaultToken).symbol;
   const depositTokenSymbol = depositToken.symbol;
   const bTokenSymbol = bToken?.symbol || '';
 
@@ -199,7 +198,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
   if (!accepted && withdrawAdvisory) {
     return (
       <Dialog open={open} onClose={() => vaultDetail.toggleWithdrawDialog()} fullWidth maxWidth="xl">
-        <VaultDialogTitle vault={vault} mode="Withdraw" onClose={() => vaultDetail.toggleWithdrawDialog()} />
+        <VaultDialogTitle mode="Withdraw" onClose={() => vaultDetail.toggleWithdrawDialog()} />
         <VaultAdvisory vault={vault} accept={() => setAccepted(true)} type={withdrawAdvisory} />
       </Dialog>
     );
@@ -217,7 +216,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
-      <VaultDialogTitle vault={vault} mode="Withdraw" onClose={onClose} />
+      <VaultDialogTitle mode="Withdraw" onClose={onClose} />
       <VaultDialogContent className={classes.content}>
         {/* From Start */}
         <Box className={classes.tokenBox}>

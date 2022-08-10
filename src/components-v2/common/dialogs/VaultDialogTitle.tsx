@@ -1,4 +1,3 @@
-import { VaultDTO } from '@badger-dao/sdk';
 import { Box, DialogTitle, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
@@ -23,12 +22,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
   mode: string;
   onClose: () => void;
 }
 
-export const VaultDialogTitle = ({ vault, mode, onClose }: Props): JSX.Element => {
+export const VaultDialogTitle = ({ mode, onClose }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
