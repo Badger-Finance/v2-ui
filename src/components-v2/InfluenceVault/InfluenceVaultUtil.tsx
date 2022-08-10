@@ -121,7 +121,7 @@ export const vaults: InfluenceVaultConfig[] = [
     influenceVaultToken: mainnetDeploy.sett_system.vaults['native.graviaura'], // graviAura
     poolToken: '',
     vaultToken: mainnetDeploy.tokens['aura'], //Aura
-    roundStart: 1655956800,
+    roundStart: 1658545600,
     sources: [mainnetDeploy.sett_system.vaults['native.graviaura'], mainnetDeploy.tokens['badger']],
     scheduleRoundCutoff: 0,
     chartInitialSlice: 0,
