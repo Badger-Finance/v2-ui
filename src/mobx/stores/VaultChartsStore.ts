@@ -1,13 +1,8 @@
-import { ChartGranularity, VaultDTO, VaultSnapshot } from '@badger-dao/sdk';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import { ChartTimeFrame, VaultDTO, VaultSnapshot } from '@badger-dao/sdk';
 
-import { VaultChartTimeframe } from '../model/vaults/vault-charts';
 import { RootStore } from './RootStore';
 
-dayjs.extend(utc);
-
-type ChartCacheByPeriod = Map<VaultChartTimeframe, VaultSnapshot[]>;
+type ChartCacheByPeriod = Map<ChartTimeFrame, VaultSnapshot[]>;
 type VaultCache = Map<VaultDTO['underlyingToken'], ChartCacheByPeriod>;
 
 export class VaultChartsStore {
@@ -23,7 +18,7 @@ export class VaultChartsStore {
    * @param vault
    * @param timeframe
    */
-  async search(vault: VaultDTO, timeframe: VaultChartTimeframe): Promise<VaultSnapshot[]> {
+  async search(vault: VaultDTO, timeframe: ChartTimeFrame): Promise<VaultSnapshot[]> {
     const vaultCache = this.cache.get(vault.underlyingToken);
 
     if (!vaultCache) {
@@ -46,42 +41,7 @@ export class VaultChartsStore {
     return timeFrameCache;
   }
 
-  private async fetchVaultChart(vault: VaultDTO, timeframe: VaultChartTimeframe): Promise<VaultSnapshot[]> {
-    const {
-      config: { network },
-    } = this.store.sdk;
-
-    const daysFromTimeFrame = {
-      [VaultChartTimeframe.Day]: 1,
-      [VaultChartTimeframe.Week]: 7,
-      [VaultChartTimeframe.Month]: 30,
-    };
-
-    const timeframeDays = daysFromTimeFrame[timeframe];
-    const isDayTimeFrame = timeframe === VaultChartTimeframe.Day;
-
-    // if timeframe is just one day then we want the granularity to be hours
-    const granularity = isDayTimeFrame ? ChartGranularity.HOUR : ChartGranularity.DAY;
-
-    const now = dayjs().utc(); // query until current date
-    const from = dayjs(now).subtract(timeframeDays, 'days').utc();
-
-    const fetchedData = await this.store.sdk.api.loadCharts(
-      {
-        granularity,
-        vault: vault.vaultToken,
-
-        start: from.toDate().toISOString(),
-        end: now.toDate().toISOString(),
-      },
-      network,
-    );
-
-    if (!fetchedData) {
-      return [];
-    }
-
-    // data needs to be ascending sorted
-    return fetchedData.sort((a, b) => a.timestamp - b.timestamp);
+  private async fetchVaultChart(vault: VaultDTO, timeframe: ChartTimeFrame): Promise<VaultSnapshot[]> {
+    return this.store.api.loadVaultChart(vault.vaultToken, timeframe);
   }
 }

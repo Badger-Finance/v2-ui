@@ -59,9 +59,11 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
   const {
     vaults: { vaultsFilters },
     user,
+    wallet,
   } = useContext(StoreContext);
 
   const { sources, apr, minApr, maxApr, maxApy, minApy, sourcesApy, apy } = vault;
+  const { isConnected } = wallet;
 
   if (!minApr || !maxApr || !maxApy || !minApy) {
     return null;
@@ -101,6 +103,11 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
   const userRangeScalar = userBoost / MAX_BOOST;
   const userApr = (baseApr + userRangeScalar * range) / 100;
 
+  const yRefs = isConnected
+    ? [{ value: userApr, label: `Your ${mode} (${userApr.toFixed(2)}%)` }]
+    : [{ value: apr / 100, label: `Baseline ${mode} (${apr.toFixed(2)}%)` }];
+  const xRefs = isConnected ? [{ value: userBoost, label: 'Your Boost' }] : [];
+
   return (
     <BaseAreaChart
       title={`Badger Boost ${mode}`}
@@ -109,11 +116,8 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
       yFormatter={yScaleFormatter}
       width="99%" // needs to be 99% see https://github.com/recharts/recharts/issues/172#issuecomment-307858843
       customTooltip={<BoostTooltip />}
-      yReferences={[
-        { value: apr / 100, label: `Baseline ${mode} (${apr.toFixed(2)}%)` },
-        { value: userApr, label: `Your ${mode} (${userApr.toFixed(2)}%)` },
-      ]}
-      xReferences={[{ value: userBoost, label: 'Your Boost' }]}
+      yReferences={yRefs}
+      xReferences={xRefs}
     />
   );
 });

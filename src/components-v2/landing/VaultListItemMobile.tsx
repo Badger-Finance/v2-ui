@@ -30,7 +30,7 @@ interface Props {
 const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
   const classes = useStyles();
   const { vaults } = useContext(StoreContext);
-  const { vaultBoost, depositBalanceDisplay, projectedVaultBoost } = useVaultInformation(vault);
+  const { vaultBoost, depositBalanceDisplay } = useVaultInformation(vault);
 
   const goToVaultDetail = async () => {
     await vaults.navigateToVaultDetail(vault);
@@ -57,7 +57,7 @@ const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
       <Grid item container className={classes.info}>
         <Grid item xs container direction="column">
           <Typography>{vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}</Typography>
-          <VaultItemApr vault={vault} boost={vaultBoost} projectedBoost={projectedVaultBoost} />
+          <VaultItemApr vault={vault} />
         </Grid>
         <Grid item xs container direction="column">
           <Typography>My Deposits</Typography>

@@ -1,6 +1,8 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
+import { useVaultInformation } from 'hooks/useVaultInformation';
 import { numberWithCommas } from 'mobx/utils/helpers';
 import React, { MouseEvent, useState } from 'react';
 
@@ -26,14 +28,13 @@ const useStyles = makeStyles({
 
 interface Props {
   vault: VaultDTO;
-  boost: number;
   isDisabled?: boolean;
-  projectedBoost: number | null;
 }
 
-const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
+const VaultItemApr = ({ vault }: Props): JSX.Element => {
   const classes = useStyles();
   const [showApyInfo, setShowApyInfo] = useState(false);
+  const { projectedVaultBoost, vaultBoost } = useVaultInformation(vault);
 
   const handleApyInfoClick = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -53,7 +54,8 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
   }
 
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
-  const aprDisplay = isNewVault ? 'New Vault' : `${numberWithCommas(boost.toFixed(2))}%`;
+  const aprDisplay = isNewVault ? 'New Vault' : `${numberWithCommas(vaultBoost.toFixed(2))}%`;
+  const isInfluence = isInfluenceVault(vault.vaultToken);
 
   return (
     <Box
@@ -69,18 +71,18 @@ const VaultItemApr = ({ vault, boost, projectedBoost }: Props): JSX.Element => {
         </Typography>
         <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
       </Box>
-      {projectedBoost !== null && (
+      {!isInfluence && projectedVaultBoost !== null && (
         <Box display="flex">
           <Typography className={classes.projectedApr}>
-            Current: {`${numberWithCommas(projectedBoost.toFixed(2))}%`}
+            Current: {`${numberWithCommas(projectedVaultBoost.toFixed(2))}%`}
           </Typography>
         </Box>
       )}
       <VaultApyInformation
         open={showApyInfo}
         vault={vault}
-        boost={boost}
-        projectedBoost={projectedBoost}
+        boost={vaultBoost}
+        projectedBoost={projectedVaultBoost}
         onClose={handleClose}
       />
     </Box>

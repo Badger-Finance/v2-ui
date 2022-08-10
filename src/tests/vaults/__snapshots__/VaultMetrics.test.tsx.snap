@@ -3,76 +3,68 @@
 exports[`VaultMetrics displays withdrawable tokens 1`] = `
 <div>
   <div
-    class="MuiGrid-root-10 makeStyles-root-1 MuiGrid-container-11"
+    class="MuiGrid-root-11 makeStyles-root-1 MuiGrid-container-12"
   >
     <h6
-      class="MuiTypography-root-113 makeStyles-title-7 MuiTypography-h6-123"
+      class="MuiTypography-root-114 makeStyles-title-7 MuiTypography-h6-124"
     >
       Vault Details
     </h6>
     <hr
-      class="MuiDivider-root-145 WithStyles(ForwardRef(Divider))-root-143 WithStyles(ForwardRef(Divider))-root-144"
+      class="MuiDivider-root-146 WithStyles(ForwardRef(Divider))-root-144 WithStyles(ForwardRef(Divider))-root-145"
     />
     <p
-      class="MuiTypography-root-113 makeStyles-amount-152 MuiTypography-body1-115"
+      class="MuiTypography-root-114 makeStyles-amount-153 MuiTypography-body1-116"
     >
       $
-      135,697,015
+      258
     </p>
     <p
-      class="MuiTypography-root-113 MuiTypography-body2-114"
+      class="MuiTypography-root-114 makeStyles-assetsText-10 MuiTypography-body2-115"
     >
       Assets Deposited
     </p>
     <div
-      class="makeStyles-showMoreContainer-8"
+      class="makeStyles-submetric-4"
     >
-      <div
-        class="makeStyles-showMore-9"
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
       >
-        Hide
-      </div>
+        12/31/1969, 7:00:00 PM
+      </span>
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
+      >
+        last harvest time
+      </span>
     </div>
     <div
-      class="MuiCollapse-root-154 MuiCollapse-entered-155"
-      style="min-height: 0px;"
+      class="makeStyles-submetric-4"
     >
-      <div
-        class="MuiCollapse-wrapper-157"
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
       >
-        <div
-          class="MuiCollapse-wrapperInner-158"
-        >
-          <div
-            class="makeStyles-submetric-4"
-          >
-            <p
-              class="MuiTypography-root-113 makeStyles-submetricValue-5 MuiTypography-body1-115"
-            >
-              1.0082
-            </p>
-            <span
-              class="MuiTypography-root-113 makeStyles-submetricType-6 MuiTypography-caption-116"
-            >
-              tokens per share
-            </span>
-          </div>
-          <div
-            class="makeStyles-submetric-4"
-          >
-            <p
-              class="MuiTypography-root-113 makeStyles-submetricValue-5 MuiTypography-body1-115"
-            >
-              100.00000
-            </p>
-            <span
-              class="MuiTypography-root-113 makeStyles-submetricType-6 MuiTypography-caption-116"
-            >
-              tokens withdrawable
-            </span>
-          </div>
-        </div>
-      </div>
+        1.0029
+      </span>
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
+      >
+        tokens per share
+      </span>
+    </div>
+    <div
+      class="makeStyles-submetric-4"
+    >
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
+      >
+        100.00000
+      </span>
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
+      >
+        tokens withdrawable
+      </span>
     </div>
   </div>
 </div>
@@ -81,62 +73,54 @@ exports[`VaultMetrics displays withdrawable tokens 1`] = `
 exports[`VaultMetrics renders correctly 1`] = `
 <div>
   <div
-    class="MuiGrid-root-10 makeStyles-root-1 MuiGrid-container-11"
+    class="MuiGrid-root-11 makeStyles-root-1 MuiGrid-container-12"
   >
     <h6
-      class="MuiTypography-root-113 makeStyles-title-7 MuiTypography-h6-123"
+      class="MuiTypography-root-114 makeStyles-title-7 MuiTypography-h6-124"
     >
       Vault Details
     </h6>
     <hr
-      class="MuiDivider-root-145 WithStyles(ForwardRef(Divider))-root-143 WithStyles(ForwardRef(Divider))-root-144"
+      class="MuiDivider-root-146 WithStyles(ForwardRef(Divider))-root-144 WithStyles(ForwardRef(Divider))-root-145"
     />
     <p
-      class="MuiTypography-root-113 makeStyles-amount-152 MuiTypography-body1-115"
+      class="MuiTypography-root-114 makeStyles-amount-153 MuiTypography-body1-116"
     >
       $
-      135,697,015
+      258
     </p>
     <p
-      class="MuiTypography-root-113 MuiTypography-body2-114"
+      class="MuiTypography-root-114 makeStyles-assetsText-10 MuiTypography-body2-115"
     >
       Assets Deposited
     </p>
     <div
-      class="makeStyles-showMoreContainer-8"
+      class="makeStyles-submetric-4"
     >
-      <div
-        class="makeStyles-showMore-9"
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
       >
-        Hide
-      </div>
+        12/31/1969, 7:00:00 PM
+      </span>
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
+      >
+        last harvest time
+      </span>
     </div>
     <div
-      class="MuiCollapse-root-154 MuiCollapse-entered-155"
-      style="min-height: 0px;"
+      class="makeStyles-submetric-4"
     >
-      <div
-        class="MuiCollapse-wrapper-157"
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricValue-5 MuiTypography-caption-117"
       >
-        <div
-          class="MuiCollapse-wrapperInner-158"
-        >
-          <div
-            class="makeStyles-submetric-4"
-          >
-            <p
-              class="MuiTypography-root-113 makeStyles-submetricValue-5 MuiTypography-body1-115"
-            >
-              1.0082
-            </p>
-            <span
-              class="MuiTypography-root-113 makeStyles-submetricType-6 MuiTypography-caption-116"
-            >
-              tokens per share
-            </span>
-          </div>
-        </div>
-      </div>
+        1.0029
+      </span>
+      <span
+        class="MuiTypography-root-114 makeStyles-submetricType-6 MuiTypography-caption-117"
+      >
+        tokens per share
+      </span>
     </div>
   </div>
 </div>

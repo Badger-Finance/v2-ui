@@ -1,10 +1,11 @@
+import { ChartTimeFrame } from '@badger-dao/sdk';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import { ChartMode, VaultChartTimeframe } from '../../../mobx/model/vaults/vault-charts';
+import { ChartMode } from '../../../mobx/model/vaults/vault-charts';
 import { ChartModeTitles } from '../utils';
 import { ChartTimeframeControls } from './ChartTimeframeControls';
 
@@ -25,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   mode: ChartMode;
-  timeframe: VaultChartTimeframe;
-  onTimeframeChange: (timeframe: VaultChartTimeframe) => void;
+  timeframe: ChartTimeFrame;
+  onTimeframeChange: (timeframe: ChartTimeFrame) => void;
 }
 
 export const ChartsHeader = observer(({ mode, timeframe, onTimeframeChange }: Props): JSX.Element => {
@@ -65,7 +66,7 @@ export const ChartsHeader = observer(({ mode, timeframe, onTimeframeChange }: Pr
       </Grid>
       {mode !== ChartMode.BoostMultiplier && (
         <Grid item xs={12} sm={6} className={classes.buttonGroupContainer}>
-          <ChartTimeframeControls mode={mode} value={timeframe} onChange={onTimeframeChange} />
+          <ChartTimeframeControls value={timeframe} onChange={onTimeframeChange} />
         </Grid>
       )}
     </Grid>

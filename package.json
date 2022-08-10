@@ -6,8 +6,8 @@
     "node": ">=16.13.1"
   },
   "dependencies": {
-    "@badger-dao/sdk": "^1.16.7",
-    "@badger-dao/sdk-mocks": "^1.16.7",
+    "@badger-dao/sdk": "^1.16.11",
+    "@badger-dao/sdk-mocks": "^1.16.11",
     "@coinbase/wallet-sdk": "^3.3.0",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
@@ -30,7 +30,6 @@
     "css-mediaquery": "^0.1.2",
     "d3-format": "^3.1.0",
     "d3-time-format": "^4.1.0",
-    "dayjs": "^1.11.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -43,7 +42,6 @@
     "mobx": "^6.6.0",
     "mobx-react-lite": "^3.4.0",
     "mobx-router": "^1.0.0",
-    "mox-router": "^0.3.1",
     "os-browserify": "^0.3.0",
     "prettier": "^2.7.1",
     "pretty-quick": "^3.1.3",
@@ -67,7 +65,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "test": "react-app-rewired test --watchAll=false --runInBand --logHeapUsage",
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "test:coverage": "react-scripts test --silent --ci --coverage --watchAll=false --coverageReporters=\"text\" --coverageReporters=\"text-summary\" --json --outputFile=report.json",

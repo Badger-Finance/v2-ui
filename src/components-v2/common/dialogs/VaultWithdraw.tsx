@@ -1,6 +1,7 @@
 import { TransactionStatus, VaultDTO } from '@badger-dao/sdk';
-import { Dialog, Grid, Typography } from '@material-ui/core';
+import { Box, Dialog, Grid, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import VaultLogo from 'components-v2/landing/VaultLogo';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -12,24 +13,22 @@ import { useNumericInput } from 'utils/useNumericInput';
 import { showTransferRejectedToast, showTransferSignedToast, showWalletPromptToast } from '../../../utils/toasts';
 import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../../TransactionToast';
 import { PercentageSelector } from '../PercentageSelector';
-import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, VaultDialogContent } from './styled';
+import { ActionButton, LoaderSpinner, PercentagesContainer, VaultDialogContent } from './styled';
 import VaultAdvisory from './VaultAdvisory';
 import { VaultConversionAndFee } from './VaultConversionAndFee';
 import { VaultDialogTitle } from './VaultDialogTitle';
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(0, 3, 3, 3),
+    color: 'rgba(255,255,255,0.6)',
   },
   fees: {
     marginTop: theme.spacing(2),
+    padding: theme.spacing(0, 2),
   },
   rate: {
     marginTop: theme.spacing(1),
-  },
-  rateLabel: {
-    fontSize: 12,
-    lineHeight: '1.66',
   },
   geyserDeposit: {
     border: `1px solid ${theme.palette.primary.main}`,
@@ -44,6 +43,78 @@ const useStyles = makeStyles((theme) => ({
   legacyAppLink: {
     margin: '0px 3px',
   },
+  tokenBox: {
+    background: '#121212',
+    borderRadius: 8,
+    padding: '15px 20px 25px',
+    '& .token-label': {
+      fontSize: 12,
+      marginBottom: 5,
+      color: theme.palette.primary.main,
+    },
+    '& .token-logo-name': {
+      border: `1px solid ${theme.palette.primary.main}`,
+      background: '#FFFFFF26',
+      padding: '15px 20px',
+      borderRadius: 8,
+      marginRight: 10,
+      maxHeight: 55,
+      height: '100%',
+      '& img': {
+        maxWidth: 24,
+      },
+      '& .token-name': {
+        paddingLeft: 5,
+        wordBreak: 'break-all',
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginRight: 0,
+      },
+    },
+    '& .token-balance-percentage': {
+      marginTop: 20,
+      '& .token-balance': {
+        fontSize: 12,
+      },
+    },
+  },
+  amountTextField: {
+    '& input': {
+      color: 'rgba(255,255,255,0.6)',
+      paddingTop: 4,
+      paddingBottom: 0,
+      fontSize: 24,
+    },
+    '& fieldset': {
+      border: 0,
+    },
+  },
+  amountTextFieldHasValue: {
+    '& input': {
+      color: 'rgba(255,255,255,0.87)',
+    },
+  },
+  amountDollarValue: {
+    marginTop: 2,
+    paddingRight: 15,
+    color: 'rgba(255,255,255,0.6)',
+    '& p': {
+      fontSize: 12,
+    },
+  },
+  totalAmountContainer: {
+    // marginTop: theme.spacing(1),
+    padding: theme.spacing(0, 2),
+  },
+  totalAmountLabel: {
+    fontSize: 14,
+    height: '100%',
+    color: 'rgba(255,255,255,0.6)',
+  },
+  totalAmount: {
+    fontSize: 24,
+    color: '#FFFFFFDE',
+  },
 }));
 
 export interface VaultModalProps {
@@ -54,7 +125,7 @@ export interface VaultModalProps {
 }
 
 export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, onClose }: VaultModalProps) => {
-  const { wallet, user, vaults, sdk, transactions, vaultDetail } = useContext(StoreContext);
+  const { wallet, user, vaults, sdk, transactions, vaultDetail, prices } = useContext(StoreContext);
   const classes = useStyles();
 
   const [accepted, setAccepted] = useState(!withdrawAdvisory);
@@ -74,7 +145,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
   const canWithdraw = wallet.isConnected && !!amount && userHasBalance;
   const isLoading = false;
 
-  const withdraw = TokenBalance.fromString(userBalance, amount);
+  const withdraw = TokenBalance.fromString(userBalance, amount === '' ? '0' : amount);
 
   const handlePercentageChange = (percent: number) => {
     setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -128,7 +199,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
   if (!accepted && withdrawAdvisory) {
     return (
       <Dialog open={open} onClose={() => vaultDetail.toggleWithdrawDialog()} fullWidth maxWidth="xl">
-        <VaultDialogTitle vault={vault} mode="Withdraw" />
+        <VaultDialogTitle vault={vault} mode="Withdraw" onClose={() => vaultDetail.toggleWithdrawDialog()} />
         <VaultAdvisory vault={vault} accept={() => setAccepted(true)} type={withdrawAdvisory} />
       </Dialog>
     );
@@ -136,42 +207,90 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
 
   const withdrawFees = (
     <>
-      <AmountTextField
-        variant="outlined"
-        fullWidth
-        placeholder="Type an amount to withdraw"
-        inputProps={inputProps}
-        value={amount || ''}
-        onChange={onValidChange(setAmount)}
-      />
-      <Grid container justifyContent="space-between" className={classes.rate}>
-        <Typography className={classes.rateLabel} color="textSecondary" display="inline">
-          Withdraw Rate
-        </Typography>
-        <Typography display="inline" variant="subtitle2">
-          {`1 ${bTokenSymbol} = ${vault.pricePerFullShare} ${depositTokenSymbol}`}
-        </Typography>
-      </Grid>
       <Grid container className={classes.fees}>
         <VaultConversionAndFee vault={vault} balance={Number(amount)} />
       </Grid>
     </>
   );
 
+  const withdrawAmount = (Number(amount) * vault.pricePerFullShare).toFixed(6);
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
-      <VaultDialogTitle vault={vault} mode="Withdraw" />
-      <VaultDialogContent dividers className={classes.content}>
-        <Grid container alignItems="center">
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1" color="textSecondary">
-              {`Deposited ${vaultSymbol}: ${userBalance.balanceDisplay()}`}
-            </Typography>
+      <VaultDialogTitle vault={vault} mode="Withdraw" onClose={onClose} />
+      <VaultDialogContent className={classes.content}>
+        {/* From Start */}
+        <Box className={classes.tokenBox}>
+          <Typography className="token-label">From</Typography>
+          <Grid container>
+            <Grid item xs={12} sm={7}>
+              <Box className="token-logo-name" display="flex" alignItems="center">
+                <VaultLogo tokens={vault.tokens} />
+                <Typography className="token-name">{vault.name}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={5}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                placeholder="Type an amount to withdraw"
+                inputProps={inputProps}
+                value={amount || ''}
+                onChange={onValidChange(setAmount)}
+                className={`${classes.amountTextField} ${
+                  Number(amount) || amount.length > 1 ? classes.amountTextFieldHasValue : ''
+                }`}
+              />
+              <Box display="flex" justifyContent="flex-end" className={classes.amountDollarValue}>
+                <Typography>
+                  ~${amount ? (Number(amount) * prices.getPrice(vault.vaultToken)).toFixed(2) : 0}
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-          <PercentagesContainer item xs={12} sm={6}>
-            <PercentageSelector size="small" options={[25, 50, 75, 100]} onChange={handlePercentageChange} />
-          </PercentagesContainer>
-        </Grid>
+          <Grid container alignItems="center" className="token-balance-percentage">
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" color="textSecondary" className="token-balance">
+                {`1 ${bTokenSymbol} = ${vault.pricePerFullShare} ${depositTokenSymbol}`}
+              </Typography>
+            </Grid>
+            <PercentagesContainer item xs={12} sm={6}>
+              <PercentageSelector size="small" options={[25, 50, 75, 100]} onChange={handlePercentageChange} />
+            </PercentagesContainer>
+          </Grid>
+        </Box>
+        {/* From End */}
+        {/* To Start */}
+        <Box className={classes.tokenBox} sx={{ marginTop: 10 }}>
+          <Typography className="token-label">To</Typography>
+          <Grid container>
+            <Grid item xs={12} sm={7}>
+              <Box className="token-logo-name" display="flex" alignItems="center">
+                <VaultLogo tokens={vault.tokens} />
+                <Typography className="token-name">{depositToken.name}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={5}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                // placeholder="Type an amount to deposit"
+                inputProps={inputProps}
+                value={withdrawAmount || ''}
+                // onChange={onValidChange(setAmount)}
+                className={`${classes.amountTextField} ${
+                  Number(withdrawAmount) || withdrawAmount.length > 1 ? classes.amountTextFieldHasValue : ''
+                }`}
+              />
+              <Box display="flex" justifyContent="flex-end" className={classes.amountDollarValue}>
+                <Typography>
+                  ~${amount ? (Number(amount) * prices.getPrice(vault.underlyingToken)).toFixed(2) : 0}
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+        {/* To End */}
         {withdrawFees}
         <ActionButton
           aria-label="Withdraw"
@@ -188,7 +307,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
               <LoaderSpinner size={20} />
             </>
           ) : (
-            'Withdraw'
+            `Withdraw ${vault.asset}`
           )}
         </ActionButton>
       </VaultDialogContent>

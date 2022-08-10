@@ -351,7 +351,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-286"
+            class="MuiTouchRipple-root-433"
           />
         </button>
       </div>
@@ -379,7 +379,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-286"
+            class="MuiTouchRipple-root-433"
           />
         </button>
       </div>
@@ -407,7 +407,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-286"
+            class="MuiTouchRipple-root-433"
           />
         </button>
       </div>
@@ -435,7 +435,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </span>
           <span
-            class="MuiTouchRipple-root-286"
+            class="MuiTouchRipple-root-433"
           />
         </button>
       </div>
@@ -475,6 +475,19 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
           >
             <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                discontinued
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
               class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
             >
               <span
@@ -489,16 +502,92 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
       <div
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
+        <p
+          class="MuiTypography-root-144 makeStyles-apr-233 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169"
+        >
+          --%
+        </p>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
         <div
-          class="MuiBox-root-236 MuiBox-root-237 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-239"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $0.00
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-243"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $1,061,884
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        />
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          bveCVX
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
         >
           <div
-            class="MuiBox-root-236 MuiBox-root-238"
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Convex
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-244 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-245"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
             >
-              8.17%
+              28.04%
             </p>
             <img
               alt="apy info icon"
@@ -512,12 +601,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-236 MuiBox-root-264"
+          class="MuiBox-root-238 MuiBox-root-256"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
           >
-            $0.00
+            0 
           </p>
         </div>
       </div>
@@ -525,12 +614,933 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-236 MuiBox-root-268"
+          class="MuiBox-root-238 MuiBox-root-259"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
           >
-            $2,874
+            $18,108,361
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        />
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          graviAURA
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Aura
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-260 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-261"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              17.62%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-264"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-267"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $2,525,602
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        />
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          auraBAL
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                experimental
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Aura
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Ecosystem Helper
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-268 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-269"
+          >
+            <h6
+              class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              New Vault
+            </h6>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+          <div
+            class="MuiBox-root-238 MuiBox-root-270"
+          >
+            <p
+              class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
+            >
+              Current: 
+              109.00%
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-273"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-276"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $69,939
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="auraBAL logo"
+            class="makeStyles-position-277"
+            src="/assets/icons/aurabal.svg"
+          />
+          <img
+            alt="graviAURA logo"
+            class="makeStyles-position-278"
+            src="/assets/icons/graviaura.svg"
+          />
+          <img
+            alt="WETH logo"
+            class="makeStyles-position-279"
+            src="/assets/icons/weth.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          graviAURA/auraBAL/WETH
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                experimental
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Aura
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-280 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-281"
+          >
+            <h6
+              class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              New Vault
+            </h6>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+          <div
+            class="MuiBox-root-238 MuiBox-root-282"
+          >
+            <p
+              class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
+            >
+              Current: 
+              161.03%
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-285"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-288"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $73,432
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="WBTC logo"
+            class="makeStyles-position-289"
+            src="/assets/icons/wbtc.svg"
+          />
+          <img
+            alt="BADGER logo"
+            class="makeStyles-position-290"
+            src="/assets/icons/badger.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          BADGER/WBTC
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                experimental
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Aura
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-291 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-292"
+          >
+            <h6
+              class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              New Vault
+            </h6>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+          <div
+            class="MuiBox-root-238 MuiBox-root-293"
+          >
+            <p
+              class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
+            >
+              Current: 
+              34.29%
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-296"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-299"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $544,871
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="WBTC logo"
+            class="makeStyles-position-300"
+            src="/assets/icons/wbtc.svg"
+          />
+          <img
+            alt="DIGG logo"
+            class="makeStyles-position-301"
+            src="/assets/icons/digg.svg"
+          />
+          <img
+            alt="graviAURA logo"
+            class="makeStyles-position-302"
+            src="/assets/icons/graviaura.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          graviAURA/DIGG/WBTC
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                experimental
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Aura
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-303 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-304"
+          >
+            <h6
+              class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              New Vault
+            </h6>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+          <div
+            class="MuiBox-root-238 MuiBox-root-305"
+          >
+            <p
+              class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
+            >
+              Current: 
+              297.48%
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-308"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-311"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $798,703
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="CVX logo"
+            class="makeStyles-position-312"
+            src="/assets/icons/cvx.svg"
+          />
+          <img
+            alt="bveCVX logo"
+            class="makeStyles-position-313"
+            src="/assets/icons/bvecvx.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          CVX/bveCVX
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Curve
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-314 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-315"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              20.46%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-318"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-321"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $1,232,538
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        />
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          cvxCRV
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Convex
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Ecosystem Helper
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                🚀 Boosted
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-322 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-323"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              26.63%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-326"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-329"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $5,841,390
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="wibBTC logo"
+            class="makeStyles-position-330"
+            src="/assets/icons/wibbtc.svg"
+          />
+          <img
+            alt="crvRenWSBTC logo"
+            class="makeStyles-position-331"
+            src="/assets/icons/crvrenwsbtc.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          ibBTC/crvsBTC
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Convex
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                🚀 Boosted
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-332 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-333"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              16.77%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-336"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-339"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $27,471,043
           </p>
         </div>
       </div>
@@ -550,8 +1560,13 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="BADGER logo"
-            class="makeStyles-position-269"
+            class="makeStyles-position-340"
             src="/assets/icons/badger.svg"
+          />
+          <img
+            alt="WBTC logo"
+            class="makeStyles-position-341"
+            src="/assets/icons/wbtc.svg"
           />
         </div>
       </div>
@@ -561,7 +1576,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         <h6
           class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
         >
-          Badger
+          BADGER/WBTC
         </h6>
         <div
           class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
@@ -575,20 +1590,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
               <span
                 class="MuiChip-label-224 MuiChip-labelSmall-225"
               >
-                Badger
-              </span>
-            </div>
-          </div>
-          <div
-            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
-          >
-            <div
-              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
-            >
-              <span
-                class="MuiChip-label-224 MuiChip-labelSmall-225"
-              >
-                DCA
+                Convex
               </span>
             </div>
           </div>
@@ -598,15 +1600,15 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-236 MuiBox-root-270 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-342 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-236 MuiBox-root-271"
+            class="MuiBox-root-238 MuiBox-root-343"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
             >
-              8.17%
+              19.15%
             </p>
             <img
               alt="apy info icon"
@@ -620,12 +1622,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-236 MuiBox-root-274"
+          class="MuiBox-root-238 MuiBox-root-346"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
           >
-            $0.00
+            0 
           </p>
         </div>
       </div>
@@ -633,12 +1635,640 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-236 MuiBox-root-277"
+          class="MuiBox-root-238 MuiBox-root-349"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
           >
-            $10,000
+            $3,998,480
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="WBTC logo"
+            class="makeStyles-position-350"
+            src="/assets/icons/wbtc.svg"
+          />
+          <img
+            alt="BADGER logo"
+            class="makeStyles-position-351"
+            src="/assets/icons/badger.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          wBTC/Badger
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Sushiswap
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-352 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-353"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              21.17%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-356"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-359"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $1,530,831
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="WBTC logo"
+            class="makeStyles-position-360"
+            src="/assets/icons/wbtc.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          wBTC
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Yearn
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <p
+          class="MuiTypography-root-144 makeStyles-apr-233 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169"
+        >
+          --%
+        </p>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-363"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-366"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $2,942,012
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="WBTC logo"
+            class="makeStyles-position-367"
+            src="/assets/icons/wbtc.svg"
+          />
+          <img
+            alt="WETH logo"
+            class="makeStyles-position-368"
+            src="/assets/icons/weth.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          wBTC/wETH
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Sushiswap
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-369 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-370"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              2.60%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-373"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-376"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $9,057,468
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="bb-a-USDT logo"
+            class="makeStyles-position-377"
+            src="/assets/icons/bb-a-usdt.svg"
+          />
+          <img
+            alt="bb-a-DAI logo"
+            class="makeStyles-position-378"
+            src="/assets/icons/bb-a-dai.svg"
+          />
+          <img
+            alt="bb-a-USDC logo"
+            class="makeStyles-position-379"
+            src="/assets/icons/bb-a-usdc.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          bb-a-USD
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                experimental
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Aura
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 makeStyles-clickableTag-200 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Ecosystem Helper
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-380 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-381"
+          >
+            <h6
+              class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              New Vault
+            </h6>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+          <div
+            class="MuiBox-root-238 MuiBox-root-382"
+          >
+            <p
+              class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
+            >
+              Current: 
+              7.61%
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-385"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-388"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $101,577
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="renBTC logo"
+            class="makeStyles-position-389"
+            src="/assets/icons/renbtc.svg"
+          />
+          <img
+            alt="WBTC logo"
+            class="makeStyles-position-390"
+            src="/assets/icons/wbtc.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          renBTC/wBTC
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Convex
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-391 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-392"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              2.01%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-395"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-398"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $18,683,481
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiPaper-root-116 MuiCard-root-195 MuiGrid-root-13 makeStyles-root-186 MuiGrid-container-14 MuiGrid-direction-xs-column-17 MuiPaper-elevation1-120 MuiPaper-rounded-117"
+  >
+    <div
+      class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37 MuiGrid-item-15"
+    >
+      <div
+        class="MuiGrid-root-13 makeStyles-iconBadgeContainer-190 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+      >
+        <div
+          class="makeStyles-root-196"
+        >
+          <img
+            alt="USDT logo"
+            class="makeStyles-position-399"
+            src="/assets/icons/usdt.svg"
+          />
+          <img
+            alt="WBTC logo"
+            class="makeStyles-position-400"
+            src="/assets/icons/wbtc.svg"
+          />
+          <img
+            alt="WETH logo"
+            class="makeStyles-position-401"
+            src="/assets/icons/weth.svg"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-grid-xs-true-47 MuiGrid-grid-lg-5-94"
+      >
+        <h6
+          class="MuiTypography-root-144 makeStyles-vaultName-191 MuiTypography-subtitle1-155"
+        >
+          Tricrypto2
+        </h6>
+        <div
+          class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-spacing-xs-2-37"
+        >
+          <div
+            class="MuiGrid-root-13 MuiGrid-item-15 MuiGrid-grid-xs-auto-46"
+          >
+            <div
+              class="MuiChip-root-202 makeStyles-tag-198 MuiChip-sizeSmall-203"
+            >
+              <span
+                class="MuiChip-label-224 MuiChip-labelSmall-225"
+              >
+                Convex
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-402 makeStyles-root-232"
+        >
+          <div
+            class="MuiBox-root-238 MuiBox-root-403"
+          >
+            <p
+              class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
+            >
+              14.58%
+            </p>
+            <img
+              alt="apy info icon"
+              class="makeStyles-apyInfo-234"
+              src="/assets/icons/apy-info.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-406"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            0 
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
+      >
+        <div
+          class="MuiBox-root-238 MuiBox-root-409"
+        >
+          <p
+            class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
+          >
+            $893,363
           </p>
         </div>
       </div>

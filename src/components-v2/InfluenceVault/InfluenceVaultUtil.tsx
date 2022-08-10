@@ -20,6 +20,7 @@ export const vaults: InfluenceVaultConfig[] = [
     poolToken: mainnetDeploy.tokens['bveCVXCVX'],
     vaultToken: mainnetDeploy.sett_system.vaults['native.cvxCrv'], //bvecrvCVX
     roundStart: 1632182660,
+    enableChart: true,
     scheduleRoundCutoff: 1,
     chartInitialSlice: 2,
     sources: [
@@ -121,7 +122,8 @@ export const vaults: InfluenceVaultConfig[] = [
     influenceVaultToken: mainnetDeploy.sett_system.vaults['native.graviaura'], // graviAura
     poolToken: '',
     vaultToken: mainnetDeploy.tokens['aura'], //Aura
-    roundStart: 1655956800,
+    roundStart: 1658545600,
+    enableChart: false,
     sources: [mainnetDeploy.sett_system.vaults['native.graviaura'], mainnetDeploy.tokens['badger']],
     scheduleRoundCutoff: 0,
     chartInitialSlice: 0,

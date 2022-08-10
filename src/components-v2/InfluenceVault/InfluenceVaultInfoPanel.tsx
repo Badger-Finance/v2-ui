@@ -1,11 +1,11 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { ChartTimeFrame, VaultDTO } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { ChartMode, VaultChartTimeframe } from '../../mobx/model/vaults/vault-charts';
+import { ChartMode } from '../../mobx/model/vaults/vault-charts';
 import { StoreContext } from '../../mobx/stores/store-context';
 import ChartContent from '../vault-detail/charts/ChartContent';
 import { ChartsHeader } from '../vault-detail/charts/ChartsHeader';
@@ -43,14 +43,10 @@ const InfluenceVaultInfoPanel = ({ vault, config }: Props): JSX.Element => {
   const classes = useStyles();
   const { influenceVaultStore } = useContext(StoreContext);
   const influenceVault = influenceVaultStore.getInfluenceVault(vault.vaultToken);
-  const [timeframe, setTimeframe] = useState(VaultChartTimeframe.Week);
+  const [timeframe, setTimeframe] = useState(ChartTimeFrame.Week);
   const [mode, setMode] = useState<TabType>('performance');
-  const data = influenceVault?.vaultChartData?.map((d) => ({
-    x: d.timestamp,
-    y: d.balance,
-  }));
 
-  const handleTimeFrameChange = async (timeframe: VaultChartTimeframe) => {
+  const handleTimeFrameChange = async (timeframe: ChartTimeFrame) => {
     setTimeframe(timeframe);
     await influenceVaultStore.loadChartInfo(timeframe, vault);
   };
@@ -61,8 +57,8 @@ const InfluenceVaultInfoPanel = ({ vault, config }: Props): JSX.Element => {
         <ChartsHeader mode={ChartMode.Balance} timeframe={timeframe} onTimeframeChange={handleTimeFrameChange} />
       </Grid>
       <Grid item container xs justifyContent="center" alignItems="center">
-        <ChartContent data={data ?? null} loading={influenceVault.processingChartData}>
-          <VaultChart mode={ChartMode.Balance} timeframe={timeframe} data={data ?? null} />
+        <ChartContent data={influenceVault?.vaultChartData ?? []} loading={influenceVault.processingChartData}>
+          <VaultChart vault={vault} timeframe={timeframe} chartData={influenceVault?.vaultChartData ?? []} />
         </ChartContent>
       </Grid>
     </Grid>
