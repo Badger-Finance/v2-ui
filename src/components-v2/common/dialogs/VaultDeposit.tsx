@@ -226,7 +226,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
     }
     return (
       <Dialog open={open} onClose={() => vaultDetail.toggleDepositDialog()} fullWidth maxWidth="xl">
-        <VaultDialogTitle vault={vault} mode="Deposit" onClose={() => vaultDetail.toggleDepositDialog()} />
+        <VaultDialogTitle mode="Deposit" onClose={() => vaultDetail.toggleDepositDialog()} />
         <VaultAdvisory vault={vault} accept={() => setAccepted(true)} type={advisory} />
       </Dialog>
     );
@@ -249,7 +249,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
-      <VaultDialogTitle vault={vault} mode="Deposit" onClose={onClose} />
+      <VaultDialogTitle mode="Deposit" onClose={onClose} />
       <DialogContent className={classes.content}>
         {vault.state === VaultState.Guarded && (
           <Grid container className={classes.guardedVault}>
