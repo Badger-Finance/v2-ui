@@ -48,6 +48,19 @@ export default class UserStore {
     return rewardsValue + walletValue;
   }
 
+  get myAPR(): number {
+    const { vaults } = this.store;
+    const deposites: number[] = [];
+    vaults.vaultOrder.flatMap((vault) => {
+      const depositBalance = this.getBalance(vault.vaultToken);
+      deposites.push(depositBalance.price * depositBalance.balance);
+    });
+    const totalAPR =
+      deposites.reduce((prevValue, currentValue) => prevValue + Number(currentValue) * Number(currentValue), 0) /
+      deposites.reduce((prevValue, currentValue) => prevValue + Number(currentValue), 0);
+    return totalAPR || 0;
+  }
+
   async reloadBalances(): Promise<void> {
     const { wallet } = this.store;
 
