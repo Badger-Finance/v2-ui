@@ -2,6 +2,7 @@
 
 // deployment stage definitions
 enum Stage {
+  Local = 'local',
   Experimental = 'experimental',
   Development = 'development',
   Staging = 'staging',
@@ -17,8 +18,10 @@ function getStage(stage?: string) {
       return Stage.Staging;
     case Stage.Production:
       return Stage.Production;
-    default:
+    case Stage.Development:
       return Stage.Development;
+    default:
+      return Stage.Local;
   }
 }
 
@@ -29,7 +32,7 @@ function getStage(stage?: string) {
  * staging and production apps utilize the production api integration.
  */
 function getIntegrationStage(stage: Stage) {
-  if (stage === Stage.Experimental || stage === Stage.Development) {
+  if (stage === Stage.Experimental || stage === Stage.Development || stage === Stage.Local) {
     return Stage.Staging;
   }
   return Stage.Production;
@@ -39,6 +42,8 @@ function getIntegrationStage(stage: Stage) {
 export const BUILD_ENV = getStage(process.env.REACT_APP_BUILD_ENV);
 // debugging flag available on non-prod equivalent deployments
 export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
+
+export const LOCAL = BUILD_ENV === Stage.Local;
 
 export const getApi = (): string => {
   if (DEBUG) {
