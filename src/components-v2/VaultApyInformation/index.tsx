@@ -78,8 +78,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
 
   const classes = useStyles();
   const displaySources = showAPR ? sources : sourcesApy;
-  // make sure boost sources are always the last one
-  const sortedSources = displaySources.slice().sort((source) => (source.boostable ? 1 : -1));
+  const sortedSources = displaySources.slice().sort((a, b) => (b.apr > a.apr ? 1 : -1));
 
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
   const harvestSources: YieldSourceDisplay[] = showAPR ? harvestPeriodSources : harvestPeriodSourcesApy;

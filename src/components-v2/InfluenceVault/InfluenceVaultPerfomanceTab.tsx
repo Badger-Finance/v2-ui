@@ -61,7 +61,7 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
   const classes = useStyles();
   const sources = vaults.vaultsFilters.showAPR ? vault.sources : vault.sourcesApy;
-  const sortedSources = sources.slice().sort((source) => (source.boostable ? 1 : -1));
+  const sortedSources = sources.slice().sort((a, b) => (b.apr > a.apr ? 1 : -1));
   const apy = vaults.vaultsFilters.showAPR ? vault.apr : vault.apy;
   const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
   const { processingEmissions, emissionsSchedules, swapPercentage } = influenceVaultStore.getInfluenceVault(
