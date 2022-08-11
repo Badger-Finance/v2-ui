@@ -7,11 +7,11 @@ import { Fantom } from 'mobx/model/network/ftm.network';
 import { Local } from 'mobx/model/network/local.network';
 import { Polygon } from 'mobx/model/network/matic.network';
 
-import { DEBUG } from './environment';
+import { LOCAL } from './environment';
 
 export const supportedNetworks: Chain[] = [
   new Ethereum(),
-  ...(DEBUG ? [new Local()] : []),
+  ...(LOCAL ? [new Local()] : []),
   new Polygon(),
   new BinanceSmartChain(),
   new Arbitrum(),
