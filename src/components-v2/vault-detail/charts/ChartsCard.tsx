@@ -1,4 +1,4 @@
-import { ChartTimeFrame, VaultDTO, VaultSnapshot } from '@badger-dao/sdk';
+import { ChartTimeFrame, VaultDTO, VaultSnapshot, VaultType } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -42,8 +42,7 @@ interface Props {
 
 export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
   const { vaultCharts } = useContext(StoreContext);
-  const { minApr, maxApr } = vault;
-  const isBoostable = minApr && maxApr;
+  const isBoostable = vault.type === VaultType.Boosted;
 
   const classes = useStyles();
   const [chartData, setChartData] = useState<VaultSnapshot[]>([]);
