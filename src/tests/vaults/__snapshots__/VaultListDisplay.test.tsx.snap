@@ -601,7 +601,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-256"
+          class="MuiBox-root-238 MuiBox-root-271"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -614,7 +614,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-259"
+          class="MuiBox-root-238 MuiBox-root-274"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -668,10 +668,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-260 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-275 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-261"
+            class="MuiBox-root-238 MuiBox-root-276"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -690,7 +690,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-264"
+          class="MuiBox-root-238 MuiBox-root-279"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -703,7 +703,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-267"
+          class="MuiBox-root-238 MuiBox-root-282"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -783,10 +783,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-268 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-283 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-269"
+            class="MuiBox-root-238 MuiBox-root-284"
           >
             <h6
               class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -800,7 +800,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </div>
           <div
-            class="MuiBox-root-238 MuiBox-root-270"
+            class="MuiBox-root-238 MuiBox-root-285"
           >
             <p
               class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
@@ -815,7 +815,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-273"
+          class="MuiBox-root-238 MuiBox-root-288"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -828,7 +828,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-276"
+          class="MuiBox-root-238 MuiBox-root-291"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -853,17 +853,17 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="auraBAL logo"
-            class="makeStyles-position-277"
+            class="makeStyles-position-292"
             src="/assets/icons/aurabal.svg"
           />
           <img
             alt="graviAURA logo"
-            class="makeStyles-position-278"
+            class="makeStyles-position-293"
             src="/assets/icons/graviaura.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-279"
+            class="makeStyles-position-294"
             src="/assets/icons/weth.svg"
           />
         </div>
@@ -911,10 +911,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-280 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-295 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-281"
+            class="MuiBox-root-238 MuiBox-root-296"
           >
             <h6
               class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -928,7 +928,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </div>
           <div
-            class="MuiBox-root-238 MuiBox-root-282"
+            class="MuiBox-root-238 MuiBox-root-297"
           >
             <p
               class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
@@ -943,7 +943,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-285"
+          class="MuiBox-root-238 MuiBox-root-300"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -956,7 +956,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-288"
+          class="MuiBox-root-238 MuiBox-root-303"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -981,12 +981,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-289"
+            class="makeStyles-position-304"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="BADGER logo"
-            class="makeStyles-position-290"
+            class="makeStyles-position-305"
             src="/assets/icons/badger.svg"
           />
         </div>
@@ -1034,10 +1034,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-291 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-306 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-292"
+            class="MuiBox-root-238 MuiBox-root-307"
           >
             <h6
               class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -1051,7 +1051,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </div>
           <div
-            class="MuiBox-root-238 MuiBox-root-293"
+            class="MuiBox-root-238 MuiBox-root-308"
           >
             <p
               class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
@@ -1066,7 +1066,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-296"
+          class="MuiBox-root-238 MuiBox-root-311"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1079,7 +1079,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-299"
+          class="MuiBox-root-238 MuiBox-root-314"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1104,17 +1104,17 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-300"
+            class="makeStyles-position-315"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="DIGG logo"
-            class="makeStyles-position-301"
+            class="makeStyles-position-316"
             src="/assets/icons/digg.svg"
           />
           <img
             alt="graviAURA logo"
-            class="makeStyles-position-302"
+            class="makeStyles-position-317"
             src="/assets/icons/graviaura.svg"
           />
         </div>
@@ -1162,10 +1162,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-303 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-318 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-304"
+            class="MuiBox-root-238 MuiBox-root-319"
           >
             <h6
               class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -1179,7 +1179,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </div>
           <div
-            class="MuiBox-root-238 MuiBox-root-305"
+            class="MuiBox-root-238 MuiBox-root-320"
           >
             <p
               class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
@@ -1194,7 +1194,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-308"
+          class="MuiBox-root-238 MuiBox-root-323"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1207,7 +1207,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-311"
+          class="MuiBox-root-238 MuiBox-root-326"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1232,12 +1232,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="CVX logo"
-            class="makeStyles-position-312"
+            class="makeStyles-position-327"
             src="/assets/icons/cvx.svg"
           />
           <img
             alt="bveCVX logo"
-            class="makeStyles-position-313"
+            class="makeStyles-position-328"
             src="/assets/icons/bvecvx.svg"
           />
         </div>
@@ -1272,10 +1272,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-314 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-329 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-315"
+            class="MuiBox-root-238 MuiBox-root-330"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -1294,7 +1294,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-318"
+          class="MuiBox-root-238 MuiBox-root-333"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1307,7 +1307,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-321"
+          class="MuiBox-root-238 MuiBox-root-336"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1387,10 +1387,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-322 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-337 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-323"
+            class="MuiBox-root-238 MuiBox-root-338"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -1409,7 +1409,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-326"
+          class="MuiBox-root-238 MuiBox-root-341"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1422,7 +1422,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-329"
+          class="MuiBox-root-238 MuiBox-root-344"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1447,12 +1447,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="wibBTC logo"
-            class="makeStyles-position-330"
+            class="makeStyles-position-345"
             src="/assets/icons/wibbtc.svg"
           />
           <img
             alt="crvRenWSBTC logo"
-            class="makeStyles-position-331"
+            class="makeStyles-position-346"
             src="/assets/icons/crvrenwsbtc.svg"
           />
         </div>
@@ -1500,10 +1500,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-332 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-347 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-333"
+            class="MuiBox-root-238 MuiBox-root-348"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -1522,7 +1522,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-336"
+          class="MuiBox-root-238 MuiBox-root-351"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1535,7 +1535,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-339"
+          class="MuiBox-root-238 MuiBox-root-354"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1560,12 +1560,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="BADGER logo"
-            class="makeStyles-position-340"
+            class="makeStyles-position-355"
             src="/assets/icons/badger.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-341"
+            class="makeStyles-position-356"
             src="/assets/icons/wbtc.svg"
           />
         </div>
@@ -1600,10 +1600,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-342 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-357 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-343"
+            class="MuiBox-root-238 MuiBox-root-358"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -1622,7 +1622,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-346"
+          class="MuiBox-root-238 MuiBox-root-361"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1635,7 +1635,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-349"
+          class="MuiBox-root-238 MuiBox-root-364"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1660,12 +1660,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-350"
+            class="makeStyles-position-365"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="BADGER logo"
-            class="makeStyles-position-351"
+            class="makeStyles-position-366"
             src="/assets/icons/badger.svg"
           />
         </div>
@@ -1700,10 +1700,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-352 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-367 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-353"
+            class="MuiBox-root-238 MuiBox-root-368"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -1722,7 +1722,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-356"
+          class="MuiBox-root-238 MuiBox-root-371"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1735,7 +1735,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-359"
+          class="MuiBox-root-238 MuiBox-root-374"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1760,7 +1760,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-360"
+            class="makeStyles-position-375"
             src="/assets/icons/wbtc.svg"
           />
         </div>
@@ -1804,7 +1804,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-363"
+          class="MuiBox-root-238 MuiBox-root-378"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1817,7 +1817,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-366"
+          class="MuiBox-root-238 MuiBox-root-381"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1842,12 +1842,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-367"
+            class="makeStyles-position-382"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-368"
+            class="makeStyles-position-383"
             src="/assets/icons/weth.svg"
           />
         </div>
@@ -1882,10 +1882,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-369 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-384 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-370"
+            class="MuiBox-root-238 MuiBox-root-385"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -1904,7 +1904,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-373"
+          class="MuiBox-root-238 MuiBox-root-388"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1917,7 +1917,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-376"
+          class="MuiBox-root-238 MuiBox-root-391"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -1942,17 +1942,17 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="bb-a-USDT logo"
-            class="makeStyles-position-377"
+            class="makeStyles-position-392"
             src="/assets/icons/bb-a-usdt.svg"
           />
           <img
             alt="bb-a-DAI logo"
-            class="makeStyles-position-378"
+            class="makeStyles-position-393"
             src="/assets/icons/bb-a-dai.svg"
           />
           <img
             alt="bb-a-USDC logo"
-            class="makeStyles-position-379"
+            class="makeStyles-position-394"
             src="/assets/icons/bb-a-usdc.svg"
           />
         </div>
@@ -2013,10 +2013,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-380 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-395 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-381"
+            class="MuiBox-root-238 MuiBox-root-396"
           >
             <h6
               class="MuiTypography-root-144 MuiTypography-subtitle1-155 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -2030,7 +2030,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
             />
           </div>
           <div
-            class="MuiBox-root-238 MuiBox-root-382"
+            class="MuiBox-root-238 MuiBox-root-397"
           >
             <p
               class="MuiTypography-root-144 makeStyles-projectedApr-235 MuiTypography-body1-146"
@@ -2045,7 +2045,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-385"
+          class="MuiBox-root-238 MuiBox-root-400"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -2058,7 +2058,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-388"
+          class="MuiBox-root-238 MuiBox-root-403"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -2083,12 +2083,12 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="renBTC logo"
-            class="makeStyles-position-389"
+            class="makeStyles-position-404"
             src="/assets/icons/renbtc.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-390"
+            class="makeStyles-position-405"
             src="/assets/icons/wbtc.svg"
           />
         </div>
@@ -2123,10 +2123,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-391 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-406 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-392"
+            class="MuiBox-root-238 MuiBox-root-407"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -2145,7 +2145,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-395"
+          class="MuiBox-root-238 MuiBox-root-410"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -2158,7 +2158,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-398"
+          class="MuiBox-root-238 MuiBox-root-413"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -2183,17 +2183,17 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         >
           <img
             alt="USDT logo"
-            class="makeStyles-position-399"
+            class="makeStyles-position-414"
             src="/assets/icons/usdt.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-400"
+            class="makeStyles-position-415"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-401"
+            class="makeStyles-position-416"
             src="/assets/icons/weth.svg"
           />
         </div>
@@ -2228,10 +2228,10 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-align-items-xs-center-22 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-402 makeStyles-root-232"
+          class="MuiBox-root-238 MuiBox-root-417 makeStyles-root-232"
         >
           <div
-            class="MuiBox-root-238 MuiBox-root-403"
+            class="MuiBox-root-238 MuiBox-root-418"
           >
             <p
               class="MuiTypography-root-144 MuiTypography-body1-146 MuiTypography-colorTextPrimary-169 MuiTypography-displayInline-172"
@@ -2250,7 +2250,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-406"
+          class="MuiBox-root-238 MuiBox-root-421"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
@@ -2263,7 +2263,7 @@ exports[`VaultListDisplay uses default sort criteria by default 1`] = `
         class="MuiGrid-root-13 MuiGrid-container-14 MuiGrid-item-15 MuiGrid-justify-content-xs-flex-end-32 MuiGrid-grid-xs-true-47"
       >
         <div
-          class="MuiBox-root-238 MuiBox-root-409"
+          class="MuiBox-root-238 MuiBox-root-424"
         >
           <p
             class="MuiTypography-root-144 makeStyles-itemText-188 MuiTypography-body1-146"
