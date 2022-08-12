@@ -8,6 +8,16 @@ import { SAMPLE_VAULT } from '../utils/samples';
 import { checkSnapshot } from '../utils/snapshots';
 
 describe('VaultMetrics', () => {
+  beforeEach(() => {
+    const dateString = new Date(0).toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+    });
+    jest.spyOn(Date.prototype, 'toLocaleString').mockReturnValue(dateString);
+  });
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('renders correctly', () => {
     checkSnapshot(<VaultMetrics vault={SAMPLE_VAULT} />);
   });
@@ -25,6 +35,6 @@ describe('VaultMetrics', () => {
         0,
       ),
     );
-    checkSnapshot(<VaultMetrics vault={SAMPLE_VAULT} />);
+    checkSnapshot(<VaultMetrics vault={{ ...SAMPLE_VAULT }} />);
   });
 });

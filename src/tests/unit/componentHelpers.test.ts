@@ -183,6 +183,7 @@ describe('Component Helpers', () => {
               maxApr: 5.829144717979947,
             },
           ],
+          state: VaultState.Open,
         },
       ],
     ])('getUserVaultBoost(%s, %d) returns %p', (_testCaseName, boost, calculatedBoost, vault) => {
