@@ -50,8 +50,7 @@ const NoVaults = ({ network }: Props): JSX.Element => {
           No vaults to display
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          Badgers are working hard to build vaults on <span className={classes.networkName}>{network}</span>. Switch
-          network for more investment opportunities.
+          Switch to another network to view more vaults.
         </Typography>
       </Grid>
       <Grid item container justifyContent="center" className={classes.switchButtonContainer}>
