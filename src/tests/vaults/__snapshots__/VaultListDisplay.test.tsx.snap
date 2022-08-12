@@ -230,13 +230,7 @@ exports[`VaultListDisplay displays no vaults message 1`] = `
       <p
         class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
       >
-        Badgers are working hard to build vaults on 
-        <span
-          class="makeStyles-networkName-7"
-        >
-          ethereum
-        </span>
-        . Switch network for more investment opportunities.
+        Switch to another network to view more vaults.
       </p>
     </div>
     <div
@@ -285,13 +279,7 @@ exports[`VaultListDisplay does not display deprecated vaults with no user balanc
       <p
         class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
       >
-        Badgers are working hard to build vaults on 
-        <span
-          class="makeStyles-networkName-7"
-        >
-          ethereum
-        </span>
-        . Switch network for more investment opportunities.
+        Switch to another network to view more vaults.
       </p>
     </div>
     <div
