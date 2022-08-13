@@ -19,7 +19,7 @@ export const getApi = (): string => {
 const badgerApi = getApi();
 
 // api endpoints
-const listSettsEndpoint = `${badgerApi}/setts`;
+const listSettsEndpoint = `${badgerApi}/vaults`;
 const getTokensEndpoint = `${badgerApi}/tokens`;
 const getPricesEndpoint = `${badgerApi}/prices`;
 const getTVLEndpoint = `${badgerApi}/value`;
