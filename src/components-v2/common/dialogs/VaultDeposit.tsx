@@ -216,6 +216,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
     });
     if (result === TransactionStatus.Success) {
       await user.reloadBalances();
+      vaultDetail.toggleDepositDialog()
     }
   };
 
