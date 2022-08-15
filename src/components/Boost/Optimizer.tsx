@@ -151,7 +151,7 @@ export const Optimizer = observer((): JSX.Element => {
       <Grid container item xs={12} lg>
         <Grid container direction="column" component={Paper} className={classes.calculatorContainer}>
           <Grid item>
-            <OptimizerHeader stakeRatio={stakeRatio} onReset={handleReset} />
+            <OptimizerHeader stakeRatio={isNaN(stakeRatio) ? 0 : stakeRatio} onReset={handleReset} />
           </Grid>
           <Divider className={classes.divider} />
           <Grid item>
