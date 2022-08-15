@@ -288,6 +288,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: VaultModalProps): JS
 
     if (result === TransactionStatus.Success) {
       await user.reloadBalances();
+      handleClosing()
     }
   };
 
