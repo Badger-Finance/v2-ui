@@ -1,12 +1,11 @@
 import React from 'react';
-import { Button, Divider, Grid, Paper } from '@material-ui/core';
+import { Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 
 import { rankAndLevelFromStakeRatio } from '../../utils/boost-ranks';
 import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
-import routes from '../../config/routes';
 import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 import { StakeInformationHeader } from './StakeInformationHeader';
 import { roundWithDecimals } from '../../utils/componentHelpers';
@@ -60,7 +59,6 @@ interface Props {
 export const StakeInformation = observer(
 	({ native, nonNative, onRankClick }: Props): JSX.Element => {
 		const {
-			router,
 			user: { accountDetails },
 			wallet: { connectedAddress },
 		} = React.useContext(StoreContext);
@@ -105,7 +103,7 @@ export const StakeInformation = observer(
 					</Grid>
 				</Grid>
 
-				<Grid container className={classes.viewLeaderBoardContainer}>
+				{/* <Grid container className={classes.viewLeaderBoardContainer}>
 					<Button
 						fullWidth
 						color="primary"
@@ -117,7 +115,7 @@ export const StakeInformation = observer(
 					>
 						View Leaderboard
 					</Button>
-				</Grid>
+				</Grid> */}
 			</Grid>
 		);
 	},
