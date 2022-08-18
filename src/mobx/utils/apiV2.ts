@@ -31,7 +31,9 @@ const getLeaderBoardDataEndpoint = `${badgerApi}/leaderboards`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
-	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain  === 'eth' ? 'ethereum' : chain}` : ''}`));
+	return fetchData(() =>
+		fetch(`${listSettsEndpoint}${chain ? `?chain=${chain === 'eth' ? 'ethereum' : chain}` : ''}`),
+	);
 };
 
 export const getTokens = async (chain?: string): Promise<TokenConfigRecord | null> => {
