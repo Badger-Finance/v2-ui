@@ -343,14 +343,14 @@ export const Sidebar = observer(() => {
 									Boost Optimizer
 								</ListItem>
 							)}
-							<ListItem
+							{/* <ListItem
 								button
 								classes={{ gutters: classes.subItemGutters }}
 								className={getItemClass('/leaderboard', classes.primarySubListItem)}
 								onClick={() => navigate(views.boostLeaderBoard)}
 							>
 								Boost Leaderboard
-							</ListItem>
+							</ListItem> */}
 						</Collapse>
 
 						<ListItem

@@ -37,17 +37,23 @@ export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
 };
 
 export const getTokens = async (chain?: string): Promise<TokenConfigRecord | null> => {
-	return fetchData(() => fetch(`${getTokensEndpoint}${chain ? `?chain=${chain}` : ''}`));
+	return fetchData(() =>
+		fetch(`${getTokensEndpoint}${chain ? `?chain=${chain === 'eth' ? 'ethereum' : chain}` : ''}`),
+	);
 };
 
 export const getTokenPrices = async (chain?: string, currency?: string): Promise<PriceSummary | null> => {
 	return fetchData(() =>
-		fetch(`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`),
+		fetch(
+			`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${
+				chain === 'eth' ? 'ethereum' : chain
+			}`,
+		),
 	);
 };
 
 export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
-	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}&currency=eth`));
+	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${network === 'eth' ? 'ethereum' : network}&currency=eth`));
 };
 
 export const checkShopEligibility = async (address: string): Promise<Eligibility | null> => {
@@ -59,7 +65,9 @@ export const fetchBouncerProof = async (address: string): Promise<BouncerProof |
 };
 
 export const getAccountDetails = async (address: string, chain?: string): Promise<Account | null> => {
-	return fetchData(() => fetch(`${getAccountDetailsEndpoint}/${address}?chain=${chain ? chain : 'eth'}`));
+	return fetchData(() =>
+		fetch(`${getAccountDetailsEndpoint}/${address}?chain=${chain === 'eth' ? 'ethereum' : chain}`),
+	);
 };
 
 export const fetchClaimProof = async (address: string): Promise<RewardMerkleClaim | null> => {
