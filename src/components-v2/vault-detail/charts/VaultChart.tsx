@@ -1,4 +1,5 @@
 import { ChartTimeFrame, VaultDTO, VaultSnapshot, VaultVersion } from '@badger-dao/sdk';
+import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import React, { useState } from 'react';
@@ -186,7 +187,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
           strokeWidth={1.5}
           dot={false}
         />
-        {version === VaultVersion.v1_5 && (
+        {version === VaultVersion.v1_5 && !isInfluenceVault(vault.vaultToken) && (
           <Line
             type="monotone"
             dataKey="harvestApr"
