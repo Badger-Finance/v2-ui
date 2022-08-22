@@ -72,7 +72,6 @@ export function getUserVaultBoost(vault: VaultDTO, boost: number, apr = false): 
   }
 
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
-
   return (apr ? vault.sources : vault.sourcesApy)
     .map((source) => {
       if (!source.boostable) {
