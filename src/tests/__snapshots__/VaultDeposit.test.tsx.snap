@@ -107,7 +107,7 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
                   <p
                     class="MuiTypography-root-63 token-name MuiTypography-body1-65"
                   >
-                    bBTC
+                    bBTC/sbtcCRV
                   </p>
                 </div>
               </div>
@@ -579,7 +579,7 @@ exports[`Vault Deposit displays sett information 1`] = `
                   <p
                     class="MuiTypography-root-63 token-name MuiTypography-body1-65"
                   >
-                    bBTC
+                    bBTC/sbtcCRV
                   </p>
                 </div>
               </div>
