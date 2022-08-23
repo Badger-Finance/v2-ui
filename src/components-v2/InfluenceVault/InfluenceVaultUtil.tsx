@@ -126,7 +126,7 @@ export const vaults: InfluenceVaultConfig[] = [
     enableChart: true,
     sources: [mainnetDeploy.sett_system.vaults['native.graviaura'], mainnetDeploy.tokens['badger']],
     scheduleRoundCutoff: 0,
-    chartInitialSlice: 2,
+    chartInitialSlice: 4,
     rewardFrequencies: [
       {
         name: 'graviAURA, BADGER',
