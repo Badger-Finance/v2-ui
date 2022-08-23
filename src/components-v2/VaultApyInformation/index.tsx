@@ -79,10 +79,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
 
   const classes = useStyles();
   const displaySources = showAPR ? sources : sourcesApy;
-  let sortedSources = displaySources.slice().sort((a, b) => (b.apr > a.apr ? 1 : -1));
-  sortedSources = sortedSources
-    .filter((source) => source.name !== BoostedRewards.BoostedBadger)
-    .concat(sortedSources.filter((source) => source.name === BoostedRewards.BoostedBadger));
+  const sortedSources = displaySources.slice().sort((a, b) => (isBadgerSource(b) ? -1 : b.apr > a.apr ? 1 : -1));
 
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
   const harvestSources: YieldSourceDisplay[] = showAPR ? harvestPeriodSources : harvestPeriodSourcesApy;
