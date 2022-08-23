@@ -66,6 +66,7 @@ describe('Component Helpers', () => {
         9.99045,
         {
           ...SAMPLE_VAULT,
+          state: VaultState.Open,
           sources: [
             {
               name: 'Curve LP Fees',
@@ -182,7 +183,6 @@ describe('Component Helpers', () => {
               maxApr: 5.829144717979947,
             },
           ],
-          state: VaultState.Open,
         },
       ],
     ])('getUserVaultBoost(%s, %d) returns %p', (_testCaseName, boost, calculatedBoost, vault) => {
