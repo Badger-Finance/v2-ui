@@ -21,6 +21,7 @@ import routes from '../../config/routes';
 import { numberWithCommas } from '../../mobx/utils/helpers';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
+import { BoostedRewards } from 'utils/enums/boosted-rewards.enum';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,7 +79,11 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
 
   const classes = useStyles();
   const displaySources = showAPR ? sources : sourcesApy;
-  const sortedSources = displaySources.slice().sort((a, b) => (isBadgerSource(b) ? -1 : b.apr > a.apr ? 1 : -1));
+  let sortedSources = displaySources.slice().sort((a, b) => (b.apr > a.apr ? 1 : -1));
+  sortedSources = sortedSources
+    .filter((source) => source.name !== BoostedRewards.BoostedBadger)
+    .concat(sortedSources.filter((source) => source.name === BoostedRewards.BoostedBadger));
+
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
   const harvestSources: YieldSourceDisplay[] = showAPR ? harvestPeriodSources : harvestPeriodSourcesApy;
   const additionalSources: YieldSourceDisplay[] = showAPR ? nonHarvestSources : nonHarvestSourcesApy;
