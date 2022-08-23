@@ -1,4 +1,4 @@
-import { Grid, IconButton, makeStyles, Tooltip } from '@material-ui/core';
+import { Box, Grid, IconButton, makeStyles, Tooltip } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Skeleton } from '@material-ui/lab';
 import { Chain } from 'mobx/model/network/chain';
@@ -35,14 +35,6 @@ const useStyles = makeStyles((theme) => ({
   assets: {
     [theme.breakpoints.down('md')]: {
       display: 'none',
-    },
-  },
-  historicAPR: {
-    padding: '0 2px',
-    borderRadius: 0,
-    color: theme.palette.text.primary,
-    '&:hover': {
-      backgroundColor: 'transparent',
     },
   },
   arrowRightContainer: {
@@ -175,12 +167,12 @@ export const NavbarStats = observer((): JSX.Element => {
         </Grid>
         <Grid item className={classes.assets}>
           <Tooltip title="Historic APR" arrow>
-            <IconButton className={classes.historicAPR}>
+            <Box>    
               <Typography variant="helperText" display="inline">
                 My APR: &nbsp;
               </Typography>
               <CurrencyDisplay displayValue={`${myAPR.toFixed()}%`} variant="helperText" justifyContent="flex-start" />
-            </IconButton>
+            </Box>
           </Tooltip>
         </Grid>
       </Grid>
