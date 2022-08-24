@@ -25,7 +25,7 @@ describe('Vault Deposit', () => {
         <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
       </StoreProvider>,
     );
-    userEvent.click(screen.getAllByTitle('Click to see full description')[0]);
+    userEvent.click(screen.getAllByTitle(/click to see full description/i)[0]);
     expect(baseElement).toMatchSnapshot();
   });
 
@@ -35,7 +35,7 @@ describe('Vault Deposit', () => {
         <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
       </StoreProvider>,
     );
-    userEvent.click(screen.getAllByTitle('Click to see full description')[0]);
+    userEvent.click(screen.getAllByTitle(/click to see full description/i)[0]);
     userEvent.click(screen.getByRole('button', { name: 'Back' }));
     expect(baseElement).toMatchSnapshot();
   });

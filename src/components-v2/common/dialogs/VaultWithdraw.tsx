@@ -283,7 +283,10 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
               />
               <Box display="flex" justifyContent="flex-end" className={classes.amountDollarValue}>
                 <Typography>
-                  ~${amount ? (Number(amount) * prices.getPrice(vault.underlyingToken)).toFixed(2) : 0}
+                  ~$
+                  {amount
+                    ? (Number(amount) * prices.getPrice(vault.underlyingToken) * vault.pricePerFullShare).toFixed(2)
+                    : 0}
                 </Typography>
               </Box>
             </Grid>

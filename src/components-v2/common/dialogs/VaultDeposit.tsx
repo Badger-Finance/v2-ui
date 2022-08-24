@@ -216,6 +216,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
     });
     if (result === TransactionStatus.Success) {
       await user.reloadBalances();
+      vaultDetail.toggleDepositDialog();
     }
   };
 
@@ -262,7 +263,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
             <Grid item xs={12} sm={7}>
               <Box className="token-logo-name" display="flex" alignItems="center">
                 <VaultLogo tokens={vault.tokens} />
-                <Typography className="token-name">{vault.name}</Typography>
+                <Typography className="token-name">{vault.asset}</Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={5}>
