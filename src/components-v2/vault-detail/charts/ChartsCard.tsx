@@ -46,7 +46,7 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
 
   const classes = useStyles();
   const [chartData, setChartData] = useState<VaultSnapshot[]>([]);
-  const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
+  const [mode, setMode] = useState(ChartMode.Value);
   const [loading, setLoading] = useState(!isBoostable);
   const [timeframe, setTimeframe] = useState(ChartTimeFrame.Week);
 
@@ -77,14 +77,14 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
           value={mode}
         >
           <Tab
-            onClick={() => setMode(ChartMode.BoostMultiplier)}
-            value={ChartMode.BoostMultiplier}
-            label={ChartModeTitles[ChartMode.BoostMultiplier]}
-          />
-          <Tab
             onClick={() => setMode(ChartMode.Value)}
             value={ChartMode.Value}
             label={ChartModeTitles[ChartMode.Value]}
+          />
+          <Tab
+            onClick={() => setMode(ChartMode.BoostMultiplier)}
+            value={ChartMode.BoostMultiplier}
+            label={ChartModeTitles[ChartMode.BoostMultiplier]}
           />
         </Tabs>
       )}

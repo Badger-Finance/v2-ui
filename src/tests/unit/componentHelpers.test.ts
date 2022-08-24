@@ -66,6 +66,7 @@ describe('Component Helpers', () => {
         9.99045,
         {
           ...SAMPLE_VAULT,
+          state: VaultState.Open,
           sources: [
             {
               name: 'Curve LP Fees',
