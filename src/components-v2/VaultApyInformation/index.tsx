@@ -175,7 +175,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                     </Grid>
                     <Grid item>
                       <Typography variant="body2" display="inline" color="textSecondary">
-                        {`${numberWithCommas(token.apr.toFixed(2))}%`}
+                        {token?.apr && `${numberWithCommas(token.apr.toFixed(2))}%`}
                       </Typography>
                     </Grid>
                   </Grid>
