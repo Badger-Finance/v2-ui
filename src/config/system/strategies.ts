@@ -321,19 +321,33 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
         [ethDeploy.sett_system.vaults['native.graviaura']]: {
           userGuide:
             'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/graviaura-vote-locked-aura',
+          depositLink:
+            'https://app.balancer.fi/#/pool/0x9f40f06ea32304dc777ecc661609fb6b0c5daf4a00020000000000000000026a/invest',
         },
         [ethDeploy.sett_system.vaults['native.auraBal']]: {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/aurabal-helper',
+          depositLink:
+            'https://app.balancer.fi/#/pool/0x3dd0843a028c86e0b760b1a76929d1c5ef93a2dd000200000000000000000249/invest',
         },
         [ethDeploy.sett_system.vaults['native.aura-wbtc-badger']]: {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/b20wbtc-80badger',
+          depositLink:
+            'https://app.balancer.fi/#/pool/0xb460daa847c45f1c4a41cb05bfb3b51c92e41b36000200000000000000000194/invest',
         },
         [ethDeploy.sett_system.vaults['native.graviaura-aurabal-weth']]: {
           userGuide:
             'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/b33aurabal-33graviaura-33weth',
+          depositLink:
+            'https://app.balancer.fi/#/pool/0x0578292cb20a443ba1cde459c985ce14ca2bdee5000100000000000000000269/invest',
         },
         [ethDeploy.sett_system.vaults['native.aura-bb-aave-usd']]: {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/bbb-a-usd',
+          depositLink:
+            'https://app.balancer.fi/#/pool/0x7b50775383d3d6f0215a8f290f2c9e2eebbeceb20000000000000000000000fe/invest',
+        },
+        [ethDeploy.sett_system.vaults['native.graviaura-digg-wbtc']]: {
+          depositLink:
+            'https://app.balancer.fi/#/pool/0x8eb6c82c3081bbbd45dcac5afa631aac53478b7c000100000000000000000270/invest',
         },
       };
   }
