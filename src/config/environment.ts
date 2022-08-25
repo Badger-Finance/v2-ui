@@ -46,10 +46,11 @@ export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 export const LOCAL = BUILD_ENV === Stage.Local;
 
 export const getApi = (): string => {
-  if (DEBUG) {
-    return 'https://staging-api.badger.com';
-  }
-  return 'https://api.badger.com';
+  return 'https://staging-api.badger.com';
+  // if (DEBUG) {
+  //   return 'https://staging-api.badger.com';
+  // }
+  // return 'https://api.badger.com';
 };
 
 export const BADGER_API = getApi();
