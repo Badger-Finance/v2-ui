@@ -321,13 +321,9 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
         [ethDeploy.sett_system.vaults['native.graviaura']]: {
           userGuide:
             'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/graviaura-vote-locked-aura',
-          depositLink:
-            'https://app.balancer.fi/#/pool/0x9f40f06ea32304dc777ecc661609fb6b0c5daf4a00020000000000000000026a/invest',
         },
         [ethDeploy.sett_system.vaults['native.auraBal']]: {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/aurabal-helper',
-          depositLink:
-            'https://app.balancer.fi/#/pool/0x3dd0843a028c86e0b760b1a76929d1c5ef93a2dd000200000000000000000249/invest',
         },
         [ethDeploy.sett_system.vaults['native.aura-wbtc-badger']]: {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/b20wbtc-80badger',
