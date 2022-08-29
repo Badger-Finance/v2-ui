@@ -2,6 +2,8 @@ import { TransactionStatus, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Box, Button, Dialog, DialogContent, Grid, TextField, Typography } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import InfluenceVaultFees from 'components-v2/InfluenceVault/InfluenceVaultFees';
+import { getInfluenceVaultConfig, isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import VaultLogo from 'components-v2/landing/VaultLogo';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
@@ -149,6 +151,8 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
 
   // TODO: update this - it wasn't working anyways
   const isLoading = false;
+  const isInfluence = isInfluenceVault(vault.vaultToken);
+  const influenceVaultConfig = isInfluence && vault ? getInfluenceVaultConfig(vault?.vaultToken) : undefined;
   const userBalance = user.getBalance(vault.underlyingToken);
   const deposit = TokenBalance.fromString(userBalance, amount === '' ? '0' : amount);
   const vaultCaps = user.vaultCaps[vault.vaultToken];
@@ -296,7 +300,11 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
             </PercentagesContainer>
           </Grid>
         </Box>
-        <VaultFees vault={vault} className={classes.fees} onHelpClick={() => setShowFees(true)} />
+        {isInfluence && influenceVaultConfig !== undefined ? (
+          <InfluenceVaultFees vault={vault} className={classes.fees} feeConfig={influenceVaultConfig.feeConfig} />
+        ) : (
+          <VaultFees vault={vault} className={classes.fees} onHelpClick={() => setShowFees(true)} />
+        )}
         <Grid container className={classes.totalAmountContainer}>
           <Grid item xs={6}>
             <Box display="flex" alignItems="center" className={classes.totalAmountLabel}>

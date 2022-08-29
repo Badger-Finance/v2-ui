@@ -81,7 +81,15 @@ const InfluenceVaultSpecs = ({ vault, config }: Props): JSX.Element => {
           />
         </Grid>
         <Grid item xs className={classes.specItem}>
-          <InfluenceVaultFees vault={vault} feeConfig={config.feeConfig} />
+          <Grid container>
+            <Typography variant="h6" className={classes.title}>
+              Fees
+            </Typography>
+            <StyledDivider />
+            <Grid container direction="column">
+              <InfluenceVaultFees vault={vault} feeConfig={config.feeConfig} />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs className={classes.specItem}>
           <Box display="flex" alignItems="center">
