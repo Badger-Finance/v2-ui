@@ -3,13 +3,13 @@
 exports[`VaultItemApr Boosted Vaults displays correct APR and boost information 1`] = `
 <div>
   <div
-    class="MuiBox-root-5 MuiBox-root-6 makeStyles-root-1"
+    class="MuiBox-root-6 MuiBox-root-7 makeStyles-root-1"
   >
     <div
-      class="MuiBox-root-5 MuiBox-root-7"
+      class="MuiBox-root-6 MuiBox-root-8"
     >
       <p
-        class="MuiTypography-root-8 MuiTypography-body1-10 MuiTypography-colorTextPrimary-33 MuiTypography-displayInline-36"
+        class="MuiTypography-root-9 MuiTypography-body1-11 MuiTypography-colorTextPrimary-34 MuiTypography-displayInline-37"
       >
         0.31%
       </p>
@@ -26,7 +26,7 @@ exports[`VaultItemApr Boosted Vaults displays correct APR and boost information 
 exports[`VaultItemApr No APR Vaults renders zero APR 1`] = `
 <div>
   <p
-    class="MuiTypography-root-5 makeStyles-apr-2 MuiTypography-body1-7 MuiTypography-colorTextPrimary-30"
+    class="MuiTypography-root-6 makeStyles-apr-2 MuiTypography-body1-8 MuiTypography-colorTextPrimary-31"
   >
     --%
   </p>

@@ -40,7 +40,7 @@ exports[`Landing Renders correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-620"
+                class="MuiTouchRipple-root-629"
               />
             </span>
             <span
@@ -81,7 +81,7 @@ exports[`Landing Renders correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-620"
+                class="MuiTouchRipple-root-629"
               />
             </span>
             <span
@@ -122,7 +122,7 @@ exports[`Landing Renders correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-620"
+                class="MuiTouchRipple-root-629"
               />
             </span>
             <span
@@ -154,7 +154,7 @@ exports[`Landing Renders correctly 1`] = `
                 APY
               </span>
               <span
-                class="MuiTouchRipple-root-620"
+                class="MuiTouchRipple-root-629"
               />
             </button>
             <button
@@ -169,7 +169,7 @@ exports[`Landing Renders correctly 1`] = `
                 APR
               </span>
               <span
-                class="MuiTouchRipple-root-620"
+                class="MuiTouchRipple-root-629"
               />
             </button>
           </div>
@@ -399,7 +399,7 @@ exports[`Landing Renders correctly 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-620"
+                    class="MuiTouchRipple-root-629"
                   />
                 </button>
               </div>
@@ -434,7 +434,7 @@ exports[`Landing Renders correctly 1`] = `
               CLEAR ALL
             </span>
             <span
-              class="MuiTouchRipple-root-620"
+              class="MuiTouchRipple-root-629"
             />
           </button>
         </div>
@@ -473,7 +473,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-620"
+              class="MuiTouchRipple-root-629"
             />
           </button>
         </div>
@@ -501,7 +501,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-620"
+              class="MuiTouchRipple-root-629"
             />
           </button>
         </div>
@@ -529,7 +529,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-620"
+              class="MuiTouchRipple-root-629"
             />
           </button>
         </div>
@@ -557,7 +557,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-620"
+              class="MuiTouchRipple-root-629"
             />
           </button>
         </div>
@@ -606,10 +606,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-445 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-446 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-446"
+              class="MuiBox-root-445 MuiBox-root-447"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -628,7 +628,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-457"
+            class="MuiBox-root-445 MuiBox-root-466"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -641,7 +641,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-461"
+            class="MuiBox-root-445 MuiBox-root-470"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -721,10 +721,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-462 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-471 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-463"
+              class="MuiBox-root-445 MuiBox-root-472"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -743,7 +743,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-466"
+            class="MuiBox-root-445 MuiBox-root-475"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -756,7 +756,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-469"
+            class="MuiBox-root-445 MuiBox-root-478"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -810,10 +810,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-470 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-479 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-471"
+              class="MuiBox-root-445 MuiBox-root-480"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -832,7 +832,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-474"
+            class="MuiBox-root-445 MuiBox-root-483"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -845,7 +845,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-477"
+            class="MuiBox-root-445 MuiBox-root-486"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -925,15 +925,19 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-478 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-487 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-479"
+              class="MuiBox-root-445 MuiBox-root-488"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -942,7 +946,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-480"
+              class="MuiBox-root-445 MuiBox-root-489"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -957,7 +961,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-483"
+            class="MuiBox-root-445 MuiBox-root-492"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -970,7 +974,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-486"
+            class="MuiBox-root-445 MuiBox-root-495"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -995,17 +999,17 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="auraBAL logo"
-              class="makeStyles-position-487"
+              class="makeStyles-position-496"
               src="/assets/icons/aurabal.svg"
             />
             <img
               alt="graviAURA logo"
-              class="makeStyles-position-488"
+              class="makeStyles-position-497"
               src="/assets/icons/graviaura.svg"
             />
             <img
               alt="WETH logo"
-              class="makeStyles-position-489"
+              class="makeStyles-position-498"
               src="/assets/icons/weth.svg"
             />
           </div>
@@ -1053,15 +1057,19 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-490 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-499 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-491"
+              class="MuiBox-root-445 MuiBox-root-500"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -1070,7 +1078,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-492"
+              class="MuiBox-root-445 MuiBox-root-501"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -1085,7 +1093,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-495"
+            class="MuiBox-root-445 MuiBox-root-504"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1098,7 +1106,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-498"
+            class="MuiBox-root-445 MuiBox-root-507"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1123,12 +1131,12 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="WBTC logo"
-              class="makeStyles-position-499"
+              class="makeStyles-position-508"
               src="/assets/icons/wbtc.svg"
             />
             <img
               alt="BADGER logo"
-              class="makeStyles-position-500"
+              class="makeStyles-position-509"
               src="/assets/icons/badger.svg"
             />
           </div>
@@ -1176,15 +1184,19 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-501 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-510 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-502"
+              class="MuiBox-root-445 MuiBox-root-511"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -1193,7 +1205,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-503"
+              class="MuiBox-root-445 MuiBox-root-512"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -1208,7 +1220,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-506"
+            class="MuiBox-root-445 MuiBox-root-515"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1221,7 +1233,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-509"
+            class="MuiBox-root-445 MuiBox-root-518"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1246,17 +1258,17 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="WBTC logo"
-              class="makeStyles-position-510"
+              class="makeStyles-position-519"
               src="/assets/icons/wbtc.svg"
             />
             <img
               alt="DIGG logo"
-              class="makeStyles-position-511"
+              class="makeStyles-position-520"
               src="/assets/icons/digg.svg"
             />
             <img
               alt="graviAURA logo"
-              class="makeStyles-position-512"
+              class="makeStyles-position-521"
               src="/assets/icons/graviaura.svg"
             />
           </div>
@@ -1304,15 +1316,19 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-513 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-522 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-514"
+              class="MuiBox-root-445 MuiBox-root-523"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -1321,7 +1337,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-515"
+              class="MuiBox-root-445 MuiBox-root-524"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -1336,7 +1352,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-518"
+            class="MuiBox-root-445 MuiBox-root-527"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1349,7 +1365,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-521"
+            class="MuiBox-root-445 MuiBox-root-530"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1374,12 +1390,12 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="CVX logo"
-              class="makeStyles-position-522"
+              class="makeStyles-position-531"
               src="/assets/icons/cvx.svg"
             />
             <img
               alt="bveCVX logo"
-              class="makeStyles-position-523"
+              class="makeStyles-position-532"
               src="/assets/icons/bvecvx.svg"
             />
           </div>
@@ -1414,10 +1430,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-524 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-533 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-525"
+              class="MuiBox-root-445 MuiBox-root-534"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -1436,7 +1452,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-528"
+            class="MuiBox-root-445 MuiBox-root-537"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1449,7 +1465,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-531"
+            class="MuiBox-root-445 MuiBox-root-540"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1474,12 +1490,12 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="wibBTC logo"
-              class="makeStyles-position-532"
+              class="makeStyles-position-541"
               src="/assets/icons/wibbtc.svg"
             />
             <img
               alt="crvRenWSBTC logo"
-              class="makeStyles-position-533"
+              class="makeStyles-position-542"
               src="/assets/icons/crvrenwsbtc.svg"
             />
           </div>
@@ -1527,10 +1543,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-534 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-543 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-535"
+              class="MuiBox-root-445 MuiBox-root-544"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -1549,7 +1565,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-538"
+            class="MuiBox-root-445 MuiBox-root-547"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1562,7 +1578,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-541"
+            class="MuiBox-root-445 MuiBox-root-550"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1587,12 +1603,12 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="BADGER logo"
-              class="makeStyles-position-542"
+              class="makeStyles-position-551"
               src="/assets/icons/badger.svg"
             />
             <img
               alt="WBTC logo"
-              class="makeStyles-position-543"
+              class="makeStyles-position-552"
               src="/assets/icons/wbtc.svg"
             />
           </div>
@@ -1627,10 +1643,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-544 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-553 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-545"
+              class="MuiBox-root-445 MuiBox-root-554"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -1649,7 +1665,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-548"
+            class="MuiBox-root-445 MuiBox-root-557"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1662,7 +1678,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-551"
+            class="MuiBox-root-445 MuiBox-root-560"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1687,12 +1703,12 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="WBTC logo"
-              class="makeStyles-position-552"
+              class="makeStyles-position-561"
               src="/assets/icons/wbtc.svg"
             />
             <img
               alt="BADGER logo"
-              class="makeStyles-position-553"
+              class="makeStyles-position-562"
               src="/assets/icons/badger.svg"
             />
           </div>
@@ -1727,10 +1743,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-554 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-563 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-555"
+              class="MuiBox-root-445 MuiBox-root-564"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -1749,7 +1765,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-558"
+            class="MuiBox-root-445 MuiBox-root-567"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1762,7 +1778,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-561"
+            class="MuiBox-root-445 MuiBox-root-570"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1787,7 +1803,7 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="WBTC logo"
-              class="makeStyles-position-562"
+              class="makeStyles-position-571"
               src="/assets/icons/wbtc.svg"
             />
           </div>
@@ -1831,7 +1847,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-565"
+            class="MuiBox-root-445 MuiBox-root-574"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1844,7 +1860,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-568"
+            class="MuiBox-root-445 MuiBox-root-577"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1869,12 +1885,12 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="WBTC logo"
-              class="makeStyles-position-569"
+              class="makeStyles-position-578"
               src="/assets/icons/wbtc.svg"
             />
             <img
               alt="WETH logo"
-              class="makeStyles-position-570"
+              class="makeStyles-position-579"
               src="/assets/icons/weth.svg"
             />
           </div>
@@ -1909,10 +1925,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-571 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-580 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-572"
+              class="MuiBox-root-445 MuiBox-root-581"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -1931,7 +1947,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-575"
+            class="MuiBox-root-445 MuiBox-root-584"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1944,7 +1960,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-578"
+            class="MuiBox-root-445 MuiBox-root-587"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -1969,17 +1985,17 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="bb-a-USDT logo"
-              class="makeStyles-position-579"
+              class="makeStyles-position-588"
               src="/assets/icons/bb-a-usdt.svg"
             />
             <img
               alt="bb-a-DAI logo"
-              class="makeStyles-position-580"
+              class="makeStyles-position-589"
               src="/assets/icons/bb-a-dai.svg"
             />
             <img
               alt="bb-a-USDC logo"
-              class="makeStyles-position-581"
+              class="makeStyles-position-590"
               src="/assets/icons/bb-a-usdc.svg"
             />
           </div>
@@ -2040,15 +2056,19 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-582 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-591 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-583"
+              class="MuiBox-root-445 MuiBox-root-592"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -2057,7 +2077,7 @@ exports[`Landing Renders correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-584"
+              class="MuiBox-root-445 MuiBox-root-593"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -2072,7 +2092,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-587"
+            class="MuiBox-root-445 MuiBox-root-596"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -2085,7 +2105,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-590"
+            class="MuiBox-root-445 MuiBox-root-599"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -2110,12 +2130,12 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="renBTC logo"
-              class="makeStyles-position-591"
+              class="makeStyles-position-600"
               src="/assets/icons/renbtc.svg"
             />
             <img
               alt="WBTC logo"
-              class="makeStyles-position-592"
+              class="makeStyles-position-601"
               src="/assets/icons/wbtc.svg"
             />
           </div>
@@ -2150,10 +2170,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-593 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-602 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-594"
+              class="MuiBox-root-445 MuiBox-root-603"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -2172,7 +2192,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-597"
+            class="MuiBox-root-445 MuiBox-root-606"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -2185,7 +2205,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-600"
+            class="MuiBox-root-445 MuiBox-root-609"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -2210,17 +2230,17 @@ exports[`Landing Renders correctly 1`] = `
           >
             <img
               alt="USDT logo"
-              class="makeStyles-position-601"
+              class="makeStyles-position-610"
               src="/assets/icons/usdt.svg"
             />
             <img
               alt="WBTC logo"
-              class="makeStyles-position-602"
+              class="makeStyles-position-611"
               src="/assets/icons/wbtc.svg"
             />
             <img
               alt="WETH logo"
-              class="makeStyles-position-603"
+              class="makeStyles-position-612"
               src="/assets/icons/weth.svg"
             />
           </div>
@@ -2255,10 +2275,10 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-align-items-xs-center-51 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-604 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-613 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-605"
+              class="MuiBox-root-445 MuiBox-root-614"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -2277,7 +2297,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-608"
+            class="MuiBox-root-445 MuiBox-root-617"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -2290,7 +2310,7 @@ exports[`Landing Renders correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <div
-            class="MuiBox-root-444 MuiBox-root-611"
+            class="MuiBox-root-445 MuiBox-root-620"
           >
             <p
               class="MuiTypography-root-182 makeStyles-itemText-397 MuiTypography-body1-184"
@@ -2347,7 +2367,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-622"
+                class="MuiTouchRipple-root-631"
               />
             </span>
             <span
@@ -2365,12 +2385,12 @@ exports[`Landing Renders mobile version correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <button
-            class="MuiButtonBase-root-170 MuiButton-root-239 MuiButton-text-241 makeStyles-button-620"
+            class="MuiButtonBase-root-170 MuiButton-root-239 MuiButton-text-241 makeStyles-button-629"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-240 makeStyles-buttonLabel-621"
+              class="MuiButton-label-240 makeStyles-buttonLabel-630"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body2-183 MuiTypography-displayInline-210"
@@ -2389,7 +2409,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
@@ -2428,7 +2448,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
@@ -2456,7 +2476,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
@@ -2484,7 +2504,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
@@ -2512,14 +2532,14 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -2528,13 +2548,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
           class="makeStyles-root-405"
         />
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           bveCVX
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -2545,10 +2565,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-635 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-644 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-636"
+              class="MuiBox-root-445 MuiBox-root-645"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -2572,7 +2592,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-639"
+            class="MuiBox-root-445 MuiBox-root-648"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -2605,7 +2625,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -2614,13 +2634,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
           class="makeStyles-root-405"
         />
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           cvxCRV
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -2631,10 +2651,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-640 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-649 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-641"
+              class="MuiBox-root-445 MuiBox-root-650"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -2658,7 +2678,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-644"
+            class="MuiBox-root-445 MuiBox-root-653"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -2717,7 +2737,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -2726,13 +2746,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
           class="makeStyles-root-405"
         />
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           graviAURA
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -2743,10 +2763,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-645 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-654 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-646"
+              class="MuiBox-root-445 MuiBox-root-655"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -2770,7 +2790,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-649"
+            class="MuiBox-root-445 MuiBox-root-658"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -2803,7 +2823,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -2812,13 +2832,13 @@ exports[`Landing Renders mobile version correctly 1`] = `
           class="makeStyles-root-405"
         />
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           auraBAL
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -2829,15 +2849,19 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-650 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-659 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-651"
+              class="MuiBox-root-445 MuiBox-root-660"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -2846,7 +2870,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-652"
+              class="MuiBox-root-445 MuiBox-root-661"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -2866,7 +2890,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-655"
+            class="MuiBox-root-445 MuiBox-root-664"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -2925,7 +2949,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -2935,28 +2959,28 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="auraBAL logo"
-            class="makeStyles-position-656"
+            class="makeStyles-position-665"
             src="/assets/icons/aurabal.svg"
           />
           <img
             alt="graviAURA logo"
-            class="makeStyles-position-657"
+            class="makeStyles-position-666"
             src="/assets/icons/graviaura.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-658"
+            class="makeStyles-position-667"
             src="/assets/icons/weth.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           graviAURA/auraBAL/WETH
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -2967,15 +2991,19 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-659 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-668 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-660"
+              class="MuiBox-root-445 MuiBox-root-669"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -2984,7 +3012,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-661"
+              class="MuiBox-root-445 MuiBox-root-670"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -3004,7 +3032,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-664"
+            class="MuiBox-root-445 MuiBox-root-673"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3050,7 +3078,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3060,23 +3088,23 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-665"
+            class="makeStyles-position-674"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="BADGER logo"
-            class="makeStyles-position-666"
+            class="makeStyles-position-675"
             src="/assets/icons/badger.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           BADGER/WBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3087,15 +3115,19 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-667 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-676 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-668"
+              class="MuiBox-root-445 MuiBox-root-677"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -3104,7 +3136,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-669"
+              class="MuiBox-root-445 MuiBox-root-678"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -3124,7 +3156,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-672"
+            class="MuiBox-root-445 MuiBox-root-681"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3170,7 +3202,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3180,28 +3212,28 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-673"
+            class="makeStyles-position-682"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="DIGG logo"
-            class="makeStyles-position-674"
+            class="makeStyles-position-683"
             src="/assets/icons/digg.svg"
           />
           <img
             alt="graviAURA logo"
-            class="makeStyles-position-675"
+            class="makeStyles-position-684"
             src="/assets/icons/graviaura.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           graviAURA/DIGG/WBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3212,15 +3244,19 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-676 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-685 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-677"
+              class="MuiBox-root-445 MuiBox-root-686"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -3229,7 +3265,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-678"
+              class="MuiBox-root-445 MuiBox-root-687"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -3249,7 +3285,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-681"
+            class="MuiBox-root-445 MuiBox-root-690"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3295,7 +3331,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3305,23 +3341,23 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="CVX logo"
-            class="makeStyles-position-682"
+            class="makeStyles-position-691"
             src="/assets/icons/cvx.svg"
           />
           <img
             alt="bveCVX logo"
-            class="makeStyles-position-683"
+            class="makeStyles-position-692"
             src="/assets/icons/bvecvx.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           CVX/bveCVX
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3332,10 +3368,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-684 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-693 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-685"
+              class="MuiBox-root-445 MuiBox-root-694"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -3359,7 +3395,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-688"
+            class="MuiBox-root-445 MuiBox-root-697"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3392,7 +3428,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3402,23 +3438,23 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="wibBTC logo"
-            class="makeStyles-position-689"
+            class="makeStyles-position-698"
             src="/assets/icons/wibbtc.svg"
           />
           <img
             alt="crvRenWSBTC logo"
-            class="makeStyles-position-690"
+            class="makeStyles-position-699"
             src="/assets/icons/crvrenwsbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           ibBTC/crvsBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3429,10 +3465,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-691 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-700 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-692"
+              class="MuiBox-root-445 MuiBox-root-701"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -3456,7 +3492,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-695"
+            class="MuiBox-root-445 MuiBox-root-704"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3502,7 +3538,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3512,23 +3548,23 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="BADGER logo"
-            class="makeStyles-position-696"
+            class="makeStyles-position-705"
             src="/assets/icons/badger.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-697"
+            class="makeStyles-position-706"
             src="/assets/icons/wbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           BADGER/WBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3539,10 +3575,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-698 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-707 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-699"
+              class="MuiBox-root-445 MuiBox-root-708"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -3566,7 +3602,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-702"
+            class="MuiBox-root-445 MuiBox-root-711"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3599,7 +3635,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3609,23 +3645,23 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-703"
+            class="makeStyles-position-712"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="BADGER logo"
-            class="makeStyles-position-704"
+            class="makeStyles-position-713"
             src="/assets/icons/badger.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           wBTC/Badger
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3636,10 +3672,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-705 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-714 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-706"
+              class="MuiBox-root-445 MuiBox-root-715"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -3663,7 +3699,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-709"
+            class="MuiBox-root-445 MuiBox-root-718"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3696,7 +3732,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3706,18 +3742,18 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-710"
+            class="makeStyles-position-719"
             src="/assets/icons/wbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           wBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3742,7 +3778,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-713"
+            class="MuiBox-root-445 MuiBox-root-722"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3775,7 +3811,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3785,23 +3821,23 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-714"
+            class="makeStyles-position-723"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-715"
+            class="makeStyles-position-724"
             src="/assets/icons/weth.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           wBTC/wETH
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3812,10 +3848,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-716 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-725 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-717"
+              class="MuiBox-root-445 MuiBox-root-726"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -3839,7 +3875,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-720"
+            class="MuiBox-root-445 MuiBox-root-729"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -3872,7 +3908,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -3882,28 +3918,28 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="bb-a-USDT logo"
-            class="makeStyles-position-721"
+            class="makeStyles-position-730"
             src="/assets/icons/bb-a-usdt.svg"
           />
           <img
             alt="bb-a-DAI logo"
-            class="makeStyles-position-722"
+            class="makeStyles-position-731"
             src="/assets/icons/bb-a-dai.svg"
           />
           <img
             alt="bb-a-USDC logo"
-            class="makeStyles-position-723"
+            class="makeStyles-position-732"
             src="/assets/icons/bb-a-usdc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           bb-a-USD
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -3914,15 +3950,19 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-724 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-733 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-725"
+              class="MuiBox-root-445 MuiBox-root-734"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -3931,7 +3971,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-726"
+              class="MuiBox-root-445 MuiBox-root-735"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -3951,7 +3991,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-729"
+            class="MuiBox-root-445 MuiBox-root-738"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -4010,7 +4050,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -4020,23 +4060,23 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="renBTC logo"
-            class="makeStyles-position-730"
+            class="makeStyles-position-739"
             src="/assets/icons/renbtc.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-731"
+            class="makeStyles-position-740"
             src="/assets/icons/wbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           renBTC/wBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -4047,10 +4087,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-732 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-741 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-733"
+              class="MuiBox-root-445 MuiBox-root-742"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -4074,7 +4114,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-736"
+            class="MuiBox-root-445 MuiBox-root-745"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -4107,7 +4147,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -4117,28 +4157,28 @@ exports[`Landing Renders mobile version correctly 1`] = `
         >
           <img
             alt="USDT logo"
-            class="makeStyles-position-737"
+            class="makeStyles-position-746"
             src="/assets/icons/usdt.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-738"
+            class="makeStyles-position-747"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-739"
+            class="makeStyles-position-748"
             src="/assets/icons/weth.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           Tricrypto2
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -4149,10 +4189,10 @@ exports[`Landing Renders mobile version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-740 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-749 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-741"
+              class="MuiBox-root-445 MuiBox-root-750"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -4176,7 +4216,7 @@ exports[`Landing Renders mobile version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-744"
+            class="MuiBox-root-445 MuiBox-root-753"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -4254,7 +4294,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-622"
+                class="MuiTouchRipple-root-631"
               />
             </span>
             <span
@@ -4272,12 +4312,12 @@ exports[`Landing Renders tablet version correctly 1`] = `
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-justify-content-xs-flex-end-61 MuiGrid-grid-xs-true-76"
         >
           <button
-            class="MuiButtonBase-root-170 MuiButton-root-239 MuiButton-text-241 makeStyles-button-620"
+            class="MuiButtonBase-root-170 MuiButton-root-239 MuiButton-text-241 makeStyles-button-629"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-240 makeStyles-buttonLabel-621"
+              class="MuiButton-label-240 makeStyles-buttonLabel-630"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body2-183 MuiTypography-displayInline-210"
@@ -4296,7 +4336,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               </svg>
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
@@ -4335,7 +4375,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
@@ -4363,7 +4403,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
@@ -4391,7 +4431,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
@@ -4419,14 +4459,14 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </span>
             <span
-              class="MuiTouchRipple-root-622"
+              class="MuiTouchRipple-root-631"
             />
           </button>
         </div>
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -4435,13 +4475,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
           class="makeStyles-root-405"
         />
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           bveCVX
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -4452,10 +4492,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-635 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-644 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-636"
+              class="MuiBox-root-445 MuiBox-root-645"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -4479,7 +4519,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-639"
+            class="MuiBox-root-445 MuiBox-root-648"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -4512,7 +4552,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -4521,13 +4561,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
           class="makeStyles-root-405"
         />
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           cvxCRV
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -4538,10 +4578,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-640 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-649 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-641"
+              class="MuiBox-root-445 MuiBox-root-650"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -4565,7 +4605,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-644"
+            class="MuiBox-root-445 MuiBox-root-653"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -4624,7 +4664,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -4633,13 +4673,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
           class="makeStyles-root-405"
         />
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           graviAURA
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -4650,10 +4690,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-645 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-654 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-646"
+              class="MuiBox-root-445 MuiBox-root-655"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -4677,7 +4717,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-649"
+            class="MuiBox-root-445 MuiBox-root-658"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -4710,7 +4750,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -4719,13 +4759,13 @@ exports[`Landing Renders tablet version correctly 1`] = `
           class="makeStyles-root-405"
         />
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           auraBAL
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -4736,15 +4776,19 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-650 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-659 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-651"
+              class="MuiBox-root-445 MuiBox-root-660"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -4753,7 +4797,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-652"
+              class="MuiBox-root-445 MuiBox-root-661"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -4773,7 +4817,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-655"
+            class="MuiBox-root-445 MuiBox-root-664"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -4832,7 +4876,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -4842,28 +4886,28 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="auraBAL logo"
-            class="makeStyles-position-656"
+            class="makeStyles-position-665"
             src="/assets/icons/aurabal.svg"
           />
           <img
             alt="graviAURA logo"
-            class="makeStyles-position-657"
+            class="makeStyles-position-666"
             src="/assets/icons/graviaura.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-658"
+            class="makeStyles-position-667"
             src="/assets/icons/weth.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           graviAURA/auraBAL/WETH
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -4874,15 +4918,19 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-659 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-668 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-660"
+              class="MuiBox-root-445 MuiBox-root-669"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -4891,7 +4939,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-661"
+              class="MuiBox-root-445 MuiBox-root-670"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -4911,7 +4959,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-664"
+            class="MuiBox-root-445 MuiBox-root-673"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -4957,7 +5005,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -4967,23 +5015,23 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-665"
+            class="makeStyles-position-674"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="BADGER logo"
-            class="makeStyles-position-666"
+            class="makeStyles-position-675"
             src="/assets/icons/badger.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           BADGER/WBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -4994,15 +5042,19 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-667 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-676 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-668"
+              class="MuiBox-root-445 MuiBox-root-677"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -5011,7 +5063,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-669"
+              class="MuiBox-root-445 MuiBox-root-678"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -5031,7 +5083,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-672"
+            class="MuiBox-root-445 MuiBox-root-681"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5077,7 +5129,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5087,28 +5139,28 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-673"
+            class="makeStyles-position-682"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="DIGG logo"
-            class="makeStyles-position-674"
+            class="makeStyles-position-683"
             src="/assets/icons/digg.svg"
           />
           <img
             alt="graviAURA logo"
-            class="makeStyles-position-675"
+            class="makeStyles-position-684"
             src="/assets/icons/graviaura.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           graviAURA/DIGG/WBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5119,15 +5171,19 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-676 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-685 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-677"
+              class="MuiBox-root-445 MuiBox-root-686"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -5136,7 +5192,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-678"
+              class="MuiBox-root-445 MuiBox-root-687"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -5156,7 +5212,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-681"
+            class="MuiBox-root-445 MuiBox-root-690"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5202,7 +5258,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5212,23 +5268,23 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="CVX logo"
-            class="makeStyles-position-682"
+            class="makeStyles-position-691"
             src="/assets/icons/cvx.svg"
           />
           <img
             alt="bveCVX logo"
-            class="makeStyles-position-683"
+            class="makeStyles-position-692"
             src="/assets/icons/bvecvx.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           CVX/bveCVX
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5239,10 +5295,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-684 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-693 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-685"
+              class="MuiBox-root-445 MuiBox-root-694"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -5266,7 +5322,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-688"
+            class="MuiBox-root-445 MuiBox-root-697"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5299,7 +5355,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5309,23 +5365,23 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="wibBTC logo"
-            class="makeStyles-position-689"
+            class="makeStyles-position-698"
             src="/assets/icons/wibbtc.svg"
           />
           <img
             alt="crvRenWSBTC logo"
-            class="makeStyles-position-690"
+            class="makeStyles-position-699"
             src="/assets/icons/crvrenwsbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           ibBTC/crvsBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5336,10 +5392,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-691 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-700 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-692"
+              class="MuiBox-root-445 MuiBox-root-701"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -5363,7 +5419,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-695"
+            class="MuiBox-root-445 MuiBox-root-704"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5409,7 +5465,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5419,23 +5475,23 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="BADGER logo"
-            class="makeStyles-position-696"
+            class="makeStyles-position-705"
             src="/assets/icons/badger.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-697"
+            class="makeStyles-position-706"
             src="/assets/icons/wbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           BADGER/WBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5446,10 +5502,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-698 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-707 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-699"
+              class="MuiBox-root-445 MuiBox-root-708"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -5473,7 +5529,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-702"
+            class="MuiBox-root-445 MuiBox-root-711"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5506,7 +5562,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5516,23 +5572,23 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-703"
+            class="makeStyles-position-712"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="BADGER logo"
-            class="makeStyles-position-704"
+            class="makeStyles-position-713"
             src="/assets/icons/badger.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           wBTC/Badger
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5543,10 +5599,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-705 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-714 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-706"
+              class="MuiBox-root-445 MuiBox-root-715"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -5570,7 +5626,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-709"
+            class="MuiBox-root-445 MuiBox-root-718"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5603,7 +5659,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5613,18 +5669,18 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-710"
+            class="makeStyles-position-719"
             src="/assets/icons/wbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           wBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5649,7 +5705,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-713"
+            class="MuiBox-root-445 MuiBox-root-722"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5682,7 +5738,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5692,23 +5748,23 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="WBTC logo"
-            class="makeStyles-position-714"
+            class="makeStyles-position-723"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-715"
+            class="makeStyles-position-724"
             src="/assets/icons/weth.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           wBTC/wETH
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5719,10 +5775,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-716 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-725 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-717"
+              class="MuiBox-root-445 MuiBox-root-726"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -5746,7 +5802,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-720"
+            class="MuiBox-root-445 MuiBox-root-729"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5779,7 +5835,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5789,28 +5845,28 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="bb-a-USDT logo"
-            class="makeStyles-position-721"
+            class="makeStyles-position-730"
             src="/assets/icons/bb-a-usdt.svg"
           />
           <img
             alt="bb-a-DAI logo"
-            class="makeStyles-position-722"
+            class="makeStyles-position-731"
             src="/assets/icons/bb-a-dai.svg"
           />
           <img
             alt="bb-a-USDC logo"
-            class="makeStyles-position-723"
+            class="makeStyles-position-732"
             src="/assets/icons/bb-a-usdc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           bb-a-USD
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5821,15 +5877,19 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-724 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-733 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-725"
+              class="MuiBox-root-445 MuiBox-root-734"
             >
               <h6
                 class="MuiTypography-root-182 MuiTypography-subtitle1-193 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
               >
-                New Vault
+                <img
+                  alt="New Vault"
+                  src="assets/icons/new-vault.svg"
+                />
+                 New Vault
               </h6>
               <img
                 alt="apy info icon"
@@ -5838,7 +5898,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
               />
             </div>
             <div
-              class="MuiBox-root-444 MuiBox-root-726"
+              class="MuiBox-root-445 MuiBox-root-735"
             >
               <p
                 class="MuiTypography-root-182 makeStyles-projectedApr-443 MuiTypography-body1-184"
@@ -5858,7 +5918,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-729"
+            class="MuiBox-root-445 MuiBox-root-738"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -5917,7 +5977,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -5927,23 +5987,23 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="renBTC logo"
-            class="makeStyles-position-730"
+            class="makeStyles-position-739"
             src="/assets/icons/renbtc.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-731"
+            class="makeStyles-position-740"
             src="/assets/icons/wbtc.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           renBTC/wBTC
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -5954,10 +6014,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-732 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-741 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-733"
+              class="MuiBox-root-445 MuiBox-root-742"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -5981,7 +6041,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-736"
+            class="MuiBox-root-445 MuiBox-root-745"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
@@ -6014,7 +6074,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-632 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
+      class="MuiPaper-root-14 MuiCard-root-404 MuiGrid-root-42 makeStyles-root-641 MuiGrid-container-43 MuiGrid-direction-xs-column-46 MuiPaper-elevation1-18 MuiPaper-rounded-15"
     >
       <div
         class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44"
@@ -6024,28 +6084,28 @@ exports[`Landing Renders tablet version correctly 1`] = `
         >
           <img
             alt="USDT logo"
-            class="makeStyles-position-737"
+            class="makeStyles-position-746"
             src="/assets/icons/usdt.svg"
           />
           <img
             alt="WBTC logo"
-            class="makeStyles-position-738"
+            class="makeStyles-position-747"
             src="/assets/icons/wbtc.svg"
           />
           <img
             alt="WETH logo"
-            class="makeStyles-position-739"
+            class="makeStyles-position-748"
             src="/assets/icons/weth.svg"
           />
         </div>
         <h6
-          class="MuiTypography-root-182 makeStyles-name-634 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
+          class="MuiTypography-root-182 makeStyles-name-643 MuiTypography-subtitle1-193 MuiTypography-displayInline-210"
         >
           Tricrypto2
         </h6>
       </div>
       <div
-        class="MuiGrid-root-42 makeStyles-info-633 MuiGrid-container-43 MuiGrid-item-44"
+        class="MuiGrid-root-42 makeStyles-info-642 MuiGrid-container-43 MuiGrid-item-44"
       >
         <div
           class="MuiGrid-root-42 MuiGrid-container-43 MuiGrid-item-44 MuiGrid-direction-xs-column-46 MuiGrid-grid-xs-true-76"
@@ -6056,10 +6116,10 @@ exports[`Landing Renders tablet version correctly 1`] = `
             APY
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-740 makeStyles-root-440"
+            class="MuiBox-root-445 MuiBox-root-749 makeStyles-root-440"
           >
             <div
-              class="MuiBox-root-444 MuiBox-root-741"
+              class="MuiBox-root-445 MuiBox-root-750"
             >
               <p
                 class="MuiTypography-root-182 MuiTypography-body1-184 MuiTypography-colorTextPrimary-207 MuiTypography-displayInline-210"
@@ -6083,7 +6143,7 @@ exports[`Landing Renders tablet version correctly 1`] = `
             My Deposits
           </p>
           <div
-            class="MuiBox-root-444 MuiBox-root-744"
+            class="MuiBox-root-445 MuiBox-root-753"
           >
             <p
               class="MuiTypography-root-182 MuiTypography-body1-184"
