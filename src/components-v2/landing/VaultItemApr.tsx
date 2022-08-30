@@ -1,6 +1,6 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import YeildBearingRewards from 'components-v2/common/dialogs/YieldBearingRewards';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { FLAGS } from 'config/environment';
@@ -10,7 +10,7 @@ import React, { MouseEvent, useState } from 'react';
 
 import VaultApyInformation from '../VaultApyInformation';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     cursor: 'pointer',
   },
@@ -21,6 +21,12 @@ const useStyles = makeStyles({
   apyInfo: {
     marginLeft: 5,
   },
+  aprDisplay: {
+    justifyContent: 'flex-end',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'flex-start',
+    },
+  },
   projectedApr: {
     fontSize: 10,
     marginTop: 3,
@@ -29,16 +35,20 @@ const useStyles = makeStyles({
   yieldBearingRewards: {
     fontSize: 12,
     marginTop: 5,
+    width: '100%',
     '& a': {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',
+      [theme.breakpoints.down('sm')]: {
+        justifyContent: 'flex-start',
+      },
       '& img': {
         marginRight: 5,
       },
     },
   },
-});
+}));
 
 interface Props {
   vault: VaultDTO;
@@ -59,7 +69,7 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
   const handleYieldBearingRewardsClick = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     setOpenYieldBearingRewardsModal(true);
-    return false
+    return false;
   };
 
   const handleClose = () => {
@@ -90,9 +100,9 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
       alignItems={FLAGS.APY_EVOLUTION ? 'flex-end' : 'flex-start'}
       flexDirection="column"
       className={classes.root}
-      onClick={e => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
     >
-      <Box display="flex" justifyContent='flex-end' width="100%" onClick={handleApyInfoClick}>
+      <Box className={classes.aprDisplay} display="flex" width="100%" onClick={handleApyInfoClick}>
         <Typography variant={isNewVault ? 'subtitle1' : 'body1'} color={'textPrimary'} display="inline">
           {aprDisplay}
         </Typography>
@@ -104,7 +114,9 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
             <img width="9" src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" /> Yield-Bearing
             Rewards.
           </Link>
-          <Typography onClick={handleApyInfoClick} variant="inherit">Rewards earn up to 219.12%</Typography>
+          <Typography onClick={handleApyInfoClick} variant="inherit">
+            Rewards earn up to 219.12%
+          </Typography>
         </Box>
       )}
       {!FLAGS.APY_EVOLUTION && !isInfluence && projectedVaultBoost !== null && (
