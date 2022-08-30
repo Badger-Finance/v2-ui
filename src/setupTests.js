@@ -24,3 +24,5 @@ jest.spyOn(BadgerAPI.prototype, 'loadProtocolSummary').mockReturnValue(
 export default function () {
   return null;
 }
+
+process.env = Object.assign(process.env, { REACT_APP_APY_EVOLUTION: 'false' });
