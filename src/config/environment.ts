@@ -60,4 +60,5 @@ const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() ==
 
 export const FLAGS = {
   GOVERNANCE_TIMELOCK: toBool(process.env.REACT_APP_GOVERNANCE_TIMELOCK),
+  APY_EVOLUTION: toBool(process.env.REACT_APP_APY_EVOLUTION),
 };
