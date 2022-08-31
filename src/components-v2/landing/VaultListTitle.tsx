@@ -1,6 +1,6 @@
 import { Link, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import YeildBearingRewards from 'components-v2/common/dialogs/YieldBearingRewards';
+import YieldBearingRewards from 'components-v2/common/dialogs/YieldBearingRewards';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
@@ -36,7 +36,7 @@ const VaultListTitle = observer(() => {
           Yield-Bearing Rewards.
         </Link>
       </Typography>
-      <YeildBearingRewards open={openModal} onModalClose={() => setOpenModal(false)} />
+      <YieldBearingRewards open={openModal} onModalClose={() => setOpenModal(false)} />
     </>
   );
 });

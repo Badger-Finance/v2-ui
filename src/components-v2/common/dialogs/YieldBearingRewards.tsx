@@ -12,8 +12,8 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
 import CloseIcon from '@material-ui/icons/Close';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   titleText: {
     display: 'flex',
     alignItems: 'center',
-    "& img":{
-      marginRight: 10
-    }
+    '& img': {
+      marginRight: 10,
+    },
   },
   closeButton: {
     position: 'absolute',
@@ -57,12 +57,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface YeildBearingRewardsTypes {
+interface YieldBearingRewardsTypes {
   open: boolean;
   onModalClose: () => void;
 }
 
-const YeildBearingRewards = observer(({ open, onModalClose }: YeildBearingRewardsTypes) => {
+const YieldBearingRewards = observer(({ open, onModalClose }: YieldBearingRewardsTypes) => {
   const classes = useStyles();
   return (
     <Dialog
@@ -75,8 +75,7 @@ const YeildBearingRewards = observer(({ open, onModalClose }: YeildBearingReward
     >
       <DialogTitle id="alert-dialog-title" className={classes.title}>
         <Typography variant="h6" color="primary" className={classes.titleText}>
-          <img src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" />{' '}
-          Yield-Bearing Rewards
+          <img src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" /> Yield-Bearing Rewards
         </Typography>
         <IconButton aria-label="close" className={classes.closeButton} onClick={onModalClose}>
           <CloseIcon />
@@ -110,4 +109,4 @@ const YeildBearingRewards = observer(({ open, onModalClose }: YeildBearingReward
   );
 });
 
-export default YeildBearingRewards;
+export default YieldBearingRewards;
