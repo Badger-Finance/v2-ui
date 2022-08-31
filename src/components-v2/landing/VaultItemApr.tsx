@@ -1,12 +1,14 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import YeildBearingRewards from 'components-v2/common/dialogs/YieldBearingRewards';
+import YieldBearingRewards from 'components-v2/common/dialogs/YieldBearingRewards';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
+import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
 import { FLAGS } from 'config/environment';
 import { useVaultInformation } from 'hooks/useVaultInformation';
+import { StoreContext } from 'mobx/stores/store-context';
 import { numberWithCommas } from 'mobx/utils/helpers';
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useContext, useState } from 'react';
 
 import VaultApyInformation from '../VaultApyInformation';
 
@@ -61,6 +63,19 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
   const [openYieldBearingRewardsModal, setOpenYieldBearingRewardsModal] = useState(false);
   const { projectedVaultBoost, vaultBoost } = useVaultInformation(vault);
 
+  const store = useContext(StoreContext);
+  const { vaults } = store;
+  const yieldSourcesAprTotal = vault.sourcesApy.reduce((max, source) => {
+    const yieldVault = getYieldBearingVaultBySourceName(source.name);
+    if (yieldVault !== undefined) {
+      const current = vaults.getVault(yieldVault.vaultId)?.apy ?? 0;
+      if (current > max) {
+        max = current;
+      }
+    }
+    return max;
+  }, 0);
+
   const handleApyInfoClick = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     setShowApyInfo(true);
@@ -108,14 +123,14 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
         </Typography>
         <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
       </Box>
-      {FLAGS.APY_EVOLUTION && (
+      {FLAGS.APY_EVOLUTION && yieldSourcesAprTotal > 0 && (
         <Box className={classes.yieldBearingRewards}>
           <Link color="primary" onClick={handleYieldBearingRewardsClick}>
             <img width="9" src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" /> Yield-Bearing
             Rewards.
           </Link>
           <Typography onClick={handleApyInfoClick} variant="inherit">
-            Rewards earn up to 219.12%
+            Rewards earn up to {yieldSourcesAprTotal.toFixed(2)}%
           </Typography>
         </Box>
       )}
@@ -133,7 +148,7 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
         projectedBoost={projectedVaultBoost}
         onClose={handleClose}
       />
-      <YeildBearingRewards
+      <YieldBearingRewards
         open={openYieldBearingRewardsModal}
         onModalClose={() => setOpenYieldBearingRewardsModal(false)}
       />
