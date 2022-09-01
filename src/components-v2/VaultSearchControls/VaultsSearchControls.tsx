@@ -10,6 +10,7 @@ import PortfolioDustControl from './PortfolioDustControl';
 import VaultFiltersDialogV2 from './VaultFiltersDialog';
 import VaultsAprControl from './VaultsAprControl';
 import VaultSearchInputsRow from './VaultSearchInputsRow';
+import { FLAGS } from 'config/environment';
 
 const useStyles = makeStyles((theme) => ({
   firstRow: {
@@ -76,12 +77,14 @@ const VaultsSearchControls = () => {
             />
           )}
         </div>
-        <div>
-          <VaultsAprControl
-            showAPR={vaultsFilters.showAPR}
-            onShowAPRChange={(checked) => setVaultsFilter('showAPR', checked)}
-          />
-        </div>
+        {!FLAGS.APY_EVOLUTION && (
+          <div>
+            <VaultsAprControl
+              showAPR={vaultsFilters.showAPR}
+              onShowAPRChange={(checked) => setVaultsFilter('showAPR', checked)}
+            />
+          </div>
+        )}
       </Grid>
       <VaultSearchInputsRow />
       <VaultFiltersDialogV2 />
