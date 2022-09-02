@@ -164,15 +164,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     return list;
   }, []);
 
-  const yieldSourcesAprTotal = vault.sourcesApy.reduce((total, source) => {
-    const yieldVault = getYieldBearingVaultBySourceName(source.name);
-    if (yieldVault !== undefined) {
-      total += vaults.getVault(yieldVault.vaultId)?.apy ?? 0;
-    } else {
-      total += source.apr;
-    }
-    return total;
-  }, 0);
+  const yieldSourcesAprTotal = yieldSourcesAprList.reduce((total, source) => total + source.apr, 0);
 
   return (
     <Dialog
@@ -329,10 +321,10 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   </Grid>
                   <Grid item xs={3}>
                     <Typography align="right">
-                      {yieldSource.yieldVault
+                      {/* {yieldSource.yieldVault
                         ? (vaults.getVault(yieldSource.yieldVault.vaultId)?.apy ?? 0).toFixed(2)
-                        : yieldSource.apr.toFixed(2)}
-                      %
+                        : yieldSource.apr.toFixed(2)} */}
+                      {yieldSource.apr.toFixed(2)}%
                     </Typography>
                   </Grid>
                 </Grid>
