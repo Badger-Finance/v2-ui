@@ -23,6 +23,7 @@ import VaultSearchBar from './VaultSearchBar';
 import VaultsPlatformSelector from './VaultsPlatformSelector';
 import VaultsRewardsSelector from './VaultsRewardsSelector';
 import VaultStatusSelector from './VaultStatusSelector';
+import { FLAGS } from 'config/environment';
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -153,12 +154,16 @@ const VaultFiltersDialog = () => {
             <VaultSearchBar search={search} onChange={(change) => setSearch(change)} />
           </Grid>
         </Grid>
-        <Divider className={classes.divider} />
-        <Grid container>
-          <Grid item className={classes.apr}>
-            <VaultsAprControl showAPR={showAPR} onShowAPRChange={(checked) => setShowAPR(checked)} />
-          </Grid>
-        </Grid>
+        {!FLAGS.APY_EVOLUTION && (
+          <>
+            <Divider className={classes.divider} />
+            <Grid container>
+              <Grid item className={classes.apr}>
+                <VaultsAprControl showAPR={showAPR} onShowAPRChange={(checked) => setShowAPR(checked)} />
+              </Grid>
+            </Grid>
+          </>
+        )}
         <Divider className={classes.divider} />
         <Grid container spacing={2} justifyContent="flex-end">
           <Grid item>
