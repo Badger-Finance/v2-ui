@@ -1,4 +1,4 @@
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import { ValueSource, VaultDTO, VaultState } from '@badger-dao/sdk';
 import {
   Box,
   Button,
@@ -24,6 +24,8 @@ import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
 import { FLAGS } from 'config/environment';
 import VaultLogo from 'components-v2/landing/VaultLogo';
+import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
+import { YieldBearingVaultSource } from 'mobx/model/vaults/yield-bearing-vault-data';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,6 +109,10 @@ interface YieldSourceDisplay {
   apr: number;
 }
 
+interface YieldValueSource extends ValueSource {
+  yieldVault: YieldBearingVaultSource;
+}
+
 const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Props): JSX.Element | null => {
   const {
     yieldProjection: { harvestPeriodSources, harvestPeriodSourcesApy, nonHarvestSources, nonHarvestSourcesApy },
@@ -139,6 +145,34 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     event.stopPropagation();
     onClose();
   };
+
+  const yieldBearingRewardsList = vault.sourcesApy.reduce((list: YieldBearingVaultSource[], source) => {
+    const yieldVault = getYieldBearingVaultBySourceName(source.name);
+    if (yieldVault !== undefined) {
+      list.push(yieldVault);
+    }
+    return list;
+  }, []);
+
+  const yieldSourcesAprList: YieldValueSource[] = vault.sourcesApy.reduce((list: any[], source) => {
+    const yieldVault = getYieldBearingVaultBySourceName(source.name);
+    if (yieldVault !== undefined) {
+      list.push({ ...source, yieldVault });
+    } else {
+      list.push({ ...source });
+    }
+    return list;
+  }, []);
+
+  const yieldSourcesAprTotal = vault.sourcesApy.reduce((total, source) => {
+    const yieldVault = getYieldBearingVaultBySourceName(source.name);
+    if (yieldVault !== undefined) {
+      total += vaults.getVault(yieldVault.vaultId)?.apy ?? 0;
+    } else {
+      total += source.apr;
+    }
+    return total;
+  }, 0);
 
   return (
     <Dialog
@@ -258,7 +292,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                       <Typography component="span">New Vault</Typography>
                     </>
                   )}
-                  <Typography>84.95%</Typography>
+                  <Typography>{yieldSourcesAprTotal.toFixed(2)}%</Typography>
                 </Box>
               </Grid>
             </Grid>
@@ -266,130 +300,98 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
             <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsNote}`}>
               <Grid item>Rewards earned by our strategies on your vault deposits</Grid>
             </Grid>
-            <Divider className={classes.totalVaultRewardsDivider} />
-            <Grid container className={classes.totalVaultRewardsRow}>
-              <Grid item xs={9}>
-                <Typography> LP Fees</Typography>
-              </Grid>
-              <Grid item xs={3}>
-                <Typography align="right">0.63%</Typography>
-              </Grid>
-            </Grid>
-            <Divider className={classes.totalVaultRewardsDivider} />
-            <Grid container className={classes.totalVaultRewardsRow}>
-              <Grid item xs={9}>
-                <Box display="flex" alignItems="center">
-                  <Typography component="span"> AURA </Typography>
-                  <Typography component="span" className={classes.earnedAs}>
-                    earned as
-                  </Typography>
-                  <img
-                    width="12"
-                    height="16"
-                    src="assets/icons/yield-bearing-rewards.svg"
-                    alt="Yield-Bearing Rewards"
-                  />
-                  <Typography component="span" color="primary">
-                    graviAURA
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={3}>
-                <Typography align="right">0.63%</Typography>
-              </Grid>
-            </Grid>
-            <Divider className={classes.totalVaultRewardsDivider} />
-            <Grid container className={classes.totalVaultRewardsRow}>
-              <Grid item xs={9}>
-                <Box display="flex" alignItems="center">
-                  <Typography component="span"> BAL </Typography>
-                  <Typography component="span" className={classes.earnedAs}>
-                    earned as
-                  </Typography>
-                  <img
-                    width="12"
-                    height="16"
-                    src="assets/icons/yield-bearing-rewards.svg"
-                    alt="Yield-Bearing Rewards"
-                  />
-                  <Typography component="span" color="primary">
-                    bauraBAL
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={3}>
-                <Typography align="right">0.63%</Typography>
-              </Grid>
-            </Grid>
+            {yieldSourcesAprList.map((yieldSource) => (
+              <>
+                <Divider className={classes.totalVaultRewardsDivider} />
+                <Grid container className={classes.totalVaultRewardsRow}>
+                  <Grid item xs={9}>
+                    <Box display="flex" alignItems="center">
+                      <Typography component="span">
+                        {yieldSource.yieldVault ? yieldSource.yieldVault.token : yieldSource.name}
+                      </Typography>
+                      {yieldSource.yieldVault && (
+                        <>
+                          <Typography component="span" className={classes.earnedAs}>
+                            earned as
+                          </Typography>
+                          <img
+                            width="12"
+                            height="16"
+                            src="assets/icons/yield-bearing-rewards.svg"
+                            alt="Yield-Bearing Rewards"
+                          />
+                          <Typography component="span" color="primary">
+                            {yieldSource.yieldVault ? yieldSource.yieldVault.vaultName : yieldSource.name}
+                          </Typography>
+                        </>
+                      )}
+                    </Box>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography align="right">
+                      {yieldSource.yieldVault
+                        ? (vaults.getVault(yieldSource.yieldVault.vaultId)?.apy ?? 0).toFixed(2)
+                        : yieldSource.apr.toFixed(2)}
+                      %
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </>
+            ))}
           </Box>
 
-          <Box className={classes.yieldBearingRewards}>
-            <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsHead}`}>
-              <Grid item xs={12}>
-                <Box display="flex" alignItems="center">
-                  <img
-                    width="15"
-                    height="20"
-                    src="assets/icons/yield-bearing-rewards.svg"
-                    alt="Yield-Bearing Rewards"
-                  />
-                  <Typography component="h3" color="primary">
-                    Yield-Bearing Rewards
-                  </Typography>
-                </Box>
+          {yieldBearingRewardsList.length > 0 && (
+            <Box className={classes.yieldBearingRewards}>
+              <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsHead}`}>
+                <Grid item xs={12}>
+                  <Box display="flex" alignItems="center">
+                    <img
+                      width="15"
+                      height="20"
+                      src="assets/icons/yield-bearing-rewards.svg"
+                      alt="Yield-Bearing Rewards"
+                    />
+                    <Typography component="h3" color="primary">
+                      Yield-Bearing Rewards
+                    </Typography>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-            <Divider className={classes.totalVaultRewardsDivider} />
-            <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsNote}`}>
-              <Grid item>These rewards continue earning rewards of their own, no claiming required </Grid>
-            </Grid>
-            <Divider className={classes.totalVaultRewardsDivider} />
-            <Grid container className={classes.totalVaultRewardsRow}>
-              <Grid item xs={9}>
-                <Box display="flex" alignItems="center">
-                  <img
-                    width="12"
-                    height="16"
-                    src="assets/icons/yield-bearing-rewards.svg"
-                    alt="Yield-Bearing Rewards"
-                  />
-                  <Typography component="span" color="primary">
-                    graviAURA
-                  </Typography>
-                  <Typography component="span" className={classes.earnedAs}>
-                    is
-                  </Typography>
-                  <Typography component="span"> Yield-Bearing Locked AURA </Typography>
-                </Box>
+              <Divider className={classes.totalVaultRewardsDivider} />
+              <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsNote}`}>
+                <Grid item>These rewards continue earning rewards of their own, no claiming required </Grid>
               </Grid>
-              <Grid item xs={3}>
-                <Typography align="right">0.63%</Typography>
-              </Grid>
-            </Grid>
-            <Divider className={classes.totalVaultRewardsDivider} />
-            <Grid container className={classes.totalVaultRewardsRow}>
-              <Grid item xs={9}>
-                <Box display="flex" alignItems="center">
-                  <img
-                    width="12"
-                    height="16"
-                    src="assets/icons/yield-bearing-rewards.svg"
-                    alt="Yield-Bearing Rewards"
-                  />
-                  <Typography component="span" color="primary">
-                    bauraBAL
-                  </Typography>
-                  <Typography component="span" className={classes.earnedAs}>
-                    is
-                  </Typography>
-                  <Typography component="span"> Yield-Bearing Staked auraBAL </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={3}>
-                <Typography align="right">0.63%</Typography>
-              </Grid>
-            </Grid>
-          </Box>
+              {yieldBearingRewardsList.map((yieldSource) => (
+                <>
+                  <Divider className={classes.totalVaultRewardsDivider} />
+                  <Grid container className={classes.totalVaultRewardsRow}>
+                    <Grid item xs={9}>
+                      <Box display="flex" alignItems="center">
+                        <img
+                          width="12"
+                          height="16"
+                          src="assets/icons/yield-bearing-rewards.svg"
+                          alt="Yield-Bearing Rewards"
+                        />
+                        <Typography component="span" color="primary">
+                          {yieldSource.vaultName}
+                        </Typography>
+                        <Typography component="span" className={classes.earnedAs}>
+                          is
+                        </Typography>
+                        <Typography component="span"> {yieldSource.vaultDescription} </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography align="right">
+                        {(vaults.getVault(yieldSource.vaultId)?.apy ?? 0).toFixed(2)}%
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </>
+              ))}
+            </Box>
+          )}
 
           <Grid item className={classes.button}>
             <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
