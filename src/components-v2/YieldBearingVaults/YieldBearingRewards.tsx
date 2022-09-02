@@ -1,17 +1,4 @@
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  makeStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core';
+import { Box, Dialog, DialogContent, DialogTitle, IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { observer } from 'mobx-react-lite';
 
@@ -19,6 +6,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     color: 'rgba(255,255,255,0.6)',
     paddingTop: 0,
+    paddingBottom: 30,
   },
   title: {
     padding: 20,
@@ -84,26 +72,17 @@ const YieldBearingRewards = observer(({ open, onModalClose }: YieldBearingReward
       <DialogContent id="alert-dialog-description" className={classes.root}>
         <Box className={classes.video}></Box>
         <Typography gutterBottom className={classes.contentText}>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-          Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+          Yield-Bearing Rewards automate and optimize the complex series of ongoing transactions required to make the
+          most of DeFi ecosystems like Aura and Convex.
         </Typography>
         <Typography gutterBottom className={classes.contentText}>
-          Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet
-          rutrum faucibus dolor auctor.
+          From the moment you earn them, Yield-Bearing Rewards are put to work earning rewards of their own, maximizing
+          the overall return on your deposits. No staking, locking, delegating, voting, bribing or claiming. Just
+          earning.
         </Typography>
-        <Divider className={classes.divider} />
-
-        <List dense={true} className={classes.list}>
-          <ListItem>
-            <ListItemText primary="- Excepteur sint occaecat " />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="- Officia deserunt mollit " />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="- Tempor incididunt" />
-          </ListItem>
-        </List>
+        <Typography gutterBottom className={classes.contentText}>
+          Do Less, Earn More.
+        </Typography>
       </DialogContent>
     </Dialog>
   );
