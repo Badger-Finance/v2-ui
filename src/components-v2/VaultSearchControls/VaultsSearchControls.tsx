@@ -1,4 +1,5 @@
 import { Grid, makeStyles, Paper, useMediaQuery, useTheme } from '@material-ui/core';
+import { FLAGS } from 'config/environment';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -10,7 +11,6 @@ import PortfolioDustControl from './PortfolioDustControl';
 import VaultFiltersDialogV2 from './VaultFiltersDialog';
 import VaultsAprControl from './VaultsAprControl';
 import VaultSearchInputsRow from './VaultSearchInputsRow';
-import { FLAGS } from 'config/environment';
 
 const useStyles = makeStyles((theme) => ({
   firstRow: {

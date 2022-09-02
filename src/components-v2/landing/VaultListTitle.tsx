@@ -1,6 +1,6 @@
 import { Link, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import YieldBearingRewards from 'components-v2/common/dialogs/YieldBearingRewards';
+import YieldBearingRewards from 'components-v2/YieldBearingVaults/YieldBearingRewards';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 
@@ -31,10 +31,11 @@ const VaultListTitle = observer(() => {
         Do Less & Earn More with BadgerDAO
       </Typography>
       <Typography className={classes.subtitle}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do{' '}
+        Deposit to earn{' '}
         <Link href="#" onClick={() => setOpenModal(true)} color="primary">
-          Yield-Bearing Rewards.
-        </Link>
+          Yield-Bearing Rewards
+        </Link>{' '}
+        that automate and optimize yield from Aura and Convex positions
       </Typography>
       <YieldBearingRewards open={openModal} onModalClose={() => setOpenModal(false)} />
     </>

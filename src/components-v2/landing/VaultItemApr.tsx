@@ -1,8 +1,8 @@
 import { VaultDTO, VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import YieldBearingRewards from 'components-v2/common/dialogs/YieldBearingRewards';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
+import YieldBearingRewards from 'components-v2/YieldBearingVaults/YieldBearingRewards';
 import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
 import { FLAGS } from 'config/environment';
 import { useVaultInformation } from 'hooks/useVaultInformation';
