@@ -16,7 +16,7 @@ import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUti
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
-import { isBadgerSource } from 'utils/componentHelpers';
+import { isBadgerSource, isFlywheelSource } from 'utils/componentHelpers';
 
 import routes from '../../config/routes';
 import { numberWithCommas } from '../../mobx/utils/helpers';
@@ -170,8 +170,9 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
       }
       return list;
     }, [])
+    .sort((a) => (a.yieldVault ? 1 : -1))
+    .sort((_, b) => (isFlywheelSource(b) ? -1 : 1))
     .sort((_, b) => (isBadgerSource(b) ? -1 : 1))
-    .sort((a, b) => (a.yieldVault ? 1 : isBadgerSource(a) ? 1 : -1));
 
   return (
     <Dialog

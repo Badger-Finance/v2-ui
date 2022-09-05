@@ -13,6 +13,7 @@ import { numberWithCommas } from '../../mobx/utils/helpers';
 import { FLAGS } from 'config/environment';
 import { YieldValueSource } from 'components-v2/VaultApyInformation';
 import TokenLogo from 'components-v2/TokenLogo';
+import { isFlywheelSource } from 'utils/componentHelpers';
 
 const useStyles = makeStyles({
   apyBreakdownIcon: {
@@ -97,11 +98,32 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
                 height="24"
                 token={{ symbol: source.yieldVault ? source.yieldVault.token : source.name }}
               />
-              <Typography component="span">{source.yieldVault ? source.yieldVault.token : source.name}</Typography>
-              {source.yieldVault && (
+              {!isFlywheelSource(source) ? (
                 <>
+                  <Typography component="span">{source.yieldVault ? source.yieldVault.token : source.name}</Typography>
+                  {source.yieldVault && (
+                    <>
+                      <Typography component="span" className={classes.earnedAs}>
+                        earned as
+                      </Typography>
+                      <img
+                        width="12"
+                        height="16"
+                        src="assets/icons/yield-bearing-rewards.svg"
+                        alt="Yield-Bearing Rewards"
+                      />
+                      <Typography component="span" color="primary">
+                        {source.yieldVault ? source.yieldVault.vaultName : source.name}
+                      </Typography>
+                    </>
+                  )}
+                </>
+              ) : (
+                //  showing source `Vault Flywheel` as Compounding of Yield-Bearing Rewards
+                <>
+                  <Typography component="span">Compounding</Typography>
                   <Typography component="span" className={classes.earnedAs}>
-                    earned as
+                    of
                   </Typography>
                   <img
                     width="12"
@@ -110,7 +132,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
                     alt="Yield-Bearing Rewards"
                   />
                   <Typography component="span" color="primary">
-                    {source.yieldVault ? source.yieldVault.vaultName : source.name}
+                    Yield-Bearing Rewards
                   </Typography>
                 </>
               )}

@@ -66,6 +66,10 @@ export function isBadgerSource(source: { name: string }): boolean {
   return source.name === BoostedRewards.Badger || source.name === BoostedRewards.BoostedBadger;
 }
 
+export function isFlywheelSource(source: { name: string }): boolean {
+  return /vault flywheel/i.test(source?.name);
+}
+
 export function getUserVaultBoost(vault: VaultDTO, boost: number, apr = false): number {
   if (vault.state === VaultState.Discontinued || vault.sources.length === 0) {
     return 0;
