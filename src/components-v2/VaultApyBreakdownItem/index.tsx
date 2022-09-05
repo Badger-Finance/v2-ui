@@ -1,5 +1,5 @@
 import { ValueSource, VaultDTO } from '@badger-dao/sdk';
-import { Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -10,6 +10,9 @@ import { BoostedRewards } from 'utils/enums/boosted-rewards.enum';
 import routes from '../../config/routes';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
 import { numberWithCommas } from '../../mobx/utils/helpers';
+import { FLAGS } from 'config/environment';
+import { YieldValueSource } from 'components-v2/VaultApyInformation';
+import TokenLogo from 'components-v2/TokenLogo';
 
 const useStyles = makeStyles({
   apyBreakdownIcon: {
@@ -24,11 +27,21 @@ const useStyles = makeStyles({
   link: {
     cursor: 'pointer',
   },
+  totalVaultRewardsRow: {
+    padding: 10,
+    '& .MuiBox-root > *': {
+      marginRight: 5,
+    },
+    '& .MuiBox-root > img': {
+      marginRight: 10,
+    },
+  },
+  earnedAs: { color: 'rgba(255,255,255,0.6)' },
 });
 
 interface Props {
   vault: VaultDTO;
-  source: ValueSource;
+  source: YieldValueSource;
 }
 
 const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
@@ -48,6 +61,68 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
   const handleGoToCalculator = async () => {
     await router.goTo(routes.boostOptimizer);
   };
+
+  if (FLAGS.APY_EVOLUTION) {
+    if (isBoostBreakdown && vault.boost.enabled) {
+      return (
+        <>
+          <Grid container className={classes.totalVaultRewardsRow}>
+            <Grid item xs={9}>
+              <Box display="flex" alignItems="center">
+                <TokenLogo
+                  width="24"
+                  height="24"
+                  token={{ symbol: source.yieldVault ? source.yieldVault.token : source.name }}
+                />
+                <Typography component="span">{`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(
+                  source.maxApr.toFixed(2),
+                )}%)`}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography align="right">{`${numberWithCommas(sourceApr.toFixed(2))}%`}</Typography>
+            </Grid>
+          </Grid>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Grid container className={classes.totalVaultRewardsRow}>
+          <Grid item xs={9}>
+            <Box display="flex" alignItems="center">
+              <TokenLogo
+                width="24"
+                height="24"
+                token={{ symbol: source.yieldVault ? source.yieldVault.token : source.name }}
+              />
+              <Typography component="span">{source.yieldVault ? source.yieldVault.token : source.name}</Typography>
+              {source.yieldVault && (
+                <>
+                  <Typography component="span" className={classes.earnedAs}>
+                    earned as
+                  </Typography>
+                  <img
+                    width="12"
+                    height="16"
+                    src="assets/icons/yield-bearing-rewards.svg"
+                    alt="Yield-Bearing Rewards"
+                  />
+                  <Typography component="span" color="primary">
+                    {source.yieldVault ? source.yieldVault.vaultName : source.name}
+                  </Typography>
+                </>
+              )}
+            </Box>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography align="right">{numberWithCommas(source.apr.toFixed(2))}%</Typography>
+          </Grid>
+        </Grid>
+      </>
+    );
+  }
 
   if (isBoostBreakdown && vault.boost.enabled) {
     return (

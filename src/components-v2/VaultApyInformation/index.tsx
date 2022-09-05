@@ -23,13 +23,13 @@ import { numberWithCommas } from '../../mobx/utils/helpers';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
 import { FLAGS } from 'config/environment';
-import VaultLogo from 'components-v2/landing/VaultLogo';
 import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
 import { YieldBearingVaultSource } from 'mobx/model/vaults/yield-bearing-vault-data';
+import TokenLogo from 'components-v2/TokenLogo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 516,
+    maxWidth: 550,
   },
   tag: {
     backgroundColor: theme.palette.common.black,
@@ -72,6 +72,12 @@ const useStyles = makeStyles((theme) => ({
   totalVaultRewardsRow: {
     padding: 10,
     '& .MuiBox-root > *': {
+      marginRight: 10,
+      '&:last-child': {
+        marginRight: 0
+      }
+    },
+    '& .MuiBox-root > img': {
       marginRight: 5,
     },
   },
@@ -109,8 +115,8 @@ interface YieldSourceDisplay {
   apr: number;
 }
 
-interface YieldValueSource extends ValueSource {
-  yieldVault: YieldBearingVaultSource;
+export interface YieldValueSource extends ValueSource {
+  yieldVault?: YieldBearingVaultSource;
 }
 
 const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Props): JSX.Element | null => {
@@ -154,17 +160,18 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     return list;
   }, []);
 
-  const yieldSourcesAprList: YieldValueSource[] = vault.sourcesApy.reduce((list: any[], source) => {
-    const yieldVault = getYieldBearingVaultBySourceName(source.name);
-    if (yieldVault !== undefined) {
-      list.push({ ...source, yieldVault });
-    } else {
-      list.push({ ...source });
-    }
-    return list;
-  }, []);
-
-  const yieldSourcesAprTotal = yieldSourcesAprList.reduce((total, source) => total + source.apr, 0);
+  const yieldSourcesAprList: YieldValueSource[] = vault.sourcesApy
+    .reduce((list: any[], source) => {
+      const yieldVault = getYieldBearingVaultBySourceName(source.name);
+      if (yieldVault !== undefined) {
+        list.push({ ...source, yieldVault });
+      } else {
+        list.push({ ...source });
+      }
+      return list;
+    }, [])
+    .sort((_, b) => (isBadgerSource(b) ? -1 : 1))
+    .sort((a, b) => (a.yieldVault ? 1 : isBadgerSource(a) ? 1 : -1));
 
   return (
     <Dialog
@@ -284,7 +291,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                       <Typography component="span">New Vault</Typography>
                     </>
                   )}
-                  <Typography>{yieldSourcesAprTotal.toFixed(2)}%</Typography>
+                  <Typography>{`${numberWithCommas(boost.toFixed(2))}%`}</Typography>
                 </Box>
               </Grid>
             </Grid>
@@ -295,39 +302,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
             {yieldSourcesAprList.map((yieldSource) => (
               <>
                 <Divider className={classes.totalVaultRewardsDivider} />
-                <Grid container className={classes.totalVaultRewardsRow}>
-                  <Grid item xs={9}>
-                    <Box display="flex" alignItems="center">
-                      <Typography component="span">
-                        {yieldSource.yieldVault ? yieldSource.yieldVault.token : yieldSource.name}
-                      </Typography>
-                      {yieldSource.yieldVault && (
-                        <>
-                          <Typography component="span" className={classes.earnedAs}>
-                            earned as
-                          </Typography>
-                          <img
-                            width="12"
-                            height="16"
-                            src="assets/icons/yield-bearing-rewards.svg"
-                            alt="Yield-Bearing Rewards"
-                          />
-                          <Typography component="span" color="primary">
-                            {yieldSource.yieldVault ? yieldSource.yieldVault.vaultName : yieldSource.name}
-                          </Typography>
-                        </>
-                      )}
-                    </Box>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Typography align="right">
-                      {/* {yieldSource.yieldVault
-                        ? (vaults.getVault(yieldSource.yieldVault.vaultId)?.apy ?? 0).toFixed(2)
-                        : yieldSource.apr.toFixed(2)} */}
-                      {yieldSource.apr.toFixed(2)}%
-                    </Typography>
-                  </Grid>
-                </Grid>
+                <VaultApyBreakdownItem vault={vault} source={yieldSource} />
               </>
             ))}
           </Box>
@@ -359,6 +334,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   <Grid container className={classes.totalVaultRewardsRow}>
                     <Grid item xs={9}>
                       <Box display="flex" alignItems="center">
+                        <TokenLogo width="24" height="24" token={{ symbol: yieldSource.vaultName }} />
                         <img
                           width="12"
                           height="16"
@@ -376,7 +352,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                     </Grid>
                     <Grid item xs={3}>
                       <Typography align="right">
-                        {(vaults.getVault(yieldSource.vaultId)?.apy ?? 0).toFixed(2)}%
+                        {numberWithCommas((vaults.getVault(yieldSource.vaultId)?.apy ?? 0).toFixed(2))}%
                       </Typography>
                     </Grid>
                   </Grid>

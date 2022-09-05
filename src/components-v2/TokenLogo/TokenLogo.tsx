@@ -4,7 +4,9 @@ import React, { SyntheticEvent } from 'react';
 import { getTokenIconPath } from '../../utils/componentHelpers';
 
 interface Props extends React.HTMLAttributes<HTMLImageElement> {
-  token: Token;
+  token: Token | { symbol: string };
+  width?: string;
+  height?: string;
 }
 
 const TokenLogo = ({ token, ...imageProps }: Props): JSX.Element => {
