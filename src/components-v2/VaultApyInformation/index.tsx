@@ -13,6 +13,10 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
+import TokenLogo from 'components-v2/TokenLogo';
+import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
+import { FLAGS } from 'config/environment';
+import { YieldBearingVaultSource } from 'mobx/model/vaults/yield-bearing-vault-data';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, useContext } from 'react';
@@ -22,10 +26,6 @@ import routes from '../../config/routes';
 import { numberWithCommas } from '../../mobx/utils/helpers';
 import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import VaultListItemTags from '../VaultListItemTags';
-import { FLAGS } from 'config/environment';
-import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
-import { YieldBearingVaultSource } from 'mobx/model/vaults/yield-bearing-vault-data';
-import TokenLogo from 'components-v2/TokenLogo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiBox-root > *': {
       marginRight: 10,
       '&:last-child': {
-        marginRight: 0
-      }
+        marginRight: 0,
+      },
     },
     '& .MuiBox-root > img': {
       marginRight: 5,
@@ -172,7 +172,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     }, [])
     .sort((a) => (a.yieldVault ? 1 : -1))
     .sort((_, b) => (isFlywheelSource(b) ? -1 : 1))
-    .sort((_, b) => (isBadgerSource(b) ? -1 : 1))
+    .sort((_, b) => (isBadgerSource(b) ? -1 : 1));
 
   return (
     <Dialog

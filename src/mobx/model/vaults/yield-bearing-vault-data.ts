@@ -8,4 +8,5 @@ export interface YieldBearingVaultSource {
   vaultId: string;
   vaultName: string;
   vaultDescription: string;
+  route: string;
 }
