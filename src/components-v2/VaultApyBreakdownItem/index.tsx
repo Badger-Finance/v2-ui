@@ -109,7 +109,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
                       <img
                         width="12"
                         height="16"
-                        src="assets/icons/yield-bearing-rewards.svg"
+                        src="/assets/icons/yield-bearing-rewards.svg"
                         alt="Yield-Bearing Rewards"
                       />
                       <Typography component="span" color="primary">
@@ -128,7 +128,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
                   <img
                     width="12"
                     height="16"
-                    src="assets/icons/yield-bearing-rewards.svg"
+                    src="/assets/icons/yield-bearing-rewards.svg"
                     alt="Yield-Bearing Rewards"
                   />
                   <Typography component="span" color="primary">

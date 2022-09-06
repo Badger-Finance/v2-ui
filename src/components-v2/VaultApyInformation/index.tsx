@@ -160,7 +160,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     return list;
   }, []);
 
-  const yieldSourcesAprList: YieldValueSource[] = vault.sourcesApy
+  const yieldSourcesApyList: YieldValueSource[] = vault.sourcesApy
     .reduce((list: any[], source) => {
       const yieldVault = getYieldBearingVaultBySourceName(source.name);
       if (yieldVault !== undefined) {
@@ -300,7 +300,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
             <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsNote}`}>
               <Grid item>Rewards earned by our strategies on your vault deposits</Grid>
             </Grid>
-            {yieldSourcesAprList.map((yieldSource) => (
+            {yieldSourcesApyList.map((yieldSource) => (
               <>
                 <Divider className={classes.totalVaultRewardsDivider} />
                 <VaultApyBreakdownItem vault={vault} source={yieldSource} />
