@@ -190,7 +190,7 @@ export const VaultWithdraw = observer(({ open = false, vault, withdrawAdvisory, 
       });
       if (result === TransactionStatus.Success) {
         await user.reloadBalances();
-        vaultDetail.toggleWithdrawDialog();
+        onClose();
       }
     }
   };
