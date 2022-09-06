@@ -1,5 +1,6 @@
 import { VaultDTO } from '@badger-dao/sdk';
 import { Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import { YieldValueSource } from 'components-v2/VaultApyInformation';
 import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -10,7 +11,6 @@ import { BoostedRewards } from 'utils/enums/boosted-rewards.enum';
 import routes from '../../config/routes';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
 import { numberWithCommas } from '../../mobx/utils/helpers';
-import { YieldValueSource } from 'components-v2/VaultApyInformation';
 
 const useStyles = makeStyles({
   apyBreakdownIcon: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
   link: {
     cursor: 'pointer',
-  }
+  },
 });
 
 interface Props {

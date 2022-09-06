@@ -1,19 +1,20 @@
-import { ValueSource, VaultDTO } from '@badger-dao/sdk';
+import { VaultDTO } from '@badger-dao/sdk';
 import { Box, Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import TokenLogo from 'components-v2/TokenLogo';
+import { YieldValueSource } from 'components-v2/VaultApyInformation';
+import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
+import { FLAGS } from 'config/environment';
 import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { calculateUserBoost } from 'utils/boost-ranks';
+import { isFlywheelSource } from 'utils/componentHelpers';
 import { BoostedRewards } from 'utils/enums/boosted-rewards.enum';
 
 import routes from '../../config/routes';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
 import { numberWithCommas } from '../../mobx/utils/helpers';
-import { FLAGS } from 'config/environment';
-import { YieldValueSource } from 'components-v2/VaultApyInformation';
-import TokenLogo from 'components-v2/TokenLogo';
-import { isFlywheelSource } from 'utils/componentHelpers';
 
 const useStyles = makeStyles({
   apyBreakdownIcon: {
@@ -58,6 +59,13 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
   const sourceApr = source.boostable
     ? source.minApr + (source.maxApr - source.minApr) * (userBoost / maxBoost)
     : source.apr;
+
+  const handleLinkClick = () => {
+    const config = getYieldBearingVaultBySourceName(source.name);
+    if (config) {
+      router.goTo(routes.vaultDetail, { vaultName: config.route }, { chain: router.queryParams?.chain });
+    }
+  };
 
   const handleGoToCalculator = async () => {
     await router.goTo(routes.boostOptimizer);
@@ -112,9 +120,17 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
                         src="/assets/icons/yield-bearing-rewards.svg"
                         alt="Yield-Bearing Rewards"
                       />
-                      <Typography component="span" color="primary">
-                        {source.yieldVault ? source.yieldVault.vaultName : source.name}
-                      </Typography>
+                      {source.yieldVault ? (
+                        <Link display="inline" className={classes.link} onClick={handleLinkClick}>
+                          <Typography component="span" color="primary">
+                            {source.yieldVault.vaultName}
+                          </Typography>
+                        </Link>
+                      ) : (
+                        <Typography component="span" color="primary">
+                          {source.name}
+                        </Typography>
+                      )}
                     </>
                   )}
                 </>

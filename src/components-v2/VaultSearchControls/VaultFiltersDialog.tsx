@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { FLAGS } from 'config/environment';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -23,7 +24,6 @@ import VaultSearchBar from './VaultSearchBar';
 import VaultsPlatformSelector from './VaultsPlatformSelector';
 import VaultsRewardsSelector from './VaultsRewardsSelector';
 import VaultStatusSelector from './VaultStatusSelector';
-import { FLAGS } from 'config/environment';
 
 const useStyles = makeStyles(() => ({
   title: {

@@ -12,9 +12,9 @@ import { numberWithCommas } from '../../mobx/utils/helpers';
 import ChartContent from '../vault-detail/charts/ChartContent';
 import SpecItem from '../vault-detail/specs/SpecItem';
 import { StyledHelpIcon } from '../vault-detail/styled';
+import InfluenceVaultApyBreakdown from './InfluenceVaultApyBreakdown';
 import InfluenceVaultChart from './InfluenceVaultChart';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
-import InfluenceVaultApyBreakdown from './InfluenceVaultApyBreakdown';
 
 const useStyles = makeStyles((theme) => ({
   root: {
