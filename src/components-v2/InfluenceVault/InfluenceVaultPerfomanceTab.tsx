@@ -12,9 +12,9 @@ import { numberWithCommas } from '../../mobx/utils/helpers';
 import ChartContent from '../vault-detail/charts/ChartContent';
 import SpecItem from '../vault-detail/specs/SpecItem';
 import { StyledHelpIcon } from '../vault-detail/styled';
-import VaultApyBreakdownItem from '../VaultApyBreakdownItem';
 import InfluenceVaultChart from './InfluenceVaultChart';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
+import InfluenceVaultApyBreakdown from './InfluenceVaultApyBreakdown';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,7 +100,7 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
             <Divider className={classes.divider} />
             {sortedSources.map((source) => (
               <React.Fragment key={source.name}>
-                <VaultApyBreakdownItem vault={vault} source={source} />
+                <InfluenceVaultApyBreakdown vault={vault} source={source} />
                 <Divider className={classes.divider} />
               </React.Fragment>
             ))}
