@@ -161,7 +161,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   }, []);
 
   const yieldSourcesApyList: YieldValueSource[] = vault.sourcesApy
-    .reduce((list: any[], source) => {
+    .reduce((list: YieldValueSource[], source) => {
       const yieldVault = getYieldBearingVaultBySourceName(source.name);
       if (yieldVault !== undefined) {
         list.push({ ...source, yieldVault });
@@ -301,10 +301,10 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
               <Grid item>Rewards earned by our strategies on your vault deposits</Grid>
             </Grid>
             {yieldSourcesApyList.map((yieldSource) => (
-              <>
+              <Box key={`yieldSourcesApyList-${yieldSource.name}`}>
                 <Divider className={classes.totalVaultRewardsDivider} />
                 <VaultApyBreakdownItem vault={vault} source={yieldSource} />
-              </>
+              </Box>
             ))}
           </Box>
 
@@ -330,7 +330,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                 <Grid item>These rewards continue earning rewards of their own, no claiming required </Grid>
               </Grid>
               {yieldBearingRewardsList.map((yieldSource) => (
-                <>
+                <Box key={`yieldBearingRewardsList-${yieldSource.name}`}>
                   <Divider className={classes.totalVaultRewardsDivider} />
                   <Grid container className={classes.totalVaultRewardsRow}>
                     <Grid item xs={9}>
@@ -357,7 +357,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                       </Typography>
                     </Grid>
                   </Grid>
-                </>
+                </Box>
               ))}
             </Box>
           )}
