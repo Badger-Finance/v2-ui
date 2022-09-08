@@ -2,6 +2,7 @@ import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Box, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import MarkupText from 'components-v2/common/MarkupText';
+import { yieldToValueSource } from 'components-v2/VaultApyInformation';
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
@@ -99,7 +100,7 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
               </Typography>
             </Box>
             <Divider className={classes.divider} />
-            {sortedSources.map((source) => (
+            {sortedSources.map(yieldToValueSource).map((source) => (
               <React.Fragment key={source.name}>
                 <InfluenceVaultApyBreakdown vault={vault} source={source} />
                 <Divider className={classes.divider} />

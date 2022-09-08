@@ -42,11 +42,9 @@ const InfluenceVaultApyBreakdown = ({ vault, source }: Props): JSX.Element => {
   const isBoostBreakdown = source.name === BoostedRewards.BoostedBadger;
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
   const userBoost = user.accountDetails?.boost ?? 1;
-  const {
-    boostable,
-    performance: { grossYield, minGrossYield, maxGrossYield },
-  } = source;
-  const sourceApr = boostable ? minGrossYield + (maxGrossYield - minGrossYield) * (userBoost / maxBoost) : grossYield;
+  const sourceApr = source.boostable
+    ? source.minApr + (source.maxApr - source.minApr) * (userBoost / maxBoost)
+    : source.apr;
 
   const handleGoToCalculator = async () => {
     await router.goTo(routes.boostOptimizer);
@@ -58,7 +56,7 @@ const InfluenceVaultApyBreakdown = ({ vault, source }: Props): JSX.Element => {
         <Grid item container justifyContent="space-between">
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(maxGrossYield.toFixed(2))}%)`}
+              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr.toFixed(2))}%)`}
             </Typography>
           </Grid>
           <Grid item>
