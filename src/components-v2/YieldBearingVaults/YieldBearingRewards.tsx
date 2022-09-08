@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     top: theme.spacing(1),
   },
   video: {
+    display: 'flex',
     background: '#CCCCCC',
     width: '100%',
     height: 320,
@@ -42,6 +43,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     '& .MuiListItemText-root': {
       margin: 0,
     },
+  },
+  youtube: {
+    flexGrow: 1,
+    border: 'none',
+    margin: 0,
+    padding: 0,
   },
 }));
 
@@ -62,15 +69,24 @@ const YieldBearingRewards = observer(({ open, onModalClose }: YieldBearingReward
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title" className={classes.title}>
-        <Typography variant="h6" color="primary" className={classes.titleText}>
-          <img src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" /> Yield-Bearing Rewards
-        </Typography>
+        <Box className={classes.titleText}>
+          <img src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" />
+          <Typography variant="h6" color="primary">
+            Yield-Bearing Rewards
+          </Typography>
+        </Box>
         <IconButton aria-label="close" className={classes.closeButton} onClick={onModalClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent id="alert-dialog-description" className={classes.root}>
-        <Box className={classes.video}></Box>
+        {/* <Box className={classes.video}>
+          <iframe
+            id="ytplayer"
+            className={classes.youtube}
+            src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+          ></iframe>
+        </Box> */}
         <Typography gutterBottom className={classes.contentText}>
           Yield-Bearing Rewards automate and optimize the complex series of ongoing transactions required to make the
           most of DeFi ecosystems like Aura and Convex.
