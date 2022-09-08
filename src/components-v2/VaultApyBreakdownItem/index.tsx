@@ -1,5 +1,5 @@
 import { VaultDTO } from '@badger-dao/sdk';
-import { Box, Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, Link, makeStyles, Theme, Typography } from '@material-ui/core';
 import TokenLogo from 'components-v2/TokenLogo';
 import { YieldValueSource } from 'components-v2/VaultApyInformation';
 import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
@@ -16,7 +16,7 @@ import routes from '../../config/routes';
 import { useVaultInformation } from '../../hooks/useVaultInformation';
 import { numberWithCommas } from '../../mobx/utils/helpers';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   apyBreakdownIcon: {
     marginRight: 8,
   },
@@ -33,13 +33,21 @@ const useStyles = makeStyles({
     padding: 10,
     '& .MuiBox-root > *': {
       marginRight: 5,
+      '&:last-child': {
+        marginRight: 0,
+      },
     },
-    '& .MuiBox-root > img': {
+    '& .MuiBox-root > img:first-child': {
       marginRight: 10,
     },
   },
   earnedAs: { color: 'rgba(255,255,255,0.6)' },
-});
+  yieldSourceRow: {
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+    },
+  },
+}));
 
 interface Props {
   vault: VaultDTO;
@@ -100,7 +108,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
       <>
         <Grid container className={classes.totalVaultRewardsRow}>
           <Grid item xs={9}>
-            <Box display="flex" alignItems="center">
+            <Box display="flex" alignItems="center" className={classes.yieldSourceRow}>
               <TokenLogo
                 width="24"
                 height="24"

@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'flex-start',
     },
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
   projectedApr: {
     fontSize: 10,
@@ -127,7 +130,7 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
         <Box className={classes.yieldBearingRewards}>
           <Link color="primary" onClick={handleYieldBearingRewardsClick}>
             <img width="9" src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" /> Yield-Bearing
-            Rewards.
+            Rewards:
           </Link>
           <Typography onClick={handleApyInfoClick} variant="inherit">
             Rewards earn up to {yieldSourcesAprTotal.toFixed(2)}%

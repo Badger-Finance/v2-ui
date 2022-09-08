@@ -72,13 +72,13 @@ const useStyles = makeStyles((theme) => ({
   totalVaultRewardsRow: {
     padding: 10,
     '& .MuiBox-root > *': {
-      marginRight: 10,
+      marginRight: 5,
       '&:last-child': {
         marginRight: 0,
       },
     },
-    '& .MuiBox-root > img': {
-      marginRight: 5,
+    '& .MuiBox-root > img:first-child': {
+      marginRight: 10,
     },
   },
   rowAsHead: {
@@ -99,6 +99,11 @@ const useStyles = makeStyles((theme) => ({
     background: '#1B1B1B',
     marginTop: 20,
     borderRadius: 10,
+  },
+  yieldSourceRow: {
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+    },
   },
 }));
 
@@ -334,7 +339,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   <Divider className={classes.totalVaultRewardsDivider} />
                   <Grid container className={classes.totalVaultRewardsRow}>
                     <Grid item xs={9}>
-                      <Box display="flex" alignItems="center">
+                      <Box display="flex" alignItems="center" className={classes.yieldSourceRow}>
                         <TokenLogo width="24" height="24" token={{ symbol: yieldSource.vaultName }} />
                         <img
                           width="12"
