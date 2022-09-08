@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Box, Grid, Link, makeStyles, Theme, Typography } from '@material-ui/core';
 import TokenLogo from 'components-v2/TokenLogo';
 import { YieldValueSource } from 'components-v2/VaultApyInformation';
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   source: YieldValueSource;
 }
 
@@ -64,6 +64,8 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
   const isBoostBreakdown = source.name === BoostedRewards.BoostedBadger;
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
   const userBoost = user.accountDetails?.boost ?? 1;
+
+  // TODO: this is now duplicated p sure - probably should do a helper fn
   const sourceApr = source.boostable
     ? source.minApr + (source.maxApr - source.minApr) * (userBoost / maxBoost)
     : source.apr;

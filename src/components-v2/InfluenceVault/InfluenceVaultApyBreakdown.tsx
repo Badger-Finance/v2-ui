@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import { YieldValueSource } from 'components-v2/VaultApyInformation';
 import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   source: YieldValueSource;
 }
 

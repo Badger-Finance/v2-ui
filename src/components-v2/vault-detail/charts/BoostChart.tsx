@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { makeStyles } from '@material-ui/core';
 import { format } from 'd3-format';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -52,41 +52,33 @@ const BoostTooltip = observer(({ active, payload }: TooltipProps<ValueType, Name
 });
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
-  const {
-    vaults: { vaultsFilters },
-    user,
-    wallet,
-  } = useContext(StoreContext);
+  const { user, wallet } = useContext(StoreContext);
 
-  const { sources, apr, minApr, maxApr, maxApy, minApy, sourcesApy, apy } = vault;
+  const { apy } = vault;
   const { isConnected } = wallet;
 
-  if (!minApr || !maxApr || !maxApy || !minApy) {
-    return null;
-  }
-
-  const base = vaultsFilters.showAPR ? apr : apy;
-  const mode = vaultsFilters.showAPR ? 'APR' : 'APY';
-  const boostSources = vaultsFilters.showAPR ? sources : sourcesApy;
+  const base = apy.grossYield;
+  const mode = 'APY';
+  const boostSources = apy.sources;
 
   const boostableApr = boostSources
     .filter((s) => s.boostable)
-    .map((s) => s.apr)
+    .map((s) => s.performance.grossYield)
     .reduce((total, apr) => total + apr, 0);
 
   const baseApr = base - boostableApr;
 
   const boostableMinApr = boostSources
     .filter((s) => s.boostable)
-    .map((s) => s.minApr)
+    .map((s) => s.performance.minGrossYield)
     .reduce((total, apr) => total + apr, 0);
   const boostableMaxApr = boostSources
     .filter((s) => s.boostable)
-    .map((s) => s.maxApr)
+    .map((s) => s.performance.maxGrossYield)
     .reduce((total, apr) => total + apr, 0);
 
   const range = boostableMaxApr - boostableMinApr;
@@ -105,7 +97,7 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
 
   const yRefs = isConnected
     ? [{ value: userApr, label: `Your ${mode} (${userApr.toFixed(2)}%)` }]
-    : [{ value: apr / 100, label: `Baseline ${mode} (${apr.toFixed(2)}%)` }];
+    : [{ value: base / 100, label: `Baseline ${mode} (${base.toFixed(2)}%)` }];
   const xRefs = isConnected ? [{ value: userBoost, label: 'Your Boost' }] : [];
 
   return (

@@ -1,4 +1,4 @@
-import { TransactionStatus, VaultDTO } from '@badger-dao/sdk';
+import { TransactionStatus, VaultDTOV3 } from '@badger-dao/sdk';
 import { Box, Dialog, Grid, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import VaultLogo from 'components-v2/landing/VaultLogo';
@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
 
 export interface VaultModalProps {
   open?: boolean;
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   withdrawAdvisory?: AdvisoryType;
   onClose: () => void;
 }

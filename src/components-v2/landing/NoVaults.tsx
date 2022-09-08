@@ -47,7 +47,7 @@ const NoVaults = ({ network }: Props): JSX.Element => {
       </Grid>
       <Grid item container direction="column" justifyContent="center" className={classes.helpTextContainer}>
         <Typography variant="h5" color="textSecondary">
-          No vaults to display
+          No vaults on ${network}.
         </Typography>
         <Typography variant="body2" color="textSecondary">
           Switch to another network to view more vaults.

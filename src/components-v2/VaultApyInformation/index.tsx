@@ -1,4 +1,4 @@
-import { ValueSource, VaultDTO, VaultState } from '@badger-dao/sdk';
+import { ValueSource, VaultDTOV3, VaultState, YieldSource } from '@badger-dao/sdk';
 import {
   Box,
   Button,
@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   open: boolean;
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   boost: number;
   onClose: () => void;
   projectedBoost: number | null;
@@ -124,23 +124,36 @@ export interface YieldValueSource extends ValueSource {
   yieldVault?: YieldBearingVaultSource;
 }
 
+/**
+ * Convert yield source to value source.
+ * @param source yield source to be converted
+ * @returns value source derived from yield source
+ */
+export function yieldToValueSource(source: YieldSource): ValueSource {
+  const { baseYield, minYield, maxYield } = source.performance;
+  return {
+    name: source.name,
+    apr: baseYield,
+    boostable: source.boostable,
+    minApr: minYield,
+    maxApr: maxYield,
+  };
+}
+
 const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Props): JSX.Element | null => {
   const {
-    yieldProjection: { harvestPeriodSources, harvestPeriodSourcesApy, nonHarvestSources, nonHarvestSourcesApy },
-    sources,
-    sourcesApy,
+    yieldProjection: { harvestPeriodSourcesApy, nonHarvestSourcesApy },
+    apy: { sources },
   } = vault;
   const { vaults, router } = useContext(StoreContext);
-  const {
-    vaultsFilters: { showAPR },
-  } = vaults;
 
   const classes = useStyles();
-  const displaySources = showAPR ? sources : sourcesApy;
-  const sortedSources = displaySources.slice().sort((a, b) => (isBadgerSource(b) ? -1 : b.apr > a.apr ? 1 : -1));
+  const sortedSources = sources
+    .slice()
+    .sort((a, b) => (isBadgerSource(b) ? -1 : b.performance.baseYield > a.performance.baseYield ? 1 : -1));
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
-  const harvestSources: YieldSourceDisplay[] = showAPR ? harvestPeriodSources : harvestPeriodSourcesApy;
-  const additionalSources: YieldSourceDisplay[] = showAPR ? nonHarvestSources : nonHarvestSourcesApy;
+  const harvestSources: YieldSourceDisplay[] = harvestPeriodSourcesApy;
+  const additionalSources: YieldSourceDisplay[] = nonHarvestSourcesApy.map(yieldToValueSource);
   const totalCurrentSources = harvestSources.concat(additionalSources);
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
   const isInfluence = isInfluenceVault(vault.vaultToken);
@@ -157,7 +170,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     onClose();
   };
 
-  const yieldBearingRewardsList = vault.sourcesApy.reduce((list: YieldBearingVaultSource[], source) => {
+  const yieldBearingRewardsList = vault.apy.sources.reduce((list: YieldBearingVaultSource[], source) => {
     const yieldVault = getYieldBearingVaultBySourceName(source.name);
     if (yieldVault !== undefined) {
       list.push(yieldVault);
@@ -165,7 +178,8 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     return list;
   }, []);
 
-  const yieldSourcesApyList: YieldValueSource[] = vault.sourcesApy
+  const yieldSourcesApyList: YieldValueSource[] = vault.apy.sources
+    .map(yieldToValueSource)
     .reduce((list: YieldValueSource[], source) => {
       const yieldVault = getYieldBearingVaultBySourceName(source.name);
       if (yieldVault !== undefined) {
@@ -224,7 +238,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   </Grid>
                 </Grid>
                 <Divider className={classes.divider} />
-                {sortedSources.map((source) => (
+                {sortedSources.map(yieldToValueSource).map((source) => (
                   <React.Fragment key={`historic-${source.name}`}>
                     <VaultApyBreakdownItem vault={vault} source={source} />
                     <Divider className={classes.divider} />
@@ -264,7 +278,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                     <Divider className={classes.divider} />
                   </div>
                 ))}
-                {badgerRewardsSources.map((source) => (
+                {badgerRewardsSources.map(yieldToValueSource).map((source) => (
                   <React.Fragment key={`current-${source.name}`}>
                     <VaultApyBreakdownItem vault={vault} source={source} />
                     <Divider className={classes.divider} />
@@ -358,7 +372,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                     </Grid>
                     <Grid item xs={3}>
                       <Typography align="right">
-                        {numberWithCommas((vaults.getVault(yieldSource.vaultId)?.apy ?? 0).toFixed(2))}%
+                        {numberWithCommas((vaults.getVault(yieldSource.vaultId)?.apy.grossYield ?? 0).toFixed(2))}%
                       </Typography>
                     </Grid>
                   </Grid>

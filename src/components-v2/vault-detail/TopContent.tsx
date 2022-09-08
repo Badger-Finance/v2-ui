@@ -1,4 +1,4 @@
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import { VaultDTOV3, VaultState } from '@badger-dao/sdk';
 import { Grid, makeStyles } from '@material-ui/core';
 import React from 'react';
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 export const TopContent = ({ vault }: Props): JSX.Element => {

@@ -1,11 +1,11 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import React from 'react';
 
 import AdvisoryLink from './AdvisoryLink';
 import GenericVaultAdvisory, { VaultAdvisoryBaseProps } from './GenericVaulAdvisory';
 
 interface LockingVaultAdvisoryProps extends VaultAdvisoryBaseProps {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   lockingWeeks: number;
   learnMoreLink?: string;
 }

@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Card, Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { numberWithCommas } from 'mobx/utils/helpers';
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface VaultListItemProps {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 const VaultListItem = observer(({ vault }: VaultListItemProps): JSX.Element | null => {

@@ -1,4 +1,4 @@
-import { VaultData, VaultDTO } from '@badger-dao/sdk';
+import { VaultData, VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { useVaultInformation } from 'hooks/useVaultInformation';
 import React from 'react';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   userData: VaultData;
   onDepositClick: () => void;
   onWithdrawClick: () => void;

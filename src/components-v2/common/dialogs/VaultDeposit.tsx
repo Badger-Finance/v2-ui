@@ -1,4 +1,4 @@
-import { TransactionStatus, VaultDTO, VaultState } from '@badger-dao/sdk';
+import { TransactionStatus, VaultDTOV3, VaultState } from '@badger-dao/sdk';
 import { Box, Button, Dialog, DialogContent, Grid, TextField, Typography } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -133,7 +133,7 @@ const DepositButton = styled(ActionButton)(() => ({
 
 export interface VaultModalProps {
   open?: boolean;
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   onClose: () => void;
   depositAdvisory?: AdvisoryType;
 }
