@@ -25,10 +25,23 @@ exports[`VaultItemApr Boosted Vaults displays correct APR and boost information 
 
 exports[`VaultItemApr No APR Vaults renders zero APR 1`] = `
 <div>
-  <p
-    class="MuiTypography-root-7 makeStyles-apr-2 MuiTypography-body1-9 MuiTypography-colorTextPrimary-32"
+  <div
+    class="MuiBox-root-7 MuiBox-root-8 makeStyles-root-1"
   >
-    --%
-  </p>
+    <div
+      class="MuiBox-root-7 MuiBox-root-9 makeStyles-aprDisplay-4"
+    >
+      <p
+        class="MuiTypography-root-10 MuiTypography-body1-12 MuiTypography-colorTextPrimary-35 MuiTypography-displayInline-38"
+      >
+        0.31%
+      </p>
+      <img
+        alt="apy info icon"
+        class="makeStyles-apyInfo-3"
+        src="/assets/icons/apy-info.svg"
+      />
+    </div>
+  </div>
 </div>
 `;
