@@ -100,6 +100,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     borderRadius: 10,
   },
+  yieldSourceRow: {
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+    },
+  },
 }));
 
 interface Props {
@@ -334,7 +339,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   <Divider className={classes.totalVaultRewardsDivider} />
                   <Grid container className={classes.totalVaultRewardsRow}>
                     <Grid item xs={9}>
-                      <Box display="flex" alignItems="center">
+                      <Box display="flex" alignItems="center" className={classes.yieldSourceRow}>
                         <TokenLogo width="24" height="24" token={{ symbol: yieldSource.vaultName }} />
                         <img
                           width="12"
