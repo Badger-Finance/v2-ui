@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import { YieldValueSource } from 'components-v2/VaultApyInformation';
 import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   source: YieldValueSource;
 }
 
@@ -42,9 +42,11 @@ const InfluenceVaultApyBreakdown = ({ vault, source }: Props): JSX.Element => {
   const isBoostBreakdown = source.name === BoostedRewards.BoostedBadger;
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
   const userBoost = user.accountDetails?.boost ?? 1;
-  const sourceApr = source.boostable
-    ? source.minApr + (source.maxApr - source.minApr) * (userBoost / maxBoost)
-    : source.apr;
+  const {
+    boostable,
+    performance: { grossYield, minGrossYield, maxGrossYield },
+  } = source;
+  const sourceApr = boostable ? minGrossYield + (maxGrossYield - minGrossYield) * (userBoost / maxBoost) : grossYield;
 
   const handleGoToCalculator = async () => {
     await router.goTo(routes.boostOptimizer);
@@ -56,7 +58,7 @@ const InfluenceVaultApyBreakdown = ({ vault, source }: Props): JSX.Element => {
         <Grid item container justifyContent="space-between">
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr.toFixed(2))}%)`}
+              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(maxGrossYield.toFixed(2))}%)`}
             </Typography>
           </Grid>
           <Grid item>

@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { action, extendObservable, observe } from 'mobx';
 
 import { RootStore } from './RootStore';
@@ -6,7 +6,7 @@ import { RootStore } from './RootStore';
 export class VaultDetailStore {
   private readonly store: RootStore;
   private searchSlug: string | undefined;
-  private searchedVault: VaultDTO | undefined | null;
+  private searchedVault: VaultDTOV3 | undefined | null;
 
   private comesFromPortfolioView = false;
   private shouldShowDepositDialog = false;
@@ -32,7 +32,7 @@ export class VaultDetailStore {
     });
   }
 
-  get vault(): VaultDTO | undefined | null {
+  get vault(): VaultDTOV3 | undefined | null {
     return this.searchedVault;
   }
 

@@ -10,7 +10,7 @@ describe('VaultItemApr', () => {
 
   describe('No APR Vaults', () => {
     it('renders zero APR', () => {
-      checkSnapshot(<VaultItemApr vault={{ ...SAMPLE_VAULT, apr: 0 }} />);
+      checkSnapshot(<VaultItemApr vault={{ ...SAMPLE_VAULT, apy: { ...SAMPLE_VAULT.apy, grossYield: 0 } }} />);
     });
   });
 

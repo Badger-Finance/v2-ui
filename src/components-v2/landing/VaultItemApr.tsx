@@ -1,4 +1,4 @@
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import { VaultDTOV3, VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   isDisabled?: boolean;
 }
 
@@ -68,10 +68,10 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
 
   const store = useContext(StoreContext);
   const { vaults } = store;
-  const yieldSourcesAprTotal = vault.sourcesApy.reduce((max, source) => {
+  const yieldSourcesAprTotal = vault.apy.sources.reduce((max, source) => {
     const yieldVault = getYieldBearingVaultBySourceName(source.name);
     if (yieldVault !== undefined) {
-      const current = vaults.getVault(yieldVault.vaultId)?.apy ?? 0;
+      const current = vaults.getVault(yieldVault.vaultId)?.apy.grossYield ?? 0;
       if (current > max) {
         max = current;
       }

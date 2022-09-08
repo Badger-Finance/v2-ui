@@ -1,3 +1,4 @@
+import { FLAGS } from 'config/environment';
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 
 import mainnetDeploy from '../../config/deployments/mainnet.json';
@@ -123,7 +124,7 @@ export const vaults: InfluenceVaultConfig[] = [
     poolToken: '',
     vaultToken: mainnetDeploy.tokens['aura'], //Aura
     roundStart: 1655082061,
-    enableChart: true,
+    enableChart: FLAGS.GRAVIAURA_CHART,
     sources: [mainnetDeploy.sett_system.vaults['native.graviaura'], mainnetDeploy.tokens['badger']],
     scheduleRoundCutoff: 0,
     chartInitialSlice: 2,

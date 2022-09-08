@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 const VaultDepositedAssets = ({ vault }: Props): JSX.Element => {

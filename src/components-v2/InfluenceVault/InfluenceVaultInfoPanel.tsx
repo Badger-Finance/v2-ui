@@ -1,4 +1,4 @@
-import { ChartTimeFrame, VaultDTO } from '@badger-dao/sdk';
+import { ChartTimeFrame, VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   config: InfluenceVaultConfig;
 }
 

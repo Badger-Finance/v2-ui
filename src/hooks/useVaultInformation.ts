@@ -1,4 +1,4 @@
-import { VaultDTO, VaultVersion } from '@badger-dao/sdk';
+import { VaultDTOV3, VaultVersion } from '@badger-dao/sdk';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
@@ -13,25 +13,18 @@ interface VaultInformation {
   projectedVaultBoost: number | null;
 }
 
-export function useVaultInformation(vault: VaultDTO): VaultInformation {
-  const { user, vaults } = useContext(StoreContext);
-  const { showAPR } = vaults.vaultsFilters;
-  const { vaultToken, apr, minApr, apy, minApy, yieldProjection } = vault;
-  const { nonHarvestApr, nonHarvestApy, harvestPeriodApr, harvestPeriodApy } = yieldProjection;
+export function useVaultInformation(vault: VaultDTOV3): VaultInformation {
+  const { user } = useContext(StoreContext);
+  const { vaultToken, apy, yieldProjection } = vault;
+  const { nonHarvestApy, harvestPeriodApy } = yieldProjection;
 
   const depositBalance = user.getBalance(vaultToken);
   const boostContribution = getBoostContribution(vault, user.accountDetails?.boost ?? 0);
-
-  const sourceApr = minApr ?? apr;
-  const sourceApy = minApy ?? apy;
-  const baseYield = showAPR ? sourceApr : sourceApy;
-  const vaultBoost = baseYield + boostContribution;
+  const vaultBoost = apy.baseYield + boostContribution;
 
   let projectedVaultBoost = null;
   if (vault.version === VaultVersion.v1_5) {
-    const baseHarvestYield = showAPR ? harvestPeriodApr : harvestPeriodApy;
-    const nonHarvestYield = showAPR ? nonHarvestApr : nonHarvestApy;
-    projectedVaultBoost = baseHarvestYield + nonHarvestYield + boostContribution;
+    projectedVaultBoost = harvestPeriodApy + nonHarvestApy + boostContribution;
   }
 
   const depositBalanceDisplay = depositBalance.balanceValueDisplay(depositBalance.balance === 0 ? 0 : 2);

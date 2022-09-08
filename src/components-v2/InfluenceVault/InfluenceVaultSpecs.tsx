@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
@@ -16,7 +16,7 @@ import InfluenceVaultFees from './InfluenceVaultFees';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   config: InfluenceVaultConfig;
 }
 

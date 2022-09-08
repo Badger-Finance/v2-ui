@@ -1,4 +1,4 @@
-import { ChartTimeFrame, VaultDTO, VaultSnapshot, VaultType } from '@badger-dao/sdk';
+import { ChartTimeFrame, VaultDTOV3, VaultSnapshot, VaultType } from '@badger-dao/sdk';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 export const ChartsCard = observer(({ vault }: Props): JSX.Element => {

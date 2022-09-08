@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { AdvisoryType } from 'mobx/model/vaults/advisory-type';
 import React from 'react';
 
@@ -8,7 +8,7 @@ import LockingVaultAdvisory from './LockingVaultAdivsory';
 import RemunerationVaultAdvisory from './RemunerationVaultAdvisory';
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   type: AdvisoryType;
   accept: () => void;
 }

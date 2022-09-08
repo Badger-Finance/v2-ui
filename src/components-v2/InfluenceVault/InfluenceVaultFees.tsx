@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid } from '@material-ui/core';
 import { InfluenceVaultFeeConfig } from 'mobx/model/vaults/influence-vault-data';
 import React from 'react';
@@ -10,7 +10,7 @@ import SpecItem from '../vault-detail/specs/SpecItem';
 import InfluenceVaultFee from './InfluenceVaultFee';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   feeConfig: InfluenceVaultFeeConfig;
 }
 

@@ -53,6 +53,8 @@ const InfluenceVaultDetail = (): JSX.Element => {
 
   const influenceVault = vault ? getInfluenceVaultConfig(vault?.vaultToken) : undefined;
   const classes = useStyles();
+
+  // hmm, wtf dis?
   const badgerVault = vault ? vaults.getVault(vault.vaultToken) : undefined;
   const [depositDisplayed, toggleDepositDisplayed] = useReducer((previous) => !previous, false);
   const [withdrawDisplayed, toggleWithdrawDisplay] = useReducer((previous) => !previous, false);
