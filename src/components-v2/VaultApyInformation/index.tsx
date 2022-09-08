@@ -72,13 +72,13 @@ const useStyles = makeStyles((theme) => ({
   totalVaultRewardsRow: {
     padding: 10,
     '& .MuiBox-root > *': {
-      marginRight: 10,
+      marginRight: 5,
       '&:last-child': {
         marginRight: 0,
       },
     },
-    '& .MuiBox-root > img': {
-      marginRight: 5,
+    '& .MuiBox-root > img:first-child': {
+      marginRight: 10,
     },
   },
   rowAsHead: {

@@ -33,8 +33,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 10,
     '& .MuiBox-root > *': {
       marginRight: 5,
+      '&:last-child': {
+        marginRight: 0,
+      },
     },
-    '& .MuiBox-root > img': {
+    '& .MuiBox-root > img:first-child': {
       marginRight: 10,
     },
   },
