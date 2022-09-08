@@ -15,7 +15,7 @@ export const yieldBearingVaultConfig: YieldBearingVaultConfig = {
       route: 'aura-graviaura',
     },
     {
-      name: 'Balancer LP Fees',
+      name: 'Badger Sett Aura BAL',
       token: 'BAL',
       vaultId: '0x37d9D2C6035b744849C15F1BFEE8F268a20fCBd8',
       vaultName: 'bauraBAL',
