@@ -1,4 +1,3 @@
-import { FLAGS } from 'config/environment';
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
 
 import mainnetDeploy from '../../config/deployments/mainnet.json';
@@ -22,7 +21,8 @@ export const vaults: InfluenceVaultConfig[] = [
     vaultToken: mainnetDeploy.sett_system.vaults['native.cvxCrv'], //bvecrvCVX
     roundStart: 1632182660,
     enableChart: true,
-    scheduleRoundCutoff: 1,
+    includeHarvests: false,
+    scheduleRoundCutoff: 13,
     chartInitialSlice: 2,
     sources: [
       mainnetDeploy.sett_system.vaults['native.icvx'],
@@ -124,7 +124,8 @@ export const vaults: InfluenceVaultConfig[] = [
     poolToken: '',
     vaultToken: mainnetDeploy.tokens['aura'], //Aura
     roundStart: 1655082061,
-    enableChart: FLAGS.GRAVIAURA_CHART,
+    enableChart: true,
+    includeHarvests: true,
     sources: [mainnetDeploy.sett_system.vaults['native.graviaura'], mainnetDeploy.tokens['badger']],
     scheduleRoundCutoff: 0,
     chartInitialSlice: 2,
