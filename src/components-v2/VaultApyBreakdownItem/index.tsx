@@ -65,7 +65,6 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
   const userBoost = user.accountDetails?.boost ?? 1;
 
-  // TODO: this is now duplicated p sure - probably should do a helper fn
   const sourceApr = source.boostable
     ? source.minApr + (source.maxApr - source.minApr) * (userBoost / maxBoost)
     : source.apr;

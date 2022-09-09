@@ -130,13 +130,13 @@ export interface YieldValueSource extends ValueSource {
  * @returns value source derived from yield source
  */
 export function yieldToValueSource(source: YieldSource): ValueSource {
-  const { baseYield, minYield, maxYield } = source.performance;
+  const { grossYield, minGrossYield, maxGrossYield } = source.performance;
   return {
     name: source.name,
-    apr: baseYield,
+    apr: grossYield,
     boostable: source.boostable,
-    minApr: minYield,
-    maxApr: maxYield,
+    minApr: minGrossYield,
+    maxApr: maxGrossYield,
   };
 }
 
@@ -150,7 +150,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const classes = useStyles();
   const sortedSources = sources
     .slice()
-    .sort((a, b) => (isBadgerSource(b) ? -1 : b.performance.baseYield > a.performance.baseYield ? 1 : -1));
+    .sort((a, b) => (isBadgerSource(b) ? -1 : b.performance.grossYield > a.performance.grossYield ? 1 : -1));
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
   const harvestSources: YieldSourceDisplay[] = harvestPeriodSourcesApy;
   const additionalSources: YieldSourceDisplay[] = nonHarvestSourcesApy.map(yieldToValueSource);

@@ -20,7 +20,7 @@ export function useVaultInformation(vault: VaultDTOV3): VaultInformation {
 
   const depositBalance = user.getBalance(vaultToken);
   const boostContribution = getBoostContribution(vault, user.accountDetails?.boost ?? 0);
-  const vaultBoost = apy.baseYield + boostContribution;
+  const vaultBoost = apy.grossYield + boostContribution;
 
   let projectedVaultBoost = null;
   if (vault.version === VaultVersion.v1_5) {
