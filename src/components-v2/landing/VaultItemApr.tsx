@@ -107,6 +107,8 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
     <>
       <img src={'assets/icons/new-vault.svg'} alt="New Vault" /> New Vault
     </>
+  ) : FLAGS.APY_EVOLUTION && projectedVaultBoost !== null ? (
+    `${numberWithCommas(projectedVaultBoost.toFixed(2))}%`
   ) : (
     `${numberWithCommas(vaultBoost.toFixed(2))}%`
   );
