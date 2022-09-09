@@ -170,7 +170,8 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     onClose();
   };
 
-  const yieldBearingRewardsList = vault.apy.sources.reduce((list: YieldBearingVaultSource[], source) => {
+  const vaultApySources = projectedBoost !== null ? totalCurrentSources : sources.map(yieldToValueSource);
+  const yieldBearingRewardsList = vaultApySources.reduce((list: YieldBearingVaultSource[], source) => {
     const yieldVault = getYieldBearingVaultBySourceName(source.name);
     if (yieldVault !== undefined) {
       list.push(yieldVault);
@@ -178,9 +179,8 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     return list;
   }, []);
 
-  const yieldSourcesApyList: YieldValueSource[] = vault.apy.sources
-    .map(yieldToValueSource)
-    .reduce((list: YieldValueSource[], source) => {
+  const yieldSourcesApyList: any[] = vaultApySources
+    .reduce((list: any[], source) => {
       const yieldVault = getYieldBearingVaultBySourceName(source.name);
       if (yieldVault !== undefined) {
         list.push({ ...source, yieldVault });
@@ -311,7 +311,16 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                       <Typography component="span">New Vault</Typography>
                     </>
                   )}
-                  <Typography>{`${numberWithCommas(boost.toFixed(2))}%`}</Typography>
+
+                  {projectedBoost !== null ? (
+                    <Typography> {numberWithCommas(projectedBoost.toFixed(2))}%</Typography>
+                  ) : (
+                    <>
+                      {' '}
+                      <Typography component="span">Historic APY</Typography>
+                      <Typography>{numberWithCommas(boost.toFixed(2))}%</Typography>
+                    </>
+                  )}
                 </Box>
               </Grid>
             </Grid>

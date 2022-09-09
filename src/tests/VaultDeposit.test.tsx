@@ -20,9 +20,12 @@ describe('Vault Deposit', () => {
   });
 
   test('can see full fees descriptions', () => {
+    const vault = { ...SAMPLE_VAULT };
+    vault.strategy.strategistFee = 0.3;
+    vault.strategy.address = '0x9BE89D2a4cd102D8Fecc6BF9dA793be995C22541';
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
+        <VaultDeposit open={true} vault={vault} onClose={jest.fn()} />
       </StoreProvider>,
     );
     userEvent.click(screen.getAllByTitle(/click to see full description/i)[0]);
@@ -30,9 +33,12 @@ describe('Vault Deposit', () => {
   });
 
   test('can go back from full fees descriptions', () => {
+    const vault = { ...SAMPLE_VAULT };
+    vault.strategy.strategistFee = 0.3;
+    vault.strategy.address = '0x9BE89D2a4cd102D8Fecc6BF9dA793be995C22541';
     const { baseElement } = customRender(
       <StoreProvider value={store}>
-        <VaultDeposit open={true} vault={SAMPLE_VAULT} onClose={jest.fn()} />
+        <VaultDeposit open={true} vault={vault} onClose={jest.fn()} />
       </StoreProvider>,
     );
     userEvent.click(screen.getAllByTitle(/click to see full description/i)[0]);
