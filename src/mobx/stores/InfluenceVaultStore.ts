@@ -196,9 +196,20 @@ class InfluenceVaultStore {
       eventsByRound[round].push(event);
     }
 
+    const allTokens = Array.from(new Set(Object.values(eventsByRound).flatMap((e) => e.map((e) => e.token))));
+
     const baseObjects = Object.entries(eventsByRound).map((e) => {
       const [round, events] = e;
-      const tokenMap: Record<string, EmissionRoundToken> = {};
+      const tokenMap: Record<string, EmissionRoundToken> = Object.fromEntries(
+        allTokens.map((t) => [
+          t,
+          {
+            symbol: this.store.vaults.getToken(t).symbol,
+            balance: 0,
+            value: 0,
+          },
+        ]),
+      );
 
       let start = Number.MAX_SAFE_INTEGER;
       let vaultTokens = 0;
