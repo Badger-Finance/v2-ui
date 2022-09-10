@@ -1,8 +1,9 @@
 import { VaultDTOV3 } from '@badger-dao/sdk';
+import { Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { StrategyConfig } from 'mobx/model/strategies/strategy-config';
 import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
-
 import { VaultActionButton } from '../../common/VaultActionButtons';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,15 +19,28 @@ const useStyles = makeStyles((theme) => ({
   withdraw: {
     marginTop: theme.spacing(2),
   },
+  goToLink: {
+    width: '100%',
+  },
 }));
 
 interface Props {
   vault: VaultDTOV3;
   onDepositClick: () => void;
   onWithdrawClick: () => void;
+  isUserHasToken: boolean;
+  strategy: StrategyConfig;
+  isUserHasDeposit: boolean;
 }
 
-export const HoldingsActionButtons = ({ vault, onDepositClick, onWithdrawClick }: Props): JSX.Element => {
+export const HoldingsActionButtons = ({
+  vault,
+  onDepositClick,
+  onWithdrawClick,
+  isUserHasToken,
+  strategy,
+  isUserHasDeposit,
+}: Props): JSX.Element => {
   const { vaults, wallet } = React.useContext(StoreContext);
   const canUserDeposit = wallet.isConnected ? vaults.canUserDeposit(vault) : false;
   const canUserWithdraw = vaults.canUserWithdraw(vault);
@@ -34,17 +48,27 @@ export const HoldingsActionButtons = ({ vault, onDepositClick, onWithdrawClick }
 
   return (
     <div className={classes.root}>
-      {canUserDeposit && (
-        <VaultActionButton
-          fullWidth
-          className={classes.deposit}
-          color="primary"
-          variant={canUserDeposit ? 'contained' : 'outlined'}
-          disabled={!canUserDeposit}
-          onClick={onDepositClick}
-        >
-          Deposit
-        </VaultActionButton>
+      {isUserHasDeposit && (
+        <>
+          {isUserHasToken ? (
+            <VaultActionButton
+              fullWidth
+              className={classes.deposit}
+              color="primary"
+              variant={canUserDeposit ? 'contained' : 'outlined'}
+              disabled={!canUserDeposit}
+              onClick={onDepositClick}
+            >
+              Deposit
+            </VaultActionButton>
+          ) : (
+            <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
+              <VaultActionButton variant="contained" fullWidth color="primary">
+                Go to {vault.protocol}
+              </VaultActionButton>
+            </Link>
+          )}
+        </>
       )}
       <VaultActionButton
         className={classes.withdraw}

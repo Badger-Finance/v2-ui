@@ -1,11 +1,13 @@
 import { VaultDTOV3 } from '@badger-dao/sdk';
-import { Grid } from '@material-ui/core';
+import { Grid, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { VaultActionButton } from '../../common/VaultActionButtons';
+import { useVaultInformation } from 'hooks/useVaultInformation';
+import { Chain } from 'mobx/model/network/chain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  goToLink: {
+    width: '100%',
+  },
 }));
 
 interface Props {
@@ -29,35 +34,50 @@ interface Props {
 
 export const MobileStickyActionButtons = observer(({ vault, onDepositClick, onWithdrawClick }: Props): JSX.Element => {
   const classes = useStyles();
-  const { vaults, wallet } = React.useContext(StoreContext);
+  const { vaults, wallet, user, chain: networkStore } = React.useContext(StoreContext);
   const canUserDeposit = wallet.isConnected ? vaults.canUserDeposit(vault) : false;
   const canUserWithdraw = vaults.canUserWithdraw(vault);
+  const { depositBalance } = useVaultInformation(vault);
+  const isUserHasToken = user.getBalance(vault.underlyingToken).hasBalance();
+  const isUserHasDeposit = !depositBalance.tokenBalance.eq(0);
+  const { network } = networkStore;
+  const strategy = Chain.getChain(network).strategies[vault.vaultToken];
 
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item xs>
-          <VaultActionButton
-            fullWidth
-            color="primary"
-            variant={canUserDeposit ? 'contained' : 'outlined'}
-            disabled={!canUserDeposit}
-            onClick={onDepositClick}
-          >
-            Deposit
-          </VaultActionButton>
+          {isUserHasToken ? (
+            <VaultActionButton
+              fullWidth
+              color="primary"
+              variant={canUserDeposit ? 'contained' : 'outlined'}
+              disabled={!canUserDeposit}
+              onClick={onDepositClick}
+            >
+              Deposit
+            </VaultActionButton>
+          ) : (
+            <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
+              <VaultActionButton variant="contained" fullWidth color="primary">
+                Go to {vault.protocol}
+              </VaultActionButton>
+            </Link>
+          )}
         </Grid>
-        <Grid item xs>
-          <VaultActionButton
-            color="primary"
-            variant="outlined"
-            fullWidth
-            disabled={!canUserWithdraw}
-            onClick={onWithdrawClick}
-          >
-            Withdraw
-          </VaultActionButton>
-        </Grid>
+        {isUserHasDeposit && (
+          <Grid item xs>
+            <VaultActionButton
+              color="primary"
+              variant="outlined"
+              fullWidth
+              disabled={!canUserWithdraw}
+              onClick={onWithdrawClick}
+            >
+              Withdraw
+            </VaultActionButton>
+          </Grid>
+        )}
       </Grid>
     </div>
   );

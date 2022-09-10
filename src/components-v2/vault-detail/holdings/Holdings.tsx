@@ -1,9 +1,10 @@
 import { VaultData, VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { useVaultInformation } from 'hooks/useVaultInformation';
+import { Chain } from 'mobx/model/network/chain';
+import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
-
 import { numberWithCommas } from '../../../mobx/utils/helpers';
 import { HoldingItem } from './HoldingItem';
 import { HoldingsActionButtons } from './HoldingsActionButtons';
@@ -33,11 +34,22 @@ export const Holdings = ({ userData, vault, onDepositClick, onWithdrawClick }: P
   const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
   const classes = useStyles();
   const { depositBalance } = useVaultInformation(vault);
+  const { user, chain: networkStore } = React.useContext(StoreContext);
+  const { network } = networkStore;
+  const strategy = Chain.getChain(network).strategies[vault.vaultToken];
+  const isUserHasToken = user.getBalance(vault.underlyingToken).hasBalance();
+  const isUserHasDeposit = !depositBalance.tokenBalance.eq(0);
 
-  if (depositBalance.tokenBalance.eq(0)) {
+  if (!isUserHasDeposit) {
     return (
       <Grid container>
-        <NoHoldings vault={vault} onDepositClick={onDepositClick} />
+        <NoHoldings
+          isUserHasDeposit={isUserHasDeposit}
+          strategy={strategy}
+          isUserHasToken={isUserHasToken}
+          vault={vault}
+          onDepositClick={onDepositClick}
+        />
       </Grid>
     );
   }
@@ -72,7 +84,14 @@ export const Holdings = ({ userData, vault, onDepositClick, onWithdrawClick }: P
         )}
         {isMediumSizeScreen && (
           <Grid item xs={12} sm>
-            <HoldingsActionButtons vault={vault} onDepositClick={onDepositClick} onWithdrawClick={onWithdrawClick} />
+            <HoldingsActionButtons
+              strategy={strategy}
+              isUserHasToken={isUserHasToken}
+              vault={vault}
+              onDepositClick={onDepositClick}
+              onWithdrawClick={onWithdrawClick}
+              isUserHasDeposit={isUserHasDeposit}
+            />
           </Grid>
         )}
       </Grid>
