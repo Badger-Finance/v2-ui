@@ -1,4 +1,4 @@
-import { ChartTimeFrame, ONE_DAY_SECONDS, VaultDTOV3, YieldEvent, YieldType } from '@badger-dao/sdk';
+import { ChartTimeFrame, ONE_DAY_SECONDS, ONE_YEAR_MS, VaultDTOV3, YieldEvent, YieldType } from '@badger-dao/sdk';
 import { getInfluenceVaultConfig } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { extendObservable } from 'mobx';
@@ -72,16 +72,58 @@ class InfluenceVaultStore {
     }
 
     try {
+      const { roundStart } = config;
       const { api } = this.store;
       this.influenceVaults[vault.vaultToken].processingEmissions = true;
 
       // TODO: if we do not even bother showing rounds with emissions, should we include this?
-      // const emissionSchedules = await api.loadSchedule(vault.address, false);
+      const emissionSchedules = await api.loadSchedule(vault.address, false);
+      const yieldSchedules = emissionSchedules
+        .filter((s) => s.start > roundStart)
+        .map((s) => ({
+          ...s,
+          start: s.start * 1000,
+          end: s.end * 1000,
+        }))
+        .filter((e) => e.start > 0);
+      const timestamps = Array.from(new Set(yieldSchedules.map((e) => e.start)));
+      const emissionTokens = Array.from(new Set(yieldSchedules.map((e) => e.token)));
+      const [tokenPriceSnapshots, vaultSnapshots] = await Promise.all([
+        this.store.sdk.api.loadPricesSnapshots(emissionTokens, timestamps),
+        this.store.sdk.api.loadVaultSnapshots(vault.vaultToken, timestamps),
+      ]);
+
+      const vaultSnapshotsByTimestamp = Object.fromEntries(vaultSnapshots.map((s) => [s.timestamp, s]));
+
+      // TODO: make this way fuckin easier, we could provide this with historic schedule data
+      const emissionYieldEvents: YieldEvent[] = yieldSchedules
+        .filter(({ start }) => vaultSnapshotsByTimestamp[start] !== undefined)
+        .map(({ start, end, amount, token }) => {
+          const { balance, value } = vaultSnapshotsByTimestamp[start];
+          const price = tokenPriceSnapshots[token][start];
+          const earned = amount * price;
+          const duration = end - start;
+          const apr = ((earned * (ONE_YEAR_MS / duration)) / value) * 100;
+          const grossApr = apr;
+          return {
+            amount,
+            apr,
+            grossApr,
+            balance,
+            block: 0,
+            earned,
+            timestamp: start,
+            token,
+            // hmm, maybe we should add amother yield type... this is like SourceType anyway
+            type: YieldType.Emission,
+            value,
+            tx: '',
+          };
+        });
+
       const yieldEvents = await api.loadVaultHarvestsV3(vault.address);
-
-      const bucketedEvents = await this.#bucketYieldEvents(yieldEvents, vault, config);
-
-      console.log(bucketedEvents);
+      const totalYieldEvents = yieldEvents.concat(emissionYieldEvents).filter((e) => e.timestamp >= roundStart * 1000);
+      const bucketedEvents = await this.#bucketYieldEvents(totalYieldEvents, vault, config);
 
       this.influenceVaults[vault.vaultToken].emissionsSchedules = bucketedEvents;
     } catch (error) {
@@ -170,8 +212,8 @@ class InfluenceVaultStore {
         if (!tokenMap[event.token]) {
           tokenMap[event.token] = {
             symbol: this.store.vaults.getToken(event.token).symbol,
-            balance: 0,
-            value: 0,
+            balance: event.amount,
+            value: event.earned,
           };
         } else {
           tokenMap[event.token].balance += event.amount;

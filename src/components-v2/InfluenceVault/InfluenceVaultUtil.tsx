@@ -22,8 +22,8 @@ export const vaults: InfluenceVaultConfig[] = [
     roundStart: 1632182660,
     enableChart: true,
     includeHarvests: false,
-    scheduleRoundCutoff: 13,
-    chartInitialSlice: 2,
+    scheduleRoundCutoff: 0,
+    chartInitialSlice: 0,
     sources: [
       mainnetDeploy.sett_system.vaults['native.icvx'],
       mainnetDeploy.tokens['badger'],
@@ -128,7 +128,7 @@ export const vaults: InfluenceVaultConfig[] = [
     includeHarvests: true,
     sources: [mainnetDeploy.sett_system.vaults['native.graviaura'], mainnetDeploy.tokens['badger']],
     scheduleRoundCutoff: 0,
-    chartInitialSlice: 2,
+    chartInitialSlice: 0,
     rewardFrequencies: [
       {
         name: 'graviAURA, BADGER',
