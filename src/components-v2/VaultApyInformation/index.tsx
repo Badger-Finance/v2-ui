@@ -169,8 +169,8 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     event.stopPropagation();
     onClose();
   };
-
-  const vaultApySources = projectedBoost !== null ? totalCurrentSources : sources.map(yieldToValueSource);
+  const useHistoricAPY = projectedBoost === null || isInfluenceVault(vault.address);
+  const vaultApySources = useHistoricAPY ? sources.map(yieldToValueSource) : totalCurrentSources;
   const yieldBearingRewardsList = vaultApySources.reduce((list: YieldBearingVaultSource[], source) => {
     const yieldVault = getYieldBearingVaultBySourceName(source.name);
     if (yieldVault !== undefined) {
@@ -311,15 +311,14 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                       <Typography component="span">New Vault</Typography>
                     </>
                   )}
-
-                  {projectedBoost !== null ? (
-                    <Typography> {numberWithCommas(projectedBoost.toFixed(2))}%</Typography>
-                  ) : (
+                  {useHistoricAPY ? (
                     <>
                       {' '}
                       <Typography component="span">Historic APY</Typography>
                       <Typography>{numberWithCommas(boost.toFixed(2))}%</Typography>
                     </>
+                  ) : (
+                    <Typography> {numberWithCommas(projectedBoost.toFixed(2))}%</Typography>
                   )}
                 </Box>
               </Grid>

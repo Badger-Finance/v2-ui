@@ -68,6 +68,8 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
 
   const store = useContext(StoreContext);
   const { vaults } = store;
+  const isInfluence = isInfluenceVault(vault.vaultToken);
+  const useHistoricAPY = projectedVaultBoost === null || isInfluence;
   const yieldSourcesAprTotal = vault.apy.sources.reduce((max, source) => {
     const yieldVault = getYieldBearingVaultBySourceName(source.name);
     if (yieldVault !== undefined) {
@@ -107,12 +109,11 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
     <>
       <img src={'assets/icons/new-vault.svg'} alt="New Vault" /> New Vault
     </>
-  ) : FLAGS.APY_EVOLUTION && projectedVaultBoost !== null ? (
+  ) : FLAGS.APY_EVOLUTION && !useHistoricAPY ? (
     `${numberWithCommas(projectedVaultBoost.toFixed(2))}%`
   ) : (
     `${numberWithCommas(vaultBoost.toFixed(2))}%`
   );
-  const isInfluence = isInfluenceVault(vault.vaultToken);
 
   return (
     <Box
