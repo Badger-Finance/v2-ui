@@ -48,3 +48,14 @@ export function defaultVaultBalance(vault: VaultDTOV3): VaultData {
     earnedTokens: [],
   };
 }
+
+export function goToProtocol(protocol: string): string {
+  switch (protocol) {
+    case 'aura':
+      return 'Balancer';
+    case 'convex':
+      return 'Curve';
+    default:
+      return protocol;
+  }
+}
