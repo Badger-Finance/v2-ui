@@ -38,8 +38,8 @@ export const MobileStickyActionButtons = observer(({ vault, onDepositClick, onWi
   const canUserDeposit = wallet.isConnected ? vaults.canUserDeposit(vault) : false;
   const canUserWithdraw = vaults.canUserWithdraw(vault);
   const { depositBalance } = useVaultInformation(vault);
-  const isUserHasToken = user.getBalance(vault.underlyingToken).hasBalance();
-  const isUserHasDeposit = !depositBalance.tokenBalance.eq(0);
+  const userHasToken = user.getBalance(vault.underlyingToken).hasBalance();
+  const userHasDeposit = !depositBalance.tokenBalance.eq(0);
   const { network } = networkStore;
   const strategy = Chain.getChain(network).strategies[vault.vaultToken];
 
@@ -47,7 +47,7 @@ export const MobileStickyActionButtons = observer(({ vault, onDepositClick, onWi
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item xs>
-          {isUserHasToken ? (
+          {userHasToken ? (
             <VaultActionButton
               fullWidth
               color="primary"
@@ -65,7 +65,7 @@ export const MobileStickyActionButtons = observer(({ vault, onDepositClick, onWi
             </Link>
           )}
         </Grid>
-        {isUserHasDeposit && (
+        {userHasDeposit && (
           <Grid item xs>
             <VaultActionButton
               color="primary"

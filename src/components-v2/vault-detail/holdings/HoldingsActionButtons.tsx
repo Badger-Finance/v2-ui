@@ -28,18 +28,18 @@ interface Props {
   vault: VaultDTOV3;
   onDepositClick: () => void;
   onWithdrawClick: () => void;
-  isUserHasToken: boolean;
+  userHasToken: boolean;
   strategy: StrategyConfig;
-  isUserHasDeposit: boolean;
+  userHasDeposit: boolean;
 }
 
 export const HoldingsActionButtons = ({
   vault,
   onDepositClick,
   onWithdrawClick,
-  isUserHasToken,
+  userHasToken,
   strategy,
-  isUserHasDeposit,
+  userHasDeposit,
 }: Props): JSX.Element => {
   const { vaults, wallet } = React.useContext(StoreContext);
   const canUserDeposit = wallet.isConnected ? vaults.canUserDeposit(vault) : false;
@@ -48,9 +48,9 @@ export const HoldingsActionButtons = ({
 
   return (
     <div className={classes.root}>
-      {isUserHasDeposit && (
+      {userHasDeposit && (
         <>
-          {isUserHasToken ? (
+          {userHasToken ? (
             <VaultActionButton
               fullWidth
               className={classes.deposit}

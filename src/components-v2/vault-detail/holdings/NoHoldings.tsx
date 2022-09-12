@@ -31,13 +31,21 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   vault: VaultDTOV3;
   onDepositClick: () => void;
-  isUserHasToken: boolean;
+  userHasToken: boolean;
   strategy: StrategyConfig;
-  isUserHasDeposit: boolean;
+  userHasDeposit: boolean;
+  isMediumSizeScreen: boolean;
 }
 
 export const NoHoldings = observer(
-  ({ vault, onDepositClick, isUserHasToken, strategy, isUserHasDeposit }: Props): JSX.Element | null => {
+  ({
+    vault,
+    onDepositClick,
+    userHasToken,
+    strategy,
+    userHasDeposit,
+    isMediumSizeScreen,
+  }: Props): JSX.Element | null => {
     const classes = useStyles();
 
     const store = React.useContext(StoreContext);
@@ -53,19 +61,21 @@ export const NoHoldings = observer(
           <Typography variant="body1">{`You have no ${vault.name} in your connected wallet.`}</Typography>
           <DepositInfo strategy={strategy} />
         </Grid>
-        <Grid item xs={12} sm className={classes.depositContainer}>
-          {isUserHasToken ? (
-            <VaultActionButton color="primary" variant="contained" fullWidth onClick={onDepositClick}>
-              Deposit
-            </VaultActionButton>
-          ) : (
-            <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
-              <VaultActionButton variant="contained" fullWidth color="primary">
-                Go to {vault.protocol}
+        {isMediumSizeScreen && (
+          <Grid item xs={12} sm className={classes.depositContainer}>
+            {userHasToken ? (
+              <VaultActionButton color="primary" variant="contained" fullWidth onClick={onDepositClick}>
+                Deposit
               </VaultActionButton>
-            </Link>
-          )}
-        </Grid>
+            ) : (
+              <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
+                <VaultActionButton variant="contained" fullWidth color="primary">
+                  Go to {vault.protocol}
+                </VaultActionButton>
+              </Link>
+            )}
+          </Grid>
+        )}
       </Grid>
     );
   },

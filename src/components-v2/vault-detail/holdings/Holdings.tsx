@@ -37,18 +37,19 @@ export const Holdings = ({ userData, vault, onDepositClick, onWithdrawClick }: P
   const { user, chain: networkStore } = React.useContext(StoreContext);
   const { network } = networkStore;
   const strategy = Chain.getChain(network).strategies[vault.vaultToken];
-  const isUserHasToken = user.getBalance(vault.underlyingToken).hasBalance();
-  const isUserHasDeposit = !depositBalance.tokenBalance.eq(0);
+  const userHasToken = user.getBalance(vault.underlyingToken).hasBalance();
+  const userHasDeposit = !depositBalance.tokenBalance.eq(0);
 
-  if (!isUserHasDeposit) {
+  if (!userHasDeposit) {
     return (
       <Grid container>
         <NoHoldings
-          isUserHasDeposit={isUserHasDeposit}
+          userHasDeposit={userHasDeposit}
           strategy={strategy}
-          isUserHasToken={isUserHasToken}
+          userHasToken={userHasToken}
           vault={vault}
           onDepositClick={onDepositClick}
+          isMediumSizeScreen={isMediumSizeScreen}
         />
       </Grid>
     );
@@ -86,11 +87,11 @@ export const Holdings = ({ userData, vault, onDepositClick, onWithdrawClick }: P
           <Grid item xs={12} sm>
             <HoldingsActionButtons
               strategy={strategy}
-              isUserHasToken={isUserHasToken}
+              userHasToken={userHasToken}
               vault={vault}
               onDepositClick={onDepositClick}
               onWithdrawClick={onWithdrawClick}
-              isUserHasDeposit={isUserHasDeposit}
+              userHasDeposit={userHasDeposit}
             />
           </Grid>
         )}
