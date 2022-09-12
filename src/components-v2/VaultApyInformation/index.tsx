@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '0px 36px 27px 36px',
   },
   button: {
-    marginTop: 17,
+    marginTop: 34,
   },
   historicAPY: {
     paddingBottom: 10,
@@ -104,10 +104,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       flexWrap: 'wrap',
     },
-  },
-  feeDisclaimer: {
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.6)',
   },
 }));
 
@@ -173,7 +169,6 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     event.stopPropagation();
     onClose();
   };
-
   const useHistoricAPY = projectedBoost === null || isInfluenceVault(vault.address);
   const vaultApySources = useHistoricAPY ? sources.map(yieldToValueSource) : totalCurrentSources;
   const yieldBearingRewardsList = vaultApySources.reduce((list: YieldBearingVaultSource[], source) => {
@@ -184,8 +179,8 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     return list;
   }, []);
 
-  const yieldSourcesApyList: YieldSourceDisplay[] = vaultApySources
-    .reduce((list: YieldSourceDisplay[], source) => {
+  const yieldSourcesApyList: any[] = vaultApySources
+    .reduce((list: any[], source) => {
       const yieldVault = getYieldBearingVaultBySourceName(source.name);
       if (yieldVault !== undefined) {
         list.push({ ...source, yieldVault });
@@ -393,11 +388,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
               ))}
             </Box>
           )}
-          <Grid item className={classes.button}>
-            <Typography component="span" className={classes.feeDisclaimer}>
-              Fees are not included in APY estimates. See the vault details page for fee information.
-            </Typography>
-          </Grid>
+
           <Grid item className={classes.button}>
             <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
               GO TO VAULT
