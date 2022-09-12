@@ -1,4 +1,4 @@
-import { Token, VaultData, VaultDTO, VaultState } from '@badger-dao/sdk';
+import { Token, VaultData, VaultDTOV3, VaultState } from '@badger-dao/sdk';
 import { VaultType } from '@badger-dao/sdk/lib/api/enums';
 
 import mainnetDeploy from '../config/deployments/mainnet.json';
@@ -37,22 +37,22 @@ export const roundWithPrecision = (value: number, precision: number): number => 
 
 export const formatStrategyFee = (fee: number): string => `${(fee / 100).toString()}%`;
 
-export const isVaultVaultIbbtc = (vault: VaultDTO): boolean => {
+export const isVaultVaultIbbtc = (vault: VaultDTOV3): boolean => {
   return vault.vaultToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
 };
 
-export function shouldDisplayEarnings(vault: VaultDTO, data: VaultData): boolean {
+export function shouldDisplayEarnings(vault: VaultDTOV3, data: VaultData): boolean {
   // possible to have negative earned value (digg) :sadge:
   if (data.earnedValue <= 0) {
     return false;
   }
   // search for the vault source, always "Vault Compounding"
-  const vaultSource = vault.sources.find((s) => s.name.includes('Compounding'));
+  const vaultSource = vault.apy.sources.find((s) => s.name.includes('Compounding'));
   if (!vaultSource) {
     return false;
   }
 
-  return vaultSource.apr > 0;
+  return vaultSource.performance.grossYield > 0;
 }
 
 export const getFormattedNetworkName = (network: Chain): string => {
@@ -66,46 +66,58 @@ export function isBadgerSource(source: { name: string }): boolean {
   return source.name === BoostedRewards.Badger || source.name === BoostedRewards.BoostedBadger;
 }
 
-export function getUserVaultBoost(vault: VaultDTO, boost: number, apr = false): number {
-  if (vault.state === VaultState.Discontinued || vault.sources.length === 0) {
+export function isFlywheelSource(source: { name: string }): boolean {
+  return /vault flywheel/i.test(source?.name);
+}
+
+export function getUserVaultBoost(vault: VaultDTOV3, boost: number, apr = false): number {
+  if (vault.state === VaultState.Discontinued || vault.apy.sources.length === 0) {
     return 0;
   }
 
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
-  return (apr ? vault.sources : vault.sourcesApy)
+  return (apr ? vault.apr.sources : vault.apy.sources)
     .map((source) => {
+      const {
+        performance: { grossYield, minGrossYield, maxGrossYield },
+      } = source;
       if (!source.boostable) {
-        return source.apr;
+        return grossYield;
       }
-      return source.minApr + (boost / maxBoost) * (source.maxApr - source.minApr);
+      return minGrossYield + (boost / maxBoost) * (maxGrossYield - minGrossYield);
     })
     .reduce((total, apr) => total + apr, 0);
 }
 
-export function getBoostContribution(vault: VaultDTO, boost: number): number {
+export function getBoostContribution(vault: VaultDTOV3, boost: number): number {
   const maxBoost = calculateUserBoost(MAX_BOOST_RANK.stakeRatioBoundary);
-  return vault.sources
+  return vault.apy.sources
     .filter((s) => s.name === BoostedRewards.BoostedBadger)
-    .map((s) => s.minApr + (boost / maxBoost) * (s.maxApr - s.minApr))
+    .map((s) => {
+      const {
+        performance: { minGrossYield, maxGrossYield },
+      } = s;
+      return minGrossYield + (boost / maxBoost) * (maxGrossYield - minGrossYield);
+    })
     .reduce((total, apr) => total + apr, 0);
 }
 
-export const limitVaultType = (vaults: VaultDTO[], type: VaultType, max = 3): VaultDTO[] => {
+export const limitVaultType = (vaults: VaultDTOV3[], type: VaultType, max = 3): VaultDTOV3[] => {
   return vaults
     .sort((a, b) => b.value - a.value) // sort by TVL
     .filter((vault) => vault.type === type)
     .slice(0, max);
 };
 
-export function useFormatExampleList(userStore: UserStore): (vaults: VaultDTO[]) => string {
-  return (vaults: VaultDTO[]) =>
+export function useFormatExampleList(userStore: UserStore): (vaults: VaultDTOV3[]) => string {
+  return (vaults: VaultDTOV3[]) =>
     vaults
       .map((vault) => userStore.getBalance(vault.underlyingToken).token.symbol)
       .sort((a, b) => a.length - b.length) // sort with the shortest name
       .join(', ');
 }
 
-export function getTokenIconPath(token: Token): string {
+export function getTokenIconPath(token: Token | { symbol: string }): string {
   const fileName = token.symbol.replaceAll('/', '-');
   return `/assets/icons/${fileName.toLowerCase()}.svg`;
 }

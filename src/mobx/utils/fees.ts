@@ -1,9 +1,9 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 
 import { StrategyFee } from '../model/system-config/stategy-fees';
 
-export function getVaultStrategyFee(vault: VaultDTO, fee: StrategyFee): number {
+export function getVaultStrategyFee(vault: VaultDTOV3, fee: StrategyFee): number {
   const { strategy } = vault;
   if (strategy.address === ethers.constants.AddressZero) {
     return 0;

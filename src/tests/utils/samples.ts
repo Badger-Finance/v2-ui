@@ -1,5 +1,5 @@
-import { VaultData, VaultDTO } from '@badger-dao/sdk';
-import mockVaults from '@badger-dao/sdk-mocks/generated/ethereum/api/loadVaults.json';
+import { VaultData, VaultDTOV3 } from '@badger-dao/sdk';
+import mockVaults from '@badger-dao/sdk-mocks/generated/ethereum/api/loadVaultsV3.json';
 import { BigNumber, utils } from 'ethers';
 import { parseUnits } from 'ethers/lib/utils';
 
@@ -152,8 +152,8 @@ export const SAMPLE_BADGER_SETT: BadgerVault = {
   },
 };
 
-export const SAMPLE_VAULTS: VaultDTO[] = mockVaults as VaultDTO[];
-export const SAMPLE_VAULT: VaultDTO = SAMPLE_VAULTS[0];
+export const SAMPLE_VAULTS: VaultDTOV3[] = mockVaults as VaultDTOV3[];
+export const SAMPLE_VAULT: VaultDTOV3 = SAMPLE_VAULTS[0];
 
 export const SAMPLE_VAULT_BALANCE: VaultData = {
   address: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',

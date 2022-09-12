@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ethers } from 'ethers';
@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function getVaultStrategyFee(vault: VaultDTO, fee: StrategyFee): number {
+function getVaultStrategyFee(vault: VaultDTOV3, fee: StrategyFee): number {
   const { strategy } = vault;
   if (strategy.address === ethers.constants.AddressZero) {
     return 0;
@@ -39,34 +39,42 @@ function getVaultStrategyFee(vault: VaultDTO, fee: StrategyFee): number {
 }
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   onHelpClick?: () => void;
+  includeDisclaimer: boolean;
 }
 
-export const VaultFees = observer(({ vault, onHelpClick, ...rootProps }: Props): JSX.Element | null => {
-  const classes = useStyles();
+export const VaultFees = observer(
+  ({ vault, onHelpClick, includeDisclaimer, ...rootProps }: Props): JSX.Element | null => {
+    const classes = useStyles();
 
-  let totalFees = 0;
-  for (const fee of Object.values(StrategyFee)) {
-    const feesAmount = getVaultStrategyFee(vault, fee);
-    if (feesAmount && feesAmount > 0) {
-      totalFees++;
+    let totalFees = 0;
+    for (const fee of Object.values(StrategyFee)) {
+      const feesAmount = getVaultStrategyFee(vault, fee);
+      if (feesAmount && feesAmount > 0) {
+        totalFees++;
+      }
     }
-  }
 
-  if (totalFees === 0) {
+    if (totalFees === 0) {
+      return (
+        <div {...rootProps}>
+          <Typography className={classes.specName} color="textSecondary" display="inline">
+            There are no fees for this vault
+          </Typography>
+        </div>
+      );
+    }
+
     return (
       <div {...rootProps}>
-        <Typography className={classes.specName} color="textSecondary" display="inline">
-          There are no fees for this vault
-        </Typography>
+        <StrategyFees vault={vault} onHelpClick={onHelpClick} />
+        {includeDisclaimer && (
+          <Typography className={classes.specName} color="textSecondary">
+            Fees are not included in APY estimates
+          </Typography>
+        )}
       </div>
     );
-  }
-
-  return (
-    <div {...rootProps}>
-      <StrategyFees vault={vault} onHelpClick={onHelpClick} />
-    </div>
-  );
-});
+  },
+);

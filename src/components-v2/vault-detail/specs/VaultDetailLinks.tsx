@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {

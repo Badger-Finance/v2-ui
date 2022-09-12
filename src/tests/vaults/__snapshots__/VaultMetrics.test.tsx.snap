@@ -17,7 +17,7 @@ exports[`VaultMetrics displays withdrawable tokens 1`] = `
       class="MuiTypography-root-114 makeStyles-amount-153 MuiTypography-body1-116"
     >
       $
-      258
+      225
     </p>
     <p
       class="MuiTypography-root-114 makeStyles-assetsText-10 MuiTypography-body2-115"
@@ -87,7 +87,7 @@ exports[`VaultMetrics renders correctly 1`] = `
       class="MuiTypography-root-114 makeStyles-amount-153 MuiTypography-body1-116"
     >
       $
-      258
+      225
     </p>
     <p
       class="MuiTypography-root-114 makeStyles-assetsText-10 MuiTypography-body2-115"

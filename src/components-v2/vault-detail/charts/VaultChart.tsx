@@ -86,7 +86,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
     if (d.apr > maxYield) {
       maxYield = d.apr;
     }
-    if (version === VaultVersion.v1_5) {
+    if (!isInfluenceVault(vault.vaultToken) && version === VaultVersion.v1_5) {
       if (d.yieldApr < minYield) {
         minYield = d.yieldApr;
       }
@@ -128,7 +128,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
             dataKey="value"
             yAxisId="value"
             type="number"
-            domain={['auto', 'auto']}
+            domain={[0, 'auto']}
             tickCount={10}
             minTickGap={50}
             tickFormatter={valueFormatter}

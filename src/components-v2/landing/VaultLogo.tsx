@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { HTMLAttributes } from 'react';
@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 });
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  tokens: VaultDTO['tokens'];
+  tokens: VaultDTOV3['tokens'];
 }
 
 const VaultLogo = ({ tokens, className, ...props }: Props): JSX.Element => {
