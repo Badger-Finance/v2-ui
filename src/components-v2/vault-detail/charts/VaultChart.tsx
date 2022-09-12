@@ -128,7 +128,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
             dataKey="value"
             yAxisId="value"
             type="number"
-            domain={['auto', 'auto']}
+            domain={[0, 'auto']}
             tickCount={10}
             minTickGap={50}
             tickFormatter={valueFormatter}
