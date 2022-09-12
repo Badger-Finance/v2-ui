@@ -184,8 +184,8 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     return list;
   }, []);
 
-  const yieldSourcesApyList: any[] = vaultApySources
-    .reduce((list: any[], source) => {
+  const yieldSourcesApyList: YieldSourceDisplay[] = vaultApySources
+    .reduce((list: YieldSourceDisplay[], source) => {
       const yieldVault = getYieldBearingVaultBySourceName(source.name);
       if (yieldVault !== undefined) {
         list.push({ ...source, yieldVault });
