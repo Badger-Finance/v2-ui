@@ -5,7 +5,7 @@ import { StrategyConfig } from 'mobx/model/strategies/strategy-config';
 import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
 import { VaultActionButton } from '../../common/VaultActionButtons';
-import { goToProtocol } from '../utils';
+import { getGoToText } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,11 +63,15 @@ export const HoldingsActionButtons = ({
               Deposit
             </VaultActionButton>
           ) : (
-            <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
-              <VaultActionButton variant="contained" fullWidth color="primary">
-                Go to {goToProtocol(vault.protocol?.toLowerCase())}
-              </VaultActionButton>
-            </Link>
+            <>
+              {strategy.depositLink && (
+                <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
+                  <VaultActionButton variant="contained" fullWidth color="primary">
+                    Go to {getGoToText(vault)}
+                  </VaultActionButton>
+                </Link>
+              )}
+            </>
           )}
         </>
       )}
