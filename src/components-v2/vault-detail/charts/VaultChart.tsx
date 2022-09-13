@@ -57,7 +57,7 @@ function tooltipFormatter(value: number, name: string): [string, string] {
     case 'harvestApr':
       return [`${value.toFixed(2)}%`, 'Current APR'];
     default:
-      return [`${value.toFixed(2)}%`, 'APR'];
+      return [`${value.toFixed(2)}%`, FLAGS.APY_EVOLUTION ? 'Gross APR' : 'APR'];
   }
 }
 
