@@ -1,4 +1,4 @@
-import { VaultData, VaultDTOV3 } from '@badger-dao/sdk';
+import { VaultData, VaultDTOV3, VaultSnapshot } from '@badger-dao/sdk';
 
 import { ChartMode } from '../../mobx/model/vaults/vault-charts';
 import { DelaySeverity } from '../../mobx/model/vaults/vault-rewards';
@@ -48,3 +48,12 @@ export function defaultVaultBalance(vault: VaultDTOV3): VaultData {
     earnedTokens: [],
   };
 }
+
+const performanceScalar = (data: VaultSnapshot) => 1 / (1 - data.strategy.performanceFee / 10_000);
+export const addGrossAPR = (data: VaultSnapshot[]) => {
+  const dataWithGrossAPR = data.map((data: VaultSnapshot) => ({
+    ...data,
+    grossApr: data.grossApr ? data.grossApr : data.apr * performanceScalar(data),
+  }));
+  return dataWithGrossAPR;
+};

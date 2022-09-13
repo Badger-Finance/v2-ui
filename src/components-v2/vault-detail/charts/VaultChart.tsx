@@ -1,5 +1,6 @@
 import { ChartTimeFrame, VaultDTO, VaultSnapshot, VaultVersion } from '@badger-dao/sdk';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
+import { FLAGS } from 'config/environment';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import React, { useState } from 'react';
@@ -25,7 +26,7 @@ function legendFormatter(value: string): string {
     case 'harvestApr':
       return 'Current APR';
     default:
-      return 'Historic APR';
+      return FLAGS.APY_EVOLUTION ? 'Gross APR' : 'Historic APR';
   }
 }
 
@@ -148,8 +149,8 @@ export const VaultChart = (props: Props): JSX.Element | null => {
           />
         )}
         <YAxis
-          dataKey="apr"
-          yAxisId="apr"
+          dataKey={`${FLAGS.APY_EVOLUTION ? 'grossApr' : 'apr'}`}
+          yAxisId={`${FLAGS.APY_EVOLUTION ? 'gross-apr' : 'apr'}`}
           orientation="right"
           type="number"
           domain={[0, maxYield * 1.05]}
@@ -180,10 +181,10 @@ export const VaultChart = (props: Props): JSX.Element | null => {
         )}
         <Line
           type="monotone"
-          dataKey="apr"
+          dataKey={`${FLAGS.APY_EVOLUTION ? 'grossApr' : 'apr'}`}
           fill="#E2652B"
           stroke="#E2652B"
-          yAxisId="apr"
+          yAxisId={`${FLAGS.APY_EVOLUTION ? 'gross-apr' : 'apr'}`}
           strokeWidth={1.5}
           dot={false}
         />
@@ -193,7 +194,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
             dataKey="harvestApr"
             fill="#3bba9c"
             stroke="#3bba9c"
-            yAxisId="apr"
+            yAxisId={`${FLAGS.APY_EVOLUTION ? 'gross-apr' : 'apr'}`}
             strokeWidth={1.5}
             dot={false}
           />

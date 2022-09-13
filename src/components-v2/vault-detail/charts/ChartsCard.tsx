@@ -7,11 +7,12 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { ChartMode } from '../../../mobx/model/vaults/vault-charts';
 import { CardContainer } from '../styled';
-import { ChartModeTitles } from '../utils';
+import { addGrossAPR, ChartModeTitles } from '../utils';
 import { BoostChart } from './BoostChart';
 import ChartContent from './ChartContent';
 import { ChartsHeader } from './ChartsHeader';
 import { VaultChart } from './VaultChart';
+import { FLAGS } from 'config/environment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,7 +52,7 @@ export const ChartsCard = observer(({ vault }: Props): JSX.Element => {
   const [timeframe, setTimeframe] = useState(ChartTimeFrame.Week);
 
   const handleFetch = (fetchedData: VaultSnapshot[]) => {
-    setChartData(fetchedData);
+    setChartData(FLAGS.APY_EVOLUTION && fetchedData ? addGrossAPR(fetchedData) : fetchedData);
     setLoading(false);
   };
 

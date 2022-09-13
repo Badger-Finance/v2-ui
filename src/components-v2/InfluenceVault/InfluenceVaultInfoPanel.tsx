@@ -12,6 +12,7 @@ import { ChartsHeader } from '../vault-detail/charts/ChartsHeader';
 import { VaultChart } from '../vault-detail/charts/VaultChart';
 import { CardContainer } from '../vault-detail/styled';
 import InfluenceVaultPerfomanceTab from './InfluenceVaultPerfomanceTab';
+import { addGrossAPR } from 'components-v2/vault-detail/utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,14 +52,16 @@ const InfluenceVaultInfoPanel = ({ vault, config }: Props): JSX.Element => {
     await influenceVaultStore.loadChartInfo(timeframe, vault);
   };
 
+  const chartData = addGrossAPR(influenceVault?.vaultChartData ?? []);
+
   const valueChart = (
     <Grid container direction="column" className={classes.content}>
       <Grid item container alignItems="center" justifyContent="space-between" className={classes.header}>
         <ChartsHeader mode={ChartMode.Balance} timeframe={timeframe} onTimeframeChange={handleTimeFrameChange} />
       </Grid>
       <Grid item container xs justifyContent="center" alignItems="center">
-        <ChartContent data={influenceVault?.vaultChartData ?? []} loading={influenceVault.processingChartData}>
-          <VaultChart vault={vault} timeframe={timeframe} chartData={influenceVault?.vaultChartData ?? []} />
+        <ChartContent data={chartData} loading={influenceVault.processingChartData}>
+          <VaultChart vault={vault} timeframe={timeframe} chartData={chartData} />
         </ChartContent>
       </Grid>
     </Grid>
