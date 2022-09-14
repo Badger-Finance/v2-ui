@@ -94,7 +94,7 @@ const InfluenceVaultSpecs = ({ vault, config }: Props): JSX.Element => {
             <Grid container direction="column">
               <InfluenceVaultFees vault={vault} feeConfig={config.feeConfig} />
               <Typography className={classes.specName} color="textSecondary">
-                Fees are not included in APY estimates
+                Fees have been deducted from APY estimates.
               </Typography>
             </Grid>
           </Grid>

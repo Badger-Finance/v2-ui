@@ -71,7 +71,7 @@ export const VaultFees = observer(
         <StrategyFees vault={vault} onHelpClick={onHelpClick} />
         {includeDisclaimer && (
           <Typography className={classes.specName} color="textSecondary">
-            Fees are not included in APY estimates
+            Fees have been deducted from APY estimates.
           </Typography>
         )}
       </div>

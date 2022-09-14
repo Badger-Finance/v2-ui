@@ -13,8 +13,8 @@ const VaultItemRoiTooltip = observer(({ vault, multiplier }: Props): JSX.Element
       {vault.apy.sources.map((source) => {
         // Should we rename multiplier? this doens't seem right from a verbiage standpoint
         const sourceApr = source.boostable
-          ? source.performance.grossYield * (multiplier ?? 1)
-          : source.performance.grossYield;
+          ? source.performance.baseYield * (multiplier ?? 1)
+          : source.performance.baseYield;
         const apr = `${sourceApr.toFixed(2)}% ${source.name}`;
         return <div key={source.name}>{apr}</div>;
       })}
