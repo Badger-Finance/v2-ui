@@ -63,7 +63,7 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
   const classes = useStyles();
   const sortedSources = vault.apy.sources
     .slice()
-    .sort((a, b) => (b.performance.grossYield > a.performance.grossYield ? 1 : -1));
+    .sort((a, b) => (b.performance.baseYield > a.performance.baseYield ? 1 : -1));
   const apy = vault.apy;
   const lockedBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
   const { processingEmissions, emissionsSchedules, swapPercentage } = influenceVaultStore.getInfluenceVault(
@@ -96,7 +96,7 @@ const InfluenceVaultPerfomanceTab = ({ vault, config }: Props): JSX.Element => {
                 APY
               </Typography>
               <Typography variant="body1" display="inline">
-                {numberWithCommas(String(apy.grossYield.toFixed(2)))}%
+                {numberWithCommas(String(apy.baseYield.toFixed(2)))}%
               </Typography>
             </Box>
             <Divider className={classes.divider} />

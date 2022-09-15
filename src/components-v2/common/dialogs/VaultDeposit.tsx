@@ -303,12 +303,7 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
         {isInfluence && influenceVaultConfig !== undefined ? (
           <InfluenceVaultFees vault={vault} className={classes.fees} feeConfig={influenceVaultConfig.feeConfig} />
         ) : (
-          <VaultFees
-            vault={vault}
-            className={classes.fees}
-            onHelpClick={() => setShowFees(true)}
-            includeDisclaimer={false}
-          />
+          <VaultFees vault={vault} className={classes.fees} onHelpClick={() => setShowFees(true)} />
         )}
         <Grid container className={classes.totalAmountContainer}>
           <Grid item xs={6}>

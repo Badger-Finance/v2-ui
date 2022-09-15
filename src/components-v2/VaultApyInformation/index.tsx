@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '0px 36px 27px 36px',
   },
   button: {
-    marginTop: 34,
+    marginTop: 17,
   },
   historicAPY: {
     paddingBottom: 10,
@@ -105,6 +105,9 @@ const useStyles = makeStyles((theme) => ({
       flexWrap: 'wrap',
     },
   },
+  feeDisclaimerText: {
+    fontSize: 12,
+  },
 }));
 
 interface Props {
@@ -130,13 +133,13 @@ export interface YieldValueSource extends ValueSource {
  * @returns value source derived from yield source
  */
 export function yieldToValueSource(source: YieldSource): ValueSource {
-  const { grossYield, minGrossYield, maxGrossYield } = source.performance;
+  const { baseYield, minYield, maxYield } = source.performance;
   return {
     name: source.name,
-    apr: grossYield,
+    apr: baseYield,
     boostable: source.boostable,
-    minApr: minGrossYield,
-    maxApr: maxGrossYield,
+    minApr: minYield,
+    maxApr: maxYield,
   };
 }
 
@@ -150,7 +153,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const classes = useStyles();
   const sortedSources = sources
     .slice()
-    .sort((a, b) => (isBadgerSource(b) ? -1 : b.performance.grossYield > a.performance.grossYield ? 1 : -1));
+    .sort((a, b) => (isBadgerSource(b) ? -1 : b.performance.baseYield > a.performance.baseYield ? 1 : -1));
   const badgerRewardsSources = sortedSources.filter(isBadgerSource);
   const harvestSources: YieldSourceDisplay[] = harvestPeriodSourcesApy;
   const additionalSources: YieldSourceDisplay[] = nonHarvestSourcesApy.map(yieldToValueSource);
@@ -314,7 +317,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   {useHistoricAPY ? (
                     <>
                       {' '}
-                      <Typography component="span">Historic APY</Typography>
+                      <Typography component="span">14-Day Historic APY</Typography>
                       <Typography>{numberWithCommas(boost.toFixed(2))}%</Typography>
                     </>
                   ) : (
@@ -380,7 +383,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                     </Grid>
                     <Grid item xs={3}>
                       <Typography align="right">
-                        {numberWithCommas((vaults.getVault(yieldSource.vaultId)?.apy.grossYield ?? 0).toFixed(2))}%
+                        {numberWithCommas((vaults.getVault(yieldSource.vaultId)?.apy.baseYield ?? 0).toFixed(2))}%
                       </Typography>
                     </Grid>
                   </Grid>
@@ -388,7 +391,16 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
               ))}
             </Box>
           )}
-
+          <Grid item className={classes.button}>
+            <Typography
+              component="span"
+              variant="subtitle1"
+              color="textSecondary"
+              className={classes.feeDisclaimerText}
+            >
+              Fees have been deducted from APY estimates. See the vault details page for fee information.
+            </Typography>
+          </Grid>
           <Grid item className={classes.button}>
             <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
               GO TO VAULT

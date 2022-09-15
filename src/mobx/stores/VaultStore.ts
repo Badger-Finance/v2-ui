@@ -484,7 +484,7 @@ export default class VaultStore {
     const { showAPR } = this.vaultsFilters;
 
     if (!user.accountDetails) {
-      return showAPR ? vault.apr.grossYield : vault.apy.grossYield;
+      return showAPR ? vault.apr.baseYield : vault.apy.baseYield;
     }
 
     return getUserVaultBoost(vault, user.accountDetails.boost, showAPR);
