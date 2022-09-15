@@ -25,7 +25,7 @@ export const Fees = ({ vault }: Props): JSX.Element => {
           }
         />
       </Dialog>
-      <VaultFees vault={vault} onHelpClick={toggleDialog} includeDisclaimer={true} />
+      <VaultFees vault={vault} onHelpClick={toggleDialog} />
     </>
   );
 };

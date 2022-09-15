@@ -41,40 +41,32 @@ function getVaultStrategyFee(vault: VaultDTOV3, fee: StrategyFee): number {
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   vault: VaultDTOV3;
   onHelpClick?: () => void;
-  includeDisclaimer: boolean;
 }
 
-export const VaultFees = observer(
-  ({ vault, onHelpClick, includeDisclaimer, ...rootProps }: Props): JSX.Element | null => {
-    const classes = useStyles();
+export const VaultFees = observer(({ vault, onHelpClick, ...rootProps }: Props): JSX.Element | null => {
+  const classes = useStyles();
 
-    let totalFees = 0;
-    for (const fee of Object.values(StrategyFee)) {
-      const feesAmount = getVaultStrategyFee(vault, fee);
-      if (feesAmount && feesAmount > 0) {
-        totalFees++;
-      }
+  let totalFees = 0;
+  for (const fee of Object.values(StrategyFee)) {
+    const feesAmount = getVaultStrategyFee(vault, fee);
+    if (feesAmount && feesAmount > 0) {
+      totalFees++;
     }
+  }
 
-    if (totalFees === 0) {
-      return (
-        <div {...rootProps}>
-          <Typography className={classes.specName} color="textSecondary" display="inline">
-            There are no fees for this vault
-          </Typography>
-        </div>
-      );
-    }
-
+  if (totalFees === 0) {
     return (
       <div {...rootProps}>
-        <StrategyFees vault={vault} onHelpClick={onHelpClick} />
-        {includeDisclaimer && (
-          <Typography className={classes.specName} color="textSecondary">
-            Fees have been deducted from APY estimates.
-          </Typography>
-        )}
+        <Typography className={classes.specName} color="textSecondary" display="inline">
+          There are no fees for this vault
+        </Typography>
       </div>
     );
-  },
-);
+  }
+
+  return (
+    <div {...rootProps}>
+      <StrategyFees vault={vault} onHelpClick={onHelpClick} />
+    </div>
+  );
+});
