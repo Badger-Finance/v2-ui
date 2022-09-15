@@ -47,29 +47,35 @@ export const HoldingsActionButtons = ({
   const canUserWithdraw = vaults.canUserWithdraw(vault);
   const classes = useStyles();
 
+  const DepositButton = () => (
+    <VaultActionButton
+      fullWidth
+      className={classes.deposit}
+      color="primary"
+      variant={canUserDeposit && userHasToken ? 'contained' : 'outlined'}
+      disabled={!userHasToken || !canUserDeposit}
+      onClick={onDepositClick}
+    >
+      Deposit
+    </VaultActionButton>
+  );
+
   return (
     <div className={classes.root}>
       {userHasDeposit && (
         <>
           {userHasToken ? (
-            <VaultActionButton
-              fullWidth
-              className={classes.deposit}
-              color="primary"
-              variant={canUserDeposit ? 'contained' : 'outlined'}
-              disabled={!canUserDeposit}
-              onClick={onDepositClick}
-            >
-              Deposit
-            </VaultActionButton>
+            <DepositButton />
           ) : (
             <>
-              {strategy.depositLink && (
+              {strategy?.depositLink ? (
                 <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
                   <VaultActionButton variant="contained" fullWidth color="primary">
                     Go to {getGoToText(vault)}
                   </VaultActionButton>
                 </Link>
+              ) : (
+                <DepositButton />
               )}
             </>
           )}

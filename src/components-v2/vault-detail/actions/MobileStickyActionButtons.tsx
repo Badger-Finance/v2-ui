@@ -44,28 +44,34 @@ export const MobileStickyActionButtons = observer(({ vault, onDepositClick, onWi
   const { network } = networkStore;
   const strategy = Chain.getChain(network).strategies[vault.vaultToken];
 
+  const DepositButton = () => (
+    <VaultActionButton
+      fullWidth
+      color="primary"
+      variant={canUserDeposit && userHasToken ? 'contained' : 'outlined'}
+      disabled={!userHasToken || !canUserDeposit}
+      onClick={onDepositClick}
+    >
+      Deposit
+    </VaultActionButton>
+  );
+
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item xs>
           {userHasToken ? (
-            <VaultActionButton
-              fullWidth
-              color="primary"
-              variant={canUserDeposit ? 'contained' : 'outlined'}
-              disabled={!canUserDeposit}
-              onClick={onDepositClick}
-            >
-              Deposit
-            </VaultActionButton>
+            <DepositButton />
           ) : (
             <>
-              {strategy.depositLink && (
+              {strategy?.depositLink ? (
                 <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
                   <VaultActionButton variant="contained" fullWidth color="primary">
                     Go to {getGoToText(vault)}
                   </VaultActionButton>
                 </Link>
+              ) : (
+                <DepositButton />
               )}
             </>
           )}

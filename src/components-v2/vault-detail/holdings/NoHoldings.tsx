@@ -56,6 +56,18 @@ export const NoHoldings = observer(
       return null;
     }
 
+    const DepositButton = () => (
+      <VaultActionButton
+        color="primary"
+        variant={userHasToken ? 'contained' : 'outlined'}
+        fullWidth
+        onClick={onDepositClick}
+        disabled={!userHasToken}
+      >
+        Deposit
+      </VaultActionButton>
+    );
+
     return (
       <Grid container className={classes.root} component={Paper}>
         <Grid item xs={12} sm={8}>
@@ -65,17 +77,17 @@ export const NoHoldings = observer(
         {isMediumSizeScreen && (
           <Grid item xs={12} sm className={classes.depositContainer}>
             {userHasToken ? (
-              <VaultActionButton color="primary" variant="contained" fullWidth onClick={onDepositClick}>
-                Deposit
-              </VaultActionButton>
+              <DepositButton />
             ) : (
               <>
-                {strategy.depositLink && (
+                {strategy?.depositLink ? (
                   <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
                     <VaultActionButton variant="contained" fullWidth color="primary">
                       Go to {getGoToText(vault)}
                     </VaultActionButton>
                   </Link>
+                ) : (
+                  <DepositButton />
                 )}
               </>
             )}
