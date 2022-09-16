@@ -48,3 +48,26 @@ export function defaultVaultBalance(vault: VaultDTOV3): VaultData {
     earnedTokens: [],
   };
 }
+
+export function getGoToText(vault: VaultDTOV3): string {
+  return goToProtocol(
+    ['aurabal', 'cvxcrv'].includes(vault.asset?.toLowerCase())
+      ? vault.asset?.toLowerCase()
+      : vault.protocol?.toLowerCase(),
+  );
+}
+
+export function goToProtocol(protocol: string): string {
+  switch (protocol) {
+    case 'aura':
+      return 'Balancer';
+    case 'convex':
+      return 'Curve';
+    case 'aurabal':
+      return 'Aura';
+    case 'cvxcrv':
+      return 'Convex';
+    default:
+      return protocol;
+  }
+}
