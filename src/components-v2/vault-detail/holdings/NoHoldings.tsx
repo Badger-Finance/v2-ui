@@ -1,13 +1,14 @@
 import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, Link, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { StrategyConfig } from 'mobx/model/strategies/strategy-config';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+
 import { VaultActionButton } from '../../common/VaultActionButtons';
-import DepositInfo from './DepositInfo';
-import { StrategyConfig } from 'mobx/model/strategies/strategy-config';
 import { getGoToText } from '../utils';
+import DepositInfo from './DepositInfo';
 
 const useStyles = makeStyles((theme) => ({
   root: {

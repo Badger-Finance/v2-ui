@@ -286,7 +286,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
         [ethDeploy.sett_system.vaults['native.cvxCrv']]: {
           strategyLink: 'https://badger.wiki/strategies#51d48102bc4847a6a5a1a059c4b827b3',
           userGuide: 'https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/cvxcrv-helper',
-          depositLink: 'https://www.convexfinance.com/stake'
+          depositLink: 'https://www.convexfinance.com/stake',
         },
         [ethDeploy.sett_system.vaults['native.cvx']]: {
           strategyLink: 'https://badger.wiki/strategies#1346adfaad7946eebd29a17fb4f6e8b7',
@@ -325,7 +325,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
         },
         [ethDeploy.sett_system.vaults['native.auraBal']]: {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/aurabal-helper',
-          depositLink: 'https://app.aura.finance/'
+          depositLink: 'https://app.aura.finance/',
         },
         [ethDeploy.sett_system.vaults['native.aura-wbtc-badger']]: {
           userGuide: 'https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/b20wbtc-80badger',

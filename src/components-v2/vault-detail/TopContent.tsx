@@ -1,5 +1,6 @@
 import { VaultDTOV3, VaultState } from '@badger-dao/sdk';
 import { Grid, makeStyles } from '@material-ui/core';
+
 import VaultDeprecationWarning from '../VaultDeprecationWarning';
 import { Breadcrumb } from './Breadcrumb';
 import { Description } from './description/Description';

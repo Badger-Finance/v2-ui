@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { StrategyConfig } from 'mobx/model/strategies/strategy-config';
 import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
+
 import { VaultActionButton } from '../../common/VaultActionButtons';
 import { getGoToText } from '../utils';
 

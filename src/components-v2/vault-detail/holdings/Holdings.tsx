@@ -5,6 +5,7 @@ import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
+
 import { numberWithCommas } from '../../../mobx/utils/helpers';
 import { HoldingItem } from './HoldingItem';
 import { HoldingsActionButtons } from './HoldingsActionButtons';

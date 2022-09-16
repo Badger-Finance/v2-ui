@@ -1,13 +1,13 @@
 import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useVaultInformation } from 'hooks/useVaultInformation';
+import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { VaultActionButton } from '../../common/VaultActionButtons';
-import { useVaultInformation } from 'hooks/useVaultInformation';
-import { Chain } from 'mobx/model/network/chain';
 import { getGoToText } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
