@@ -61,24 +61,24 @@ export const BoostChart = observer(({ vault }: Props): JSX.Element | null => {
   const { apy } = vault;
   const { isConnected } = wallet;
 
-  const base = apy.grossYield;
+  const base = apy.baseYield;
   const mode = 'APY';
   const boostSources = apy.sources;
 
   const boostableApr = boostSources
     .filter((s) => s.boostable)
-    .map((s) => s.performance.grossYield)
+    .map((s) => s.performance.baseYield)
     .reduce((total, apr) => total + apr, 0);
 
   const baseApr = base - boostableApr;
 
   const boostableMinApr = boostSources
     .filter((s) => s.boostable)
-    .map((s) => s.performance.minGrossYield)
+    .map((s) => s.performance.minYield)
     .reduce((total, apr) => total + apr, 0);
   const boostableMaxApr = boostSources
     .filter((s) => s.boostable)
-    .map((s) => s.performance.maxGrossYield)
+    .map((s) => s.performance.maxYield)
     .reduce((total, apr) => total + apr, 0);
 
   const range = boostableMaxApr - boostableMinApr;

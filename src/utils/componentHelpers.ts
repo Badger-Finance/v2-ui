@@ -52,7 +52,7 @@ export function shouldDisplayEarnings(vault: VaultDTOV3, data: VaultData): boole
     return false;
   }
 
-  return vaultSource.performance.grossYield > 0;
+  return vaultSource.performance.baseYield > 0;
 }
 
 export const getFormattedNetworkName = (network: Chain): string => {
@@ -79,12 +79,12 @@ export function getUserVaultBoost(vault: VaultDTOV3, boost: number, apr = false)
   return (apr ? vault.apr.sources : vault.apy.sources)
     .map((source) => {
       const {
-        performance: { grossYield, minGrossYield, maxGrossYield },
+        performance: { baseYield, minYield, maxYield },
       } = source;
       if (!source.boostable) {
-        return grossYield;
+        return baseYield;
       }
-      return minGrossYield + (boost / maxBoost) * (maxGrossYield - minGrossYield);
+      return minYield + (boost / maxBoost) * (maxYield - minYield);
     })
     .reduce((total, apr) => total + apr, 0);
 }
@@ -95,9 +95,9 @@ export function getBoostContribution(vault: VaultDTOV3, boost: number): number {
     .filter((s) => s.name === BoostedRewards.BoostedBadger)
     .map((s) => {
       const {
-        performance: { minGrossYield, maxGrossYield },
+        performance: { minYield, maxYield },
       } = s;
-      return minGrossYield + (boost / maxBoost) * (maxGrossYield - minGrossYield);
+      return minYield + (boost / maxBoost) * (maxYield - minYield);
     })
     .reduce((total, apr) => total + apr, 0);
 }

@@ -73,7 +73,7 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
   const yieldSourcesAprTotal = vault.apy.sources.reduce((max, source) => {
     const yieldVault = getYieldBearingVaultBySourceName(source.name);
     if (yieldVault !== undefined) {
-      const current = vaults.getVault(yieldVault.vaultId)?.apy.grossYield ?? 0;
+      const current = vaults.getVault(yieldVault.vaultId)?.apy.baseYield ?? 0;
       if (current > max) {
         max = current;
       }

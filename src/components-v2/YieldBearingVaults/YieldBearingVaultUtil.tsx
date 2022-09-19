@@ -10,7 +10,7 @@ export const yieldBearingVaultConfig: YieldBearingVaultConfig = {
       name: 'Gravitationally Bound AURA',
       token: 'AURA',
       vaultId: '0xBA485b556399123261a5F9c95d413B4f93107407',
-      vaultName: 'graviAura',
+      vaultName: 'graviAURA',
       vaultDescription: 'Yield-Bearing Locked AURA',
       route: 'aura-graviaura',
     },
@@ -19,7 +19,7 @@ export const yieldBearingVaultConfig: YieldBearingVaultConfig = {
       token: 'BAL',
       vaultId: '0x37d9D2C6035b744849C15F1BFEE8F268a20fCBd8',
       vaultName: 'bauraBAL',
-      vaultDescription: 'Yield-Bearing Staked auraBal',
+      vaultDescription: 'Yield-Bearing Staked auraBAL',
       route: 'aura-aurabal',
     },
     {

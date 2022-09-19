@@ -1,20 +1,18 @@
 import { VaultDTOV3 } from '@badger-dao/sdk';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Link, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Chain } from 'mobx/model/network/chain';
+import { StrategyConfig } from 'mobx/model/strategies/strategy-config';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import { VaultActionButton } from '../../common/VaultActionButtons';
+import { getGoToText } from '../utils';
 import DepositInfo from './DepositInfo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(4),
-  },
-  description: {
-    marginTop: theme.spacing(1),
   },
   depositContainer: {
     display: 'flex',
@@ -27,35 +25,76 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'center',
     },
   },
+  goToLink: {
+    width: '100%',
+  },
 }));
 
 interface Props {
   vault: VaultDTOV3;
   onDepositClick: () => void;
+  userHasToken: boolean;
+  strategy: StrategyConfig;
+  userHasDeposit: boolean;
+  isMediumSizeScreen: boolean;
 }
 
-export const NoHoldings = observer(({ vault, onDepositClick }: Props): JSX.Element | null => {
-  const store = React.useContext(StoreContext);
-  const { chain: networkStore, user } = store;
-  const { network } = networkStore;
-  const classes = useStyles();
+export const NoHoldings = observer(
+  ({
+    vault,
+    onDepositClick,
+    userHasToken,
+    strategy,
+    userHasDeposit,
+    isMediumSizeScreen,
+  }: Props): JSX.Element | null => {
+    const classes = useStyles();
 
-  if (!user.onGuestList(vault)) {
-    return null;
-  }
+    const store = React.useContext(StoreContext);
+    const { user } = store;
 
-  const strategy = Chain.getChain(network).strategies[vault.vaultToken];
-  return (
-    <Grid container className={classes.root} component={Paper}>
-      <Grid item xs={12} sm={8}>
-        <Typography variant="body1">{`You have no ${vault.name} in your connected wallet.`}</Typography>
-        <DepositInfo strategy={strategy} />
+    if (!user.onGuestList(vault)) {
+      return null;
+    }
+
+    const DepositButton = () => (
+      <VaultActionButton
+        color="primary"
+        variant={userHasToken ? 'contained' : 'outlined'}
+        fullWidth
+        onClick={onDepositClick}
+        disabled={!userHasToken}
+      >
+        Deposit
+      </VaultActionButton>
+    );
+
+    return (
+      <Grid container className={classes.root} component={Paper}>
+        <Grid item xs={12} sm={8}>
+          <Typography variant="body1">{`You have no ${vault.name} in your connected wallet.`}</Typography>
+          <DepositInfo strategy={strategy} />
+        </Grid>
+        {isMediumSizeScreen && (
+          <Grid item xs={12} sm className={classes.depositContainer}>
+            {userHasToken ? (
+              <DepositButton />
+            ) : (
+              <>
+                {strategy?.depositLink ? (
+                  <Link href={strategy.depositLink} target="_blank" className={classes.goToLink} underline="none">
+                    <VaultActionButton variant="contained" fullWidth color="primary">
+                      Go to {getGoToText(vault)}
+                    </VaultActionButton>
+                  </Link>
+                ) : (
+                  <DepositButton />
+                )}
+              </>
+            )}
+          </Grid>
+        )}
       </Grid>
-      <Grid item xs={12} sm className={classes.depositContainer}>
-        <VaultActionButton color="primary" variant="contained" fullWidth onClick={onDepositClick}>
-          Deposit
-        </VaultActionButton>
-      </Grid>
-    </Grid>
-  );
-});
+    );
+  },
+);
