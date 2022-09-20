@@ -80,13 +80,13 @@ const YieldBearingRewards = observer(({ open, onModalClose }: YieldBearingReward
         </IconButton>
       </DialogTitle>
       <DialogContent id="alert-dialog-description" className={classes.root}>
-        {/* <Box className={classes.video}>
+        <Box className={classes.video}>
           <iframe
             id="ytplayer"
             className={classes.youtube}
-            src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+            src="https://www.youtube.com/embed/zUo7KLUOqvo?autoplay=1&origin=http://app.badger.com"
           ></iframe>
-        </Box> */}
+        </Box>
         <Typography gutterBottom className={classes.contentText}>
           Yield-Bearing Rewards automate and optimize the complex series of ongoing transactions required to make the
           most of DeFi ecosystems like Aura and Convex.
