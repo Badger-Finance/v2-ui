@@ -138,30 +138,6 @@ describe('VaultFiltersDialog', () => {
     expect(screen.getByDisplayValue('bitcoin convex')).toBeInTheDocument();
   });
 
-  it('can select APY mode', () => {
-    customRender(
-      <StoreProvider value={store}>
-        <VaultFiltersDialogV2 />
-      </StoreProvider>,
-    );
-
-    const apyButton = screen.getByRole('button', { name: 'APY' });
-    fireEvent.click(apyButton);
-    expect(apyButton).toHaveAttribute('aria-selected', 'true');
-  });
-
-  it('can select APR mode', () => {
-    customRender(
-      <StoreProvider value={store}>
-        <VaultFiltersDialogV2 />
-      </StoreProvider>,
-    );
-
-    const aprButton = screen.getByRole('button', { name: 'APR' });
-    fireEvent.click(aprButton);
-    expect(aprButton).toHaveAttribute('aria-selected', 'true');
-  });
-
   it('can apply filters', async () => {
     jest.spyOn(VaultStore.prototype, 'networkHasBoostVaults', 'get').mockReturnValue(true);
     jest.spyOn(VaultStore.prototype, 'vaultsProtocols', 'get').mockReturnValue([Protocol.Convex, Protocol.Curve]);
@@ -218,7 +194,6 @@ describe('VaultFiltersDialog', () => {
     fireEvent.change(screen.getByRole('textbox', { name: 'Vault Search' }), {
       target: { value: 'bitcoin convex' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'APR' }));
     fireEvent.click(screen.getByRole('button', { name: 'Apply Filters' }));
 
     expect(store.vaults.vaultsFilters).toMatchSnapshot();

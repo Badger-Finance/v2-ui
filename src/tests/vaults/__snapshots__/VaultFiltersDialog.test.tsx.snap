@@ -14,7 +14,7 @@ Object {
     "Curve",
   ],
   "search": "bitcoin convex",
-  "showAPR": true,
+  "showAPR": false,
   "statuses": Array [
     "guarded",
     "experimental",
@@ -85,7 +85,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                 </svg>
               </span>
               <span
-                class="MuiTouchRipple-root-381"
+                class="MuiTouchRipple-root-355"
               />
             </button>
           </div>
@@ -130,7 +130,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-381"
+                    class="MuiTouchRipple-root-355"
                   />
                 </span>
                 <span
@@ -175,7 +175,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-381"
+                    class="MuiTouchRipple-root-355"
                   />
                 </span>
                 <span
@@ -220,7 +220,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                     </svg>
                   </span>
                   <span
-                    class="MuiTouchRipple-root-381"
+                    class="MuiTouchRipple-root-355"
                   />
                 </span>
                 <span
@@ -462,7 +462,7 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
                         </svg>
                       </span>
                       <span
-                        class="MuiTouchRipple-root-381"
+                        class="MuiTouchRipple-root-355"
                       />
                     </button>
                   </div>
@@ -488,70 +488,23 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
             class="MuiDivider-root-210 makeStyles-divider-5"
           />
           <div
-            class="MuiGrid-root-54 MuiGrid-container-55"
-          >
-            <div
-              class="MuiGrid-root-54 makeStyles-apr-7 MuiGrid-item-56"
-            >
-              <div
-                aria-label="apy apr selector"
-                class="MuiButtonGroup-root-328"
-                role="group"
-              >
-                <button
-                  aria-selected="true"
-                  class="MuiButtonBase-root-196 MuiButton-root-352 MuiButton-outlined-357 MuiButtonGroup-grouped-334 MuiButtonGroup-groupedHorizontal-335 MuiButtonGroup-groupedOutlined-342 MuiButtonGroup-groupedOutlinedHorizontal-343 MuiButtonGroup-groupedOutlined-342 makeStyles-selected-326 makeStyles-button-327"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-label-353"
-                  >
-                    APY
-                  </span>
-                  <span
-                    class="MuiTouchRipple-root-381"
-                  />
-                </button>
-                <button
-                  aria-selected="false"
-                  class="MuiButtonBase-root-196 MuiButton-root-352 MuiButton-outlined-357 MuiButtonGroup-grouped-334 MuiButtonGroup-groupedHorizontal-335 MuiButtonGroup-groupedOutlined-342 MuiButtonGroup-groupedOutlinedHorizontal-343 MuiButtonGroup-groupedOutlined-342 makeStyles-button-327"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-label-353"
-                  >
-                    APR
-                  </span>
-                  <span
-                    class="MuiTouchRipple-root-381"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-          <hr
-            class="MuiDivider-root-210 makeStyles-divider-5"
-          />
-          <div
             class="MuiGrid-root-54 MuiGrid-container-55 MuiGrid-spacing-xs-2-78 MuiGrid-justify-content-xs-flex-end-73"
           >
             <div
               class="MuiGrid-root-54 MuiGrid-item-56"
             >
               <button
-                class="MuiButtonBase-root-196 MuiButton-root-352 MuiButton-text-354 MuiButton-textPrimary-355"
+                class="MuiButtonBase-root-196 MuiButton-root-326 MuiButton-text-328 MuiButton-textPrimary-329"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-label-353"
+                  class="MuiButton-label-327"
                 >
                   Clear All
                 </span>
                 <span
-                  class="MuiTouchRipple-root-381"
+                  class="MuiTouchRipple-root-355"
                 />
               </button>
             </div>
@@ -559,17 +512,17 @@ exports[`VaultFiltersDialog renders correctly 1`] = `
               class="MuiGrid-root-54 MuiGrid-item-56"
             >
               <button
-                class="MuiButtonBase-root-196 MuiButton-root-352 MuiButton-contained-360 MuiButton-containedPrimary-361"
+                class="MuiButtonBase-root-196 MuiButton-root-326 MuiButton-contained-334 MuiButton-containedPrimary-335"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-label-353"
+                  class="MuiButton-label-327"
                 >
                   Apply Filters
                 </span>
                 <span
-                  class="MuiTouchRipple-root-381"
+                  class="MuiTouchRipple-root-355"
                 />
               </button>
             </div>
