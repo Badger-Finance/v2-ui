@@ -1,4 +1,7 @@
-export const numberWithCommas = (x: string): string => {
+export const numberWithCommas = (x: string | undefined): string => {
+  if (x === undefined) {
+    return '';
+  }
   const parts = x.toString().split('.');
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return parts.join('.');

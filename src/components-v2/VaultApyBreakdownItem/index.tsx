@@ -93,12 +93,12 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
                   token={{ symbol: source.yieldVault ? source.yieldVault.token : source.name }}
                 />
                 <Typography component="span">{`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(
-                  source.maxApr.toFixed(2),
+                  source.maxApr?.toFixed(2),
                 )}%)`}</Typography>
               </Box>
             </Grid>
             <Grid item xs={3}>
-              <Typography align="right">{`${numberWithCommas(sourceApr.toFixed(2))}%`}</Typography>
+              <Typography align="right">{`${numberWithCommas(sourceApr?.toFixed(2))}%`}</Typography>
             </Grid>
           </Grid>
         </>
@@ -164,7 +164,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
             </Box>
           </Grid>
           <Grid item xs={3}>
-            <Typography align="right">{numberWithCommas(source.apr.toFixed(2))}%</Typography>
+            <Typography align="right">{numberWithCommas(source.apr?.toFixed(2))}%</Typography>
           </Grid>
         </Grid>
       </>
@@ -177,12 +177,12 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
         <Grid item container justifyContent="space-between">
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr.toFixed(2))}%)`}
+              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr?.toFixed(2))}%)`}
             </Typography>
           </Grid>
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`${numberWithCommas(sourceApr.toFixed(2))}%`}
+              {`${numberWithCommas(sourceApr?.toFixed(2))}%`}
             </Typography>
           </Grid>
         </Grid>
@@ -216,7 +216,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
       </Grid>
       <Grid item>
         <Typography variant="body2" display="inline" color="textSecondary">
-          {`${numberWithCommas(sourceApr.toFixed(2))}%`}
+          {`${numberWithCommas(sourceApr?.toFixed(2))}%`}
         </Typography>
       </Grid>
     </Grid>
