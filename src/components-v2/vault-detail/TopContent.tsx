@@ -1,6 +1,5 @@
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import { VaultDTOV3, VaultState } from '@badger-dao/sdk';
 import { Grid, makeStyles } from '@material-ui/core';
-import React from 'react';
 
 import VaultDeprecationWarning from '../VaultDeprecationWarning';
 import { Breadcrumb } from './Breadcrumb';
@@ -13,25 +12,16 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(2),
     },
   },
-  content: {
-    margin: 'auto',
-    [theme.breakpoints.up('md')]: {
-      marginTop: theme.spacing(2),
-    },
-  },
   descriptionSection: {
     justifyContent: 'space-between',
   },
   breadcrumbContainer: {
     marginBottom: theme.spacing(1),
   },
-  holdingsContainer: {
-    marginBottom: theme.spacing(2),
-  },
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 export const TopContent = ({ vault }: Props): JSX.Element => {

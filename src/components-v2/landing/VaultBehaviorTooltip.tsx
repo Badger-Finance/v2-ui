@@ -1,13 +1,13 @@
-import { VaultBehavior, VaultDTO } from '@badger-dao/sdk';
+import { VaultBehavior, VaultDTOV3 } from '@badger-dao/sdk';
 import React from 'react';
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 const VaultBehaviorTooltip = ({ vault }: Props): JSX.Element | null => {
   const { protocol, behavior, name } = vault;
-  const emittedDCA = vault.sources.map((s) => s.name.replace('Rewards', '').trim()).join(', ');
+  const emittedDCA = vault.apy.sources.map((s) => s.name.replace('Rewards', '').trim()).join(', ');
 
   let description = '';
   switch (behavior) {

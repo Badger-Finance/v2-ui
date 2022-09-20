@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ethers } from 'ethers';
@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function getVaultStrategyFee(vault: VaultDTO, fee: StrategyFee): number {
+function getVaultStrategyFee(vault: VaultDTOV3, fee: StrategyFee): number {
   const { strategy } = vault;
   if (strategy.address === ethers.constants.AddressZero) {
     return 0;
@@ -39,7 +39,7 @@ function getVaultStrategyFee(vault: VaultDTO, fee: StrategyFee): number {
 }
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   onHelpClick?: () => void;
 }
 

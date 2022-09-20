@@ -1,4 +1,4 @@
-import { VaultData, VaultDTO } from '@badger-dao/sdk';
+import { VaultData, VaultDTOV3 } from '@badger-dao/sdk';
 
 import { ChartMode } from '../../mobx/model/vaults/vault-charts';
 import { DelaySeverity } from '../../mobx/model/vaults/vault-rewards';
@@ -32,7 +32,7 @@ export const calculateDifferenceInHoursFromCycle = (lastUpdateTimestamp?: number
   return Math.abs(now - lastUpdateTimestamp) / 3600;
 };
 
-export function defaultVaultBalance(vault: VaultDTO): VaultData {
+export function defaultVaultBalance(vault: VaultDTOV3): VaultData {
   return {
     address: vault.vaultToken,
     name: vault.name,
@@ -47,4 +47,27 @@ export function defaultVaultBalance(vault: VaultDTO): VaultData {
     tokens: [],
     earnedTokens: [],
   };
+}
+
+export function getGoToText(vault: VaultDTOV3): string {
+  return goToProtocol(
+    ['aurabal', 'cvxcrv'].includes(vault.asset?.toLowerCase())
+      ? vault.asset?.toLowerCase()
+      : vault.protocol?.toLowerCase(),
+  );
+}
+
+export function goToProtocol(protocol: string): string {
+  switch (protocol) {
+    case 'aura':
+      return 'Balancer';
+    case 'convex':
+      return 'Curve';
+    case 'aurabal':
+      return 'Aura';
+    case 'cvxcrv':
+      return 'Convex';
+    default:
+      return protocol;
+  }
 }

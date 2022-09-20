@@ -57,7 +57,7 @@ export default class UserStore {
     const userAPR = vaults.vaultOrder.reduce((totalAPR, vault) => {
       const depositBalance = this.getBalance(vault.vaultToken);
       if (depositBalance.value) {
-        return totalAPR + vault.apr * (depositBalance.value / totalUserBalance);
+        return totalAPR + vault.apy.baseYield * (depositBalance.value / totalUserBalance);
       }
       return totalAPR;
     }, 0);

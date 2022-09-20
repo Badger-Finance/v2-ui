@@ -1,4 +1,12 @@
-import { Network, Protocol, ProtocolSummary, TokenConfiguration, VaultDTO, VaultState } from '@badger-dao/sdk';
+import {
+  Network,
+  Protocol,
+  ProtocolSummary,
+  TokenConfiguration,
+  VaultDTO,
+  VaultDTOV3,
+  VaultState,
+} from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { action, makeAutoObservable } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
@@ -139,7 +147,7 @@ export default class VaultStore {
     return this.slugCache[currentNetwork][address];
   }
 
-  getVault(address: string): VaultDTO {
+  getVault(address: string): VaultDTOV3 {
     if (!this.vaultMap) {
       throw new Error('Path will never run, non valid vaults never requested.');
     }
@@ -147,7 +155,7 @@ export default class VaultStore {
     return this.vaultMap[ethers.utils.getAddress(address)];
   }
 
-  getVaultBySlug(slug: string): VaultDTO | undefined | null {
+  getVaultBySlug(slug: string): VaultDTOV3 | undefined | null {
     const { network: currentNetwork } = this.store.chain;
 
     if (!this.vaultMap) {
@@ -167,7 +175,7 @@ export default class VaultStore {
     return Object.fromEntries(Object.entries(this.vaultMap).filter((entry) => entry[1].state === state));
   }
 
-  get vaultOrder(): VaultDTO[] {
+  get vaultOrder(): VaultDTOV3[] {
     let vaults = Object.values(this.vaultMap).slice();
     vaults = this.applyFilters(vaults);
     vaults = this.applySorting(vaults);
@@ -215,7 +223,7 @@ export default class VaultStore {
 
   loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
     try {
-      const vaults = await this.store.api.loadVaults();
+      const vaults = await this.store.api.loadVaultsV3();
       this.vaultCache[chain] = Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault]));
       this.slugCache[chain] = this.getVaultsSlugCache(vaults);
     } catch (error) {
@@ -323,7 +331,7 @@ export default class VaultStore {
     );
   }
 
-  private applyFilters(vaults: VaultDTO[]): VaultDTO[] {
+  private applyFilters(vaults: VaultDTOV3[]): VaultDTOV3[] {
     const { user } = this.store;
 
     const { protocols, search, statuses, behaviors, onlyBoostedVaults, onlyDeposits, hidePortfolioDust } =
@@ -352,7 +360,7 @@ export default class VaultStore {
     }
 
     if (onlyBoostedVaults && this.networkHasBoostVaults) {
-      vaults = vaults.filter((vault) => vault.boost.enabled && !!vault.maxApr);
+      vaults = vaults.filter((vault) => vault.boost.enabled);
     }
 
     if (statuses && statuses.length > 0) {
@@ -386,7 +394,7 @@ export default class VaultStore {
     return vaults;
   }
 
-  private applySorting(vaults: VaultDTO[]): VaultDTO[] {
+  private applySorting(vaults: VaultDTOV3[]): VaultDTOV3[] {
     const { user, chain } = this.store;
     const chainDefinition = Chain.getChain(chain.network);
     const featuredVaultRank = Object.fromEntries(chainDefinition.vaultOrder().map((v, i) => [v, i + 1]));
@@ -471,12 +479,12 @@ export default class VaultStore {
     return vaults;
   }
 
-  private getVaultYield(vault: VaultDTO): number {
+  private getVaultYield(vault: VaultDTOV3): number {
     const { user } = this.store;
     const { showAPR } = this.vaultsFilters;
 
     if (!user.accountDetails) {
-      return showAPR ? vault.apr : vault.apy;
+      return showAPR ? vault.apr.baseYield : vault.apy.baseYield;
     }
 
     return getUserVaultBoost(vault, user.accountDetails.boost, showAPR);

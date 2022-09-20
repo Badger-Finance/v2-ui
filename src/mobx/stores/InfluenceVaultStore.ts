@@ -1,4 +1,4 @@
-import { ChartTimeFrame, EmissionSchedule, formatBalance, ONE_DAY_MS, VaultDTO } from '@badger-dao/sdk';
+import { ChartTimeFrame, EmissionSchedule, formatBalance, ONE_DAY_MS, VaultDTOV3 } from '@badger-dao/sdk';
 import { getInfluenceVaultConfig } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { ethers } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
@@ -57,7 +57,7 @@ class InfluenceVaultStore {
     return this.influenceVaults[address];
   }
 
-  async loadChartInfo(timeframe: ChartTimeFrame, vault: VaultDTO) {
+  async loadChartInfo(timeframe: ChartTimeFrame, vault: VaultDTOV3) {
     try {
       this.influenceVaults[vault.vaultToken].processingChartData = true;
       this.influenceVaults[vault.vaultToken].vaultChartData = await this.store.vaultCharts.search(vault, timeframe);
@@ -68,7 +68,7 @@ class InfluenceVaultStore {
     }
   }
 
-  private async getHarvestConvertedSchedules(vault: VaultDTO): Promise<EmissionSchedule[]> {
+  private async getHarvestConvertedSchedules(vault: VaultDTOV3): Promise<EmissionSchedule[]> {
     const { settHarvests } = await this.store.sdk.graph.loadSettHarvests({
       where: {
         sett: vault.vaultToken.toLowerCase(),
@@ -84,7 +84,7 @@ class InfluenceVaultStore {
     }));
   }
 
-  private async getDistributionConvertedSchedules(vault: VaultDTO): Promise<EmissionSchedule[]> {
+  private async getDistributionConvertedSchedules(vault: VaultDTOV3): Promise<EmissionSchedule[]> {
     const { badgerTreeDistributions } = await this.store.sdk.graph.loadBadgerTreeDistributions({
       where: {
         sett: vault.vaultToken.toLowerCase(),
@@ -100,10 +100,13 @@ class InfluenceVaultStore {
     }));
   }
 
-  async loadEmissionsSchedules(vault: VaultDTO) {
+  async loadEmissionsSchedules(vault: VaultDTOV3) {
     const config = getInfluenceVaultConfig(vault.vaultToken);
 
-    if (!this.influenceVaults[vault.vaultToken] || !config) return;
+    if (!this.influenceVaults[vault.vaultToken] || !config) {
+      return;
+    }
+
     try {
       const { sources, roundStart } = config;
       this.influenceVaults[vault.vaultToken].processingEmissions = true;
@@ -112,7 +115,10 @@ class InfluenceVaultStore {
       const distributionConvertedSchedules = await this.getDistributionConvertedSchedules(vault);
       const harvestConvertedSchedules = await this.getHarvestConvertedSchedules(vault);
 
-      const harvestData = vault.sources.some((s) => s.name.includes('Compounding')) ? harvestConvertedSchedules : [];
+      const harvestData = vault.apy.sources.some((s) => s.name.includes('Compounding'))
+        ? harvestConvertedSchedules
+        : [];
+
       this.influenceVaults[vault.vaultToken].emissionsSchedules = await this.bucketSchedules(
         treeSchedules.concat(distributionConvertedSchedules).concat(harvestData),
         vault,
@@ -127,7 +133,7 @@ class InfluenceVaultStore {
     }
   }
 
-  async loadSwapPercentage(vault: VaultDTO) {
+  async loadSwapPercentage(vault: VaultDTOV3) {
     const config = getInfluenceVaultConfig(vault.vaultToken);
     const {
       sdk: { provider },
@@ -147,7 +153,7 @@ class InfluenceVaultStore {
 
   private async bucketSchedules(
     schedules: EmissionSchedule[],
-    vault: VaultDTO,
+    vault: VaultDTOV3,
     sourceTokens: string[],
     roundStart: number,
     scheduleRoundCutoff: number,

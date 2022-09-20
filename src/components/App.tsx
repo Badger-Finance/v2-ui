@@ -58,6 +58,16 @@ export const App = (): JSX.Element => {
     return () => clearInterval(networkInterval);
   });
 
+  // perodically update user data
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!store.user.loadingBalances) {
+        store.user.reloadBalances();
+      }
+    }, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className={clsx(classes.rootContainer, classes.flexContainer, classes.columnContainer)}>
       <NetworkNotification />

@@ -1,4 +1,4 @@
-import { VaultDTO, VaultState } from '@badger-dao/sdk';
+import { VaultDTOV3, VaultState } from '@badger-dao/sdk';
 import { Grid, makeStyles } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 export const MainContent = observer(({ vault }: Props): JSX.Element => {

@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 const VaultListItemMobile = ({ vault }: Props): JSX.Element => {

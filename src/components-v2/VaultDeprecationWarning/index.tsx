@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Divider, Grid, Link, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CallMadeIcon from '@material-ui/icons/CallMade';
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 const VaultDeprecationWarning = ({ vault }: Props): JSX.Element => {

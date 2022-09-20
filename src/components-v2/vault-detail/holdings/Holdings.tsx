@@ -1,6 +1,8 @@
-import { VaultData, VaultDTO } from '@badger-dao/sdk';
+import { VaultData, VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { useVaultInformation } from 'hooks/useVaultInformation';
+import { Chain } from 'mobx/model/network/chain';
+import { StoreContext } from 'mobx/stores/store-context';
 import React from 'react';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   userData: VaultData;
   onDepositClick: () => void;
   onWithdrawClick: () => void;
@@ -33,11 +35,23 @@ export const Holdings = ({ userData, vault, onDepositClick, onWithdrawClick }: P
   const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
   const classes = useStyles();
   const { depositBalance } = useVaultInformation(vault);
+  const { user, chain: networkStore } = React.useContext(StoreContext);
+  const { network } = networkStore;
+  const strategy = Chain.getChain(network).strategies[vault.vaultToken];
+  const userHasToken = user.getBalance(vault.underlyingToken).hasBalance();
+  const userHasDeposit = !depositBalance.tokenBalance.eq(0);
 
-  if (depositBalance.tokenBalance.eq(0)) {
+  if (!userHasDeposit) {
     return (
       <Grid container>
-        <NoHoldings vault={vault} onDepositClick={onDepositClick} />
+        <NoHoldings
+          userHasDeposit={userHasDeposit}
+          strategy={strategy}
+          userHasToken={userHasToken}
+          vault={vault}
+          onDepositClick={onDepositClick}
+          isMediumSizeScreen={isMediumSizeScreen}
+        />
       </Grid>
     );
   }
@@ -72,7 +86,14 @@ export const Holdings = ({ userData, vault, onDepositClick, onWithdrawClick }: P
         )}
         {isMediumSizeScreen && (
           <Grid item xs={12} sm>
-            <HoldingsActionButtons vault={vault} onDepositClick={onDepositClick} onWithdrawClick={onWithdrawClick} />
+            <HoldingsActionButtons
+              strategy={strategy}
+              userHasToken={userHasToken}
+              vault={vault}
+              onDepositClick={onDepositClick}
+              onWithdrawClick={onWithdrawClick}
+              userHasDeposit={userHasDeposit}
+            />
           </Grid>
         )}
       </Grid>

@@ -47,7 +47,12 @@ const NoVaults = ({ network }: Props): JSX.Element => {
       </Grid>
       <Grid item container direction="column" justifyContent="center" className={classes.helpTextContainer}>
         <Typography variant="h5" color="textSecondary">
-          No vaults to display
+          No vaults on{' '}
+          {network
+            .split('-')
+            .map((w) => w.charAt(0).toUpperCase().concat(w.slice(1)))
+            .join(' ')}
+          .
         </Typography>
         <Typography variant="body2" color="textSecondary">
           Switch to another network to view more vaults.

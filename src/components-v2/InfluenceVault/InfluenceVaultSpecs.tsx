@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { InfluenceVaultConfig } from 'mobx/model/vaults/influence-vault-data';
@@ -16,7 +16,7 @@ import InfluenceVaultFees from './InfluenceVaultFees';
 import InfluenceVaultListModal from './InfluenceVaultListModal';
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
   config: InfluenceVaultConfig;
 }
 
@@ -37,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
   title: {
     paddingBottom: theme.spacing(0.15),
     fontSize: '1.25rem',
+  },
+  specName: {
+    fontSize: 12,
+    marginTop: 4,
+    lineHeight: '1.66',
   },
 }));
 
@@ -81,7 +86,15 @@ const InfluenceVaultSpecs = ({ vault, config }: Props): JSX.Element => {
           />
         </Grid>
         <Grid item xs className={classes.specItem}>
-          <InfluenceVaultFees vault={vault} feeConfig={config.feeConfig} />
+          <Grid container>
+            <Typography variant="h6" className={classes.title}>
+              Fees
+            </Typography>
+            <StyledDivider />
+            <Grid container direction="column">
+              <InfluenceVaultFees vault={vault} feeConfig={config.feeConfig} />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs className={classes.specItem}>
           <Box display="flex" alignItems="center">

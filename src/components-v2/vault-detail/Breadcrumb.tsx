@@ -1,4 +1,4 @@
-import { VaultDTO } from '@badger-dao/sdk';
+import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Breadcrumbs, Link, makeStyles, Typography } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import clsx from 'clsx';
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  vault: VaultDTO;
+  vault: VaultDTOV3;
 }
 
 export const Breadcrumb = ({ vault }: Props): JSX.Element => {

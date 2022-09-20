@@ -348,7 +348,7 @@ exports[`Vault Withdraw displays sett information 1`] = `
                 <p
                   class="MuiTypography-root-64 makeStyles-specName-323 MuiTypography-body1-66 MuiTypography-colorTextSecondary-90 MuiTypography-displayInline-92"
                 >
-                  Withdraw Fee (0.1%)
+                  Withdraw Fee (0%)
                 </p>
                 <h6
                   class="MuiTypography-root-64 MuiTypography-subtitle2-76 MuiTypography-displayInline-92"

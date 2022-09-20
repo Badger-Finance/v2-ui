@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 export const NavbarStats = observer((): JSX.Element => {
   const {
     prices,
-    user: { portfolioValue, getBalance, myAPR },
+    user: { portfolioValue, myAPR },
     chain: { network },
     tree,
     vaults: { protocolSummary },
