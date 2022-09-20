@@ -1,4 +1,5 @@
 import { Grid, makeStyles, Paper, useMediaQuery, useTheme } from '@material-ui/core';
+import { FLAGS } from 'config/environment';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -8,6 +9,7 @@ import MobileFiltersButton from './MobileFiltersButton';
 import OnlyDepositsControl from './OnlyDepositsControl';
 import PortfolioDustControl from './PortfolioDustControl';
 import VaultFiltersDialogV2 from './VaultFiltersDialog';
+import VaultsAprControl from './VaultsAprControl';
 import VaultSearchInputsRow from './VaultSearchInputsRow';
 
 const useStyles = makeStyles((theme) => ({
@@ -75,6 +77,14 @@ const VaultsSearchControls = () => {
             />
           )}
         </div>
+        {!FLAGS.APY_EVOLUTION && (
+          <div>
+            <VaultsAprControl
+              showAPR={vaultsFilters.showAPR}
+              onShowAPRChange={(checked) => setVaultsFilter('showAPR', checked)}
+            />
+          </div>
+        )}
       </Grid>
       <VaultSearchInputsRow />
       <VaultFiltersDialogV2 />

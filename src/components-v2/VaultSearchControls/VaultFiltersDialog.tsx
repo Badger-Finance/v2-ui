@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { FLAGS } from 'config/environment';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -18,6 +19,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import BoostedVaultsControl from './BoostedVaultsControl';
 import OnlyDepositsControl from './OnlyDepositsControl';
 import PortfolioDustControl from './PortfolioDustControl';
+import VaultsAprControl from './VaultsAprControl';
 import VaultSearchBar from './VaultSearchBar';
 import VaultsPlatformSelector from './VaultsPlatformSelector';
 import VaultsRewardsSelector from './VaultsRewardsSelector';
@@ -152,6 +154,16 @@ const VaultFiltersDialog = () => {
             <VaultSearchBar search={search} onChange={(change) => setSearch(change)} />
           </Grid>
         </Grid>
+        {!FLAGS.APY_EVOLUTION && (
+          <>
+            <Divider className={classes.divider} />
+            <Grid container>
+              <Grid item className={classes.apr}>
+                <VaultsAprControl showAPR={showAPR} onShowAPRChange={(checked) => setShowAPR(checked)} />
+              </Grid>
+            </Grid>
+          </>
+        )}
         <Divider className={classes.divider} />
         <Grid container spacing={2} justifyContent="flex-end">
           <Grid item>

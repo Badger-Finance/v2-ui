@@ -135,6 +135,30 @@ describe('VaultSearchControl', () => {
       expect(screen.getByDisplayValue('bitcoin convex')).toBeInTheDocument();
     });
 
+    it('can select APY mode', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
+
+      const apyButton = screen.getByRole('button', { name: 'APY' });
+      fireEvent.click(apyButton);
+      expect(apyButton).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('can select APR mode', () => {
+      customRender(
+        <StoreProvider value={store}>
+          <VaultsSearchControls />
+        </StoreProvider>,
+      );
+
+      const aprButton = screen.getByRole('button', { name: 'APR' });
+      fireEvent.click(aprButton);
+      expect(aprButton).toHaveAttribute('aria-selected', 'true');
+    });
+
     it('can clear filters', () => {
       const clear = jest.fn();
       store.vaults.clearFilters = action(clear);

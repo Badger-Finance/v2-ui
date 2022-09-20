@@ -3,6 +3,7 @@ import { Box, Grid, Link, makeStyles, Theme, Typography } from '@material-ui/cor
 import TokenLogo from 'components-v2/TokenLogo';
 import { YieldValueSource } from 'components-v2/VaultApyInformation';
 import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
+import { FLAGS } from 'config/environment';
 import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -79,88 +80,146 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
     await router.goTo(routes.boostOptimizer);
   };
 
-  if (isBoostBreakdown && vault.boost.enabled) {
+  if (FLAGS.APY_EVOLUTION) {
+    if (isBoostBreakdown && vault.boost.enabled) {
+      return (
+        <>
+          <Grid container className={classes.totalVaultRewardsRow}>
+            <Grid item xs={9}>
+              <Box display="flex" alignItems="center">
+                <TokenLogo
+                  width="24"
+                  height="24"
+                  token={{ symbol: source.yieldVault ? source.yieldVault.token : source.name }}
+                />
+                <Typography component="span">{`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(
+                  source.maxApr.toFixed(2),
+                )}%)`}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography align="right">{`${numberWithCommas(sourceApr.toFixed(2))}%`}</Typography>
+            </Grid>
+          </Grid>
+        </>
+      );
+    }
+
     return (
       <>
         <Grid container className={classes.totalVaultRewardsRow}>
           <Grid item xs={9}>
-            <Box display="flex" alignItems="center">
+            <Box display="flex" alignItems="center" className={classes.yieldSourceRow}>
               <TokenLogo
                 width="24"
                 height="24"
                 token={{ symbol: source.yieldVault ? source.yieldVault.token : source.name }}
               />
-              <Typography component="span">{`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(
-                source.maxApr.toFixed(2),
-              )}%)`}</Typography>
+              {!isFlywheelSource(source) ? (
+                <>
+                  <Typography component="span">{source.yieldVault ? source.yieldVault.token : source.name}</Typography>
+                  {source.yieldVault && (
+                    <>
+                      <Typography component="span" className={classes.earnedAs}>
+                        earned as
+                      </Typography>
+                      <img
+                        width="12"
+                        height="16"
+                        src="/assets/icons/yield-bearing-rewards.svg"
+                        alt="Yield-Bearing Rewards"
+                      />
+                      {source.yieldVault ? (
+                        <Link display="inline" className={classes.link} onClick={handleLinkClick}>
+                          <Typography component="span" color="primary">
+                            {source.yieldVault.vaultName}
+                          </Typography>
+                        </Link>
+                      ) : (
+                        <Typography component="span" color="primary">
+                          {source.name}
+                        </Typography>
+                      )}
+                    </>
+                  )}
+                </>
+              ) : (
+                //  showing source `Vault Flywheel` as Compounding of Yield-Bearing Rewards
+                <>
+                  <Typography component="span">Compounding</Typography>
+                  <Typography component="span" className={classes.earnedAs}>
+                    of
+                  </Typography>
+                  <img
+                    width="12"
+                    height="16"
+                    src="/assets/icons/yield-bearing-rewards.svg"
+                    alt="Yield-Bearing Rewards"
+                  />
+                  <Typography component="span" color="primary">
+                    Yield-Bearing Rewards
+                  </Typography>
+                </>
+              )}
             </Box>
           </Grid>
           <Grid item xs={3}>
-            <Typography align="right">{`${numberWithCommas(sourceApr.toFixed(2))}%`}</Typography>
+            <Typography align="right">{numberWithCommas(source.apr.toFixed(2))}%</Typography>
           </Grid>
         </Grid>
       </>
     );
   }
 
-  return (
-    <>
-      <Grid container className={classes.totalVaultRewardsRow}>
-        <Grid item xs={9}>
-          <Box display="flex" alignItems="center" className={classes.yieldSourceRow}>
-            <TokenLogo
-              width="24"
-              height="24"
-              token={{ symbol: source.yieldVault ? source.yieldVault.token : source.name }}
+  if (isBoostBreakdown && vault.boost.enabled) {
+    return (
+      <Grid item container direction="column">
+        <Grid item container justifyContent="space-between">
+          <Grid item>
+            <Typography variant="body2" display="inline" color="textSecondary">
+              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr.toFixed(2))}%)`}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant="body2" display="inline" color="textSecondary">
+              {`${numberWithCommas(sourceApr.toFixed(2))}%`}
+            </Typography>
+          </Grid>
+        </Grid>
+        {!!userBoost && !!boostContribution && (
+          <Grid item container>
+            <img
+              className={classes.apyBreakdownIcon}
+              src="/assets/icons/apy-breakdown-icon.svg"
+              alt="apy breakdown icon"
             />
-            {!isFlywheelSource(source) ? (
-              <>
-                <Typography component="span">{source.yieldVault ? source.yieldVault.token : source.name}</Typography>
-                {source.yieldVault && (
-                  <>
-                    <Typography component="span" className={classes.earnedAs}>
-                      earned as
-                    </Typography>
-                    <img
-                      width="12"
-                      height="16"
-                      src="/assets/icons/yield-bearing-rewards.svg"
-                      alt="Yield-Bearing Rewards"
-                    />
-                    {source.yieldVault ? (
-                      <Link display="inline" className={classes.link} onClick={handleLinkClick}>
-                        <Typography component="span" color="primary">
-                          {source.yieldVault.vaultName}
-                        </Typography>
-                      </Link>
-                    ) : (
-                      <Typography component="span" color="primary">
-                        {source.name}
-                      </Typography>
-                    )}
-                  </>
-                )}
-              </>
-            ) : (
-              //  showing source `Vault Flywheel` as Compounding of Yield-Bearing Rewards
-              <>
-                <Typography component="span">Compounding</Typography>
-                <Typography component="span" className={classes.earnedAs}>
-                  of
-                </Typography>
-                <img width="12" height="16" src="/assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" />
-                <Typography component="span" color="primary">
-                  Yield-Bearing Rewards
-                </Typography>
-              </>
-            )}
-          </Box>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography align="right">{numberWithCommas(source.apr.toFixed(2))}%</Typography>
-        </Grid>
+            <Typography variant="body2" display="inline" color="textSecondary">
+              {`My Boost: ${userBoost}x`}
+            </Typography>
+            <Link color="primary" onClick={handleGoToCalculator} className={classes.link}>
+              <Typography variant="body2" display="inline" color="inherit" className={classes.calculatorLink}>
+                Go To Boost
+              </Typography>
+            </Link>
+          </Grid>
+        )}
       </Grid>
-    </>
+    );
+  }
+
+  return (
+    <Grid item container justifyContent="space-between">
+      <Grid item>
+        <Typography variant="body2" display="inline" color="textSecondary">
+          {source.name}
+        </Typography>
+      </Grid>
+      <Grid item>
+        <Typography variant="body2" display="inline" color="textSecondary">
+          {`${numberWithCommas(sourceApr.toFixed(2))}%`}
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
 
