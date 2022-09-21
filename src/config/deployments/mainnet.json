@@ -59,7 +59,9 @@
     "aura": "0xC0c293ce456fF0ED870ADd98a0828Dd4d2903DBF",
     "balancer.auraBAL": "0x616e8BfA43F920657B3497DBf40D6b1A02D4608d",
     "balancer.wbtc-badger": "0xb460DAa847c45f1C4a41cb05BFB3b51c92e41B36",
-    "balancer.bb-aave-usd": "0x7B50775383d3D6f0215A8F290f2C9e2eEBBEceb2"
+    "balancer.bb-aave-usd": "0x7B50775383d3D6f0215A8F290f2C9e2eEBBEceb2",
+    "balancer.reth-weth": "0x1E19CF2D73a72Ef1332C882F20534B6519Be0276",
+    "balancer.wsteth-weth": "0x32296969Ef14EB0c6d29669C550D4a0449130230"
   },
   "logic": {
     "SmartVesting": "0x07c0E4f4C977a29c46Fb26597ea8C9105ca50b42",
@@ -142,6 +144,8 @@
       "native.auraBal": "0x37d9D2C6035b744849C15F1BFEE8F268a20fCBd8",
       "native.aura-wbtc-badger": "0x63ad745506BD6a3E57F764409A47ed004BEc40b1",
       "native.aura-bb-aave-usd": "0x06D756861De0724FAd5B5636124e0f252d3C1404",
+      "native.aura-reth-weth": "0xA484427CF91bbd945c39eF87dF0A02Bb8625dC97",
+      "native.aura-wsteth-weth": "0x41466b8ec544e3192Aa1aA30f65fC60FAb4D52Bf",
       "native.graviaura-aurabal-weth": "0xf8f5677B6bCecdb9be94AE8f6770a05a6C53C378",
       "native.graviaura-digg-wbtc": "0x371B7C451858bd88eAf392B383Df8bd7B8955d5a"
     },
@@ -179,7 +183,9 @@
       "native.graviaura": "0x3c0989eF27e3e3fAb87a2d7C38B35880C90E63b5",
       "native.auraBal": "0xfB490b5beA343ABAe0E71B61bBdfd4301F5e4df9",
       "native.aura-wbtc-badger": "0xe43857fE16D18b6633A663389934d6c64D5E81FD",
-      "native.aura-bb-aave-usd": "0x2eDc46AC0eE850081e14a6E6cF09d69A29D61563"
+      "native.aura-bb-aave-usd": "0x2eDc46AC0eE850081e14a6E6cF09d69A29D61563",
+      "native.aura-reth-weth": "0xE6153AdD9913c7D25a6d475acFfACc5Eb570D8bE",
+      "native.aura-wsteth-weth": "0x1cC3731d8f30341EF4527E7da1B6a4DA88ef71DF"
     },
     "strategy_artifacts": {
       "native.badger": "StrategyBadgerRewards",

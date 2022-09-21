@@ -32,6 +32,8 @@ export class Ethereum extends Chain {
       this.deploy.sett_system.vaults['native.cvxCrv'],
       this.deploy.sett_system.vaults['native.ibbtcCrv'],
       this.deploy.sett_system.vaults['native.badgerCrv'],
+      this.deploy.sett_system.vaults['native.aura-reth-weth'],
+      this.deploy.sett_system.vaults['native.aura-wsteth-weth'],
     ];
   }
 }
@@ -392,6 +394,26 @@ const ethVaultDefinitions: BadgerVault[] = [
     },
     vaultToken: {
       address: ETH_DEPLOY.sett_system.vaults['native.auraBal'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: ETH_DEPLOY.tokens['balancer.reth-weth'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: ETH_DEPLOY.sett_system.vaults['native.aura-reth-weth'],
+      decimals: 18,
+    },
+  },
+  {
+    depositToken: {
+      address: ETH_DEPLOY.tokens['balancer.wsteth-weth'],
+      decimals: 18,
+    },
+    vaultToken: {
+      address: ETH_DEPLOY.sett_system.vaults['native.aura-wsteth-weth'],
       decimals: 18,
     },
   },
