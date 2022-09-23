@@ -1,0 +1,6 @@
+/index.hmtl
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  Content-Security-Policy: frame-ancestors
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
