@@ -15,7 +15,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import TokenLogo from 'components-v2/TokenLogo';
 import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
-import { FLAGS } from 'config/environment';
 import { YieldBearingVaultSource } from 'mobx/model/vaults/yield-bearing-vault-data';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -151,15 +150,11 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
   const { vaults, router } = useContext(StoreContext);
 
   const classes = useStyles();
-  const sortedSources = sources
-    .slice()
-    .sort((a, b) => (isBadgerSource(b) ? -1 : b.performance.baseYield > a.performance.baseYield ? 1 : -1));
-  const badgerRewardsSources = sortedSources.filter(isBadgerSource);
+
   const harvestSources: YieldSourceDisplay[] = harvestPeriodSourcesApy;
   const additionalSources: YieldSourceDisplay[] = nonHarvestSourcesApy.map(yieldToValueSource);
   const totalCurrentSources = harvestSources.concat(additionalSources);
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
-  const isInfluence = isInfluenceVault(vault.vaultToken);
 
   const handleGoToVault = async (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -182,7 +177,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
     return list;
   }, []);
 
-  const yieldSourcesApyList: any[] = vaultApySources
+  const yieldSourcesApyList: YieldValueSource[] = vaultApySources
     .reduce((list: any[], source) => {
       const yieldVault = getYieldBearingVaultBySourceName(source.name);
       if (yieldVault !== undefined) {
@@ -204,7 +199,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
       fullWidth
       classes={{ paper: classes.root }}
     >
-      <DialogTitle disableTypography className={`${classes.title} ${FLAGS.APY_EVOLUTION && classes.diaglogTitle}`}>
+      <DialogTitle disableTypography className={`${classes.title} ${classes.diaglogTitle}`}>
         <Grid container direction="column">
           <Grid item container justifyContent="space-between" alignItems="center">
             <Grid item xs="auto">
@@ -223,191 +218,110 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
           </Grid>
         </Grid>
       </DialogTitle>
-      {!FLAGS.APY_EVOLUTION && (
-        <DialogContent className={classes.content}>
-          <Grid container direction="column">
-            {!isNewVault && (
-              <div className={classes.historicAPY}>
-                <Grid item container justifyContent="space-between">
-                  <Grid item>
-                    <Typography variant="subtitle1" display="inline" color="textSecondary">
-                      Historic {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle1" display="inline" color="textSecondary">
-                      {`${numberWithCommas(boost?.toFixed(2))}%`}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Divider className={classes.divider} />
-                {sortedSources.map(yieldToValueSource).map((source) => (
-                  <React.Fragment key={`historic-${source.name}`}>
-                    <VaultApyBreakdownItem vault={vault} source={source} />
-                    <Divider className={classes.divider} />
-                  </React.Fragment>
-                ))}
-              </div>
-            )}
-            {!isInfluence && projectedBoost !== null && (
-              <>
-                <Grid item container justifyContent="space-between">
-                  <Grid item>
-                    <Typography variant="subtitle1" display="inline" color="textSecondary">
-                      Current {vaults.vaultsFilters.showAPR ? 'APR' : 'APY'}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle1" display="inline" color="textSecondary">
-                      {`${numberWithCommas(projectedBoost?.toFixed(2))}%`}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Divider className={classes.divider} />
-                {totalCurrentSources.map((token) => (
-                  <div key={`yield-apr-${token.name}`}>
-                    <Grid item container justifyContent="space-between">
-                      <Grid item>
-                        <Typography variant="body2" display="inline" color="textSecondary">
-                          {token.name}
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography variant="body2" display="inline" color="textSecondary">
-                          {token?.apr && `${numberWithCommas(token.apr?.toFixed(2))}%`}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    <Divider className={classes.divider} />
-                  </div>
-                ))}
-                {badgerRewardsSources.map(yieldToValueSource).map((source) => (
-                  <React.Fragment key={`current-${source.name}`}>
-                    <VaultApyBreakdownItem vault={vault} source={source} />
-                    <Divider className={classes.divider} />
-                  </React.Fragment>
-                ))}
-              </>
-            )}
-            <Grid item className={classes.button}>
-              <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
-                GO TO VAULT
-              </Button>
-            </Grid>
-          </Grid>
-        </DialogContent>
-      )}
 
       {/* Yield Bearing Rewards */}
-      {FLAGS.APY_EVOLUTION && (
-        <DialogContent className={classes.totalVaultRewardsContainer}>
-          <Box className={classes.totalVaultRewards}>
+      <DialogContent className={classes.totalVaultRewardsContainer}>
+        <Box className={classes.totalVaultRewards}>
+          <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsHead}`}>
+            <Grid item xs={6}>
+              <Typography component="h3">Total Vault Rewards</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Box display="flex" justifyContent="flex-end" alignItems="center">
+                {isNewVault && (
+                  <>
+                    <img width="12" src="assets/icons/new-vault.svg" alt="New Vault" />
+                    <Typography component="span">New Vault</Typography>
+                  </>
+                )}
+                {useHistoricAPY ? (
+                  <>
+                    {' '}
+                    <Typography component="span">14-Day Historic APY</Typography>
+                    <Typography>{numberWithCommas(boost?.toFixed(2))}%</Typography>
+                  </>
+                ) : (
+                  <Typography> {numberWithCommas(projectedBoost?.toFixed(2))}%</Typography>
+                )}
+              </Box>
+            </Grid>
+          </Grid>
+          <Divider className={classes.totalVaultRewardsDivider} />
+          <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsNote}`}>
+            <Grid item>Rewards earned by our strategies on your vault deposits</Grid>
+          </Grid>
+          {yieldSourcesApyList.map((yieldSource) => (
+            <Box key={`yieldSourcesApyList-${yieldSource.name}`}>
+              <Divider className={classes.totalVaultRewardsDivider} />
+              <VaultApyBreakdownItem vault={vault} source={yieldSource} />
+            </Box>
+          ))}
+        </Box>
+
+        {yieldBearingRewardsList.length > 0 && (
+          <Box className={classes.yieldBearingRewards}>
             <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsHead}`}>
-              <Grid item xs={6}>
-                <Typography component="h3">Total Vault Rewards</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Box display="flex" justifyContent="flex-end" alignItems="center">
-                  {isNewVault && (
-                    <>
-                      <img width="12" src="assets/icons/new-vault.svg" alt="New Vault" />
-                      <Typography component="span">New Vault</Typography>
-                    </>
-                  )}
-                  {useHistoricAPY ? (
-                    <>
-                      {' '}
-                      <Typography component="span">14-Day Historic APY</Typography>
-                      <Typography>{numberWithCommas(boost?.toFixed(2))}%</Typography>
-                    </>
-                  ) : (
-                    <Typography> {numberWithCommas(projectedBoost?.toFixed(2))}%</Typography>
-                  )}
+              <Grid item xs={12}>
+                <Box display="flex" alignItems="center">
+                  <img
+                    width="15"
+                    height="20"
+                    src="assets/icons/yield-bearing-rewards.svg"
+                    alt="Yield-Bearing Rewards"
+                  />
+                  <Typography component="h3" color="primary">
+                    Yield-Bearing Rewards
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
             <Divider className={classes.totalVaultRewardsDivider} />
             <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsNote}`}>
-              <Grid item>Rewards earned by our strategies on your vault deposits</Grid>
+              <Grid item>These rewards continue earning rewards of their own, no claiming required </Grid>
             </Grid>
-            {yieldSourcesApyList.map((yieldSource) => (
-              <Box key={`yieldSourcesApyList-${yieldSource.name}`}>
+            {yieldBearingRewardsList.map((yieldSource) => (
+              <Box key={`yieldBearingRewardsList-${yieldSource.name}`}>
                 <Divider className={classes.totalVaultRewardsDivider} />
-                <VaultApyBreakdownItem vault={vault} source={yieldSource} />
+                <Grid container className={classes.totalVaultRewardsRow}>
+                  <Grid item xs={9}>
+                    <Box display="flex" alignItems="center" className={classes.yieldSourceRow}>
+                      <TokenLogo width="24" height="24" token={{ symbol: yieldSource.vaultName }} />
+                      <img
+                        width="12"
+                        height="16"
+                        src="assets/icons/yield-bearing-rewards.svg"
+                        alt="Yield-Bearing Rewards"
+                      />
+                      <Typography component="span" color="primary">
+                        {yieldSource.vaultName}
+                      </Typography>
+                      <Typography component="span" className={classes.earnedAs}>
+                        is
+                      </Typography>
+                      <Typography component="span"> {yieldSource.vaultDescription} </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography align="right">
+                      {numberWithCommas((vaults.getVault(yieldSource.vaultId)?.apy.baseYield ?? 0)?.toFixed(2))}%
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Box>
             ))}
           </Box>
-
-          {yieldBearingRewardsList.length > 0 && (
-            <Box className={classes.yieldBearingRewards}>
-              <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsHead}`}>
-                <Grid item xs={12}>
-                  <Box display="flex" alignItems="center">
-                    <img
-                      width="15"
-                      height="20"
-                      src="assets/icons/yield-bearing-rewards.svg"
-                      alt="Yield-Bearing Rewards"
-                    />
-                    <Typography component="h3" color="primary">
-                      Yield-Bearing Rewards
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-              <Divider className={classes.totalVaultRewardsDivider} />
-              <Grid container className={`${classes.totalVaultRewardsRow} ${classes.rowAsNote}`}>
-                <Grid item>These rewards continue earning rewards of their own, no claiming required </Grid>
-              </Grid>
-              {yieldBearingRewardsList.map((yieldSource) => (
-                <Box key={`yieldBearingRewardsList-${yieldSource.name}`}>
-                  <Divider className={classes.totalVaultRewardsDivider} />
-                  <Grid container className={classes.totalVaultRewardsRow}>
-                    <Grid item xs={9}>
-                      <Box display="flex" alignItems="center" className={classes.yieldSourceRow}>
-                        <TokenLogo width="24" height="24" token={{ symbol: yieldSource.vaultName }} />
-                        <img
-                          width="12"
-                          height="16"
-                          src="assets/icons/yield-bearing-rewards.svg"
-                          alt="Yield-Bearing Rewards"
-                        />
-                        <Typography component="span" color="primary">
-                          {yieldSource.vaultName}
-                        </Typography>
-                        <Typography component="span" className={classes.earnedAs}>
-                          is
-                        </Typography>
-                        <Typography component="span"> {yieldSource.vaultDescription} </Typography>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <Typography align="right">
-                        {numberWithCommas((vaults.getVault(yieldSource.vaultId)?.apy.baseYield ?? 0)?.toFixed(2))}%
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Box>
-              ))}
-            </Box>
-          )}
-          <Grid item className={classes.button}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="textSecondary"
-              className={classes.feeDisclaimerText}
-            >
-              Fees have been deducted from APY estimates. See the vault details page for fee information.
-            </Typography>
-          </Grid>
-          <Grid item className={classes.button}>
-            <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
-              GO TO VAULT
-            </Button>
-          </Grid>
-        </DialogContent>
-      )}
+        )}
+        <Grid item className={classes.button}>
+          <Typography component="span" variant="subtitle1" color="textSecondary" className={classes.feeDisclaimerText}>
+            Fees have been deducted from APY estimates. See the vault details page for fee information.
+          </Typography>
+        </Grid>
+        <Grid item className={classes.button}>
+          <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
+            GO TO VAULT
+          </Button>
+        </Grid>
+      </DialogContent>
       {/* Yield Bearing Rewards */}
     </Dialog>
   );

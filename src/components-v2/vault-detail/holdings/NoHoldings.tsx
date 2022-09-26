@@ -40,14 +40,7 @@ interface Props {
 }
 
 export const NoHoldings = observer(
-  ({
-    vault,
-    onDepositClick,
-    userHasToken,
-    strategy,
-    userHasDeposit,
-    isMediumSizeScreen,
-  }: Props): JSX.Element | null => {
+  ({ vault, onDepositClick, userHasToken, strategy, isMediumSizeScreen }: Props): JSX.Element | null => {
     const classes = useStyles();
 
     const store = React.useContext(StoreContext);
