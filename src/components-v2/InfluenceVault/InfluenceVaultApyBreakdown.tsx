@@ -56,12 +56,12 @@ const InfluenceVaultApyBreakdown = ({ vault, source }: Props): JSX.Element => {
         <Grid item container justifyContent="space-between">
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr.toFixed(2))}%)`}
+              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr?.toFixed(2) ?? 0)}%)`}
             </Typography>
           </Grid>
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`${numberWithCommas(sourceApr.toFixed(2))}%`}
+              {`${numberWithCommas(sourceApr?.toFixed(2) ?? 0)}%`}
             </Typography>
           </Grid>
         </Grid>
@@ -95,7 +95,7 @@ const InfluenceVaultApyBreakdown = ({ vault, source }: Props): JSX.Element => {
       </Grid>
       <Grid item>
         <Typography variant="body2" display="inline" color="textSecondary">
-          {`${numberWithCommas(sourceApr.toFixed(2))}%`}
+          {`${numberWithCommas(sourceApr?.toFixed(2) ?? 0)}%`}
         </Typography>
       </Grid>
     </Grid>

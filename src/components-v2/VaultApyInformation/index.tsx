@@ -236,7 +236,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle1" display="inline" color="textSecondary">
-                      {`${numberWithCommas(boost?.toFixed(2))}%`}
+                      {numberWithCommas(boost?.toFixed(2) ?? 0)}%
                     </Typography>
                   </Grid>
                 </Grid>
@@ -259,7 +259,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle1" display="inline" color="textSecondary">
-                      {`${numberWithCommas(projectedBoost?.toFixed(2))}%`}
+                      {numberWithCommas(projectedBoost?.toFixed(2) ?? 0)}%
                     </Typography>
                   </Grid>
                 </Grid>
@@ -274,7 +274,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                       </Grid>
                       <Grid item>
                         <Typography variant="body2" display="inline" color="textSecondary">
-                          {token?.apr && `${numberWithCommas(token.apr?.toFixed(2))}%`}
+                          {numberWithCommas(token.apr?.toFixed(2) ?? 0)}%
                         </Typography>
                       </Grid>
                     </Grid>
@@ -318,10 +318,10 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                     <>
                       {' '}
                       <Typography component="span">14-Day Historic APY</Typography>
-                      <Typography>{numberWithCommas(boost?.toFixed(2))}%</Typography>
+                      <Typography>{numberWithCommas(boost?.toFixed(2) ?? 0)}%</Typography>
                     </>
                   ) : (
-                    <Typography> {numberWithCommas(projectedBoost?.toFixed(2))}%</Typography>
+                    <Typography> {numberWithCommas(projectedBoost.toFixed(2) ?? 0)}%</Typography>
                   )}
                 </Box>
               </Grid>
