@@ -87,13 +87,13 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
               />
               <Typography component="span">
                 🚀 Boosted BADGER Rewards (max:{' '}
-                {source.maxApr ? numberWithCommas(source.maxApr?.toFixed(2)) : <MissingValueSkeleton />}%)
+                {source.maxApr ? numberWithCommas(source.maxApr.toFixed(2)) : <MissingValueSkeleton />}%)
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={3}>
             <Typography align="right">
-              {sourceApr ? numberWithCommas(sourceApr?.toFixed(2)) : <MissingValueSkeleton />}%
+              {sourceApr ? numberWithCommas(sourceApr.toFixed(2)) : <MissingValueSkeleton />}%
             </Typography>
           </Grid>
         </Grid>
@@ -156,7 +156,7 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
         </Grid>
         <Grid item xs={3}>
           <Typography align="right">
-            {source.apr ? numberWithCommas(source.apr?.toFixed(2)) : <MissingValueSkeleton />}%
+            {source.apr ? numberWithCommas(source.apr.toFixed(2)) : <MissingValueSkeleton />}%
           </Typography>
         </Grid>
       </Grid>

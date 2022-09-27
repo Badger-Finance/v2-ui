@@ -238,11 +238,11 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                 {useHistoricAPY ? (
                   <>
                     <Typography component="span">14-Day Historic APY</Typography>
-                    <Typography>{boost ? numberWithCommas(boost?.toFixed(2)) : <MissingValueSkeleton />}%</Typography>
+                    <Typography>{boost ? numberWithCommas(boost.toFixed(2)) : <MissingValueSkeleton />}%</Typography>
                   </>
                 ) : (
                   <Typography>
-                    {projectedBoost ? numberWithCommas(projectedBoost?.toFixed(2)) : <MissingValueSkeleton />}%
+                    {projectedBoost ? numberWithCommas(projectedBoost.toFixed(2)) : <MissingValueSkeleton />}%
                   </Typography>
                 )}
               </Box>
@@ -306,7 +306,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   <Grid item xs={3}>
                     <Typography align="right">
                       {vaults.getVault(yieldSource.vaultId)?.apy.baseYield ? (
-                        numberWithCommas(vaults.getVault(yieldSource.vaultId)?.apy.baseYield?.toFixed(2))
+                        numberWithCommas(vaults.getVault(yieldSource.vaultId)?.apy.baseYield.toFixed(2))
                       ) : (
                         <MissingValueSkeleton />
                       )}
