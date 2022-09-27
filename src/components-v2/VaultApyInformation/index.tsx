@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import MissingValueSkeleton from 'components-v2/common/MissingValueSkeleton';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import TokenLogo from 'components-v2/TokenLogo';
 import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
@@ -236,12 +237,13 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                 )}
                 {useHistoricAPY ? (
                   <>
-                    {' '}
                     <Typography component="span">14-Day Historic APY</Typography>
-                    <Typography>{numberWithCommas(boost?.toFixed(2))}%</Typography>
+                    <Typography>{boost ? numberWithCommas(boost.toFixed(2)) : <MissingValueSkeleton />}%</Typography>
                   </>
                 ) : (
-                  <Typography> {numberWithCommas(projectedBoost?.toFixed(2))}%</Typography>
+                  <Typography>
+                    {projectedBoost ? numberWithCommas(projectedBoost.toFixed(2)) : <MissingValueSkeleton />}%
+                  </Typography>
                 )}
               </Box>
             </Grid>
@@ -303,7 +305,12 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   </Grid>
                   <Grid item xs={3}>
                     <Typography align="right">
-                      {numberWithCommas((vaults.getVault(yieldSource.vaultId)?.apy.baseYield ?? 0)?.toFixed(2))}%
+                      {vaults.getVault(yieldSource.vaultId)?.apy.baseYield ? (
+                        numberWithCommas(vaults.getVault(yieldSource.vaultId)?.apy.baseYield.toFixed(2))
+                      ) : (
+                        <MissingValueSkeleton />
+                      )}
+                      %
                     </Typography>
                   </Grid>
                 </Grid>

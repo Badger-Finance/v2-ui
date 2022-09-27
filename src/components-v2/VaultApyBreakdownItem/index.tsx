@@ -1,5 +1,6 @@
 import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Box, Grid, Link, makeStyles, Theme, Typography } from '@material-ui/core';
+import MissingValueSkeleton from 'components-v2/common/MissingValueSkeleton';
 import TokenLogo from 'components-v2/TokenLogo';
 import { YieldValueSource } from 'components-v2/VaultApyInformation';
 import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
@@ -84,13 +85,16 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
                 height="24"
                 token={{ symbol: source.yieldVault ? source.yieldVault.token : source.name }}
               />
-              <Typography component="span">{`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(
-                source.maxApr?.toFixed(2),
-              )}%)`}</Typography>
+              <Typography component="span">
+                🚀 Boosted BADGER Rewards (max:{' '}
+                {source.maxApr ? numberWithCommas(source.maxApr.toFixed(2)) : <MissingValueSkeleton />}%)
+              </Typography>
             </Box>
           </Grid>
           <Grid item xs={3}>
-            <Typography align="right">{`${numberWithCommas(sourceApr?.toFixed(2))}%`}</Typography>
+            <Typography align="right">
+              {sourceApr ? numberWithCommas(sourceApr.toFixed(2)) : <MissingValueSkeleton />}%
+            </Typography>
           </Grid>
         </Grid>
       </>
@@ -151,7 +155,9 @@ const VaultApyBreakdownItem = ({ vault, source }: Props): JSX.Element => {
           </Box>
         </Grid>
         <Grid item xs={3}>
-          <Typography align="right">{numberWithCommas(source.apr?.toFixed(2))}%</Typography>
+          <Typography align="right">
+            {source.apr ? numberWithCommas(source.apr.toFixed(2)) : <MissingValueSkeleton />}%
+          </Typography>
         </Grid>
       </Grid>
     </>
