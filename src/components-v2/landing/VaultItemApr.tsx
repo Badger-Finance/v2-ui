@@ -145,6 +145,7 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
         boost={vaultBoost}
         projectedBoost={projectedVaultBoost}
         onClose={handleClose}
+        removeGoToVaultButton={false}
       />
       <YieldBearingRewards
         open={openYieldBearingRewardsModal}

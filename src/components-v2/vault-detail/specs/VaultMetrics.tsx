@@ -1,9 +1,12 @@
 import { VaultDTOV3 } from '@badger-dao/sdk';
-import { Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
+import VaultApyInformation from 'components-v2/VaultApyInformation';
+import { useVaultInformation } from 'hooks/useVaultInformation';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { MouseEvent, useContext, useState } from 'react';
 
 import { numberWithCommas } from '../../../mobx/utils/helpers';
 import VaultDepositedAssets from '../../VaultDepositedAssets';
@@ -54,6 +57,18 @@ const useStyles = makeStyles((theme) => ({
   assetsText: {
     paddingBottom: theme.spacing(1),
   },
+  apyInfo: {
+    marginLeft: 5,
+  },
+  aprDisplay: {
+    justifyContent: 'flex-end',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'flex-start',
+    },
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }));
 
 interface Props {
@@ -65,12 +80,41 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
   const classes = useStyles();
 
   const shownBalance = lockedDeposits.getLockedDepositBalances(vault.underlyingToken);
+  const [showApyInfo, setShowApyInfo] = useState(false);
+  const handleApyInfoClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setShowApyInfo(true);
+  };
+  const handleClose = () => {
+    setShowApyInfo(false);
+  };
+  const { projectedVaultBoost, vaultBoost } = useVaultInformation(vault);
+  const store = useContext(StoreContext);
+  const { vaults } = store;
+  const isInfluence = isInfluenceVault(vault.vaultToken);
+  const useHistoricAPY = projectedVaultBoost === null || isInfluence;
+
+  const aprDisplay = !useHistoricAPY
+    ? `${numberWithCommas(projectedVaultBoost.toFixed(2))}%`
+    : `${numberWithCommas(vaultBoost.toFixed(2))}%`;
 
   return (
     <Grid container className={classes.root}>
-      <Typography variant="h6" className={classes.title}>
-        Vault Details
-      </Typography>
+      <Grid container>
+        <Grid item xs={8}>
+          <Typography variant="h6" className={classes.title}>
+            Vault Details
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Box className={classes.aprDisplay} display="flex" width="100%" onClick={handleApyInfoClick}>
+            <Typography variant={'body1'} color={'textPrimary'} display="inline">
+              {aprDisplay}
+            </Typography>
+            <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
+          </Box>
+        </Grid>
+      </Grid>
       <StyledDivider />
       <VaultDepositedAssets vault={vault} />
       <Typography variant="body2" className={classes.assetsText}>
@@ -102,6 +146,14 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
           </Typography>
         </div>
       )}
+      <VaultApyInformation
+        open={showApyInfo}
+        vault={vault}
+        boost={vaultBoost}
+        projectedBoost={projectedVaultBoost}
+        onClose={handleClose}
+        removeGoToVaultButton={true}
+      />
     </Grid>
   );
 });
