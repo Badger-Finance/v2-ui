@@ -116,6 +116,7 @@ interface Props {
   boost: number;
   onClose: () => void;
   projectedBoost: number | null;
+  removeGoToVaultButton: boolean | null;
 }
 
 interface YieldSourceDisplay {
@@ -143,7 +144,14 @@ export function yieldToValueSource(source: YieldSource): ValueSource {
   };
 }
 
-const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Props): JSX.Element | null => {
+const VaultApyInformation = ({
+  open,
+  onClose,
+  boost,
+  vault,
+  projectedBoost,
+  removeGoToVaultButton,
+}: Props): JSX.Element | null => {
   const {
     yieldProjection: { harvestPeriodSourcesApy, nonHarvestSourcesApy },
     apy: { sources },
@@ -268,7 +276,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                   <img
                     width="15"
                     height="20"
-                    src="assets/icons/yield-bearing-rewards.svg"
+                    src="/assets/icons/yield-bearing-rewards.svg"
                     alt="Yield-Bearing Rewards"
                   />
                   <Typography component="h3" color="primary">
@@ -291,7 +299,7 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
                       <img
                         width="12"
                         height="16"
-                        src="assets/icons/yield-bearing-rewards.svg"
+                        src="/assets/icons/yield-bearing-rewards.svg"
                         alt="Yield-Bearing Rewards"
                       />
                       <Typography component="span" color="primary">
@@ -323,11 +331,13 @@ const VaultApyInformation = ({ open, onClose, boost, vault, projectedBoost }: Pr
             Fees have been deducted from APY estimates. See the vault details page for fee information.
           </Typography>
         </Grid>
-        <Grid item className={classes.button}>
-          <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
-            GO TO VAULT
-          </Button>
-        </Grid>
+        {!removeGoToVaultButton && (
+          <Grid item className={classes.button}>
+            <Button color="primary" variant="contained" fullWidth onClick={handleGoToVault}>
+              GO TO VAULT
+            </Button>
+          </Grid>
+        )}
       </DialogContent>
       {/* Yield Bearing Rewards */}
     </Dialog>
