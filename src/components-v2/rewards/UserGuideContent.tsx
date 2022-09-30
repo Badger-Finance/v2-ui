@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '21px 22px',
       borderRadius: 10,
       width: 219,
-      height: 144,
+      minHeight: 144,
     },
     rewardsOptions: {
       paddingInlineStart: theme.spacing(2),
