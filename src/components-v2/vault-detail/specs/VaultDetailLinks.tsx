@@ -46,7 +46,6 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
       {strategy && (
         <>
           {strategy.userGuide && <VaultDetailLink title="User Guide" href={strategy.userGuide} />}
-          {strategy.strategyLink && <VaultDetailLink title="Strategy Diagram" href={strategy.strategyLink} />}
           {strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
         </>
       )}
