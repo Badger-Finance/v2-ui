@@ -14,8 +14,6 @@ import CurrencyDisplay from '../common/CurrencyDisplay';
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
-    width: 'calc(100% + 30px)',
-    margin: '-30px 0 0 -30px',
     overflowY: 'hidden',
     [theme.breakpoints.down('sm')]: {
       overflowX: 'auto',
@@ -23,9 +21,12 @@ const useStyles = makeStyles((theme) => ({
     },
     '& > *': {
       display: 'flex',
-      margin: '30px 0 0 30px',
       flexWrap: 'none',
       flexShrink: 0,
+      paddingRight: 30,
+      '&:last-child': {
+        paddingRight: 0,
+      },
     },
   },
   loader: {
