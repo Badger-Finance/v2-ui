@@ -20,7 +20,9 @@ exports[`Navbar Renders correctly 1`] = `
             <img
               alt="Badger Logo"
               class="makeStyles-badgerIcon-16"
+              height="28"
               src="/assets/icons/badger_head.svg"
+              width="28"
             />
           </div>
           <div
