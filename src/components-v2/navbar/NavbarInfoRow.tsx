@@ -1,6 +1,6 @@
 import { Grid, makeStyles } from '@material-ui/core';
-import React from 'react';
 
+import { getSelectedText } from '../../utils/string';
 import { NavbarSocialContact } from './NavbarSocialContact';
 import { NavbarStats } from './NavbarStats';
 
@@ -18,9 +18,16 @@ const useStyles = makeStyles(() => ({
 
 export const NavbarInfoRow = (): JSX.Element => {
   const classes = useStyles();
+
+  const handleNavbarClick = () => {
+    if (!getSelectedText()) {
+      window.open('https://badger.com');
+    }
+  };
+
   return (
     <Grid container alignItems="center" justifyContent="space-between">
-      <Grid item container xs={9} md={8} lg={9} alignItems="center" onClick={() => window.open('https://badger.com')}>
+      <Grid item container xs={9} md={8} lg={9} alignItems="center" onClick={handleNavbarClick}>
         <Grid item className={classes.badgerIconContainer}>
           <img className={classes.badgerIcon} alt="Badger Logo" src={'/assets/icons/badger_head.svg'} />
         </Grid>
