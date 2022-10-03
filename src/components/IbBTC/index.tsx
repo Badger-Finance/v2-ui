@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const IbBTC = observer(() => {
+const IbBTC = observer(() => {
   const classes = useStyles();
   const [activeTab, setActiveTab] = useState<TABS>('Mint');
 
@@ -126,3 +126,4 @@ export const IbBTC = observer(() => {
     </LayoutContainer>
   );
 });
+export default IbBTC;

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const BoostOptimizer = observer(() => {
+const BoostOptimizer = observer(() => {
   const classes = useStyles();
 
   return (
@@ -74,3 +74,5 @@ export const BoostOptimizer = observer(() => {
     </LayoutContainer>
   );
 });
+
+export default BoostOptimizer;

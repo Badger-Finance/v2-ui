@@ -1,22 +1,30 @@
 import { Protocol, VaultBehavior, VaultState, VaultType } from '@badger-dao/sdk';
-import Bridge from 'components/Bridge';
-import Governance from 'components/Governance';
-import { IbBTC } from 'components/IbBTC';
-import { VaultDetailWrapper } from 'components-v2/vault-detail/VaultDetailWrapper';
+import { Loader } from 'components/Loader';
 import { QueryParams, Route } from 'mobx-router';
 import React from 'react';
 
-import { BoostOptimizer } from '../components/Boost';
-import { NotFound } from '../components-v2/common/NotFound';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
 import { RootStore } from '../mobx/stores/RootStore';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
-import Landing from '../pages/Landing';
+
+const Landing = React.lazy(() => import('../pages/Landing'));
+const NotFound = React.lazy(() => import('../components-v2/common/NotFound'));
+const BoostOptimizer = React.lazy(() => import('../components/Boost'));
+const IbBTC = React.lazy(() => import('components/IbBTC'));
+const VaultDetailWrapper = React.lazy(() => import('components-v2/vault-detail/VaultDetailWrapper'));
+const Governance = React.lazy(() => import('components/Governance'));
+const Bridge = React.lazy(() => import('components/Bridge'));
+
+const withSuspense = (Component: React.FunctionComponent) => (
+  <React.Suspense fallback={<Loader />}>
+    <Component />
+  </React.Suspense>
+);
 
 const routes = {
   home: new Route<RootStore, QueryParams>({
     path: '/',
-    component: <Landing />,
+    component: withSuspense(Landing),
     onEnter: (_route, _params, store, queryParams: QueryParams) => {
       if (queryParams) {
         store.vaults.vaultsFilters = {
@@ -36,19 +44,19 @@ const routes = {
   }),
   notFound: new Route<RootStore, QueryParams>({
     path: '/not-found',
-    component: <NotFound />,
+    component: withSuspense(NotFound),
   }),
   boostOptimizer: new Route<RootStore, QueryParams>({
     path: '/boost-optimizer',
-    component: <BoostOptimizer />,
+    component: withSuspense(BoostOptimizer),
   }),
   IbBTC: new Route<RootStore, QueryParams>({
     path: '/ibBTC',
-    component: <IbBTC />,
+    component: withSuspense(IbBTC),
   }),
   vaultDetail: new Route<RootStore, QueryParams>({
     path: '/vault/:vaultName',
-    component: <VaultDetailWrapper />,
+    component: withSuspense(VaultDetailWrapper),
     onEnter: (_route, params, store) => {
       if (!params || !params.vaultName) {
         return;
@@ -67,11 +75,11 @@ const routes = {
   }),
   governance: new Route<RootStore, QueryParams>({
     path: '/governance',
-    component: <Governance />,
+    component: withSuspense(Governance),
   }),
   bridge: new Route<RootStore, QueryParams>({
     path: '/bridge',
-    component: <Bridge />,
+    component: withSuspense(Bridge),
   }),
 };
 

@@ -1,6 +1,6 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core';
 
-export const lightTheme = createMuiTheme({
+export const lightTheme = createTheme({
   palette: {
     type: 'light',
     primary: { main: '#F2A52B' },
@@ -25,7 +25,7 @@ export const lightTheme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "'Satoshi', 'IBM Plex Sans', sans-serif",
+    fontFamily: "'Satoshi', sans-serif",
     h5: { fontWeight: 800 },
     body1: { fontWeight: 600 },
   },
