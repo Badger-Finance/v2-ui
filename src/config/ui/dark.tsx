@@ -46,7 +46,7 @@ export const darkTheme = createTheme({
     divider: '#FFFFFF1F',
   },
   typography: {
-    fontFamily: "'Satoshi', 'IBM Plex Sans', sans-serif",
+    fontFamily: "'Satoshi', sans-serif",
     h1: { fontWeight: 500, fontSize: 96 },
     h2: { fontWeight: 500, fontSize: 60 },
     h3: { fontWeight: 500, fontSize: 48 },
