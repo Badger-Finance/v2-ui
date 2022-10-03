@@ -53,7 +53,7 @@ export const NavbarTabs = observer((): JSX.Element => {
         classes={{ root: classes.tab }}
         label="VAULTS"
         onClick={() => goToTab(routes.home)}
-        value={routes.home.path}
+        value={routes.home.path === router.currentRoute?.path ? routes.home.path : routes.vaultDetail.path}
       />
       {config.boost && (
         <Tab

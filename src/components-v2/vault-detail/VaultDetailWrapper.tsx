@@ -6,10 +6,11 @@ import React, { useContext } from 'react';
 
 import { StoreContext } from '../../mobx/stores/store-context';
 
-export const VaultDetailWrapper = observer((): JSX.Element => {
+const VaultDetailWrapper = observer((): JSX.Element => {
   const { vaultDetail } = useContext(StoreContext);
   const { vault } = vaultDetail;
   const isAnInfluenceVault = vault && isInfluenceVault(vault.vaultToken);
 
   return <>{isAnInfluenceVault ? <InfluenceVaultDetail /> : <VaultDetail />}</>;
 });
+export default VaultDetailWrapper;
