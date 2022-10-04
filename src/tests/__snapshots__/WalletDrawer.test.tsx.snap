@@ -154,7 +154,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
                   <img
                     alt="Badger logo"
                     class="makeStyles-icon-222"
+                    height="25"
                     src="/assets/icons/badger.svg"
+                    width="25"
                   />
                   <p
                     class="MuiTypography-root-162 makeStyles-tokenName-221 MuiTypography-body1-164 MuiTypography-displayInline-190"
@@ -194,7 +196,9 @@ exports[`Wallet Drawer displays correctly 1`] = `
                   <img
                     alt="DIGG logo"
                     class="makeStyles-icon-222"
+                    height="25"
                     src="/assets/icons/digg.svg"
+                    width="25"
                   />
                   <p
                     class="MuiTypography-root-162 makeStyles-tokenName-221 MuiTypography-body1-164 MuiTypography-displayInline-190"

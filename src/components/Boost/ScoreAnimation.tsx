@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   boostImage: {
     width: '60%',
+    height: 'auto',
   },
   boostEye: {
     width: '30px',
@@ -97,11 +98,19 @@ const useAnimatedStyles = (stakeRatio: number) => {
 export const BoostBadgerAnimation = ({ stakeRatio }: BoostBadgeProps): JSX.Element => {
   const classes = useStyles();
   const animatedClasses = useAnimatedStyles(stakeRatio)();
-  const eyesImage = <img src={'assets/badger-eyes.png'} alt="Badger Eyes" className={classes.boostEyeStar} />;
+  const eyesImage = (
+    <img width="6" height="6" src={'assets/badger-eyes.png'} alt="Badger Eyes" className={classes.boostEyeStar} />
+  );
   return (
     <Box className={[classes.root, animatedClasses.container].join(' ')}>
       <div className={[classes.boostEye, classes.boostLeft, animatedClasses.eyes].join(' ')}>{eyesImage}</div>
-      <img alt="Badger Logo" src={'assets/badger-transparent.png'} className={classes.boostImage} />
+      <img
+        alt="Badger Logo"
+        src={'assets/badger-transparent.png'}
+        className={classes.boostImage}
+        width="144"
+        height="161"
+      />
       <div className={[classes.boostEye, classes.boostRight, animatedClasses.eyes].join(' ')}>{eyesImage}</div>
     </Box>
   );

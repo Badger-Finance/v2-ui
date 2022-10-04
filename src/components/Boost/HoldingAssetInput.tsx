@@ -105,12 +105,24 @@ export const HoldingAssetInput = ({
         ...InputProps,
         startAdornment: (
           <Button className={buttonClasses.actionButton} onClick={onReduction}>
-            <img className={buttonClasses.actionImage} src="/assets/icons/boost-down.svg" alt={decreaseAlt} />
+            <img
+              width="12"
+              height="7"
+              className={buttonClasses.actionImage}
+              src="/assets/icons/boost-down.svg"
+              alt={decreaseAlt}
+            />
           </Button>
         ),
         endAdornment: (
           <Button className={buttonClasses.actionButton} onClick={onIncrement}>
-            <img className={buttonClasses.actionImage} src="/assets/icons/boost-up.svg" alt={increaseAlt} />
+            <img
+              width="12"
+              height="7"
+              className={buttonClasses.actionImage}
+              src="/assets/icons/boost-up.svg"
+              alt={increaseAlt}
+            />
           </Button>
         ),
         classes: inputClasses,

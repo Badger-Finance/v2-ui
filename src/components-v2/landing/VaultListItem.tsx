@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
         padding: 2,
       },
     },
+    '& img': {
+      width: 'fit-content',
+    },
   },
   vaultName: {
     fontSize: 16,

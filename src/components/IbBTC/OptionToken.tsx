@@ -26,7 +26,7 @@ export const OptionToken = ({ token }: TokenProps): JSX.Element => {
   const classes = useStyles();
   return (
     <div className={classes.tokenContainer} aria-label={symbol}>
-      <TokenLogo token={token} className={classes.tokenIcon} />
+      <TokenLogo token={token} className={classes.tokenIcon} width="24" height="24" />
       <Typography variant="body1" component="div">
         {symbol}
       </Typography>

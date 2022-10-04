@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   aprDisplay: {
     justifyContent: 'flex-end',
+    alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'flex-start',
     },
@@ -106,7 +107,7 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
   const aprDisplay = isNewVault ? (
     <>
-      <img src={'assets/icons/new-vault.svg'} alt="New Vault" /> New Vault
+      <img src={'assets/icons/new-vault.svg'} alt="New Vault" width="12" height="12" /> New Vault
     </>
   ) : !useHistoricAPY ? (
     `${numberWithCommas(projectedVaultBoost.toFixed(2))}%`
@@ -126,13 +127,13 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
         <Typography variant={isNewVault ? 'subtitle1' : 'body1'} color={'textPrimary'} display="inline">
           {aprDisplay}
         </Typography>
-        <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
+        <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" width="12" height="24" />
       </Box>
       {yieldSourcesAprTotal > 0 && (
         <Box className={classes.yieldBearingRewards}>
           <Link color="primary" onClick={handleYieldBearingRewardsClick}>
-            <img width="9" src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" /> Yield-Bearing
-            Rewards:
+            <img width="9" height="15" src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" />{' '}
+            Yield-Bearing Rewards:
           </Link>
           <Typography onClick={handleApyInfoClick} variant="inherit">
             Rewards earn up to {yieldSourcesAprTotal.toFixed(2)}%

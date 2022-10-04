@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
       height: '100%',
       '& img': {
         maxWidth: 24,
+        maxHeight: 24,
       },
       '& .token-name': {
         paddingLeft: 5,

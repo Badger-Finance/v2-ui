@@ -61,12 +61,16 @@ exports[`Holdings displays holdings with balance 1`] = `
                   <img
                     alt="BBTC logo"
                     class="makeStyles-position-202"
+                    height="32"
                     src="/assets/icons/bbtc.svg"
+                    width="32"
                   />
                   <img
                     alt="crvRenWSBTC logo"
                     class="makeStyles-position-203"
+                    height="32"
                     src="/assets/icons/crvrenwsbtc.svg"
+                    width="32"
                   />
                 </div>
               </div>
@@ -152,12 +156,16 @@ exports[`Holdings displays holdings with no balance 1`] = `
                   <img
                     alt="BBTC logo"
                     class="makeStyles-position-202"
+                    height="32"
                     src="/assets/icons/bbtc.svg"
+                    width="32"
                   />
                   <img
                     alt="crvRenWSBTC logo"
                     class="makeStyles-position-203"
+                    height="32"
                     src="/assets/icons/crvrenwsbtc.svg"
+                    width="32"
                   />
                 </div>
               </div>

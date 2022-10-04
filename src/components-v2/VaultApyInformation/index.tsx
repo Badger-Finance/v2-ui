@@ -239,7 +239,7 @@ const VaultApyInformation = ({
               <Box display="flex" justifyContent="flex-end" alignItems="center">
                 {isNewVault && (
                   <>
-                    <img width="12" src="assets/icons/new-vault.svg" alt="New Vault" />
+                    <img width="12" height="12" src="assets/icons/new-vault.svg" alt="New Vault" />
                     <Typography component="span">New Vault</Typography>
                   </>
                 )}
