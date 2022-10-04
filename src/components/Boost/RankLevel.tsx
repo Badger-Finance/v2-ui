@@ -64,6 +64,7 @@ export const RankLevel = ({ name, signatureColor, obtained = false, hasBeenReach
         <BadgerBoostImage
           className={clsx(classes.softBorder, obtained && classes.obtained)}
           signatureColor={signatureColor}
+          imageProps={{ width: '28', height: '31.4' }}
         />
       </div>
       <div className={classes.badgerLevelInfoContainer}>

@@ -88,7 +88,10 @@ export const StakeInformationHeader = ({
     <Grid container>
       <Grid container alignItems="center">
         <div className={classes.currentLevelImgContainer}>
-          <BadgerBoostImage signatureColor={currentRank.signatureColor} />
+          <BadgerBoostImage
+            signatureColor={currentRank.signatureColor}
+            imageProps={{ width: '16.6', height: '18.8' }}
+          />
         </div>
         <Typography display="inline" className={classes.rankName}>
           {currentRank.name}

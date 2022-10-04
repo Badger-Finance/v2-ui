@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   aprDisplay: {
     justifyContent: 'flex-end',
+    alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'flex-start',
     },
@@ -111,7 +112,13 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
             <Typography variant={'body1'} color={'textPrimary'} display="inline">
               {aprDisplay}
             </Typography>
-            <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
+            <img
+              src="/assets/icons/apy-info.svg"
+              className={classes.apyInfo}
+              alt="apy info icon"
+              width="12"
+              height="24"
+            />
           </Box>
         </Grid>
       </Grid>

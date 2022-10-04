@@ -31,7 +31,9 @@ exports[`VaultMetrics displays withdrawable tokens 1`] = `
           <img
             alt="apy info icon"
             class="makeStyles-apyInfo-11"
+            height="24"
             src="/assets/icons/apy-info.svg"
+            width="12"
           />
         </div>
       </div>
@@ -127,7 +129,9 @@ exports[`VaultMetrics renders correctly 1`] = `
           <img
             alt="apy info icon"
             class="makeStyles-apyInfo-11"
+            height="24"
             src="/assets/icons/apy-info.svg"
+            width="12"
           />
         </div>
       </div>

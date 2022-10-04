@@ -96,12 +96,16 @@ exports[`Vault Deposit can go back from full fees descriptions 1`] = `
                     <img
                       alt="BBTC logo"
                       class="makeStyles-position-382"
+                      height="32"
                       src="/assets/icons/bbtc.svg"
+                      width="32"
                     />
                     <img
                       alt="crvRenWSBTC logo"
                       class="makeStyles-position-383"
+                      height="32"
                       src="/assets/icons/crvrenwsbtc.svg"
+                      width="32"
                     />
                   </div>
                   <p
@@ -537,12 +541,16 @@ exports[`Vault Deposit displays sett information 1`] = `
                     <img
                       alt="BBTC logo"
                       class="makeStyles-position-212"
+                      height="32"
                       src="/assets/icons/bbtc.svg"
+                      width="32"
                     />
                     <img
                       alt="crvRenWSBTC logo"
                       class="makeStyles-position-213"
+                      height="32"
                       src="/assets/icons/crvrenwsbtc.svg"
+                      width="32"
                     />
                   </div>
                   <p

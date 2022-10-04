@@ -333,7 +333,9 @@ exports[`Navbar Renders correctly 1`] = `
                       <img
                         alt="selected network icon"
                         class="makeStyles-selectedNetworkIcon-255"
+                        height="17"
                         src="/assets/icons/ethereum-network.svg"
+                        width="17"
                       />
                     </span>
                     <span
@@ -393,7 +395,9 @@ exports[`Navbar Renders mobile version correctly 1`] = `
             >
               <img
                 alt="open menu"
+                height="19"
                 src="/assets/icons/mobile-drawer-icon.svg"
+                width="22"
               />
             </span>
             <span
@@ -425,7 +429,9 @@ exports[`Navbar Renders mobile version correctly 1`] = `
                   <img
                     alt="selected network icon"
                     class="makeStyles-selectedNetworkIcon-255"
+                    height="17"
                     src="/assets/icons/ethereum-network.svg"
+                    width="17"
                   />
                 </span>
                 <span
@@ -653,7 +659,9 @@ exports[`Navbar Renders tablet version correctly 1`] = `
             >
               <img
                 alt="open menu"
+                height="19"
                 src="/assets/icons/mobile-drawer-icon.svg"
+                width="22"
               />
             </span>
             <span
@@ -685,7 +693,9 @@ exports[`Navbar Renders tablet version correctly 1`] = `
                   <img
                     alt="selected network icon"
                     class="makeStyles-selectedNetworkIcon-255"
+                    height="17"
                     src="/assets/icons/ethereum-network.svg"
+                    width="17"
                   />
                 </span>
                 <span

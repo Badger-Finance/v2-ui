@@ -14,7 +14,16 @@ const TokenLogo = ({ token, ...imageProps }: Props): JSX.Element => {
     currentTarget.src = '/assets/icons/token-logo-fallback.svg';
     currentTarget.onerror = null;
   };
-  return <img {...imageProps} src={getTokenIconPath(token)} onError={handleError} alt={`${token.symbol} logo`} />;
+  return (
+    <img
+      width="32"
+      height="32"
+      {...imageProps}
+      src={getTokenIconPath(token)}
+      onError={handleError}
+      alt={`${token.symbol} logo`}
+    />
+  );
 };
 
 export default TokenLogo;

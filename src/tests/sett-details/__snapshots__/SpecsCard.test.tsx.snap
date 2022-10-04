@@ -37,7 +37,9 @@ exports[`Specs Section displays sett information 1`] = `
               <img
                 alt="apy info icon"
                 class="makeStyles-apyInfo-146"
+                height="24"
                 src="/assets/icons/apy-info.svg"
+                width="12"
               />
             </div>
           </div>
@@ -112,7 +114,9 @@ exports[`Specs Section displays sett information 1`] = `
               <img
                 alt="BBTC logo"
                 class="makeStyles-tokenImage-231"
+                height="32"
                 src="/assets/icons/bbtc.svg"
+                width="32"
               />
               <p
                 class="MuiTypography-root-148 makeStyles-specName-228 makeStyles-tokenName-230 MuiTypography-body1-150 MuiTypography-colorTextSecondary-174 MuiTypography-displayInline-176"
@@ -135,7 +139,9 @@ exports[`Specs Section displays sett information 1`] = `
               <img
                 alt="crvRenWSBTC logo"
                 class="makeStyles-tokenImage-231"
+                height="32"
                 src="/assets/icons/crvrenwsbtc.svg"
+                width="32"
               />
               <p
                 class="MuiTypography-root-148 makeStyles-specName-228 makeStyles-tokenName-230 MuiTypography-body1-150 MuiTypography-colorTextSecondary-174 MuiTypography-displayInline-176"

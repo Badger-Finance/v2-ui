@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   video: {
     display: 'flex',
-    background: '#CCCCCC',
+    background: '#121212',
     width: '100%',
     height: 320,
   },

@@ -44,6 +44,8 @@ const NetworkGasWidget = (): JSX.Element => {
             className={classes.selectedNetworkIcon}
             src={getNetworkIconPath(networkStore.network)}
             alt="selected network icon"
+            width="17"
+            height="17"
           />
         </Button>
         <Popper

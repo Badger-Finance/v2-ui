@@ -80,7 +80,9 @@ exports[`ibBTC Mint can apply max balance 1`] = `
                 <img
                   alt="bcrvRenWBTC logo"
                   class="makeStyles-tokenIcon-220"
+                  height="24"
                   src="/assets/icons/bcrvrenwbtc.svg"
+                  width="24"
                 />
                 <div
                   class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -186,7 +188,9 @@ exports[`ibBTC Mint can apply max balance 1`] = `
           <img
             alt="ibBTC logo"
             class="makeStyles-tokenIcon-220"
+            height="24"
             src="/assets/icons/ibbtc.svg"
+            width="24"
           />
           <div
             class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -384,7 +388,9 @@ exports[`ibBTC Mint can change token 1`] = `
                 <img
                   alt="renBTC logo"
                   class="makeStyles-tokenIcon-220"
+                  height="24"
                   src="/assets/icons/renbtc.svg"
+                  width="24"
                 />
                 <div
                   class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -647,7 +653,9 @@ exports[`ibBTC Mint can change token 1`] = `
           <img
             alt="ibBTC logo"
             class="makeStyles-tokenIcon-220"
+            height="24"
             src="/assets/icons/ibbtc.svg"
+            width="24"
           />
           <div
             class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -845,7 +853,9 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
                 <img
                   alt="bcrvRenWBTC logo"
                   class="makeStyles-tokenIcon-220"
+                  height="24"
                   src="/assets/icons/bcrvrenwbtc.svg"
+                  width="24"
                 />
                 <div
                   class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -951,7 +961,9 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           <img
             alt="ibBTC logo"
             class="makeStyles-tokenIcon-220"
+            height="24"
             src="/assets/icons/ibbtc.svg"
+            width="24"
           />
           <div
             class="MuiTypography-root-109 MuiTypography-body1-111"

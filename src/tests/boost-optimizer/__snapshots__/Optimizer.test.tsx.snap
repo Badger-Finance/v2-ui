@@ -99,7 +99,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="decrease native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-down.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -126,7 +128,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="increase native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-up.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -223,13 +227,17 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                   <img
                     alt="Badger Eyes"
                     class="makeStyles-boostEyeStar-299"
+                    height="6"
                     src="assets/badger-eyes.png"
+                    width="6"
                   />
                 </div>
                 <img
                   alt="Badger Logo"
                   class="makeStyles-boostImage-295"
+                  height="161"
                   src="assets/badger-transparent.png"
+                  width="144"
                 />
                 <div
                   class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-409"
@@ -237,7 +245,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                   <img
                     alt="Badger Eyes"
                     class="makeStyles-boostEyeStar-299"
+                    height="6"
                     src="assets/badger-eyes.png"
+                    width="6"
                   />
                 </div>
               </div>
@@ -270,7 +280,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="decrease non native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-down.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -297,7 +309,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="increase non native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-up.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -347,7 +361,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                 <img
                   alt="Badger Logo"
                   class="makeStyles-boostImage-415"
+                  height="18.8"
                   src="assets/badger-transparent.png"
+                  width="16.6"
                 />
               </div>
             </div>
@@ -460,7 +476,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-419"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -523,7 +541,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-423"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -595,7 +615,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-427"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -658,7 +680,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-431"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -721,7 +745,9 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-435"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -848,7 +874,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="decrease native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-down.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -875,7 +903,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="increase native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-up.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -958,13 +988,17 @@ exports[`Boost Optimizer displays correct information 1`] = `
                   <img
                     alt="Badger Eyes"
                     class="makeStyles-boostEyeStar-299"
+                    height="6"
                     src="assets/badger-eyes.png"
+                    width="6"
                   />
                 </div>
                 <img
                   alt="Badger Logo"
                   class="makeStyles-boostImage-295"
+                  height="161"
                   src="assets/badger-transparent.png"
+                  width="144"
                 />
                 <div
                   class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-379"
@@ -972,7 +1006,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                   <img
                     alt="Badger Eyes"
                     class="makeStyles-boostEyeStar-299"
+                    height="6"
                     src="assets/badger-eyes.png"
+                    width="6"
                   />
                 </div>
               </div>
@@ -1005,7 +1041,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="decrease non native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-down.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -1032,7 +1070,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="increase non native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-up.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -1082,7 +1122,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                 <img
                   alt="Badger Logo"
                   class="makeStyles-boostImage-385"
+                  height="18.8"
                   src="assets/badger-transparent.png"
+                  width="16.6"
                 />
               </div>
             </div>
@@ -1195,7 +1237,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-389"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -1259,7 +1303,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-393"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -1322,7 +1368,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-397"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -1385,7 +1433,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-401"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -1448,7 +1498,9 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-405"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -1575,7 +1627,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="decrease native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-down.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -1602,7 +1656,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="increase native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-up.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -1663,13 +1719,17 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                   <img
                     alt="Badger Eyes"
                     class="makeStyles-boostEyeStar-299"
+                    height="6"
                     src="assets/badger-eyes.png"
+                    width="6"
                   />
                 </div>
                 <img
                   alt="Badger Logo"
                   class="makeStyles-boostImage-295"
+                  height="161"
                   src="assets/badger-transparent.png"
+                  width="144"
                 />
                 <div
                   class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-301"
@@ -1677,7 +1737,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                   <img
                     alt="Badger Eyes"
                     class="makeStyles-boostEyeStar-299"
+                    height="6"
                     src="assets/badger-eyes.png"
+                    width="6"
                   />
                 </div>
               </div>
@@ -1710,7 +1772,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="decrease non native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-down.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -1737,7 +1801,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="increase non native holdings"
                           class="makeStyles-actionImage-250"
+                          height="7"
                           src="/assets/icons/boost-up.svg"
+                          width="12"
                         />
                       </span>
                       <span
@@ -1796,7 +1862,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                 <img
                   alt="Badger Logo"
                   class="makeStyles-boostImage-330"
+                  height="18.8"
                   src="assets/badger-transparent.png"
+                  width="16.6"
                 />
               </div>
             </div>
@@ -1909,7 +1977,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-349"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -1973,7 +2043,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-353"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -2037,7 +2109,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-357"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -2101,7 +2175,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-361"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>
@@ -2164,7 +2240,9 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                         <img
                           alt="Badger Logo"
                           class="makeStyles-boostImage-365"
+                          height="31.4"
                           src="assets/badger-transparent.png"
+                          width="28"
                         />
                       </div>
                     </div>

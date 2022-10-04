@@ -16,7 +16,9 @@ exports[`NetworkGasWidget displays network options 1`] = `
           <img
             alt="selected network icon"
             class="makeStyles-selectedNetworkIcon-2"
+            height="17"
             src="/assets/icons/ethereum-network.svg"
+            width="17"
           />
         </span>
         <span
