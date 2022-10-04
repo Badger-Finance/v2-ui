@@ -118,6 +118,7 @@ class InfluenceVaultStore {
             type: YieldType.Emission,
             value,
             tx: '',
+            duration,
           };
         });
 
