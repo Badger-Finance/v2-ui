@@ -22,6 +22,7 @@ export interface InfluenceVaultConfig {
   vaultToken: string;
   roundStart: number;
   enableChart: boolean;
+  includeHarvests: boolean;
   sources: string[];
   scheduleRoundCutoff: number;
   chartInitialSlice: number;

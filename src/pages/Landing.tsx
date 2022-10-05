@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import VaultListTitle from 'components-v2/landing/VaultListTitle';
-import { FLAGS } from 'config/environment';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -18,7 +17,7 @@ const Landing = observer(() => {
   const classes = useStyles();
   return (
     <LayoutContainer className={classes.root}>
-      {FLAGS.APY_EVOLUTION && <VaultListTitle />}
+      <VaultListTitle />
       <VaultsSearchControls />
       <VaultListDisplay />
     </LayoutContainer>

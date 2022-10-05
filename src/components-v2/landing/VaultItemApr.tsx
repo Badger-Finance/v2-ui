@@ -4,7 +4,6 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { isInfluenceVault } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import YieldBearingRewards from 'components-v2/YieldBearingVaults/YieldBearingRewards';
 import { getYieldBearingVaultBySourceName } from 'components-v2/YieldBearingVaults/YieldBearingVaultUtil';
-import { FLAGS } from 'config/environment';
 import { useVaultInformation } from 'hooks/useVaultInformation';
 import { StoreContext } from 'mobx/stores/store-context';
 import { numberWithCommas } from 'mobx/utils/helpers';
@@ -25,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   aprDisplay: {
     justifyContent: 'flex-end',
+    alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'flex-start',
     },
@@ -107,9 +107,9 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
   const isNewVault = vault.state === VaultState.Experimental || vault.state === VaultState.Guarded;
   const aprDisplay = isNewVault ? (
     <>
-      <img src={'assets/icons/new-vault.svg'} alt="New Vault" /> New Vault
+      <img src={'assets/icons/new-vault.svg'} alt="New Vault" width="12" height="12" /> New Vault
     </>
-  ) : FLAGS.APY_EVOLUTION && !useHistoricAPY ? (
+  ) : !useHistoricAPY ? (
     `${numberWithCommas(projectedVaultBoost.toFixed(2))}%`
   ) : (
     `${numberWithCommas(vaultBoost.toFixed(2))}%`
@@ -118,7 +118,7 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
   return (
     <Box
       display="flex"
-      alignItems={FLAGS.APY_EVOLUTION ? 'flex-end' : 'flex-start'}
+      alignItems="flex-end"
       flexDirection="column"
       className={classes.root}
       onClick={(e) => e.stopPropagation()}
@@ -127,23 +127,16 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
         <Typography variant={isNewVault ? 'subtitle1' : 'body1'} color={'textPrimary'} display="inline">
           {aprDisplay}
         </Typography>
-        <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" />
+        <img src="/assets/icons/apy-info.svg" className={classes.apyInfo} alt="apy info icon" width="12" height="24" />
       </Box>
-      {FLAGS.APY_EVOLUTION && yieldSourcesAprTotal > 0 && (
+      {yieldSourcesAprTotal > 0 && (
         <Box className={classes.yieldBearingRewards}>
           <Link color="primary" onClick={handleYieldBearingRewardsClick}>
-            <img width="9" src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" /> Yield-Bearing
-            Rewards:
+            <img width="9" height="15" src="assets/icons/yield-bearing-rewards.svg" alt="Yield-Bearing Rewards" />{' '}
+            Yield-Bearing Rewards:
           </Link>
           <Typography onClick={handleApyInfoClick} variant="inherit">
             Rewards earn up to {yieldSourcesAprTotal.toFixed(2)}%
-          </Typography>
-        </Box>
-      )}
-      {!FLAGS.APY_EVOLUTION && !isInfluence && projectedVaultBoost !== null && (
-        <Box display="flex" onClick={handleApyInfoClick}>
-          <Typography className={classes.projectedApr}>
-            Current: {`${numberWithCommas(projectedVaultBoost.toFixed(2))}%`}
           </Typography>
         </Box>
       )}
@@ -153,6 +146,7 @@ const VaultItemApr = ({ vault }: Props): JSX.Element => {
         boost={vaultBoost}
         projectedBoost={projectedVaultBoost}
         onClose={handleClose}
+        removeGoToVaultButton={false}
       />
       <YieldBearingRewards
         open={openYieldBearingRewardsModal}

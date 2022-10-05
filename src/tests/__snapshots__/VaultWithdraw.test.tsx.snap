@@ -96,12 +96,16 @@ exports[`Vault Withdraw displays sett information 1`] = `
                     <img
                       alt="BBTC logo"
                       class="makeStyles-position-214"
+                      height="32"
                       src="/assets/icons/bbtc.svg"
+                      width="32"
                     />
                     <img
                       alt="crvRenWSBTC logo"
                       class="makeStyles-position-215"
+                      height="32"
                       src="/assets/icons/crvrenwsbtc.svg"
+                      width="32"
                     />
                   </div>
                   <p
@@ -272,12 +276,16 @@ exports[`Vault Withdraw displays sett information 1`] = `
                     <img
                       alt="BBTC logo"
                       class="makeStyles-position-320"
+                      height="32"
                       src="/assets/icons/bbtc.svg"
+                      width="32"
                     />
                     <img
                       alt="crvRenWSBTC logo"
                       class="makeStyles-position-321"
+                      height="32"
                       src="/assets/icons/crvrenwsbtc.svg"
+                      width="32"
                     />
                   </div>
                   <p

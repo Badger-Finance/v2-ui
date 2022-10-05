@@ -14,12 +14,16 @@ exports[`Description displays sett description 1`] = `
         <img
           alt="BBTC logo"
           class="makeStyles-position-111"
+          height="32"
           src="/assets/icons/bbtc.svg"
+          width="32"
         />
         <img
           alt="crvRenWSBTC logo"
           class="makeStyles-position-112"
+          height="32"
           src="/assets/icons/crvrenwsbtc.svg"
+          width="32"
         />
       </div>
     </div>

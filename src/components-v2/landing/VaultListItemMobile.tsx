@@ -21,6 +21,11 @@ const useStyles = makeStyles(() => ({
   name: {
     marginLeft: 8,
   },
+  logoContainer: {
+    '& img': {
+      width: 'fit-content',
+    },
+  },
 }));
 
 interface Props {
@@ -48,7 +53,7 @@ const VaultListItemMobile = ({ vault }: Props): JSX.Element => {
 
   return (
     <Grid container direction="column" component={Card} onClick={goToVaultDetail} className={classes.root}>
-      <Grid item container>
+      <Grid item container className={classes.logoContainer}>
         <VaultLogo tokens={vault.tokens} />
         <Typography variant="subtitle1" display="inline" className={classes.name}>
           {vault.name}
