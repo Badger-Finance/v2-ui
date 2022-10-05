@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const NotFound = (): JSX.Element => {
+const NotFound = (): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -24,3 +24,4 @@ export const NotFound = (): JSX.Element => {
     </div>
   );
 };
+export default NotFound;

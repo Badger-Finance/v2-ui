@@ -1,5 +1,6 @@
 import { VaultDTOV3 } from '@badger-dao/sdk';
 import { Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import MissingValueSkeleton from 'components-v2/common/MissingValueSkeleton';
 import { YieldValueSource } from 'components-v2/VaultApyInformation';
 import { MAX_BOOST_RANK } from 'config/system/boost-ranks';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -24,6 +25,9 @@ const useStyles = makeStyles({
   },
   link: {
     cursor: 'pointer',
+  },
+  skeleton: {
+    lineHeight: 'inherit',
   },
 });
 
@@ -56,12 +60,23 @@ const InfluenceVaultApyBreakdown = ({ vault, source }: Props): JSX.Element => {
         <Grid item container justifyContent="space-between">
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`🚀 Boosted BADGER Rewards (max: ${numberWithCommas(source.maxApr.toFixed(2))}%)`}
+              🚀 Boosted BADGER Rewards (max: $
+              {source.maxApr ? (
+                numberWithCommas(source.maxApr.toFixed(2))
+              ) : (
+                <MissingValueSkeleton className={classes.skeleton} />
+              )}
+              %)
             </Typography>
           </Grid>
           <Grid item>
             <Typography variant="body2" display="inline" color="textSecondary">
-              {`${numberWithCommas(sourceApr.toFixed(2))}%`}
+              {sourceApr ? (
+                numberWithCommas(sourceApr.toFixed(2))
+              ) : (
+                <MissingValueSkeleton className={classes.skeleton} />
+              )}
+              %
             </Typography>
           </Grid>
         </Grid>
@@ -95,7 +110,7 @@ const InfluenceVaultApyBreakdown = ({ vault, source }: Props): JSX.Element => {
       </Grid>
       <Grid item>
         <Typography variant="body2" display="inline" color="textSecondary">
-          {`${numberWithCommas(sourceApr.toFixed(2))}%`}
+          {sourceApr ? numberWithCommas(sourceApr.toFixed(2)) : <MissingValueSkeleton className={classes.skeleton} />}%
         </Typography>
       </Grid>
     </Grid>

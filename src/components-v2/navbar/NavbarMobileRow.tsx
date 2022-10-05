@@ -31,7 +31,7 @@ export const NavbarMobileRow = observer((): JSX.Element => {
     <Grid container justifyContent="space-between">
       <Grid item xs container alignItems="center">
         <IconButton className={classes.menuIcon} onClick={() => uiState.openSidebar()}>
-          <img src="/assets/icons/mobile-drawer-icon.svg" alt="open menu" />
+          <img src="/assets/icons/mobile-drawer-icon.svg" alt="open menu" width="22" height="19" />
         </IconButton>
         <img className={classes.badgerIcon} alt="Badger Logo" src="/assets/icons/badger_head.svg" />
       </Grid>

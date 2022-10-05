@@ -16,7 +16,9 @@ exports[`VaultItemApr Boosted Vaults displays correct APR and boost information 
       <img
         alt="apy info icon"
         class="makeStyles-apyInfo-3"
+        height="24"
         src="/assets/icons/apy-info.svg"
+        width="12"
       />
     </div>
   </div>
@@ -39,7 +41,9 @@ exports[`VaultItemApr No APR Vaults renders zero APR 1`] = `
       <img
         alt="apy info icon"
         class="makeStyles-apyInfo-3"
+        height="24"
         src="/assets/icons/apy-info.svg"
+        width="12"
       />
     </div>
   </div>

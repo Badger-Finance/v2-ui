@@ -1,17 +1,13 @@
-import { ChartTimeFrame, EmissionSchedule, formatBalance, ONE_DAY_MS, VaultDTOV3 } from '@badger-dao/sdk';
+import { ChartTimeFrame, ONE_DAY_SECONDS, ONE_YEAR_MS, VaultDTOV3, YieldEvent, YieldType } from '@badger-dao/sdk';
 import { getInfluenceVaultConfig } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
-import { ethers } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { extendObservable } from 'mobx';
 import { EmissionRoundToken, GraphObject, InfluenceVaultEmissionRound } from 'mobx/model/charts/influence-vaults-graph';
-import { InfluenceVaultData } from 'mobx/model/vaults/influence-vault-data';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { InfluenceVaultConfig, InfluenceVaultData } from 'mobx/model/vaults/influence-vault-data';
 
 import { CurveFactoryPool__factory } from '../../contracts';
 import { RootStore } from './RootStore';
-
-function isOverlapping(original: EmissionSchedule, other: EmissionSchedule): boolean {
-  return original.token === other.token && Math.abs(original.start - other.start) > 14 * (ONE_DAY_MS / 1000);
-}
 
 class InfluenceVaultStore {
   private readonly store: RootStore;
@@ -68,38 +64,6 @@ class InfluenceVaultStore {
     }
   }
 
-  private async getHarvestConvertedSchedules(vault: VaultDTOV3): Promise<EmissionSchedule[]> {
-    const { settHarvests } = await this.store.sdk.graph.loadSettHarvests({
-      where: {
-        sett: vault.vaultToken.toLowerCase(),
-      },
-    });
-    return settHarvests.map((e) => ({
-      token: vault.vaultToken,
-      amount: formatBalance(e.amount),
-      start: e.timestamp,
-      end: e.timestamp,
-      beneficiary: vault.vaultToken,
-      compPercent: 100,
-    }));
-  }
-
-  private async getDistributionConvertedSchedules(vault: VaultDTOV3): Promise<EmissionSchedule[]> {
-    const { badgerTreeDistributions } = await this.store.sdk.graph.loadBadgerTreeDistributions({
-      where: {
-        sett: vault.vaultToken.toLowerCase(),
-      },
-    });
-    return badgerTreeDistributions.map((e) => ({
-      token: ethers.utils.getAddress(e.token.id.startsWith('0x0x') ? e.token.id.slice(2) : e.token.id),
-      amount: formatBalance(e.amount),
-      start: e.timestamp,
-      end: e.timestamp,
-      beneficiary: vault.vaultToken,
-      compPercent: 100,
-    }));
-  }
-
   async loadEmissionsSchedules(vault: VaultDTOV3) {
     const config = getInfluenceVaultConfig(vault.vaultToken);
 
@@ -108,24 +72,61 @@ class InfluenceVaultStore {
     }
 
     try {
-      const { sources, roundStart } = config;
+      const { roundStart } = config;
+      const { api } = this.store;
       this.influenceVaults[vault.vaultToken].processingEmissions = true;
 
-      const treeSchedules = await this.store.sdk.api.loadSchedule(vault.vaultToken, false);
-      const distributionConvertedSchedules = await this.getDistributionConvertedSchedules(vault);
-      const harvestConvertedSchedules = await this.getHarvestConvertedSchedules(vault);
+      // TODO: if we do not even bother showing rounds with emissions, should we include this?
+      const emissionSchedules = await api.loadSchedule(vault.address, false);
+      const yieldSchedules = emissionSchedules
+        .filter((s) => s.start > roundStart)
+        .map((s) => ({
+          ...s,
+          start: s.start * 1000,
+          end: s.end * 1000,
+        }))
+        .filter((e) => e.start > 0);
+      const timestamps = Array.from(new Set(yieldSchedules.map((e) => e.start)));
+      const emissionTokens = Array.from(new Set(yieldSchedules.map((e) => e.token)));
+      const [tokenPriceSnapshots, vaultSnapshots] = await Promise.all([
+        this.store.sdk.api.loadPricesSnapshots(emissionTokens, timestamps),
+        this.store.sdk.api.loadVaultSnapshots(vault.vaultToken, timestamps),
+      ]);
 
-      const harvestData = vault.apy.sources.some((s) => s.name.includes('Compounding'))
-        ? harvestConvertedSchedules
-        : [];
+      const vaultSnapshotsByTimestamp = Object.fromEntries(vaultSnapshots.map((s) => [s.timestamp, s]));
 
-      this.influenceVaults[vault.vaultToken].emissionsSchedules = await this.bucketSchedules(
-        treeSchedules.concat(distributionConvertedSchedules).concat(harvestData),
-        vault,
-        sources,
-        roundStart,
-        config.scheduleRoundCutoff,
-      );
+      // TODO: make this way fuckin easier, we could provide this with historic schedule data
+      const emissionYieldEvents: YieldEvent[] = yieldSchedules
+        .filter(({ start }) => vaultSnapshotsByTimestamp[start] !== undefined)
+        .map(({ start, end, amount, token }) => {
+          const { balance, value } = vaultSnapshotsByTimestamp[start];
+          const price = tokenPriceSnapshots[token][start];
+          const earned = amount * price;
+          const duration = end - start;
+          const apr = ((earned * (ONE_YEAR_MS / duration)) / value) * 100;
+          const grossApr = apr;
+          return {
+            amount,
+            apr,
+            grossApr,
+            balance,
+            block: 0,
+            earned,
+            timestamp: start,
+            token,
+            // hmm, maybe we should add amother yield type... this is like SourceType anyway
+            type: YieldType.Emission,
+            value,
+            tx: '',
+            duration,
+          };
+        });
+
+      const yieldEvents = await api.loadVaultHarvestsV3(vault.address);
+      const totalYieldEvents = yieldEvents.concat(emissionYieldEvents).filter((e) => e.timestamp >= roundStart * 1000);
+      const bucketedEvents = await this.#bucketYieldEvents(totalYieldEvents, vault, config);
+
+      this.influenceVaults[vault.vaultToken].emissionsSchedules = bucketedEvents;
     } catch (error) {
       console.error(error);
     } finally {
@@ -151,101 +152,118 @@ class InfluenceVaultStore {
     this.influenceVaults[vault.vaultToken].swapPercentage = `${(percentage * 100).toFixed(2)}%`;
   }
 
-  private async bucketSchedules(
-    schedules: EmissionSchedule[],
+  async #bucketYieldEvents(
+    events: YieldEvent[],
     vault: VaultDTOV3,
-    sourceTokens: string[],
-    roundStart: number,
-    scheduleRoundCutoff: number,
+    config: InfluenceVaultConfig,
   ): Promise<InfluenceVaultEmissionRound[]> {
-    const schedulesByRound: Record<number, EmissionSchedule[]> = {};
-    for (const schedule of schedules) {
-      let round = Math.ceil((schedule.start - roundStart) / (14 * (ONE_DAY_MS / 1000)));
+    const { roundStart, scheduleRoundCutoff, includeHarvests } = config;
+    const eventsByRound: Record<number, YieldEvent[]> = {};
+
+    for (const event of events) {
+      // vaults such as bveCVX emit harvest events - they are not to be used!
+      if (!includeHarvests && event.type === YieldType.Harvest) {
+        continue;
+      }
+
+      const timeDifference = event.timestamp / 1000 - roundStart;
+      let round = Math.ceil(timeDifference / (14 * ONE_DAY_SECONDS));
 
       // we have some weird schedules that are bad entries
       if (round < scheduleRoundCutoff) {
         continue;
       }
 
-      if (!schedulesByRound[round]) {
-        schedulesByRound[round] = [];
+      if (!eventsByRound[round]) {
+        eventsByRound[round] = [];
       }
 
-      let maybeOverlap = schedulesByRound[round].find((e) => isOverlapping(e, schedule));
-
-      while (maybeOverlap) {
-        round += 1;
-
-        if (!schedulesByRound[round]) {
-          schedulesByRound[round] = [];
+      // event matches the pattern for incentives allocations per round
+      if (
+        event.type === YieldType.TreeDistribution &&
+        (event.token === ETH_DEPLOY.token || event.token === vault.address)
+      ) {
+        let includedInRound = eventsByRound[round].some(
+          (e) => e.type === YieldType.TreeDistribution && e.token === event.token,
+        );
+        while (includedInRound) {
+          round--;
+          includedInRound = eventsByRound[round].some(
+            (e) => e.type === YieldType.TreeDistribution && e.token === event.token,
+          );
         }
-
-        maybeOverlap = schedulesByRound[round].find((e) => isOverlapping(e, schedule));
       }
 
-      schedulesByRound[round].push(schedule);
+      eventsByRound[round].push(event);
     }
 
-    const baseObjects = Object.entries(schedulesByRound).map((e) => {
-      const [round, schedules] = e;
+    const allTokens = Array.from(new Set(Object.values(eventsByRound).flatMap((e) => e.map((e) => e.token))));
 
-      const tokens: EmissionRoundToken[] = sourceTokens.map((token: string) => ({
-        symbol: this.store.vaults.getToken(token).symbol,
-        balance: 0,
-        value: 0,
-      }));
+    const baseObjects = Object.entries(eventsByRound).map((e) => {
+      const [round, events] = e;
+      const tokenMap: Record<string, EmissionRoundToken> = Object.fromEntries(
+        allTokens.map((t) => [
+          t,
+          {
+            symbol: this.store.vaults.getToken(t).symbol,
+            balance: 0,
+            value: 0,
+          },
+        ]),
+      );
 
       let start = Number.MAX_SAFE_INTEGER;
+      let vaultTokens = 0;
+      let vaultValue = 0;
 
-      for (const schedule of schedules) {
-        const token = ethers.utils.getAddress(schedule.token);
-        if (schedule.start < start) {
-          start = schedule.start;
+      for (const event of events) {
+        if (event.timestamp < start) {
+          start = event.timestamp;
         }
-        sourceTokens.forEach((sourceToken: string, index: number) => {
-          if (sourceToken === token) {
-            tokens[index].balance += schedule.amount;
-          }
-        });
+
+        if (!tokenMap[event.token]) {
+          tokenMap[event.token] = {
+            symbol: this.store.vaults.getToken(event.token).symbol,
+            balance: event.amount,
+            value: event.earned,
+          };
+        } else {
+          tokenMap[event.token].balance += event.amount;
+          tokenMap[event.token].value += event.earned;
+        }
+
+        vaultTokens += event.balance;
+        vaultValue += event.value;
       }
+
+      vaultTokens /= events.length;
+      vaultValue /= events.length;
 
       const graph: GraphObject = {};
 
-      // set up objects with initial unused params - they will be filled in later
+      // really consider revisiting this setup... it is very confusing
+      // nearly impossible to understand at this point
       return {
-        tokens: tokens,
+        tokens: Object.values(tokenMap),
         graph: graph,
-        vaultTokens: 0,
-        vaultValue: 0,
+        vaultTokens,
+        vaultValue,
 
         index: Number(round),
         start,
         divisorTokenSymbol: this.store.vaults.getToken(vault.vaultToken).symbol,
       };
     });
-    const timestamps = baseObjects.map((o) => o.start * 1000);
 
-    const [tokenPricesSnapshots, vaultSnapshots] = await Promise.all([
-      this.store.sdk.api.loadPricesSnapshots(sourceTokens, timestamps),
-      this.store.sdk.api.loadVaultSnapshots(vault.vaultToken, timestamps),
-    ]);
-
-    const vaultSnapshotsByTimestamp = Object.fromEntries(vaultSnapshots.map((s) => [s.timestamp, s]));
-    baseObjects
-      .filter((o) => vaultSnapshotsByTimestamp[o.start * 1000] !== undefined)
-      .forEach((o) => {
-        const timestamp = o.start * 1000;
-        const vaultSnapshot = vaultSnapshotsByTimestamp[timestamp];
-        o.vaultTokens = vaultSnapshot.balance;
-        o.vaultValue = vaultSnapshot.value;
-
-        const valuePerHundred = vaultSnapshot.balance / 100;
-        sourceTokens.forEach((sourceToken: string, index: number) => {
-          const value = (o.tokens[index].balance * tokenPricesSnapshots[sourceToken][timestamp]) / valuePerHundred;
-          o.tokens[index].value = value;
-          o.graph[`${index}`] = value;
-        });
+    baseObjects.forEach((o) => {
+      const valuePerHundred = o.vaultTokens / 100;
+      o.tokens.forEach((_t, index) => {
+        const value = o.tokens[index].value / valuePerHundred;
+        o.tokens[index].value = value;
+        o.graph[`${index}`] = value;
       });
+    });
+
     return baseObjects;
   }
 }

@@ -47,7 +47,9 @@ exports[`Token Distribution Icon displays sett token distribution information on
               <img
                 alt="renBTC logo"
                 class="makeStyles-tokenIconContainer-160"
+                height="32"
                 src="/assets/icons/renbtc.svg"
+                width="32"
               />
               <p
                 class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
@@ -70,7 +72,9 @@ exports[`Token Distribution Icon displays sett token distribution information on
               <img
                 alt="WBTC logo"
                 class="makeStyles-tokenIconContainer-160"
+                height="32"
                 src="/assets/icons/wbtc.svg"
+                width="32"
               />
               <p
                 class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
@@ -93,7 +97,9 @@ exports[`Token Distribution Icon displays sett token distribution information on
               <img
                 alt="sBTC logo"
                 class="makeStyles-tokenIconContainer-160"
+                height="32"
                 src="/assets/icons/sbtc.svg"
+                width="32"
               />
               <p
                 class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"

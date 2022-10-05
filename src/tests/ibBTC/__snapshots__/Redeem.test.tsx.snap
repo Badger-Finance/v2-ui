@@ -70,7 +70,9 @@ exports[`ibBTC Redeem Input Change displays output balance when redeem amount is
             <img
               alt="ibBTC logo"
               class="makeStyles-tokenIcon-194"
+              height="24"
               src="/assets/icons/ibbtc.svg"
+              width="24"
             />
             <div
               class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -144,7 +146,9 @@ exports[`ibBTC Redeem Input Change displays output balance when redeem amount is
               <img
                 alt="bcrvRenWBTC logo"
                 class="makeStyles-tokenIcon-194"
+                height="24"
                 src="/assets/icons/bcrvrenwbtc.svg"
+                width="24"
               />
               <div
                 class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -364,7 +368,9 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
             <img
               alt="ibBTC logo"
               class="makeStyles-tokenIcon-194"
+              height="24"
               src="/assets/icons/ibbtc.svg"
+              width="24"
             />
             <div
               class="MuiTypography-root-109 MuiTypography-body1-111"
@@ -438,7 +444,9 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
               <img
                 alt="bcrvRenWBTC logo"
                 class="makeStyles-tokenIcon-194"
+                height="24"
                 src="/assets/icons/bcrvrenwbtc.svg"
+                width="24"
               />
               <div
                 class="MuiTypography-root-109 MuiTypography-body1-111"

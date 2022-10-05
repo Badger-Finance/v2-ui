@@ -2,7 +2,7 @@ import { makeStyles, Tab, Tabs, useMediaQuery, useTheme } from '@material-ui/cor
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { QueryParams, Route } from 'mobx-router';
-import React, { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import { getNavbarConfig } from '../../config/navbar.config';
 import routes from '../../config/routes';
@@ -19,24 +19,12 @@ const useStyles = makeStyles({
   },
 });
 
-const getRootPath = (path: string) => '/' + path.split('/')[1];
-
-const routeTabMapping = new Map(
-  Object.entries({
-    [getRootPath(routes.home.path)]: 0,
-    [getRootPath(routes.vaultDetail.path)]: 0,
-    [getRootPath(routes.boostOptimizer.path)]: 1,
-    [getRootPath(routes.IbBTC.path)]: 2,
-  }),
-);
-
 export const NavbarTabs = observer((): JSX.Element => {
   const {
     router,
     vaults,
     chain: { network },
   } = useContext(StoreContext);
-  const [selectedTab, setSelectedTab] = useState(routeTabMapping.get(getRootPath(router.currentPath)) ?? 0);
   const classes = useStyles();
   const isMobile = useMediaQuery(useTheme().breakpoints.down('xs'));
   const config = getNavbarConfig(network);
@@ -53,22 +41,20 @@ export const NavbarTabs = observer((): JSX.Element => {
     router.goTo(route, {}, queryParams);
   };
 
-  // idk matieral ui is stupid
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setSelectedTab(newValue);
-  };
-
   return (
     <Tabs
       variant={isMobile ? 'fullWidth' : undefined}
       textColor="primary"
       indicatorColor="primary"
-      value={selectedTab}
-      onChange={handleChange}
+      value={router.currentRoute?.path}
       classes={{ indicator: classes.indicator }}
     >
-      <Tab classes={{ root: classes.tab }} label="VAULTS" onClick={() => goToTab(routes.home)} />
+      <Tab
+        classes={{ root: classes.tab }}
+        label="VAULTS"
+        onClick={() => goToTab(routes.home)}
+        value={routes.home.path === router.currentRoute?.path ? routes.home.path : routes.vaultDetail.path}
+      />
       {config.boost && (
         <Tab
           classes={{ root: classes.tab }}
@@ -77,7 +63,14 @@ export const NavbarTabs = observer((): JSX.Element => {
           onClick={() => goToTab(routes.boostOptimizer)}
         />
       )}
-      {config.ibBTC && <Tab classes={{ root: classes.tab }} label="IBBTC" onClick={() => goToTab(routes.IbBTC)} />}
+      {config.ibBTC && (
+        <Tab
+          classes={{ root: classes.tab }}
+          label="IBBTC"
+          onClick={() => goToTab(routes.IbBTC)}
+          value={routes.IbBTC.path}
+        />
+      )}
     </Tabs>
   );
 });
