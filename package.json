@@ -75,7 +75,8 @@
     "requirements-check": "node check-version.js",
     "postinstall": "yarn requirements-check",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": [
@@ -96,7 +97,8 @@
     ]
   },
   "devDependencies": {
-    "jest-fetch-mock": "^3.0.3"
+    "jest-fetch-mock": "^3.0.3",
+    "source-map-explorer": "^2.5.3"
   },
   "jest": {
     "transformIgnorePatterns": [
