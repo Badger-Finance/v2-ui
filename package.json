@@ -76,7 +76,7 @@
     "postinstall": "yarn requirements-check",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "yarn build && source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": [
