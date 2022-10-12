@@ -30,7 +30,13 @@ const NetworkGasWidget = (): JSX.Element => {
   } = useContext(StoreContext);
   const ref = useRef<HTMLButtonElement | null>(null);
   return (
-    <ClickAwayListener onClickAway={closeNetworkOptions}>
+    <ClickAwayListener
+      onClickAway={(e: any) => {
+        if (e.target?.textContent?.toLowerCase() !== 'switch networks') {
+          closeNetworkOptions();
+        }
+      }}
+    >
       <div>
         <Button
           ref={ref}

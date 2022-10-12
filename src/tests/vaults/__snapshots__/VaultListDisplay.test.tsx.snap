@@ -209,10 +209,10 @@ exports[`VaultListDisplay displays empty search message 1`] = `
 exports[`VaultListDisplay displays no vaults message 1`] = `
 <div>
   <div
-    class="MuiGrid-root-8 makeStyles-messageContainer-2 MuiGrid-container-9 MuiGrid-direction-xs-column-12"
+    class="MuiGrid-root-9 makeStyles-messageContainer-2 MuiGrid-container-10 MuiGrid-direction-xs-column-13"
   >
     <div
-      class="MuiGrid-root-8 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-justify-content-xs-center-26"
+      class="MuiGrid-root-9 MuiGrid-container-10 MuiGrid-item-11 MuiGrid-justify-content-xs-center-27"
     >
       <img
         alt="Badger Builder"
@@ -220,37 +220,36 @@ exports[`VaultListDisplay displays no vaults message 1`] = `
       />
     </div>
     <div
-      class="MuiGrid-root-8 makeStyles-helpTextContainer-5 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-direction-xs-column-12 MuiGrid-justify-content-xs-center-26"
+      class="MuiGrid-root-9 makeStyles-helpTextContainer-5 MuiGrid-container-10 MuiGrid-item-11 MuiGrid-direction-xs-column-13 MuiGrid-justify-content-xs-center-27"
     >
       <h5
-        class="MuiTypography-root-111 MuiTypography-h5-120 MuiTypography-colorTextSecondary-137"
+        class="MuiTypography-root-112 MuiTypography-h5-121 MuiTypography-colorTextSecondary-138"
       >
-        No vaults on
-         
+        No vaults on 
         Ethereum
         .
       </h5>
       <p
-        class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
+        class="MuiTypography-root-112 MuiTypography-body2-113 MuiTypography-colorTextSecondary-138"
       >
         Switch to another network to view more vaults.
       </p>
     </div>
     <div
-      class="MuiGrid-root-8 makeStyles-switchButtonContainer-6 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-justify-content-xs-center-26"
+      class="MuiGrid-root-9 makeStyles-switchButtonContainer-6 MuiGrid-container-10 MuiGrid-item-11 MuiGrid-justify-content-xs-center-27"
     >
       <button
-        class="MuiButtonBase-root-170 MuiButton-root-141 MuiButton-outlined-146 MuiButton-outlinedPrimary-147"
+        class="MuiButtonBase-root-171 MuiButton-root-142 MuiButton-outlined-147 MuiButton-outlinedPrimary-148"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-label-142"
+          class="MuiButton-label-143"
         >
           Switch Networks
         </span>
         <span
-          class="MuiTouchRipple-root-173"
+          class="MuiTouchRipple-root-174"
         />
       </button>
     </div>
@@ -261,10 +260,10 @@ exports[`VaultListDisplay displays no vaults message 1`] = `
 exports[`VaultListDisplay does not display deprecated vaults with no user balance 1`] = `
 <div>
   <div
-    class="MuiGrid-root-8 makeStyles-messageContainer-2 MuiGrid-container-9 MuiGrid-direction-xs-column-12"
+    class="MuiGrid-root-9 makeStyles-messageContainer-2 MuiGrid-container-10 MuiGrid-direction-xs-column-13"
   >
     <div
-      class="MuiGrid-root-8 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-justify-content-xs-center-26"
+      class="MuiGrid-root-9 MuiGrid-container-10 MuiGrid-item-11 MuiGrid-justify-content-xs-center-27"
     >
       <img
         alt="Badger Builder"
@@ -272,37 +271,36 @@ exports[`VaultListDisplay does not display deprecated vaults with no user balanc
       />
     </div>
     <div
-      class="MuiGrid-root-8 makeStyles-helpTextContainer-5 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-direction-xs-column-12 MuiGrid-justify-content-xs-center-26"
+      class="MuiGrid-root-9 makeStyles-helpTextContainer-5 MuiGrid-container-10 MuiGrid-item-11 MuiGrid-direction-xs-column-13 MuiGrid-justify-content-xs-center-27"
     >
       <h5
-        class="MuiTypography-root-111 MuiTypography-h5-120 MuiTypography-colorTextSecondary-137"
+        class="MuiTypography-root-112 MuiTypography-h5-121 MuiTypography-colorTextSecondary-138"
       >
-        No vaults on
-         
+        No vaults on 
         Ethereum
         .
       </h5>
       <p
-        class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
+        class="MuiTypography-root-112 MuiTypography-body2-113 MuiTypography-colorTextSecondary-138"
       >
         Switch to another network to view more vaults.
       </p>
     </div>
     <div
-      class="MuiGrid-root-8 makeStyles-switchButtonContainer-6 MuiGrid-container-9 MuiGrid-item-10 MuiGrid-justify-content-xs-center-26"
+      class="MuiGrid-root-9 makeStyles-switchButtonContainer-6 MuiGrid-container-10 MuiGrid-item-11 MuiGrid-justify-content-xs-center-27"
     >
       <button
-        class="MuiButtonBase-root-170 MuiButton-root-141 MuiButton-outlined-146 MuiButton-outlinedPrimary-147"
+        class="MuiButtonBase-root-171 MuiButton-root-142 MuiButton-outlined-147 MuiButton-outlinedPrimary-148"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-label-142"
+          class="MuiButton-label-143"
         >
           Switch Networks
         </span>
         <span
-          class="MuiTouchRipple-root-173"
+          class="MuiTouchRipple-root-174"
         />
       </button>
     </div>
