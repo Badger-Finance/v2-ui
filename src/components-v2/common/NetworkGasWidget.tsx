@@ -31,8 +31,8 @@ const NetworkGasWidget = (): JSX.Element => {
   const ref = useRef<HTMLButtonElement | null>(null);
   return (
     <ClickAwayListener
-      onClickAway={(e: any) => {
-        if (e.target?.textContent?.toLowerCase() !== 'switch networks') {
+      onClickAway={(e: React.MouseEvent<Document>) => {
+        if ((e.target as HTMLElement)?.textContent?.toLowerCase() !== 'switch networks') {
           closeNetworkOptions();
         }
       }}
