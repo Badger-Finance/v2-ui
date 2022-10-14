@@ -4,6 +4,4 @@ export enum Wallets {
   WalletLink = 'WalletLink',
   MetaMask = 'MetaMask',
   Trezor = 'Trezor',
-  CoinbaseWallet = 'Coinbase Wallet',
-  Portis = 'Portis',
 }
