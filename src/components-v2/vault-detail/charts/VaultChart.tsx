@@ -101,6 +101,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
       }
     }
   });
+  const hasAprVal = !!chartData.reduce((d, cD) => d + cD.apr, 0);
 
   return (
     <ResponsiveContainer width={'99%'}>
@@ -147,17 +148,20 @@ export const VaultChart = (props: Props): JSX.Element | null => {
             style={{ fill: 'white' }}
           />
         )}
-        <YAxis
-          dataKey="apr"
-          yAxisId="apr"
-          orientation="right"
-          type="number"
-          domain={[0, maxYield * 1.05]}
-          tickCount={10}
-          minTickGap={50}
-          tickFormatter={(v: number) => `${v.toFixed(1)}%`}
-          style={{ fill: 'white' }}
-        />
+        {hasAprVal && (
+          <YAxis
+            dataKey="apr"
+            yAxisId="apr"
+            orientation="right"
+            type="number"
+            domain={[0, maxYield]}
+            tickCount={10}
+            minTickGap={50}
+            tickFormatter={(v: number) => `${v?.toFixed(1)}%`}
+            style={{ fill: 'white' }}
+          />
+        )}
+
         {valueType === ChartValueType.USD && (
           <Area
             type="monotone"
@@ -178,15 +182,17 @@ export const VaultChart = (props: Props): JSX.Element | null => {
             strokeWidth={2}
           />
         )}
-        <Line
-          type="monotone"
-          dataKey="apr"
-          fill="#E2652B"
-          stroke="#E2652B"
-          yAxisId="apr"
-          strokeWidth={1.5}
-          dot={false}
-        />
+        {hasAprVal && (
+          <Line
+            type="monotone"
+            dataKey="apr"
+            fill="#E2652B"
+            stroke="#E2652B"
+            yAxisId="apr"
+            strokeWidth={1.5}
+            dot={false}
+          />
+        )}
         {version === VaultVersion.v1_5 && !isInfluenceVault(vault.vaultToken) && (
           <Line
             type="monotone"

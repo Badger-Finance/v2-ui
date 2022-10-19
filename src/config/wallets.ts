@@ -1,10 +1,8 @@
 import { getNetworkConfig, NetworkConfig } from '@badger-dao/sdk';
-import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
-import Portis from '@portis/web3';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { CHAIN_DATA_LIST } from 'web3modal';
 
-import { NETWORK_IDS, PORTIS_APP_ID } from './constants';
+import { NETWORK_IDS } from './constants';
 import { supportedNetworks } from './networks.config';
 import rpc from './rpc.config';
 
@@ -36,20 +34,6 @@ export function getWeb3ModalProviders(config: NetworkConfig) {
           [NETWORK_IDS.FTM]: networkRPC,
           [NETWORK_IDS.MATIC]: networkRPC,
         },
-        network,
-      },
-    },
-    coinbasewallet: {
-      package: CoinbaseWalletSDK,
-      options: {
-        appName: 'BadgerDAO',
-        rpc: networkRPC,
-      },
-    },
-    portis: {
-      package: Portis,
-      options: {
-        id: PORTIS_APP_ID,
         network,
       },
     },

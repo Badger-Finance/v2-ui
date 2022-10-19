@@ -4,7 +4,7 @@ import { QueryParams, Route } from 'mobx-router';
 import React from 'react';
 
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
-import { RootStore } from '../mobx/stores/RootStore';
+import store, { RootStore } from '../mobx/stores/RootStore';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
 
 const Landing = React.lazy(() => import('../pages/Landing'));
@@ -53,6 +53,7 @@ const routes = {
   IbBTC: new Route<RootStore, QueryParams>({
     path: '/ibBTC',
     component: withSuspense(IbBTC),
+    onEnter: () => store.ibBTCStore.init(),
   }),
   vaultDetail: new Route<RootStore, QueryParams>({
     path: '/vault/:vaultName',
