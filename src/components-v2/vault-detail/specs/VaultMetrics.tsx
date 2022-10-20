@@ -6,7 +6,7 @@ import VaultApyInformation from 'components-v2/VaultApyInformation';
 import { useVaultInformation } from 'hooks/useVaultInformation';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React, { MouseEvent, useContext, useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 import { numberWithCommas } from '../../../mobx/utils/helpers';
 import VaultDepositedAssets from '../../VaultDepositedAssets';
@@ -90,8 +90,6 @@ const VaultMetrics = observer(({ vault }: Props): JSX.Element => {
     setShowApyInfo(false);
   };
   const { projectedVaultBoost, vaultBoost } = useVaultInformation(vault);
-  const store = useContext(StoreContext);
-  const { vaults } = store;
   const isInfluence = isInfluenceVault(vault.vaultToken);
   const useHistoricAPY = projectedVaultBoost === null || isInfluence;
 

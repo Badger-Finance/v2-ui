@@ -67,7 +67,7 @@ export class RootStore {
     this.chain = new NetworkStore(this);
     this.wallet = new WalletStore(this, config);
     this.prices = new PricesStore(this);
-    this.rebase = new RebaseStore(this);
+    this.rebase = new RebaseStore();
     this.uiState = new UiStateStore();
     this.vaults = new VaultStore(this);
     this.user = new UserStore(this);
@@ -125,21 +125,10 @@ export class RootStore {
     const { signer, address } = this.sdk;
 
     if (signer && address) {
-      const updateActions = [this.lockedDeposits.loadLockedBalances()];
+      const updateActions = [this.lockedDeposits.loadLockedBalances(), this.user.reloadBalances()];
 
       if (this.sdk.rewards.hasBadgerTree()) {
         updateActions.push(this.tree.loadBadgerTree());
-      }
-
-      updateActions.push(this.user.reloadBalances());
-
-      if (network === Network.Ethereum || network === Network.Local) {
-        // handle per page reloads, when init route is skipped
-        if (this.router.currentRoute?.path === routes.IbBTC.path) {
-          updateActions.push(this.ibBTCStore.init());
-        }
-
-        updateActions.push(this.rebase.fetchRebaseStats());
       }
 
       await Promise.all(updateActions);

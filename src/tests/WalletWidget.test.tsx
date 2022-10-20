@@ -48,8 +48,6 @@ describe('WalletWidget', () => {
     );
     fireEvent.click(screen.getByRole('button', { name: /connect/i }));
     expect(screen.getByText('WalletConnect')).toBeInTheDocument();
-    expect(screen.getByText('Portis')).toBeInTheDocument();
-    expect(screen.getByText('Coinbase')).toBeInTheDocument();
   });
 
   test('Connected address is properly displayed', async () => {

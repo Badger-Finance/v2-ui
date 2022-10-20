@@ -6,13 +6,11 @@
     "node": ">=16.13.1"
   },
   "dependencies": {
-    "@badger-dao/sdk": "^1.18.8",
-    "@badger-dao/sdk-mocks": "^1.18.8",
-    "@coinbase/wallet-sdk": "^3.3.0",
+    "@badger-dao/sdk": "^1.18.14",
+    "@badger-dao/sdk-mocks": "^1.18.13",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
-    "@portis/web3": "^4.0.7",
     "@storybook/react": "^6.5.9",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -75,7 +73,8 @@
     "requirements-check": "node check-version.js",
     "postinstall": "yarn requirements-check",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "analyze": "yarn build && source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": [
@@ -96,7 +95,8 @@
     ]
   },
   "devDependencies": {
-    "jest-fetch-mock": "^3.0.3"
+    "jest-fetch-mock": "^3.0.3",
+    "source-map-explorer": "^2.5.3"
   },
   "jest": {
     "transformIgnorePatterns": [

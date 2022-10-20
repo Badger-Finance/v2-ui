@@ -14,8 +14,6 @@ export const RPC_WALLETS: { [index: string]: boolean } = {
   [Wallets.WalletConnect]: true,
   [Wallets.WalletLink]: true,
   [Wallets.Trezor]: true,
-  [Wallets.Portis]: true,
-  [Wallets.CoinbaseWallet]: true,
 };
 
 export enum NETWORK_IDS {
@@ -41,7 +39,6 @@ export const NETWORK_IDS_TO_NAMES = {
 export const CONTACT_EMAIL = 'hello@badger.finance';
 
 export const APP_NAME = 'BadgerDAO App';
-export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
 // https://semver.org/#is-v123-a-semantic-version
