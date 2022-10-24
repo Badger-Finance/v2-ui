@@ -1,6 +1,5 @@
-import { BadgerAPI, BadgerSDK, getNetworkConfig, LogLevel, Network, SDKProvider } from '@badger-dao/sdk';
+import { BadgerAPI, BadgerSDK, getNetworkConfig, LogLevel, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
-import routes from 'config/routes';
 import { action, makeObservable, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 
