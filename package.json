@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@badger-dao/sdk": "^1.18.14",
-    "@badger-dao/sdk-mocks": "^1.18.13",
+    "@badger-dao/sdk-mocks": "^1.18.14",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
