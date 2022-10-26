@@ -1,7 +1,6 @@
 import { TransactionStatus } from '@badger-dao/sdk';
 import { Button, debounce, Grid, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
 import { BigNumber } from 'ethers';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -263,20 +262,14 @@ export const Redeem = observer((): JSX.Element => {
             />
           </Grid>
           <InputTokenActionButtonsGrid item container spacing={1} xs={4} sm={5}>
-            {initialized ? (
-              <>
-                <Grid item>
-                  <Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
-                    max
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <OptionToken token={ibBTC.token} />
-                </Grid>
-              </>
-            ) : (
-              <Skeleton width={172} height={70} />
-            )}
+            <Grid item>
+              <Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
+                max
+              </Button>
+            </Grid>
+            <Grid item>
+              <OptionToken token={ibBTC.token} />
+            </Grid>
           </InputTokenActionButtonsGrid>
         </BorderedFocusableContainerGrid>
       </Grid>
@@ -289,15 +282,11 @@ export const Redeem = observer((): JSX.Element => {
             <OutputAmountText variant="h3">{outputAmount || '0.000'}</OutputAmountText>
           </Grid>
           <OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
-            {initialized ? (
-              <OptionTokens
-                balances={redeemOptions}
-                selected={selectedToken || redeemOptions[0]}
-                onTokenSelect={handleTokenChange}
-              />
-            ) : (
-              <Skeleton width={172} height={60} />
-            )}
+            <OptionTokens
+              balances={redeemOptions}
+              selected={selectedToken || redeemOptions[0]}
+              onTokenSelect={handleTokenChange}
+            />
           </OutputTokenGrid>
         </OutputContentGrid>
       </Grid>
