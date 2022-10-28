@@ -64,6 +64,9 @@ export const App = (): JSX.Element => {
       if (!store.user.loadingBalances) {
         store.user.reloadBalances();
       }
+      if (!store.tree.loadingTree) {
+        store.tree.loadBadgerTree();
+      }
     }, 15000);
     return () => clearInterval(interval);
   }, []);

@@ -273,24 +273,18 @@ export const Mint = observer((): JSX.Element => {
             />
           </Grid>
           <InputTokenActionButtonsGrid item container spacing={1} xs={12} sm={7}>
-            {initialized ? (
-              <>
-                <Grid item>
-                  <Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
-                    max
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <OptionTokens
-                    balances={mintOptions}
-                    selected={selectedToken || mintOptions[0]}
-                    onTokenSelect={handleTokenChange}
-                  />
-                </Grid>
-              </>
-            ) : (
-              <Skeleton width={172} height={70} />
-            )}
+            <Grid item>
+              <Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
+                max
+              </Button>
+            </Grid>
+            <Grid item>
+              <OptionTokens
+                balances={mintOptions}
+                selected={selectedToken || mintOptions[0]}
+                onTokenSelect={handleTokenChange}
+              />
+            </Grid>
           </InputTokenActionButtonsGrid>
         </BorderedFocusableContainerGrid>
         {showSlippage && (
