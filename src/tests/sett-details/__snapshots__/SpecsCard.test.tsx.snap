@@ -260,7 +260,7 @@ exports[`Specs Section displays sett information 1`] = `
           </svg>
           <a
             class="MuiTypography-root-148 MuiLink-root-245 MuiLink-underlineHover-247 makeStyles-link-267 MuiTypography-colorPrimary-171"
-            href="https://docs.badger.com/badger-finance/setts/sett-user-guides-ethereum/convex-bbtc"
+            href="https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/convex-bbtc"
             rel="noreferrer"
             target="_blank"
           >
