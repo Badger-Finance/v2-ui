@@ -35,7 +35,7 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
   const { network, config } = networkStore;
   const classes = useStyles();
 
-  const { vaultToken, underlyingToken } = vault;
+  const { vaultToken, underlyingToken, state } = vault;
   const strategy = Chain.getChain(network).strategies[vaultToken];
   const strategyAddress = vault.strategy.address;
 
@@ -45,7 +45,9 @@ const VaultDetailLinks = observer(({ vault }: Props): JSX.Element => {
       <StyledDivider />
       {strategy && (
         <>
-          {strategy.userGuide && <VaultDetailLink title="User Guide" href={strategy.userGuide} />}
+          {state !== 'discontinued' && strategy.userGuide && (
+            <VaultDetailLink title="User Guide" href={strategy.userGuide} />
+          )}
           {strategy.depositLink && <VaultDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
         </>
       )}
