@@ -66,7 +66,7 @@ export const NoHoldings = observer(
       <Grid container className={classes.root} component={Paper}>
         <Grid item xs={12} sm={8}>
           <Typography variant="body1">{`You have no ${vault.name} in your connected wallet.`}</Typography>
-          <DepositInfo strategy={strategy} />
+          <DepositInfo strategy={strategy} state={vault.state} />
         </Grid>
         {isMediumSizeScreen && (
           <Grid item xs={12} sm className={classes.depositContainer}>
