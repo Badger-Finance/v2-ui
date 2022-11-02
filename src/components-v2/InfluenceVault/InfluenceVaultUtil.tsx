@@ -78,7 +78,7 @@ export const vaults: InfluenceVaultConfig[] = [
         'Unlike other Badger Vaults, bveCVX limits the times when users may withdraw their funds. Limited pre-unlock liquidity is available through this ',
         '[Curve Pool](https://curve.fi/factory/52/)',
         '. Please carefully read the ',
-        '[User Guide](https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/vote-locked-cvx)',
+        '[User Guide](https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/vote-locked-cvx)',
         ' for more information. Details on the timing of CVX unlocks are available on this ',
         '[Dune dashboard](https://dune.com/tianqi/Convex-Locked-CVX-V2(Sponsored-by-Badger))',
         '.',
@@ -163,7 +163,7 @@ export const vaults: InfluenceVaultConfig[] = [
       ],
       body2: [
         'Unlike other Badger Vaults, graviAURA limits the times when users may withdraw their funds. Limited pre-unlock liquidity is available through Balancer pools containing graviAURA. Please carefully read the ',
-        '[User Guide](https://docs.badger.com/badger-finance/vaults/vault-user-guides-ethereum/graviaura-vote-locked-aura)',
+        '[User Guide](https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/graviaura-vote-locked-aura)',
         ' for more information.',
       ],
       swapPercentageLabel: [],

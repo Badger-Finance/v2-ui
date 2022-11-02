@@ -92,7 +92,7 @@ exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advi
       >
         <a
           class="MuiTypography-root-10 MuiLink-root-4 MuiLink-underlineHover-6 MuiTypography-colorPrimary-33"
-          href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
+          href="https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/vote-locked-cvx"
           rel="noreferrer"
           target="_blank"
         >
@@ -189,7 +189,7 @@ exports[`VaultAdvisory Shows the proper vault advisory if one exists, or no advi
       >
         <a
           class="MuiTypography-root-9 MuiLink-root-3 MuiLink-underlineHover-5 MuiTypography-colorPrimary-32"
-          href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
+          href="https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/vote-locked-cvx"
           rel="noreferrer"
           target="_blank"
         >

@@ -62,7 +62,7 @@ const BoostOptimizer = observer(() => {
         >
           Not sure where to start? Check out the
           <Link
-            href="https://docs.badger.com/badger-finance/badger-boost/boost-optimizer-user-guide"
+            href="https://docs.badger.com/badger-boost/badger-boost"
             rel="noreferrer"
             target="_blank"
             className={classes.userGuideLink}
