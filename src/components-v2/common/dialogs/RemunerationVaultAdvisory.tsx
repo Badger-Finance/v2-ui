@@ -21,7 +21,7 @@ const RemunerationVaultAdvisory = ({ accept }: VaultAdvisoryBaseProps): JSX.Elem
         funds are added to the vault by BadgerDAO.
       </p>
       <AdvisoryLink
-        href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
+        href="https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/vote-locked-cvx"
         linkText="Learn More"
       />
     </GenericVaultAdvisory>
