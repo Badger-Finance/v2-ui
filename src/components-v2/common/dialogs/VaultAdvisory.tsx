@@ -22,7 +22,7 @@ const VaultAdvisory = ({ vault, type, accept }: Props): JSX.Element | null => {
           accept={accept}
           vault={vault}
           lockingWeeks={16}
-          learnMoreLink="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
+          learnMoreLink="https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/vote-locked-cvx"
         />
       );
       break;

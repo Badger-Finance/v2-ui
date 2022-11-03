@@ -83,7 +83,7 @@ export const Claims = observer((): JSX.Element => {
       </Typography>
       <Link
         className={classes.infoLink}
-        href="https://docs.badger.com/badger-finance/vaults/overview-and-fees#cycles-and-claiming"
+        href="https://docs.badger.com/vaults/cycles-and-harvests"
         target="_blank"
         rel="noreferrer"
       >
