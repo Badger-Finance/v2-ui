@@ -261,7 +261,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
         [ethDeploy.sett_system.vaults['native.icvx']]: {
           depositLink:
             'https://app.sushi.com/swap?inputCurrency=ETH&outputCurrency=0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B',
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides/blcvx-locked-convex',
+          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/vote-locked-cvx',
         },
         [ethDeploy.sett_system.vaults['native.imBtc']]: {
           depositLink: 'https://mstable.app/#/mbtc/save',

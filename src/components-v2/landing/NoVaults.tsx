@@ -60,9 +60,9 @@ const NoVaults = ({ network }: Props): JSX.Element => {
         <Typography variant="body2" color="textSecondary">
           Switch to another network to view more vaults.
         </Typography>
-        {[Network.Polygon.toString(), Network.BinanceSmartChain.toString()].includes(network) && (
+        {[Network.Fantom.toString()].includes(network) && (
           <Alert severity="warning" variant="outlined" className={classes.alert}>
-            {networkDisplayName} will no longer be supported starting Nov 1st 2022
+            {networkDisplayName} will no longer be supported starting Jan 1st 2023
           </Alert>
         )}
       </Grid>
