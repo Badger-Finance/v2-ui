@@ -21,6 +21,14 @@ jobs:
         run: yarn test
       - name: Test Build
         run: CI=false yarn build
+      - uses: ScholliYT/Broken-Links-Crawler-Action@v3
+        with:
+          website_url: 'https://app.badger.com'
+          resolve_before_filtering: 'true'
+          verbose: 'true'
+          max_retry_time: 30
+          max_retries: 5
+          max_depth: 1
 
 env:
   GENERATE_SOURCEMAP: false
