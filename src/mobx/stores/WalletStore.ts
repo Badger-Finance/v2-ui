@@ -1,6 +1,6 @@
 import { NetworkConfig } from '@badger-dao/sdk';
 import { Web3Provider } from '@ethersproject/providers';
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import Web3Modal from 'web3modal';
 
 import { getWeb3ModalProviders } from '../../config/wallets';
@@ -44,13 +44,16 @@ export class WalletStore {
     // extract information and pass it into our app, thank fuck
     const temporaryProvider = this.getLibrary(provider);
     const connectedNetwork = await temporaryProvider.getNetwork();
-    this.provider = temporaryProvider;
+    const address = await temporaryProvider.getSigner().getAddress();
 
-    // quickly render connection - provide address to the interface
-    this.address = await this.provider.getSigner().getAddress();
+    runInAction(() => {
+      this.provider = temporaryProvider;
+      // quickly render connection - provide address to the interface
+      this.address = address;
 
-    // sync it up
-    this.store.chain.syncUrlNetworkId();
+      // sync it up
+      this.store.chain.syncUrlNetworkId();
+    });
 
     // update piece wise app components
     await this.store.updateNetwork(connectedNetwork.chainId);

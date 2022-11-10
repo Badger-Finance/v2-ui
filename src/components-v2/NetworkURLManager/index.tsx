@@ -1,4 +1,5 @@
 import usePrevious from 'hooks/usePrevious';
+import { runInAction } from 'mobx';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
@@ -21,10 +22,12 @@ const NetworkURLManager = (): JSX.Element => {
     }
 
     if (chainId !== previousChainId && wallet.isConnected) {
-      router.queryParams = {
-        ...router.queryParams,
-        chain: NETWORK_IDS_TO_NAMES[chainId as NETWORK_IDS],
-      };
+      runInAction(() => {
+        router.queryParams = {
+          ...router.queryParams,
+          chain: NETWORK_IDS_TO_NAMES[chainId as NETWORK_IDS],
+        };
+      });
     }
   }, [chainId, previousChainId, router, wallet]);
 

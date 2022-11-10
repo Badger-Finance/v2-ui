@@ -1,6 +1,6 @@
 import { Account, BouncerType, MerkleProof, VaultCaps, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { BigNumber, ethers } from 'ethers';
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, runInAction } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
@@ -121,15 +121,17 @@ export default class UserStore {
 
     try {
       const balances = await sdk.tokens.loadBalances(Object.keys(vaults.tokenConfig));
-      this.balances = Object.fromEntries(
-        Object.entries(balances).map((b) => {
-          const [token, balance] = b;
-          const price = prices.getPrice(token);
-          const tokenInfo = vaults.getToken(token);
-          const tokenBalance = new TokenBalance(tokenInfo, balance, price);
-          return [token, tokenBalance];
-        }),
-      );
+      runInAction(() => {
+        this.balances = Object.fromEntries(
+          Object.entries(balances).map((b) => {
+            const [token, balance] = b;
+            const price = prices.getPrice(token);
+            const tokenInfo = vaults.getToken(token);
+            const tokenBalance = new TokenBalance(tokenInfo, balance, price);
+            return [token, tokenBalance];
+          }),
+        );
+      });
 
       const targetVaults = this.store.vaults.vaultOrder
         .slice()

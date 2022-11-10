@@ -58,9 +58,11 @@ class IbBTCStore {
 
   // currently, the zap contract does not support redeem
   get redeemOptions(): TokenBalance[] {
-    return this.tokenBalances.filter(({ token }) =>
+    const a = this.tokenBalances.filter(({ token }) =>
       addresses.mainnet.contracts.RenVaultZap.supportedTokens.includes(token.address),
     );
+    a.push(this.tokenBalances[0]);
+    return a;
   }
 
   async init(): Promise<void> {

@@ -1,6 +1,6 @@
 import { PriceSummary } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, runInAction } from 'mobx';
 
 import { RootStore } from './RootStore';
 
@@ -20,10 +20,12 @@ export default class PricesStore {
   loadPrices = action(async (): Promise<void> => {
     const prices = await this.store.api.loadPrices();
     if (prices) {
-      this.priceCache = {
-        ...this.priceCache,
-        ...prices,
-      };
+      runInAction(() => {
+        this.priceCache = {
+          ...this.priceCache,
+          ...prices,
+        };
+      });
     }
   });
 }
