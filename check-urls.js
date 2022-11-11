@@ -43,7 +43,9 @@ const ignoreDomain = [
   'api.badger.com',
   'rpc.fantom.tools',
   'rpc.xdaichain.com',
-  '/bsc-dataseed.binance.org',
+  'bsc-dataseed.binance.org',
+  'rpc-mainnet.matic.quiknode.pro',
+  'arb1.arbitrum.io/rpc',
 ];
 /**
  * Get path of all files under folder src
