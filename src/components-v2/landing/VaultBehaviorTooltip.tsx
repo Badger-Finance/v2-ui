@@ -23,7 +23,6 @@ const VaultBehaviorTooltip = ({ vault }: Props): JSX.Element | null => {
     case VaultBehavior.EcosystemHelper:
       description = `Combination of compounding rewards into more ${name} and converting rewards to ${protocol} Helpers`;
       break;
-    case VaultBehavior.Helper:
     case VaultBehavior.None:
     default:
       return null;
