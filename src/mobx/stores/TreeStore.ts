@@ -90,7 +90,9 @@ export class TreeStore {
           const token = tokenInformation[claimableTokens[i]];
           const amount = claimableAmounts[i];
           const price = prices.getPrice(token.address);
-          this.claimable[token.address] = new TokenBalance(token, amount, price);
+          runInAction(() => {
+            this.claimable[token.address] = new TokenBalance(token, amount, price);
+          });
         }
       } catch (err) {
         console.error({
