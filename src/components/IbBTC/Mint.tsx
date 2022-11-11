@@ -19,6 +19,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Id, toast } from 'react-toastify';
 import { useNumericInput } from 'utils/useNumericInput';
+import { FLAGS } from '../../config/environment';
 
 import TxCompletedToast, { TX_COMPLETED_TOAST_DURATION } from '../../components-v2/TransactionToast';
 import {
@@ -180,6 +181,9 @@ export const Mint = observer((): JSX.Element => {
   };
 
   const handleMintClick = async (): Promise<void> => {
+    if (!FLAGS.MINT_IBBTC) {
+      return;
+    }
     if (mintBalance && selectedToken) {
       const slippagePercent = Number(slippage);
       const isValidAmount = store.ibBTCStore.isValidAmount(mintBalance, selectedToken, slippagePercent);
@@ -382,9 +386,10 @@ export const Mint = observer((): JSX.Element => {
             variant="contained"
             color="primary"
             onClick={handleMintClick}
-            disabled={!inputAmount || !outputAmount}
+            disabled={true}
+            // disabled={!inputAmount || !outputAmount}
           >
-            MINT
+            {FLAGS.MINT_IBBTC ? 'MINT' : 'Minting is disabled'}
           </Button>
         </ActionButton>
       </Grid>
