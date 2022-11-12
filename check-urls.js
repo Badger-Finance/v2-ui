@@ -3,6 +3,7 @@ const fs = require('fs');
 let fetch = require('node-fetch');
 
 let i = 0;
+const hasError = [];
 /**
  * Verify all url
  * @param {*} urls
@@ -11,6 +12,7 @@ async function verifyUrls(urls) {
   try {
     const res = await fetch(urls[i]);
     if (res.status === 404) {
+      hasError.push(urls[i]);
       throw new Error(`${res.status} ${res.statusText} : ${urls[i]}`);
     } else if (res.status === 200) {
       console.log('\x1b[32m', `${res.status} ${res.statusText} : ${urls[i]}`);
@@ -23,6 +25,8 @@ async function verifyUrls(urls) {
   i++;
   if (i < urls.length) {
     verifyUrls(urls);
+  } else if (hasError.length) {
+    throw new Error('Please fix 404 Not Found errors.');
   }
 }
 
