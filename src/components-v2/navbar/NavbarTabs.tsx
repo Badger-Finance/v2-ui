@@ -1,4 +1,5 @@
 import { makeStyles, Tab, Tabs, useMediaQuery, useTheme } from '@material-ui/core';
+import { FLAGS } from 'config/environment';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { QueryParams, Route } from 'mobx-router';
@@ -11,10 +12,8 @@ import { RootStore } from '../../mobx/stores/RootStore';
 const useStyles = makeStyles({
   tab: {
     minWidth: 90,
-    width: 90,
   },
   indicator: {
-    width: 90,
     minWidth: 90,
   },
 });
@@ -69,6 +68,14 @@ export const NavbarTabs = observer((): JSX.Element => {
           label="IBBTC"
           onClick={() => goToTab(routes.IbBTC)}
           value={routes.IbBTC.path}
+        />
+      )}
+      {FLAGS.GOVERNANCE_TIMELOCK && config.governance && (
+        <Tab
+          classes={{ root: classes.tab }}
+          label="GOVERNANCE"
+          onClick={() => goToTab(routes.governance)}
+          value={routes.governance.path}
         />
       )}
     </Tabs>
