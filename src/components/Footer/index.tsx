@@ -39,13 +39,7 @@ export const Footer = (): JSX.Element => {
           <Grid item sm={12} lg={3} style={{ margin: '.5rem 0' }}>
             <img alt="Score Logo" src={'assets/8bit/badger score.png'} height="80px" style={{ marginBottom: '1rem' }} />
             <br />
-            <Button
-              aria-label="Get Coverage"
-              variant="outlined"
-              color="secondary"
-              href="https://app.coverprotocol.com/app/marketplace/protocols/BADGERDAO"
-              target="_"
-            >
+            <Button aria-label="Get Coverage" variant="outlined" color="secondary" href="" target="_">
               Get Coverage
             </Button>
           </Grid>
