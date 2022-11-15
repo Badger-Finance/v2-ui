@@ -70,7 +70,7 @@ export const NavbarTabs = observer((): JSX.Element => {
           value={routes.IbBTC.path}
         />
       )}
-      {FLAGS.GOVERNANCE_TIMELOCK && config.governance && (
+      {FLAGS.GOVERNANCE_TAB && config.governance && (
         <Tab
           classes={{ root: classes.tab }}
           label="GOVERNANCE"
