@@ -74,7 +74,8 @@
     "postinstall": "yarn requirements-check",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "analyze": "yarn build && source-map-explorer 'build/static/js/*.js'"
+    "analyze": "yarn build && source-map-explorer 'build/static/js/*.js'",
+    "link-crawler": "node check-urls.js"
   },
   "eslintConfig": {
     "extends": [
@@ -95,7 +96,9 @@
     ]
   },
   "devDependencies": {
+    "glob": "^8.0.3",
     "jest-fetch-mock": "^3.0.3",
+    "node-fetch": "2",
     "source-map-explorer": "^2.5.3"
   },
   "jest": {

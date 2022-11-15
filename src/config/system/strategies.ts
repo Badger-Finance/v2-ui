@@ -14,68 +14,61 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
     case Network.Fantom:
       return {
         [fantomDeploy.sett_system.vaults['native.wbtc-renbtc']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-renbtc-wbtc-lp',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.wftm-sex']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-sex-wftm-lp',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.solid-solidsex']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-solid-solidsex-lp',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.weve-usdc']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-weve-usdc-lp',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.oxd-usdc']]: {
-          userGuide:
-            'https://docs.badger.com/vaults/user-guides/vault-user-guides-avalanche/arbitrum-sushi-weth-helper-vault',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.wftm-crv']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-wftm-crv-lp',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.usdc-mim']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-mim-usdc-lp',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.wftm-renbtc']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-wftm-renbtc-lp',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.boo-xboo-eco']]: {
-          userGuide:
-            'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-boo-xboo-lp-solidex-ecosystem',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.wftm-crv-eco']]: {
-          userGuide:
-            'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-wftm-crv-lp-solidex-ecosystem',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.usdc-mim-eco']]: {
-          userGuide:
-            'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-mim-usdc-lp-solidex-ecosystem',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.wftm-scream-eco']]: {
-          userGuide:
-            'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-scream-wftm-lp-solidex-ecosystem',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.wftm-renbtc-eco']]: {
-          userGuide:
-            'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-wftm-renbtc-lp-solidex-ecosystem',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.wftm-tomb-eco']]: {
-          userGuide:
-            'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-tomb-wftm-lp-solidex-ecosystem',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.geist-g3crv']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-geist-g3crv-lp',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.veoxd']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-oxd',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.oxsolid']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-oxsolid',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.bveoxd-oxd']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-bveoxd-oxd',
+          userGuide: '',
         },
         [fantomDeploy.sett_system.vaults['native.usdc-dei']]: {
-          userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-fantom/fantom-usdc-dei-ecosystem',
+          userGuide: '',
         },
       };
     case Network.Avalanche:
