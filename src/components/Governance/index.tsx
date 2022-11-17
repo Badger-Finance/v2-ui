@@ -10,12 +10,14 @@ import AddressInfoCard from './AddressInfoCard';
 import EventsTable from './EventsTable';
 import GovernanceFilterDialog from './GovernanceFilterDialog';
 import ProposalModal from './ProposalModal';
+import GovernanceRoleList from './RoleListModal';
 
 const GovernancePortal = observer(() => {
   const store = useContext(StoreContext);
   const { governancePortal, user, chain } = store;
   const [showGovernanceFilters, setShowGovernanceFilters] = useState(false);
   const [showProposalModal, setShowProposalModal] = useState(false);
+  const [showGovernanceRoleList, setShowGovernanceRoleList] = useState(false);
   const [filters, setFilters] = useState<string[]>([]);
   const [showProposeButton, setShowProposeButton] = useState(false);
   useEffect(() => {
@@ -43,14 +45,19 @@ const GovernancePortal = observer(() => {
   const toggleShowDialog = () => {
     setShowGovernanceFilters(!showGovernanceFilters);
   };
+
+  const handleCouncilRolesClick = () => {
+    setShowGovernanceRoleList(true);
+  };
+
   return (
     <LayoutContainer style={{ width: '100vw' }}>
       <Grid container item xs={12} spacing={1}>
-        <PageHeaderContainer item xs={12} sm={8}>
+        <PageHeaderContainer item xs={12} sm={6}>
           <PageHeader title="Governance Portal" subtitle="Review recent activity from the DAO." />
         </PageHeaderContainer>
 
-        <PageHeaderContainer item xs={6} sm={2}>
+        <PageHeaderContainer item xs={4} sm={2}>
           <AddressInfoCard
             title="Timelock Contract"
             address={governancePortal.contractAddress}
@@ -58,12 +65,16 @@ const GovernancePortal = observer(() => {
           />
         </PageHeaderContainer>
 
-        <PageHeaderContainer item xs={6} sm={2}>
+        <PageHeaderContainer item xs={4} sm={2}>
           <AddressInfoCard
             title="Proposals"
             address={'Snapshot'}
             linkAddress={'https://snapshot.org/#/badgerdao.eth'}
           />
+        </PageHeaderContainer>
+
+        <PageHeaderContainer item xs={4} sm={2}>
+          <AddressInfoCard title="Council Roles" address={'Contract Information'} onClick={handleCouncilRolesClick} />
         </PageHeaderContainer>
       </Grid>
 
@@ -74,6 +85,10 @@ const GovernancePortal = observer(() => {
       </Grid>
 
       <GovernanceFilterDialog open={showGovernanceFilters} onClose={toggleShowDialog} applyFilter={applyFilter} />
+      <GovernanceRoleList
+        open={showGovernanceRoleList}
+        onModalClose={() => setShowGovernanceRoleList(!showGovernanceRoleList)}
+      />
 
       <EventsTable events={governancePortal.timelockEvents} filters={filters} />
 
