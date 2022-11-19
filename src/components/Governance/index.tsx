@@ -1,4 +1,4 @@
-import { Grid, IconButton } from '@material-ui/core';
+import { Button, Grid, IconButton } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
@@ -8,11 +8,13 @@ import PageHeader from '../../components-v2/common/PageHeader';
 import AddressInfoCard from './AddressInfoCard';
 import EventsTable from './EventsTable';
 import GovernanceFilterDialog from './GovernanceFilterDialog';
+import ProposalModal from './ProposalModal';
 
 const GovernancePortal = observer(() => {
   const store = useContext(StoreContext);
   const { governancePortal } = store;
   const [showGovernanceFilters, setShowGovernanceFilters] = useState(false);
+  const [showProposalModal, setShowProposalModal] = useState(false);
   const [filters, setFilters] = useState<string[]>([]);
   useEffect(() => {
     governancePortal.loadData();
@@ -59,6 +61,19 @@ const GovernancePortal = observer(() => {
       <GovernanceFilterDialog open={showGovernanceFilters} onClose={toggleShowDialog} applyFilter={applyFilter} />
 
       <EventsTable events={governancePortal.timelockEvents} filters={filters} />
+
+      <Grid container justifyContent="flex-end" alignItems="center">
+        <Button onClick={() => setShowProposalModal(true)} variant="outlined" color="primary">
+          PROPOSER ROLE
+        </Button>
+      </Grid>
+
+      <ProposalModal
+        open={showProposalModal}
+        onModalClose={() => {
+          setShowProposalModal(!showProposalModal);
+        }}
+      />
     </LayoutContainer>
   );
 });
