@@ -21,6 +21,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useState } from 'react';
 
+const salt = '0xc1059ed2dc130227aa1d1d539ac94c641306905c020436c636e19e3fab56fc7f';
+
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     color: 'rgba(255,255,255,0.6)',
@@ -94,8 +96,9 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
         },
         salt: {
           label: 'salt (bytes32)',
-          value: '',
+          value: salt,
           hasError: false,
+          defaultValue: salt,
         },
         delay: {
           label: 'delay (uint256)',
