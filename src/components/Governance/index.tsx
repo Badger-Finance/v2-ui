@@ -64,7 +64,7 @@ const GovernancePortal = observer(() => {
 
       <Grid container justifyContent="flex-end" alignItems="center">
         <Button onClick={() => setShowProposalModal(true)} variant="outlined" color="primary">
-          PROPOSER ROLE
+          Propose
         </Button>
       </Grid>
 

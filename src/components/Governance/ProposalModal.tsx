@@ -235,7 +235,7 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
         <Grid container style={{ marginTop: 20 }}>
           <Grid item xs={6}>
             <Button onClick={handleSubmitProposal} size="small" color="primary">
-              Write
+              Propose
             </Button>
           </Grid>
           <Grid xs={6} item justifyContent="flex-end" style={{ display: 'flex' }}>
