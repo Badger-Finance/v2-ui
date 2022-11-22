@@ -101,7 +101,9 @@ export default class UserStore {
   private loadAccountDetails = action(async (address: string): Promise<void> => {
     const accountDetails = await this.store.api.loadAccount(address);
     if (accountDetails) {
-      this.accountDetails = accountDetails;
+      runInAction(() => {
+        this.accountDetails = accountDetails;
+      });
     }
   });
 
@@ -117,7 +119,11 @@ export default class UserStore {
       return;
     }
 
-    this.loadingBalances = true;
+    runInAction(() => {
+      this.loadingBalances = true;
+    });
+
+    // this.loadingBalances = true;
 
     try {
       const balances = await sdk.tokens.loadBalances(Object.keys(vaults.tokenConfig));
@@ -138,17 +144,25 @@ export default class UserStore {
         .filter((v) => v.state === VaultState.Guarded || v.state === VaultState.Experimental);
       await Promise.all(
         targetVaults.map(async (v) => {
-          this.vaultCaps[v.vaultToken] = await this.store.sdk.vaults.getDepositCaps({
+          const vaultCap = await this.store.sdk.vaults.getDepositCaps({
             address: v.vaultToken,
             user: sdk.address,
           });
+          runInAction(() => {
+            this.vaultCaps[v.vaultToken] = vaultCap;
+          });
+          vaultCap;
         }),
       );
 
-      this.loadingBalances = false;
+      runInAction(() => {
+        this.loadingBalances = false;
+      });
     } catch (err) {
       console.error(err);
-      this.loadingBalances = false;
+      runInAction(() => {
+        this.loadingBalances = false;
+      });
     }
   });
 

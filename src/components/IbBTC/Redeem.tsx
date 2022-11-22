@@ -62,7 +62,7 @@ export const Redeem = observer((): JSX.Element => {
   const classes = useStyles();
 
   const {
-    ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, redeemRates, initialized },
+    ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, redeemRates },
     transactions,
     wallet,
     sdk,

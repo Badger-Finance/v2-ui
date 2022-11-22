@@ -212,13 +212,16 @@ export default class VaultStore {
     return openBalance + guardedBalance > 0;
   }
 
-  @action
   async refresh(): Promise<void> {
     const { network } = this.store.chain;
     if (network) {
-      this.initialized = false;
+      runInAction(() => {
+        this.initialized = false;
+      });
       await Promise.all([this.loadVaults(network), this.loadTokens(network), this.loadAssets(network)]);
-      this.initialized = true;
+      runInAction(() => {
+        this.initialized = true;
+      });
     }
   }
 
