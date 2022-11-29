@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   paginationWrapper: {
     padding: theme.spacing(2),
     display: 'flex',
-    position: 'fixed',
+    // position: 'fixed',
     right: theme.spacing(22),
     [theme.breakpoints.down('md')]: {
       right: theme.spacing(1),

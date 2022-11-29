@@ -1,4 +1,5 @@
-import { Grid, IconButton } from '@material-ui/core';
+import { Network } from '@badger-dao/sdk';
+import { Button, Grid, IconButton } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
@@ -8,15 +9,31 @@ import PageHeader from '../../components-v2/common/PageHeader';
 import AddressInfoCard from './AddressInfoCard';
 import EventsTable from './EventsTable';
 import GovernanceFilterDialog from './GovernanceFilterDialog';
+import ProposalModal from './ProposalModal';
 
 const GovernancePortal = observer(() => {
   const store = useContext(StoreContext);
-  const { governancePortal } = store;
+  const { governancePortal, user, chain } = store;
   const [showGovernanceFilters, setShowGovernanceFilters] = useState(false);
+  const [showProposalModal, setShowProposalModal] = useState(false);
   const [filters, setFilters] = useState<string[]>([]);
+  const [showProposeButton, setShowProposeButton] = useState(false);
   useEffect(() => {
     governancePortal.loadData();
   }, [governancePortal]);
+
+  useEffect(() => {
+    async function getProposeRole() {
+      const hasRole = await store.user.hasRole();
+      console.log({ hasRole });
+      setShowProposeButton(hasRole);
+    }
+    if (chain.network === Network.Arbitrum && user.accountDetails?.address) {
+      getProposeRole();
+    } else {
+      setShowProposeButton(false);
+    }
+  }, [chain.network, user.accountDetails?.address]);
 
   //bruh wtf WWHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY ANY REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -59,6 +76,21 @@ const GovernancePortal = observer(() => {
       <GovernanceFilterDialog open={showGovernanceFilters} onClose={toggleShowDialog} applyFilter={applyFilter} />
 
       <EventsTable events={governancePortal.timelockEvents} filters={filters} />
+
+      {showProposeButton && (
+        <Grid container justifyContent="flex-end" alignItems="center">
+          <Button onClick={() => setShowProposalModal(true)} variant="outlined" color="primary">
+            Propose
+          </Button>
+        </Grid>
+      )}
+
+      <ProposalModal
+        open={showProposalModal}
+        onModalClose={() => {
+          setShowProposalModal(!showProposalModal);
+        }}
+      />
     </LayoutContainer>
   );
 });
