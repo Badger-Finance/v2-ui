@@ -21,15 +21,16 @@ export class GovernancePortalStore {
   async loadData(network = Network.Arbitrum, page = this.page, perPage = this.perPage): Promise<void> {
     const { api } = this.store;
     this.loadingProposals = true;
-    console.log('Set loding true', page, perPage);
     try {
       this.governanceProposals = await api.loadGovernanceProposals(network, page, perPage);
       this.page = page;
     } catch (error) {
-      console.log(error);
+      console.log({
+        error,
+        message: 'Unable to get proposal list',
+      });
     } finally {
       this.loadingProposals = false;
-      console.log('Set loding false');
     }
   }
 
