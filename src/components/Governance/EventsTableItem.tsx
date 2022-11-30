@@ -1,13 +1,11 @@
 import { GovernanceProposal } from '@badger-dao/sdk';
 import { TableCell, TableRow } from '@material-ui/core';
 
-
 export interface EventTableProps {
   proposal: GovernanceProposal;
 }
 
 const EventsTableItem = ({ proposal }: EventTableProps): JSX.Element => {
-
   return (
     <TableRow>
       <TableCell component="th" scope="row">
