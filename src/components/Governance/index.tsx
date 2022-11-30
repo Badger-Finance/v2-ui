@@ -8,7 +8,6 @@ import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common
 import PageHeader from '../../components-v2/common/PageHeader';
 import AddressInfoCard from './AddressInfoCard';
 import EventsTable from './EventsTable';
-import GovernanceFilterDialog from './GovernanceFilterDialog';
 import ProposalModal from './ProposalModal';
 
 const GovernancePortal = observer(() => {
@@ -16,16 +15,17 @@ const GovernancePortal = observer(() => {
   const { governancePortal, user, chain } = store;
   const [showGovernanceFilters, setShowGovernanceFilters] = useState(false);
   const [showProposalModal, setShowProposalModal] = useState(false);
-  const [filters, setFilters] = useState<string[]>([]);
   const [showProposeButton, setShowProposeButton] = useState(false);
+
   useEffect(() => {
-    governancePortal.loadData();
-  }, [governancePortal]);
+    if (chain.network === Network.Arbitrum) {
+      governancePortal.loadData();
+    }
+  }, [governancePortal, chain.network]);
 
   useEffect(() => {
     async function getProposeRole() {
       const hasRole = await store.user.hasRole();
-      console.log({ hasRole });
       setShowProposeButton(hasRole);
     }
     if (chain.network === Network.Arbitrum && user.accountDetails?.address) {
@@ -35,14 +35,18 @@ const GovernancePortal = observer(() => {
     }
   }, [chain.network, user.accountDetails?.address]);
 
-  //bruh wtf WWHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY ANY REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const applyFilter = (filters: any[]) => {
-    setFilters(filters);
-  };
   const toggleShowDialog = () => {
     setShowGovernanceFilters(!showGovernanceFilters);
   };
+
+  const handleNextPage = (nextPage: number) => {
+    governancePortal.updatePage(chain.network, nextPage);
+  };
+
+  const handleSetPerPage = (perPage: number) => {
+    governancePortal.updatePerPage(chain.network, perPage);
+  };
+
   return (
     <LayoutContainer style={{ width: '100vw' }}>
       <Grid container item xs={12} spacing={1}>
@@ -73,9 +77,12 @@ const GovernancePortal = observer(() => {
         </IconButton>
       </Grid>
 
-      <GovernanceFilterDialog open={showGovernanceFilters} onClose={toggleShowDialog} applyFilter={applyFilter} />
-
-      <EventsTable events={governancePortal.timelockEvents} filters={filters} />
+      <EventsTable
+        loadingProposals={governancePortal.loadingProposals}
+        governancePortal={governancePortal}
+        nextPage={handleNextPage}
+        setPerPage={handleSetPerPage}
+      />
 
       {showProposeButton && (
         <Grid container justifyContent="flex-end" alignItems="center">

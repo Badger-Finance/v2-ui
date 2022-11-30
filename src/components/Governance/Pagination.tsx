@@ -4,10 +4,9 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   paginationWrapper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(2, 0),
     display: 'flex',
-    // position: 'fixed',
-    right: theme.spacing(22),
+    justifyContent: 'flex-end',
     [theme.breakpoints.down('md')]: {
       right: theme.spacing(1),
     },
@@ -19,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(5),
     margin: theme.spacing(0.5),
     borderRadius: '50%',
+    cursor: 'pointer',
   },
   active: {
     backgroundColor: `${theme.palette.background.paper}`,
