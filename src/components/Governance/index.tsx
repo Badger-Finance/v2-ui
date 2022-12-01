@@ -74,7 +74,9 @@ const GovernancePortal = observer(() => {
         </PageHeaderContainer>
 
         <PageHeaderContainer item xs={4} sm={2}>
-          <AddressInfoCard title="Council Roles" address={'Contract Information'} onClick={handleCouncilRolesClick} />
+          <Button variant="outlined" color="primary" onClick={handleCouncilRolesClick}>
+            Council Roles
+          </Button>
         </PageHeaderContainer>
       </Grid>
 
