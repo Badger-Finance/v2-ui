@@ -8,7 +8,7 @@ export class GovernancePortalStore {
   public governanceProposals?: GovernanceProposalsList;
   public loadingProposals = false;
   public page = 1;
-  public perPage = 2;
+  public perPage = 5;
   constructor(private store: RootStore) {
     this.contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
     this.loadingProposals = false;

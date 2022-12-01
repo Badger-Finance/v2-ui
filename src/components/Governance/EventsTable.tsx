@@ -51,7 +51,7 @@ const EventsTable = observer(
               {loadingProposals && (
                 <TableRow>
                   <TableCell colSpan={3}>
-                    {new Array(governancePortal.perPage).fill('').map(() => (
+                    {new Array(5).fill('').map(() => (
                       <Skeleton animation="wave" height={43} />
                     ))}
                   </TableCell>
@@ -61,7 +61,7 @@ const EventsTable = observer(
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[2, 4, 8, 10]}
+          rowsPerPageOptions={[5, 10, 20, 50]}
           component="div"
           count={governanceProposals?.totalItems || 0}
           rowsPerPage={governanceProposals?.perPage || 5}
