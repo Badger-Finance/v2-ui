@@ -1,3 +1,4 @@
+import { GovernanceProposal } from '@badger-dao/sdk';
 import {
   Paper,
   Table,
@@ -11,8 +12,10 @@ import {
 import { Skeleton } from '@material-ui/lab';
 import { GovernancePortalStore } from 'mobx/stores/GovernancePortalStore';
 import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
 
 import EventsTableItem from './EventsTableItem';
+import ProposalDetailModal from './ProposalDetailModal';
 
 export interface EventTableProps {
   governancePortal: GovernancePortalStore;
@@ -23,6 +26,8 @@ export interface EventTableProps {
 
 const EventsTable = observer(
   ({ governancePortal, nextPage, loadingProposals, setPerPage }: EventTableProps): JSX.Element => {
+    const [showProposalDetailModal, setShowProposalDetailModal] = useState(false);
+    const [selectedProposal, setSelectedProposal] = useState<GovernanceProposal | null>(null);
     const { governanceProposals } = governancePortal;
     const handleChangePage = (event: unknown, newPage: number) => {
       nextPage(newPage + 1);
@@ -30,6 +35,11 @@ const EventsTable = observer(
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
       setPerPage(+event.target.value);
+    };
+
+    const handleProposalClick = (proposal: GovernanceProposal) => {
+      setShowProposalDetailModal(true);
+      setSelectedProposal(proposal);
     };
 
     return (
@@ -46,7 +56,7 @@ const EventsTable = observer(
             <TableBody>
               {!loadingProposals &&
                 governanceProposals?.items.map((proposal, i) => (
-                  <EventsTableItem proposal={proposal} key={'event-' + i} />
+                  <EventsTableItem onProposalClick={handleProposalClick} proposal={proposal} key={'event-' + i} />
                 ))}
               {loadingProposals && (
                 <TableRow>
@@ -68,6 +78,12 @@ const EventsTable = observer(
           page={(governanceProposals?.page || 1) - 1}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+
+        <ProposalDetailModal
+          proposal={selectedProposal}
+          open={showProposalDetailModal}
+          onModalClose={() => setShowProposalDetailModal(false)}
         />
       </>
     );
