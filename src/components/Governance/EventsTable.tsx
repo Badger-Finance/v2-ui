@@ -10,9 +10,12 @@ import {
   TableRow,
 } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import routes from 'config/routes';
 import { GovernancePortalStore } from 'mobx/stores/GovernancePortalStore';
+import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { QueryParams } from 'mobx-router';
+import { useContext, useEffect, useState } from 'react';
 
 import EventsTableItem from './EventsTableItem';
 import ProposalDetailModal from './ProposalDetailModal';
@@ -29,6 +32,20 @@ const EventsTable = observer(
     const [showProposalDetailModal, setShowProposalDetailModal] = useState(false);
     const [selectedProposal, setSelectedProposal] = useState<GovernanceProposal | null>(null);
     const { governanceProposals } = governancePortal;
+    const store = useContext(StoreContext);
+
+    useEffect(() => {
+      const { proposalId }: QueryParams = { ...store.router.queryParams };
+      if (proposalId) {
+        const proposal = governanceProposals?.items.find((proposal) => proposal.proposalId === proposalId);
+
+        if (proposal) {
+          setSelectedProposal(proposal);
+          setShowProposalDetailModal(true);
+        }
+      }
+    }, [governanceProposals?.items.length]);
+
     const handleChangePage = (event: unknown, newPage: number) => {
       nextPage(newPage + 1);
     };
@@ -40,6 +57,16 @@ const EventsTable = observer(
     const handleProposalClick = (proposal: GovernanceProposal) => {
       setShowProposalDetailModal(true);
       setSelectedProposal(proposal);
+
+      // add proposal id to route
+      store.router.goTo(routes.governance, {}, { ...store.router.queryParams, proposalId: proposal.proposalId });
+    };
+
+    const handleProposalClose = () => {
+      setShowProposalDetailModal(false);
+      const { proposalId, ...rest }: QueryParams = { ...store.router.queryParams };
+      // remove proposal id from route
+      store.router.goTo(routes.governance, {}, { ...rest });
     };
 
     return (
@@ -83,7 +110,7 @@ const EventsTable = observer(
         <ProposalDetailModal
           proposal={selectedProposal}
           open={showProposalDetailModal}
-          onModalClose={() => setShowProposalDetailModal(false)}
+          onModalClose={handleProposalClose}
         />
       </>
     );

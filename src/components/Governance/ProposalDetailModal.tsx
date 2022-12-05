@@ -18,6 +18,8 @@ import {
 } from '@material-ui/core';
 import { ArrowUpward } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
+import { StoreContext } from 'mobx/stores/store-context';
+import { useContext } from 'react';
 import { shortenAddress } from 'utils/componentHelpers';
 
 import ProposalAction from './ProposalAction';
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   title: {
     padding: 20,
+    borderBottom: '1px solid rgba(81, 81, 81, 1)',
   },
   titleText: {
     display: 'flex',
@@ -91,7 +94,7 @@ interface ProposalDetailModalTypes {
 
 export default function ProposalDetailModal({ open, onModalClose, proposal }: ProposalDetailModalTypes) {
   const classes = useStyles();
-  console.log(JSON.stringify(proposal, null, 4));
+  const { chain } = useContext(StoreContext);
 
   return (
     <Dialog
@@ -136,7 +139,7 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Typography variant="body2" color="primary">
-                <Link href={'https://etherscan.io/address/' + proposal?.contractAddr} target="_blank">
+                <Link href={chain.config.explorerUrl + '/address/' + proposal?.contractAddr} target="_blank">
                   Ethscan
                 </Link>
               </Typography>
@@ -144,7 +147,7 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
             <Grid item>
               <Link
                 className={classes.linkIcon}
-                href={'https://etherscan.io/address/' + proposal?.contractAddr}
+                href={chain.config.explorerUrl + '/address/' + proposal?.contractAddr}
                 target="_blank"
               >
                 <ArrowUpward />
@@ -219,7 +222,8 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
                 Created At :
               </Typography>
               <Typography variant="body2" className={classes.proposalId}>
-                {proposal?.createdAt && new Date(Number(proposal.createdAt) * 1000).toLocaleString()}
+                {proposal?.createdAt && new Date(Number(proposal.createdAt) * 1000).toLocaleDateString()}{' '}
+                {Intl.DateTimeFormat().resolvedOptions().timeZone}
               </Typography>
             </Box>
           </Grid>
@@ -229,7 +233,8 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
                 Ready At :
               </Typography>
               <Typography variant="body2" className={classes.proposalId}>
-                {proposal?.readyTime && new Date(Number(proposal.readyTime) * 1000).toLocaleString()}
+                {proposal?.readyTime && new Date(Number(proposal.readyTime) * 1000).toLocaleDateString()}{' '}
+                {Intl.DateTimeFormat().resolvedOptions().timeZone}
               </Typography>
             </Box>
           </Grid>
