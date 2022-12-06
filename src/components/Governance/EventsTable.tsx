@@ -75,9 +75,10 @@ const EventsTable = observer(
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Created At</TableCell>
-                <TableCell align="right">Ready At</TableCell>
+                <TableCell>Proposal Id</TableCell>
                 <TableCell align="right">Status</TableCell>
+                <TableCell align="right">Created At</TableCell>
+                <TableCell align="right">Ready At</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

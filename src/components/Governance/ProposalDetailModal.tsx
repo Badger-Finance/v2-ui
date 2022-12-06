@@ -21,6 +21,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
 import { shortenAddress } from 'utils/componentHelpers';
+import { getFormatedDateTime, getTimeZone } from 'utils/date';
 
 import ProposalAction from './ProposalAction';
 
@@ -216,25 +217,23 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
         <ProposalAction actions={proposal?.children || []} label="Children" />
 
         <Grid container justifyContent="space-between">
-          <Grid item>
+          <Grid item xs={6}>
             <Box display="flex">
               <Typography variant="body2" color="primary">
                 Created At :
               </Typography>
               <Typography variant="body2" className={classes.proposalId}>
-                {proposal?.createdAt && new Date(Number(proposal.createdAt) * 1000).toLocaleDateString()}{' '}
-                {Intl.DateTimeFormat().resolvedOptions().timeZone}
+                {proposal?.createdAt && getFormatedDateTime(new Date(Number(proposal.createdAt) * 1000))}
               </Typography>
             </Box>
           </Grid>
-          <Grid item>
+          <Grid item xs={6}>
             <Box display="flex">
               <Typography variant="body2" color="primary">
                 Ready At :
               </Typography>
               <Typography variant="body2" className={classes.proposalId}>
-                {proposal?.readyTime && new Date(Number(proposal.readyTime) * 1000).toLocaleDateString()}{' '}
-                {Intl.DateTimeFormat().resolvedOptions().timeZone}
+                {proposal?.readyTime && getFormatedDateTime(new Date(Number(proposal.readyTime) * 1000))}
               </Typography>
             </Box>
           </Grid>

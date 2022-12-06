@@ -1,5 +1,7 @@
 import { GovernanceProposal } from '@badger-dao/sdk';
 import { makeStyles, TableCell, TableRow } from '@material-ui/core';
+import { shortenAddress } from 'utils/componentHelpers';
+import { getFormatedDateTime } from 'utils/date';
 
 export interface EventTableProps {
   proposal: GovernanceProposal;
@@ -19,11 +21,10 @@ const EventsTableItem = ({ proposal, onProposalClick }: EventTableProps): JSX.El
   const classes = useStyles();
   return (
     <TableRow className={classes.root} onClick={() => onProposalClick(proposal)}>
-      <TableCell component="th" scope="row">
-        {new Date(Number(proposal.createdAt) * 1000).toLocaleString()}
-      </TableCell>
-      <TableCell align="right">{new Date(Number(proposal.readyTime) * 1000).toLocaleString()}</TableCell>
+      <TableCell scope="row">{proposal?.proposalId && shortenAddress(proposal?.proposalId, 10)}</TableCell>
       <TableCell align="right">{proposal.currentStatus}</TableCell>
+      <TableCell align="right">{getFormatedDateTime(new Date(Number(proposal.createdAt) * 1000))}</TableCell>
+      <TableCell align="right">{getFormatedDateTime(new Date(Number(proposal.readyTime) * 1000))}</TableCell>
     </TableRow>
   );
 };
