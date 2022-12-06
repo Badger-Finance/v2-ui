@@ -21,7 +21,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
 import { shortenAddress } from 'utils/componentHelpers';
-import { getFormatedDateTime, getTimeZone } from 'utils/date';
+import { getFormatedDateTime } from 'utils/date';
 
 import ProposalAction from './ProposalAction';
 
@@ -218,7 +218,7 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
 
         <Grid container justifyContent="space-between">
           <Grid item xs={6}>
-            <Box display="flex">
+            <Box display="flex" sx={{ marginTop: 10 }}>
               <Typography variant="body2" color="primary">
                 Created At :
               </Typography>
@@ -228,7 +228,7 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
             </Box>
           </Grid>
           <Grid item xs={6}>
-            <Box display="flex">
+            <Box display="flex" sx={{ marginTop: 10 }}>
               <Typography variant="body2" color="primary">
                 Ready At :
               </Typography>

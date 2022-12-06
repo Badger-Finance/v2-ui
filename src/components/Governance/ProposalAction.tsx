@@ -55,7 +55,7 @@ const ProposalAction = ({ actions, label }: ProposalActionType) => {
   };
 
   return (
-    <Box sx={{ marginTop: 20, marginBottom: 30 }}>
+    <Box sx={{ marginTop: 20, marginBottom: 20 }}>
       {actions.map((child: GovernanceProposalChild, index: number) => (
         <React.Fragment key={child.transactionHash}>
           <Divider />
