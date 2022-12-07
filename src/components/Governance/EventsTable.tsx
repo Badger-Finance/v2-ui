@@ -88,7 +88,7 @@ const EventsTable = observer(
                 ))}
               {loadingProposals && (
                 <TableRow>
-                  <TableCell colSpan={3}>
+                  <TableCell colSpan={4}>
                     {new Array(5).fill('').map(() => (
                       <Skeleton animation="wave" height={43} />
                     ))}

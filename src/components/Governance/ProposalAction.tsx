@@ -21,11 +21,17 @@ const useStyles = makeStyles(() => ({
     '& td': {
       padding: 8,
       wordBreak: 'break-all',
+      borderBottom: 0,
       '&:first-child': {
         borderLeft: '1px solid rgba(81, 81, 81, 1)',
       },
       '&:last-child': {
         borderRight: '1px solid rgba(81, 81, 81, 1)',
+      },
+    },
+    '& tr': {
+      '&:last-child': {
+        borderBottom: '1px solid rgba(81, 81, 81, 1)',
       },
     },
   },
@@ -36,35 +42,26 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface ProposalActionType {
-  actions: GovernanceProposalChild[] | GovernanceProposalsDispute[] | GovernanceProposalsStatus[];
+  actions: GovernanceProposalsDispute[] | GovernanceProposalsStatus[];
   label: string;
 }
 
 const ProposalAction = ({ actions, label }: ProposalActionType) => {
   const classes = useStyles();
 
-  const [openAccord, setOpenAccord] = useState<{ [key: string]: boolean }>(() =>
-    actions.reduce((acc, action, index) => ({ ...acc, [index]: false }), {}),
-  );
-
-  const handleClick = (index: number) => {
-    setOpenAccord({
-      ...openAccord,
-      [index]: !openAccord[index],
-    });
-  };
+  const [openAccord, setOpenAccord] = useState<boolean>(false);
 
   return (
     <Box sx={{ marginTop: 20, marginBottom: 20 }}>
-      {actions.map((child: GovernanceProposalChild, index: number) => (
+      <Divider />
+      <ListItem className={classes.listItem} button onClick={() => setOpenAccord(!openAccord)}>
+        <ListItemText primary={`${label}`} />
+        {openAccord ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Divider />
+      {actions.map((child: GovernanceProposalChild) => (
         <React.Fragment key={child.transactionHash}>
-          <Divider />
-          <ListItem className={classes.listItem} button onClick={() => handleClick(index)}>
-            <ListItemText primary={`${label} ${index + 1}`} />
-            {openAccord[index] ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Divider />
-          <Collapse in={openAccord[index]} timeout="auto" unmountOnExit>
+          <Collapse in={openAccord} timeout="auto" unmountOnExit>
             <Box sx={{ marginY: 0 }}>
               <TableContainer>
                 <Table size="small" className={classes.table}>

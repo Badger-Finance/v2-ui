@@ -1,12 +1,14 @@
-import { GovernanceProposal } from '@badger-dao/sdk';
+import { GovernanceProposal, GovernanceProposalsDispute, GovernanceProposalsStatus } from '@badger-dao/sdk';
 import {
   Box,
+  Card,
+  CardContent,
+  CardHeader,
   Dialog,
   DialogContent,
   DialogTitle,
   Grid,
   IconButton,
-  Link,
   makeStyles,
   Table,
   TableBody,
@@ -16,7 +18,6 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import { ArrowUpward } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from 'mobx/stores/store-context';
 import { useContext } from 'react';
@@ -65,7 +66,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingLeft: theme.spacing(1),
   },
   detailtable: {
-    marginTop: 20,
     '& td': {
       border: '0px !important',
       '&:first-child': {
@@ -85,6 +85,13 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
   },
+  cardHeader: {
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  cardContent: {
+    padding: 0,
+  },
 }));
 
 interface ProposalDetailModalTypes {
@@ -96,6 +103,14 @@ interface ProposalDetailModalTypes {
 export default function ProposalDetailModal({ open, onModalClose, proposal }: ProposalDetailModalTypes) {
   const classes = useStyles();
   const { chain } = useContext(StoreContext);
+
+  const events: Array<GovernanceProposalsStatus | GovernanceProposalsDispute> = [];
+  if (proposal?.disputes.length) {
+    events.push(...proposal.disputes);
+  }
+  if (proposal?.statuses.length) {
+    events.push(...proposal.statuses);
+  }
 
   return (
     <Dialog
@@ -135,8 +150,9 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
           <CloseIcon />
         </IconButton>
       </DialogTitle>
+
       <DialogContent id="alert-dialog-description" className={classes.root}>
-        <Box sx={{ marginTop: 15 }}>
+        {/* <Box sx={{ marginTop: 15 }}>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Typography variant="body2" color="primary">
@@ -155,66 +171,72 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
               </Link>
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
 
-        <TableContainer>
-          <Table size="small" className={`${classes.table} ${classes.detailtable}`}>
-            <TableBody>
-              <TableRow>
-                <TableCell>
-                  <Typography noWrap variant="body2" color="primary">
-                    Contract Addr
-                  </Typography>
-                </TableCell>
-                <TableCell>{proposal?.contractAddr}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Typography noWrap variant="body2" color="primary">
-                    Target Addr
-                  </Typography>
-                </TableCell>
-                <TableCell>{proposal?.targetAddr}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Typography noWrap variant="body2" color="primary">
-                    Call Data
-                  </Typography>
-                </TableCell>
-                <TableCell>{proposal?.callData}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Typography noWrap variant="body2" color="primary">
-                    Sender
-                  </Typography>
-                </TableCell>
-                <TableCell>{proposal?.sender}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Typography noWrap variant="body2" color="primary">
-                    Creation Block
-                  </Typography>
-                </TableCell>
-                <TableCell>{proposal?.creationBlock}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Typography noWrap variant="body2" color="primary">
-                    Update Block
-                  </Typography>
-                </TableCell>
-                <TableCell>{proposal?.updateBlock}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Card variant="outlined">
+          <CardHeader title="Actions" className={classes.cardHeader} />
+          <CardContent className={classes.cardContent}>
+            <TableContainer>
+              <Table size="small" className={`${classes.table} ${classes.detailtable}`}>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      <Typography noWrap variant="body2" color="primary">
+                        Contract Addr
+                      </Typography>
+                    </TableCell>
+                    <TableCell>{proposal?.contractAddr}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography noWrap variant="body2" color="primary">
+                        Target Addr
+                      </Typography>
+                    </TableCell>
+                    <TableCell>{proposal?.targetAddr}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography noWrap variant="body2" color="primary">
+                        Call Data
+                      </Typography>
+                    </TableCell>
+                    <TableCell>{proposal?.callData}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography noWrap variant="body2" color="primary">
+                        Sender
+                      </Typography>
+                    </TableCell>
+                    <TableCell>{proposal?.sender}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography noWrap variant="body2" color="primary">
+                        Creation Block
+                      </Typography>
+                    </TableCell>
+                    <TableCell>{proposal?.creationBlock}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography noWrap variant="body2" color="primary">
+                        Update Block
+                      </Typography>
+                    </TableCell>
+                    <TableCell>{proposal?.updateBlock}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+            {proposal?.children && proposal?.children.length > 0 && (
+              <ProposalAction actions={proposal?.children || []} label="Children" />
+            )}
+          </CardContent>
+        </Card>
 
-        <ProposalAction actions={proposal?.statuses || []} label="Statuses" />
-        <ProposalAction actions={proposal?.disputes || []} label="Disputes" />
-        <ProposalAction actions={proposal?.children || []} label="Children" />
+        {events.length > 0 && <ProposalAction actions={events} label="Events" />}
 
         <Grid container justifyContent="space-between">
           <Grid item xs={6}>
