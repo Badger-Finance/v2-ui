@@ -59,15 +59,15 @@ const ProposalAction = ({ actions, label }: ProposalActionType) => {
         {openAccord ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Divider />
-      {actions.map((child: GovernanceProposalChild) => (
-        <React.Fragment key={child.transactionHash}>
+      {actions.map((child: GovernanceProposalChild, index: number) => (
+        <React.Fragment key={child.transactionHash + index}>
           <Collapse in={openAccord} timeout="auto" unmountOnExit>
             <Box sx={{ marginY: 0 }}>
               <TableContainer>
                 <Table size="small" className={classes.table}>
                   <TableBody>
                     {(Object.keys(child) as Array<keyof typeof child>).map((key) => (
-                      <TableRow>
+                      <TableRow key={key}>
                         <TableCell>
                           <Typography noWrap variant="body2" color="primary">
                             {key}

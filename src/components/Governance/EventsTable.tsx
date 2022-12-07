@@ -15,7 +15,7 @@ import { GovernancePortalStore } from 'mobx/stores/GovernancePortalStore';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { QueryParams } from 'mobx-router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 
 import EventsTableItem from './EventsTableItem';
 import ProposalDetailModal from './ProposalDetailModal';
@@ -55,19 +55,29 @@ const EventsTable = observer(
     };
 
     const handleProposalClick = (proposal: GovernanceProposal) => {
-      setShowProposalDetailModal(true);
-      setSelectedProposal(proposal);
-
       // add proposal id to route
       store.router.goTo(routes.governance, {}, { ...store.router.queryParams, proposalId: proposal.proposalId });
     };
 
     const handleProposalClose = () => {
-      setShowProposalDetailModal(false);
       const { proposalId, ...rest }: QueryParams = { ...store.router.queryParams };
       // remove proposal id from route
       store.router.goTo(routes.governance, {}, { ...rest });
     };
+
+    useLayoutEffect(() => {
+      console.log('path changed');
+      const { proposalId }: QueryParams = { ...store.router.queryParams };
+      if (proposalId) {
+        const proposal = governanceProposals?.items.find((proposal) => proposal.proposalId === proposalId);
+        if (proposal) {
+          setShowProposalDetailModal(true);
+          setSelectedProposal(proposal);
+        }
+      } else if (showProposalDetailModal) {
+        setShowProposalDetailModal(false);
+      }
+    }, [store.router.currentPath]);
 
     return (
       <>
@@ -83,14 +93,18 @@ const EventsTable = observer(
             </TableHead>
             <TableBody>
               {!loadingProposals &&
-                governanceProposals?.items.map((proposal, i) => (
-                  <EventsTableItem onProposalClick={handleProposalClick} proposal={proposal} key={'event-' + i} />
+                governanceProposals?.items.map((proposal) => (
+                  <EventsTableItem
+                    key={proposal.proposalId}
+                    onProposalClick={handleProposalClick}
+                    proposal={proposal}
+                  />
                 ))}
               {loadingProposals && (
                 <TableRow>
                   <TableCell colSpan={4}>
-                    {new Array(5).fill('').map(() => (
-                      <Skeleton animation="wave" height={43} />
+                    {new Array(5).fill('').map((_, index) => (
+                      <Skeleton key={index} animation="wave" height={43} />
                     ))}
                   </TableCell>
                 </TableRow>

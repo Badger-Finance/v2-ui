@@ -205,6 +205,7 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
                 <Box component={'div'} display="flex" flexDirection={'column'} sx={{ width: '100%' }}>
                   {Object.keys(proposal.fields).map((key) => (
                     <TextField
+                      key={key}
                       variant="outlined"
                       fullWidth
                       label={proposal.fields[key].label}
@@ -238,7 +239,7 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
               Propose
             </Button>
           </Grid>
-          <Grid xs={6} item justifyContent="flex-end" style={{ display: 'flex' }}>
+          <Grid xs={6} item style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button onClick={handleAddNewProposal} size="small" color="primary">
               <AddIcon />
             </Button>

@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Divider,
   Grid,
   IconButton,
   makeStyles,
@@ -20,8 +21,8 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from 'mobx/stores/store-context';
-import { useContext } from 'react';
-import { shortenAddress } from 'utils/componentHelpers';
+import React, { useContext } from 'react';
+import { decamelize, shortenAddress } from 'utils/componentHelpers';
 import { getFormatedDateTime } from 'utils/date';
 
 import ProposalAction from './ProposalAction';
@@ -112,6 +113,17 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
     events.push(...proposal.statuses);
   }
 
+  const actionRow = (label: string, value: string | undefined) => (
+    <TableRow>
+      <TableCell>
+        <Typography noWrap variant="body2" color="primary">
+          {label}
+        </Typography>
+      </TableCell>
+      <TableCell>{value}</TableCell>
+    </TableRow>
+  );
+
   return (
     <Dialog
       open={open}
@@ -179,59 +191,35 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
             <TableContainer>
               <Table size="small" className={`${classes.table} ${classes.detailtable}`}>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <Typography noWrap variant="body2" color="primary">
-                        Contract Addr
-                      </Typography>
-                    </TableCell>
-                    <TableCell>{proposal?.contractAddr}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Typography noWrap variant="body2" color="primary">
-                        Target Addr
-                      </Typography>
-                    </TableCell>
-                    <TableCell>{proposal?.targetAddr}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Typography noWrap variant="body2" color="primary">
-                        Call Data
-                      </Typography>
-                    </TableCell>
-                    <TableCell>{proposal?.callData}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Typography noWrap variant="body2" color="primary">
-                        Sender
-                      </Typography>
-                    </TableCell>
-                    <TableCell>{proposal?.sender}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Typography noWrap variant="body2" color="primary">
-                        Creation Block
-                      </Typography>
-                    </TableCell>
-                    <TableCell>{proposal?.creationBlock}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Typography noWrap variant="body2" color="primary">
-                        Update Block
-                      </Typography>
-                    </TableCell>
-                    <TableCell>{proposal?.updateBlock}</TableCell>
-                  </TableRow>
+                  {actionRow('Contract Addr', proposal?.contractAddr)}
+                  {actionRow('Target Addr', proposal?.targetAddr)}
+                  {actionRow('Call Data', proposal?.callData)}
+                  {actionRow('Sender', proposal?.sender)}
+                  {actionRow('Creation Block', proposal?.creationBlock)}
+                  {actionRow('Update Block', proposal?.updateBlock)}
                 </TableBody>
               </Table>
             </TableContainer>
-            {proposal?.children && proposal?.children.length > 0 && (
-              <ProposalAction actions={proposal?.children || []} label="Children" />
+            {proposal?.children && proposal.children.length > 0 && (
+              <>
+                {proposal?.children &&
+                  proposal?.children.map((child, index: number) => (
+                    <>
+                      <Divider />
+                      <TableContainer>
+                        <Table size="small" className={`${classes.table} ${classes.detailtable}`}>
+                          <TableBody>
+                            <React.Fragment key={child.transactionHash + index}>
+                              {(Object.keys(child) as Array<keyof typeof child>).map((key) => (
+                                <React.Fragment key={key}>{actionRow(decamelize(key, ' '), child[key])}</React.Fragment>
+                              ))}
+                            </React.Fragment>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </>
+                  ))}
+              </>
             )}
           </CardContent>
         </Card>
