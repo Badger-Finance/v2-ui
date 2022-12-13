@@ -156,15 +156,15 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
         },
         [ethDeploy.sett_system.vaults['native.renCrv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/convex-renbtc-wbtc',
-          depositLink: 'https://curve.fi/ren/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/ren/deposit',
         },
         [ethDeploy.sett_system.vaults['native.sbtcCrv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/convex-renbtc-wbtc-sbtc',
-          depositLink: 'https://curve.fi/sbtc/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/sbtc/deposit',
         },
         [ethDeploy.sett_system.vaults['native.tbtcCrv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/convex-tbtc-sbtc',
-          depositLink: 'https://curve.fi/tbtc/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/tbtc/deposit',
         },
         [ethDeploy.sett_system.vaults['native.uniBadgerWbtc']]: {
           userGuide:
@@ -217,32 +217,32 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
         },
         [ethDeploy.sett_system.vaults['native.mim-3crv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/mim-3crv-curve-lp',
-          depositLink: 'https://curve.fi/mim/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/mim/deposit',
         },
         [ethDeploy.sett_system.vaults['native.frax-3crv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/frax-3crv-curve-lp',
-          depositLink: 'https://curve.fi/frax/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/frax/deposit',
         },
         [ethDeploy.sett_system.vaults['native.hbtcCrv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/convex-hbtc',
-          depositLink: 'https://curve.fi/hbtc/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/hbtc/deposit',
         },
         [ethDeploy.sett_system.vaults['native.pbtcCrv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/convex-pbtc',
-          depositLink: 'https://curve.fi/pbtc/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/pbtc/deposit',
         },
         [ethDeploy.sett_system.vaults['native.obtcCrv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/convex-obtc',
-          depositLink: 'https://curve.fi/obtc/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/obtc/deposit',
         },
         [ethDeploy.sett_system.vaults['native.bbtcCrv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/convex-bbtc',
-          depositLink: 'https://curve.fi/bbtc/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/bbtc/deposit',
         },
         [ethDeploy.sett_system.vaults['native.tricryptoCrv']]: {},
         [ethDeploy.sett_system.vaults['native.tricryptoCrv2']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/tricrypto2',
-          depositLink: 'https://curve.fi/tricrypto2/deposit',
+          depositLink: 'https://curve.fi/#/ethereum/pools/tricrypto2/deposit',
         },
         [ethDeploy.sett_system.vaults['native.cvxCrv']]: {
           userGuide: 'https://docs.badger.com/vaults/user-guides/vault-user-guides-ethereum/cvxcrv-helper',
