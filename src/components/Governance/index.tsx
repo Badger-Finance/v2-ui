@@ -1,5 +1,6 @@
 import { Network } from '@badger-dao/sdk';
 import { Button, Grid, IconButton } from '@material-ui/core';
+import useGovRoles from 'hooks/useGovRoles';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
@@ -12,28 +13,17 @@ import ProposalModal from './ProposalModal';
 
 const GovernancePortal = observer(() => {
   const store = useContext(StoreContext);
-  const { governancePortal, user, chain } = store;
+  const { governancePortal, chain } = store;
   const [showGovernanceFilters, setShowGovernanceFilters] = useState(false);
   const [showProposalModal, setShowProposalModal] = useState(false);
-  const [showProposeButton, setShowProposeButton] = useState(false);
+
+  const { hasProposalRole } = useGovRoles();
 
   useEffect(() => {
     if (chain.network === Network.Arbitrum) {
       governancePortal.loadData();
     }
   }, [governancePortal, chain.network]);
-
-  useEffect(() => {
-    async function getProposeRole() {
-      const hasRole = await store.user.hasRole();
-      setShowProposeButton(hasRole);
-    }
-    if (chain.network === Network.Arbitrum && user.accountDetails?.address) {
-      getProposeRole();
-    } else {
-      setShowProposeButton(false);
-    }
-  }, [chain.network, user.accountDetails?.address]);
 
   const toggleShowDialog = () => {
     setShowGovernanceFilters(!showGovernanceFilters);
@@ -84,7 +74,7 @@ const GovernancePortal = observer(() => {
         setPerPage={handleSetPerPage}
       />
 
-      {showProposeButton && (
+      {hasProposalRole && (
         <Grid container justifyContent="flex-end" alignItems="center">
           <Button onClick={() => setShowProposalModal(true)} variant="outlined" color="primary">
             Propose

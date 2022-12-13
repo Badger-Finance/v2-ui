@@ -79,6 +79,14 @@ const EventsTable = observer(
       }
     }, [store.router.currentPath]);
 
+    const handleVeto = async () => {
+      console.log('HandleVeto');
+    };
+
+    const handleUnVeto = () => {
+      console.log('HandleUnVeto');
+    };
+
     return (
       <>
         <TableContainer component={Paper}>
@@ -126,6 +134,8 @@ const EventsTable = observer(
           proposal={selectedProposal}
           open={showProposalDetailModal}
           onModalClose={handleProposalClose}
+          onVeto={handleVeto}
+          onUnVeto={handleUnVeto}
         />
       </>
     );

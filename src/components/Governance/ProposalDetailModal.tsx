@@ -1,13 +1,19 @@
-import { GovernanceProposal, GovernanceProposalsDispute, GovernanceProposalsStatus } from '@badger-dao/sdk';
+import {
+  GovernanceProposal,
+  GovernanceProposalChild,
+  GovernanceProposalsDispute,
+  GovernanceProposalsStatus,
+} from '@badger-dao/sdk';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   Grid,
   IconButton,
   makeStyles,
@@ -20,8 +26,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { StoreContext } from 'mobx/stores/store-context';
-import React, { useContext } from 'react';
+import useGovRoles from 'hooks/useGovRoles';
+import React from 'react';
 import { decamelize, shortenAddress } from 'utils/componentHelpers';
 import { getFormatedDateTime } from 'utils/date';
 
@@ -86,32 +92,70 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
   },
+  card: {
+    border: '1px solid rgba(81, 81, 81, 1)',
+    padding: theme.spacing(0, 1),
+    margin: theme.spacing(2, 0),
+  },
   cardHeader: {
-    paddingLeft: 0,
-    paddingRight: 0,
+    padding: theme.spacing(1, 0, 0, 0),
+    '& span': {
+      fontSize: '16px',
+    },
   },
   cardContent: {
-    padding: 0,
+    '&:last-child': {
+      padding: theme.spacing(1, 0),
+    },
   },
 }));
+
+export type BodyAsChildrenType = Omit<GovernanceProposal, 'index' | 'predecessor' | 'executed'>;
 
 interface ProposalDetailModalTypes {
   open: boolean;
   onModalClose: () => void;
   proposal: GovernanceProposal | null;
+  onVeto: () => void;
+  onUnVeto: () => void;
 }
 
-export default function ProposalDetailModal({ open, onModalClose, proposal }: ProposalDetailModalTypes) {
-  const classes = useStyles();
-  const { chain } = useContext(StoreContext);
+export type ProposalBodyType = Omit<GovernanceProposal, 'disputes' | 'statuses' | 'children'>;
 
-  const events: Array<GovernanceProposalsStatus | GovernanceProposalsDispute> = [];
-  if (proposal?.disputes.length) {
-    events.push(...proposal.disputes);
-  }
-  if (proposal?.statuses.length) {
-    events.push(...proposal.statuses);
-  }
+export default function ProposalDetailModal({
+  open,
+  onModalClose,
+  proposal,
+  onVeto,
+  onUnVeto,
+}: ProposalDetailModalTypes) {
+  const classes = useStyles();
+  const { hasVetoRole, hasUnVetoRole } = useGovRoles();
+
+  if (!proposal) return null;
+
+  const { disputes, statuses, children, ...rest } = proposal;
+  const {
+    proposalId,
+    createdAt,
+    contractAddr,
+    readyTime,
+    currentStatus,
+    creationBlock,
+    updateBlock,
+    ...bodyAsChildren
+  } = rest;
+
+  const actions: Array<GovernanceProposalChild> = [
+    {
+      ...bodyAsChildren,
+      index: 0,
+      predecessor: '0x0',
+      executed: currentStatus,
+    },
+    ...children,
+  ];
+  const events: Array<GovernanceProposalsStatus | GovernanceProposalsDispute> = [...disputes, ...statuses];
 
   const actionRow = (label: string, value: string | undefined) => (
     <TableRow>
@@ -185,46 +229,37 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
           </Grid>
         </Box> */}
 
-        <Card variant="outlined">
-          <CardHeader title="Actions" className={classes.cardHeader} />
-          <CardContent className={classes.cardContent}>
-            <TableContainer>
-              <Table size="small" className={`${classes.table} ${classes.detailtable}`}>
-                <TableBody>
-                  {actionRow('Contract Addr', proposal?.contractAddr)}
-                  {actionRow('Target Addr', proposal?.targetAddr)}
-                  {actionRow('Call Data', proposal?.callData)}
-                  {actionRow('Sender', proposal?.sender)}
-                  {actionRow('Creation Block', proposal?.creationBlock)}
-                  {actionRow('Update Block', proposal?.updateBlock)}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            {proposal?.children && proposal.children.length > 0 && (
-              <>
-                {proposal?.children &&
-                  proposal?.children.map((child, index: number) => (
-                    <>
-                      <Divider />
-                      <TableContainer>
-                        <Table size="small" className={`${classes.table} ${classes.detailtable}`}>
-                          <TableBody>
-                            <React.Fragment key={child.transactionHash + index}>
-                              {(Object.keys(child) as Array<keyof typeof child>).map((key) => (
-                                <React.Fragment key={key}>{actionRow(decamelize(key, ' '), child[key])}</React.Fragment>
-                              ))}
-                            </React.Fragment>
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </>
-                  ))}
-              </>
-            )}
-          </CardContent>
-        </Card>
+        <TableContainer>
+          <Table size="small" className={`${classes.table} ${classes.detailtable}`}>
+            <TableBody>
+              {actionRow(decamelize('proposalId', ' '), proposalId)}
+              {actionRow(decamelize('createdAt', ' '), getFormatedDateTime(new Date(Number(createdAt) * 1000)))}
+              {actionRow(decamelize('contractAddr', ' '), contractAddr)}
+              {actionRow(decamelize('readyTime', ' '), getFormatedDateTime(new Date(Number(readyTime) * 1000)))}
+              {actionRow(decamelize('contractAddr', ' '), contractAddr)}
+              {actionRow(decamelize('creationBlock', ' '), creationBlock.toString())}
+              {actionRow(decamelize('updateBlock', ' '), updateBlock.toString())}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-        {events.length > 0 && <ProposalAction actions={events} label="Events" />}
+        {actions.length > 0 && (
+          <Card className={classes.card} variant="outlined">
+            <CardHeader title={'Actions'} className={classes.cardHeader} />
+            <CardContent className={classes.cardContent}>
+              {actions.length > 0 && <ProposalAction open={false} actions={actions} label="Action" />}
+            </CardContent>
+          </Card>
+        )}
+
+        {events.length > 0 && (
+          <Card className={classes.card} variant="outlined">
+            <CardHeader title={'Events'} className={classes.cardHeader} />
+            <CardContent className={classes.cardContent}>
+              {events.length > 0 && <ProposalAction open={false} actions={events} label="Event" />}
+            </CardContent>
+          </Card>
+        )}
 
         <Grid container justifyContent="space-between">
           <Grid item xs={6}>
@@ -249,6 +284,20 @@ export default function ProposalDetailModal({ open, onModalClose, proposal }: Pr
           </Grid>
         </Grid>
       </DialogContent>
+
+      <DialogActions>
+        {hasVetoRole && (
+          <Button variant="contained" onClick={onVeto} color="primary">
+            Veto
+          </Button>
+        )}
+
+        {hasUnVetoRole && (
+          <Button variant="contained" onClick={onUnVeto} color="primary">
+            Unveto
+          </Button>
+        )}
+      </DialogActions>
     </Dialog>
   );
 }
