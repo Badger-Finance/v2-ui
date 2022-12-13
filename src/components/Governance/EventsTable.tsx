@@ -1,122 +1,77 @@
-import { Grid, List, makeStyles, Typography } from '@material-ui/core';
-import { TimelockEvent } from 'mobx/model/governance-timelock/timelock-event';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import { GovernancePortalStore } from 'mobx/stores/GovernancePortalStore';
+import { observer } from 'mobx-react-lite';
 
 import EventsTableItem from './EventsTableItem';
-import { Pagination } from './Pagination';
-
-const useStyles = makeStyles((theme) => ({
-  infoPaper: {
-    paddingTop: theme.spacing(2),
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flexDirection: 'column',
-    maxHeight: '70vh',
-    width: '100%',
-    overflowX: 'scroll',
-  },
-  root: {
-    padding: theme.spacing(1),
-    height: theme.spacing(6),
-    width: '1100px',
-    textAlign: 'center',
-    borderTopLeftRadius: theme.shape.borderRadius,
-    borderTopRightRadius: theme.shape.borderRadius,
-    background: `${theme.palette.background.paper}`,
-  },
-  list: {
-    width: '1100px',
-    overflowY: 'scroll',
-    background: `${theme.palette.background.paper}`,
-    padding: 0,
-    boxShadow: theme.shadows[1],
-  },
-}));
 
 export interface EventTableProps {
-  events?: Map<string, TimelockEvent>;
-  filters: string[];
+  governancePortal: GovernancePortalStore;
+  nextPage: (val: number) => void;
+  loadingProposals: boolean;
+  setPerPage: (val: number) => void;
 }
 
-const EventsTable = ({ events, filters }: EventTableProps): JSX.Element => {
-  const classes = useStyles();
-  const [eventListShow, setEventListShow] = useState<TimelockEvent[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const filteredEventList: TimelockEvent[] = useMemo(() => {
-    const applyFilter = (eventItem: TimelockEvent) => {
-      return filters.includes(eventItem.status);
+const EventsTable = observer(
+  ({ governancePortal, nextPage, loadingProposals, setPerPage }: EventTableProps): JSX.Element => {
+    const { governanceProposals } = governancePortal;
+    const handleChangePage = (event: unknown, newPage: number) => {
+      nextPage(newPage + 1);
     };
-    const eventList: TimelockEvent[] = [];
-    if (events) {
-      for (const key of events.keys()) {
-        let eventItem = {} as TimelockEvent;
-        eventItem = events.get(key) || eventItem;
-        eventList.push(eventItem);
-      }
-    }
-    if (filters.length > 0) {
-      return eventList.filter(applyFilter);
-    } else {
-      return eventList;
-    }
-  }, [events, filters]);
 
-  const rowsPerPage = 8;
-  const totalRows = filteredEventList.length;
-  const totalPages = Math.ceil(totalRows / rowsPerPage);
-  const handlePages = useCallback(
-    (updatePage: number) => {
-      if (updatePage > totalPages) {
-        updatePage = 1;
-      } else if (updatePage < 1) {
-        updatePage = totalPages;
-      }
-      const currentEventList: TimelockEvent[] = filteredEventList.slice(
-        (updatePage - 1) * rowsPerPage,
-        updatePage * rowsPerPage,
-      );
-      setPage(updatePage);
-      setEventListShow(currentEventList);
-    },
-    [totalPages, filteredEventList],
-  );
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setPerPage(+event.target.value);
+    };
 
-  useEffect(() => {
-    handlePages(1);
-  }, [handlePages]);
-  return (
-    <Grid className={classes.infoPaper} xs={12} item>
-      <Grid item container className={classes.root}>
-        <Grid item xs={3}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Timestamp
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Status
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Action
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Proposers
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <List className={classes.list}>
-        {eventListShow && eventListShow.map((event, i) => <EventsTableItem event={event} key={'event-' + i} />)}
-      </List>
-
-      <Pagination page={page} totalPages={totalPages} handlePagination={handlePages} />
-    </Grid>
-  );
-};
+    return (
+      <>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Created At</TableCell>
+                <TableCell align="right">Ready At</TableCell>
+                <TableCell align="right">Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!loadingProposals &&
+                governanceProposals?.items.map((proposal, i) => (
+                  <EventsTableItem proposal={proposal} key={'event-' + i} />
+                ))}
+              {loadingProposals && (
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    {new Array(5).fill('').map(() => (
+                      <Skeleton animation="wave" height={43} />
+                    ))}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 20, 50]}
+          component="div"
+          count={governanceProposals?.totalItems || 0}
+          rowsPerPage={governanceProposals?.perPage || 5}
+          page={(governanceProposals?.page || 1) - 1}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </>
+    );
+  },
+);
 
 export default EventsTable;

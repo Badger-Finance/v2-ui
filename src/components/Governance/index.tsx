@@ -1,4 +1,5 @@
-import { Grid, IconButton } from '@material-ui/core';
+import { Network } from '@badger-dao/sdk';
+import { Button, Grid, IconButton } from '@material-ui/core';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
@@ -7,25 +8,45 @@ import { LayoutContainer, PageHeaderContainer } from '../../components-v2/common
 import PageHeader from '../../components-v2/common/PageHeader';
 import AddressInfoCard from './AddressInfoCard';
 import EventsTable from './EventsTable';
-import GovernanceFilterDialog from './GovernanceFilterDialog';
+import ProposalModal from './ProposalModal';
 
 const GovernancePortal = observer(() => {
   const store = useContext(StoreContext);
-  const { governancePortal } = store;
+  const { governancePortal, user, chain } = store;
   const [showGovernanceFilters, setShowGovernanceFilters] = useState(false);
-  const [filters, setFilters] = useState<string[]>([]);
-  useEffect(() => {
-    governancePortal.loadData();
-  }, [governancePortal]);
+  const [showProposalModal, setShowProposalModal] = useState(false);
+  const [showProposeButton, setShowProposeButton] = useState(false);
 
-  //bruh wtf WWHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY ANY REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const applyFilter = (filters: any[]) => {
-    setFilters(filters);
-  };
+  useEffect(() => {
+    if (chain.network === Network.Arbitrum) {
+      governancePortal.loadData();
+    }
+  }, [governancePortal, chain.network]);
+
+  useEffect(() => {
+    async function getProposeRole() {
+      const hasRole = await store.user.hasRole();
+      setShowProposeButton(hasRole);
+    }
+    if (chain.network === Network.Arbitrum && user.accountDetails?.address) {
+      getProposeRole();
+    } else {
+      setShowProposeButton(false);
+    }
+  }, [chain.network, user.accountDetails?.address]);
+
   const toggleShowDialog = () => {
     setShowGovernanceFilters(!showGovernanceFilters);
   };
+
+  const handleNextPage = (nextPage: number) => {
+    governancePortal.updatePage(chain.network, nextPage);
+  };
+
+  const handleSetPerPage = (perPage: number) => {
+    governancePortal.updatePerPage(chain.network, perPage);
+  };
+
   return (
     <LayoutContainer style={{ width: '100vw' }}>
       <Grid container item xs={12} spacing={1}>
@@ -56,9 +77,27 @@ const GovernancePortal = observer(() => {
         </IconButton>
       </Grid>
 
-      <GovernanceFilterDialog open={showGovernanceFilters} onClose={toggleShowDialog} applyFilter={applyFilter} />
+      <EventsTable
+        loadingProposals={governancePortal.loadingProposals}
+        governancePortal={governancePortal}
+        nextPage={handleNextPage}
+        setPerPage={handleSetPerPage}
+      />
 
-      <EventsTable events={governancePortal.timelockEvents} filters={filters} />
+      {showProposeButton && (
+        <Grid container justifyContent="flex-end" alignItems="center">
+          <Button onClick={() => setShowProposalModal(true)} variant="outlined" color="primary">
+            Propose
+          </Button>
+        </Grid>
+      )}
+
+      <ProposalModal
+        open={showProposalModal}
+        onModalClose={() => {
+          setShowProposalModal(!showProposalModal);
+        }}
+      />
     </LayoutContainer>
   );
 });

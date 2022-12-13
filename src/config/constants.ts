@@ -80,7 +80,8 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE = undefined;
+export const APP_NEWS_MESSAGE =
+  'On December 20th, 2022, users will no longer be able to bridge renBTC back to its native network. As a result, it is recommended that Badger users remove exposure to renBTC immediately.';
 // Text & URL should be defined or explicitly undefined.
 export const APP_NEWS_URL_TEXT = undefined;
 export const APP_NEWS_URL = undefined;

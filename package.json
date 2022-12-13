@@ -6,8 +6,8 @@
     "node": ">=16.13.1"
   },
   "dependencies": {
-    "@badger-dao/sdk": "^1.18.15",
-    "@badger-dao/sdk-mocks": "^1.18.15",
+    "@badger-dao/sdk": "^1.20.1",
+    "@badger-dao/sdk-mocks": "^1.20.1",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
@@ -20,11 +20,9 @@
     "@typescript-eslint/parser": "^5.29.0",
     "@typescript-eslint/typescript-estree": "^5.29.0",
     "@walletconnect/web3-provider": "^1.7.8",
-    "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "clsx": "^1.1.1",
     "copy-to-clipboard": "^3.3.1",
-    "crypto-browserify": "^3.12.0",
     "css-mediaquery": "^0.1.2",
     "d3-format": "^3.1.0",
     "d3-time-format": "^4.1.0",
@@ -56,7 +54,6 @@
     "stream-http": "^3.2.0",
     "typechain": "^8.1.0",
     "typescript": "^4.7.4",
-    "url": "^0.11.0",
     "web-vitals": "^2.1.4",
     "web3modal": "^1.9.8"
   },
@@ -74,7 +71,8 @@
     "postinstall": "yarn requirements-check",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "analyze": "yarn build && source-map-explorer 'build/static/js/*.js'"
+    "analyze": "yarn build && source-map-explorer 'build/static/js/*.js'",
+    "link-crawler": "node check-urls.js"
   },
   "eslintConfig": {
     "extends": [
@@ -95,7 +93,9 @@
     ]
   },
   "devDependencies": {
+    "glob": "^8.0.3",
     "jest-fetch-mock": "^3.0.3",
+    "node-fetch": "2",
     "source-map-explorer": "^2.5.3"
   },
   "jest": {

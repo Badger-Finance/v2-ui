@@ -149,4 +149,17 @@ export default class UserStore {
       this.loadingBalances = false;
     }
   });
+
+  async hasRole(): Promise<boolean> {
+    if (this.accountDetails?.address) {
+      const proposeRole = await this.store.sdk.governance.timelockController.PROPOSER_ROLE();
+      const hasRole = await this.store.sdk.governance.timelockController.hasRole(
+        proposeRole,
+        this.accountDetails.address,
+      );
+      return hasRole;
+    } else {
+      return false;
+    }
+  }
 }
