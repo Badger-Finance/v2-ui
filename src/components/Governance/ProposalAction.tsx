@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import React, { useState } from 'react';
-import { decamelize } from 'utils/componentHelpers';
+import { decamelize, isString } from 'utils/componentHelpers';
 
 const useStyles = makeStyles(() => ({
   table: {
@@ -91,7 +91,7 @@ const ProposalAction = ({ actions, label, open = false }: ProposalActionType) =>
                               {decamelize(key, ' ')}
                             </Typography>
                           </TableCell>
-                          <TableCell>{child[key]}</TableCell>
+                          <TableCell>{isString(child[key]) && child[key]}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

@@ -16,6 +16,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { QueryParams } from 'mobx-router';
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import EventsTableItem from './EventsTableItem';
 import ProposalDetailModal from './ProposalDetailModal';
@@ -66,7 +67,6 @@ const EventsTable = observer(
     };
 
     useLayoutEffect(() => {
-      console.log('path changed');
       const { proposalId }: QueryParams = { ...store.router.queryParams };
       if (proposalId) {
         const proposal = governanceProposals?.items.find((proposal) => proposal.proposalId === proposalId);
@@ -80,7 +80,15 @@ const EventsTable = observer(
     }, [store.router.currentPath]);
 
     const handleVeto = async () => {
-      console.log('HandleVeto');
+      if (selectedProposal?.proposalId) {
+        store.governancePortal.veto(selectedProposal?.proposalId, (res, status) => {
+          if (status === 'success') {
+            toast.success('Vetoed successfully!');
+          } else {
+            toast.error(res?.message || 'Something went wrong!');
+          }
+        });
+      }
     };
 
     const handleUnVeto = () => {
@@ -136,6 +144,7 @@ const EventsTable = observer(
           onModalClose={handleProposalClose}
           onVeto={handleVeto}
           onUnVeto={handleUnVeto}
+          vetoing={store.governancePortal.vetoing}
         />
       </>
     );

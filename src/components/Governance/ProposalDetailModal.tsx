@@ -26,6 +26,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { Loader } from 'components/Loader';
 import useGovRoles from 'hooks/useGovRoles';
 import React from 'react';
 import { decamelize, shortenAddress } from 'utils/componentHelpers';
@@ -118,6 +119,7 @@ interface ProposalDetailModalTypes {
   proposal: GovernanceProposal | null;
   onVeto: () => void;
   onUnVeto: () => void;
+  vetoing: boolean;
 }
 
 export type ProposalBodyType = Omit<GovernanceProposal, 'disputes' | 'statuses' | 'children'>;
@@ -128,6 +130,7 @@ export default function ProposalDetailModal({
   proposal,
   onVeto,
   onUnVeto,
+  vetoing,
 }: ProposalDetailModalTypes) {
   const classes = useStyles();
   const { hasVetoRole, hasUnVetoRole } = useGovRoles();
@@ -151,7 +154,16 @@ export default function ProposalDetailModal({
       ...bodyAsChildren,
       index: 0,
       predecessor: '0x0',
-      executed: currentStatus,
+      executed: {
+        // TODO update once type will change
+        name: '',
+        sender: '',
+        status: currentStatus,
+        value: 0,
+        transactionHash: '',
+        blockNumber: 0,
+        updatedAt: 0,
+      },
     },
     ...children,
   ];
@@ -287,7 +299,13 @@ export default function ProposalDetailModal({
 
       <DialogActions>
         {hasVetoRole && (
-          <Button variant="contained" onClick={onVeto} color="primary">
+          <Button
+            startIcon={vetoing && <Loader color="inherit" size={20} />}
+            disabled={vetoing}
+            variant="contained"
+            onClick={onVeto}
+            color="primary"
+          >
             Veto
           </Button>
         )}

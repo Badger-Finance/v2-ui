@@ -135,3 +135,7 @@ export function decamelize(str: string, separator: string) {
     .map((word) => word[0].toUpperCase() + word.substring(1))
     .join(separator);
 }
+
+export function isString(x: unknown) {
+  return Object.prototype.toString.call(x) === '[object String]';
+}
