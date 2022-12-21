@@ -3,7 +3,7 @@ import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
 import { BigNumber } from 'ethers';
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { RootStore } from 'mobx/stores/RootStore';
 
 import { NETWORK_IDS, NETWORK_IDS_TO_NAMES } from '../../config/constants';
@@ -88,8 +88,11 @@ export class NetworkStore {
         }
       }
     }
-    this.network = config.network;
-    this.config = config;
+    runInAction(() => {
+      this.network = config.network;
+      this.config = config;
+    });
+
     if (!this.store.wallet.isConnected) {
       await this.store.updateNetwork(config.chainId);
     } else {
