@@ -28,10 +28,10 @@ const VaultListTitle = observer(() => {
   return (
     <>
       <Typography className={classes.title} component="h1">
-        Do Less & Earn More with BadgerDAO
+        Do Less & Earn More
       </Typography>
       <Typography className={classes.subtitle}>
-        Deposit to earn{' '}
+        Deposit to earn
         <Link href="#" onClick={() => setOpenModal(true)} color="primary">
           Yield-Bearing Rewards
         </Link>{' '}
