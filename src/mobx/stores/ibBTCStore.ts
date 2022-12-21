@@ -2,7 +2,7 @@ import { formatBalance, Token } from '@badger-dao/sdk';
 import addresses from 'config/ibBTC/addresses.json';
 import { BadgerPeakSwap__factory } from 'contracts';
 import { parseUnits } from 'ethers/lib/utils';
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, runInAction } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { toast } from 'react-toastify';
@@ -75,8 +75,10 @@ class IbBTCStore {
 
   fetchFees = action(async (): Promise<void> => {
     const fees = await this.store.sdk.ibbtc.getFees();
-    this.mintFeePercent = fees.mintFee;
-    this.redeemFeePercent = fees.redeemFee;
+    runInAction(() => {
+      this.mintFeePercent = fees.mintFee;
+      this.redeemFeePercent = fees.redeemFee;
+    });
   });
 
   fetchConversionRates = action(async (): Promise<void> => {
