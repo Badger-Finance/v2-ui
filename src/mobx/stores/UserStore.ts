@@ -1,6 +1,6 @@
 import { Account, BouncerType, MerkleProof, VaultCaps, VaultDTO, VaultState } from '@badger-dao/sdk';
 import { BigNumber, ethers } from 'ethers';
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, runInAction } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
@@ -101,7 +101,9 @@ export default class UserStore {
   private loadAccountDetails = action(async (address: string): Promise<void> => {
     const accountDetails = await this.store.api.loadAccount(address);
     if (accountDetails) {
-      this.accountDetails = accountDetails;
+      runInAction(() => {
+        this.accountDetails = accountDetails;
+      });
     }
   });
 
@@ -117,36 +119,50 @@ export default class UserStore {
       return;
     }
 
-    this.loadingBalances = true;
+    runInAction(() => {
+      this.loadingBalances = true;
+    });
+
+    // this.loadingBalances = true;
 
     try {
       const balances = await sdk.tokens.loadBalances(Object.keys(vaults.tokenConfig));
-      this.balances = Object.fromEntries(
-        Object.entries(balances).map((b) => {
-          const [token, balance] = b;
-          const price = prices.getPrice(token);
-          const tokenInfo = vaults.getToken(token);
-          const tokenBalance = new TokenBalance(tokenInfo, balance, price);
-          return [token, tokenBalance];
-        }),
-      );
+      runInAction(() => {
+        this.balances = Object.fromEntries(
+          Object.entries(balances).map((b) => {
+            const [token, balance] = b;
+            const price = prices.getPrice(token);
+            const tokenInfo = vaults.getToken(token);
+            const tokenBalance = new TokenBalance(tokenInfo, balance, price);
+            return [token, tokenBalance];
+          }),
+        );
+      });
 
       const targetVaults = this.store.vaults.vaultOrder
         .slice()
         .filter((v) => v.state === VaultState.Guarded || v.state === VaultState.Experimental);
       await Promise.all(
         targetVaults.map(async (v) => {
-          this.vaultCaps[v.vaultToken] = await this.store.sdk.vaults.getDepositCaps({
+          const vaultCap = await this.store.sdk.vaults.getDepositCaps({
             address: v.vaultToken,
             user: sdk.address,
           });
+          runInAction(() => {
+            this.vaultCaps[v.vaultToken] = vaultCap;
+          });
+          vaultCap;
         }),
       );
 
-      this.loadingBalances = false;
+      runInAction(() => {
+        this.loadingBalances = false;
+      });
     } catch (err) {
       console.error(err);
-      this.loadingBalances = false;
+      runInAction(() => {
+        this.loadingBalances = false;
+      });
     }
   });
 

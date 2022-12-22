@@ -8,13 +8,12 @@ exports[`Landing Renders correctly 1`] = `
     <h1
       class="MuiTypography-root-13 makeStyles-title-11 MuiTypography-body1-15"
     >
-      Do Less & Earn More with BadgerDAO
+      Do Less & Earn More
     </h1>
     <p
       class="MuiTypography-root-13 makeStyles-subtitle-12 MuiTypography-body1-15"
     >
       Deposit to earn
-       
       <a
         class="MuiTypography-root-13 MuiLink-root-43 MuiLink-underlineHover-45 MuiTypography-colorPrimary-36"
         href="#"
@@ -2596,13 +2595,12 @@ exports[`Landing Renders mobile version correctly 1`] = `
     <h1
       class="MuiTypography-root-13 makeStyles-title-11 MuiTypography-body1-15"
     >
-      Do Less & Earn More with BadgerDAO
+      Do Less & Earn More
     </h1>
     <p
       class="MuiTypography-root-13 makeStyles-subtitle-12 MuiTypography-body1-15"
     >
       Deposit to earn
-       
       <a
         class="MuiTypography-root-13 MuiLink-root-43 MuiLink-underlineHover-45 MuiTypography-colorPrimary-36"
         href="#"
@@ -4824,13 +4822,12 @@ exports[`Landing Renders tablet version correctly 1`] = `
     <h1
       class="MuiTypography-root-13 makeStyles-title-11 MuiTypography-body1-15"
     >
-      Do Less & Earn More with BadgerDAO
+      Do Less & Earn More
     </h1>
     <p
       class="MuiTypography-root-13 makeStyles-subtitle-12 MuiTypography-body1-15"
     >
       Deposit to earn
-       
       <a
         class="MuiTypography-root-13 MuiLink-root-43 MuiLink-underlineHover-45 MuiTypography-colorPrimary-36"
         href="#"

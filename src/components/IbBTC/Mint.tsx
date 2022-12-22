@@ -79,7 +79,7 @@ export const Mint = observer((): JSX.Element => {
   const classes = useStyles();
 
   const {
-    ibBTCStore: { ibBTC, mintFeePercent, mintOptions, mintRates, tokenBalances, initialized },
+    ibBTCStore: { ibBTC, mintFeePercent, mintOptions, mintRates, tokenBalances },
     transactions,
     wallet,
     sdk,

@@ -1,6 +1,6 @@
 import { RewardTree } from '@badger-dao/sdk';
 import { BigNumber } from 'ethers';
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, runInAction } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
@@ -49,9 +49,11 @@ export class TreeStore {
         sdk.rewards.badgerTree.currentCycle(),
         sdk.rewards.badgerTree.lastPublishTimestamp(),
       ]);
-      this.lastUpdateTimestamp = lastTreeUpdate.toNumber();
-      this.lastUpdate = this.calculateDelta(this.lastUpdateTimestamp);
-      this.cycle = treeCycle.toNumber();
+      runInAction(() => {
+        this.lastUpdateTimestamp = lastTreeUpdate.toNumber();
+        this.lastUpdate = this.calculateDelta(this.lastUpdateTimestamp);
+        this.cycle = treeCycle.toNumber();
+      });
     } catch (err) {
       console.error({
         err,
@@ -88,7 +90,9 @@ export class TreeStore {
           const token = tokenInformation[claimableTokens[i]];
           const amount = claimableAmounts[i];
           const price = prices.getPrice(token.address);
-          this.claimable[token.address] = new TokenBalance(token, amount, price);
+          runInAction(() => {
+            this.claimable[token.address] = new TokenBalance(token, amount, price);
+          });
         }
       } catch (err) {
         console.error({
@@ -98,7 +102,9 @@ export class TreeStore {
       }
     }
 
-    this.loadingTree = false;
+    runInAction(() => {
+      this.loadingTree = false;
+    });
   }
 
   reset() {
