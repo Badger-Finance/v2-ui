@@ -1,7 +1,7 @@
 import { ChartTimeFrame, ONE_DAY_SECONDS, ONE_YEAR_MS, VaultDTOV3, YieldEvent, YieldType } from '@badger-dao/sdk';
 import { getInfluenceVaultConfig } from 'components-v2/InfluenceVault/InfluenceVaultUtil';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
-import { extendObservable } from 'mobx';
+import { extendObservable, runInAction } from 'mobx';
 import { EmissionRoundToken, GraphObject, InfluenceVaultEmissionRound } from 'mobx/model/charts/influence-vaults-graph';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { InfluenceVaultConfig, InfluenceVaultData } from 'mobx/model/vaults/influence-vault-data';
@@ -23,14 +23,16 @@ class InfluenceVaultStore {
 
   async init(token: string) {
     const vault = this.store.vaults.getVault(token);
-    this.influenceVaults[token] = {
-      vault: vault,
-      vaultChartData: null,
-      emissionsSchedules: null,
-      processingChartData: true,
-      processingEmissions: true,
-      swapPercentage: '',
-    };
+    runInAction(() => {
+      this.influenceVaults[token] = {
+        vault: vault,
+        vaultChartData: null,
+        emissionsSchedules: null,
+        processingChartData: true,
+        processingEmissions: true,
+        swapPercentage: '',
+      };
+    });
     if (vault !== undefined)
       await Promise.all([
         this.loadChartInfo(ChartTimeFrame.Week, vault),
@@ -55,12 +57,19 @@ class InfluenceVaultStore {
 
   async loadChartInfo(timeframe: ChartTimeFrame, vault: VaultDTOV3) {
     try {
-      this.influenceVaults[vault.vaultToken].processingChartData = true;
-      this.influenceVaults[vault.vaultToken].vaultChartData = await this.store.vaultCharts.search(vault, timeframe);
+      runInAction(() => {
+        this.influenceVaults[vault.vaultToken].processingChartData = true;
+      });
+      const vaultChartData = await this.store.vaultCharts.search(vault, timeframe);
+      runInAction(async () => {
+        this.influenceVaults[vault.vaultToken].vaultChartData = vaultChartData;
+      });
     } catch (error) {
       console.error(error);
     } finally {
-      this.influenceVaults[vault.vaultToken].processingChartData = false;
+      runInAction(() => {
+        this.influenceVaults[vault.vaultToken].processingChartData = false;
+      });
     }
   }
 
@@ -74,7 +83,9 @@ class InfluenceVaultStore {
     try {
       const { roundStart } = config;
       const { api } = this.store;
-      this.influenceVaults[vault.vaultToken].processingEmissions = true;
+      runInAction(() => {
+        this.influenceVaults[vault.vaultToken].processingEmissions = true;
+      });
 
       // TODO: if we do not even bother showing rounds with emissions, should we include this?
       const emissionSchedules = await api.loadSchedule(vault.address, false);
@@ -126,11 +137,15 @@ class InfluenceVaultStore {
       const totalYieldEvents = yieldEvents.concat(emissionYieldEvents).filter((e) => e.timestamp >= roundStart * 1000);
       const bucketedEvents = await this.#bucketYieldEvents(totalYieldEvents, vault, config);
 
-      this.influenceVaults[vault.vaultToken].emissionsSchedules = bucketedEvents;
+      runInAction(() => {
+        this.influenceVaults[vault.vaultToken].emissionsSchedules = bucketedEvents;
+      });
     } catch (error) {
       console.error(error);
     } finally {
-      this.influenceVaults[vault.vaultToken].processingEmissions = false;
+      runInAction(() => {
+        this.influenceVaults[vault.vaultToken].processingEmissions = false;
+      });
     }
   }
 
@@ -149,7 +164,9 @@ class InfluenceVaultStore {
     const estimatedSwap = await curvePool.get_dy(1, 0, parseUnits(String(swapAmount), 'ether'));
     const swap = Number(formatUnits(estimatedSwap, 'ether'));
     const percentage = swap / swapAmount;
-    this.influenceVaults[vault.vaultToken].swapPercentage = `${(percentage * 100).toFixed(2)}%`;
+    runInAction(() => {
+      this.influenceVaults[vault.vaultToken].swapPercentage = `${(percentage * 100).toFixed(2)}%`;
+    });
   }
 
   async #bucketYieldEvents(

@@ -8,7 +8,7 @@ import {
   VaultState,
 } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, runInAction } from 'mobx';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { Chain } from 'mobx/model/network/chain';
 import { ProtocolSummaryCache } from 'mobx/model/system-config/protocol-summary-cache';
@@ -215,17 +215,23 @@ export default class VaultStore {
   async refresh(): Promise<void> {
     const { network } = this.store.chain;
     if (network) {
-      this.initialized = false;
+      runInAction(() => {
+        this.initialized = false;
+      });
       await Promise.all([this.loadVaults(network), this.loadTokens(network), this.loadAssets(network)]);
-      this.initialized = true;
+      runInAction(() => {
+        this.initialized = true;
+      });
     }
   }
 
   loadVaults = action(async (chain = Network.Ethereum): Promise<void> => {
     try {
       const vaults = await this.store.api.loadVaultsV3();
-      this.vaultCache[chain] = Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault]));
-      this.slugCache[chain] = this.getVaultsSlugCache(vaults);
+      runInAction(() => {
+        this.vaultCache[chain] = Object.fromEntries(vaults.map((vault) => [vault.vaultToken, vault]));
+        this.slugCache[chain] = this.getVaultsSlugCache(vaults);
+      });
     } catch (error) {
       console.error({
         error,
@@ -236,7 +242,10 @@ export default class VaultStore {
 
   loadTokens = action(async (chain = Network.Ethereum): Promise<void> => {
     try {
-      this.tokenCache[chain] = await this.store.api.loadTokens();
+      const tokens = await this.store.api.loadTokens();
+      runInAction(() => {
+        this.tokenCache[chain] = tokens;
+      });
     } catch (error) {
       // if (FLAGS.SDK_INTEGRATION_ENABLED) {
       // 	const tokensList = Array.from(this.vaultsDefinitions?.values() ?? []).map(
@@ -249,11 +258,13 @@ export default class VaultStore {
 
   loadAssets = action(async (chain = Network.Ethereum): Promise<void> => {
     const protocolSummary = await this.store.api.loadProtocolSummary();
-    if (protocolSummary) {
-      this.protocolSummaryCache[chain] = protocolSummary;
-    } else {
-      this.protocolSummaryCache[chain] = null;
-    }
+    runInAction(() => {
+      if (protocolSummary) {
+        this.protocolSummaryCache[chain] = protocolSummary;
+      } else {
+        this.protocolSummaryCache[chain] = null;
+      }
+    });
   });
 
   canUserDeposit(vault: VaultDTO): boolean {
