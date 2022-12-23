@@ -1,9 +1,4 @@
-import {
-  GovernanceProposal,
-  GovernanceProposalChild,
-  GovernanceProposalsDispute,
-  GovernanceProposalsStatus,
-} from '@badger-dao/sdk';
+import { GovernanceProposal, GovernanceProposalAction, GovernanceProposalsDispute, GovernanceProposalsStatus } from '@badger-dao/sdk';
 import {
   Box,
   Button,
@@ -31,7 +26,6 @@ import useGovRoles from 'hooks/useGovRoles';
 import React from 'react';
 import { decamelize, shortenAddress } from 'utils/componentHelpers';
 import { getFormatedDateTime } from 'utils/date';
-
 import ProposalAction from './ProposalAction';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -137,36 +131,11 @@ export default function ProposalDetailModal({
 
   if (!proposal) return null;
 
-  const { disputes, statuses, children, ...rest } = proposal;
-  const {
-    proposalId,
-    createdAt,
-    contractAddr,
-    readyTime,
-    currentStatus,
-    creationBlock,
-    updateBlock,
-    ...bodyAsChildren
-  } = rest;
+  console.log({ proposal });
 
-  const actions: Array<GovernanceProposalChild> = [
-    {
-      ...bodyAsChildren,
-      index: 0,
-      predecessor: '0x0',
-      executed: {
-        // TODO update once type will change
-        name: '',
-        sender: '',
-        status: currentStatus,
-        value: 0,
-        transactionHash: '',
-        blockNumber: 0,
-        updatedAt: 0,
-      },
-    },
-    ...children,
-  ];
+  const { disputes, statuses, actions, ...rest } = proposal;
+  const { proposalId, createdAt, contractAddr, readyTime, currentStatus, creationBlock, updateBlock } = rest;
+
   const events: Array<GovernanceProposalsStatus | GovernanceProposalsDispute> = [...disputes, ...statuses];
 
   const actionRow = (label: string, value: string | undefined) => (
@@ -249,6 +218,7 @@ export default function ProposalDetailModal({
               {actionRow(decamelize('contractAddr', ' '), contractAddr)}
               {actionRow(decamelize('readyTime', ' '), getFormatedDateTime(new Date(Number(readyTime) * 1000)))}
               {actionRow(decamelize('contractAddr', ' '), contractAddr)}
+              {actionRow(decamelize('currentStatus', ' '), currentStatus)}
               {actionRow(decamelize('creationBlock', ' '), creationBlock.toString())}
               {actionRow(decamelize('updateBlock', ' '), updateBlock.toString())}
             </TableBody>
@@ -260,18 +230,19 @@ export default function ProposalDetailModal({
             <CardHeader title={'Actions'} className={classes.cardHeader} />
             <CardContent className={classes.cardContent}>
               {actions.length > 0 && <ProposalAction open={false} actions={actions} label="Action" />}
+              {events.length > 0 && <ProposalAction open={false} actions={events} label="Events" />}
             </CardContent>
           </Card>
         )}
 
-        {events.length > 0 && (
+        {/* {events.length > 0 && (
           <Card className={classes.card} variant="outlined">
             <CardHeader title={'Events'} className={classes.cardHeader} />
             <CardContent className={classes.cardContent}>
               {events.length > 0 && <ProposalAction open={false} actions={events} label="Event" />}
             </CardContent>
           </Card>
-        )}
+        )} */}
 
         <Grid container justifyContent="space-between">
           <Grid item xs={6}>

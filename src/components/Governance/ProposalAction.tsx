@@ -1,8 +1,9 @@
-import { GovernanceProposalChild, GovernanceProposalsDispute, GovernanceProposalsStatus } from '@badger-dao/sdk';
+import { GovernanceProposalAction, GovernanceProposalsDispute, GovernanceProposalsStatus } from '@badger-dao/sdk';
 import {
   Box,
   Collapse,
   Divider,
+  List,
   ListItem,
   ListItemText,
   makeStyles,
@@ -15,10 +16,11 @@ import {
 } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import React, { useState } from 'react';
-import { decamelize, isString } from 'utils/componentHelpers';
+import { decamelize, isObject } from 'utils/componentHelpers';
 
 const useStyles = makeStyles(() => ({
   table: {
+    borderTop: '1px solid rgba(81, 81, 81, 1)',
     '& td': {
       padding: 8,
       wordBreak: 'break-all',
@@ -43,7 +45,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface ProposalActionType {
-  actions: Array<GovernanceProposalsDispute | GovernanceProposalsStatus> | Array<GovernanceProposalChild>;
+  actions: Array<GovernanceProposalsDispute | GovernanceProposalsStatus | GovernanceProposalAction>;
   label: string;
   open?: boolean;
 }
@@ -68,9 +70,46 @@ const ProposalAction = ({ actions, label, open = false }: ProposalActionType) =>
     });
   };
 
+  const renderValue = (key: string, value: any) => {
+    if (typeof value !== 'object' && value) {
+      return value;
+    } else if (isObject(value)) {
+      const { inputTypes, ...rest } = value;
+      return (
+        <Table size="small" className={classes.table}>
+          <TableBody>{renderAction(rest)}</TableBody>
+        </Table>
+      );
+    } else if (Array.isArray(value)) {
+      return (
+        <List aria-label={key}>
+          {value.map((data) => (
+            <>
+              <ListItem>{typeof data !== 'object' ? JSON.stringify(data) : data?.hex}</ListItem>
+              {value.length > 1 && <Divider />}
+            </>
+          ))}
+        </List>
+      );
+    }
+  };
+
+  const renderAction = (obj: GovernanceProposalsDispute | GovernanceProposalsStatus | GovernanceProposalAction) => {
+    return (Object.keys(obj) as Array<keyof typeof obj>).map((key) => (
+      <TableRow key={key}>
+        <TableCell>
+          <Typography noWrap variant="body2" color="primary">
+            {decamelize(key, ' ')}
+          </Typography>
+        </TableCell>
+        <TableCell>{renderValue(key, obj[key])}</TableCell>
+      </TableRow>
+    ));
+  };
+
   return (
     <>
-      {actions.map((child, index: number) => (
+      {actions.map((action, index: number) => (
         <Box key={index} sx={{ marginTop: 8, marginBottom: 0 }}>
           <React.Fragment key={index}>
             <Divider />
@@ -83,18 +122,7 @@ const ProposalAction = ({ actions, label, open = false }: ProposalActionType) =>
               <Box sx={{ marginY: 0 }}>
                 <TableContainer>
                   <Table size="small" className={classes.table}>
-                    <TableBody>
-                      {(Object.keys(child) as Array<keyof typeof child>).map((key) => (
-                        <TableRow key={key}>
-                          <TableCell>
-                            <Typography noWrap variant="body2" color="primary">
-                              {decamelize(key, ' ')}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>{isString(child[key]) && child[key]}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
+                    <TableBody>{renderAction(action)}</TableBody>
                   </Table>
                 </TableContainer>
               </Box>

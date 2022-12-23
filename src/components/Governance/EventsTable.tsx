@@ -80,15 +80,15 @@ const EventsTable = observer(
     }, [store.router.currentPath]);
 
     const handleVeto = async () => {
-      if (selectedProposal?.proposalId) {
-        store.governancePortal.veto(selectedProposal?.proposalId, (res, status) => {
-          if (status === 'success') {
-            toast.success('Vetoed successfully!');
-          } else {
-            toast.error(res?.message || 'Something went wrong!');
-          }
-        });
-      }
+      // if (selectedProposal?.proposalId) {
+      //   store.governancePortal.veto(selectedProposal?.proposalId, (res, status) => {
+      //     if (status === 'success') {
+      //       toast.success('Vetoed successfully!');
+      //     } else {
+      //       toast.error(res?.message || 'Something went wrong!');
+      //     }
+      //   });
+      // }
     };
 
     const handleUnVeto = () => {

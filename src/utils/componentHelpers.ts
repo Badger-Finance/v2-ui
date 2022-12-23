@@ -139,3 +139,7 @@ export function decamelize(str: string, separator: string) {
 export function isString(x: unknown) {
   return Object.prototype.toString.call(x) === '[object String]';
 }
+
+export function isObject(x: unknown) {
+  return Object.prototype.toString.call(x) === '[object Object]';
+}
