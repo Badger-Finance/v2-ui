@@ -1,4 +1,4 @@
-import { GovernanceProposal, GovernanceProposalAction, GovernanceProposalsDispute, GovernanceProposalsStatus } from '@badger-dao/sdk';
+import { GovernanceProposal, GovernanceProposalsDispute, GovernanceProposalsStatus } from '@badger-dao/sdk';
 import {
   Box,
   Button,
@@ -26,6 +26,7 @@ import useGovRoles from 'hooks/useGovRoles';
 import React from 'react';
 import { decamelize, shortenAddress } from 'utils/componentHelpers';
 import { getFormatedDateTime } from 'utils/date';
+
 import ProposalAction from './ProposalAction';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -130,8 +131,6 @@ export default function ProposalDetailModal({
   const { hasVetoRole, hasUnVetoRole } = useGovRoles();
 
   if (!proposal) return null;
-
-  console.log({ proposal });
 
   const { disputes, statuses, actions, ...rest } = proposal;
   const { proposalId, createdAt, contractAddr, readyTime, currentStatus, creationBlock, updateBlock } = rest;

@@ -52,7 +52,6 @@ interface ProposalActionType {
 
 const ProposalAction = ({ actions, label, open = false }: ProposalActionType) => {
   const classes = useStyles();
-  console.log({ actions });
 
   const [openAccord, setOpenAccord] = useState<{ [key: string]: boolean }>(() =>
     new Array(actions.length)

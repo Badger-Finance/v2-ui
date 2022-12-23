@@ -114,7 +114,6 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
     const field = prevProposals[formIndex].fields[fieldName];
     field['value'] = value;
     field['hasError'] = field['value'] ? false : true;
-    console.log(prevProposals);
     setProposals(prevProposals);
   };
 
@@ -148,14 +147,7 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
       }),
     );
     setProposals(prevProposals);
-    console.log(prevProposals, hasError);
     if (hasError) return;
-
-    console.log(
-      proposals.map((proposal) =>
-        Object.fromEntries(Object.keys(proposal.fields).map((key) => [key, proposal.fields[key].value])),
-      ),
-    );
   };
 
   const handleFormDelete = (formIndex: number) => {

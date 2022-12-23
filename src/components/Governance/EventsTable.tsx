@@ -16,7 +16,6 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import { QueryParams } from 'mobx-router';
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import EventsTableItem from './EventsTableItem';
 import ProposalDetailModal from './ProposalDetailModal';
