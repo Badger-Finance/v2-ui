@@ -81,10 +81,12 @@ const ProposalAction = ({ actions, label, open = false }: ProposalActionType) =>
       );
     } else if (Array.isArray(value)) {
       return (
-        <List aria-label={key}>
+        <List dense={true}>
           {value.map((data) => (
             <>
-              <ListItem>{typeof data !== 'object' ? JSON.stringify(data) : data?.hex}</ListItem>
+              <ListItem style={{ paddingLeft: 0, paddingRight: 0 }}>
+                {typeof data !== 'object' ? JSON.stringify(data) : data?.hex}
+              </ListItem>
               {value.length > 1 && <Divider />}
             </>
           ))}
