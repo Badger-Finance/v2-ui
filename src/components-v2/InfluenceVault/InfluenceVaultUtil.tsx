@@ -10,10 +10,6 @@ export function getInfluenceVaultConfig(address: string): InfluenceVaultConfig |
   return vaults.find((vault) => vault.influenceVaultToken === address);
 }
 
-export function getAllInfluenceVaults(): string[] {
-  return vaults.map((vault) => vault.influenceVaultToken);
-}
-
 export const vaults: InfluenceVaultConfig[] = [
   {
     influenceVaultToken: mainnetDeploy.sett_system.vaults['native.icvx'], // bveCVX

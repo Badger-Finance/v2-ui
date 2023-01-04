@@ -141,17 +141,6 @@ export const SAMPLE_IBBTC_USER_BALANCES: TokenBalances = {
   ),
 };
 
-export const SAMPLE_BADGER_SETT: BadgerVault = {
-  depositToken: {
-    address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
-    decimals: 18,
-  },
-  vaultToken: {
-    address: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
-    decimals: 18,
-  },
-};
-
 export const SAMPLE_VAULTS: VaultDTOV3[] = mockVaults as VaultDTOV3[];
 export const SAMPLE_VAULT: VaultDTOV3 = SAMPLE_VAULTS[0];
 

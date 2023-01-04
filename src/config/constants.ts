@@ -7,14 +7,6 @@ import { Wallets } from './enums/wallets.enum';
 
 export const TOOLTIP_LEAVE_TOUCH_DELAY = 1500;
 export const MAX_LAYOUT_WIDTH = 1183; // 1135px (width on mocks) + 24px of padding on each side
-export const DEFAULT_NETWORK = Network.Ethereum;
-
-export const RPC_WALLETS: { [index: string]: boolean } = {
-  [Wallets.Ledger]: true,
-  [Wallets.WalletConnect]: true,
-  [Wallets.WalletLink]: true,
-  [Wallets.Trezor]: true,
-};
 
 export enum NETWORK_IDS {
   ETH = 1,
@@ -36,27 +28,15 @@ export const NETWORK_IDS_TO_NAMES = {
   [NETWORK_IDS.FTM]: Network.Fantom,
 };
 
-export const CONTACT_EMAIL = 'hello@badger.finance';
-
-export const APP_NAME = 'BadgerDAO App';
-export const EMPTY_DATA = '0x';
-export const ZERO_CURRENCY = '0.00000';
 // https://semver.org/#is-v123-a-semantic-version
 export const SITE_VERSION = '2.17.0';
-export const BLOCKNATIVE_API_KEY = process.env.REACT_APP_BLOCKNATIVE_API_KEY;
 
-export const ZERO = ethers.constants.Zero;
-export const TEN = BigNumber.from(10);
 export const MAX_FEE = 1e4;
 export const MAX = ethers.constants.MaxUint256;
 export const METAMASK_REJECTED__SIGNATURE_ERROR_CODE = 4001;
 
-export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
-
 // time constants
 export const ONE_MIN_MS = 60 * 1000;
-export const ONE_HOUR_MS = ONE_MIN_MS * 60;
-export const ONE_DAY_MS = ONE_HOUR_MS * 24;
 
 export const ESTIMATED_REWARDS_FREQUENCY = process.env.REACT_APP_REWARDS_FREQUENCY || 2; // in hours
 

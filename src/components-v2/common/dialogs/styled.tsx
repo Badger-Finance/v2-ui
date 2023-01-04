@@ -5,13 +5,6 @@ export const ActionButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
 }));
 
-export const AssetInformationContainer = styled(Grid)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
-  [theme.breakpoints.only('xs')]: {
-    textAlign: 'center',
-  },
-}));
-
 export const PercentagesContainer = styled(Grid)(({ theme }) => ({
   textAlign: 'center',
   [theme.breakpoints.up('sm')]: {
@@ -20,14 +13,6 @@ export const PercentagesContainer = styled(Grid)(({ theme }) => ({
   [theme.breakpoints.down('xs')]: {
     marginTop: theme.spacing(1),
   },
-}));
-
-export const AmountTextField = styled(TextField)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-}));
-
-export const BalanceInformation = styled(Typography)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
 }));
 
 export const VaultDialogContent = withStyles({
