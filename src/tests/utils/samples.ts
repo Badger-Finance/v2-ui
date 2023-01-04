@@ -5,7 +5,6 @@ import { parseUnits } from 'ethers/lib/utils';
 
 import { TokenBalances } from '../../mobx/model/account/user-balances';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 
 export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
   {

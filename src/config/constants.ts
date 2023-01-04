@@ -1,7 +1,5 @@
 import { Network } from '@badger-dao/sdk';
-import { BigNumber, ethers } from 'ethers';
-
-import { Wallets } from './enums/wallets.enum';
+import { ethers } from 'ethers';
 
 /* App Configurations */
 
