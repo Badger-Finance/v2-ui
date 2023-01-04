@@ -418,5 +418,3 @@ const ethVaultDefinitions: BadgerVault[] = [
     },
   },
 ];
-
-export const ethVaults = ethVaultDefinitions;

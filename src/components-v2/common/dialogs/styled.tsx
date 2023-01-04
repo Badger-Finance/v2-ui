@@ -1,15 +1,8 @@
-import { Button, CircularProgress, DialogContent, Grid, TextField, Typography, withStyles } from '@material-ui/core';
+import { Button, CircularProgress, DialogContent, Grid, withStyles } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
 export const ActionButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
-}));
-
-export const AssetInformationContainer = styled(Grid)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
-  [theme.breakpoints.only('xs')]: {
-    textAlign: 'center',
-  },
 }));
 
 export const PercentagesContainer = styled(Grid)(({ theme }) => ({
@@ -20,14 +13,6 @@ export const PercentagesContainer = styled(Grid)(({ theme }) => ({
   [theme.breakpoints.down('xs')]: {
     marginTop: theme.spacing(1),
   },
-}));
-
-export const AmountTextField = styled(TextField)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-}));
-
-export const BalanceInformation = styled(Typography)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
 }));
 
 export const VaultDialogContent = withStyles({
