@@ -5,12 +5,12 @@ import { action } from 'mobx';
 import { Chain } from 'mobx/model/network/chain';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
+import { getNetworkIconPath } from 'utils/network-icon';
 
 import NetworkGasWidget from '../components-v2/common/NetworkGasWidget';
 import { defaultNetwork, supportedNetworks } from '../config/networks.config';
 import GasPricesStore from '../mobx/stores/GasPricesStore';
 import store from '../mobx/stores/RootStore';
-import { getNetworkIconPath } from '../utils/network-icon';
 import { createMatchMedia, customRender, fireEvent, screen } from './Utils';
 
 const mockGasPrices = {
@@ -42,31 +42,6 @@ describe('NetworkGasWidget', () => {
   const expectedChain = Chain.getChain(defaultNetwork);
 
   beforeEach(addSpies);
-
-  it('displays network options', () => {
-    const { baseElement } = customRender(
-      <StoreProvider value={store}>
-        <NetworkGasWidget />
-      </StoreProvider>,
-    );
-    fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
-    fireEvent.mouseOver(screen.getByText(expectedChain.name));
-    expect(baseElement).toMatchSnapshot();
-  });
-
-  it('can select a network', async () => {
-    customRender(
-      <StoreProvider value={store}>
-        <NetworkGasWidget />
-      </StoreProvider>,
-    );
-
-    const networkIcon = screen.getByAltText('selected network icon');
-    fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
-    fireEvent.click(screen.getByText(supportedNetworks[2].name));
-    await screen.findByText(supportedNetworks[2].name);
-    expect(networkIcon).toHaveAttribute('src', getNetworkIconPath(supportedNetworks[2].network));
-  });
 
   describe('in desktop mode', () => {
     beforeEach(addSpies);
@@ -107,5 +82,20 @@ describe('NetworkGasWidget', () => {
       fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
       expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
     });
+  });
+
+  it('displays network options and can select a network', async () => {
+    const { baseElement } = customRender(
+      <StoreProvider value={store}>
+        <NetworkGasWidget />
+      </StoreProvider>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
+    fireEvent.mouseOver(screen.getByText(supportedNetworks[0].name));
+    expect(baseElement).toMatchSnapshot();
+
+    const networkIcon = screen.getByAltText('selected network icon');
+    await screen.findByText(supportedNetworks[0].name);
+    expect(networkIcon).toHaveAttribute('src', getNetworkIconPath(supportedNetworks[0].network));
   });
 });
