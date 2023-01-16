@@ -54,17 +54,15 @@ const NetworkGasWidget = (): JSX.Element => {
             height="17"
           />
         </Button>
-        {ref.current && (
-          <Popper
-            open={areNetworkOptionsOpen}
-            className={classes.popover}
-            onMouseLeave={closeNetworkOptions}
-            anchorEl={ref.current}
-            placement="bottom-end"
-          >
-            <NetworkOptions onSelect={closeNetworkOptions} />
-          </Popper>
-        )}
+        <Popper
+          open={areNetworkOptionsOpen}
+          className={classes.popover}
+          onMouseLeave={closeNetworkOptions}
+          anchorEl={ref.current}
+          placement="bottom-end"
+        >
+          <NetworkOptions onSelect={closeNetworkOptions} />
+        </Popper>
       </div>
     </ClickAwayListener>
   );

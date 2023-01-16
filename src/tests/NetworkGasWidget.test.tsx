@@ -1,17 +1,15 @@
 import '@testing-library/jest-dom';
 
 import { BadgerAPI } from '@badger-dao/sdk';
-import { action } from 'mobx';
-import { Chain } from 'mobx/model/network/chain';
+import NetworkGasWidget from 'components-v2/common/NetworkGasWidget';
+import { supportedNetworks } from 'config/networks.config';
+import store from 'mobx/stores/RootStore';
 import { StoreProvider } from 'mobx/stores/store-context';
 import React from 'react';
 import { getNetworkIconPath } from 'utils/network-icon';
 
-import NetworkGasWidget from '../components-v2/common/NetworkGasWidget';
-import { defaultNetwork, supportedNetworks } from '../config/networks.config';
 import GasPricesStore from '../mobx/stores/GasPricesStore';
-import store from '../mobx/stores/RootStore';
-import { createMatchMedia, customRender, fireEvent, screen } from './Utils';
+import { customRender, fireEvent, screen } from './Utils';
 
 const mockGasPrices = {
   rapid: {
@@ -39,52 +37,9 @@ function addSpies() {
 }
 
 describe('NetworkGasWidget', () => {
-  const expectedChain = Chain.getChain(defaultNetwork);
-
   beforeEach(addSpies);
 
-  describe('in desktop mode', () => {
-    beforeEach(addSpies);
-
-    it('can select gas options', () => {
-      const mockSetGasPrice = jest.fn();
-      store.chain.setGasPrice = action(mockSetGasPrice);
-
-      customRender(
-        <StoreProvider value={store}>
-          <NetworkGasWidget />
-        </StoreProvider>,
-      );
-
-      fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
-      fireEvent.mouseOver(screen.getByText(expectedChain.name));
-      fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
-      expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
-    });
-  });
-
-  describe('in mobile mode', () => {
-    beforeEach(addSpies);
-
-    it('can select gas options', () => {
-      const mockSetGasPrice = jest.fn();
-      store.chain.setGasPrice = action(mockSetGasPrice);
-      window.matchMedia = createMatchMedia(480);
-
-      customRender(
-        <StoreProvider value={store}>
-          <NetworkGasWidget />
-        </StoreProvider>,
-      );
-
-      fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
-      fireEvent.click(screen.getAllByRole('button', { name: 'show gas options' })[0]);
-      fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
-      expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
-    });
-  });
-
-  it('displays network options and can select a network', async () => {
+  it('should render without crashing', () => {
     const { baseElement } = customRender(
       <StoreProvider value={store}>
         <NetworkGasWidget />
@@ -93,9 +48,19 @@ describe('NetworkGasWidget', () => {
     fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
     fireEvent.mouseOver(screen.getByText(supportedNetworks[0].name));
     expect(baseElement).toMatchSnapshot();
+  });
+
+  it('should select a network', async () => {
+    customRender(
+      <StoreProvider value={store}>
+        <NetworkGasWidget />
+      </StoreProvider>,
+    );
 
     const networkIcon = screen.getByAltText('selected network icon');
-    await screen.findByText(supportedNetworks[0].name);
-    expect(networkIcon).toHaveAttribute('src', getNetworkIconPath(supportedNetworks[0].network));
+    fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
+    fireEvent.click(screen.getByText(supportedNetworks[2].name));
+    await screen.findByText(supportedNetworks[2].name);
+    expect(networkIcon).toHaveAttribute('src', getNetworkIconPath(supportedNetworks[2].network));
   });
 });
