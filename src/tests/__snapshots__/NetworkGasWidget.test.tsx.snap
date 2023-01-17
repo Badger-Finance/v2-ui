@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NetworkGasWidget displays network options and can select a network 1`] = `
+exports[`NetworkGasWidget displays network options 1`] = `
 <body>
   <div>
     <div>
@@ -42,8 +42,11 @@ exports[`NetworkGasWidget displays network options and can select a network 1`] 
       >
         NETWORK
       </li>
-      <li
-        class="MuiListItem-root-68 MuiListItem-gutters-75"
+      <div
+        aria-disabled="false"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 makeStyles-hoveredButton-63 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+        role="button"
+        tabindex="0"
       >
         <div
           class="MuiGrid-root-79 MuiGrid-container-80"
@@ -93,9 +96,15 @@ exports[`NetworkGasWidget displays network options and can select a network 1`] 
             </button>
           </div>
         </div>
-      </li>
-      <li
-        class="MuiListItem-root-68 MuiListItem-gutters-75"
+        <span
+          class="MuiTouchRipple-root-36"
+        />
+      </div>
+      <div
+        aria-disabled="false"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+        role="button"
+        tabindex="0"
       >
         <div
           class="MuiGrid-root-79 MuiGrid-container-80"
@@ -145,9 +154,15 @@ exports[`NetworkGasWidget displays network options and can select a network 1`] 
             </button>
           </div>
         </div>
-      </li>
-      <li
-        class="MuiListItem-root-68 MuiListItem-gutters-75"
+        <span
+          class="MuiTouchRipple-root-36"
+        />
+      </div>
+      <div
+        aria-disabled="false"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+        role="button"
+        tabindex="0"
       >
         <div
           class="MuiGrid-root-79 MuiGrid-container-80"
@@ -197,9 +212,15 @@ exports[`NetworkGasWidget displays network options and can select a network 1`] 
             </button>
           </div>
         </div>
-      </li>
-      <li
-        class="MuiListItem-root-68 MuiListItem-gutters-75"
+        <span
+          class="MuiTouchRipple-root-36"
+        />
+      </div>
+      <div
+        aria-disabled="false"
+        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+        role="button"
+        tabindex="0"
       >
         <div
           class="MuiGrid-root-79 MuiGrid-container-80"
@@ -249,8 +270,106 @@ exports[`NetworkGasWidget displays network options and can select a network 1`] 
             </button>
           </div>
         </div>
-      </li>
+        <span
+          class="MuiTouchRipple-root-36"
+        />
+      </div>
     </nav>
+  </div>
+  <div
+    class="makeStyles-popper-65"
+    role="tooltip"
+    style="position: absolute; top: 0px; left: 0px;"
+    x-placement="right-start"
+  >
+    <div
+      class="MuiPaper-root-232 MuiPaper-elevation1-236 MuiPaper-rounded-233"
+    >
+      <nav
+        class="MuiList-root-50 makeStyles-root-49 makeStyles-root-231 MuiList-padding-51"
+      >
+        <div
+          aria-disabled="false"
+          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="MuiListItemText-root-186"
+          >
+            <span
+              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
+            >
+               
+              43
+            </span>
+          </div>
+          <span
+            class="MuiTouchRipple-root-36"
+          />
+        </div>
+        <div
+          aria-disabled="false"
+          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="MuiListItemText-root-186"
+          >
+            <span
+              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
+            >
+               
+              39
+            </span>
+          </div>
+          <span
+            class="MuiTouchRipple-root-36"
+          />
+        </div>
+        <div
+          aria-disabled="false"
+          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="MuiListItemText-root-186"
+          >
+            <span
+              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
+            >
+               
+              34
+            </span>
+          </div>
+          <span
+            class="MuiTouchRipple-root-36"
+          />
+        </div>
+        <div
+          aria-disabled="false"
+          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="MuiListItemText-root-186"
+          >
+            <span
+              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
+            >
+               
+              30
+            </span>
+          </div>
+          <span
+            class="MuiTouchRipple-root-36"
+          />
+        </div>
+      </nav>
+    </div>
   </div>
 </body>
 `;
