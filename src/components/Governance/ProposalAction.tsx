@@ -82,13 +82,13 @@ const ProposalAction = ({ actions, label, open = false }: ProposalActionType) =>
     } else if (Array.isArray(value)) {
       return (
         <List dense={true}>
-          {value.map((data) => (
-            <>
+          {value.map((data, index) => (
+            <React.Fragment key={index}>
               <ListItem style={{ paddingLeft: 0, paddingRight: 0 }}>
                 {typeof data !== 'object' ? JSON.stringify(data) : data?.hex}
               </ListItem>
               {value.length > 1 && <Divider />}
-            </>
+            </React.Fragment>
           ))}
         </List>
       );
