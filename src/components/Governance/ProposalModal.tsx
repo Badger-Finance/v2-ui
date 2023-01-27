@@ -114,7 +114,6 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
     const field = prevProposals[formIndex].fields[fieldName];
     field['value'] = value;
     field['hasError'] = field['value'] ? false : true;
-    console.log(prevProposals);
     setProposals(prevProposals);
   };
 
@@ -148,14 +147,7 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
       }),
     );
     setProposals(prevProposals);
-    console.log(prevProposals, hasError);
     if (hasError) return;
-
-    console.log(
-      proposals.map((proposal) =>
-        Object.fromEntries(Object.keys(proposal.fields).map((key) => [key, proposal.fields[key].value])),
-      ),
-    );
   };
 
   const handleFormDelete = (formIndex: number) => {
@@ -205,6 +197,7 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
                 <Box component={'div'} display="flex" flexDirection={'column'} sx={{ width: '100%' }}>
                   {Object.keys(proposal.fields).map((key) => (
                     <TextField
+                      key={key}
                       variant="outlined"
                       fullWidth
                       label={proposal.fields[key].label}
@@ -238,7 +231,7 @@ const ProposalModal = ({ open, onModalClose }: ProposalModalTypes) => {
               Propose
             </Button>
           </Grid>
-          <Grid xs={6} item justifyContent="flex-end" style={{ display: 'flex' }}>
+          <Grid xs={6} item style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button onClick={handleAddNewProposal} size="small" color="primary">
               <AddIcon />
             </Button>

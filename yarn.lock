@@ -1315,10 +1315,10 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@badger-dao/sdk-mocks@^1.20.1":
-  version "1.20.1"
-  resolved "https://registry.yarnpkg.com/@badger-dao/sdk-mocks/-/sdk-mocks-1.20.1.tgz#eca549c701cbe54cae4130c7e10f75a37af178d2"
-  integrity sha512-0A23UhfYuLSIAtJpaAOj8DYPtFsFhyF49pyDcXj0LwaU/2QTKMW0g4CXblQ3CnHp3VM9G7Z2oY9FaIOgzO+zpA==
+"@badger-dao/sdk-mocks@^1.21.1":
+  version "1.21.1"
+  resolved "https://registry.yarnpkg.com/@badger-dao/sdk-mocks/-/sdk-mocks-1.21.1.tgz#c34199b59feac2fd2b63d08eedb211d742dbdd3f"
+  integrity sha512-XZJKVYAUiQtk18Tj520oDYvqoQZLNJ2DCYzfkVXDYt87nrOqc56ww19E4+lE+lg0V4ArkcB6VUB/AU7zLNxpzg==
   dependencies:
     "@types/jest" "27.0.2"
     "@typescript-eslint/eslint-plugin" "5.0.0"
@@ -1333,21 +1333,22 @@
     jest "27.3.1"
     prettier "2.4.1"
     pretty-quick "3.1.3"
-    semantic-release "19.0.2"
+    semantic-release "19.0.3"
     ts-jest "27.0.7"
     ts-node "^10.9.1"
     tslib "2.3.1"
     typescript "4.5.4"
 
-"@badger-dao/sdk@^1.20.1":
-  version "1.20.1"
-  resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.20.1.tgz#535099049c7e1582e0c60a059bdb46fd84c3cdee"
-  integrity sha512-RdfXsWntgKnIa3C1k8YZy5Czc6CU63/oNlVpz+ngcNWhStTk5TICH9v5xs5LvfkK+tSgAOvkKILTfjA61e23pw==
+"@badger-dao/sdk@^1.21.1":
+  version "1.21.1"
+  resolved "https://registry.yarnpkg.com/@badger-dao/sdk/-/sdk-1.21.1.tgz#f1be395bf3922e2611c6211be2dca111f114a96f"
+  integrity sha512-89a4Gc0UW0ULTrkPRRmcHY5SqPUUxx0BM0/tzuJ6ogQbBbe4tyxO7JjFt0SeEZS27lvaea50mk8gMOoEGp4aHw==
   dependencies:
     "@0xsequence/indexer" "^0.40.6"
     "@0xsequence/multicall" "^0.40.6"
     "@0xsequence/provider" "^0.40.6"
     "@0xsequence/relayer" "^0.40.6"
+    "@types/mkdirp" "^1.0.2"
     axios "^0.24.0"
     ethers "^5.5.2"
     graphql "^16.5.0"
@@ -3952,6 +3953,13 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
+
+"@types/mkdirp@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/mkdirp/-/mkdirp-1.0.2.tgz#8d0bad7aa793abe551860be1f7ae7f3198c16666"
+  integrity sha512-o0K1tSO0Dx5X6xlU5F1D6625FawhC3dU3iqr25lluNv/+/QIVH8RLNEiVokgIZo+mz+87w/3Mkg/VvQS+J51fQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/node-fetch@^2.5.7":
   version "2.6.2"
@@ -16452,10 +16460,10 @@ selfsigned@^2.0.1:
   dependencies:
     node-forge "^1"
 
-semantic-release@19.0.2:
-  version "19.0.2"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-19.0.2.tgz#6011683c06d7b416e5faa5a3f43b22bbf3798aa8"
-  integrity sha512-7tPonjZxukKECmClhsfyMKDt0GR38feIC2HxgyYaBi+9tDySBLjK/zYDLhh+m6yjnHIJa9eBTKYE7k63ZQcYbw==
+semantic-release@19.0.3:
+  version "19.0.3"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-19.0.3.tgz#9291053ad9890052f28e7c5921d4741530d516fd"
+  integrity sha512-HaFbydST1cDKZHuFZxB8DTrBLJVK/AnDExpK0s3EqLIAAUAHUgnd+VSJCUtTYQKkAkauL8G9CucODrVCc7BuAA==
   dependencies:
     "@semantic-release/commit-analyzer" "^9.0.2"
     "@semantic-release/error" "^3.0.0"

@@ -123,3 +123,23 @@ export function getTokenIconPath(token: Token | { symbol: string }): string {
 }
 
 export const isValidCalculatedValue = (value: number) => isFinite(value) && !isNaN(value);
+
+export function decamelize(str: string, separator: string) {
+  separator = typeof separator === 'undefined' ? '_' : separator;
+
+  return str
+    .replace(/([a-z\d])([A-Z])/g, '$1' + separator + '$2')
+    .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separator + '$2')
+    .toLowerCase()
+    .split(separator)
+    .map((word) => word[0].toUpperCase() + word.substring(1))
+    .join(separator);
+}
+
+export function isString(x: unknown) {
+  return Object.prototype.toString.call(x) === '[object String]';
+}
+
+export function isObject(x: unknown) {
+  return Object.prototype.toString.call(x) === '[object Object]';
+}

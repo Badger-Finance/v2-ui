@@ -6,8 +6,8 @@
     "node": ">=16.13.1"
   },
   "dependencies": {
-    "@badger-dao/sdk": "^1.20.1",
-    "@badger-dao/sdk-mocks": "^1.20.1",
+    "@badger-dao/sdk": "^1.21.1",
+    "@badger-dao/sdk-mocks": "^1.21.1",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
@@ -64,7 +64,7 @@
     "test": "TZ=America/New_York react-app-rewired test --watchAll=false --runInBand --logHeapUsage",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "test:coverage": "react-scripts test --silent --ci --coverage --watchAll=false --coverageReporters=\"text\" --coverageReporters=\"text-summary\" --json --outputFile=report.json",
+    "test:coverage": "TZ=America/New_York react-scripts test --silent --ci --coverage --watchAll=false --coverageReporters=\"text\" --coverageReporters=\"text-summary\" --json --outputFile=report.json",
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
     "format": "yarn pretty-quick",
     "codegen:contracts": "typechain --target ethers-v5 --out-dir src/contracts src/abi/*.abi",
