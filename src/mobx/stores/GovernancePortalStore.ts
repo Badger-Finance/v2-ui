@@ -35,13 +35,13 @@ export class GovernancePortalStore {
     }
   }
 
-  async veto(id: string, callback?: (res: ContractTransaction | any, status: string) => void) {
+  async veto(id: string, callback?: (res: ContractTransaction | unknown, status: string) => void) {
     const { sdk } = this.store;
     this.vetoing = true;
     try {
       const res = await sdk.governance.timelockController.callDispute(id);
       if (callback) callback(res, 'success');
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (callback) callback(error, 'error');
       console.log({
         error,

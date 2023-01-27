@@ -60,6 +60,7 @@ const EventsTable = observer(
     };
 
     const handleProposalClose = () => {
+      // eslint-disable-next-line unused-imports/no-unused-vars
       const { proposalId, ...rest }: QueryParams = { ...store.router.queryParams };
       // remove proposal id from route
       store.router.goTo(routes.governance, {}, { ...rest });

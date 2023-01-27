@@ -69,10 +69,12 @@ const ProposalAction = ({ actions, label, open = false }: ProposalActionType) =>
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderValue = (key: string, value: any) => {
     if (typeof value !== 'object' && value) {
       return value;
     } else if (isObject(value)) {
+      // eslint-disable-next-line unused-imports/no-unused-vars
       const { inputTypes, ...rest } = value;
       return (
         <Table size="small" className={classes.table}>
