@@ -3,11 +3,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { Web3Modal } from '@web3modal/react';
 import { StoreProvider } from 'mobx/stores/store-context';
+import { projectId } from 'mobx/stores/WalletStore';
 import { startRouter } from 'mobx-router';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { ToastContainer } from 'react-toastify';
+import { WagmiConfig } from 'wagmi';
 
 import { App } from './components/App';
 import NetworkURLManager from './components-v2/NetworkURLManager';
@@ -33,7 +36,15 @@ root.render(
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <NetworkURLManager />
-      <App />
+      <WagmiConfig client={store.wallet.wagmiClient}>
+        <App />
+      </WagmiConfig>
+      <Web3Modal
+        themeColor="orange"
+        themeZIndex={9999}
+        projectId={projectId}
+        ethereumClient={store.wallet.ethereumClient}
+      />
       <ToastContainer position="bottom-right" newestOnTop={true} closeOnClick theme="dark" draggable />
     </ThemeProvider>
   </StoreProvider>,

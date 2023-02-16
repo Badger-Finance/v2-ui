@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 
 import NetworkGasWidget from '../common/NetworkGasWidget';
 import WalletWidget from '../common/WalletWidget';
+import { Web3NetworkSwitch } from '@web3modal/react';
 
 const useStyles = makeStyles({
   menuIcon: {
@@ -37,7 +38,8 @@ export const NavbarMobileRow = observer((): JSX.Element => {
       </Grid>
       <Grid item container xs={8} className={classes.buttons} spacing={2}>
         <Grid item>
-          <NetworkGasWidget />
+          {/* <NetworkGasWidget /> */}
+          <Web3NetworkSwitch />
         </Grid>
         <Grid item>
           <WalletWidget />

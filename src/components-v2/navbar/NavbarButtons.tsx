@@ -1,4 +1,5 @@
 import { Grid, makeStyles } from '@material-ui/core';
+import { Web3NetworkSwitch } from '@web3modal/react';
 import React from 'react';
 
 import NetworkGasWidget from '../common/NetworkGasWidget';
@@ -26,7 +27,8 @@ export const NavbarButtons = (): JSX.Element => {
         <RewardsButton />
       </Grid>
       <Grid item>
-        <NetworkGasWidget />
+        {/* <NetworkGasWidget /> */}
+        <Web3NetworkSwitch />
       </Grid>
       <Grid item>
         <WalletWidget />

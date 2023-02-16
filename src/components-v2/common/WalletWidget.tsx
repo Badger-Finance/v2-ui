@@ -1,10 +1,9 @@
-import { Box, Button, CircularProgress, makeStyles, Typography } from '@material-ui/core';
-import useENS from 'hooks/useEns';
+import { makeStyles } from '@material-ui/core';
+import { watchAccount, watchNetwork } from '@wagmi/core';
+import { Web3Button } from '@web3modal/react';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
-
-import { shortenAddress } from '../../utils/componentHelpers';
+import React, { useContext, useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   walletDot: {
@@ -36,51 +35,74 @@ const useStyles = makeStyles((theme) => ({
 const WalletWidget = observer(() => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { uiState, wallet, transactions } = store;
-  const { pendingTransactions } = transactions;
 
-  async function connect(): Promise<void> {
-    if (wallet.isConnected) {
-      uiState.toggleWalletDrawer();
-    } else {
-      try {
-        await wallet.connect();
-      } catch (error) {
-        const isModalClosed = String(error).includes('User closed modal');
-        const isEmptyAccounts = String(error).includes('Error: accounts received is empty');
-        if (!isModalClosed && !isEmptyAccounts) {
-          console.error(error);
-        }
-      }
-    }
-  }
+  useEffect(() => {
+    const unwatch = watchAccount((account) => {
+      store.wallet.accountChange(account);
+    });
+    return unwatch;
+  }, []);
 
-  const { ensName } = useENS(wallet.address);
-  const walletAddress = wallet.address ? shortenAddress(wallet.address) : 'Connect';
+  useEffect(() => {
+    // Action for subscribing to network changes.
+    const unwatch = watchNetwork((network) => {
+      store.wallet.networkChange(network);
+    });
+    return unwatch;
+  }, []);
 
-  if (pendingTransactions.length > 0) {
-    return (
-      <Button variant="outlined" color="primary" classes={{ label: classes.walletButtonLabel }} onClick={connect}>
-        <Box display="flex" alignContent="center">
-          <CircularProgress size={14} className={classes.spinner} />
-          <Typography display="inline" className={classes.transactionsCount}>
-            {pendingTransactions.length}
-          </Typography>
-        </Box>
-      </Button>
-    );
-  }
+  // useEffect(() => {
+  //   console.log(connector?.onAccountsChanged(() => {}));
+  // }, [connector]);
+
+  // const { uiState, wallet, transactions } = store;
+  // const { pendingTransactions } = transactions;
+
+  // async function connect(): Promise<void> {
+  //   if (wallet.isConnected) {
+  //     uiState.toggleWalletDrawer();
+  //   } else {
+  //     try {
+  //       await wallet.connect();
+  //     } catch (error) {
+  //       const isModalClosed = String(error).includes('User closed modal');
+  //       const isEmptyAccounts = String(error).includes('Error: accounts received is empty');
+  //       if (!isModalClosed && !isEmptyAccounts) {
+  //         console.error(error);
+  //       }
+  //     }
+  //   }
+  // }
+
+  // const { ensName } = useENS(wallet.address);
+  // const walletAddress = wallet.address ? shortenAddress(wallet.address) : 'Connect';
+
+  // if (pendingTransactions.length > 0) {
+  //   return (
+  //     <Button variant="outlined" color="primary" classes={{ label: classes.walletButtonLabel }} onClick={connect}>
+  //       <Box display="flex" alignContent="center">
+  //         <CircularProgress size={14} className={classes.spinner} />
+  //         <Typography display="inline" className={classes.transactionsCount}>
+  //           {pendingTransactions.length}
+  //         </Typography>
+  //       </Box>
+  //     </Button>
+  //   );
+  // }
 
   return (
-    <Button
-      disableElevation
-      color="primary"
-      variant={wallet.isConnected ? 'outlined' : 'contained'}
-      onClick={connect}
-      classes={{ label: classes.walletButtonLabel }}
-    >
-      {ensName || walletAddress}
-    </Button>
+    <>
+      <Web3Button icon="hide" label="Connect" />
+      {/* <Button
+        disableElevation
+        color="primary"
+        variant={wallet.isConnected ? 'outlined' : 'contained'}
+        onClick={connect}
+        classes={{ label: classes.walletButtonLabel }}
+      >
+        {ensName || walletAddress}
+      </Button> */}
+    </>
   );
 });
 
