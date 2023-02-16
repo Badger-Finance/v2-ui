@@ -2,7 +2,6 @@ import { Grid, makeStyles } from '@material-ui/core';
 import { Web3NetworkSwitch } from '@web3modal/react';
 import React from 'react';
 
-import NetworkGasWidget from '../common/NetworkGasWidget';
 import WalletWidget from '../common/WalletWidget';
 import { RewardsButton } from '../landing/RewardsButton';
 

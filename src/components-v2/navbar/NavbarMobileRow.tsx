@@ -1,11 +1,10 @@
 import { Grid, IconButton, makeStyles } from '@material-ui/core';
+import { Web3NetworkSwitch } from '@web3modal/react';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 
-import NetworkGasWidget from '../common/NetworkGasWidget';
 import WalletWidget from '../common/WalletWidget';
-import { Web3NetworkSwitch } from '@web3modal/react';
 
 const useStyles = makeStyles({
   menuIcon: {
