@@ -1,5 +1,4 @@
 import { NetworkConfig, SDKProvider } from '@badger-dao/sdk';
-import { Web3Provider } from '@ethersproject/providers';
 import { GetAccountResult, GetNetworkResult } from '@wagmi/core';
 import { EthereumClient, modalConnectors, walletConnectProvider } from '@web3modal/ethereum';
 import { action, computed, makeObservable, observable } from 'mobx';
