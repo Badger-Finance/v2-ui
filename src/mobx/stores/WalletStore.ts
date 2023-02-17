@@ -1,4 +1,4 @@
-import { NetworkConfig } from '@badger-dao/sdk';
+import { NetworkConfig, SDKProvider } from '@badger-dao/sdk';
 import { Web3Provider } from '@ethersproject/providers';
 import { GetAccountResult, GetNetworkResult } from '@wagmi/core';
 import { EthereumClient, modalConnectors, walletConnectProvider } from '@web3modal/ethereum';
@@ -6,14 +6,14 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import { configureChains, createClient } from 'wagmi';
 import { arbitrum, fantom, localhost, mainnet } from 'wagmi/chains';
 
+import { projectId } from '../../config/environment';
 import { RootStore } from './RootStore';
 
 const chains = [mainnet, localhost, arbitrum, fantom];
-export const projectId = 'dcdb98454f70814fa8bf6983dca8b5a9';
 
 export class WalletStore {
   // private web3Modal: Web3Modal;
-  private provider?: unknown;
+  private provider?: SDKProvider;
 
   public address?: string | undefined;
   public wagmiClient;
@@ -22,8 +22,12 @@ export class WalletStore {
   constructor(private store: RootStore, config: NetworkConfig) {
     console.log({ config });
 
+    if (!projectId) {
+      throw new Error('You need to provide WALLET_CONNECT_PROJECT_ID env variable');
+    }
+
     // Wagmi client
-    const { provider } = configureChains(chains, [walletConnectProvider({ projectId })]);
+    const { provider } = configureChains(chains, [walletConnectProvider({ projectId })], { pollingInterval: 15000 });
     this.wagmiClient = createClient({
       autoConnect: true,
       connectors: modalConnectors({
@@ -67,6 +71,16 @@ export class WalletStore {
     if (network?.chain?.id) this.handleChainChanged(String(network.chain.id));
   });
 
+  providerChange = action(async (provider: SDKProvider) => {
+    //const temporaryProvider = this.getLibrary(provider);
+    this.provider = provider;
+    this.store.chain.syncUrlNetworkId();
+
+    // update piece wise app components
+    await this.store.updateNetwork(provider.network.chainId);
+    await this.store.updateProvider(provider);
+  });
+
   async connect() {
     // // set up whack web3 untyped (typoical) bullshit
     // const provider = await this.web3Modal.connect();
@@ -95,18 +109,18 @@ export class WalletStore {
   });
 
   /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
-  private getLibrary(provider: any): Web3Provider {
-    const library = new Web3Provider(
-      provider,
-      typeof provider.chainId === 'number'
-        ? provider.chainId
-        : typeof provider.chainId === 'string'
-        ? parseInt(provider.chainId)
-        : 'any',
-    );
-    library.pollingInterval = 15000;
-    return library;
-  }
+  // private getLibrary(provider: any): Web3Provider {
+  //   const library = new Web3Provider(
+  //     provider,
+  //     typeof provider.network.chainId === 'number'
+  //       ? provider.network.chainId
+  //       : typeof provider.network.chainId === 'string'
+  //       ? parseInt(provider.network.chainId)
+  //       : 'any',
+  //   );
+  //   library.pollingInterval = 15000;
+  //   return library;
+  // }
 
   private async handleChainChanged(chainId: string) {
     await this.store.updateNetwork(Number(chainId));
@@ -117,8 +131,8 @@ export class WalletStore {
   // ignore the accounts, web3 modal kekekeke
   private async handleAccountsChanged(accounts: string[]) {
     this.address = accounts[0];
-    // if (this.provider) {
-    //   await this.store.updateProvider(this.provider);
-    // }
+    if (this.provider) {
+      await this.store.updateProvider(this.provider);
+    }
   }
 }

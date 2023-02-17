@@ -5,7 +5,6 @@ import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Web3Modal } from '@web3modal/react';
 import { StoreProvider } from 'mobx/stores/store-context';
-import { projectId } from 'mobx/stores/WalletStore';
 import { startRouter } from 'mobx-router';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -14,6 +13,7 @@ import { WagmiConfig } from 'wagmi';
 
 import { App } from './components/App';
 import NetworkURLManager from './components-v2/NetworkURLManager';
+import { projectId } from './config/environment';
 import routes from './config/routes';
 import { darkTheme } from './config/ui/dark';
 import store from './mobx/stores/RootStore';
@@ -26,6 +26,10 @@ startRouter(routes, store, {
   // @ts-ignore
   notfound: () => store.router.goTo(routes.notFound),
 });
+
+if (!projectId) {
+  throw new Error('You need to provide WALLET_CONNECT_PROJECT_ID env variable');
+}
 
 const container = document.getElementById('root');
 // required per react docs

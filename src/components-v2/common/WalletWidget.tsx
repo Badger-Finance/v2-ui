@@ -1,5 +1,6 @@
+import { SDKProvider } from '@badger-dao/sdk';
 import { makeStyles } from '@material-ui/core';
-import { watchAccount, watchNetwork } from '@wagmi/core';
+import { watchAccount, watchNetwork, watchProvider } from '@wagmi/core';
 import { Web3Button } from '@web3modal/react';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -48,6 +49,12 @@ const WalletWidget = observer(() => {
     const unwatch = watchNetwork((network) => {
       store.wallet.networkChange(network);
     });
+    return unwatch;
+  }, []);
+
+  useEffect(() => {
+    // Action for subscribing to provider changes.
+    const unwatch = watchProvider({}, (provider) => store.wallet.providerChange(provider as SDKProvider));
     return unwatch;
   }, []);
 
