@@ -1,4 +1,5 @@
 import { NetworkConfig, SDKProvider } from '@badger-dao/sdk';
+import { Web3Provider } from '@ethersproject/providers';
 import { GetAccountResult, GetNetworkResult } from '@wagmi/core';
 import { EthereumClient, modalConnectors, walletConnectProvider } from '@web3modal/ethereum';
 import { action, computed, makeObservable, observable } from 'mobx';
@@ -19,8 +20,6 @@ export class WalletStore {
   public ethereumClient: EthereumClient;
 
   constructor(private store: RootStore, config: NetworkConfig) {
-    console.log({ config });
-
     if (!projectId) {
       throw new Error('You need to provide WALLET_CONNECT_PROJECT_ID env variable');
     }
@@ -71,7 +70,7 @@ export class WalletStore {
   });
 
   providerChange = action(async (provider: SDKProvider) => {
-    //const temporaryProvider = this.getLibrary(provider);
+    // const temporaryProvider = this.getLibrary(provider);
     this.provider = provider;
     this.store.chain.syncUrlNetworkId();
 
@@ -108,28 +107,28 @@ export class WalletStore {
   });
 
   /* eslint-disable-next-line  @typescript-eslint/no-explicit-any */
-  // private getLibrary(provider: any): Web3Provider {
-  //   const library = new Web3Provider(
-  //     provider,
-  //     typeof provider.network.chainId === 'number'
-  //       ? provider.network.chainId
-  //       : typeof provider.network.chainId === 'string'
-  //       ? parseInt(provider.network.chainId)
-  //       : 'any',
-  //   );
-  //   library.pollingInterval = 15000;
-  //   return library;
-  // }
+  private getLibrary(provider: any): Web3Provider {
+    const library = new Web3Provider(
+      provider,
+      typeof provider.network.chainId === 'number'
+        ? provider.network.chainId
+        : typeof provider.network.chainId === 'string'
+        ? parseInt(provider.network.chainId)
+        : 'any',
+    );
+    library.pollingInterval = 15000;
+    return library;
+  }
 
   private async handleChainChanged(chainId: string) {
     await this.store.updateNetwork(Number(chainId));
-    const addresses = this.address ? [this.address] : [];
-    await this.handleAccountsChanged(addresses);
+    // const addresses = this.address ? [this.address] : [];
+    // await this.handleAccountsChanged(addresses);
   }
 
   // ignore the accounts, web3 modal kekekeke
   private async handleAccountsChanged(accounts: string[]) {
-    this.address = accounts[0];
+    // this.address = accounts[0];
     if (this.provider) {
       await this.store.updateProvider(this.provider);
     }

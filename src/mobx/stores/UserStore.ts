@@ -75,6 +75,7 @@ export default class UserStore {
   getBalance(contract: string): TokenBalance {
     const tokenAddress = ethers.utils.getAddress(contract);
     const balance = this.balances[tokenAddress];
+
     if (!balance) {
       return new TokenBalance(
         this.store.vaults.getToken(tokenAddress),

@@ -51,6 +51,13 @@ export class RootStore {
   public tree: TreeStore;
 
   constructor() {
+    console.log({
+      network: defaultNetwork,
+      provider: rpc[defaultNetwork],
+      baseURL: BADGER_API,
+      logLevel: LogLevel.Debug,
+    });
+
     this.sdk = new BadgerSDK({
       network: defaultNetwork,
       provider: rpc[defaultNetwork],

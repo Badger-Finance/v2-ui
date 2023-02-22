@@ -1,6 +1,6 @@
 import { SDKProvider } from '@badger-dao/sdk';
 import { makeStyles } from '@material-ui/core';
-import { watchAccount, watchNetwork, watchProvider } from '@wagmi/core';
+import { getAccount, getProvider, watchAccount, watchNetwork, watchProvider } from '@wagmi/core';
 import { Web3Button } from '@web3modal/react';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -36,6 +36,14 @@ const useStyles = makeStyles((theme) => ({
 const WalletWidget = observer(() => {
   const classes = useStyles();
   const store = useContext(StoreContext);
+  const { isConnected } = getAccount();
+  const provider = getProvider();
+
+  useEffect(() => {
+    if (isConnected) {
+      store.wallet.providerChange(provider as SDKProvider);
+    }
+  }, [isConnected]);
 
   useEffect(() => {
     const unwatch = watchAccount((account) => {

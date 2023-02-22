@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { getAccount } from '@wagmi/core';
 import clsx from 'clsx';
 import { Loader } from 'components/Loader';
 import { StoreContext } from 'mobx/stores/store-context';
@@ -27,12 +28,13 @@ const useStyles = makeStyles(() =>
 export const RewardsButton = observer((): JSX.Element | null => {
   const classes = useStyles();
   const store = useContext(StoreContext);
+  const { isConnected } = getAccount();
   const { wallet } = store;
   const { claimable, loadingTree, initialized } = store.tree;
 
   const totalRewardsValue = Object.keys(claimable).reduce((total, claimKey) => total + claimable[claimKey].value, 0);
 
-  if (!wallet.isConnected) {
+  if (!isConnected) {
     return (
       <Button
         startIcon={<img src="/assets/icons/rewards-spark.svg" alt="rewards icon" />}
