@@ -1,10 +1,12 @@
 import { SDKProvider } from '@badger-dao/sdk';
+import { Web3Provider } from '@ethersproject/providers';
 import { makeStyles } from '@material-ui/core';
-import { getAccount, getProvider, watchAccount, watchNetwork, watchProvider } from '@wagmi/core';
+import { getAccount, watchAccount, watchNetwork, watchProvider } from '@wagmi/core';
 import { Web3Button } from '@web3modal/react';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
+import { useProvider, useSigner } from 'wagmi';
 
 const useStyles = makeStyles((theme) => ({
   walletDot: {
@@ -36,14 +38,15 @@ const useStyles = makeStyles((theme) => ({
 const WalletWidget = observer(() => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { isConnected } = getAccount();
-  const provider = getProvider();
+  const { isConnected, address } = getAccount();
+  const provider = useProvider();
+  const { data: signer, isError, isLoading } = useSigner();
 
   useEffect(() => {
-    if (isConnected) {
-      store.wallet.providerChange(provider as SDKProvider);
+    if (isConnected && !isLoading && !isError && signer && address) {
+      store.wallet.providerChange(provider as SDKProvider, signer, address);
     }
-  }, [isConnected]);
+  }, [isConnected, signer]);
 
   useEffect(() => {
     const unwatch = watchAccount((account) => {
@@ -62,9 +65,13 @@ const WalletWidget = observer(() => {
 
   useEffect(() => {
     // Action for subscribing to provider changes.
-    const unwatch = watchProvider({}, (provider) => store.wallet.providerChange(provider as SDKProvider));
+    const unwatch = watchProvider({}, (provider) => {
+      if (!isLoading && !isError && signer && address) {
+        store.wallet.providerChange(provider as Web3Provider, signer, address);
+      }
+    });
     return unwatch;
-  }, []);
+  }, [signer]);
 
   // useEffect(() => {
   //   console.log(connector?.onAccountsChanged(() => {}));

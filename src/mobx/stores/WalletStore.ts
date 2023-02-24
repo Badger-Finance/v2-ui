@@ -1,7 +1,8 @@
 import { NetworkConfig, SDKProvider } from '@badger-dao/sdk';
 import { Web3Provider } from '@ethersproject/providers';
-import { GetAccountResult, GetNetworkResult } from '@wagmi/core';
+import { Address, GetAccountResult, GetNetworkResult } from '@wagmi/core';
 import { EthereumClient, modalConnectors, walletConnectProvider } from '@web3modal/ethereum';
+import { Signer } from 'ethers';
 import { action, computed, makeObservable, observable } from 'mobx';
 import { configureChains, createClient } from 'wagmi';
 import { arbitrum, fantom, localhost, mainnet } from 'wagmi/chains';
@@ -25,7 +26,9 @@ export class WalletStore {
     }
 
     // Wagmi client
-    const { provider } = configureChains(chains, [walletConnectProvider({ projectId })], { pollingInterval: 15000 });
+    const { provider } = configureChains(chains, [walletConnectProvider({ projectId })], {
+      pollingInterval: 15000,
+    });
     this.wagmiClient = createClient({
       autoConnect: true,
       connectors: modalConnectors({
@@ -69,14 +72,15 @@ export class WalletStore {
     if (network?.chain?.id) this.handleChainChanged(String(network.chain.id));
   });
 
-  providerChange = action(async (provider: SDKProvider) => {
+  providerChange = action(async (provider: SDKProvider, signer: Signer, address: Address) => {
     // const temporaryProvider = this.getLibrary(provider);
     this.provider = provider;
+    this.address = address;
     this.store.chain.syncUrlNetworkId();
 
     // update piece wise app components
     await this.store.updateNetwork(provider.network.chainId);
-    await this.store.updateProvider(provider);
+    await this.store.updateProvider(provider, signer);
   });
 
   async connect() {
@@ -127,10 +131,10 @@ export class WalletStore {
   }
 
   // ignore the accounts, web3 modal kekekeke
-  private async handleAccountsChanged(accounts: string[]) {
-    // this.address = accounts[0];
-    if (this.provider) {
-      await this.store.updateProvider(this.provider);
-    }
-  }
+  // private async handleAccountsChanged(accounts: string[]) {
+  //   // this.address = accounts[0];
+  //   if (this.provider) {
+  //     await this.store.updateProvider(this.provider);
+  //   }
+  // }
 }

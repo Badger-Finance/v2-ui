@@ -1,5 +1,6 @@
 import { BadgerAPI, BadgerSDK, getNetworkConfig, LogLevel, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
+import { Signer } from 'ethers';
 import { action, makeObservable, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 
@@ -51,13 +52,6 @@ export class RootStore {
   public tree: TreeStore;
 
   constructor() {
-    console.log({
-      network: defaultNetwork,
-      provider: rpc[defaultNetwork],
-      baseURL: BADGER_API,
-      logLevel: LogLevel.Debug,
-    });
-
     this.sdk = new BadgerSDK({
       network: defaultNetwork,
       provider: rpc[defaultNetwork],
@@ -116,21 +110,22 @@ export class RootStore {
     await Promise.all(refreshData);
   }
 
-  async updateProvider(provider: SDKProvider): Promise<void> {
+  async updateProvider(provider: SDKProvider, signer: Signer): Promise<void> {
     this.tree.reset();
     const { network } = this.chain;
 
     this.sdk = new BadgerSDK({
       network: network,
       provider,
+      signer,
       baseURL: BADGER_API,
       logLevel: LogLevel.Debug,
     });
     await this.sdk.ready();
 
-    const { signer, address } = this.sdk;
+    const { signer: sdkSigner, address } = this.sdk;
 
-    if (signer && address) {
+    if (sdkSigner && address) {
       const updateActions = [this.lockedDeposits.loadLockedBalances(), this.user.reloadBalances()];
 
       if (this.sdk.rewards.hasBadgerTree()) {
