@@ -6,6 +6,7 @@ import { Chain } from 'mobx/model/network/chain';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
+import { useDisconnect } from 'wagmi';
 
 import useENS from '../../hooks/useEns';
 import { shortenAddress } from '../../utils/componentHelpers';
@@ -86,6 +87,12 @@ const WalletDrawer = (): JSX.Element | null => {
   const { ensName } = useENS(wallet.address);
   const classes = useStyles();
   const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
+  const { disconnect } = useDisconnect({
+    onSuccess: async () => {
+      // window.location.reload();
+      wallet.disconnect();
+    },
+  });
 
   const handleCopy = () => {
     if (!wallet.address) return;
@@ -96,7 +103,7 @@ const WalletDrawer = (): JSX.Element | null => {
   const handleDisconnect = () => {
     uiState.toggleWalletDrawer();
     setTimeout(() => {
-      wallet.disconnect();
+      disconnect();
     }, closeDialogTransitionDuration);
   };
 

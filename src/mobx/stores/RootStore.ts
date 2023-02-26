@@ -62,10 +62,10 @@ export class RootStore {
       network: defaultNetwork,
       baseURL: BADGER_API,
     });
-    const config = getNetworkConfig(defaultNetwork);
+    // const config = getNetworkConfig(defaultNetwork);
     this.router = new RouterStore<RootStore>(this);
     this.chain = new NetworkStore(this);
-    this.wallet = new WalletStore(this, config);
+    this.wallet = new WalletStore(this);
     this.prices = new PricesStore(this);
     this.rebase = new RebaseStore();
     this.uiState = new UiStateStore();

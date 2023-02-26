@@ -1,12 +1,13 @@
 import { SDKProvider } from '@badger-dao/sdk';
 import { Web3Provider } from '@ethersproject/providers';
-import { makeStyles } from '@material-ui/core';
-import { getAccount, watchAccount, watchNetwork, watchProvider } from '@wagmi/core';
+import { Box, Button, CircularProgress, makeStyles, Typography } from '@material-ui/core';
+import { watchAccount, watchNetwork, watchProvider } from '@wagmi/core';
 import { Web3Button } from '@web3modal/react';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
-import { useProvider, useSigner } from 'wagmi';
+import { shortenAddress } from 'utils/componentHelpers';
+import { useAccount, useProvider, useSigner } from 'wagmi';
 
 const useStyles = makeStyles((theme) => ({
   walletDot: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const WalletWidget = observer(() => {
   const classes = useStyles();
   const store = useContext(StoreContext);
-  const { isConnected, address } = getAccount();
+  const { isConnected, address } = useAccount();
   const provider = useProvider();
   const { data: signer, isError, isLoading } = useSigner();
 
@@ -48,6 +49,9 @@ const WalletWidget = observer(() => {
     }
   }, [isConnected, signer]);
 
+  /**
+   * Action for subscribing to account changes.
+   */
   useEffect(() => {
     const unwatch = watchAccount((account) => {
       store.wallet.accountChange(account);
@@ -55,16 +59,20 @@ const WalletWidget = observer(() => {
     return unwatch;
   }, []);
 
+  /**
+   * Action for subscribing to network changes.
+   */
   useEffect(() => {
-    // Action for subscribing to network changes.
     const unwatch = watchNetwork((network) => {
       store.wallet.networkChange(network);
     });
     return unwatch;
   }, []);
 
+  /**
+   * Action for subscribing to provider changes.
+   */
   useEffect(() => {
-    // Action for subscribing to provider changes.
     const unwatch = watchProvider({}, (provider) => {
       if (!isLoading && !isError && signer && address) {
         store.wallet.providerChange(provider as Web3Provider, signer, address);
@@ -73,57 +81,44 @@ const WalletWidget = observer(() => {
     return unwatch;
   }, [signer]);
 
-  // useEffect(() => {
-  //   console.log(connector?.onAccountsChanged(() => {}));
-  // }, [connector]);
+  const { pendingTransactions } = store.transactions;
 
-  // const { uiState, wallet, transactions } = store;
-  // const { pendingTransactions } = transactions;
-
-  // async function connect(): Promise<void> {
-  //   if (wallet.isConnected) {
-  //     uiState.toggleWalletDrawer();
-  //   } else {
-  //     try {
-  //       await wallet.connect();
-  //     } catch (error) {
-  //       const isModalClosed = String(error).includes('User closed modal');
-  //       const isEmptyAccounts = String(error).includes('Error: accounts received is empty');
-  //       if (!isModalClosed && !isEmptyAccounts) {
-  //         console.error(error);
-  //       }
-  //     }
-  //   }
-  // }
+  async function connect(): Promise<void> {
+    if (isConnected) {
+      store.uiState.toggleWalletDrawer();
+    }
+  }
 
   // const { ensName } = useENS(wallet.address);
   // const walletAddress = wallet.address ? shortenAddress(wallet.address) : 'Connect';
 
-  // if (pendingTransactions.length > 0) {
-  //   return (
-  //     <Button variant="outlined" color="primary" classes={{ label: classes.walletButtonLabel }} onClick={connect}>
-  //       <Box display="flex" alignContent="center">
-  //         <CircularProgress size={14} className={classes.spinner} />
-  //         <Typography display="inline" className={classes.transactionsCount}>
-  //           {pendingTransactions.length}
-  //         </Typography>
-  //       </Box>
-  //     </Button>
-  //   );
-  // }
+  if (pendingTransactions.length > 0) {
+    return (
+      <Button variant="outlined" color="primary" classes={{ label: classes.walletButtonLabel }} onClick={connect}>
+        <Box display="flex" alignContent="center">
+          <CircularProgress size={14} className={classes.spinner} />
+          <Typography display="inline" className={classes.transactionsCount}>
+            {pendingTransactions.length}
+          </Typography>
+        </Box>
+      </Button>
+    );
+  }
 
   return (
     <>
-      <Web3Button icon="hide" label="Connect" />
-      {/* <Button
-        disableElevation
-        color="primary"
-        variant={wallet.isConnected ? 'outlined' : 'contained'}
-        onClick={connect}
-        classes={{ label: classes.walletButtonLabel }}
-      >
-        {ensName || walletAddress}
-      </Button> */}
+      {!isConnected && <Web3Button icon="hide" label="Connect" />}
+      {isConnected && address && (
+        <Button
+          disableElevation
+          color="primary"
+          variant={isConnected ? 'outlined' : 'contained'}
+          onClick={connect}
+          classes={{ label: classes.walletButtonLabel }}
+        >
+          {shortenAddress(address)}
+        </Button>
+      )}
     </>
   );
 });
