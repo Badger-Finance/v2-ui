@@ -7,7 +7,7 @@ import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
 import { shortenAddress } from 'utils/componentHelpers';
-import { useAccount, useProvider, useSigner } from 'wagmi';
+import { useAccount, useProvider } from 'wagmi';
 
 const useStyles = makeStyles((theme) => ({
   walletDot: {
@@ -41,13 +41,10 @@ const WalletWidget = observer(() => {
   const store = useContext(StoreContext);
   const { isConnected, address } = useAccount();
   const provider = useProvider();
-  const { data: signer, isError, isLoading } = useSigner();
 
   useEffect(() => {
-    if (isConnected && !isLoading && !isError && signer && address) {
-      store.wallet.providerChange(provider as SDKProvider, signer, address);
-    }
-  }, [isConnected, signer]);
+    store.wallet.providerChange(provider as SDKProvider);
+  }, []);
 
   /**
    * Action for subscribing to account changes.
@@ -74,12 +71,10 @@ const WalletWidget = observer(() => {
    */
   useEffect(() => {
     const unwatch = watchProvider({}, (provider) => {
-      if (!isLoading && !isError && signer && address) {
-        store.wallet.providerChange(provider as Web3Provider, signer, address);
-      }
+      store.wallet.providerChange(provider as Web3Provider);
     });
     return unwatch;
-  }, [signer]);
+  }, []);
 
   const { pendingTransactions } = store.transactions;
 
@@ -88,9 +83,6 @@ const WalletWidget = observer(() => {
       store.uiState.toggleWalletDrawer();
     }
   }
-
-  // const { ensName } = useENS(wallet.address);
-  // const walletAddress = wallet.address ? shortenAddress(wallet.address) : 'Connect';
 
   if (pendingTransactions.length > 0) {
     return (

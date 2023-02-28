@@ -1,6 +1,6 @@
 import { BadgerAPI, BadgerSDK, getNetworkConfig, LogLevel, SDKProvider } from '@badger-dao/sdk';
+import { fetchSigner } from '@wagmi/core';
 import { defaultNetwork } from 'config/networks.config';
-import { Signer } from 'ethers';
 import { action, makeObservable, observable } from 'mobx';
 import { RouterStore } from 'mobx-router';
 
@@ -110,14 +110,15 @@ export class RootStore {
     await Promise.all(refreshData);
   }
 
-  async updateProvider(provider: SDKProvider, signer: Signer): Promise<void> {
+  async updateProvider(provider: SDKProvider): Promise<void> {
     this.tree.reset();
     const { network } = this.chain;
 
+    const _signer = await fetchSigner();
+
     this.sdk = new BadgerSDK({
       network: network,
-      provider,
-      signer,
+      provider: _signer ? (_signer?.provider as SDKProvider) : provider,
       baseURL: BADGER_API,
       logLevel: LogLevel.Debug,
     });

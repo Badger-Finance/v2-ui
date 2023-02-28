@@ -1,7 +1,6 @@
 import { SDKProvider } from '@badger-dao/sdk';
-import { Address, GetAccountResult, GetNetworkResult } from '@wagmi/core';
+import { GetAccountResult, GetNetworkResult } from '@wagmi/core';
 import { EthereumClient, modalConnectors, walletConnectProvider } from '@web3modal/ethereum';
-import { Signer } from 'ethers';
 import { action, computed, makeObservable, observable } from 'mobx';
 import { configureChains, createClient } from 'wagmi';
 import { arbitrum, fantom, localhost, mainnet } from 'wagmi/chains';
@@ -65,13 +64,12 @@ export class WalletStore {
     }
   });
 
-  providerChange = action(async (provider: SDKProvider, signer: Signer, address: Address) => {
-    this.address = address;
+  providerChange = action(async (provider: SDKProvider) => {
     this.store.chain.syncUrlNetworkId();
 
     // update piece wise app components
     await this.store.updateNetwork(provider.network.chainId);
-    await this.store.updateProvider(provider, signer);
+    await this.store.updateProvider(provider);
   });
 
   disconnect = action(() => {

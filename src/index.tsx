@@ -48,6 +48,7 @@ root.render(
         themeZIndex={9999}
         projectId={projectId}
         ethereumClient={store.wallet.ethereumClient}
+        themeBackground="themeColor"
       />
       <ToastContainer position="bottom-right" newestOnTop={true} closeOnClick theme="dark" draggable />
     </ThemeProvider>
