@@ -2,6 +2,7 @@ import { makeStyles, useTheme } from '@material-ui/core';
 import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 import React from 'react';
 import { Area, AreaChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Formatter } from 'recharts/types/component/DefaultTooltipContent';
 
 const useStyles = makeStyles(() => ({
   chartContainer: {
@@ -99,7 +100,7 @@ const BaseAreaChart = ({
         <YAxis type="number" domain={['auto', 'auto']} tickFormatter={yFormatter} tick={{ fill: 'white' }} />
         <Tooltip
           content={customTooltip}
-          formatter={formatTooltip}
+          formatter={formatTooltip as unknown as Formatter<number, string>}
           labelFormatter={tooltipFormatter}
           itemStyle={{ color: 'black' }}
           separator={': '}
