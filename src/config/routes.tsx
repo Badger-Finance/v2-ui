@@ -6,6 +6,7 @@ import React from 'react';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
 import store, { RootStore } from '../mobx/stores/RootStore';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
+import { FLAGS } from './environment';
 
 const Landing = React.lazy(() => import('../pages/Landing'));
 const NotFound = React.lazy(() => import('../components-v2/common/NotFound'));
@@ -74,10 +75,15 @@ const routes = {
       store.vaultDetail.reset();
     },
   }),
-  governance: new Route<RootStore, QueryParams>({
-    path: '/governance',
-    component: withSuspense(Governance),
-  }),
+  governance: FLAGS.GOVERNANCE_TIMELOCK
+    ? new Route<RootStore, QueryParams>({
+        path: '/governance',
+        component: withSuspense(Governance),
+      })
+    : new Route<RootStore, QueryParams>({
+        path: '/governance',
+        component: withSuspense(NotFound),
+      }),
   bridge: new Route<RootStore, QueryParams>({
     path: '/bridge',
     component: withSuspense(Bridge),
