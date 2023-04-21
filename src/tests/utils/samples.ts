@@ -5,7 +5,6 @@ import { parseUnits } from 'ethers/lib/utils';
 
 import { TokenBalances } from '../../mobx/model/account/user-balances';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import { BadgerVault } from '../../mobx/model/vaults/badger-vault';
 
 export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
   {
@@ -139,17 +138,6 @@ export const SAMPLE_IBBTC_USER_BALANCES: TokenBalances = {
     BigNumber.from('10000000000000000000'),
     12.012381,
   ),
-};
-
-export const SAMPLE_BADGER_SETT: BadgerVault = {
-  depositToken: {
-    address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
-    decimals: 18,
-  },
-  vaultToken: {
-    address: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
-    decimals: 18,
-  },
 };
 
 export const SAMPLE_VAULTS: VaultDTOV3[] = mockVaults as VaultDTOV3[];

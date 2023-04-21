@@ -4,6 +4,7 @@ import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import React, { useState } from 'react';
 import { Area, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Formatter } from 'recharts/types/component/DefaultTooltipContent';
 
 interface Props {
   chartData: VaultSnapshot[];
@@ -108,7 +109,7 @@ export const VaultChart = (props: Props): JSX.Element | null => {
       <ComposedChart data={chartData}>
         <Legend formatter={legendFormatter} />
         <Tooltip
-          formatter={tooltipFormatter}
+          formatter={tooltipFormatter as unknown as Formatter<number, string>}
           labelFormatter={getTimeFormatter(timeframe)}
           contentStyle={{
             background: '#262626',

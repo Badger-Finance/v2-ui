@@ -1,6 +1,6 @@
 const glob = require('glob');
 const fs = require('fs');
-let fetch = require('node-fetch');
+let axios = require('axios');
 
 let i = 0;
 const hasError = [];
@@ -10,7 +10,7 @@ const hasError = [];
  */
 async function verifyUrls(urls) {
   try {
-    const res = await fetch(urls[i]);
+    const res = await axios.get(urls[i]);
     if (res.status === 404) {
       hasError.push(urls[i]);
       throw new Error(`${res.status} ${res.statusText} : ${urls[i]}`);

@@ -276,13 +276,3 @@ const _abi = [
     type: 'function',
   },
 ];
-
-export class CitadelSaleGuestList__factory {
-  static readonly abi = _abi;
-  static createInterface(): CitadelSaleGuestListInterface {
-    return new utils.Interface(_abi) as CitadelSaleGuestListInterface;
-  }
-  static connect(address: string, signerOrProvider: Signer | Provider): CitadelSaleGuestList {
-    return new Contract(address, _abi, signerOrProvider) as CitadelSaleGuestList;
-  }
-}
