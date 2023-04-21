@@ -58,8 +58,7 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE =
-  'The shutdown of the Ren 1.0 network is imminent. Once complete,  users will no longer able to bridge renBTC back to its native network. As a result, it is recommended that Badger users remove exposure to renBTC immediately.';
+export const APP_NEWS_MESSAGE = undefined;
 // Text & URL should be defined or explicitly undefined.
 export const APP_NEWS_URL_TEXT = 'Learn How.';
 export const APP_NEWS_URL = 'https://docs.badger.com/assistants/removing-exposure-to-renbtc';
