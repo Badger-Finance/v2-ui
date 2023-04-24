@@ -27,5 +27,3 @@ export class Local extends Chain {
 export const LOCAL_DEPLOY = deploy as Deploy;
 
 const localVaultDefinitions: BadgerVault[] = [];
-
-export const localVaults = localVaultDefinitions;

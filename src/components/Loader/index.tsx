@@ -24,15 +24,16 @@ const useStyles = makeStyles((theme) => ({
 export interface LoaderProps {
   message?: string;
   size?: number;
+  color?: 'inherit' | 'primary' | 'secondary' | undefined;
 }
 
 export const Loader = (props: LoaderProps): JSX.Element => {
   const classes = useStyles();
-  const { message, size } = props;
+  const { message, size, color } = props;
 
   return (
     <div className={clsx(classes.loaderContainer, size && classes.customSizing)}>
-      <CircularProgress size={size || 60} />
+      <CircularProgress color={color} size={size || 60} />
       {message && (
         <Typography variant="body1" className={classes.loaderMessage}>
           {message}
