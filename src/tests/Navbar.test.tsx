@@ -1,4 +1,5 @@
 import { Chain } from 'mobx/model/network/chain';
+import React from 'react';
 
 import Navbar from '../components-v2/navbar';
 import store from '../mobx/stores/RootStore';
@@ -26,6 +27,20 @@ describe('Navbar', () => {
         totalValue: 1_000_000,
         setts: [],
       },
+    };
+    store.router = {
+      ...store.router,
+      currentRoute: {
+        path: '/',
+        originalPath: '/',
+        rootPath: '/',
+        replaceUrlParams: jest.fn(),
+        getRootPath: jest.fn(),
+        getParamsObject: jest.fn(),
+        component: React.createElement('div'),
+      },
+      goTo: jest.fn(),
+      currentPath: '/',
     };
   });
 
