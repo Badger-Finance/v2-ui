@@ -7,7 +7,7 @@ on:
 jobs:
   coverage:
     runs-on: ubuntu-latest
-    #if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -23,13 +23,11 @@ jobs:
         run: yarn lint
       - name: Run Tests
         run: yarn test
-      - name: Test Build
-        run: CI=false yarn build
-      # - uses: actions/checkout@v3
-      # - uses: ArtiomTr/jest-coverage-report-action@v2
-      #   id: coverage
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     threshold: 40
-      #     package-manager: yarn
-      #     test-script: yarn test:coverage
+      - uses: actions/checkout@v3
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        id: coverage
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          threshold: 40
+          package-manager: yarn
+          test-script: yarn test:coverage
