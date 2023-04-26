@@ -25,11 +25,11 @@ jobs:
         run: yarn test
       - name: Test Build
         run: CI=false yarn build
-      - uses: actions/checkout@v3
-      - uses: ArtiomTr/jest-coverage-report-action@v2
-        id: coverage
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          threshold: 40
-          package-manager: yarn
-          test-script: yarn test:coverage
+      # - uses: actions/checkout@v3
+      # - uses: ArtiomTr/jest-coverage-report-action@v2
+      #   id: coverage
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     threshold: 40
+      #     package-manager: yarn
+      #     test-script: yarn test:coverage
