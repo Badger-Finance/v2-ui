@@ -4,6 +4,24 @@ on:
   pull_request:
     branches: [development]
 
+permissions:
+  id-token: write
+  contents: read
+
+# env:
+#   AWS_REGION: 'us-east-1'
+#   BUCKET_NAME: 'badger-com-ui-dev'
+#   ASSUME_ROLE: 'arn:aws:iam::571629509943:role/UI-Deployer-Dev'
+#   SESSION_NAME: 'ui-deploy-dev'
+#   DISTRIBUTION_ID: 'E2MXRIWON94FAH'
+#   GENERATE_SOURCEMAP: false
+#   NODE_ENV: production
+#   REACT_APP_BUILD_ENV: development
+#   REACT_APP_ARBITRUM_RPC: ${{ secrets.ARBITRUM_RPC }}
+#   REACT_APP_BSC_RPC: ${{ secrets.BSC_RPC }}
+#   REACT_APP_ETH_RPC: ${{ secrets.ETH_RPC }}
+#   REACT_APP_MATIC_RPC: ${{ secrets.MATIC_RPC }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
