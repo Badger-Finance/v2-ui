@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-      - name: Link Crawler
-        run: yarn link-crawler
       - name: Run Code Linter
         run: yarn lint
       - name: Run Tests
