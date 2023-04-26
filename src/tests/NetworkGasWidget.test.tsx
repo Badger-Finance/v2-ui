@@ -11,7 +11,7 @@ import { defaultNetwork, supportedNetworks } from '../config/networks.config';
 import GasPricesStore from '../mobx/stores/GasPricesStore';
 import store from '../mobx/stores/RootStore';
 import { getNetworkIconPath } from '../utils/network-icon';
-import { customRender, fireEvent, screen } from './Utils';
+import { createMatchMedia, customRender, fireEvent, screen } from './Utils';
 
 const mockGasPrices = {
   rapid: {
@@ -88,24 +88,24 @@ describe('NetworkGasWidget', () => {
     });
   });
 
-  // describe('in mobile mode', () => {
-  //   beforeEach(addSpies);
+  describe('in mobile mode', () => {
+    beforeEach(addSpies);
 
-  //   it('can select gas options', () => {
-  //     const mockSetGasPrice = jest.fn();
-  //     store.chain.setGasPrice = action(mockSetGasPrice);
-  //     window.matchMedia = createMatchMedia(480);
+    it('can select gas options', () => {
+      const mockSetGasPrice = jest.fn();
+      store.chain.setGasPrice = action(mockSetGasPrice);
+      window.matchMedia = createMatchMedia(480);
 
-  //     customRender(
-  //       <StoreProvider value={store}>
-  //         <NetworkGasWidget />
-  //       </StoreProvider>,
-  //     );
+      customRender(
+        <StoreProvider value={store}>
+          <NetworkGasWidget />
+        </StoreProvider>,
+      );
 
-  //     fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
-  //     fireEvent.click(screen.getAllByRole('button', { name: 'show gas options' })[0]);
-  //     fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
-  //     expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
-  //   });
-  // });
+      fireEvent.click(screen.getByRole('button', { name: 'open network selector' }));
+      fireEvent.click(screen.getAllByRole('button', { name: 'show gas options' })[0]);
+      fireEvent.click(screen.getByText((mockGasPrices.rapid.maxFeePerGas / 2).toFixed(0)));
+      expect(mockSetGasPrice).toHaveBeenNthCalledWith(1, mockGasPrices.rapid);
+    });
+  });
 });

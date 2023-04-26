@@ -9,6 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Link Crawler
+        run: yarn link-crawler
+      - name: Run Code Linter
+        run: yarn lint
+      - name: Run Tests
+        run: yarn test
+      - name: Test Build
+        run: CI=false yarn build
       - uses: actions/checkout@v3
       - uses: ArtiomTr/jest-coverage-report-action@v2
         id: coverage
