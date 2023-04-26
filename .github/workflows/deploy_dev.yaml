@@ -34,13 +34,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-      - name: Install dependencies
+      - name: Install Dependencies
         run: yarn install --frozen-lockfile
-      - name: Run code linter
+      - name: Run Code Linter
         run: yarn lint
-      - name: Run tests
+      - name: Run Tests
         run: yarn test
-      - name: Test build
+      - name: Test Build
         run: CI=false yarn build
       # - name: Configure AWS credentials
       #   uses: aws-actions/configure-aws-credentials@v1
