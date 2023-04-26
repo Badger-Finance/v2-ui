@@ -11,7 +11,7 @@ import { defaultNetwork, supportedNetworks } from '../config/networks.config';
 import GasPricesStore from '../mobx/stores/GasPricesStore';
 import store from '../mobx/stores/RootStore';
 import { getNetworkIconPath } from '../utils/network-icon';
-import { createMatchMedia, customRender, fireEvent, screen } from './Utils';
+import { customRender, fireEvent, screen } from './Utils';
 
 const mockGasPrices = {
   rapid: {

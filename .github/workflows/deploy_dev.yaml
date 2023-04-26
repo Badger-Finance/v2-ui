@@ -1,9 +1,6 @@
 name: Deploy Dev
 
-on:
-  push:
-    branches:
-      - development
+on: [push]
 
 permissions:
   id-token: write
