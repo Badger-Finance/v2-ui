@@ -110,64 +110,6 @@ exports[`NetworkGasWidget displays network options 1`] = `
                 class="MuiListItemIcon-root-185 makeStyles-root-184"
               >
                 <img
-                  alt="Local icon"
-                  class="makeStyles-networkListIcon-64"
-                  src="/assets/icons/ethereum-network.svg"
-                />
-              </div>
-              <div
-                class="MuiListItemText-root-188"
-              >
-                <span
-                  class="MuiTypography-root-194 MuiListItemText-primary-192 makeStyles-primary-187 MuiTypography-body1-196 MuiTypography-displayBlock-223"
-                >
-                  Local
-                </span>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-81 MuiGrid-item-83 MuiGrid-grid-xs-auto-114"
-            >
-              <button
-                aria-label="show gas options"
-                class="MuiButtonBase-root-35 MuiIconButton-root-224 makeStyles-gasButton-68"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="MuiIconButton-label-232"
-                >
-                  <img
-                    alt="display gas options icon"
-                    src="/assets/icons/network-selector-arrow.svg"
-                  />
-                </span>
-                <span
-                  class="MuiTouchRipple-root-38"
-                />
-              </button>
-            </div>
-          </div>
-          <span
-            class="MuiTouchRipple-root-38"
-          />
-        </div>
-        <div
-          aria-disabled="false"
-          class="MuiButtonBase-root-35 MuiListItem-root-70 MuiListItem-gutters-77 MuiListItem-button-78 makeStyles-button-69"
-          role="button"
-          tabindex="0"
-        >
-          <div
-            class="MuiGrid-root-81 MuiGrid-container-82"
-          >
-            <div
-              class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-item-83 MuiGrid-align-items-xs-center-90 MuiGrid-grid-xs-true-115"
-            >
-              <div
-                class="MuiListItemIcon-root-185 makeStyles-root-184"
-              >
-                <img
                   alt="Arbitrum icon"
                   class="makeStyles-networkListIcon-64"
                   src="/assets/icons/arbitrum-network.svg"

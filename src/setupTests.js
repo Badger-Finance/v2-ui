@@ -25,4 +25,4 @@ export default function () {
   return null;
 }
 
-process.env = Object.assign(process.env, { REACT_APP_APY_EVOLUTION: 'false' });
+process.env = Object.assign(process.env, { REACT_APP_APY_EVOLUTION: 'false', REACT_APP_BUILD_ENV: 'development' });
