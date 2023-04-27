@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [development]
 
+env:
+  NODE_ENV: production
+  REACT_APP_BUILD_ENV: development
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
