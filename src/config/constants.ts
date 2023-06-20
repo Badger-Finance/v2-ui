@@ -58,8 +58,9 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE = undefined;
+export const APP_NEWS_MESSAGE =
+  'app.badger.com has officially been migrated to legacy.badger.com and the discontinuation of all remaining vaults is in progress. To learn more about Badgers progression toward further decentralization ';
 // Text & URL should be defined or explicitly undefined.
-export const APP_NEWS_URL_TEXT = 'Learn How.';
-export const APP_NEWS_URL = 'https://docs.badger.com/assistants/removing-exposure-to-renbtc';
+export const APP_NEWS_URL_TEXT = 'Click here';
+export const APP_NEWS_URL = 'https://badgerdao.medium.com/progressing-towards-further-decentralization-25351d4d240b';
 export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);
