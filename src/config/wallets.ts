@@ -1,9 +1,7 @@
 import { getNetworkConfig, NetworkConfig } from '@badger-dao/sdk';
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
-import { CHAIN_DATA_LIST } from 'web3modal';
 
 import { supportedNetworks } from './networks.config';
-import rpc from './rpc.config';
 
 export function isSupportedNetwork(chainId?: number): boolean {
   if (!chainId) {
