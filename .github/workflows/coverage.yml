@@ -4,11 +4,29 @@ on:
   pull_request:
     branches: [development]
 
+env:
+  NODE_ENV: production
+  REACT_APP_BUILD_ENV: development
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Code Linter
+        run: yarn lint
+      - name: Run Tests
+        run: yarn test
       - uses: actions/checkout@v3
       - uses: ArtiomTr/jest-coverage-report-action@v2
         id: coverage

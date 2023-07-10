@@ -3,15 +3,17 @@
 exports[`NetworkGasWidget displays network options 1`] = `
 <body>
   <div>
-    <div>
+    <div
+      class="MuiBox-root-4 MuiBox-root-5"
+    >
       <button
         aria-label="open network selector"
-        class="MuiButtonBase-root-33 MuiButton-root-4 MuiButton-outlined-9 makeStyles-networkButton-1 MuiButton-outlinedPrimary-10"
+        class="MuiButtonBase-root-35 MuiButton-root-6 MuiButton-outlined-11 makeStyles-networkButton-1 MuiButton-outlinedPrimary-12"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-label-5"
+          class="MuiButton-label-7"
         >
           <img
             alt="selected network icon"
@@ -22,350 +24,285 @@ exports[`NetworkGasWidget displays network options 1`] = `
           />
         </span>
         <span
-          class="MuiTouchRipple-root-36"
+          class="MuiTouchRipple-root-38"
         />
       </button>
+      <nav
+        class="MuiList-root-52 makeStyles-root-51 makeStyles-root-49 MuiList-subheader-55"
+        role="presentation"
+      >
+        <li
+          class="MuiListSubheader-root-58 makeStyles-root-56 MuiListSubheader-sticky-63 makeStyles-sticky-57 MuiListSubheader-gutters-61"
+        >
+          NETWORK
+        </li>
+        <div
+          aria-disabled="false"
+          class="MuiButtonBase-root-35 MuiListItem-root-70 makeStyles-hoveredButton-65 MuiListItem-gutters-77 MuiListItem-button-78 makeStyles-button-69"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="MuiGrid-root-81 MuiGrid-container-82"
+          >
+            <div
+              class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-item-83 MuiGrid-align-items-xs-center-90 MuiGrid-grid-xs-true-115"
+            >
+              <div
+                class="MuiListItemIcon-root-185 makeStyles-root-184"
+              >
+                <img
+                  alt="Ethereum icon"
+                  class="makeStyles-networkListIcon-64"
+                  src="/assets/icons/ethereum-network.svg"
+                />
+              </div>
+              <div
+                class="MuiListItemText-root-188"
+              >
+                <span
+                  class="MuiTypography-root-194 MuiListItemText-primary-192 makeStyles-primary-187 MuiTypography-body1-196 MuiTypography-displayBlock-223"
+                >
+                  Ethereum
+                </span>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-81 MuiGrid-item-83 MuiGrid-grid-xs-auto-114"
+            >
+              <button
+                aria-label="show gas options"
+                class="MuiButtonBase-root-35 MuiIconButton-root-224 makeStyles-gasButton-68"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label-232"
+                >
+                  <img
+                    alt="display gas options icon"
+                    src="/assets/icons/network-selector-arrow.svg"
+                  />
+                </span>
+                <span
+                  class="MuiTouchRipple-root-38"
+                />
+              </button>
+            </div>
+          </div>
+          <span
+            class="MuiTouchRipple-root-38"
+          />
+        </div>
+        <div
+          aria-disabled="false"
+          class="MuiButtonBase-root-35 MuiListItem-root-70 MuiListItem-gutters-77 MuiListItem-button-78 makeStyles-button-69"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="MuiGrid-root-81 MuiGrid-container-82"
+          >
+            <div
+              class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-item-83 MuiGrid-align-items-xs-center-90 MuiGrid-grid-xs-true-115"
+            >
+              <div
+                class="MuiListItemIcon-root-185 makeStyles-root-184"
+              >
+                <img
+                  alt="Arbitrum icon"
+                  class="makeStyles-networkListIcon-64"
+                  src="/assets/icons/arbitrum-network.svg"
+                />
+              </div>
+              <div
+                class="MuiListItemText-root-188"
+              >
+                <span
+                  class="MuiTypography-root-194 MuiListItemText-primary-192 makeStyles-primary-187 MuiTypography-body1-196 MuiTypography-displayBlock-223"
+                >
+                  Arbitrum
+                </span>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-81 MuiGrid-item-83 MuiGrid-grid-xs-auto-114"
+            >
+              <button
+                aria-label="show gas options"
+                class="MuiButtonBase-root-35 MuiIconButton-root-224 makeStyles-gasButton-68"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label-232"
+                >
+                  <img
+                    alt="display gas options icon"
+                    src="/assets/icons/network-selector-arrow.svg"
+                  />
+                </span>
+                <span
+                  class="MuiTouchRipple-root-38"
+                />
+              </button>
+            </div>
+          </div>
+          <span
+            class="MuiTouchRipple-root-38"
+          />
+        </div>
+        <div
+          aria-disabled="false"
+          class="MuiButtonBase-root-35 MuiListItem-root-70 MuiListItem-gutters-77 MuiListItem-button-78 makeStyles-button-69"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="MuiGrid-root-81 MuiGrid-container-82"
+          >
+            <div
+              class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-item-83 MuiGrid-align-items-xs-center-90 MuiGrid-grid-xs-true-115"
+            >
+              <div
+                class="MuiListItemIcon-root-185 makeStyles-root-184"
+              >
+                <img
+                  alt="Fantom icon"
+                  class="makeStyles-networkListIcon-64"
+                  src="/assets/icons/fantom-network.svg"
+                />
+              </div>
+              <div
+                class="MuiListItemText-root-188"
+              >
+                <span
+                  class="MuiTypography-root-194 MuiListItemText-primary-192 makeStyles-primary-187 MuiTypography-body1-196 MuiTypography-displayBlock-223"
+                >
+                  Fantom
+                </span>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-81 MuiGrid-item-83 MuiGrid-grid-xs-auto-114"
+            >
+              <button
+                aria-label="show gas options"
+                class="MuiButtonBase-root-35 MuiIconButton-root-224 makeStyles-gasButton-68"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label-232"
+                >
+                  <img
+                    alt="display gas options icon"
+                    src="/assets/icons/network-selector-arrow.svg"
+                  />
+                </span>
+                <span
+                  class="MuiTouchRipple-root-38"
+                />
+              </button>
+            </div>
+          </div>
+          <span
+            class="MuiTouchRipple-root-38"
+          />
+        </div>
+      </nav>
     </div>
   </div>
   <div
-    class="makeStyles-popover-3"
-    role="tooltip"
-    style="position: absolute; top: 0px; left: 0px;"
-    x-placement="bottom-end"
-  >
-    <nav
-      class="MuiList-root-50 makeStyles-root-49 makeStyles-root-47 MuiList-subheader-53"
-      role="presentation"
-    >
-      <li
-        class="MuiListSubheader-root-56 makeStyles-root-54 MuiListSubheader-sticky-61 makeStyles-sticky-55 MuiListSubheader-gutters-59"
-      >
-        NETWORK
-      </li>
-      <div
-        aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-68 makeStyles-hoveredButton-63 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
-        role="button"
-        tabindex="0"
-      >
-        <div
-          class="MuiGrid-root-79 MuiGrid-container-80"
-        >
-          <div
-            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
-          >
-            <div
-              class="MuiListItemIcon-root-183 makeStyles-root-182"
-            >
-              <img
-                alt="Ethereum icon"
-                class="makeStyles-networkListIcon-62"
-                src="/assets/icons/ethereum-network.svg"
-              />
-            </div>
-            <div
-              class="MuiListItemText-root-186"
-            >
-              <span
-                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
-              >
-                Ethereum
-              </span>
-            </div>
-          </div>
-          <div
-            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
-          >
-            <button
-              aria-label="show gas options"
-              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiIconButton-label-230"
-              >
-                <img
-                  alt="display gas options icon"
-                  src="/assets/icons/network-selector-arrow.svg"
-                />
-              </span>
-              <span
-                class="MuiTouchRipple-root-36"
-              />
-            </button>
-          </div>
-        </div>
-        <span
-          class="MuiTouchRipple-root-36"
-        />
-      </div>
-      <div
-        aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
-        role="button"
-        tabindex="0"
-      >
-        <div
-          class="MuiGrid-root-79 MuiGrid-container-80"
-        >
-          <div
-            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
-          >
-            <div
-              class="MuiListItemIcon-root-183 makeStyles-root-182"
-            >
-              <img
-                alt="Local icon"
-                class="makeStyles-networkListIcon-62"
-                src="/assets/icons/ethereum-network.svg"
-              />
-            </div>
-            <div
-              class="MuiListItemText-root-186"
-            >
-              <span
-                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
-              >
-                Local
-              </span>
-            </div>
-          </div>
-          <div
-            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
-          >
-            <button
-              aria-label="show gas options"
-              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiIconButton-label-230"
-              >
-                <img
-                  alt="display gas options icon"
-                  src="/assets/icons/network-selector-arrow.svg"
-                />
-              </span>
-              <span
-                class="MuiTouchRipple-root-36"
-              />
-            </button>
-          </div>
-        </div>
-        <span
-          class="MuiTouchRipple-root-36"
-        />
-      </div>
-      <div
-        aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
-        role="button"
-        tabindex="0"
-      >
-        <div
-          class="MuiGrid-root-79 MuiGrid-container-80"
-        >
-          <div
-            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
-          >
-            <div
-              class="MuiListItemIcon-root-183 makeStyles-root-182"
-            >
-              <img
-                alt="Arbitrum icon"
-                class="makeStyles-networkListIcon-62"
-                src="/assets/icons/arbitrum-network.svg"
-              />
-            </div>
-            <div
-              class="MuiListItemText-root-186"
-            >
-              <span
-                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
-              >
-                Arbitrum
-              </span>
-            </div>
-          </div>
-          <div
-            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
-          >
-            <button
-              aria-label="show gas options"
-              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiIconButton-label-230"
-              >
-                <img
-                  alt="display gas options icon"
-                  src="/assets/icons/network-selector-arrow.svg"
-                />
-              </span>
-              <span
-                class="MuiTouchRipple-root-36"
-              />
-            </button>
-          </div>
-        </div>
-        <span
-          class="MuiTouchRipple-root-36"
-        />
-      </div>
-      <div
-        aria-disabled="false"
-        class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
-        role="button"
-        tabindex="0"
-      >
-        <div
-          class="MuiGrid-root-79 MuiGrid-container-80"
-        >
-          <div
-            class="MuiGrid-root-79 MuiGrid-container-80 MuiGrid-item-81 MuiGrid-align-items-xs-center-88 MuiGrid-grid-xs-true-113"
-          >
-            <div
-              class="MuiListItemIcon-root-183 makeStyles-root-182"
-            >
-              <img
-                alt="Fantom icon"
-                class="makeStyles-networkListIcon-62"
-                src="/assets/icons/fantom-network.svg"
-              />
-            </div>
-            <div
-              class="MuiListItemText-root-186"
-            >
-              <span
-                class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
-              >
-                Fantom
-              </span>
-            </div>
-          </div>
-          <div
-            class="MuiGrid-root-79 MuiGrid-item-81 MuiGrid-grid-xs-auto-112"
-          >
-            <button
-              aria-label="show gas options"
-              class="MuiButtonBase-root-33 MuiIconButton-root-222 makeStyles-gasButton-66"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiIconButton-label-230"
-              >
-                <img
-                  alt="display gas options icon"
-                  src="/assets/icons/network-selector-arrow.svg"
-                />
-              </span>
-              <span
-                class="MuiTouchRipple-root-36"
-              />
-            </button>
-          </div>
-        </div>
-        <span
-          class="MuiTouchRipple-root-36"
-        />
-      </div>
-    </nav>
-  </div>
-  <div
-    class="makeStyles-popper-65"
+    class="makeStyles-popper-67"
     role="tooltip"
     style="position: absolute; top: 0px; left: 0px;"
     x-placement="right-start"
   >
     <div
-      class="MuiPaper-root-232 MuiPaper-elevation1-236 MuiPaper-rounded-233"
+      class="MuiPaper-root-234 MuiPaper-elevation1-238 MuiPaper-rounded-235"
     >
       <nav
-        class="MuiList-root-50 makeStyles-root-49 makeStyles-root-231 MuiList-padding-51"
+        class="MuiList-root-52 makeStyles-root-51 makeStyles-root-233 MuiList-padding-53"
       >
         <div
           aria-disabled="false"
-          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+          class="MuiButtonBase-root-35 MuiListItem-root-70 MuiListItem-gutters-77 MuiListItem-button-78 makeStyles-button-69"
           role="button"
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root-186"
+            class="MuiListItemText-root-188"
           >
             <span
-              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
+              class="MuiTypography-root-194 MuiListItemText-primary-192 makeStyles-primary-187 MuiTypography-body1-196 MuiTypography-displayBlock-223"
             >
                
               43
             </span>
           </div>
           <span
-            class="MuiTouchRipple-root-36"
+            class="MuiTouchRipple-root-38"
           />
         </div>
         <div
           aria-disabled="false"
-          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+          class="MuiButtonBase-root-35 MuiListItem-root-70 MuiListItem-gutters-77 MuiListItem-button-78 makeStyles-button-69"
           role="button"
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root-186"
+            class="MuiListItemText-root-188"
           >
             <span
-              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
+              class="MuiTypography-root-194 MuiListItemText-primary-192 makeStyles-primary-187 MuiTypography-body1-196 MuiTypography-displayBlock-223"
             >
                
               39
             </span>
           </div>
           <span
-            class="MuiTouchRipple-root-36"
+            class="MuiTouchRipple-root-38"
           />
         </div>
         <div
           aria-disabled="false"
-          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+          class="MuiButtonBase-root-35 MuiListItem-root-70 MuiListItem-gutters-77 MuiListItem-button-78 makeStyles-button-69"
           role="button"
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root-186"
+            class="MuiListItemText-root-188"
           >
             <span
-              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
+              class="MuiTypography-root-194 MuiListItemText-primary-192 makeStyles-primary-187 MuiTypography-body1-196 MuiTypography-displayBlock-223"
             >
                
               34
             </span>
           </div>
           <span
-            class="MuiTouchRipple-root-36"
+            class="MuiTouchRipple-root-38"
           />
         </div>
         <div
           aria-disabled="false"
-          class="MuiButtonBase-root-33 MuiListItem-root-68 MuiListItem-gutters-75 MuiListItem-button-76 makeStyles-button-67"
+          class="MuiButtonBase-root-35 MuiListItem-root-70 MuiListItem-gutters-77 MuiListItem-button-78 makeStyles-button-69"
           role="button"
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root-186"
+            class="MuiListItemText-root-188"
           >
             <span
-              class="MuiTypography-root-192 MuiListItemText-primary-190 makeStyles-primary-185 MuiTypography-body1-194 MuiTypography-displayBlock-221"
+              class="MuiTypography-root-194 MuiListItemText-primary-192 makeStyles-primary-187 MuiTypography-body1-196 MuiTypography-displayBlock-223"
             >
                
               30
             </span>
           </div>
           <span
-            class="MuiTouchRipple-root-36"
+            class="MuiTouchRipple-root-38"
           />
         </div>
       </nav>

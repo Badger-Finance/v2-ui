@@ -1,6 +1,10 @@
 import { BadgerAPI } from '@badger-dao/sdk';
 import fetchMock from 'jest-fetch-mock';
 import { configure } from 'mobx';
+import { TextDecoder, TextEncoder } from 'util';
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 jest.mock('web3modal');
 
@@ -25,4 +29,8 @@ export default function () {
   return null;
 }
 
-process.env = Object.assign(process.env, { REACT_APP_APY_EVOLUTION: 'false' });
+process.env = Object.assign(process.env, {
+  REACT_APP_APY_EVOLUTION: 'false',
+  REACT_APP_BUILD_ENV: 'development',
+  REACT_APP_WALLET_CONNECT_PROJECT_ID: 'testid',
+});

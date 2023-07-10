@@ -1,4 +1,4 @@
-import { Button, ClickAwayListener, Popper } from '@material-ui/core';
+import { Box, Button, ClickAwayListener } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
@@ -37,7 +37,7 @@ const NetworkGasWidget = (): JSX.Element => {
         }
       }}
     >
-      <div>
+      <Box sx={{ position: 'relative' }}>
         <Button
           ref={ref}
           className={classes.networkButton}
@@ -54,16 +54,9 @@ const NetworkGasWidget = (): JSX.Element => {
             height="17"
           />
         </Button>
-        <Popper
-          open={areNetworkOptionsOpen}
-          className={classes.popover}
-          onMouseLeave={closeNetworkOptions}
-          anchorEl={ref.current}
-          placement="bottom-end"
-        >
-          <NetworkOptions onSelect={closeNetworkOptions} />
-        </Popper>
-      </div>
+
+        {areNetworkOptionsOpen && <NetworkOptions onSelect={closeNetworkOptions} />}
+      </Box>
     </ClickAwayListener>
   );
 };

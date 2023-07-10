@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     minWidth: 234,
+    position: 'absolute',
+    right: 0,
+    zIndex: 1,
   },
   active: {
     backgroundColor: 'rgba(0, 0, 0, 0.04)',
@@ -32,6 +35,7 @@ const NetworkOptions = ({ onSelect }: Props): JSX.Element => {
       disablePadding
       className={classes.root}
       subheader={<MenuSubheader>NETWORK</MenuSubheader>}
+      onMouseLeave={() => onSelect()}
     >
       {supportedNetworks.map((chain) => (
         <NetworkOption key={chain.network} chain={chain} onSelect={onSelect} />
