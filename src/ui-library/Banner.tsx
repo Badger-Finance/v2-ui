@@ -58,17 +58,13 @@ const Banner = ({ message, link, linkText, closeElement = null }: BannerProps): 
   const classes = useStyles();
   return (
     <Grid container alignItems="center" className={classes.root} justifyContent="space-between">
-      <Grid item container xs alignItems="center" className={classes.messageLinkContainer}>
-        <Grid item>
-          <Typography className={classes.message}>{message}</Typography>
-        </Grid>
+      <Grid item container xs alignItems="center" justifyContent="center" className={classes.messageLinkContainer}>
+        <Typography className={classes.message}>{message}</Typography>
         {link && linkText && (
-          <Grid item>
-            <Link href={link} rel="noreferrer" target="_blank" className={classes.link}>
-              <img className={classes.linkIcon} src="/assets/icons/banner-link-icon.svg" alt="banner link icon" />
-              {linkText}
-            </Link>
-          </Grid>
+          <Link href={link} rel="noreferrer" target="_blank" className={classes.link}>
+            <img className={classes.linkIcon} src="/assets/icons/banner-link-icon.svg" alt="banner link icon" />
+            {linkText}
+          </Link>
         )}
       </Grid>
       {!!closeElement && (

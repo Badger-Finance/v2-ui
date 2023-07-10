@@ -96,9 +96,6 @@ const YieldBearingRewards = observer(({ open, onModalClose }: YieldBearingReward
           the overall return on your deposits. No staking, locking, delegating, voting, bribing or claiming. Just
           earning.
         </Typography>
-        <Typography gutterBottom className={classes.contentText}>
-          Do Less, Earn More.
-        </Typography>
       </DialogContent>
     </Dialog>
   );
