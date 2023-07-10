@@ -158,7 +158,8 @@ export const VaultDeposit = observer(({ open = false, vault, depositAdvisory, on
   const deposit = TokenBalance.fromString(userBalance, amount === '' ? '0' : amount);
   const vaultCaps = user.vaultCaps[vault.vaultToken];
 
-  let canDeposit = wallet.isConnected && !!amount && deposit.tokenBalance.gt(0);
+  let canDeposit: boolean =
+    wallet.isConnected && !!amount && deposit.tokenBalance.gt(0) && vault.state !== VaultState.Discontinued;
 
   if (canDeposit && vaultCaps) {
     const vaultHasSpace = vaultCaps.totalDepositCap.gte(deposit.tokenBalance);
