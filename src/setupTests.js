@@ -32,5 +32,5 @@ export default function () {
 process.env = Object.assign(process.env, {
   REACT_APP_APY_EVOLUTION: 'false',
   REACT_APP_BUILD_ENV: 'development',
-  WALLET_CONNECT_PROJECT_ID: 'testid',
+  REACT_APP_WALLET_CONNECT_PROJECT_ID: 'testid',
 });
