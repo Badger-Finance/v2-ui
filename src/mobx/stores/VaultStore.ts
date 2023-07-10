@@ -273,6 +273,10 @@ export default class VaultStore {
       return false;
     }
 
+    if (vault.state === VaultState.Discontinued) {
+      return false;
+    }
+
     return this.store.user.onGuestList(vault);
   }
 
