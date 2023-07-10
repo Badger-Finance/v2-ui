@@ -1,5 +1,6 @@
 import { NetworkConfig } from '@badger-dao/sdk';
 import { Web3Provider } from '@ethersproject/providers';
+import { projectId } from 'config/environment';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import Web3Modal from 'web3modal';
 
@@ -13,6 +14,10 @@ export class WalletStore {
   public address?: string;
 
   constructor(private store: RootStore, config: NetworkConfig) {
+    if (!projectId) {
+      throw new Error('You need to provide WALLET_CONNECT_PROJECT_ID env variable');
+    }
+
     this.web3Modal = new Web3Modal({
       network: config.name,
       providerOptions: getWeb3ModalProviders(config),
