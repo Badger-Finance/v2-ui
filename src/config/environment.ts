@@ -63,3 +63,5 @@ export const FLAGS = {
   GRAVIAURA_CHART: toBool(process.env.REACT_APP_GRAVIAURA_CHART),
   GOVERNANCE_TAB: toBool(process.env.REACT_APP_GOVERNANCE_TAB),
 };
+
+export const projectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
