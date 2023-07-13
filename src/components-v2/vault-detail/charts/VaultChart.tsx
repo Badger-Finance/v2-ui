@@ -149,19 +149,18 @@ export const VaultChart = (props: Props): JSX.Element | null => {
             style={{ fill: 'white' }}
           />
         )}
-        {hasAprVal && (
-          <YAxis
-            dataKey="apr"
-            yAxisId="apr"
-            orientation="right"
-            type="number"
-            domain={[0, maxYield]}
-            tickCount={10}
-            minTickGap={50}
-            tickFormatter={(v: number) => `${v?.toFixed(1)}%`}
-            style={{ fill: 'white' }}
-          />
-        )}
+
+        <YAxis
+          dataKey="apr"
+          yAxisId="apr"
+          orientation="right"
+          type="number"
+          domain={[0, maxYield]}
+          tickCount={10}
+          minTickGap={50}
+          tickFormatter={(v: number) => `${v?.toFixed(1)}%`}
+          style={{ fill: 'white' }}
+        />
 
         {valueType === ChartValueType.USD && (
           <Area
