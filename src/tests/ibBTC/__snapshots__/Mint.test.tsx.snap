@@ -1080,3 +1080,5 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
   </div>
 </div>
 `;
+
+exports[`ibBTC Mint handles empty balance 1`] = `<div />`;
