@@ -195,15 +195,30 @@ export const VaultChart = (props: Props): JSX.Element | null => {
           />
         )}
         {version === VaultVersion.v1_5 && !isInfluenceVault(vault.vaultToken) && (
-          <Line
-            type="monotone"
-            dataKey="harvestApr"
-            fill="#3bba9c"
-            stroke="#3bba9c"
-            yAxisId="apr"
-            strokeWidth={1.5}
-            dot={false}
-          />
+          <>
+            {!hasAprVal && (
+              <YAxis
+                dataKey="apr"
+                yAxisId="apr"
+                orientation="right"
+                type="number"
+                domain={[0, maxYield]}
+                tickCount={10}
+                minTickGap={50}
+                tickFormatter={(v: number) => `${v?.toFixed(1)}%`}
+                style={{ fill: 'white' }}
+              />
+            )}
+            <Line
+              type="monotone"
+              dataKey="harvestApr"
+              fill="#3bba9c"
+              stroke="#3bba9c"
+              yAxisId="apr"
+              strokeWidth={1.5}
+              dot={false}
+            />
+          </>
         )}
       </ComposedChart>
     </ResponsiveContainer>
