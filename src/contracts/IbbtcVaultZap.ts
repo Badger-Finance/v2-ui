@@ -34,12 +34,10 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
     'calcMint(uint256[4],bool)': FunctionFragment;
     'deposit(uint256[4],uint256,bool)': FunctionFragment;
     'expectedAmount(uint256[4])': FunctionFragment;
-    'governance()': FunctionFragment;
     'guardian()': FunctionFragment;
     'initialize(address,address)': FunctionFragment;
     'pause()': FunctionFragment;
     'paused()': FunctionFragment;
-    'setGovernance(address)': FunctionFragment;
     'setGuardian(address)': FunctionFragment;
     'unpause()': FunctionFragment;
   };
@@ -61,12 +59,10 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
       | 'calcMint'
       | 'deposit'
       | 'expectedAmount'
-      | 'governance'
       | 'guardian'
       | 'initialize'
       | 'pause'
       | 'paused'
-      | 'setGovernance'
       | 'setGuardian'
       | 'unpause',
   ): FunctionFragment;
@@ -119,12 +115,10 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
       ],
     ],
   ): string;
-  encodeFunctionData(functionFragment: 'governance', values?: undefined): string;
   encodeFunctionData(functionFragment: 'guardian', values?: undefined): string;
   encodeFunctionData(functionFragment: 'initialize', values: [PromiseOrValue<string>, PromiseOrValue<string>]): string;
   encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
   encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'setGovernance', values: [PromiseOrValue<string>]): string;
   encodeFunctionData(functionFragment: 'setGuardian', values: [PromiseOrValue<string>]): string;
   encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
 
@@ -143,34 +137,23 @@ export interface IbbtcVaultZapInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'calcMint', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'deposit', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'expectedAmount', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'governance', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'guardian', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'setGovernance', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'setGuardian', data: BytesLike): Result;
   decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result;
 
   events: {
-    'GovernanceUpdated(address)': EventFragment;
     'GuardianshipTransferred(address)': EventFragment;
     'Paused(address)': EventFragment;
     'Unpaused(address)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'GovernanceUpdated'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'GuardianshipTransferred'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'Paused'): EventFragment;
   getEvent(nameOrSignatureOrTopic: 'Unpaused'): EventFragment;
 }
-
-export interface GovernanceUpdatedEventObject {
-  newGovernanceAddress: string;
-}
-export type GovernanceUpdatedEvent = TypedEvent<[string], GovernanceUpdatedEventObject>;
-
-export type GovernanceUpdatedEventFilter = TypedEventFilter<GovernanceUpdatedEvent>;
 
 export interface GuardianshipTransferredEventObject {
   newGuardianAddress: string;
@@ -273,24 +256,16 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<[BigNumber] & { amount: BigNumber }>;
 
-    governance(overrides?: CallOverrides): Promise<[string]>;
-
     guardian(overrides?: CallOverrides): Promise<[string]>;
 
     initialize(
       _guardian: PromiseOrValue<string>,
-      _governance: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>;
 
     pause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
-
-    setGovernance(
-      _governance: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>;
 
     setGuardian(
       _guardian: PromiseOrValue<string>,
@@ -357,24 +332,16 @@ export interface IbbtcVaultZap extends BaseContract {
     overrides?: CallOverrides,
   ): Promise<BigNumber>;
 
-  governance(overrides?: CallOverrides): Promise<string>;
-
   guardian(overrides?: CallOverrides): Promise<string>;
 
   initialize(
     _guardian: PromiseOrValue<string>,
-    _governance: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>;
 
   pause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<ContractTransaction>;
 
   paused(overrides?: CallOverrides): Promise<boolean>;
-
-  setGovernance(
-    _governance: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>;
 
   setGuardian(
     _guardian: PromiseOrValue<string>,
@@ -441,21 +408,13 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
-    governance(overrides?: CallOverrides): Promise<string>;
-
     guardian(overrides?: CallOverrides): Promise<string>;
 
-    initialize(
-      _guardian: PromiseOrValue<string>,
-      _governance: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<void>;
+    initialize(_guardian: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
 
     pause(overrides?: CallOverrides): Promise<void>;
 
     paused(overrides?: CallOverrides): Promise<boolean>;
-
-    setGovernance(_governance: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
 
     setGuardian(_guardian: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
 
@@ -463,9 +422,6 @@ export interface IbbtcVaultZap extends BaseContract {
   };
 
   filters: {
-    'GovernanceUpdated(address)'(newGovernanceAddress?: PromiseOrValue<string> | null): GovernanceUpdatedEventFilter;
-    GovernanceUpdated(newGovernanceAddress?: PromiseOrValue<string> | null): GovernanceUpdatedEventFilter;
-
     'GuardianshipTransferred(address)'(
       newGuardianAddress?: PromiseOrValue<string> | null,
     ): GuardianshipTransferredEventFilter;
@@ -536,24 +492,16 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>;
 
-    governance(overrides?: CallOverrides): Promise<BigNumber>;
-
     guardian(overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
       _guardian: PromiseOrValue<string>,
-      _governance: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>;
 
     pause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<BigNumber>;
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
-
-    setGovernance(
-      _governance: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>;
 
     setGuardian(
       _guardian: PromiseOrValue<string>,
@@ -621,24 +569,16 @@ export interface IbbtcVaultZap extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
-    governance(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     guardian(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     initialize(
       _guardian: PromiseOrValue<string>,
-      _governance: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>;
 
     pause(overrides?: Overrides & { from?: PromiseOrValue<string> }): Promise<PopulatedTransaction>;
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    setGovernance(
-      _governance: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>;
 
     setGuardian(
       _guardian: PromiseOrValue<string>,

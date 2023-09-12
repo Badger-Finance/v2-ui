@@ -2,7 +2,6 @@ import { Drawer, IconButton, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { SITE_VERSION } from 'config/constants';
-import routes from 'config/routes';
 import { StoreContext } from 'mobx/stores/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -87,9 +86,6 @@ const Sidebar = observer(() => {
         </MenuItem>
         <MenuItem button onClick={() => window.open('https://docs.badger.com/')}>
           Wiki
-        </MenuItem>
-        <MenuItem button onClick={() => store.router.goTo(routes.governance)}>
-          Governance
         </MenuItem>
         <MenuItem button onClick={() => window.open('https://forum.badger.finance')}>
           Forum
