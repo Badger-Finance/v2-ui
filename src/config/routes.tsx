@@ -6,14 +6,12 @@ import React from 'react';
 import { VaultSortOrder } from '../mobx/model/ui/vaults-filters';
 import store, { RootStore } from '../mobx/stores/RootStore';
 import { parseQueryMultipleParams } from '../mobx/utils/helpers';
-import { FLAGS } from './environment';
 
 const Landing = React.lazy(() => import('../pages/Landing'));
 const NotFound = React.lazy(() => import('../components-v2/common/NotFound'));
 const BoostOptimizer = React.lazy(() => import('../components/Boost'));
 const IbBTC = React.lazy(() => import('components/IbBTC'));
 const VaultDetailWrapper = React.lazy(() => import('components-v2/vault-detail/VaultDetailWrapper'));
-const Governance = React.lazy(() => import('components/Governance'));
 const Bridge = React.lazy(() => import('components/Bridge'));
 
 const withSuspense = (Component: React.FunctionComponent) => (
@@ -75,15 +73,6 @@ const routes = {
       store.vaultDetail.reset();
     },
   }),
-  governance: FLAGS.GOVERNANCE_TIMELOCK
-    ? new Route<RootStore, QueryParams>({
-        path: '/governance',
-        component: withSuspense(Governance),
-      })
-    : new Route<RootStore, QueryParams>({
-        path: '/governance',
-        component: withSuspense(NotFound),
-      }),
   bridge: new Route<RootStore, QueryParams>({
     path: '/bridge',
     component: withSuspense(Bridge),
