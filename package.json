@@ -98,6 +98,7 @@
   "devDependencies": {
     "axios": "^1.2.4",
     "glob": "^8.0.3",
+    "lokijs": "^1.5.12",
     "source-map-explorer": "^2.5.3"
   },
   "jest": {
