@@ -13,6 +13,19 @@ const _abi = [
       {
         indexed: true,
         internalType: 'address',
+        name: 'newGovernanceAddress',
+        type: 'address',
+      },
+    ],
+    name: 'GovernanceUpdated',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
         name: 'newGuardianAddress',
         type: 'address',
       },
@@ -276,6 +289,19 @@ const _abi = [
   },
   {
     inputs: [],
+    name: 'governance',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'guardian',
     outputs: [
       {
@@ -285,6 +311,24 @@ const _abi = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_guardian',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: '_governance',
+        type: 'address',
+      },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -311,6 +355,19 @@ const _abi = [
     inputs: [
       {
         internalType: 'address',
+        name: '_governance',
+        type: 'address',
+      },
+    ],
+    name: 'setGovernance',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
         name: '_guardian',
         type: 'address',
       },
@@ -327,7 +384,7 @@ const _abi = [
     stateMutability: 'nonpayable',
     type: 'function',
   },
-];
+] as const;
 
 export class IbbtcVaultZap__factory {
   static readonly abi = _abi;
