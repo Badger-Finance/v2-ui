@@ -3,5 +3,4 @@ export interface NavbarConfig {
   ibBTC: boolean;
   bridge: boolean;
   boost: boolean;
-  governance: boolean;
 }

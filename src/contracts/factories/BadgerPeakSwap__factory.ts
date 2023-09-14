@@ -820,7 +820,7 @@ const _abi = [
     payable: false,
     type: 'function',
   },
-];
+] as const;
 
 export class BadgerPeakSwap__factory {
   static readonly abi = _abi;
