@@ -165,35 +165,4 @@ export default class UserStore {
       });
     }
   });
-
-  async hasRole(role: ethers.utils.BytesLike, address: string): Promise<boolean> {
-    return this.store.sdk.governance.timelockController.hasRole(role, address);
-  }
-
-  async hasProposalRole(): Promise<boolean> {
-    if (this.accountDetails?.address) {
-      const proposeRole = await this.store.sdk.governance.timelockController.PROPOSER_ROLE();
-      return this.hasRole(proposeRole, this.accountDetails.address);
-    } else {
-      return false;
-    }
-  }
-
-  async hasVetoRole(): Promise<boolean> {
-    if (this.accountDetails?.address) {
-      const role = await this.store.sdk.governance.timelockController.VETO_ROLE();
-      return this.hasRole(role, this.accountDetails.address);
-    } else {
-      return false;
-    }
-  }
-
-  async hasUnVetoRole(): Promise<boolean> {
-    if (this.accountDetails?.address) {
-      const role = await this.store.sdk.governance.timelockController.SUPREMECOURT_ROLE();
-      return this.hasRole(role, this.accountDetails.address);
-    } else {
-      return false;
-    }
-  }
 }

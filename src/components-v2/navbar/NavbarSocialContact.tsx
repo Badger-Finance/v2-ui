@@ -1,9 +1,6 @@
 import { Grid, Link, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import React from 'react';
 import { Typography } from 'ui-library/Typography';
-
-import { FLAGS } from '../../config/environment';
 
 const useStyles = makeStyles(() => ({
   socialIcon: {
@@ -16,9 +13,6 @@ const useStyles = makeStyles(() => ({
   },
   twitter: {
     margin: '0px 16px 0px 8px',
-  },
-  governance: {
-    margin: '0px 18px',
   },
 }));
 
@@ -46,18 +40,6 @@ export const NavbarSocialContact = (): JSX.Element => {
         <Typography variant="helperText">
           <Link color="inherit" href="https://docs.badger.com/" target="_blank" rel="noopener">
             DOCS
-          </Link>
-        </Typography>
-      </Grid>
-      <Grid item className={classes.governance}>
-        <Typography variant="helperText">
-          <Link
-            color="inherit"
-            href={FLAGS.GOVERNANCE_TIMELOCK ? '/governance' : 'https://snapshot.org/#/badgerdao.eth'}
-            target={FLAGS.GOVERNANCE_TIMELOCK ? undefined : '_blank'}
-            rel="noopener"
-          >
-            GOVERNANCE
           </Link>
         </Typography>
       </Grid>

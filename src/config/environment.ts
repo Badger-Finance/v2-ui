@@ -59,9 +59,7 @@ export const BADGER_API = getApi();
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-  GOVERNANCE_TIMELOCK: toBool(process.env.REACT_APP_GOVERNANCE_TIMELOCK),
   GRAVIAURA_CHART: toBool(process.env.REACT_APP_GRAVIAURA_CHART),
-  GOVERNANCE_TAB: toBool(process.env.REACT_APP_GOVERNANCE_TAB),
 };
 
 export const projectId = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID;
